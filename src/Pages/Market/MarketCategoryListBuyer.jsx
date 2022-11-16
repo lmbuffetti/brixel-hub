@@ -15,12 +15,12 @@ import MarketCardSmall from '../../components/Cards/MarketCardSmall';
 import lazyWithRetry from '../../components/LazyWithRetry';
 import SearchProfileField from '../../components/SearchProfileField';
 import SplashScreen from '../../components/SplashScreen';
+import searchProfileDeskImg from '../../images/Market/searchProfileDesk.svg';
 import teaserAnimation from '../../images/Market/teaserAnimate.svg';
 import { QuestionsList } from '../../resources/Flows/onBoardingBuyer';
 import { getCookie, setCookie } from '../../utils/helpers';
-import translateTo from '../../utils/translation';
 import { titleSearchProfile } from '../../utils/titleCreationSearchProfile';
-import searchProfileDeskImg from '../../images/Market/searchProfileDesk.svg';
+import translateTo from '../../utils/translation';
 
 const CarouselWrapper = lazyWithRetry(() => import('../../components/CarouselWrapper'));
 const SearchProfileModal = lazyWithRetry(() => import('./SearchProfile/SearchProfileModal'));
@@ -73,6 +73,7 @@ const MarketCategoryListBuyer = (props) => {
     premiumProperties,
     setSplashScreen,
     splashScreenType,
+    userSearchProfiles,
     windowDimensions,
     wishlistProperties,
   } = props;
@@ -360,79 +361,92 @@ const MarketCategoryListBuyer = (props) => {
           </div>
 
           <div className="bgBlue100 mt-10">
-
-            <div className="container">
-              {
-                activeSearchProfile.id ? (
-                  <div className="dis-f jc-b-lg a-c py-10">
-                    <div className="w-perc-100 ta-c">
-                      <Link
-                        className="fweight-600 td-u"
-                        to='/buy/searchProfile'
-                      >
-                        {translateTo('Manage Search Profiles', lang)}
-                      </Link>
-                      <h3 className="txtBlue700 fweight-600 mt-4">
-                        {get(activeSearchProfile, 'name', null) || titleSearchProfile(activeSearchProfile, lang)}
-                      </h3>
-                      <p>
-                        {translateTo('Search profiles allow you to keep track of the properties that match your needs.', lang)}
-                      </p>
-                      <div className="dis-f flex-wrap a-t jc-c mt-4">
-                        {
-                          fieldsSearchProfile.map((field, index) => (
-                            <React.Fragment key={`search${index.toString()}`}>
-                              {
-                                field !== 'isDefault' && field !== 'name' && (
-                                  <>
-                                    <SearchProfileField
-                                      onClick={() => history.push(`/buy/searchProfile/edit/${activeSearchProfile.id}`)}
-                                      searchProfile={activeSearchProfile}
-                                      field={field}
-                                      lang={lang}
-                                    />
-                                  </>
-                                )
-                              }
-                            </React.Fragment>
-                          ))
-                        }
-                        <BrixelIcon
-                          background="white"
-                          saturation={0}
-                          color="green"
-                          icon="settings"
-                          rounded
-                          iconSize="large"
-                          iconWidth={48}
-                          onClick={() => history.push(`/buy/searchProfile/edit/${activeSearchProfile.id}`)}
-                        />
+            {
+              !userSearchProfiles ? (
+                <div className="container py-10">
+                  <div className="w-perc-100 ov-h brdRadius h-fix-md-152 mb-4 dis-f">
+                    <div className="ml-md-4 ml-2 h-perc-100 dis-fl-col a-c w-perc-100 py-2 ta-c">
+                      <p className="h-fix-40 skeletonBgInner w-perc-60"> </p>
+                      <p className="h-fix-16 mt-1 skeletonBgInner hide dis-b-md w-perc-30"> </p>
+                      <p className="h-fix-16 mt-a-md mt-2 skeletonBgInner w-perc-50"> </p>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="container">
+                  {
+                    activeSearchProfile.id ? (
+                      <div className="dis-f jc-b-lg a-c py-10">
+                        <div className="w-perc-100 ta-c">
+                          <Link
+                            className="fweight-600 td-u"
+                            to='/buy/searchProfile'
+                          >
+                            {translateTo('Manage Search Profiles', lang)}
+                          </Link>
+                          <h3 className="txtBlue700 fweight-600 mt-4">
+                            {get(activeSearchProfile, 'name', null) || titleSearchProfile(activeSearchProfile, lang)}
+                          </h3>
+                          <p>
+                            {translateTo('Search profiles allow you to keep track of the properties that match your needs.', lang)}
+                          </p>
+                          <div className="dis-f flex-wrap a-t jc-c mt-4">
+                            {
+                              fieldsSearchProfile.map((field, index) => (
+                                <React.Fragment key={`search${index.toString()}`}>
+                                  {
+                                    field !== 'isDefault' && field !== 'name' && (
+                                      <>
+                                        <SearchProfileField
+                                          onClick={() => history.push(`/buy/searchProfile/edit/${activeSearchProfile.id}`)}
+                                          searchProfile={activeSearchProfile}
+                                          field={field}
+                                          lang={lang}
+                                        />
+                                      </>
+                                    )
+                                  }
+                                </React.Fragment>
+                              ))
+                            }
+                            <BrixelIcon
+                              background="white"
+                              saturation={0}
+                              color="green"
+                              icon="settings"
+                              rounded
+                              iconSize="large"
+                              iconWidth={48}
+                              onClick={() => history.push(`/buy/searchProfile/edit/${activeSearchProfile.id}`)}
+                            />
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="dis-f jc-b-lg a-c">
-                    <div className="w-perc-md-50 w-perc-100">
-                      <h3 className="txtBlue700 fweight-600">
-                        {translateTo('Search Profile')}
-                      </h3>
-                      <p>
-                        {translateTo('Create different search profiles to keep track of the properties that match your needs.', lang)}
-                      </p>
-                      <BrixelButtonPrimary
-                        onClick={() => history.push('/buy/searchProfile')}
-                        className="mt-3 mt-lg-5"
-                        rounded
-                        label={translateTo('Create search Profile', lang)}
-                      />
-                    </div>
-                    <div>
-                      <img src={searchProfileDeskImg} alt="Search Profile" />
-                    </div>
-                  </div>
-                )
-              }
-            </div>
+                    ) : (
+                      <div className="dis-f jc-b-lg a-c">
+                        <div className="w-perc-md-50 w-perc-100">
+                          <h3 className="txtBlue700 fweight-600">
+                            {translateTo('Search Profile')}
+                          </h3>
+                          <p>
+                            {translateTo('Create different search profiles to keep track of the properties that match your needs.', lang)}
+                          </p>
+                          <BrixelButtonPrimary
+                            onClick={() => history.push('/buy/searchProfile')}
+                            className="mt-3 mt-lg-5"
+                            rounded
+                            label={translateTo('Create search Profile', lang)}
+                          />
+                        </div>
+                        <div>
+                          <img src={searchProfileDeskImg} alt="Search Profile" />
+                        </div>
+                      </div>
+                    )
+                  }
+                </div>
+              )
+            }
 
           </div>
           {
@@ -481,7 +495,7 @@ const MarketCategoryListBuyer = (props) => {
 };
 
 MarketCategoryListBuyer.propTypes = {
-  activeSearchProfile: PropTypes.object.isRequired,
+  activeSearchProfile: PropTypes.object,
   estimation: PropTypes.object.isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
@@ -499,11 +513,12 @@ MarketCategoryListBuyer.propTypes = {
 };
 
 MarketCategoryListBuyer.defaultProps = {
+  activeSearchProfile: null,
   userSearchProfiles: null,
 };
 
 const mapStateToProps = (state) => ({
-  activeSearchProfile: get(state, 'user.activeSearchProfile', {}),
+  activeSearchProfile: get(state, 'user.activeSearchProfile', null),
   estimation: get(state, 'property.estimation', {}),
   lang: get(state, 'common.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
@@ -512,6 +527,7 @@ const mapStateToProps = (state) => ({
   premiumEuropeProperties: get(state, 'market.premiumEuropeProperties', {}),
   premiumProperties: get(state, 'market.premiumProperties', {}),
   splashScreenType: get(state, 'common.splashScreenType', ''),
+  userSearchProfiles: get(state, 'user.userSearchProfiles', {}),
   windowDimensions: get(state, 'common.windowDimensions', {}),
   wishlistProperties: get(state, 'market.wishlistProperties', {}),
 });
