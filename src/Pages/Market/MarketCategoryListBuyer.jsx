@@ -16,7 +16,7 @@ import lazyWithRetry from '../../components/LazyWithRetry';
 import SearchProfileField from '../../components/SearchProfileField';
 import SplashScreen from '../../components/SplashScreen';
 import searchProfileDeskImg from '../../images/Market/searchProfileDesk.svg';
-import teaserAnimation from '../../images/Market/teaserAnimate.svg';
+import searchProfileMobileImg from '../../images/Market/searchProfileMobile.svg';
 import { QuestionsList } from '../../resources/Flows/onBoardingBuyer';
 import { getCookie, setCookie } from '../../utils/helpers';
 import { titleSearchProfile } from '../../utils/titleCreationSearchProfile';
@@ -234,7 +234,8 @@ const MarketCategoryListBuyer = (props) => {
               </SplashScreen>
             )
           }
-
+  
+          { /* WHISLIST AND ESTIMATION PROPERTIES */}
           <div className="container">
             {
               topTab.length > 0 && (
@@ -359,7 +360,8 @@ const MarketCategoryListBuyer = (props) => {
             }
 
           </div>
-
+  
+          { /* SEEARCH PROFILE */}
           <div className="bgBlue100 mt-10">
             {
               !userSearchProfiles ? (
@@ -375,7 +377,7 @@ const MarketCategoryListBuyer = (props) => {
               ) : (
                 <div className="container">
                   {
-                    activeSearchProfile.id ? (
+                    !activeSearchProfile.id ? (
                       <div className="dis-f jc-b-lg a-c py-10">
                         <div className="w-perc-100 ta-c">
                           <Link
@@ -423,9 +425,16 @@ const MarketCategoryListBuyer = (props) => {
                         </div>
                       </div>
                     ) : (
-                      <div className="dis-f jc-b-lg a-c">
-                        <div className="w-perc-md-50 w-perc-100">
-                          <h3 className="txtBlue700 fweight-600">
+                      <div className="dis-f jc-b-lg a-c flex-wrap">
+                        {
+                          windowDimensions.width <= 768 && (
+                            <div className="mx-a">
+                              <img src={searchProfileMobileImg} alt="Search Profile" />
+                            </div>
+                          )
+                        }
+                        <div className="w-perc-md-50 w-perc-100 pb-8 pb-md-0 ta-c ta-l-md">
+                          <h3 className="txtBlue700 fweight-600 mt-4 mt-md-0">
                             {translateTo('Search Profile')}
                           </h3>
                           <p>
@@ -433,14 +442,18 @@ const MarketCategoryListBuyer = (props) => {
                           </p>
                           <BrixelButtonPrimary
                             onClick={() => history.push('/buy/searchProfile')}
-                            className="mt-3 mt-lg-5"
+                            className="mt-3 mt-lg-5 mx-a mx-md-0"
                             rounded
                             label={translateTo('Create search Profile', lang)}
                           />
                         </div>
-                        <div>
-                          <img src={searchProfileDeskImg} alt="Search Profile" />
-                        </div>
+                        {
+                          windowDimensions.width > 768 && (
+                            <div className="w-perc-50">
+                              <img src={searchProfileDeskImg} alt="Search Profile" />
+                            </div>
+                          )
+                        }
                       </div>
                     )
                   }
@@ -449,13 +462,6 @@ const MarketCategoryListBuyer = (props) => {
             }
 
           </div>
-          {
-            windowDimensions.width < 1025 && (
-              <div className="bgBlue200">
-                <object width="100%" data={teaserAnimation}> </object>
-              </div>
-            )
-          }
 
           <div className="mt-7 pb-8 container">
             {
