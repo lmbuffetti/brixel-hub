@@ -14,7 +14,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
-import { getHistoryListings } from '../../../actions/HistoryActions';
+import { getHistoryListings, setPropertyHistoryListings } from '../../../actions/HistoryActions';
 import { sendScanTrialRequest } from '../../../actions/PropertyActions';
 import ScantTrailBookedImg from '../../../images/TestDrive/reviewScanTrial.svg';
 import { ScanTrialQuestions } from '../../../resources/Flows/ScanTrialRequest';
@@ -37,6 +37,7 @@ const ScanTrialFlow = (props) => {
     errorValue,
     formValue,
     handleGetHistoryFeed,
+    handleSetPropertyHistory,
     handleReset,
     handleSendScanTrial,
     initForm,
@@ -64,7 +65,10 @@ const ScanTrialFlow = (props) => {
 
   useEffect(() => {
     localStorage.setItem('brixelRegField', JSON.stringify({}));
-    return () => destroyForm();
+    return () => {
+      handleSetPropertyHistory({});
+      destroyForm();
+    }
   }, []);
 
   // ON CHANGE STEP LOAD THE ENTER EFFECT
@@ -324,7 +328,7 @@ const ScanTrialFlow = (props) => {
     return label;
   };
 
-  if (!activeSingleScanTrial) return <div />
+  if (activeSingleScanTrial === null) return <div />
 
   return (
     <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'background', '')} ${get(quest, 'classWrapper', '')} ${showBookedTrial ? 'bgGreen100' : ''}`}>
@@ -548,6 +552,7 @@ ScanTrialFlow.propTypes = {
   handleGetHistoryFeed: PropTypes.func.isRequired,
   handleReset: PropTypes.func.isRequired,
   handleSendScanTrial: PropTypes.func.isRequired,
+  handleSetPropertyHistory: PropTypes.func.isRequired,
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
@@ -609,6 +614,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleReset(form) {
     (dispatch(reset(form)));
   },
+  handleSetPropertyHistory: bindActionCreators(setPropertyHistoryListings, dispatch),
   handleSendScanTrial: bindActionCreators(sendScanTrialRequest, dispatch),
   handleGetHistoryFeed: bindActionCreators(getHistoryListings, dispatch),
 });
