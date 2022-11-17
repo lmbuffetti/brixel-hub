@@ -1,32 +1,26 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {
-  useEffect, Suspense, useState, useRef,
-} from 'react';
-import PropTypes from 'prop-types';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { BrixelButtonIcon, BrixelButtonPrimary, BrixelIcon, BrixelTabs } from '@brixel/brixel-components';
+import { initializeForm } from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
 import has from 'lodash/has';
-import {
-  BrixelIcon,
-  BrixelButtonPrimary,
-  BrixelButtonIcon,
-  BrixelTabs,
-} from '@brixel/brixel-components';
-import translateTo from '../../utils/translation';
-import { initializeForm } from '@brixel/brixel-components/dist/form';
-import { bindActionCreators, compose } from 'redux';
+import PropTypes from 'prop-types';
+import React, { Suspense, useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
+import { bindActionCreators, compose } from 'redux';
+import { setHistory, setSplashType } from '../../actions/CommonActions';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
-import lazyWithRetry from '../../components/LazyWithRetry';
-import { setCookie, getCookie } from '../../utils/helpers';
-import SplashScreen from '../../components/SplashScreen';
-import { setSplashType, setHistory } from '../../actions/CommonActions';
-import { setEstimation, setActiveMarketOverlayProperty } from '../../actions/PropertyActions';
-import MarketCardSmall from '../../components/Cards/MarketCardSmall';
-import SearchProfileBanner from '../../components/SearchProfileBanner';
-import teaserAnimation from '../../images/Market/teaserAnimate.svg';
+import { setActiveMarketOverlayProperty, setEstimation } from '../../actions/PropertyActions';
 import { createUserSearchProfile } from '../../actions/SearchProfileActions';
+import MarketCard from '../../components/Cards/MarketCard';
+import MarketCardSmall from '../../components/Cards/MarketCardSmall';
+import lazyWithRetry from '../../components/LazyWithRetry';
+import SearchProfileBanner from '../../components/SearchProfileBanner';
+import SplashScreen from '../../components/SplashScreen';
+import teaserAnimation from '../../images/Market/teaserAnimate.svg';
+import { getCookie, setCookie } from '../../utils/helpers';
+import translateTo from '../../utils/translation';
 
 const CarouselWrapper = lazyWithRetry(() => import('../../components/CarouselWrapper'));
 
@@ -69,6 +63,7 @@ const MarketCategoryListBuyer = (props) => {
 
   // PROPS
   const {
+    allProperties,
     handleGetActiveSingleCompany,
     initForm,
     initialValues,
@@ -394,38 +389,20 @@ const MarketCategoryListBuyer = (props) => {
               </div>
             )
           }
-
-          <div className="mt-7 pb-8 container">
+  
+          <div className="row-cols-3-gutsmall-4">
             {
-              premiumProperties.total > 0 && (
-                <CarouselWrapper
-                  title="Premium properties"
-                  className="market-category-carousel"
+              get(allProperties, 'data', []).map((property, index) => (
+                <MarketCard
+                  layout="singleOwnCard"
                   type="premium"
-                  items={premiumProperties.data}
-                  total={premiumProperties.total}
+                  key={`nmCrd_${index.toString()}`}
+                  item={property}
+                  lang={lang}
                 />
-              )
+              ))
             }
           </div>
-  
-          {
-            premiumEuropeProperties.total > 0 && (
-              <div className="pt-7 pb-8 bgBlue700">
-                <div className="container">
-                  <CarouselWrapper
-                    theme="light"
-                    title="Explore"
-                    subtitle="Random Brixel properties all over Europe"
-                    className="market-category-carousel"
-                    type="premium"
-                    items={premiumEuropeProperties.data}
-                    total={premiumEuropeProperties.total}
-                  />
-                </div>
-              </div>
-            )
-          }
         </div>
       </Suspense>
     </>
@@ -433,6 +410,7 @@ const MarketCategoryListBuyer = (props) => {
 };
 
 MarketCategoryListBuyer.propTypes = {
+  allProperties: PropTypes.object.isRequired,
   estimation: PropTypes.object.isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
   initForm: PropTypes.func.isRequired,
@@ -459,6 +437,7 @@ const mapStateToProps = (state) => {
   const initVal = searchProfile ? searchProfile[searchProfile.length - 1] : searchProfile;
   const userCompany = get(state, 'user.loggedInUser.user.comapny', {});
   return ({
+    allProperties: get(state, 'market.allProperties', {}),
     estimation: get(state, 'property.estimation', {}),
     initialValues: {
       ...initVal,

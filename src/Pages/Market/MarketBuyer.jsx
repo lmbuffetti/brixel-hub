@@ -1,25 +1,29 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, Suspense } from 'react';
-import PropTypes from 'prop-types';
-import {
-  Navigate,
-  Route, Routes, useLocation, useNavigate, useParams,
-} from 'react-router-dom';
-import get from 'lodash/get';
-import { bindActionCreators, compose } from 'redux';
-import { connect } from 'react-redux';
 import { destroy } from '@brixel/brixel-components/dist/form';
-import {
-  getOwnedProperties, getFavoritesProperties, getNewProperties,
-  getPremiumProperties, getPremarketProperties, getLastViewedProperties,
-  getWishlistProperties, getPremarketStats, getOwnedEstimations,
-} from '../../actions/MarketActions';
-import '../../styles/SCSS/pages/market.scss';
+import get from 'lodash/get';
+import PropTypes from 'prop-types';
+import React, { Suspense, useEffect } from 'react';
+import { connect } from 'react-redux';
+import { Navigate, Route, Routes, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { bindActionCreators, compose } from 'redux';
 import { setSplashType, spinnerOff } from '../../actions/CommonActions';
+import {
+  getAllProperties,
+  getFavoritesProperties,
+  getLastViewedProperties,
+  getNewProperties,
+  getOwnedEstimations,
+  getOwnedProperties,
+  getPremarketProperties,
+  getPremarketStats,
+  getPremiumProperties,
+  getWishlistProperties,
+} from '../../actions/MarketActions';
+import { setActiveMarketOverlayPropertyLists } from '../../actions/PropertyActions';
 import { getUserSearchProfiles } from '../../actions/SearchProfileActions';
 import { updateFavorite } from '../../actions/UserActions';
-import { setActiveMarketOverlayPropertyLists } from '../../actions/PropertyActions';
 import lazyWithRetry from '../../components/LazyWithRetry';
+import '../../styles/SCSS/pages/market.scss';
 
 const MarketCategoryListBuyer = lazyWithRetry(() => import('./MarketCategoryListBuyer'));
 
@@ -35,7 +39,7 @@ const MarketBuyer = (props) => {
   const {
     destroyForm,
     handleGetFavoritesProperties,
-    // handleSetActiveMarketOverlayPropertyLists,
+    handleGetAllProperties,
     handleGetOwnedEstimations,
     handleGetPreMarketProperties,
     handleGetPremarketStats,
@@ -90,6 +94,7 @@ const MarketBuyer = (props) => {
         resultType: 'buyer',
         searchProfileId: get(userSearchProfiles, '[0].id', null),
       };
+      handleGetAllProperties(data);
       handleGetPreMarketProperties(data);
       if (get(userSearchProfiles, '[0].id', null)) {
         handleGetPremiumProperties(data);
@@ -122,6 +127,7 @@ MarketBuyer.propTypes = {
   handleGetFavoritesProperties: PropTypes.func.isRequired,
   handleGetOwnedEstimations: PropTypes.func.isRequired,
   handleGetPreMarketProperties: PropTypes.func.isRequired,
+  handleGetAllProperties: PropTypes.func.isRequired,
   handleGetPremarketStats: PropTypes.func.isRequired,
   handleGetPremiumProperties: PropTypes.func.isRequired,
   handleGetUserSearchProfiles: PropTypes.func.isRequired,
@@ -138,6 +144,7 @@ MarketBuyer.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
+  allProperties: get(state, 'market.allProperties', {}),
   favoritesProperties: get(state, 'market.favoritesProperties', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
   loggedInUser: get(state, 'user.loggedInUser.user', { }),
@@ -151,6 +158,7 @@ const mapDispatchToProps = (dispatch) => ({
   destroyForm() {
     dispatch(destroy('Property'));
   },
+  handleGetAllProperties: bindActionCreators(getAllProperties, dispatch),
   handleGetFavoritesProperties: bindActionCreators(getFavoritesProperties, dispatch),
   handleGetLastViewedProperties: bindActionCreators(getLastViewedProperties, dispatch),
   handleGetNewProperties: bindActionCreators(getNewProperties, dispatch),

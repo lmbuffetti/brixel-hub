@@ -1,38 +1,32 @@
+import cloneDeep from 'lodash/cloneDeep';
 import get from 'lodash/get';
 import set from 'lodash/set';
-import cloneDeep from 'lodash/cloneDeep';
+
+import { SKELETON_OFF, SKELETON_ON } from '../actions/types/CommonTypes';
 import {
   GET_ALL_PROPERTIES,
-  SET_ALL_PROPERTIES,
-  GET_NEW_PROPERTIES,
-  SET_NEW_PROPERTIES,
-  GET_OWNED_PROPERTIES,
-  SET_OWNED_PROPERTIES,
-  GET_OWNED_ESTIMATIONS,
-  SET_OWNED_ESTIMATIONS,
-  GET_LAST_VIEWED_PROPERTIES,
-  // SET_LAST_VIEWED_PROPERTIES,
-  GET_PREMARKET_PROPERTIES,
-  SET_PREMARKET_PROPERTIES,
-  GET_PREMIUM_PROPERTIES,
-  SET_PREMIUM_PROPERTIES,
-  SET_PREMIUM_EUROPE_PROPERTIES,
   GET_FAVORITES_PROPERTIES,
-  SET_FAVORITES_PROPERTIES,
-  GET_WISHLIST_PROPERTIES,
-  SET_WISHLIST_PROPERTIES,
+  GET_LAST_VIEWED_PROPERTIES,
+  GET_NEW_PROPERTIES,
+  GET_OWNED_ESTIMATIONS,
+  GET_OWNED_PROPERTIES,
+  GET_PREMARKET_PROPERTIES,
   GET_PREMARKET_STATS,
+  GET_PREMIUM_PROPERTIES,
+  GET_WISHLIST_PROPERTIES,
+  SET_ALL_PROPERTIES,
+  SET_FAVORITES_PROPERTIES,
+  SET_NEW_PROPERTIES,
+  SET_OWNED_ESTIMATIONS,
+  SET_OWNED_PROPERTIES,
+  SET_PREMARKET_PROPERTIES,
   SET_PREMARKET_STATS,
+  SET_PREMIUM_EUROPE_PROPERTIES,
+  SET_PREMIUM_PROPERTIES,
+  SET_WISHLIST_PROPERTIES,
 } from '../actions/types/MarketTypes';
 
-import {
-  SET_ACTIVE_MARKET_OVERLAY_PROPERTY_LISTS,
-} from '../actions/types/PropertyTypes';
-
-import {
-  SKELETON_ON,
-  SKELETON_OFF,
-} from '../actions/types/CommonTypes';
+import { SET_ACTIVE_MARKET_OVERLAY_PROPERTY_LISTS } from '../actions/types/PropertyTypes';
 
 import api from '../controllers/api/config';
 
@@ -115,6 +109,7 @@ const checkLead = (store) => (next) => (action) => {
       if (action.payload.searchProfileId) queryParams = `?searchprofileid=${action.payload.searchProfileId}&order=${action.payload.order}&direction=${action.payload.direction}`;
       api.market.getAllProperties(action.payload.resultsPerPage, action.payload.offset, queryParams)
         .then((res) => {
+          console.log(res.meta.status);
           if (res.meta.status === 200) {
             store.dispatch({ type: SET_ALL_PROPERTIES, payload: res.data });
           }
