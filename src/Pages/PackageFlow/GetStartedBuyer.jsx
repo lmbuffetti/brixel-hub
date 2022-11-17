@@ -101,6 +101,7 @@ const GetStartedBuyer = (props) => {
     for (const key in navigator) {
       metaUserData[key] = navigator[key];
     }
+    
     const dataSearchProfile = {
       characteristics: get(dataFormAnswer, 'characteristics', {}),
       location: get(dataFormAnswer, 'locations', {}),

@@ -1,5 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import { BrixelButtonIcon, BrixelButtonPrimary, BrixelProgressBar, DataByCountry } from '@brixel/brixel-components';
+import { languagesList } from '@brixel/brixel-components/dist/configuration/Constants';
 import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
 import { change, destroy, initializeForm, MultiFileldsReduxForm, reset } from '@brixel/brixel-components/dist/form';
 import cloneDeep from 'lodash/cloneDeep';
@@ -124,6 +125,9 @@ const GetStartedSeller = (props) => {
     };
     // PROPERTY DATA
     delete dataFormAnswer.login;
+    let saveLangUser = 'en';
+    const checkValidLang = languagesList.find((lng) => lng.code === lang);
+    if (checkValidLang) saveLangUser = lang;
     const data = {
       ...dataFormAnswer,
       packageFlowProcess: {
@@ -134,7 +138,7 @@ const GetStartedSeller = (props) => {
       ownerType: 'seller',
       purpose: 'seller',
       preMarketVisible: true,
-      language: lang || 'en',
+      language: saveLangUser,
       title: formValue.pageTitle,
       status: 'on-request',
       listed: false,
@@ -182,7 +186,7 @@ const GetStartedSeller = (props) => {
         signupAccept: true,
         signupChannel: get(formValue, 'channel', 'default'),
         signupProduct: null,
-        language: lang || 'en',
+        language: saveLangUser,
         createUser: true,
         company,
         ignoreEmail: false,

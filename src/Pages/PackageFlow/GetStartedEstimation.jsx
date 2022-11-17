@@ -6,6 +6,7 @@ import {
   BrixelProgressBar,
   DataByCountry,
 } from '@brixel/brixel-components';
+import { languagesList } from '@brixel/brixel-components/dist/configuration/Constants';
 import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
 import { change, destroy, initializeForm, MultiFileldsReduxForm, reset } from '@brixel/brixel-components/dist/form';
 import cloneDeep from 'lodash/cloneDeep';
@@ -162,6 +163,9 @@ const GetStartedEstimation = (props) => {
       outside: 0,
       underground: 0,
     };
+    let saveLangUser = 'en';
+    const checkValidLang = languagesList.find((lng) => lng.code === lang);
+    if (checkValidLang) saveLangUser = lang;
     let data = {
       ...dataFormAnswer,
       packageFlowProcess: {
@@ -171,7 +175,7 @@ const GetStartedEstimation = (props) => {
       },
       preMarketVisible: get(dataFormAnswer, 'estimationType', '') === 'seller',
       ownerType: get(dataFormAnswer, 'estimationType', '') === 'buyer' ? 'buyer' : 'seller',
-      language: lang || 'en',
+      language: saveLangUser,
       title: formValue.pageTitle,
       purpose: get(dataFormAnswer, 'estimationType', ''),
       status: 'on-request',
@@ -249,7 +253,7 @@ const GetStartedEstimation = (props) => {
         signupAccept: true,
         signupChannel: get(formValue, 'channel', 'default'),
         signupProduct: null,
-        language: lang || 'en',
+        language: saveLangUser,
         createUser: true,
         company,
         ignoreEmail: false,
