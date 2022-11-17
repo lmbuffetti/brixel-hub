@@ -82,7 +82,7 @@ const MarketCategoryListBuyer = (props) => {
   const [activeTopTab, setActiveTopTab] = useState('wishlist');
   const [topTab, setTopTab] = useState([]);
   const [fieldsSearchProfile, setFieldsSearchProfile] = useState([]);
-  
+
   useEffect(() => {
     const fields = [...fieldsSearchProfile];
     QuestionsList('en', 'searchProfile').forEach((inputs) => {
@@ -115,7 +115,7 @@ const MarketCategoryListBuyer = (props) => {
       setTopTab(tabMenu);
     }
   }, [ownerEstimations.total, wishlistProperties.total]);
-  
+
   useEffect(() => {
     if (get(loggedInUser, 'id', null)) {
       let cmpID;
@@ -124,8 +124,8 @@ const MarketCategoryListBuyer = (props) => {
       handleGetActiveSingleCompany({id: cmpID});
     }
   }, [loggedInUser.id]);
-  
-  
+
+
   // Update data by user screen
   useEffect(() => {
     if (windowDimensions.width < 768) setWishProp(1);
@@ -234,7 +234,7 @@ const MarketCategoryListBuyer = (props) => {
               </SplashScreen>
             )
           }
-  
+
           { /* WHISLIST AND ESTIMATION PROPERTIES */}
           <div className="container">
             {
@@ -360,17 +360,18 @@ const MarketCategoryListBuyer = (props) => {
             }
 
           </div>
-  
+
           { /* SEEARCH PROFILE */}
           <div className="bgBlue100 mt-10">
             {
               !userSearchProfiles ? (
                 <div className="container py-10">
                   <div className="w-perc-100 ov-h brdRadius h-fix-md-152 mb-4 dis-f">
-                    <div className="ml-md-4 ml-2 h-perc-100 dis-fl-col a-c w-perc-100 py-2 ta-c">
+                    <div className="ml-md-4 ml-2 h-perc-100 dis-fl-col w-perc-100 py-2">
                       <p className="h-fix-40 skeletonBgInner w-perc-60"> </p>
                       <p className="h-fix-16 mt-1 skeletonBgInner hide dis-b-md w-perc-30"> </p>
-                      <p className="h-fix-16 mt-a-md mt-2 skeletonBgInner w-perc-50"> </p>
+                      <p className="h-fix-16 mt-2 skeletonBgInner w-perc-50"> </p>
+                      <p className="h-fix-40 mt-2 skeletonBgInner w-fix-120"> </p>
                     </div>
                   </div>
                 </div>
@@ -433,17 +434,18 @@ const MarketCategoryListBuyer = (props) => {
                             </div>
                           )
                         }
-                        <div className="w-perc-md-50 w-perc-100 pb-8 pb-md-0 ta-c ta-l-md">
-                          <h3 className="txtBlue700 fweight-600 mt-4 mt-md-0">
+                        <div className="max-w-fix-312 w-perc-100 pb-8 pb-md-0 ta-c ta-l-md m-a m-md-0">
+                          <h3 className="txtBlue700 fweight-600 mt-4 mt-md-0 mb-1">
                             {translateTo('Search Profile')}
                           </h3>
-                          <p>
+                          <p className="fsize-300">
                             {translateTo('Create different search profiles to keep track of the properties that match your needs.', lang)}
                           </p>
                           <BrixelButtonPrimary
                             onClick={() => history.push('/buy/searchProfile')}
-                            className="mt-3 mt-lg-5 mx-a mx-md-0"
+                            className="mt-3 mx-a mx-md-0"
                             rounded
+                            leftIcon="plus"
                             label={translateTo('Create search Profile', lang)}
                           />
                         </div>
@@ -476,7 +478,7 @@ const MarketCategoryListBuyer = (props) => {
               )
             }
           </div>
-  
+
           {
             premiumEuropeProperties.total > 0 && (
               <div className="pt-7 pb-8 bgBlue700">
