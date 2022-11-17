@@ -16,6 +16,7 @@ import { createUserSearchProfile } from '../../actions/SearchProfileActions';
 import MarketCard from '../../components/Cards/MarketCard';
 import MarketCardSmall from '../../components/Cards/MarketCardSmall';
 import lazyWithRetry from '../../components/LazyWithRetry';
+import Pagination from '../../components/Pagination';
 import SearchProfileBanner from '../../components/SearchProfileBanner';
 import SplashScreen from '../../components/SplashScreen';
 import teaserAnimation from '../../images/Market/teaserAnimate.svg';
@@ -69,7 +70,9 @@ const MarketCategoryListBuyer = (props) => {
     initialValues,
     lang,
     loggedInUser,
+    onPageChange,
     ownerEstimations,
+    page,
     preMarketStats,
     premiumEuropeProperties,
     premiumProperties,
@@ -83,6 +86,7 @@ const MarketCategoryListBuyer = (props) => {
   const [numWishProp, setWishProp] = useState(4);
   const [activeTopTab, setActiveTopTab] = useState('wishlist');
   const [topTab, setTopTab] = useState([]);
+  const [activeTab, setActiveTab] = useState('all');
 
   useEffect(() => {
     if (get(userSearchProfiles, 'id', null)) initForm(initialValues);
@@ -156,7 +160,7 @@ const MarketCategoryListBuyer = (props) => {
   return (
     <>
       <Suspense fallback="">
-        <div className="buyerMarket">
+        <div className="buyerMarket pb-8">
           {/* SECTION: buyer welcome message  */}
           {
             splashScreenType === 'buyerWelcome' && (
@@ -403,6 +407,18 @@ const MarketCategoryListBuyer = (props) => {
               ))
             }
           </div>
+          <div className="mb-8">
+            <Pagination
+              totalItems={allProperties.total}
+              itemsPerPage={9}
+              activePage={page[activeTab]}
+              paginate={(resultsPerPage, pageNumber) => {
+                onPageChange(resultsPerPage, pageNumber, activeTab);
+              }}
+              showResultsPerPage={false}
+              lang={lang}
+            />
+          </div>
         </div>
       </Suspense>
     </>
@@ -417,7 +433,9 @@ MarketCategoryListBuyer.propTypes = {
   initialValues: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
+  onPageChange: PropTypes.func.isRequired,
   ownerEstimations: PropTypes.object.isRequired,
+  page: PropTypes.string.isRequired,
   preMarketStats: PropTypes.object.isRequired,
   premiumEuropeProperties: PropTypes.object.isRequired,
   premiumProperties: PropTypes.object.isRequired,

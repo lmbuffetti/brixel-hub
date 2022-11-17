@@ -1,11 +1,23 @@
 /* eslint-disable no-case-declarations */
 import { change } from '@brixel/brixel-components/dist/form';
+import cloneDeep from 'lodash/cloneDeep';
 import filter from 'lodash/filter';
-import set from 'lodash/set';
+import findIndex from 'lodash/findIndex';
 import get from 'lodash/get';
 import has from 'lodash/has';
-import findIndex from 'lodash/findIndex';
-import cloneDeep from 'lodash/cloneDeep';
+import set from 'lodash/set';
+import {
+  REDIRECT_TO,
+  SET_MODAL,
+  SET_SAVED_SCREEN,
+  SET_SCREEN_NOTIFICATION,
+  SET_SPLASH_TYPE,
+  SPINNER_OFF,
+  SPINNER_ON,
+  SPINNER_SMALL,
+} from '../actions/types/CommonTypes';
+
+import { CREATE_ESTIMATION, SEND_PROESTIMATION_NOTIFICATION } from '../actions/types/EstimationTypes';
 import { SET_OWNED_PROPERTIES } from '../actions/types/MarketTypes';
 import {
   CREATE_ACTIVE_SINGLE_PROPERTY,
@@ -13,8 +25,11 @@ import {
   CREATE_PROPERTY_VISIT_SCHEDULE,
   GET_ACTIVE_SINGLE_PROPERTY,
   GET_ACTIVE_SINGLE_PROPERTY_BOOKINGS,
+  GET_ACTIVE_SINGLE_PROPERTY_DEALS_COUNT,
   GET_ESTIMATION,
+  GET_PACKAGE_PROPERTY,
   GET_PACKAGES_PROPERTY,
+  GET_PAGE_DEALS,
   GET_PROPERTY_LISTINGS,
   SAVE_ACTIVE_SINGLE_PROPERTY,
   SAVE_PROPERTY_VISIT_BOOKING,
@@ -23,35 +38,18 @@ import {
   SET_ACTIVE_SINGLE_PROPERTY,
   SET_ACTIVE_SINGLE_PROPERTY_BOOKINGS,
   SET_ACTIVE_SINGLE_PROPERTY_BOOKINGS_SLOTS,
+  SET_ACTIVE_SINGLE_PROPERTY_DEALS_COUNT,
   SET_ESTIMATION,
+  SET_PACKAGE_PROPERTY,
   SET_PACKAGES_PROPERTY,
+  SET_PAGE_DEALS,
   SET_PROPERTY_LISTINGS,
   UPDATE_PORTALS_REVIEW,
   UPDATE_PUBLISHED_REVIEW,
-  GET_PAGE_DEALS,
-  SET_PAGE_DEALS,
-  SET_ACTIVE_SINGLE_PROPERTY_DEALS_COUNT,
-  GET_ACTIVE_SINGLE_PROPERTY_DEALS_COUNT,
-  GET_PACKAGE_PROPERTY,
-  SET_PACKAGE_PROPERTY,
 } from '../actions/types/PropertyTypes';
-
-import {
-  CREATE_ESTIMATION,
-  SEND_PROESTIMATION_NOTIFICATION,
-} from '../actions/types/EstimationTypes';
+import { SAVE_ACTIVE_SINGLE_USER } from '../actions/types/UserTypes';
 
 import api from '../controllers/api/config';
-import {
-  SPINNER_ON,
-  SPINNER_OFF,
-  SPINNER_SMALL,
-  REDIRECT_TO,
-  SET_SAVED_SCREEN,
-  SET_SPLASH_TYPE,
-  SET_SCREEN_NOTIFICATION, SET_MODAL,
-} from '../actions/types/CommonTypes';
-import { SAVE_ACTIVE_SINGLE_USER } from '../actions/types/UserTypes';
 
 const ActionStubs = require('../resources/Utilities/timelineActionStubs');
 
@@ -904,8 +902,10 @@ const checkCommon = (store) => (next) => (action) => {
           if (res.meta.status === 200) {
             if (addToOwnerProp) {
               const ownProp = get(store.getState(), 'market.ownerProperties', {});
-              const indexProp = ownProp.data.findIndex((item) => item.id === id);
-              ownProp.data[indexProp].servicePackage = res.data;
+              if (get(ownProp, 'data', null)) {
+                const indexProp = ownProp.data.findIndex((item) => item.id === id);
+                ownProp.data[indexProp].servicePackage = res.data;
+              }
               store.dispatch({ type: SET_OWNED_PROPERTIES, payload: ownProp });
             } else {
               store.dispatch({ type: SET_PACKAGE_PROPERTY, payload: res.data });

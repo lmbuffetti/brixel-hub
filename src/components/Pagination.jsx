@@ -11,6 +11,7 @@ const Pagination = (props) => {
     itemsPerPage,
     lang,
     paginate,
+    showResultsPerPage,
     totalItems,
   } = props;
   const pageNumbers = [];
@@ -63,7 +64,7 @@ const Pagination = (props) => {
         totalItems > 10 && (
           <nav className={`pagination ${className} w-perc-100 dis-f ${totalItems > 10 ? 'jc-b pt-2 pb-6 pb-lg-0' : 'jc-fe'}`}>
             {
-              totalItems > 10 && (
+              totalItems > 10 && showResultsPerPage && (
                 <BrixelDropdown
                   compact
                   className="pagination-dropdown"
@@ -192,11 +193,13 @@ Pagination.propTypes = {
   itemsPerPage: PropTypes.any.isRequired,
   lang: PropTypes.string.isRequired,
   paginate: PropTypes.func.isRequired,
+  showResultsPerPage: PropTypes.bool,
   totalItems: PropTypes.number.isRequired,
 };
 
 Pagination.defaultProps = {
   className: '',
+  showResultsPerPage: true,
 };
 
 export default Pagination;

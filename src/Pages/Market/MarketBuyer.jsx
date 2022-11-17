@@ -2,7 +2,7 @@
 import { destroy } from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
-import React, { Suspense, useEffect } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Navigate, Route, Routes, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
@@ -53,6 +53,11 @@ const MarketBuyer = (props) => {
   } = props;
   // URL PARAMS
   const catName = get(match, 'cat', null);
+  const [page, setPage] = useState({
+    all: 0,
+    published: 0,
+    preMarket: 0,
+  });
 
   useEffect(() => { destroyForm(); }, [history.location.pathname]);
 
@@ -75,17 +80,13 @@ const MarketBuyer = (props) => {
       handleSpinnerOff();
     }
   }, [loggedInUser.id]);
-
-  useEffect(() => {
-    // handleSetActiveMarketOverlayPropertyLists(preMarketProperties);
-  }, [preMarketProperties]);
-
-  useEffect(() => {
+  
+  const getPropertiesPage = (type, pageNumber) => {
     if (userSearchProfiles !== null) {
       handleGetPremarketStats({ id: get(userSearchProfiles, '[0].id', null) });
       const data = {
-        resultsPerPage: 10,
-        offset: 0,
+        resultsPerPage: 9,
+        offset: pageNumber,
         order: 'updatedAt',
         direction: 'DESC',
         setAsSingle: true,
@@ -94,16 +95,32 @@ const MarketBuyer = (props) => {
         resultType: 'buyer',
         searchProfileId: get(userSearchProfiles, '[0].id', null),
       };
-      handleGetAllProperties(data);
-      handleGetPreMarketProperties(data);
-      if (get(userSearchProfiles, '[0].id', null)) {
-        handleGetPremiumProperties(data);
-        data.resultType = 'europe';
-        handleGetPremiumProperties(data);
-      } else {
-        data.resultType = 'seller';
-        handleGetPremiumProperties(data);
+      switch (type) {
+        case 'all':
+          data.offset = page.all;
+          handleGetAllProperties(data);
+          break;
+        case 'preMarket':
+          data.preMarket = page.all;
+          handleGetPreMarketProperties(data);
+          break;
+        case 'published':
+          data.offset = page.published;
+          handleGetPremiumProperties(data);
+          break;
+        default:
+          return null;
       }
+      setPage({... page, [type]: pageNumber });
+      handleSpinnerOff();
+    }
+  }
+
+  useEffect(() => {
+    if (userSearchProfiles !== null) {
+      getPropertiesPage('all', page['all']);
+      getPropertiesPage('preMarket', page['preMarket']);
+      getPropertiesPage('published', page['published']);
       handleSpinnerOff();
     }
   }, [userSearchProfiles, get(history, 'location.pathname', null)]);
@@ -113,7 +130,15 @@ const MarketBuyer = (props) => {
       {/* premarket overlay */}
       <Suspense fallback="">
         <Routes>
-          <Route path="/" element={<MarketCategoryListBuyer />} />
+          <Route
+            path="/"
+            element={
+              <MarketCategoryListBuyer
+                onPageChange={(resultsPerPage, pageNumber, type) => getPropertiesPage(type, pageNumber)}
+                page={page}
+              />
+            }
+          />
           <Route path="/:cat" element={<MarketList isBuyer />} />
           <Route path="*" element={<Navigate to="/buy" />} />
         </Routes>
