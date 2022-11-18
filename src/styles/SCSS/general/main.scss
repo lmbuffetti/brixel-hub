@@ -1126,3 +1126,11 @@ input::-webkit-date-and-time-value {
     border-color: map-get($lightColor, 200);
   }
 }
+.modalTitleClass {
+  .modal-title {
+    margin-left: auto;
+    span {
+      padding-left: $step * 2;
+    }
+  }
+}
