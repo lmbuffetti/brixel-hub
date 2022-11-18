@@ -1,12 +1,12 @@
 import { BrixelButtonSecondary } from '@brixel/brixel-components';
 import get from 'lodash/get';
-import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { compose } from 'redux';
-import { transformInternalLink } from '../../utils/helpers';
 import api from '../../controllers/api/graphql';
+import { transformInternalLink } from '../../utils/helpers';
 
 const BannerBox = (props) => {
   const history = {
@@ -63,6 +63,7 @@ const BannerBox = (props) => {
           <div className="max-w-fix-512 w-perc-100">
             <h5 className="mt-3 mt-sm-0 fweight-600 fsize-600">{banner.title}</h5>
             <p className="fsize-300 my-3">{banner.description}</p>
+            {transformInternalLink(banner.bannerButton.url, { activeSingleProperty })}
             {
               get(banner, 'bannerButton.text', null) && get(banner, 'bannerButton.url', null) && (
                 <BrixelButtonSecondary

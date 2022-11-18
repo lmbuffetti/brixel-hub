@@ -1,37 +1,27 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-nested-ternary */
-/* eslint-disable no-shadow */
-import React, { useState, useEffect, useRef } from 'react';
-import PropTypes from 'prop-types';
-import {
-  BrixelButtonIcon,
-  BrixelButtonPrimary,
-  BrixelButtonText,
-} from '@brixel/brixel-components';
-import translateTo from '../../../utils/translation';
-import {
-  MultiFileldsReduxForm,
-  change,
-  destroy,
-  reset,
-  initializeForm,
-} from '@brixel/brixel-components/dist/form';
+import { BrixelButtonIcon, BrixelButtonPrimary, BrixelButtonText } from '@brixel/brixel-components';
+import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/BrixelButtonSecondary';
 import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
-import { bindActionCreators, compose } from 'redux';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { change, destroy, initializeForm, MultiFileldsReduxForm, reset } from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
 import has from 'lodash/has';
-import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/BrixelButtonSecondary';
 import isArray from 'lodash/isArray';
-import queryString from 'query-string';
 import { DateTime } from 'luxon';
-import { getActiveSingleCompany } from '../../../actions/CompanyActions';
-import { getActiveSingleProperty } from '../../../actions/PropertyActions';
+import PropTypes from 'prop-types';
+import queryString from 'query-string';
+/* eslint-disable no-nested-ternary */
+/* eslint-disable no-shadow */
+import React, { useEffect, useRef, useState } from 'react';
+import { connect } from 'react-redux';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { bindActionCreators, compose } from 'redux';
 import { sendMessageContact } from '../../../actions/CommonActions';
+import { getActiveSingleCompany } from '../../../actions/CompanyActions';
 import { getBuyerDeal } from '../../../actions/DealActions';
-import { checkBrowser } from '../../../utils/helpers';
+import { getActiveSingleProperty } from '../../../actions/PropertyActions';
 import { QuestionsList } from '../../../resources/Companies/Contact';
+import { checkBrowser } from '../../../utils/helpers';
+import translateTo from '../../../utils/translation';
 
 const Contact = (props) => {
   const history = {
@@ -82,13 +72,13 @@ const Contact = (props) => {
   }, []);
 
   useEffect(() => {
-    let fullVersion = true;
+    let fullVersion = false;
     if (isBuyer) {
       fullVersion = false;
       handleGetBuyerDeal({ id: propID, actionStub: null, });
     }
     handleGetActiveSingleProperty({ fullVersion, id: propID, multiLoader: !formValue.id });
-  }, [propID]);
+  }, [propID, isBuyer]);
 
   useEffect(() => {
     if (activeSingleProperty.company) handleGetActiveSingleCompany({ id: activeSingleProperty.company });
