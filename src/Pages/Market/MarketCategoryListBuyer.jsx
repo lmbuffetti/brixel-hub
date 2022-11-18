@@ -393,31 +393,42 @@ const MarketCategoryListBuyer = (props) => {
               </div>
             )
           }
-  
-          <div className="row-cols-3-gutsmall-4">
-            {
-              get(allProperties, 'data', []).map((property, index) => (
-                <MarketCard
-                  layout="singleOwnCard"
-                  type="premium"
-                  key={`nmCrd_${index.toString()}`}
-                  item={property}
-                  lang={lang}
-                />
-              ))
-            }
-          </div>
-          <div className="mb-8">
-            <Pagination
-              totalItems={allProperties.total}
-              itemsPerPage={9}
-              activePage={page[activeTab]}
-              paginate={(resultsPerPage, pageNumber) => {
-                onPageChange(resultsPerPage, pageNumber, activeTab);
-              }}
-              showResultsPerPage={false}
-              lang={lang}
-            />
+          
+          <div className="container">
+            <div className="ta-c max-w-fix-264 mx-a my-5">
+              <h4 className="fweight-600">
+                <span>{get(allProperties, 'total', 0)}</span>
+                <span className="ml-1">{translateTo('Results', lang)}</span>
+              </h4>
+              <p className="txtAltGrey700 fSizePx14">
+                {translateTo('Properties could already be for sale or still in the Pre-Market. Learn more.', lang)}
+              </p>
+            </div>
+            <div className="row-cols-3-gut-3">
+              {
+                get(allProperties, 'data', []).map((property, index) => (
+                  <MarketCard
+                    layout="singleOwnCard"
+                    type="premium"
+                    key={`nmCrd_${index.toString()}`}
+                    item={property}
+                    lang={lang}
+                  />
+                ))
+              }
+            </div>
+            <div className="mb-8">
+              <Pagination
+                totalItems={allProperties.total}
+                itemsPerPage={9}
+                activePage={page[activeTab]}
+                paginate={(resultsPerPage, pageNumber) => {
+                  onPageChange(resultsPerPage, pageNumber, activeTab);
+                }}
+                showResultsPerPage={false}
+                lang={lang}
+              />
+            </div>
           </div>
         </div>
       </Suspense>

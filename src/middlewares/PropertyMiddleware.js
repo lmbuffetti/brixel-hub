@@ -904,7 +904,7 @@ const checkCommon = (store) => (next) => (action) => {
               const ownProp = get(store.getState(), 'market.ownerProperties', {});
               if (get(ownProp, 'data', null)) {
                 const indexProp = ownProp.data.findIndex((item) => item.id === id);
-                ownProp.data[indexProp].servicePackage = res.data;
+                if (ownProp.data[indexProp].servicePackage) ownProp.data[indexProp].servicePackage = res.data;
               }
               store.dispatch({ type: SET_OWNED_PROPERTIES, payload: ownProp });
             } else {

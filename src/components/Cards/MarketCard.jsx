@@ -19,6 +19,7 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import Slider from 'react-slick';
 import { bindActionCreators, compose } from 'redux';
 import { setSplashType } from '../../actions/CommonActions';
 import { generateEstimation } from '../../actions/EstimationActions';
@@ -39,6 +40,15 @@ const MarketCard = (props) => {
   const history = {
     push: useNavigate(),
     location: useLocation(),
+  };
+  const settingSlider = {
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    centerPadding: '8px',
+    arrows: true,
+    dots: true,
+    lazyLoad: 'progressive',
   };
   // PROPS
   const {
@@ -85,7 +95,7 @@ const MarketCard = (props) => {
   }, [get(item, 'tags', [])]);
 
   useEffect(() => {
-    if (layout === 'singleOwnCard') {
+    if (layout === 'singleOwnCard' && type === 'own') {
       handleGetPackageProperty({ id: get(item, 'id', null), smallLoader: `loadPackage${get(item, 'id', '')}`, addToOwnerProp: true });
     }
   }, [layout, item]);
@@ -222,7 +232,7 @@ const MarketCard = (props) => {
       }
       <div
         className={`market-card ov-h cur-poi h-perc-100 pos-r ${removeSkeleton && item ? '' : 'pos-a opacity0'} `}
-        onClick={(e) => (type !== 'own' ? openCard(e) : '')}
+        // onClick={(e) => (type !== 'own' ? openCard(e) : '')}
       >
         <div className={`${type === 'own' ? 'dis-f-sm' : 'dis-fl-col'} ${layout === 'singleOwnCard' ? 'px-0' : 'px-1'}`}>
           {
@@ -410,12 +420,28 @@ const MarketCard = (props) => {
               </>
             ) : (
               <div className="brdSmall brdRadius brdLight200 ov-h bgWhite">
-                <CoverPropertyImage
-                  loadedImg={(val) => setCoverImgLoaded(val)}
-                  className={`${isPreMarket() ? 'pre-market' : ''} ${get(item, 'tags', []).join(' ')} cover mb-1 w-perc-100 h-perc-100 h-fix-208 pos-r`}
-                  coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
-                  propertyType={get(item, 'properties.propertyType', undefined)}
-                />
+                {
+                  get(item, 'photos', []).length > 0 ? (
+                    <Slider {...settingSlider}>
+                      {
+                        item.photos.map((photo, index) => (
+                          <div
+                            className={`${isPreMarket() ? 'pre-market' : ''} ${get(item, 'tags', []).join(' ')} cover mb-1 w-perc-100 h-perc-100 h-fix-208 pos-r`}
+                          >
+                            <img src={`${baseByData.shortPath}${photo.path}`} key={`photo${index.toString()}`} />
+                          </div>
+                        ))
+                      }
+                    </Slider>
+                  ) : (
+                    <CoverPropertyImage
+                      loadedImg={(val) => setCoverImgLoaded(val)}
+                      className={`${isPreMarket() ? 'pre-market' : ''} ${get(item, 'tags', []).join(' ')} cover mb-1 w-perc-100 h-perc-100 h-fix-208 pos-r`}
+                      coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
+                      propertyType={get(item, 'properties.propertyType', undefined)}
+                    />
+                  )
+                }
                 {
                   checkFavorite() && (
                     <div className="tag-container dis-fl-row a-c">
