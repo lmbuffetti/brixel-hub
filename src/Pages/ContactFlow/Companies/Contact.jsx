@@ -1,37 +1,27 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-nested-ternary */
-/* eslint-disable no-shadow */
-import React, { useState, useEffect, useRef } from 'react';
-import PropTypes from 'prop-types';
-import {
-  BrixelButtonIcon,
-  BrixelButtonPrimary,
-  BrixelButtonText,
-} from '@brixel/brixel-components';
-import translateTo from '../../../utils/translation';
-import {
-  MultiFileldsReduxForm,
-  change,
-  destroy,
-  reset,
-  initializeForm,
-} from '@brixel/brixel-components/dist/form';
+import { BrixelButtonIcon, BrixelButtonPrimary, BrixelButtonText } from '@brixel/brixel-components';
+import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/BrixelButtonSecondary';
 import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
-import { bindActionCreators, compose } from 'redux';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { change, destroy, initializeForm, MultiFileldsReduxForm, reset } from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
 import has from 'lodash/has';
-import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/BrixelButtonSecondary';
 import isArray from 'lodash/isArray';
-import queryString from 'query-string';
 import { DateTime } from 'luxon';
-import { getActiveSingleCompany } from '../../../actions/CompanyActions';
-import { getActiveSingleProperty } from '../../../actions/PropertyActions';
+import PropTypes from 'prop-types';
+import queryString from 'query-string';
+/* eslint-disable no-nested-ternary */
+/* eslint-disable no-shadow */
+import React, { useEffect, useRef, useState } from 'react';
+import { connect } from 'react-redux';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { bindActionCreators, compose } from 'redux';
 import { sendMessageContact } from '../../../actions/CommonActions';
+import { getActiveSingleCompany } from '../../../actions/CompanyActions';
 import { getBuyerDeal } from '../../../actions/DealActions';
-import { checkBrowser } from '../../../utils/helpers';
+import { getActiveSingleProperty } from '../../../actions/PropertyActions';
 import { QuestionsList } from '../../../resources/Companies/Contact';
+import { checkBrowser } from '../../../utils/helpers';
+import translateTo from '../../../utils/translation';
 
 const Contact = (props) => {
   const history = {
@@ -72,28 +62,28 @@ const Contact = (props) => {
   // GET URL PARAMS
   const propID = get(match, 'propID', null);
   const BASEURL = isBuyer ? `/buyer/${propID}/contactFlow` : `/${propID}/contactFlow`;
-
+  
   // REF
   const singleStepRef = useRef(null);
   const multiStepSlidesRef = useRef(null);
-
+  
   useEffect(() => {
     return () => destroyForm();
   }, []);
-
+  
   useEffect(() => {
-    let fullVersion = true;
+    let fullVersion = false;
     if (isBuyer) {
       fullVersion = false;
       handleGetBuyerDeal({ id: propID, actionStub: null, });
     }
     handleGetActiveSingleProperty({ fullVersion, id: propID, multiLoader: !formValue.id });
-  }, [propID]);
-
+  }, [propID, isBuyer]);
+  
   useEffect(() => {
     if (activeSingleProperty.company) handleGetActiveSingleCompany({ id: activeSingleProperty.company });
   }, [activeSingleProperty.company]);
-
+  
   // ON CHANGE STEP LOAD THE ENTER EFFECT
   useEffect(() => {
     setIsEnter(true);
@@ -102,7 +92,7 @@ const Contact = (props) => {
     }
     setQuest(questions[currentIndex])
   }, [currentIndex]);
-
+  
   useEffect(() => {
     if (isSmallLoading.sendData === true && (get(questions, `[${currentIndex + 1}].history`, null) === 'success')) {
       const newIndex = currentIndex + 1;
@@ -110,7 +100,7 @@ const Contact = (props) => {
       setQuest(questions[newIndex]);
     }
   }, [isSmallLoading]);
-
+  
   // ON CLOSE WINDOW GO BACK TO ORIGIN URL
   const closeWindow = () => {
     handleReset('contactFlow');
@@ -119,12 +109,12 @@ const Contact = (props) => {
     const BASEURL = isBuyer ? '/buyer' : '';
     history.push(`${BASEURL}/${propID}/home`);
   };
-
+  
   // FUNCTION TO SAVE DATA
   const saveData = () => {
     handleSendMessageContact(formValue);
   };
-
+  
   // FUNCTION TO SHOW/HIDE BLOCK IN BASE OF JSON CONDITION
   const checkCondition = (id, act) => {
     let newIndex = id;
@@ -147,7 +137,7 @@ const Contact = (props) => {
     }
     return newIndex;
   };
-
+  
   // CHECK IF FIELDS IS VALID TO ENABLE NEXT BUTTON
   const checkValidateField = (act) => {
     let isValid = true;
@@ -188,7 +178,7 @@ const Contact = (props) => {
     if (act === 'value') return isValid && isNotEmpty;
     return isValid;
   };
-
+  
   const singleStepEl = singleStepRef.current;
   const multiStepSlidesEl = multiStepSlidesRef.current;
   // FUNCTION TO GO TO NEXT STEP
@@ -247,7 +237,7 @@ const Contact = (props) => {
           if (singleStepEl && singleStepEl.scrollTop) singleStepEl.scrollTop = 0;
           if (multiStepSlidesEl && multiStepSlidesEl.scrollTop) multiStepSlidesEl.scrollTop = 0;
         } else {
-  
+          
           if (singleStepEl && typeof singleStepEl.scrollTo === 'function') singleStepEl.scrollTo({ top: 0, behavior: 'smooth' });
           if (multiStepSlidesEl && typeof multiStepSlidesEl.scrollTo === 'function') multiStepSlidesEl.scrollTo({ top: 0, behavior: 'smooth' });
         }
@@ -255,7 +245,7 @@ const Contact = (props) => {
     }
     return null;
   };
-
+  
   useEffect(() => {
     if (loggedInUser.id && activeSingleCompany.id && activeSingleProperty.id) initForm(initialValues);
     const defId = checkCondition(currentIndex);
@@ -264,7 +254,7 @@ const Contact = (props) => {
       if (activeSingleProperty.owner !== loggedInUser.id) history.push(`/buyer/${propID}/contactFlow`);
     }
   }, [activeSingleProperty.id, activeSingleCompany.id, loggedInUser.id, isBuyer]);
-
+  
   // ON CHANGE STEP LOAD THE ENTER EFFECT
   useEffect(() => {
     setIsEnter(true);
@@ -277,7 +267,7 @@ const Contact = (props) => {
       history.push(`${BASEURL}/${questions[currentIndex].history}`);
     }
   }, [currentIndex, initValues]);
-
+  
   // ON CHANGE FORM VALUE CALC THE CONDITION TO SHOW/HIDE QUESTIONS AND STEP
   useEffect(() => {
     setOldIndex(currentIndex);
@@ -298,7 +288,7 @@ const Contact = (props) => {
         }
         return null;
       });
-
+      
       setQuest(newQuest[currentIndex]);
       setQuestions(newQuest);
     }
@@ -307,15 +297,15 @@ const Contact = (props) => {
     }
     if (currentIndex === 0 && formValue.analysis === 'remote') changeStep();
   }, [formValue, activeSingleCompany.id]);
-
+  
   useEffect(() => {
     if (get(formValue, 'time.timestamp', null)) {
       const isToday = DateTime.fromMillis(get(formValue, 'time.timestamp', null)).hasSame(DateTime.local(), "day");
       if (isToday) delete formValue.time.hour;
     }
   }, [get(formValue, 'time.timestamp', null)]);
-
-
+  
+  
   useEffect(() => {
     if (get(formValue, 'time.date', null) && get(formValue, 'time.hour', null)) {
       const timeDate = get(formValue, 'time.date', null);
@@ -328,7 +318,7 @@ const Contact = (props) => {
       if (fullDate !== get(formValue, 'time.timestamp', '')) changeFieldValue('time.timestamp', fullDate);
     }
   }, [get(formValue, 'time.date', null), get(formValue, 'time.hour', null)]);
-
+  
   // FUNCTION TO LOAD DIFFERENT BUTTON LABEL BY STEP
   const buttonLabel = () => {
     let label = 'Continue';
@@ -336,9 +326,9 @@ const Contact = (props) => {
     if (currentIndex === questions.length - 1) label = 'Close';
     return label;
   };
-
+  
   if (!formValue.page) return (<div />);
-
+  
   return (
     <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'background', '')} ${get(quest, 'classWrapper', '')}  `}>
       {
@@ -380,7 +370,7 @@ const Contact = (props) => {
                               disableDelay
                             />
                           </div>
-
+                        
                         </div>
                       )
                     }
