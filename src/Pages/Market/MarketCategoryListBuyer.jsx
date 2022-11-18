@@ -361,17 +361,17 @@ const MarketCategoryListBuyer = (props) => {
 
           </div>
 
-          { /* SEEARCH PROFILE */}
+          { /* SEARCH PROFILE */}
           <div className="bgBlue100 mt-10">
             {
               !userSearchProfiles ? (
                 <div className="container py-10">
-                  <div className="w-perc-100 ov-h brdRadius h-fix-md-152 mb-4 dis-f">
+                  <div className="max-w-fix-312 w-perc-100 ov-h brdRadius h-fix-md-152 mb-4 dis-f">
                     <div className="ml-md-4 ml-2 h-perc-100 dis-fl-col w-perc-100 py-2">
-                      <p className="h-fix-40 skeletonBgInner w-perc-60"> </p>
-                      <p className="h-fix-16 mt-1 skeletonBgInner hide dis-b-md w-perc-30"> </p>
-                      <p className="h-fix-16 mt-2 skeletonBgInner w-perc-50"> </p>
-                      <p className="h-fix-40 mt-2 skeletonBgInner w-fix-120"> </p>
+                      <p className="h-fix-40 skeletonBgInner w-perc-70"> </p>
+                      <p className="h-fix-16 mt-1 skeletonBgInner hide dis-b-md w-perc-100"> </p>
+                      <p className="h-fix-16 mt-1 skeletonBgInner w-perc-100"> </p>
+                      <p className="h-fix-40 mt-2 skeletonBgInner w-perc-80"> </p>
                     </div>
                   </div>
                 </div>
@@ -438,7 +438,7 @@ const MarketCategoryListBuyer = (props) => {
                           <h3 className="txtBlue700 fweight-600 mt-4 mt-md-0 mb-1">
                             {translateTo('Search Profile')}
                           </h3>
-                          <p className="fsize-300">
+                          <p className="fsize-300 txtAltGrey700">
                             {translateTo('Create different search profiles to keep track of the properties that match your needs.', lang)}
                           </p>
                           <BrixelButtonPrimary
@@ -452,7 +452,7 @@ const MarketCategoryListBuyer = (props) => {
                         {
                           windowDimensions.width > 768 && (
                             <div className="w-perc-50">
-                              <img src={searchProfileDeskImg} alt="Search Profile" />
+                              <img className="min-h-fix-320" src={searchProfileDeskImg} alt="Search Profile" />
                             </div>
                           )
                         }

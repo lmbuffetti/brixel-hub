@@ -38,7 +38,7 @@ const SearchProfileList = (props) => {
     active: false,
   });
   const [fieldsSearchProfile, setFieldsSearchProfile] = useState([]);
-  
+
   useEffect(() => {
     const fields = [...fieldsSearchProfile];
     QuestionsList('en', 'searchProfile').forEach((inputs) => {
@@ -53,7 +53,7 @@ const SearchProfileList = (props) => {
     });
     setFieldsSearchProfile(fields);
   }, []);
-  
+
   const editSearchProfile = (searchProfile) => {
     let initialValue = {};
     fieldsSearchProfile.forEach((field) => {
@@ -62,7 +62,7 @@ const SearchProfileList = (props) => {
     initForm(initialValue)
     history.push(`/buy/searchProfile/edit/${searchProfile.id}`)
   }
-  
+
   const onDeleteSearchProfile = (profile) => {
     handleSetModal({
       type: 'confirm',
@@ -72,7 +72,7 @@ const SearchProfileList = (props) => {
       cancel: () => handleSetModal({}),
     })
   }
-  
+
   const onSetDefaultSearchProfile = (searchProfile) => {
     handleUpdateSearchProfile({
       id: searchProfile.id,
@@ -86,7 +86,7 @@ const SearchProfileList = (props) => {
       active: false,
     });
   }
-  
+
   // FUNCTION TO MANAGE THE CLICK OUTSIDE OF ELEMENT
   useOutsideAlerter(optionsRef, {
     action: 'function',
@@ -95,15 +95,15 @@ const SearchProfileList = (props) => {
       active: false,
     }),
   });
-  
+
   return (
-    <div>
+    <div className="mb-3">
       <div className="dis-f jc-b a-t">
         <div className="max-w-fix-264">
-          <h5>
+          <h5 className="fweight-600">
             {translateTo('Your Search Profiles', lang)}
           </h5>
-          <p>
+          <p className="txtAltGrey400 fsize-300">
             {translateTo('Select the Search Profile you’d like to apply to filter properties.', lang)}
           </p>
         </div>
@@ -122,12 +122,10 @@ const SearchProfileList = (props) => {
               searchProfile.id && (
                 <div
                   key={`searchProfile${i.toString()}`}
-                  className={`brdSmall brdRadius p-2 mb-2 ${userActiveSearchProfileId === searchProfile.id ? 'bgBlue100 brdBlue300' : 'brdLight200'}`}
+                  className={`searchProfileList brdSmall brdRadius p-2 p-md-3 mb-2 ${i.toString() === '0' ? 'mt-4' : ''} ${userActiveSearchProfileId === searchProfile.id ? 'bgBlue100 brdBlue300' : 'brdLight200'}`}
                 >
-                  <div
-                    className="dis-f a-c jc-b"
-                  >
-                    <div className="dis-f a-t jc-fs">
+                  <div className={`dis-f a-c jc-b ${userActiveSearchProfileId === searchProfile.id ? 'brdSmallBottom brdBlue300 pb-3 mb-3' : ''}`} >
+                    <div className="dis-f a-t jc-fs w-perc-75">
                       <BrixelRadioButton
                         disableDelay={true}
                         input={{
@@ -144,21 +142,22 @@ const SearchProfileList = (props) => {
                         ]}
                       />
                     </div>
-                    <div className="dis-f a-c">
+                    <div className="dis-f a-c jc-fe w-perc-20">
                       {
                         searchProfile.isDefault && (
-                          <div className="mr-2 brdFullRadius bgBlue200 txtBlue700 fSizePx14 py-small-4 px-1">
+                          <div className="mr-2 brdFullRadius bgBlue200 txtBlue700 fsize-300 py-small-4 px-1">
                             Default
                           </div>
                         )
                       }
-                      <div className="pos-r mr-2">
+                      <div className="pos-r">
                         <BrixelButtonIcon
                           isLoading={isSmallLoading[`saveData${searchProfile.id}`]}
                           icon="options-vertical"
                           className="ml-a"
                           theme="dark"
                           ghost
+                          bgTransparent
                           onClick={() => setIsOptionsOpen({
                             id: isOptionsOpen.id === searchProfile.id ? null : searchProfile.id,
                             active: !isOptionsOpen.active,
@@ -200,9 +199,9 @@ const SearchProfileList = (props) => {
                       <>
                         <div>
                           <h6>Filters applied</h6>
-                          <p className="txtAltGrey400">Summary of all the filters applied </p>
-              
-                          <div className="dis-f flex-wrap a-t">
+                          <p className="txtAltGrey400 fsize-300">Summary of all the filters applied </p>
+
+                          <div className="dis-f flex-wrap a-t mt-2">
                             {
                               fieldsSearchProfile.map((field, index) => (
                                 <React.Fragment key={`search${index.toString()}`}>
@@ -222,7 +221,7 @@ const SearchProfileList = (props) => {
                               ))
                             }
                           </div>
-            
+
                         </div>
                       </>
                     )

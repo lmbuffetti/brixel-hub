@@ -47,12 +47,13 @@ export const QuestionsList = (lang, type) => {
       subtitle: translateTo('Choose between apartment, house and building land.', lang),
       history: 'propertyType',
       footerWidth: 'max-w-fix-880',
+      classWrap: type === 'searchProfile' ? 'brdSmallBottom brdLight200 pb-2 pb-md-4' : '',
       inputs: [
         {
           component: BrixelCheckbox,
           className: 'radioBtnImg',
           ReduxFieldClass: '',
-          classNameBox: 'max-w-fix-880 ml-a mr-a',
+          classNameBox: type === 'searchProfile' ? 'max-w-fix-880 ml-1-neg mr-a' : 'max-w-fix-880 ml-a mr-a',
           label: '',
           name: 'characteristics.propertyType',
           validation: [Validation.required],
@@ -91,12 +92,13 @@ export const QuestionsList = (lang, type) => {
       title: translateTo(type === 'searchProfile' ? 'How big should it be?' : 'How big should it be?', lang),
       history: 'tipology',
       vCentered: true,
-      classWrap: 'inputRangeWrap',
+      classWrap: type === 'searchProfile' ? 'brdSmallBottom brdLight200 pb-2 pb-md-4 inputRangeWrap' : 'inputRangeWrap',
       className: 'fieldHolder bgWhite brdRadius max-w-fix-600 m-a pl-2 pr-0 px-sm-5 py-5',
       footerWidth: 'max-w-fix-600',
       inputs: [
         {
           component: BrixelInputMultiRange,
+          className: 'max-w-fix-520',
           classNameInput: 'mt-1',
           label: translateTo('Number of rooms', lang),
           name: 'characteristics.bedrooms',
@@ -109,7 +111,7 @@ export const QuestionsList = (lang, type) => {
         },
         {
           component: BrixelInputMultiRange,
-          className: type === 'searchProfile' ? '' : 'mt-2',
+          className: type === 'searchProfile' ? 'max-w-fix-520' : 'mt-2',
           classNameInput: 'pl-5',
           label: translateTo('Living Space in m2', lang),
           name: 'characteristics.livingArea',
@@ -129,6 +131,7 @@ export const QuestionsList = (lang, type) => {
       vCentered: true,
       className: 'fieldHolder bgWhite brdRadius max-w-fix-800 m-a px-2 px-sm-5 py-5',
       footerWidth: 'max-w-fix-800',
+      classWrap: type === 'searchProfile' ? 'brdSmallBottom brdLight200 pb-2 pb-md-4' : '',
       inputs: [
         {
           className: type === 'searchProfile' ? 'extraFeature' : 'extraFeature',
@@ -144,6 +147,7 @@ export const QuestionsList = (lang, type) => {
       subtitle: translateTo('You can add multiple addresses.', lang),
       history: 'locationInput',
       cardType: 'locationInput',
+      classWrap: type === 'searchProfile' ? 'brdSmallBottom brdLight200 pb-4' : '',
       className: 'fieldHolder bgWhite brdRadius max-w-fix-600 w-perc-100 m-a px-2 px-sm-5 py-5 dis-f flex-wrap',
       footerWidth: 'max-w-fix-600',
       classQuest: 'dis-f',
@@ -163,6 +167,7 @@ export const QuestionsList = (lang, type) => {
         {
           component: MapsCities,
           classBoxWrapper: 'w-perc-100 flex-1 searchMapFields',
+          className: type === 'searchProfile' ? 'max-w-fix-400' : '',
           showMap: false,
           blockScroll: type === 'searchProfile',
           label: 'latitude',
@@ -185,13 +190,14 @@ export const QuestionsList = (lang, type) => {
       title: translateTo(type === 'searchProfile' ? `Max selling price in ${get(formValue, 'finance.currency', 'CHF')}` : 'What is your budget?', lang),
       history: 'price',
       cardType: 'Price',
-      className: `fieldHolder bgWhite brdRadius ${type === 'searchProfile' ? 'max-w-fix-320' : 'max-w-fix-600 m-a'}`,
+      className: `fieldHolder bgWhite brdRadius ${type === 'searchProfile' ? 'max-w-fix-344' : 'max-w-fix-600 m-a'}`,
+      classWrap: type === 'searchProfile' ? 'brdSmallBottom brdLight200 pb-4' : '',
       footerWidth: 'max-w-fix-600',
       inputs: [
         {
           currency: type === 'searchProfile' ? get(formValue, 'finance.currency', 'CHF') : null,
           component: BrixelInputText,
-          classNameBox: `brdRadius fieldHolder bgWhite ${type === 'searchProfile' ? 'max-w-fix-320' : 'max-w-fix-600 px-2 px-sm-5 py-5 m-a'}`,
+          classNameBox: `brdRadius fieldHolder bgWhite ${type === 'searchProfile' ? 'max-w-fix-344' : 'max-w-fix-600 px-2 px-sm-5 py-5 m-a'}`,
           className: '',
           label: type === 'searchProfile' ? null : translateTo(`Max. selling price in ${get(formValue, 'finance.currency', 'CHF')}`, lang),
           placeholder: get(formValue, 'finance.currency', 'CHF') === 'CHF' ? '800’000' : '800.000',
@@ -212,8 +218,8 @@ export const QuestionsList = (lang, type) => {
         {
           component: BrixelInputText,
           pdClass: 'py-2 py-lg-3 px-2',
-          classNameBox: `brdRadius fieldHolder bgWhite ${type === 'searchProfile' ? 'max-w-fix-320' : 'max-w-fix-600 px-2 px-sm-5 py-5 m-a'}`,
-          label: 'Name',
+          classNameBox: `brdRadius fieldHolder bgWhite ${type === 'searchProfile' ? 'max-w-fix-344' : 'max-w-fix-600 px-2 px-sm-5 py-5 m-a'}`,
+          placeholder: 'Search Profile Name',
           name: 'name',
           large: true,
         },

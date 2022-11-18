@@ -41,10 +41,7 @@
 
 .locationsListMap {
   margin-top: 16px;
-  margin-left: -90px;
-  @media (max-width: $responsive-small) {
-    margin-left: -102px;
-  }
+  margin-left: -100px;
 }
 
 .searchMapCountry {
@@ -53,6 +50,17 @@
   .dropdown .selElement .title {
     text-overflow: clip;
     font-size: 1.25rem;
+  }
+  .dropdown.compact.open ul {
+    width: min-content !important;
+  }
+}
+.searchMapCountry,
+.fieldMapSearch {
+  .brixel-label.labelLarge > span > span {
+    font-size: 14px;
+    font-weight: 600;
+    color: map-get($darkColor, 700);
   }
 }
 
