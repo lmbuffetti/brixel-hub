@@ -362,11 +362,11 @@ const MarketCategoryListBuyer = (props) => {
           </div>
 
           { /* SEARCH PROFILE */}
-          <div className="bgBlue100 mt-10">
+          <div className="bgBlue100 mt-10 min-h-fix-320">
             {
               !userSearchProfiles ? (
                 <div className="container py-10">
-                  <div className="max-w-fix-312 w-perc-100 ov-h brdRadius h-fix-md-152 mb-4 dis-f">
+                  <div className="w-perc-80 ov-h brdRadius h-fix-md-152 mb-4 dis-f">
                     <div className="ml-md-4 ml-2 h-perc-100 dis-fl-col w-perc-100 py-2">
                       <p className="h-fix-40 skeletonBgInner w-perc-70"> </p>
                       <p className="h-fix-16 mt-1 skeletonBgInner hide dis-b-md w-perc-100"> </p>
@@ -380,9 +380,9 @@ const MarketCategoryListBuyer = (props) => {
                   {
                     activeSearchProfile.id ? (
                       <div className="dis-f jc-b-lg a-c py-10">
-                        <div className="w-perc-100 ta-c">
+                        <div className="w-perc-100 max-w-fix-880 ml-a mr-a ta-c">
                           <Link
-                            className="fweight-600 td-u"
+                            className="fweight-600 fsize-300 td-u"
                             to='/buy/searchProfile'
                           >
                             {translateTo('Manage Search Profiles', lang)}
@@ -390,7 +390,7 @@ const MarketCategoryListBuyer = (props) => {
                           <h3 className="txtBlue700 fweight-600 mt-4">
                             {get(activeSearchProfile, 'name', null) || titleSearchProfile(activeSearchProfile, lang)}
                           </h3>
-                          <p>
+                          <p className="mt-1 fsize-300 txtAltGrey700">
                             {translateTo('Search profiles allow you to keep track of the properties that match your needs.', lang)}
                           </p>
                           <div className="dis-f flex-wrap a-t jc-c mt-4">
@@ -412,14 +412,10 @@ const MarketCategoryListBuyer = (props) => {
                                 </React.Fragment>
                               ))
                             }
-                            <BrixelIcon
-                              background="white"
-                              saturation={0}
-                              color="green"
-                              icon="settings"
-                              rounded
-                              iconSize="large"
-                              iconWidth={48}
+                            <BrixelButtonIcon
+                              icon="edit-setting"
+                              secondary
+                              className="bgWhite"
                               onClick={() => history.push(`/buy/searchProfile/edit/${activeSearchProfile.id}`, {state: { url: '/buy' }})}
                             />
                           </div>

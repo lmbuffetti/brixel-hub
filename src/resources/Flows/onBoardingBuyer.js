@@ -53,7 +53,7 @@ export const QuestionsList = (lang, type) => {
           component: BrixelCheckbox,
           className: 'radioBtnImg',
           ReduxFieldClass: '',
-          classNameBox: type === 'searchProfile' ? 'max-w-fix-880 ml-1-neg mr-a' : 'max-w-fix-880 ml-a mr-a',
+          classNameBox: type === 'searchProfile' ? 'max-w-fix-880 ml-md-1-neg mr-a' : 'max-w-fix-880 ml-a mr-a',
           label: '',
           name: 'characteristics.propertyType',
           validation: [Validation.required],
@@ -150,11 +150,11 @@ export const QuestionsList = (lang, type) => {
       classWrap: type === 'searchProfile' ? 'brdSmallBottom brdLight200 pb-4' : '',
       className: 'fieldHolder bgWhite brdRadius max-w-fix-600 w-perc-100 m-a px-2 px-sm-5 py-5 dis-f flex-wrap',
       footerWidth: 'max-w-fix-600',
-      classQuest: 'dis-f',
+      classQuest: 'dis-fl-col dis-fl-row-sm',
       inputs: [
         {
           className: 'pos-r zIndex6 compact',
-          classBoxWrapper: 'searchMapCountry mr-2',
+          classBoxWrapper: 'searchMapCountry mr-2 mb-2 mb-sm-0',
           component: BrixelSelect,
           blockScroll: type === 'searchProfile',
           label: translateTo('Country', lang),

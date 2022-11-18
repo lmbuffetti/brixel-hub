@@ -184,9 +184,9 @@ const SearchProfileModal = (props) => {
       clickOutsideToClose={false}
       title={translateTo(modalTitle(), lang)}
       onClose={() => onClose()}
+      titleTop
       layout="xxlarge"
-      classTitle="fweight-600 fsize-600"
-      classContainer="ta-c mt-7-neg brdSmallBottom brdLight200 pb-3"
+      titleTopClass="fweight-600 fsize-500 fsize-md-600 brdSmallBottom brdLight200 ta-c mb-2 mb-md-4"
       bodyClassColor="bgWhite"
       multiActions={multiActions()}
     >

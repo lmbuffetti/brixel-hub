@@ -98,7 +98,7 @@ const SearchProfileField = (props) => {
     <>
       {renderFieldsSearchProfile() && (
         <div
-          className={`brdFullRadius fsize-300 py-small-4 px-2 py-small-4 mr-small-12 mb-1 bgWhite ${field} ${onClick ? 'cur-poi' : ''}`}
+          className={`brdFullRadius filterBorder brdSmall fsize-300 py-small-7 px-2 mr-small-12 mb-1 bgWhite ${field} ${onClick ? 'cur-poi' : ''}`}
           onClick={() => onClick ? onClick() : ''}
         >
           {renderFieldsSearchProfile()}

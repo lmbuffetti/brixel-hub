@@ -1120,3 +1120,9 @@ input::-webkit-date-and-time-value {
 .brdRadius50 {
   border-radius: 50px;
 }
+.filterBorder {
+  border-color: white;
+  @media (max-width: $responsive-medium) {
+    border-color: map-get($lightColor, 200);
+  }
+}

@@ -1,4 +1,4 @@
-import { BrixelButtonIcon, BrixelButtonText, BrixelDropdownMini, useOutsideAlerter } from '@brixel/brixel-components';
+import { BrixelButtonIcon, BrixelButtonSecondary, BrixelButtonText, BrixelDropdownMini, useOutsideAlerter } from '@brixel/brixel-components';
 import { BrixelRadioButton, initializeForm } from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
 import set from 'lodash/set';
@@ -13,6 +13,7 @@ import SearchProfileField from '../../../components/SearchProfileField';
 import { QuestionsList } from '../../../resources/Flows/onBoardingBuyer';
 import { titleSearchProfile } from '../../../utils/titleCreationSearchProfile';
 import translateTo from '../../../utils/translation';
+import exclamationIcon from '../../../images/searchProfile/exclamation-icon.svg';
 
 const SearchProfileList = (props) => {
   const history = {
@@ -65,11 +66,34 @@ const SearchProfileList = (props) => {
 
   const onDeleteSearchProfile = (profile) => {
     handleSetModal({
-      type: 'confirm',
+      // type: 'confirm',
+      small: true,
+      state: true,
       title: translateTo('Confirm Delete', lang),
-      message: translateTo('Do you want delete the selected search profile?', lang),
-      confirm: () => handleDeleteUserSearchProfile(profile),
-      cancel: () => handleSetModal({}),
+      body: translateTo('Do you want to delete the selected search profile?', lang),
+      bodyInnerClass: 'm-a ta-c',
+      bodyClassColor: 'bgWhite dis-fl-col jc-b',
+      classContainer: 'dis-b ta-c',
+      titleImg: exclamationIcon,
+      classImg: 'mx-a w-fix-48 mb-1 mt-4-neg',
+      bodyActionsClass: 'dis-f a-c jc-c mt-5',
+      classTitle: 'ta-c fSizePx18 fweight-600 dis-b mb-3-neg',
+      multiBodyActions: [
+        {
+          btnType: 'Secondary',
+          name: translateTo('No, keep it', lang),
+          round: true,
+          className: 'mr-1',
+          func: () => handleSetModal({}),
+        },
+        {
+          btnType: 'Primary',
+          name: translateTo('Yes, remove it', lang),
+          round: true,
+          className: 'ml-1',
+          func: () => handleDeleteUserSearchProfile(profile),
+        }
+      ]
     })
   }
 
@@ -98,8 +122,8 @@ const SearchProfileList = (props) => {
 
   return (
     <div className="mb-3">
-      <div className="dis-f jc-b a-t">
-        <div className="max-w-fix-264">
+      <div className="dis-fl-col-rev dis-fl-row-md jc-b a-t">
+        <div className="w-perc-100 max-w-fix-264">
           <h5 className="fweight-600">
             {translateTo('Your Search Profiles', lang)}
           </h5>
@@ -107,7 +131,7 @@ const SearchProfileList = (props) => {
             {translateTo('Select the Search Profile you’d like to apply to filter properties.', lang)}
           </p>
         </div>
-        <div>
+        <div className="ml-a mb-2 md-md-0">
           <BrixelButtonText
             label="New Search Profile"
             leftIcon="plus"
@@ -124,7 +148,7 @@ const SearchProfileList = (props) => {
                   key={`searchProfile${i.toString()}`}
                   className={`searchProfileList brdSmall brdRadius p-2 p-md-3 mb-2 ${i.toString() === '0' ? 'mt-4' : ''} ${userActiveSearchProfileId === searchProfile.id ? 'bgBlue100 brdBlue300' : 'brdLight200'}`}
                 >
-                  <div className={`dis-f a-c jc-b ${userActiveSearchProfileId === searchProfile.id ? 'brdSmallBottom brdBlue300 pb-3 mb-3' : ''}`} >
+                  <div className={`dis-f a-c jc-b ${userActiveSearchProfileId === searchProfile.id ? 'brdSmallBottom-md pb-md-3 mb-md-3 pb-2' : 'pb-2 pb-md-0'} brdBlue300`} >
                     <div className="dis-f a-t jc-fs w-perc-75">
                       <BrixelRadioButton
                         disableDelay={true}
@@ -145,12 +169,12 @@ const SearchProfileList = (props) => {
                     <div className="dis-f a-c jc-fe w-perc-20">
                       {
                         searchProfile.isDefault && (
-                          <div className="mr-2 brdFullRadius bgBlue200 txtBlue700 fsize-300 py-small-4 px-1">
+                          <div className="mr-md-2 brdFullRadius bgBlue200 txtBlue700 fsize-300 py-small-4 px-1">
                             Default
                           </div>
                         )
                       }
-                      <div className="pos-r">
+                      <div className="pos-r hide dis-b-md">
                         <BrixelButtonIcon
                           isLoading={isSmallLoading[`saveData${searchProfile.id}`]}
                           icon="options-vertical"
@@ -194,38 +218,50 @@ const SearchProfileList = (props) => {
                       </div>
                     </div>
                   </div>
-                  {
-                    searchProfile.id && userActiveSearchProfileId === searchProfile.id && (
-                      <>
-                        <div>
-                          <h6>Filters applied</h6>
-                          <p className="txtAltGrey400 fsize-300">Summary of all the filters applied </p>
 
-                          <div className="dis-f flex-wrap a-t mt-2">
+                  <div className={userActiveSearchProfileId === searchProfile.id ? '' : 'hide-md'}>
+                    <div className="hide dis-b-md">
+                      <h6>Filters applied</h6>
+                      <p className="txtAltGrey400 fsize-300">Summary of all the filters applied </p>
+                    </div>
+
+                    <div className="dis-f flex-wrap a-t mt-2">
+                      {
+                        fieldsSearchProfile.map((field, index) => (
+                          <React.Fragment key={`search${index.toString()}`}>
                             {
-                              fieldsSearchProfile.map((field, index) => (
-                                <React.Fragment key={`search${index.toString()}`}>
-                                  {
-                                    field !== 'isDefault' && field !== 'name' && (
-                                      <>
-                                        <SearchProfileField
-                                          searchProfile={searchProfile}
-                                          field={field}
-                                          lang={lang}
-                                          onClick={() => history.push(`/buy/searchProfile/edit/${searchProfile.id}`)}
-                                        />
-                                      </>
-                                    )
-                                  }
-                                </React.Fragment>
-                              ))
+                              field !== 'isDefault' && field !== 'name' && (
+                                <>
+                                  <SearchProfileField
+                                    searchProfile={searchProfile}
+                                    field={field}
+                                    lang={lang}
+                                    onClick={() => history.push(`/buy/searchProfile/edit/${searchProfile.id}`)}
+                                  />
+                                </>
+                              )
                             }
-                          </div>
+                          </React.Fragment>
+                        ))
+                      }
+                    </div>
 
-                        </div>
-                      </>
-                    )
-                  }
+                    <div className={`hide-md dis-f jc-fe brdSmallTop ${userActiveSearchProfileId === searchProfile.id ? 'brdBlue300' : 'brdLight300'} mt-3 pt-2`}>
+                      <BrixelButtonText
+                        theme="Red"
+                        rounded
+                        label= {translateTo('Delete', lang)}
+                        onClick = {() => onDeleteSearchProfile(searchProfile)}
+                      />
+                      <BrixelButtonSecondary
+                        rounded
+                        className="ml-2"
+                        label= {translateTo('Edit', lang)}
+                        onClick = {() => editSearchProfile(searchProfile)}
+                      />
+                    </div>
+
+                  </div>
                 </div>
               )
             }
