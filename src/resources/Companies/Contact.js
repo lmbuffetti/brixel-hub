@@ -1,22 +1,17 @@
 /* eslint-disable max-len */
-import {
-  BrixelCheckbox,
-  BrixelInputText,
-  BrixelSelect,
-  Validation,
-} from '@brixel/brixel-components/dist/form';
-import translateTo from '../../utils/translation';
+import { BrixelCheckbox, BrixelInputText, BrixelSelect, Validation } from '@brixel/brixel-components/dist/form';
 import { DateTime } from 'luxon';
 import lazyWithRetry from '../../components/LazyWithRetry';
 
 import checkSvg from '../../images/Contact/checkContact.svg';
-import houseHandSvg from '../../images/Contact/houseHand.svg';
 import dotsHandSvg from '../../images/Contact/dotsHand.svg';
+import houseHandSvg from '../../images/Contact/houseHand.svg';
+import inheritanceContactSvg from '../../images/Contact/inheritanceContact.svg';
+import puzzleHandSvg from '../../images/Contact/puzzleHand.svg';
 import taxInfo from '../../images/Contact/taxInfo.svg';
 import threeDotsHandSvg from '../../images/Contact/threeDotsHand.svg';
-import puzzleHandSvg from '../../images/Contact/puzzleHand.svg';
-import inheritanceContactSvg from '../../images/Contact/inheritanceContact.svg';
 import ClipboardImg from '../../images/scanTrial/clipboard.png';
+import translateTo from '../../utils/translation';
 
 const IntroBuyerUBS = lazyWithRetry(() => import('../../Pages/ContactFlow/Companies/IntroBuyerUBS'));
 
@@ -101,7 +96,7 @@ export const QuestionsList = (lang, company, isBuyer) => {
   }
   let sellerTopics = [];
   if (company.stub === 'baloise') {
-    privacy = translateTo('I agree that my data (surname, first name, address, telephone number, e-mail) will be transmitted to Basler Versicherung AG and Baloise Bank SoBa AG for the purpose of providing the consulting service.', lang);
+    privacy = translateTo('I agree that my data (surname, first name, address, telephone number, e-mail) will be transmitted to Basler Versicherung AG and Baloise Bank AG for the purpose of providing the consulting service.', lang);
     if (!isBuyer) {
       contact[0].textsCard = [
         {

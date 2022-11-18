@@ -26,7 +26,6 @@ import lazyWithRetry from '../../components/LazyWithRetry';
 import '../../styles/SCSS/pages/market.scss';
 
 const MarketCategoryListBuyer = lazyWithRetry(() => import('./MarketCategoryListBuyer'));
-
 const MarketList = lazyWithRetry(() => import('./MarketList'));
 
 const MarketBuyer = (props) => {
@@ -37,19 +36,18 @@ const MarketBuyer = (props) => {
   const match = useParams();
   // PROPS
   const {
+    activeSearchProfile,
     destroyForm,
     handleGetFavoritesProperties,
     handleGetAllProperties,
     handleGetOwnedEstimations,
     handleGetPreMarketProperties,
-    handleGetPremarketStats,
     handleGetPremiumProperties,
     handleGetUserSearchProfiles,
     handleGetWishlistProperties,
     handleSpinnerOff,
     loggedInUser,
     preMarketProperties,
-    userSearchProfiles,
   } = props;
   // URL PARAMS
   const catName = get(match, 'cat', null);
@@ -80,10 +78,16 @@ const MarketBuyer = (props) => {
       handleSpinnerOff();
     }
   }, [loggedInUser.id]);
+
+  useEffect(() => {
+    // handleSetActiveMarketOverlayPropertyLists(preMarketProperties);
+  }, [preMarketProperties]);
+
+  useEffect(() => {
+    if (activeSearchProfile !== null) {
   
   const getPropertiesPage = (type, pageNumber) => {
-    if (userSearchProfiles !== null) {
-      handleGetPremarketStats({ id: get(userSearchProfiles, '[0].id', null) });
+    if (activeSearchProfile !== null) {
       const data = {
         resultsPerPage: 9,
         offset: pageNumber,
@@ -93,7 +97,7 @@ const MarketBuyer = (props) => {
         multiLoader: true,
         overlayCard: true,
         resultType: 'buyer',
-        searchProfileId: get(userSearchProfiles, '[0].id', null),
+        searchProfileId: get(activeSearchProfile, '.id', null),
       };
       switch (type) {
         case 'all':
@@ -117,13 +121,13 @@ const MarketBuyer = (props) => {
   }
 
   useEffect(() => {
-    if (userSearchProfiles !== null) {
+    if (activeSearchProfile !== null) {
       getPropertiesPage('all', page['all']);
       getPropertiesPage('preMarket', page['preMarket']);
       getPropertiesPage('published', page['published']);
       handleSpinnerOff();
     }
-  }, [userSearchProfiles, get(history, 'location.pathname', null)]);
+  }, [activeSearchProfile, get(history, 'location.pathname', null)]);
 
   return (
     <div className="bgOverlay market-container buyerPage" id="market">
@@ -139,6 +143,7 @@ const MarketBuyer = (props) => {
               />
             }
           />
+          <Route path="/searchProfile/*" element={<MarketCategoryListBuyer />} />
           <Route path="/:cat" element={<MarketList isBuyer />} />
           <Route path="*" element={<Navigate to="/buy" />} />
         </Routes>
@@ -148,6 +153,7 @@ const MarketBuyer = (props) => {
 };
 
 MarketBuyer.propTypes = {
+  activeSearchProfile: PropTypes.object,
   destroyForm: PropTypes.func.isRequired,
   handleGetFavoritesProperties: PropTypes.func.isRequired,
   handleGetOwnedEstimations: PropTypes.func.isRequired,
@@ -161,21 +167,20 @@ MarketBuyer.propTypes = {
   handleSpinnerOff: PropTypes.func.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   preMarketProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
-  userSearchProfiles: PropTypes.arrayOf(PropTypes.object),
 };
 
 MarketBuyer.defaultProps = {
+  activeSearchProfile: null,
   userSearchProfiles: null,
 };
 
 const mapStateToProps = (state) => ({
-  allProperties: get(state, 'market.allProperties', {}),
+  activeSearchProfile: get(state, 'user.activeSearchProfile', null),
   favoritesProperties: get(state, 'market.favoritesProperties', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
   loggedInUser: get(state, 'user.loggedInUser.user', { }),
   preMarketProperties: get(state, 'market.preMarketProperties.data', []),
   splashScreenType: get(state, 'common.splashScreenType', ''),
-  userSearchProfiles: get(state, 'user.userSearchProfiles', null),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
@@ -189,7 +194,6 @@ const mapDispatchToProps = (dispatch) => ({
   handleGetNewProperties: bindActionCreators(getNewProperties, dispatch),
   handleGetOwnedEstimations: bindActionCreators(getOwnedEstimations, dispatch),
   handleGetPreMarketProperties: bindActionCreators(getPremarketProperties, dispatch),
-  handleGetPremarketStats: bindActionCreators(getPremarketStats, dispatch),
   handleGetPremiumProperties: bindActionCreators(getPremiumProperties, dispatch),
   handleGetSellerProperties: bindActionCreators(getOwnedProperties, dispatch),
   handleGetUserSearchProfiles: bindActionCreators(getUserSearchProfiles, dispatch),

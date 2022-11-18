@@ -1,29 +1,33 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { BrixelButtonIcon, BrixelButtonPrimary, BrixelIcon, BrixelTabs } from '@brixel/brixel-components';
-import { initializeForm } from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import PropTypes from 'prop-types';
 import React, { Suspense, useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
 import { bindActionCreators, compose } from 'redux';
 import { setHistory, setSplashType } from '../../actions/CommonActions';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
-import { setActiveMarketOverlayProperty, setEstimation } from '../../actions/PropertyActions';
-import { createUserSearchProfile } from '../../actions/SearchProfileActions';
 import MarketCard from '../../components/Cards/MarketCard';
+import { setActiveMarketOverlayProperty, setEstimation } from '../../actions/PropertyActions';
 import MarketCardSmall from '../../components/Cards/MarketCardSmall';
 import lazyWithRetry from '../../components/LazyWithRetry';
 import Pagination from '../../components/Pagination';
 import SearchProfileBanner from '../../components/SearchProfileBanner';
+import SearchProfileField from '../../components/SearchProfileField';
 import SplashScreen from '../../components/SplashScreen';
 import teaserAnimation from '../../images/Market/teaserAnimate.svg';
-import { getCookie, setCookie } from '../../utils/helpers';
+import searchProfileDeskImg from '../../images/Market/searchProfileDesk.svg';
+import searchProfileMobileImg from '../../images/Market/searchProfileMobile.svg';
+import { QuestionsList } from '../../resources/Flows/onBoardingBuyer';
+import { titleSearchProfile } from '../../utils/titleCreationSearchProfile';
 import translateTo from '../../utils/translation';
 
 const CarouselWrapper = lazyWithRetry(() => import('../../components/CarouselWrapper'));
+const SearchProfileModal = lazyWithRetry(() => import('./SearchProfile/SearchProfileModal'));
 
 const MarketCategoryListBuyer = (props) => {
   const history = {
@@ -65,9 +69,8 @@ const MarketCategoryListBuyer = (props) => {
   // PROPS
   const {
     allProperties,
+    activeSearchProfile,
     handleGetActiveSingleCompany,
-    initForm,
-    initialValues,
     lang,
     loggedInUser,
     onPageChange,
@@ -86,11 +89,24 @@ const MarketCategoryListBuyer = (props) => {
   const [numWishProp, setWishProp] = useState(4);
   const [activeTopTab, setActiveTopTab] = useState('wishlist');
   const [topTab, setTopTab] = useState([]);
+  const [fieldsSearchProfile, setFieldsSearchProfile] = useState([]);
+  
   const [activeTab, setActiveTab] = useState('all');
 
   useEffect(() => {
-    if (get(userSearchProfiles, 'id', null)) initForm(initialValues);
-  }, [get(userSearchProfiles, 'id', null)]);
+    const fields = [...fieldsSearchProfile];
+    QuestionsList('en', 'searchProfile').forEach((inputs) => {
+      if (inputs.inputs) {
+        inputs.inputs.forEach((field) => {
+          if (field.name !== 'location.countryCode') {
+            if (field.name.includes('location')) fields.push('location');
+            else if (!field.name.includes('register')) fields.push(field.name);
+          }
+        });
+      }
+    });
+    setFieldsSearchProfile(fields);
+  }, []);
 
   const showArrow = () => {
     const selectResponsive = settingSlider.responsive.filter((itm) => windowDimensions.width < itm.breakpoint);
@@ -159,8 +175,13 @@ const MarketCategoryListBuyer = (props) => {
 
   return (
     <>
+      {
+        get(history, 'location.pathname', '').includes('searchProfile') && (
+          <SearchProfileModal />
+        )
+      }
       <Suspense fallback="">
-        <div className="buyerMarket pb-8">
+        <div className="buyerMarket">
           {/* SECTION: buyer welcome message  */}
           {
             splashScreenType === 'buyerWelcome' && (
@@ -223,7 +244,8 @@ const MarketCategoryListBuyer = (props) => {
               </SplashScreen>
             )
           }
-
+  
+          { /* WHISLIST AND ESTIMATION PROPERTIES */}
           <div className="container">
             {
               topTab.length > 0 && (
@@ -348,6 +370,140 @@ const MarketCategoryListBuyer = (props) => {
             }
 
           </div>
+  
+          { /* SEEARCH PROFILE */}
+          <div className="bgBlue100 mt-10">
+            {
+              !userSearchProfiles ? (
+                <div className="container py-10">
+                  <div className="w-perc-100 ov-h brdRadius h-fix-md-152 mb-4 dis-f">
+                    <div className="ml-md-4 ml-2 h-perc-100 dis-fl-col a-c w-perc-100 py-2 ta-c">
+                      <p className="h-fix-40 skeletonBgInner w-perc-60"> </p>
+                      <p className="h-fix-16 mt-1 skeletonBgInner hide dis-b-md w-perc-30"> </p>
+                      <p className="h-fix-16 mt-a-md mt-2 skeletonBgInner w-perc-50"> </p>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="container">
+                  {
+                    activeSearchProfile.id ? (
+                      <div className="dis-f jc-b-lg a-c py-10">
+                        <div className="w-perc-100 ta-c">
+                          <Link
+                            className="fweight-600 td-u"
+                            to='/buy/searchProfile'
+                          >
+                            {translateTo('Manage Search Profiles', lang)}
+                          </Link>
+                          <h3 className="txtBlue700 fweight-600 mt-4">
+                            {get(activeSearchProfile, 'name', null) || titleSearchProfile(activeSearchProfile, lang)}
+                          </h3>
+                          <p>
+                            {translateTo('Search profiles allow you to keep track of the properties that match your needs.', lang)}
+                          </p>
+                          <div className="dis-f flex-wrap a-t jc-c mt-4">
+                            {
+                              fieldsSearchProfile.map((field, index) => (
+                                <React.Fragment key={`search${index.toString()}`}>
+                                  {
+                                    field !== 'isDefault' && field !== 'name' && (
+                                      <>
+                                        <SearchProfileField
+                                          onClick={() => history.push(`/buy/searchProfile/edit/${activeSearchProfile.id}`, {state: { state: '/buy' }})}
+                                          searchProfile={activeSearchProfile}
+                                          field={field}
+                                          lang={lang}
+                                        />
+                                      </>
+                                    )
+                                  }
+                                </React.Fragment>
+                              ))
+                            }
+                            <BrixelIcon
+                              background="white"
+                              saturation={0}
+                              color="green"
+                              icon="settings"
+                              rounded
+                              iconSize="large"
+                              iconWidth={48}
+                              onClick={() => history.push(`/buy/searchProfile/edit/${activeSearchProfile.id}`, {state: { url: '/buy' }})}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="dis-f jc-b-lg a-c flex-wrap">
+                        {
+                          windowDimensions.width <= 768 && (
+                            <div className="mx-a">
+                              <img src={searchProfileMobileImg} alt="Search Profile" />
+                            </div>
+                          )
+                        }
+                        <div className="w-perc-md-50 w-perc-100 pb-8 pb-md-0 ta-c ta-l-md">
+                          <h3 className="txtBlue700 fweight-600 mt-4 mt-md-0">
+                            {translateTo('Search Profile')}
+                          </h3>
+                          <p>
+                            {translateTo('Create different search profiles to keep track of the properties that match your needs.', lang)}
+                          </p>
+                          <BrixelButtonPrimary
+                            onClick={() => history.push('/buy/searchProfile')}
+                            className="mt-3 mt-lg-5 mx-a mx-md-0"
+                            rounded
+                            label={translateTo('Create search Profile', lang)}
+                          />
+                        </div>
+                        {
+                          windowDimensions.width > 768 && (
+                            <div className="w-perc-50">
+                              <img src={searchProfileDeskImg} alt="Search Profile" />
+                            </div>
+                          )
+                        }
+                      </div>
+                    )
+                  }
+                </div>
+              )
+            }
+
+          </div>
+
+          <div className="mt-7 pb-8 container">
+            {
+              premiumProperties.total > 0 && (
+                <CarouselWrapper
+                  title="Premium properties"
+                  className="market-category-carousel"
+                  type="premium"
+                  items={premiumProperties.data}
+                  total={premiumProperties.total}
+                />
+              )
+            }
+          </div>
+  
+          {
+            premiumEuropeProperties.total > 0 && (
+              <div className="pt-7 pb-8 bgBlue700">
+                <div className="container">
+                  <CarouselWrapper
+                    theme="light"
+                    title="Explore"
+                    subtitle="Random Brixel properties all over Europe"
+                    className="market-category-carousel"
+                    type="premium"
+                    items={premiumEuropeProperties.data}
+                    total={premiumEuropeProperties.total}
+                  />
+                </div>
+              </div>
+            )
+          }
 
           <div className={`${get(wishlistProperties, 'data', []).length <= 0 && get(ownerEstimations, 'data', []).length <= 0 ? 'mt-3-neg pt-3' : 'mt-5'} bgSvg bgOverlay`}>
 
@@ -437,10 +593,10 @@ const MarketCategoryListBuyer = (props) => {
 };
 
 MarketCategoryListBuyer.propTypes = {
+  activeSearchProfile: PropTypes.object,
   allProperties: PropTypes.object.isRequired,
   estimation: PropTypes.object.isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
-  initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
@@ -458,46 +614,27 @@ MarketCategoryListBuyer.propTypes = {
 };
 
 MarketCategoryListBuyer.defaultProps = {
+  activeSearchProfile: null,
   userSearchProfiles: null,
 };
 
-const mapStateToProps = (state) => {
-  const searchProfile = get(state, 'user.userSearchProfiles', []);
-  const initVal = searchProfile ? searchProfile[searchProfile.length - 1] : searchProfile;
-  const userCompany = get(state, 'user.loggedInUser.user.comapny', {});
-  return ({
-    allProperties: get(state, 'market.allProperties', {}),
-    estimation: get(state, 'property.estimation', {}),
-    initialValues: {
-      ...initVal,
-      countryCode: get(initVal, 'location[0].countryCode', get(userCompany, 'country.code', 'CH')),
-      finance: {
-        ...get(initVal, 'finance', {}),
-        currency: get(initVal, 'finance.currency', get(userCompany, 'country.currency', 'CHF')),
-      },
-      location: {
-        countryCode: get(initVal, 'location[0].countryCode', get(userCompany, 'country.code', 'CH')),
-      },
-      locations: get(state, 'user.userSearchProfiles[0].location', []),
-    },
-    lang: get(state, 'common.language', 'en'),
-    loggedInUser: get(state, 'user.loggedInUser.user', {}),
-    ownerEstimations: get(state, 'market.ownerEstimations', {}),
-    preMarketStats: get(state, 'market.preMarketStats', {}),
-    premiumEuropeProperties: get(state, 'market.premiumEuropeProperties', {}),
-    premiumProperties: get(state, 'market.premiumProperties', {}),
-    splashScreenType: get(state, 'common.splashScreenType', ''),
-    userSearchProfiles: searchProfile ? searchProfile[searchProfile.length - 1] : searchProfile,
-    windowDimensions: get(state, 'common.windowDimensions', {}),
-    wishlistProperties: get(state, 'market.wishlistProperties', {}),
-  });
-};
+const mapStateToProps = (state) => ({
+  allProperties: get(state, 'market.allProperties', {}),
+  activeSearchProfile: get(state, 'user.activeSearchProfile', null),
+  estimation: get(state, 'property.estimation', {}),
+  lang: get(state, 'common.language', 'en'),
+  loggedInUser: get(state, 'user.loggedInUser.user', {}),
+  ownerEstimations: get(state, 'market.ownerEstimations', {}),
+  preMarketStats: get(state, 'market.preMarketStats', {}),
+  premiumEuropeProperties: get(state, 'market.premiumEuropeProperties', {}),
+  premiumProperties: get(state, 'market.premiumProperties', {}),
+  splashScreenType: get(state, 'common.splashScreenType', ''),
+  userSearchProfiles: get(state, 'user.userSearchProfiles', {}),
+  windowDimensions: get(state, 'common.windowDimensions', {}),
+  wishlistProperties: get(state, 'market.wishlistProperties', {}),
+});
 
 const mapDispatchToProps = (dispatch) => ({
-  initForm(value) {
-    dispatch(initializeForm('GetStarted', value));
-  },
-  handleCreateSearchProfile: bindActionCreators(createUserSearchProfile, dispatch),
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
   handleSetHistory: bindActionCreators(setHistory, dispatch),
   setMarketOverlayProperty: bindActionCreators(setActiveMarketOverlayProperty, dispatch),

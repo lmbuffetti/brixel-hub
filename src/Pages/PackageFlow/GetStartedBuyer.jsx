@@ -24,6 +24,7 @@ import { createUserSearchProfile } from '../../actions/SearchProfileActions';
 import { doLogin, validateUser } from '../../actions/UserActions';
 import { QuestionsList } from '../../resources/Flows/onBoardingBuyer';
 import { checkBrowser, setCookie } from '../../utils/helpers';
+import { titleSearchProfile } from '../../utils/titleCreationSearchProfile';
 import translateTo from '../../utils/translation';
 
 const cookie = new Cookies();
@@ -400,20 +401,9 @@ const GetStartedBuyer = (props) => {
     }
   }, [currentIndex]);
 
-  // FUNCTION to MULTIPLY ROOMS IN BACKGROUND
-  /* useEffect(() => {
-    let roomValue = get(formValue, 'properties.typology.bedrooms', 2);
-    let bgSize = 500
-    bgSize = bgSize / roomValue;
-
-    setRoomValue(bgSize+ 'vw');
-
-  }, [get(formValue, 'properties.typology.bedrooms', 2)]); */
-
   // FUNCTION TO CLOSE
   const closeWindow = () => {
     handleReset('Property');
-    // history.push('/buy');
     history.push('/buy');
   };
 
@@ -431,16 +421,24 @@ const GetStartedBuyer = (props) => {
             }
             return null;
           });
-          if (isValid) newQuest.push(quest);
+          if (isValid && !quest.hideSearchProfileFlow) newQuest.push(quest);
         } else {
-          newQuest.push(quest);
+          if (!quest.hideSearchProfileFlow) newQuest.push(quest);
         }
         return null;
       });
       setQuestions(newQuest);
+      if (currentIndex === 0) setQuest(newQuest[0])
     }
     if (newQuest[currentIndex].inputs && newQuest[currentIndex].inputs.length === 1 && get(newQuest[currentIndex], 'inputs[0].options', []).length > 0 && get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), null) && !isArray(get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), [])) && oldIndex <= currentIndex) {
       changeStep('next', null, 1, true);
+    }
+    const rooms = get(formValue, 'characteristics.bedrooms', {});
+    const propertyType = get(formValue, 'characteristics.propertyType', []);
+    const locations = get(formValue, 'locations', []);
+    const searchProfileName = get(formValue, 'name', null);
+    if (propertyType.length > 0 && locations.length > 0 && rooms.max && !searchProfileName) {
+      changeFieldValue('name', titleSearchProfile(formValue, lang))
     }
   }, [formValue]);
 
