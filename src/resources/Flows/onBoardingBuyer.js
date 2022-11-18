@@ -1,19 +1,20 @@
 /* eslint-disable max-len */
 import { FactsOptions } from '@brixel/brixel-components';
-import translateTo from '../../utils/translation';
 import {
-  BrixelRadioButton,
   BrixelCheckbox,
+  BrixelCheckboxSingle,
   BrixelExtraFeature,
   BrixelInputMultiRange,
   BrixelInputText,
+  BrixelRadioButton,
   BrixelSelect,
   Validation,
 } from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
-import MapsCities from '../../components/Map/MapsCities';
 import LoginSignup from '../../components/LoginSignup';
+import MapsCities from '../../components/Map/MapsCities';
 import { configureStore } from '../../store';
+import translateTo from '../../utils/translation';
 import { svgIcons } from '../Utilities/svgIcons';
 
 const { factsOptions } = FactsOptions;
@@ -87,7 +88,7 @@ export const QuestionsList = (lang, type) => {
       successMessage: translateTo('Ok. Got it.', lang),
     },
     {
-      title: translateTo(type === 'searchProfile' ? 'Size' : 'How big should it be?', lang),
+      title: translateTo(type === 'searchProfile' ? 'How big should it be?' : 'How big should it be?', lang),
       history: 'tipology',
       vCentered: true,
       classWrap: 'inputRangeWrap',
@@ -104,6 +105,7 @@ export const QuestionsList = (lang, type) => {
           addPlusOnLast: true,
           minLengthNum: 0,
           maxLengthNum: 9,
+          showSingleValCheck: true,
         },
         {
           component: BrixelInputMultiRange,
@@ -129,13 +131,12 @@ export const QuestionsList = (lang, type) => {
       footerWidth: 'max-w-fix-800',
       inputs: [
         {
-          className: 'extraFeature',
+          className: type === 'searchProfile' ? 'extraFeature' : 'extraFeature',
           component: BrixelExtraFeature,
           name: 'characteristics.extraFeatures',
           extraFeatureCustomList: newExtraFeature,
         },
       ],
-      hideSearchProfile: true,
       successMessage: translateTo('Ok. Got it.', lang),
     },
     {
@@ -164,6 +165,7 @@ export const QuestionsList = (lang, type) => {
           classBoxWrapper: 'w-perc-100 flex-1 searchMapFields',
           showMap: false,
           blockScroll: type === 'searchProfile',
+          label: 'latitude',
           name: 'locations[0].latitude',
           classNameBox: 'max-w-perc-100',
           type: 'Map',
@@ -199,6 +201,34 @@ export const QuestionsList = (lang, type) => {
           large: true,
         },
       ],
+    },
+    {
+      history: 'name',
+      cardType: 'name',
+      className: 'max-w-fix-480 m-a',
+      footerWidth: 'max-w-fix-480',
+      title: translateTo('Let’s give your new search profile a name', lang),
+      inputs: [
+        {
+          component: BrixelInputText,
+          pdClass: 'py-2 py-lg-3 px-2',
+          classNameBox: `brdRadius fieldHolder bgWhite ${type === 'searchProfile' ? 'max-w-fix-320' : 'max-w-fix-600 px-2 px-sm-5 py-5 m-a'}`,
+          label: 'Name',
+          name: 'name',
+          large: true,
+        },
+        {
+          component: BrixelCheckboxSingle,
+          name: 'isDefault',
+          pdClass: type === 'searchProfile' ? 'pt-sm-2 pb-sm-3' : 'py-sm-5',
+          classBoxWrapper: 'mt-2',
+          options: {
+            label: 'Set as default search profile',
+            value: true,
+          }
+        },
+      ],
+      hideSearchProfileFlow: true,
       successMessage: translateTo('This is a nice number.', lang),
     },
     {
