@@ -5,24 +5,22 @@ import has from 'lodash/has';
 import PropTypes from 'prop-types';
 import React, { Suspense, useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router-dom';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
 import { bindActionCreators, compose } from 'redux';
 import { setHistory, setSplashType } from '../../actions/CommonActions';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
-import MarketCard from '../../components/Cards/MarketCard';
 import { setActiveMarketOverlayProperty, setEstimation } from '../../actions/PropertyActions';
+import MarketCard from '../../components/Cards/MarketCard';
 import MarketCardSmall from '../../components/Cards/MarketCardSmall';
 import lazyWithRetry from '../../components/LazyWithRetry';
 import Pagination from '../../components/Pagination';
-import SearchProfileBanner from '../../components/SearchProfileBanner';
 import SearchProfileField from '../../components/SearchProfileField';
 import SplashScreen from '../../components/SplashScreen';
-import teaserAnimation from '../../images/Market/teaserAnimate.svg';
 import searchProfileDeskImg from '../../images/Market/searchProfileDesk.svg';
 import searchProfileMobileImg from '../../images/Market/searchProfileMobile.svg';
 import { QuestionsList } from '../../resources/Flows/onBoardingBuyer';
+import { getCookie, setCookie } from '../../utils/helpers';
 import { titleSearchProfile } from '../../utils/titleCreationSearchProfile';
 import translateTo from '../../utils/translation';
 
@@ -472,83 +470,6 @@ const MarketCategoryListBuyer = (props) => {
             }
 
           </div>
-
-          <div className="mt-7 pb-8 container">
-            {
-              premiumProperties.total > 0 && (
-                <CarouselWrapper
-                  title="Premium properties"
-                  className="market-category-carousel"
-                  type="premium"
-                  items={premiumProperties.data}
-                  total={premiumProperties.total}
-                />
-              )
-            }
-          </div>
-  
-          {
-            premiumEuropeProperties.total > 0 && (
-              <div className="pt-7 pb-8 bgBlue700">
-                <div className="container">
-                  <CarouselWrapper
-                    theme="light"
-                    title="Explore"
-                    subtitle="Random Brixel properties all over Europe"
-                    className="market-category-carousel"
-                    type="premium"
-                    items={premiumEuropeProperties.data}
-                    total={premiumEuropeProperties.total}
-                  />
-                </div>
-              </div>
-            )
-          }
-
-          <div className={`${get(wishlistProperties, 'data', []).length <= 0 && get(ownerEstimations, 'data', []).length <= 0 ? 'mt-3-neg pt-3' : 'mt-5'} bgSvg bgOverlay`}>
-
-            <div className="container pt-3 pb-4 pb-lg-8">
-
-              {/* SEARCH PROFILE */}
-              <div className="">
-                <SearchProfileBanner
-                  preMarketStats={preMarketStats}
-                  onStatsFunc={{ matching: () => setSplashScreen('marketOverlayCarousel') }}
-                />
-              </div>
-
-              <div className="dis-f jc-fe-lg pt-1 pt-lg-9 mt-9 mt-lg-10 infoBannerMarketBuyer">
-                <div className="w-perc-md-50 w-perc-100">
-                  <h3 className="max-w-fix-320 fweight-600 fsize-800">
-                    <span>{translateTo('There are', lang)}</span>
-                    <span className="mx-small-4 txtBlue700">{preMarketStats.total}</span>
-                    <span className="mx-small-4 txtBlue700">
-                      {translateTo('new properties', lang)}
-                    </span>
-                    <span>{translateTo('on our Pre-Market.', lang)}</span>
-                  </h3>
-                  <h5 className="fweight-400 mt-3 txtDark700">
-                    {translateTo('Be ahead of the market.', lang)}
-                  </h5>
-                  <BrixelButtonPrimary
-                    onClick={() => setSplashScreen('marketOverlayCarousel')}
-                    className="mt-3 mt-lg-5"
-                    rounded
-                    label={translateTo('Rate them now', lang)}
-                  />
-                </div>
-
-              </div>
-            </div>
-
-          </div>
-          {
-            windowDimensions.width < 1025 && (
-              <div className="bgBlue200">
-                <object width="100%" data={teaserAnimation}> </object>
-              </div>
-            )
-          }
           
           <div className="container">
             <div className="ta-c max-w-fix-264 mx-a my-5">

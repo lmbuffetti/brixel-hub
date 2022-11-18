@@ -15,7 +15,6 @@ import {
   getOwnedEstimations,
   getOwnedProperties,
   getPremarketProperties,
-  getPremarketStats,
   getPremiumProperties,
   getWishlistProperties,
 } from '../../actions/MarketActions';
@@ -78,13 +77,6 @@ const MarketBuyer = (props) => {
       handleSpinnerOff();
     }
   }, [loggedInUser.id]);
-
-  useEffect(() => {
-    // handleSetActiveMarketOverlayPropertyLists(preMarketProperties);
-  }, [preMarketProperties]);
-
-  useEffect(() => {
-    if (activeSearchProfile !== null) {
   
   const getPropertiesPage = (type, pageNumber) => {
     if (activeSearchProfile !== null) {
