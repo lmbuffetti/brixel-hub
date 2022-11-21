@@ -1113,3 +1113,24 @@ input::-webkit-date-and-time-value {
 .skeltonWrap.hide {
   display: none;
 }
+
+.brixel-modal .modal-body p {
+  margin-bottom: auto !important;
+}
+.brdRadius50 {
+  border-radius: 50px;
+}
+.filterBorder {
+  border-color: white;
+  @media (max-width: $responsive-medium) {
+    border-color: map-get($lightColor, 200);
+  }
+}
+.modalTitleClass {
+  .modal-title {
+    margin-left: auto;
+    span {
+      padding-left: $step * 2;
+    }
+  }
+}

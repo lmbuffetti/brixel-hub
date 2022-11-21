@@ -353,13 +353,14 @@ export const MapsCities = (props) => {
                 get(formValue, 'locations', []).map((loc, i) => (
                   <div
                     key={`frm_${i.toString()}`}
-                    className="dis-f a-c jc-fs bgDark700 brdRadius p-1 mb-1 txtWhite fweight-500 fSizePx14 w-fit mr-2"
+                    className="dis-f brdRadius50 a-c jc-fs bgBlue100 px-2 py-1 mb-1 w-fit mr-2"
                   >
-                    <span>{loc.name}{loc.name !== loc.city && (<>, {loc.city}</>)}</span>
+                    <span className="">{loc.name}{loc.name !== loc.city && (<>, {loc.city}</>)}</span>
                     <BrixelIcon
-                      className="fSizePx12 ml-2"
+                      className="fSizePx12 ml-1"
                       icon="close-small"
-                      color="light"
+                      color="blue"
+                      saturationTxt={700}
                       onClick={() => deleteLocation(loc)}
                     />
                   </div>

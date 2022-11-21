@@ -35,11 +35,11 @@ const SearchProfileModal = (props) => {
   } = props;
   // STATE
   const [userActiveSearchProfileId, setUserActiveSearchProfileId] = useState(activeSearchProfile.id);
-  
+
   useEffect(() => {
     setUserActiveSearchProfileId(activeSearchProfile.id)
   }, [activeSearchProfile.id]);
-  
+
   const saveData = (type) => {
     const formData = {...formValue};
     const { id, locations } = formData;
@@ -81,7 +81,7 @@ const SearchProfileModal = (props) => {
       handleCreateUserSearchProfile(data)
     }
   }
-  
+
   const saveChangeSearchProfile = () => {
     const newSearchProfile = userSearchProfiles.find((src) => src.id === userActiveSearchProfileId);
     if (newSearchProfile) {
@@ -89,7 +89,7 @@ const SearchProfileModal = (props) => {
       handleSetUserActiveSearchProfile(newSearchProfile);
     }
   }
-  
+
   const onClose = () => {
     const url = get(history, 'location.state.url', null);
     switch(history.location.pathname) {
@@ -100,7 +100,7 @@ const SearchProfileModal = (props) => {
         history.push(url || '/buy/searchProfile');
     }
   }
-  
+
   const modalTitle = () => {
     switch(history.location.pathname) {
       case '/buy/searchProfile':
@@ -111,7 +111,7 @@ const SearchProfileModal = (props) => {
         return 'Edit Search Profile';
     }
   }
-  
+
   const multiActions = () => {
     const diffForm = diff(initialValues, formValue) || {};
     switch(history.location.pathname) {
@@ -178,14 +178,15 @@ const SearchProfileModal = (props) => {
         ])
     }
   }
-  
+
   return (
     <BrixelModal
       clickOutsideToClose={false}
       title={translateTo(modalTitle(), lang)}
       onClose={() => onClose()}
+      titleTop
       layout="xxlarge"
-      classContainer="ta-c mt-8-neg brdSmallBottom brdLight200 pb-3"
+      titleTopClass="modalTitleClass fweight-600 fsize-500 fsize-md-600 brdSmallBottom brdLight200 ta-c mb-2 mb-md-4"
       bodyClassColor="bgWhite"
       multiActions={multiActions()}
     >
