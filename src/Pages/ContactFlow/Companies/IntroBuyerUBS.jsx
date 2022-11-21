@@ -12,6 +12,7 @@ import { compose } from 'redux';
 import key4Logo from '../../../images/Companies/ubsKey4/key4Logo.svg';
 import ubsLogo from '../../../images/Companies/ubsKey4/ubsLogo.svg';
 
+// test commit
 
 const IntroBuyerUBS = (props) => {
   const history = {
