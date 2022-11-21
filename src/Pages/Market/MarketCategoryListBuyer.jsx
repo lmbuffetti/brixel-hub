@@ -8,12 +8,12 @@ import { connect } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
 import { bindActionCreators, compose } from 'redux';
-import { setHistory, setSplashType } from '../../actions/CommonActions';
+import { setHistory, setModal, setSplashType } from '../../actions/CommonActions';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import { setActiveMarketOverlayProperty, setEstimation } from '../../actions/PropertyActions';
 import MarketCard from '../../components/Cards/MarketCard';
 import MarketCardSmall from '../../components/Cards/MarketCardSmall';
-import lazyWithRetry from '../../components/LazyWithRetry';
+import Pagination from '../../components/Pagination';
 import SearchProfileField from '../../components/SearchProfileField';
 import SplashScreen from '../../components/SplashScreen';
 import searchProfileDeskImg from '../../images/Market/searchProfileDesk.svg';
@@ -22,9 +22,8 @@ import { QuestionsList } from '../../resources/Flows/onBoardingBuyer';
 import { getCookie, setCookie } from '../../utils/helpers';
 import { titleSearchProfile } from '../../utils/titleCreationSearchProfile';
 import translateTo from '../../utils/translation';
-
-const CarouselWrapper = lazyWithRetry(() => import('../../components/CarouselWrapper'));
-const SearchProfileModal = lazyWithRetry(() => import('./SearchProfile/SearchProfileModal'));
+import LearnMoreListingsProperty from './Buyer/LearnMoreListingsProperty';
+import SearchProfileModal from './SearchProfile/SearchProfileModal';
 
 const MarketCategoryListBuyer = (props) => {
   const history = {
@@ -68,14 +67,12 @@ const MarketCategoryListBuyer = (props) => {
     allProperties,
     activeSearchProfile,
     handleGetActiveSingleCompany,
+    handleSetModal,
     lang,
     loggedInUser,
     onPageChange,
     ownerEstimations,
     page,
-    preMarketStats,
-    premiumEuropeProperties,
-    premiumProperties,
     setSplashScreen,
     splashScreenType,
     userSearchProfiles,
@@ -87,7 +84,6 @@ const MarketCategoryListBuyer = (props) => {
   const [activeTopTab, setActiveTopTab] = useState('wishlist');
   const [topTab, setTopTab] = useState([]);
   const [fieldsSearchProfile, setFieldsSearchProfile] = useState([]);
-  
   const [activeTab, setActiveTab] = useState('all');
 
   useEffect(() => {
@@ -169,6 +165,17 @@ const MarketCategoryListBuyer = (props) => {
       else slider.slickPrev();
     }
   };
+  
+  const onLearnMore = () => {
+    handleSetModal({
+      bodyClassColor: 'white ov-v',
+      title: '',
+      layout: 'large',
+      small: true,
+      component: React.createElement(LearnMoreListingsProperty, {lang}),
+      state: true,
+    })
+  }
 
   return (
     <>
@@ -474,9 +481,35 @@ const MarketCategoryListBuyer = (props) => {
                 <span>{get(allProperties, 'total', 0)}</span>
                 <span className="ml-1">{translateTo('Results', lang)}</span>
               </h4>
-              <p className="txtAltGrey700 fSizePx14">
-                {translateTo('Properties could already be for sale or still in the Pre-Market. Learn more.', lang)}
-              </p>
+              <div>
+                <p className="txtAltGrey700 fSizePx14">
+                  <span>
+                    {translateTo('Properties could already be for sale or still in the Pre-Market.', lang)}
+                  </span>
+                  <span>
+                    <button
+                      className="ml-1 txtGreen400 td-u fweight-600"
+                      onClick={() => onLearnMore()}
+                    >
+                      Learn more.
+                    </button>
+                  </span>
+                </p>
+              </div>
+            </div>
+            <div>
+              <BrixelTabs
+                className="mb-3"
+                theme='btnStyleTab'
+                activeTab={activeTab}
+                onClick={(val) => setActiveTab(val)}
+                clicksList={['all', 'published', 'preMarket']}
+                labels={[
+                  'All properties',
+                  'Published',
+                  'Pre-Market'
+                ]}
+              />
             </div>
             <div className="row-cols-3-gut-3">
               {
@@ -514,6 +547,7 @@ MarketCategoryListBuyer.propTypes = {
   activeSearchProfile: PropTypes.object,
   allProperties: PropTypes.object.isRequired,
   estimation: PropTypes.object.isRequired,
+  handleSetModal: PropTypes.func.isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
@@ -526,7 +560,7 @@ MarketCategoryListBuyer.propTypes = {
   premiumProperties: PropTypes.object.isRequired,
   setSplashScreen: PropTypes.func.isRequired,
   splashScreenType: PropTypes.string.isRequired,
-  userSearchProfiles: PropTypes.object,
+  userSearchProfiles: PropTypes.arrayOf(PropTypes.object),
   windowDimensions: PropTypes.object.isRequired,
   wishlistProperties: PropTypes.object.isRequired,
 };
@@ -547,7 +581,7 @@ const mapStateToProps = (state) => ({
   premiumEuropeProperties: get(state, 'market.premiumEuropeProperties', {}),
   premiumProperties: get(state, 'market.premiumProperties', {}),
   splashScreenType: get(state, 'common.splashScreenType', ''),
-  userSearchProfiles: get(state, 'user.userSearchProfiles', {}),
+  userSearchProfiles: get(state, 'user.userSearchProfiles', []),
   windowDimensions: get(state, 'common.windowDimensions', {}),
   wishlistProperties: get(state, 'market.wishlistProperties', {}),
 });
@@ -555,6 +589,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
   handleSetHistory: bindActionCreators(setHistory, dispatch),
+  handleSetModal: bindActionCreators(setModal, dispatch),
   setMarketOverlayProperty: bindActionCreators(setActiveMarketOverlayProperty, dispatch),
   setPropertyEstimation: bindActionCreators(setEstimation, dispatch),
   setSplashScreen: bindActionCreators(setSplashType, dispatch),

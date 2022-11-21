@@ -46,7 +46,6 @@ const MarketBuyer = (props) => {
     handleGetWishlistProperties,
     handleSpinnerOff,
     loggedInUser,
-    preMarketProperties,
   } = props;
   // URL PARAMS
   const catName = get(match, 'cat', null);
@@ -151,14 +150,11 @@ MarketBuyer.propTypes = {
   handleGetOwnedEstimations: PropTypes.func.isRequired,
   handleGetPreMarketProperties: PropTypes.func.isRequired,
   handleGetAllProperties: PropTypes.func.isRequired,
-  handleGetPremarketStats: PropTypes.func.isRequired,
   handleGetPremiumProperties: PropTypes.func.isRequired,
   handleGetUserSearchProfiles: PropTypes.func.isRequired,
   handleGetWishlistProperties: PropTypes.func.isRequired,
-  // handleSetActiveMarketOverlayPropertyLists: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  preMarketProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 MarketBuyer.defaultProps = {

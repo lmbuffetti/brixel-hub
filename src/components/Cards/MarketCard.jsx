@@ -46,7 +46,7 @@ const MarketCard = (props) => {
     slidesToShow: 1,
     slidesToScroll: 1,
     centerPadding: '8px',
-    arrows: true,
+    arrows: false,
     dots: true,
     lazyLoad: 'progressive',
   };
@@ -426,6 +426,7 @@ const MarketCard = (props) => {
                       {
                         item.photos.map((photo, index) => (
                           <div
+                            key={`itm_${index.toString()}`}
                             className={`${isPreMarket() ? 'pre-market' : ''} ${get(item, 'tags', []).join(' ')} cover mb-1 w-perc-100 h-perc-100 h-fix-208 pos-r`}
                           >
                             <img src={`${baseByData.shortPath}${photo.path}`} key={`photo${index.toString()}`} />
