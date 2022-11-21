@@ -708,7 +708,18 @@ const App = (props) => {
                   handleSetModal({ state: false });
                 }}
               >
-                <div className={modal.bodyInnerClass} dangerouslySetInnerHTML={{ __html: modal.body }} />
+                {
+                  modal.body && (
+                    <div className={modal.bodyInnerClass} dangerouslySetInnerHTML={{ __html: modal.body }} />
+                  )
+                }
+                {
+                  modal.component && (
+                    <>
+                      {modal.component}
+                    </>
+                  )
+                }
                 {
                   modal.showSupport && (
                     <Support

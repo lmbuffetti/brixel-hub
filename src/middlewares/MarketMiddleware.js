@@ -109,7 +109,6 @@ const checkLead = (store) => (next) => (action) => {
       if (action.payload.searchProfileId) queryParams = `?searchprofileid=${action.payload.searchProfileId}&order=${action.payload.order}&direction=${action.payload.direction}`;
       api.market.getAllProperties(action.payload.resultsPerPage, action.payload.offset, queryParams)
         .then((res) => {
-          console.log(res.meta.status);
           if (res.meta.status === 200) {
             store.dispatch({ type: SET_ALL_PROPERTIES, payload: res.data });
           }
