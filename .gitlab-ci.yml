@@ -15,7 +15,7 @@ build site:
   variables:
     FOLDER: $CI_COMMIT_REF_NAME
   script:
-    - npm install npm@6.14.17 --force
+    - npm -v;
     - npm run install-styleguide
     - if [ "$FOLDER" == "develop" ]; then npm run build-dev; fi
     - if [ "$FOLDER" == "staging" ]; then npm run build-stage; fi
