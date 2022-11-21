@@ -5,20 +5,20 @@ import PropTypes from 'prop-types';
 import { BrixelButtonSecondary, BrixelButtonText } from '@brixel/brixel-components';
 import translateTo from '../../../utils/translation';
 import { connect } from 'react-redux';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+// import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { compose } from 'redux';
 
 // LOGOS
-import key4Logo from '../../../images/Companies/ubsKey4/key4Logo.svg';
+// import key4Logo from '../../../images/Companies/ubsKey4/key4Logo.svg';
 import ubsLogo from '../../../images/Companies/ubsKey4/ubsLogo.svg';
 
 
 const IntroBuyerUBS = (props) => {
-  const history = {
+  /* const history = {
     push: useNavigate(),
     location: useLocation(),
-  };
-  const match = useParams();
+  }; */
+  // const match = useParams();
   // PROPS
   const {
     changeFieldValue,
@@ -26,7 +26,7 @@ const IntroBuyerUBS = (props) => {
     lang,
   } = props;
   // GET URL PARAMS
-  const propID = get(match, 'propID', null);
+  // const propID = get(match, 'propID', null);
 
   const onClickForwardContactFlow = (type) => {
     changeFieldValue('type', type);
