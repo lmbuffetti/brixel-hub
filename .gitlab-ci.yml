@@ -5,18 +5,20 @@ stages:
 
 # Run the command to create the build for only specific branches
 build site:
-  image: node:14.18.1
+  image: node:18.12.1
   stage: build
   only:
     refs:
-      - feature/new-search-profile
+      - develop
       - staging
       - master
   variables:
     FOLDER: $CI_COMMIT_REF_NAME
   script:
+    - npm install npm@6.14.17 -g
+    - npm -v;
     - npm run install-styleguide
-    - if [ "$FOLDER" == "feature/new-search-profile" ]; then npm run build-dev; fi
+    - if [ "$FOLDER" == "develop" ]; then npm run build-dev; fi
     - if [ "$FOLDER" == "staging" ]; then npm run build-stage; fi
     - if [ "$FOLDER" == "master" ]; then npm run build-prod; fi
   artifacts:
@@ -30,7 +32,7 @@ test integration:
   stage: test
   only:
     refs:
-      - feature/new-search-profile
+      - develop
       - staging
       - master
   variables:
@@ -61,7 +63,7 @@ deploy_dev:
   image: alpine
   stage: deploy
   only:
-    - feature/new-search-profile
+    - develop
   script:
     - apk add --no-cache rsync openssh
     - mkdir -p ~/.ssh

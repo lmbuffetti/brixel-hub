@@ -38,6 +38,13 @@ $lightColorNew2: #F0F0F2;
           background: map-get($lightColor, 100);
         }
       }
+      .searchProfileList {
+        .radioBtnLabel {
+          font-size: 18px;
+          font-weight: 600;
+          color: map-get($blueColor, 700);
+        }
+      }
       .editSearchProfile {
         @media (max-width: $responsive-small) {
           position: absolute;

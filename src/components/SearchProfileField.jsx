@@ -13,7 +13,7 @@ const SearchProfileField = (props) => {
     lang,
     onClick,
   } = props;
-  
+
   const renderFieldsSearchProfile = () => {
     if (field === 'location') {
       if (get(searchProfile, 'location', null) && get(searchProfile, 'location', []).length > 0) {
@@ -93,12 +93,12 @@ const SearchProfileField = (props) => {
     }
     return null;
   }
-  
+
   return (
     <>
       {renderFieldsSearchProfile() && (
         <div
-          className={`brdSmall brdLight200 brdFullRadius py-small-4 px-1 mr-1 mb-1 bgWhite ${field} ${onClick ? 'cur-poi' : ''}`}
+          className={`brdFullRadius filterBorder brdSmall fsize-300 py-small-7 px-2 mr-small-12 mb-1 bgWhite ${field} ${onClick ? 'cur-poi' : ''}`}
           onClick={() => onClick ? onClick() : ''}
         >
           {renderFieldsSearchProfile()}
