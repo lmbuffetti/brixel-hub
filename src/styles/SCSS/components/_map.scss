@@ -173,48 +173,9 @@
   }
 }
 
-.redCircleMap {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: 128px;
-  height: 128px;
-  border-radius: 50%;
-  background-color: rgba(map_get($redColor, 400), 0.7);
+circle {
+  fill-opacity: 1 !important;
 }
-
-.redCircleMapPreMarket {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: 148px;
-  height: 148px;
-  border-radius: 50%;
-  background-color: rgba(map_get($blueColor, 400), 0.3);
-  &:after, &:before {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    content: '';
-    display: block;
-    border-radius: 50%;
-  }
-  &:after {
-    width: 108px;
-    height: 108px;
-    background-color: rgba(map_get($blueColor, 400), 0.6);
-  }
-  &:before {
-    width: 68px;
-    height: 68px;
-    background-color: rgba(map_get($blueColor, 400), 1);
-  }
-}
-
-
 
 .wrapManualAddress {
   position: fixed;

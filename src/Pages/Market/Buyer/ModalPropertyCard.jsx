@@ -43,7 +43,7 @@ const ModalPropertyCard = (props) => {
         zoom={16}
       />
       <div className="p-2">
-        <div>
+        <div className="mt-2 mb-1">
           <h4>{get(property, 'title', '')}</h4>
         </div>
       
@@ -69,7 +69,7 @@ const ModalPropertyCard = (props) => {
         )
       }
   
-      <hr className="mx-2" />
+      <hr className="mx-2 mt-3" />
       
       <div className="dis-f a-t jc-b flext-wrap p-2">
         <div>
@@ -123,9 +123,11 @@ const ModalPropertyCard = (props) => {
   
       <hr />
       
-      <div className="row-cols-3-gut-1 py-2">
+      <div className="row-cols-3-gut-1 p-2">
         <div>
           <BrixelButtonText
+            className="td-u"
+            bgTransparent
             theme="altGrey"
             label="Close"
             onClick={() => onClose()}

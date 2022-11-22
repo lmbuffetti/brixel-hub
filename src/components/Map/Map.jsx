@@ -275,8 +275,9 @@ export const ComponentMap = (props) => {
             )
           }
           {
-            rad && (
+            rad && ([
               <Circle
+                key="circleMap1"
                 radius={rad * 1000}
                 center={{
                   lat: latitude,
@@ -285,9 +286,36 @@ export const ComponentMap = (props) => {
                 strokeColor="transparent"
                 strokeOpacity={0}
                 strokeWeight={5}
-                fillColor="#FF0000"
-                fillOpacity={0.5}
-              />
+                fillColor="#00C1DE4D"
+                fillOpacity={0.6}
+              />,
+              <Circle
+                key="circleMap2"
+                radius={rad * 700}
+                center={{
+                  lat: latitude,
+                  lng: longitude,
+                }}
+                strokeColor="transparent"
+                strokeOpacity={0}
+                strokeWeight={5}
+                fillColor="#00C1DE4D"
+                fillOpacity={0.8}
+              />,
+              <Circle
+                key="circleMap3"
+                radius={rad * 500}
+                center={{
+                  lat: latitude,
+                  lng: longitude,
+                }}
+                strokeColor="transparent"
+                strokeOpacity={0}
+                strokeWeight={5}
+                fillColor="#00C1DE4D"
+                fillOpacity={1}
+              />,
+            ]
             )
           }
           {

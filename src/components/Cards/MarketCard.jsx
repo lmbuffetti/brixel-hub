@@ -260,6 +260,11 @@ const MarketCard = (props) => {
     }
   }
   
+  useEffect(() => {
+    onOpenCard();
+  }, []);
+  
+  
   const getTypeText = (text) => {
     switch (text) {
       case 'new': {
