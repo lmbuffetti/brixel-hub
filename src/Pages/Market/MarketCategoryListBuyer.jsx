@@ -529,7 +529,7 @@ const MarketCategoryListBuyer = (props) => {
                 className="mt-5 pb-10"
                 totalItems={allProperties.total || 0}
                 itemsPerPage={9}
-                activePage={page[activeTab]}
+                activePage={get(page, activeTab, 0)}
                 paginate={(resultsPerPage, pageNumber) => {
                   onPageChange(resultsPerPage, pageNumber, activeTab);
                 }}
