@@ -1,5 +1,5 @@
 /* eslint-disable react/forbid-prop-types */
-import { BrixelButtonIcon, BrixelDropdown } from '@brixel/brixel-components';
+import { BrixelButtonIcon } from '@brixel/brixel-components';
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import translateTo from '../utils/translation';
@@ -11,7 +11,6 @@ const Pagination = (props) => {
     itemsPerPage,
     lang,
     paginate,
-    showResultsPerPage,
     totalItems,
   } = props;
   const pageNumbers = [];
@@ -56,39 +55,16 @@ const Pagination = (props) => {
   };
   
   return (
-    <>
-      <p className={totalItems <= 10 ? 'pb-5 pb-lg-0' : ''}>
-        <span>{ processResults() }</span> <span>{translateTo('of', lang)}</span> <strong className="notranslate">{totalItems}</strong> <span>{translateTo('total results', lang)}</span>
+    <div className={`dis-f a-c jc-b w-perc-100 pb-5 ${className}`}>
+      <p className="w-perc-50">
+        <span>{processResults()}</span>
+        <span className="mx-small-4">{translateTo('of', lang)}</span>
+        <strong className="notranslate">{totalItems}</strong>
+        <span className="ml-small-4">{translateTo('total results', lang)}</span>
       </p>
       {
         totalItems > 10 && (
-          <nav className={`pagination ${className} w-perc-100 dis-f ${totalItems > 10 ? 'jc-b pt-2 pb-6 pb-lg-0' : 'jc-fe'}`}>
-            {
-              totalItems > 10 && showResultsPerPage && (
-                <BrixelDropdown
-                  compact
-                  className="pagination-dropdown"
-                  bgTransparent
-                  borderColor="light"
-                  bodyScrollclass="content"
-                  selected={translateTo(`${itemsPerPage} results`, lang)}
-                  options={[{
-                    label: '10',
-                    value: 10,
-                  },
-                  {
-                    label: '20',
-                    value: 20,
-                  },
-                  {
-                    label: '50',
-                    value: 50,
-                  }]}
-                  onSelect={(e, value) => processPagination(value, 'results')}
-                />
-              )
-            }
-            
+          <nav className="pagination w-perc-50 dis-f jc-fe">
             <ul className="page-number dis-f a-c">
               {
                 activePage !== 0 && (
@@ -183,7 +159,7 @@ const Pagination = (props) => {
           </nav>
         )
       }
-    </>
+    </div>
   );
 };
 
@@ -193,13 +169,11 @@ Pagination.propTypes = {
   itemsPerPage: PropTypes.any.isRequired,
   lang: PropTypes.string.isRequired,
   paginate: PropTypes.func.isRequired,
-  showResultsPerPage: PropTypes.bool,
   totalItems: PropTypes.number.isRequired,
 };
 
 Pagination.defaultProps = {
   className: '',
-  showResultsPerPage: true,
 };
 
 export default Pagination;

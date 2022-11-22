@@ -37,7 +37,8 @@
 
       &:hover,
       &.active {
-        background: map_get($lightColor, 100);
+        background: map_get($greenColor, 400);
+        color: $brx-white
       }
 
       &:last-child {

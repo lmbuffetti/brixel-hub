@@ -45,8 +45,10 @@ const MarketBuyer = (props) => {
     handleGetUserSearchProfiles,
     handleGetWishlistProperties,
     handleSpinnerOff,
+    isSmallLoading,
     loggedInUser,
   } = props;
+  const [activeTab, setActiveTab] = useState('all');
   // URL PARAMS
   const catName = get(match, 'cat', null);
   const [page, setPage] = useState({
@@ -77,7 +79,7 @@ const MarketBuyer = (props) => {
     }
   }, [loggedInUser.id]);
   
-  const getPropertiesPage = (type, pageNumber) => {
+  const getPropertiesPage = (type, pageNumber = page[activeTab]) => {
     if (activeSearchProfile !== null) {
       const data = {
         resultsPerPage: 9,
@@ -106,19 +108,25 @@ const MarketBuyer = (props) => {
         default:
           return null;
       }
-      setPage({... page, [type]: pageNumber });
-      handleSpinnerOff();
+      if (type) {
+        setActiveTab(type);
+        setPage({... page, [type]: pageNumber });
+      }
     }
   }
 
   useEffect(() => {
     if (activeSearchProfile !== null) {
       getPropertiesPage('all', page['all']);
-      getPropertiesPage('preMarket', page['preMarket']);
-      getPropertiesPage('published', page['published']);
+      // getPropertiesPage('preMarket', page['preMarket']);
+      // getPropertiesPage('published', page['published']);
       handleSpinnerOff();
     }
   }, [activeSearchProfile, get(history, 'location.pathname', null)]);
+  
+  useEffect(() => {
+    getPropertiesPage(activeTab);
+  }, [isSmallLoading])
 
   return (
     <div className="bgOverlay market-container buyerPage" id="market">
@@ -146,14 +154,15 @@ const MarketBuyer = (props) => {
 MarketBuyer.propTypes = {
   activeSearchProfile: PropTypes.object,
   destroyForm: PropTypes.func.isRequired,
+  handleGetAllProperties: PropTypes.func.isRequired,
   handleGetFavoritesProperties: PropTypes.func.isRequired,
   handleGetOwnedEstimations: PropTypes.func.isRequired,
   handleGetPreMarketProperties: PropTypes.func.isRequired,
-  handleGetAllProperties: PropTypes.func.isRequired,
   handleGetPremiumProperties: PropTypes.func.isRequired,
   handleGetUserSearchProfiles: PropTypes.func.isRequired,
   handleGetWishlistProperties: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
+  isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
 };
 

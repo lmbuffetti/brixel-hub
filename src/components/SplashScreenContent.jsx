@@ -261,7 +261,7 @@ const SplashScreen = (props) => {
     }
   };
 
-  const notInterested =() => {
+  const notInterested = () => {
     let propID = activeMarketOverlayProperty.id;
     const slider = sliderInstance.current;
     if (activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0) propID = activeMarketOverlayPropertyLists[activeSlide].id;

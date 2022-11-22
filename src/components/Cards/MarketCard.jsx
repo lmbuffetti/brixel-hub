@@ -21,7 +21,7 @@ import { connect } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
 import { bindActionCreators, compose } from 'redux';
-import { setSplashType } from '../../actions/CommonActions';
+import { setModal, setSplashType } from '../../actions/CommonActions';
 import { generateEstimation } from '../../actions/EstimationActions';
 import {
   getEstimation,
@@ -31,9 +31,12 @@ import {
   setActiveSingleProperty,
   setEstimation,
 } from '../../actions/PropertyActions';
-import { calcPercentageProEstimation, completedBestimate, setCookie } from '../../utils/helpers';
+import { addNotInterested, updateFavorite } from '../../actions/UserActions';
+import NotInterestedConfirmModal from '../../Pages/Market/Buyer/NotInterestedConfirmModal';
+import { calcPercentageProEstimation, completedBestimate, getCookie, setCookie } from '../../utils/helpers';
 import translateTo from '../../utils/translation';
 import CoverPropertyImage from '../CoverPropertyImage';
+import Maps from '../Map/Maps';
 import CardImageText from '../Skeleton/CardImageText';
 
 const MarketCard = (props) => {
@@ -57,10 +60,14 @@ const MarketCard = (props) => {
     handleGenerateBestimate,
     handleGetEstimation,
     handleGetPackageProperty,
+    handleSetModal,
+    handleMarkNotInterested,
+    handleUpdateFavorites,
     isSmallLoading,
     item,
     lang,
     layout,
+    loggedInUser,
     onSetActiveProperty,
     preventClick,
     setMarketOverlayProperty,
@@ -68,8 +75,10 @@ const MarketCard = (props) => {
     setSplashScreen,
     skeleton,
     type,
+    wishlistProperties,
   } = props;
   // STATE
+  const [isShowLocationCard, setIsShowLocationCard] = useState(false);
   const [coverImgLoaded, setCoverImgLoaded] = useState(false);
   const [removeSkeleton, setRemoveSkeleton] = useState(false);
 
@@ -181,11 +190,39 @@ const MarketCard = (props) => {
   };
 
   const checkFavorite = () => {
-    const findIndex = favoritesProperties.findIndex((prop) => prop.id === get(item, 'id', null));
+    let findIndex = favoritesProperties.findIndex((prop) => prop.id === get(item, 'id', null));
+    if (findIndex < 0) findIndex = wishlistProperties.findIndex((prop) => prop.id === get(item, 'id', null));
     return findIndex > -1;
   };
-
-  // eslint-disable-next-line consistent-return
+  
+  const saveFavorite = (action) => {
+    const data = {
+      act: action,
+      id: item.id,
+      property: item,
+      data: {
+        email: get(loggedInUser, 'email', ''),
+        language: loggedInUser.lang,
+      },
+    };
+    handleUpdateFavorites(data);
+  }
+  
+  const onRemoveProperty = () => {
+    const isHideModal = getCookie('brixelHideNotInterested');
+    if (isHideModal === true || isHideModal === 'true') {
+      handleMarkNotInterested(item.id)
+    } else {
+      handleSetModal({
+        state: true,
+        component: React.createElement(NotInterestedConfirmModal, {lang, onClick: handleMarkNotInterested(item.id)}),
+        small: true,
+        layout: 'large',
+        bodyClassColor: 'white',
+      })
+    }
+  }
+  
   const getTypeText = (text) => {
     switch (text) {
       case 'new': {
@@ -203,12 +240,11 @@ const MarketCard = (props) => {
       default:
     }
   };
-
-  // eslint-disable-next-line consistent-return
+  
   const getColor = (text) => {
     switch (text) {
       case 'new': {
-        return 'Green';
+        return 'Blue200';
       }
       case 'updated': {
         return 'Yellow';
@@ -217,7 +253,34 @@ const MarketCard = (props) => {
         return 'Red';
       }
       case 'pre-market': {
-        return 'Primary';
+        return 'Blue200';
+      }
+      default:
+    }
+  };
+  
+  const iconTag = (text) => {
+    switch (text) {
+      case 'new':
+        return 'star-new';
+      default:
+        return null;
+    }
+  }
+  
+  const textColor = (text) => {
+    switch (text) {
+      case 'new': {
+        return 'Blue700';
+      }
+      case 'updated': {
+        return 'Yellow';
+      }
+      case 'premium': {
+        return 'Red';
+      }
+      case 'pre-market': {
+        return 'Blue700';
       }
       default:
     }
@@ -231,7 +294,7 @@ const MarketCard = (props) => {
         )
       }
       <div
-        className={`market-card ov-h cur-poi h-perc-100 pos-r ${removeSkeleton && item ? '' : 'pos-a opacity0'} `}
+        className={`market-card ov-hs h-perc-100 pos-r ${removeSkeleton && item ? '' : 'pos-a opacity0'} `}
         // onClick={(e) => (type !== 'own' ? openCard(e) : '')}
       >
         <div className={`${type === 'own' ? 'dis-f-sm' : 'dis-fl-col'} ${layout === 'singleOwnCard' ? 'px-0' : 'px-1'}`}>
@@ -420,56 +483,114 @@ const MarketCard = (props) => {
               </>
             ) : (
               <div className="brdSmall brdRadius brdLight200 ov-h bgWhite">
+                { /* IMAGES */ }
                 {
-                  get(item, 'photos', []).length > 0 ? (
-                    <Slider {...settingSlider}>
-                      {
-                        item.photos.map((photo, index) => (
-                          <div
-                            key={`itm_${index.toString()}`}
-                            className={`${isPreMarket() ? 'pre-market' : ''} ${get(item, 'tags', []).join(' ')} cover mb-1 w-perc-100 h-perc-100 h-fix-208 pos-r`}
-                          >
-                            <img src={`${baseByData.shortPath}${photo.path}`} key={`photo${index.toString()}`} />
-                          </div>
-                        ))
-                      }
-                    </Slider>
-                  ) : (
-                    <CoverPropertyImage
-                      loadedImg={(val) => setCoverImgLoaded(val)}
-                      className={`${isPreMarket() ? 'pre-market' : ''} ${get(item, 'tags', []).join(' ')} cover mb-1 w-perc-100 h-perc-100 h-fix-208 pos-r`}
-                      coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
-                      propertyType={get(item, 'properties.propertyType', undefined)}
-                    />
-                  )
-                }
-                {
-                  checkFavorite() && (
-                    <div className="tag-container dis-fl-row a-c">
-                      <BrixelIcon
-                        icon="favorite-fill"
-                        color="red"
-                        className="type-tag pos-a favorite"
+                  isShowLocationCard ? (
+                    <div>
+                      <Maps
+                        minHeight={208}
+                        className="w-perc-100 h-perc-100"
+                        latitude={item.location.latitude}
+                        longitude={item.location.longitude}
+                        mapType={'satellite'}
+                        nearBy={false}
+                        property={item}
+                        showMap={true}
+                        scrollZoom
+                        zoom={16}
                       />
                     </div>
-                  )
-                }
-                {
-                  get(item, 'tags', []).length > 0 && (
-                    <div className="tag-container pos-a dis-fl-row a-c jc-b">
+                  ) : (
+                    <>
                       {
-                        item.tags.map((tag, i) => (
-                          <p
-                            key={`itmTgs_${i.toString()}`}
-                            className={`type-tag pos-r non-favorite fsize-200 fweight-500 txtWhite mr-1 bg${getColor(tag)}`}
-                          >
-                            <span className="type">{translateTo(getTypeText(tag), lang)}</span>
-                          </p>
-                        ))
+                        get(item, 'photos', []).length > 0 ? (
+                          <Slider {...settingSlider}>
+                            {
+                              item.photos.map((photo, index) => (
+                                <div
+                                  key={`itm_${index.toString()}`}
+                                  className={`${isPreMarket() ? 'pre-market' : ''} ${get(item, 'tags', []).join(' ')} cover mb-1 w-perc-100 h-perc-100 h-fix-208 pos-r`}
+                                >
+                                  <img src={`${baseByData.shortPath}${photo.path}`} key={`photo${index.toString()}`} />
+                                </div>
+                              ))
+                            }
+                          </Slider>
+                        ) : (
+                          <CoverPropertyImage
+                            loadedImg={(val) => setCoverImgLoaded(val)}
+                            className={`${isPreMarket() ? 'pre-market' : ''} ${get(item, 'tags', []).join(' ')} cover mb-1 w-perc-100 h-perc-100 h-fix-208 pos-r`}
+                            coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
+                            propertyType={get(item, 'properties.propertyType', undefined)}
+                          />
+                        )
                       }
-                    </div>
+                    </>
                   )
                 }
+                { /* HEADER ICONS / TAGS */ }
+                <div className="dis-f a-c jc-b pos-a-fix x-l-0 x-t-0 w-perc-100 p-2">
+                  { /* TAGS LIST */ }
+                  <div>
+                    {
+                      get(item, 'tags', []).length > 0 && (
+                        <div className="dis-fl-row a-c jc-b">
+                          {
+                            item.tags.map((tag, i) => (
+                              <p
+                                key={`itmTgs_${i.toString()}`}
+                                className={`type-tag pos-r non-favorite fsize-200 fweight-500 mr-1 bg${getColor(tag)} txt${textColor(tag)} dis-f a-c brdRadiusSmall px-1 py-small-4`}
+                              >
+                                {
+                                  iconTag(tag) && (
+                                    <BrixelIcon
+                                      iconSize="w-fix-16"
+                                      className="mr-1"
+                                      icon={iconTag(tag)}
+                                      color={textColor(tag, true)}
+                                      saturationTxt={0}
+                                    />
+                                  )
+                                }
+                                <span className="type">{translateTo(getTypeText(tag), lang)}</span>
+                              </p>
+                            ))
+                          }
+                        </div>
+                      )
+                    }
+                  </div>
+                  <div>
+                    <BrixelIcon
+                      color="green"
+                      rounded
+                      background="white"
+                      saturation={0}
+                      icon="location-pin-simple"
+                      onClick={() => setIsShowLocationCard(!isShowLocationCard)}
+                    />
+                    <BrixelIcon
+                      isLoading={isSmallLoading[`notInterested-${item.id}`]}
+                      className="mx-1"
+                      color="blue"
+                      saturationTxt={700}
+                      rounded
+                      background="white"
+                      saturation={0}
+                      icon="eye-hidden"
+                      onClick={() => onRemoveProperty()}
+                    />
+                    <BrixelIcon
+                      isLoading={isSmallLoading[`favorite-${item.id}`]}
+                      rounded
+                      background="white"
+                      saturation={0}
+                      icon={checkFavorite() ? 'favorite-fill' : 'favorite'}
+                      color="red"
+                      onClick={() => saveFavorite(checkFavorite() ? 'remove' : 'add')}
+                    />
+                  </div>
+                </div>
                 <div className="info dis-fl-col jc-b">
                   <div className="top dis-fl-col notranslate px-3 pt-3">
                     <span className="fweight-600 fsize-500 txtDark700 ellipsis one notranslate">
@@ -643,10 +764,14 @@ MarketCard.propTypes = {
   handleGenerateBestimate: PropTypes.func.isRequired,
   handleGetEstimation: PropTypes.func.isRequired,
   handleGetPackageProperty: PropTypes.func.isRequired,
+  handleMarkNotInterested: PropTypes.func.isRequired,
+  handleSetModal: PropTypes.func.isRequired,
+  handleUpdateFavorites: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   item: PropTypes.object,
   lang: PropTypes.string.isRequired,
   layout: PropTypes.string,
+  loggedInUser: PropTypes.object.isRequired,
   onSetActiveProperty: PropTypes.func,
   preventClick: PropTypes.bool,
   setMarketOverlayProperty: PropTypes.func.isRequired,
@@ -654,6 +779,7 @@ MarketCard.propTypes = {
   setSplashScreen: PropTypes.func.isRequired,
   skeleton: PropTypes.object.isRequired,
   type: PropTypes.string,
+  wishlistProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 MarketCard.defaultProps = {
@@ -665,26 +791,31 @@ MarketCard.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  companyListings: get(state, 'companies.companyListings.data', []),
   allProperties: get(state, 'market.allProperties.data', []),
+  companyListings: get(state, 'companies.companyListings.data', []),
   estimation: get(state, 'property.estimation', {}),
   favoritesProperties: get(state, 'market.favoritesProperties.data', []),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
   lastViewedProperties: get(state, 'market.lastViewedProperties.data', []),
+  loggedInUser: get(state, 'user.loggedInUser.user', { }),
   newProperties: get(state, 'market.newProperties.data', []),
   ownerProperties: get(state, 'market.ownerProperties.data', []),
   preMarketProperties: get(state, 'market.preMarketProperties.data', []),
   premiumProperties: get(state, 'market.premiumProperties.data', []),
   skeleton: get(state, 'common.skeleton', {}),
   windowDimensions: get(state, 'common.windowDimensions', {}),
+  wishlistProperties: get(state, 'market.wishlistProperties.data', []),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   handleGenerateBestimate: bindActionCreators(generateEstimation, dispatch),
   handleGetEstimation: bindActionCreators(getEstimation, dispatch),
   handleGetPackageProperty: bindActionCreators(getPackageProperty, dispatch),
+  handleMarkNotInterested: bindActionCreators(addNotInterested, dispatch),
   handleSetActiveMarketOverlayPropertyLists: bindActionCreators(setActiveMarketOverlayPropertyLists, dispatch),
   handleSetActiveSingleProperty: bindActionCreators(setActiveSingleProperty, dispatch),
+  handleSetModal: bindActionCreators(setModal, dispatch),
+  handleUpdateFavorites: bindActionCreators(updateFavorite, dispatch),
   setMarketOverlayProperty: bindActionCreators(setActiveMarketOverlayProperty, dispatch),
   setPropertyEstimation: bindActionCreators(setEstimation, dispatch),
   setSplashScreen: bindActionCreators(setSplashType, dispatch),

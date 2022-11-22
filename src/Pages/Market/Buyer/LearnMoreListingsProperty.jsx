@@ -30,31 +30,31 @@ const LearnMoreListingsProperty = (props) => {
   
       {
         step === 1 && (
-          <dov>
+          <div>
             <img className="mb-5" src={PreImagePublishedImg} alt="Pre Image Published" />
             <h4 className="mb-2">{translateTo('Published and Pre-Market Properties', lang)}</h4>
             <p>{translateTo('General explanation of published and pre-market properties', lang)}</p>
-          </dov>
+          </div>
         )
       }
   
       {
         step === 2 && (
-          <dov>
+          <div>
             <img className="mb-5" src={PreImagePublishedImg} alt="Pre Image Published" />
             <h4 className="mb-2">{translateTo('Published Properties', lang)}</h4>
             <p>{translateTo('Explain what published properties are, like: properties already for sale that people could potentially buy. you can see real image, price, more info etc...', lang)}</p>
-          </dov>
+          </div>
         )
       }
   
       {
         step === 3 && (
-          <dov>
+          <div>
             <img className="mb-5" src={PreImagePublishedImg} alt="Pre Image Published" />
             <h4 className="mb-2">{translateTo('Pre-Market Properties', lang)}</h4>
             <p>{translateTo('Explain what pre-market properties are, like: not for sale - no price, no image, just very basic information, no personal detail, fav to get notified if it\'s for sale etc...', lang)}</p>
-          </dov>
+          </div>
         )
       }
       

@@ -526,6 +526,7 @@ const MarketCategoryListBuyer = (props) => {
             </div>
             <div className="mb-8">
               <Pagination
+                className="mt-5"
                 totalItems={allProperties.total}
                 itemsPerPage={9}
                 activePage={page[activeTab]}
