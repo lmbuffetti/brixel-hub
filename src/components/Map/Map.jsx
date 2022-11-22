@@ -1,19 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable array-callback-return */
-import React, { useState, useEffect } from 'react';
-import {
-  Map, InfoWindow, Marker, Circle,
-} from 'google-maps-react';
-import PropTypes from 'prop-types';
-import { compose } from 'redux';
-import { connect } from 'react-redux';
 import { BrixelIcon } from '@brixel/brixel-components';
-import translateTo from '../../utils/translation';
 import { change } from '@brixel/brixel-components/dist/form';
+import { Circle, InfoWindow, Map, Marker } from 'google-maps-react';
 import get from 'lodash/get';
+import PropTypes from 'prop-types';
+/* eslint-disable array-callback-return */
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { mapStyles } from '../../constants/map';
 import markerImg from '../../images/location/icon_location.svg';
 import markerSimilarProperties from '../../images/location/icon_similar_properties.svg';
-import { mapStyles } from '../../constants/map';
+import translateTo from '../../utils/translation';
 
 export const ComponentMap = (props) => {
   // PROPS
@@ -46,7 +44,7 @@ export const ComponentMap = (props) => {
   // const [selectedPlace, setSelectedPlace] = useState([]);
   const [showInfoWindow, setShowInfoWindow] = useState(false);
   const [modalInfo] = useState({});
-  const [mapTypeId, setMapTypeId] = useState('roadmap');
+  const [mapTypeId, setMapTypeId] = useState(mapType);
   const [streetViewAvailable, setStretViewAvailable] = useState(false);
   const [optMap, setOptMap] = useState({});
 
@@ -63,9 +61,9 @@ export const ComponentMap = (props) => {
       clickableIcons: true,
       zoomControl: externalControls ? false : !disableZoom,
       mapTypeControl: false,
-      scaleControl: true,
+      scaleControl: false,
       streetViewControl: false,
-      rotateControl: true,
+      rotateControl: false,
       fullscreenControl: false,
       scrollwheel: scrollZoom,
       gestureHandling: 'cooperative',
@@ -179,41 +177,55 @@ export const ComponentMap = (props) => {
     // Important! Always set the container height explicitly
     <>
       {
-        (externalControls && showMap) && (
-          <div className="actionMaps">
+        externalControls && (
+          <div className="actionMap">
             {
               streetViewAvailable && (
-                <div className="switchBtn shadow-4dp mr-1">
-                  <div
-                    className={`btn-action ${mapTypeId === 'streetview' ? 'active' : ''}`}
-                    onClick={() => btnActions('streetview')}
-                  >
-                    <BrixelIcon
-                      icon="streetview"
-                    />
-                  </div>
-                  <div
-                    className={`btn-action ${mapTypeId === 'roadmap' ? 'active' : ''}`}
-                    onClick={() => btnActions('roadmap')}
-                  >
-                    <BrixelIcon
-                      icon="roadmap"
-                    />
-                  </div>
-                  <div
-                    className={`btn-action ${mapTypeId === 'satellite' ? 'active' : ''}`}
-                    onClick={() => btnActions('satellite')}
-                  >
-                    <BrixelIcon
-                      icon="satellite"
-                    />
-                  </div>
+                <div
+                  className={`btn-action ${mapType === 'streetview' ? 'active' : ''}`}
+                  onClick={() => btnActions('streetview')}
+                >
+                  <BrixelIcon
+                    icon="streetview"
+                    color={mapTypeId === 'streetview' ? 'white' : 'Blue'}
+                    saturationTxt={mapTypeId === 'streetview' ? 0 : 400}
+                  />
+                  <span className="ml-1 actionLabel">Streetview</span>
                 </div>
               )
             }
+            <div
+              className={`btn-action ${mapType === 'roadmap' ? 'active' : ''}`}
+              onClick={() => btnActions('roadmap')}
+            >
+              <BrixelIcon
+                icon="roadmap"
+                color={mapTypeId === 'roadmap' ? 'white' : 'Blue'}
+                saturationTxt={mapTypeId === 'roadmap' ? 0 : 400}
+              />
+              <span className="ml-1 actionLabel">Roadmap</span>
+            </div>
+            <div
+              className={`btn-action ${mapType === 'satellite' ? 'active' : ''}`}
+              onClick={() => btnActions('satellite')}
+            >
+              <BrixelIcon
+                color={mapTypeId === 'satellite' ? 'white' : 'Blue'}
+                saturationTxt={mapTypeId === 'satellite' ? 0 : 400}
+                icon="satellite"
+              />
+              <span className="ml-1 actionLabel">Satellite</span>
+            </div>
+          </div>
+        )
+      }
+  
+      {
+        externalControls && (
+          <div className="actionMapsBottom">
             <div className="switchBtn shadow-4dp">
               <div
-                className="btn-action"
+                className="btn-action dis-f jc-c a-c"
                 onClick={() => btnActions('zoomIn')}
               >
                 <BrixelIcon
@@ -221,11 +233,11 @@ export const ComponentMap = (props) => {
                 />
               </div>
               <div
-                className="btn-action"
+                className="btn-action dis-f jc-c a-c"
                 onClick={() => btnActions('zoomOut')}
               >
                 <BrixelIcon
-                  icon="min"
+                  icon="minus"
                 />
               </div>
             </div>
@@ -379,6 +391,7 @@ ComponentMap.defaultProps = {
   draggable: false,
   externalControls: false,
   formName: '',
+  hideExternalZoom: false,
   isDefView: false,
   mapType: 'roadmap',
   moveMarker: false,

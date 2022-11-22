@@ -272,3 +272,88 @@
     }
   }
 }
+
+.actionMap {
+  position: absolute;
+  z-index: 100;
+  display: flex;
+  border-radius: $brd-radius-small;
+  background: $brx-white;
+  overflow: hidden;
+
+  @media (min-width: $responsive-medium) {
+    left: $step;
+    top: $step;
+  }
+  @media (max-width: $responsive-medium) {
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .btn-action {
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    border-radius: 0 !important;
+
+    @media (max-width: 320px) {
+      font-size: $step;
+    }
+
+    .actionLabel {
+
+      @media (max-width: $responsive-medium) {
+        font-size: 14px;
+      }
+      @media (min-width: $responsive-medium) {
+        display: block;
+      }
+    }
+    &.active {
+      background: map_get($blueColor, 400);
+      span {
+        color: $brx-white;
+      }
+    }
+  }
+}
+
+.actionMapsBottom {
+  position: absolute;
+  right: 10px;
+  bottom: 20px;
+  z-index: 1000;
+  display: flex;
+  background: $brx-white;
+  border-radius: $brd-radius-small;
+  @media (max-width: $responsive-small) {
+    bottom: 80px;
+  }
+  .resize-button {
+    i {
+      width: 24px;
+      height: 24px;
+      mask-repeat: no-repeat;
+      mask-position: center;
+      mask-size: contain;
+      display: block;
+    }
+  }
+  .btn-action {
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    padding: 8px;
+    transition: all $default-time $default-easing;
+
+    i {
+      font-size: 20px;
+    }
+    &.active {
+      i {
+        color: #000;
+      }
+    }
+  }
+}

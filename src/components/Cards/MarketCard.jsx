@@ -32,6 +32,7 @@ import {
   setEstimation,
 } from '../../actions/PropertyActions';
 import { addNotInterested, updateFavorite } from '../../actions/UserActions';
+import ModalPropertyCard from '../../Pages/Market/Buyer/ModalPropertyCard';
 import NotInterestedConfirmModal from '../../Pages/Market/Buyer/NotInterestedConfirmModal';
 import { calcPercentageProEstimation, completedBestimate, getCookie, setCookie } from '../../utils/helpers';
 import translateTo from '../../utils/translation';
@@ -81,11 +82,21 @@ const MarketCard = (props) => {
   const [isShowLocationCard, setIsShowLocationCard] = useState(false);
   const [coverImgLoaded, setCoverImgLoaded] = useState(false);
   const [removeSkeleton, setRemoveSkeleton] = useState(false);
+  const [isFullVisitble, setIsFullVisitble] = useState(false);
 
   // TODO: Based on "type" prop, sent by the category, open each property on buyer dashboard/seller dashboard/page, etc.
   useEffect(() => {
     setRemoveSkeleton(true);
   }, [skeleton, coverImgLoaded]);
+  
+  useEffect(() => {
+    if (item.tags.includes('pre-market') || item.hideAddress) {
+      setIsFullVisitble(false);
+    } else {
+      setIsFullVisitble(true)
+    }
+  }, [item.id]);
+  
 
   const isPreMarket = () => get(item, 'tags', []).includes('pre-market');
 
@@ -206,12 +217,14 @@ const MarketCard = (props) => {
       },
     };
     handleUpdateFavorites(data);
+    handleSetModal({ state: false });
   }
   
   const onRemoveProperty = () => {
     const isHideModal = getCookie('brixelHideNotInterested');
     if (isHideModal === true || isHideModal === 'true') {
-      handleMarkNotInterested(item.id)
+      handleMarkNotInterested(item.id);
+      handleSetModal({ state: false });
     } else {
       handleSetModal({
         state: true,
@@ -220,6 +233,30 @@ const MarketCard = (props) => {
         layout: 'large',
         bodyClassColor: 'white',
       })
+    }
+  }
+  
+  const onOpenCard = () => {
+    if (item.tags.includes('pre-market')) {
+      const propsModal = {
+        lang,
+        property: item,
+        onRemoveProperty: onRemoveProperty(),
+        saveFavorite: (act) => saveFavorite(act),
+        onClose: () => handleSetModal({state: false}),
+        isFavorite: checkFavorite(),
+      };
+      handleSetModal({
+        hideHeader: true,
+        state: true,
+        component: React.createElement(ModalPropertyCard, propsModal),
+        small: true,
+        layout: 'xlarge',
+        bodyClassColor: 'white p-0',
+        hideClose: true,
+      })
+    } else {
+      window.open(`${baseByData.pageUrl}${item.stub}`, '_blank');
     }
   }
   
@@ -488,6 +525,8 @@ const MarketCard = (props) => {
                   isShowLocationCard ? (
                     <div>
                       <Maps
+                        showRadar={!isFullVisitble}
+                        rad={!isFullVisitble}
                         minHeight={208}
                         className="w-perc-100 h-perc-100"
                         latitude={item.location.latitude}
@@ -504,18 +543,20 @@ const MarketCard = (props) => {
                     <>
                       {
                         get(item, 'photos', []).length > 0 ? (
-                          <Slider {...settingSlider}>
-                            {
-                              item.photos.map((photo, index) => (
-                                <div
-                                  key={`itm_${index.toString()}`}
-                                  className={`${isPreMarket() ? 'pre-market' : ''} ${get(item, 'tags', []).join(' ')} cover mb-1 w-perc-100 h-perc-100 h-fix-208 pos-r`}
-                                >
-                                  <img src={`${baseByData.shortPath}${photo.path}`} key={`photo${index.toString()}`} />
-                                </div>
-                              ))
-                            }
-                          </Slider>
+                          <div className="h-fix-208">
+                            <Slider {...settingSlider}>
+                              {
+                                item.photos.map((photo, index) => (
+                                  <div
+                                    key={`itm_${index.toString()}`}
+                                    className={`${isPreMarket() ? 'pre-market' : ''} ${get(item, 'tags', []).join(' ')} cover mb-1 w-perc-100 h-fix-200 h-perc-100 pos-r`}
+                                  >
+                                    <img src={`${baseByData.shortPath}${photo.path}`} key={`photo${index.toString()}`} />
+                                  </div>
+                                ))
+                              }
+                            </Slider>
+                          </div>
                         ) : (
                           <CoverPropertyImage
                             loadedImg={(val) => setCoverImgLoaded(val)}
@@ -593,10 +634,10 @@ const MarketCard = (props) => {
                 </div>
                 <div className="info dis-fl-col jc-b">
                   <div className="top dis-fl-col notranslate px-3 pt-3">
-                    <span className="fweight-600 fsize-500 txtDark700 ellipsis one notranslate">
-                      {get(item, 'title', '')}
-                    </span>
-                    <span className="fsize-300 txtDark700 mt-1 notranslate">
+                    <span
+                      className="fsize-300 txtDark700 mt-1 notranslate cur-poi"
+                      onClick={() => onOpenCard()}
+                    >
                       {get(item, 'location.zip', '')} {get(item, 'location.city', '')}
                       {
                         get(item, 'location.countryCode', 'CH') === 'CH' && (
@@ -606,9 +647,17 @@ const MarketCard = (props) => {
                         )
                       }
                     </span>
+                    <span
+                      className="fweight-600 fsize-500 txtDark700 ellipsis one notranslate cur-poi"
+                      onClick={() => onOpenCard()}
+                    >
+                      {get(item, 'title', '')}
+                    </span>
                   </div>
                   <div className="bottom a-c txtDark700 px-3 mt-2 mb-2">
-
+                    <span className="fsize-300 dis-b txtAltGrey400">
+                      {translateTo('Price', lang)}
+                    </span>
                     {
                       item && get(item, 'price.total', 0) !== 0 && get(item, 'status', null) === 'on-sale' ? (
                         <div className="txtGreen400 dis-f a-b">
@@ -629,37 +678,30 @@ const MarketCard = (props) => {
                   </div>
                   <span className="hr lighter" />
                   <div className="mid dis-fl-row a-c fsize-300 px-3 pt-1 txtDark400 pb-2">
-                    <div className="dis-f a-c flex-wrap">
-                      <div className="div pt-small-2">
-                        <span>
-                          {translateTo(get(item, 'properties.propertyType', ''), lang)}
+                    <div className="dis-f a-c jc-b flex-wrap w-perc-100">
+                      <div>
+                        <span className="fsize-300 dis-b txtAltGrey400">
+                          {translateTo('Rooms', lang)}
+                        </span>
+                        <span className="ff-mono fszie-400 txtBlack">
+                          {FormatValue.formatRooms(get(item, 'properties.typology.bedrooms', 0), get(item, 'location.countryCode', 'CH'))}
                         </span>
                       </div>
-                      <div className="notranslate">
-                        <span className="px-1 notranslate"> &middot; </span>
-                        <span>
-                          <span className="notranslate">
-                            {FormatValue.formatRooms(get(item, 'properties.typology.bedrooms', 0), get(item, 'location.countryCode', 'CH'))}
-                          </span>
-                          <span className="notranslate ml-1">
-                            {get(item, 'location.countryCode', 'CH') === 'PT' ? '' : `${get(item, 'properties.typology.bedrooms', 0) ? translateTo('Rooms', lang) : ''}`}
-                          </span>
+                      <div>
+                        <span className="fsize-300 dis-b txtAltGrey400">
+                          {translateTo('Size', lang)}
                         </span>
-                        {
-                          get(item, 'properties.typology.bedrooms') > 0 && (
-                            <span className="px-1 notranslate"> &middot; </span>
-                          )
-                        }
-                        {
-                          get(item, 'properties.typology.livingArea.value', 0) && (
-                            <span className="notranslate">
-                              <span className="notranslate">
-                                {get(item, 'properties.typology.livingArea.value', 0)}
-                              </span>
-                              <span className="notranslate"> m2</span>
-                            </span>
-                          )
-                        }
+                        <span className="ff-mono fszie-400 txtBlack">
+                          {get(item, 'properties.typology.livingArea.value', 0)} m2
+                        </span>
+                      </div>
+                      <div>
+                        <span className="fsize-300 dis-b txtAltGrey400">
+                          {translateTo('Year built', lang)}
+                        </span>
+                        <span className="ff-mono fszie-400 txtBlack">
+                          {get(item, 'properties.building.built', 0)}
+                        </span>
                       </div>
                     </div>
                   </div>

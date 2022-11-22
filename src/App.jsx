@@ -694,6 +694,7 @@ const App = (props) => {
           {
             modal.state && !modal.type && modal.small && (
               <BrixelModal
+                hideHeader={modal.hideHeader}
                 bodyActionsClass={modal.bodyActionsClass}
                 bodyClassColor={modal.bodyClassColor}
                 classContainer={modal.classContainer}
@@ -704,9 +705,7 @@ const App = (props) => {
                 multiBodyActions={modal.multiBodyActions}
                 title={modal.title}
                 titleImg={modal.titleImg}
-                onClose={() => {
-                  handleSetModal({ state: false });
-                }}
+                onClose={modal.hideClose !== true ? () => handleSetModal({ state: false }) : null}
               >
                 {
                   modal.body && (

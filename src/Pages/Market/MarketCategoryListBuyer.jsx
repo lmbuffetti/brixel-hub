@@ -524,10 +524,10 @@ const MarketCategoryListBuyer = (props) => {
                 ))
               }
             </div>
-            <div className="mb-8">
+            <div className="pb-8">
               <Pagination
-                className="mt-5"
-                totalItems={allProperties.total}
+                className="mt-5 pb-10"
+                totalItems={allProperties.total || 0}
                 itemsPerPage={9}
                 activePage={page[activeTab]}
                 paginate={(resultsPerPage, pageNumber) => {
@@ -550,7 +550,6 @@ MarketCategoryListBuyer.propTypes = {
   estimation: PropTypes.object.isRequired,
   handleSetModal: PropTypes.func.isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
-  initialValues: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   onPageChange: PropTypes.func.isRequired,
