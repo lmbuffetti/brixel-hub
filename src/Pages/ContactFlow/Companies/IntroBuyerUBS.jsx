@@ -1,11 +1,11 @@
-import { change} from '@brixel/brixel-components/dist/form';
+import { change } from '@brixel/brixel-components/dist/form';
 import React from 'react';
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
 import { BrixelButtonSecondary, BrixelButtonText } from '@brixel/brixel-components';
 import translateTo from '../../../utils/translation';
 import { connect } from 'react-redux';
-// import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { /* useLocation, useNavigate, */ useParams } from 'react-router-dom';
 import { compose } from 'redux';
 
 // LOGOS
@@ -19,7 +19,7 @@ const IntroBuyerUBS = (props) => {
     push: useNavigate(),
     location: useLocation(),
   }; */
-  // const match = useParams();
+  const match = useParams();
   // PROPS
   const {
     changeFieldValue,
@@ -27,7 +27,7 @@ const IntroBuyerUBS = (props) => {
     lang,
   } = props;
   // GET URL PARAMS
-  // const propID = get(match, 'propID', null);
+  const propID = get(match, 'propID', null);
 
   const onClickForwardContactFlow = (type) => {
     changeFieldValue('type', type);
@@ -77,6 +77,7 @@ const IntroBuyerUBS = (props) => {
             rounded
             bgTransparent
             className="ml-a mr-a"
+            onClick={() => history.push(`/buyer/${propID}/financingFlow?subtype=standard`)}
             label={translateTo('Request indicative interest', lang)}
           />
         </div>
