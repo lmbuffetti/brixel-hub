@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { BrixelButtonSecondary, BrixelButtonText } from '@brixel/brixel-components';
 import translateTo from '../../../utils/translation';
 import { connect } from 'react-redux';
-import { /* useLocation, useNavigate, */ useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { compose } from 'redux';
 
 // LOGOS
@@ -15,10 +15,10 @@ import ubsLogo from '../../../images/Companies/ubsKey4/ubsLogo.svg';
 // test commit
 
 const IntroBuyerUBS = (props) => {
-  /* const history = {
+  const history = {
     push: useNavigate(),
     location: useLocation(),
-  }; */
+  };
   const match = useParams();
   // PROPS
   const {
