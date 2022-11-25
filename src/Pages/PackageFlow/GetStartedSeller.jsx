@@ -747,6 +747,8 @@ const mapStateToProps = (state, ownProps) => {
       // },
       location: {
         ...get(state, 'brixelForm.GetStarted.values.location', { }),
+        latitude : 38.736946,
+        longitude : -9.142685,
         countryCode: get(state, 'companies.activeSingleCompany.country.code', 'PT'),
       },
       login: {},
