@@ -1,22 +1,23 @@
 /* eslint-disable max-len */
+import { factsOptions } from '@brixel/brixel-components/dist/constants/Facts';
 import {
-  BrixelRadioButton,
   BrixelInputStepNumber,
   BrixelInputText,
+  BrixelRadioButton,
   Validation,
 } from '@brixel/brixel-components/dist/form';
+import { BrixelAutocomplete } from '@brixel/brixel-components/dist/map';
 import get from 'lodash/get';
-import { factsOptions } from '@brixel/brixel-components/dist/constants/Facts';
-import MapsWithModalManual from '../../components/Map/MapsWithModalManual';
 import LoginSignup from '../../components/LoginSignup';
+import MapsWithModalManual from '../../components/Map/MapsWithModalManual';
+import { configureStore } from '../../store';
 // import ResumeCard from '../components/ResumeCard';
 import translateTo from '../../utils/translation';
-import { configureStore } from '../../store';
 import { svgIcons } from '../Utilities/svgIcons';
 
 // QUESTION LISTS
 // eslint-disable-next-line default-param-last
-export const QuestionsList = (lang, country = 'CH') => {
+export const QuestionsList = (lang, country = 'CH', changeValue) => {
 
   // VALIDATION OF FIELDS
   const maxLengthNum = (val, name) => (value) => {
@@ -88,6 +89,55 @@ export const QuestionsList = (lang, country = 'CH') => {
   }
 
   const question = [
+    {
+      title: translateTo('What is the location?', lang),
+      history: 'locationInput',
+      cardType: 'locationInput',
+      footerWidth: 'max-w-fix-600',
+      inputs: [
+        {
+          component: BrixelAutocomplete,
+          showMap: false,
+          name: 'location.searchAddress',
+          type: 'Map',
+          classNameBox: 'brdRadius max-w-fix-600 w-perc-100 px-2 px-sm-5 py-5 brdRadius fieldHolder bgWhite m-a',
+          classBoxWrapper: 'mt-0 searchMapFields',
+          onSelectAddress: (val) => console.log(val),
+          validation: [Validation.required],
+          mapOptions: {
+            showMap: false,
+            hideSearch: false,
+            showSelectCountry: true,
+            multipleFieldSearch: true,
+            draggable: true,
+          },
+        },
+      ],
+    },
+    {
+      title: translateTo('Is this your correct location?', lang),
+      history: 'locationInputResume',
+      cardType: 'locationInputResume',
+      footerWidth: 'max-w-fix-600',
+      inputs: [
+        {
+          component: MapsWithModalManual,
+          showMap: true,
+          name: 'location.latitude',
+          type: 'Map',
+          classBoxWrapper: 'brdRadius max-w-fix-600 w-perc-100 pb-3 pb-sm-5 brdRadius fieldHolder bgWhite m-a',
+          widthBox: '100',
+          mapOptions: {
+            showMap: true,
+            hideSearch: true,
+            showSelectCountry: false,
+            multipleFieldSearch: false,
+            draggable: false,
+          },
+          validation: [Validation.required],
+        },
+      ],
+    },
     /* subtitle: translateTo('Choose between apartment, house, building land and commercial.'), */
     {
       title: translateTo('What type of property do you have?', lang),

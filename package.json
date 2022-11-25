@@ -7,7 +7,7 @@
     "node": "18.12.1"
   },
   "dependencies": {
-    "@brixel/brixel-components": "git+https://brixel_admin:e1C13Nz8THA_psP6pe1e@gitlab.com/brixel/brixel-styleguide-components.git#master",
+    "@brixel/brixel-components": "git+https://brixel_admin:e1C13Nz8THA_psP6pe1e@gitlab.com/brixel/brixel-styleguide-components.git#feature/BRI-305-custom-map-component",
     "@googlemaps/markerwithlabel": "^2.0.14",
     "@transifex/api": "^4.3.0",
     "date-fns": "^2.29.3",
