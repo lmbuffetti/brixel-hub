@@ -6,6 +6,7 @@ import {
   BrixelRadioButton,
   Validation,
 } from '@brixel/brixel-components/dist/form';
+import { BrixelAutocomplete } from '@brixel/brixel-components/dist/map';
 import get from 'lodash/get';
 import LoginSignup from '../../components/LoginSignup';
 import MapsWithModalManual from '../../components/Map/MapsWithModalManual';
@@ -316,12 +317,13 @@ export const QuestionsList = (lang, country = 'CH', changeValue) => {
       footerWidth: 'max-w-fix-600',
       inputs: [
         {
-          component: MapsWithModalManual,
+          component: BrixelAutocomplete,
           showMap: false,
           name: 'location.searchAddress',
           type: 'Map',
           classNameBox: 'brdRadius max-w-fix-600 w-perc-100 px-2 px-sm-5 py-5 brdRadius fieldHolder bgWhite m-a',
           classBoxWrapper: 'mt-0 searchMapFields',
+          onSelectAddress: (val) => changeValue('location', val),
           validation: [Validation.required],
           mapOptions: {
             showMap: false,

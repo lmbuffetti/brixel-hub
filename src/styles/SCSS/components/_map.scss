@@ -248,8 +248,8 @@
     }
   }
   &.active {
-    opacity: 999999999999;
-    z-index: 10;
+    z-index: 999999999999;
+    opacity:0;
     visibility: visible;
     .addressInner {
       transform: scale(1);
