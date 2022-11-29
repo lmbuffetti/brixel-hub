@@ -60,12 +60,12 @@ const GetStartedBuyer = (props) => {
   } = props;
   // STATE
   // SET THE QUESTIONS IN BASE OF THE COUNTRY
-  const [questions, setQuestions] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')));
+  const [questions, setQuestions] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue));
   const [progressBar, setProgressBar] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [oldIndex, setOldIndex] = useState(0);
   // SET QUEST TO FIRST QUESTION OF QuestionsList()
-  const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0]);
+  const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue)[0]);
   const [isEnter, setIsEnter] = useState(true);
   const [showError, setShowError] = useState(false);
   const [loadingRequest, setLoadingRequest] = useState(false);
@@ -365,13 +365,13 @@ const GetStartedBuyer = (props) => {
 
   // ON CHANGE LANGUAGE RELOAD THE QUESTIONS TRANSLATED
   useEffect(() => {
-    const currentQuest = QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex];
+    const currentQuest = QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue)[currentIndex];
     if (currentQuest.effect === 'slideUp') {
-      setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')));
-      setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex - 1]);
+      setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue));
+      setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue)[currentIndex - 1]);
     } else {
-      setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')));
-      setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex]);
+      setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue));
+      setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue)[currentIndex]);
     }
   }, [lang, translations]);
 
@@ -412,7 +412,7 @@ const GetStartedBuyer = (props) => {
     setOldIndex(currentIndex);
     const newQuest = [];
     if (formValue) {
-      QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')).map((quest) => {
+      QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue).map((quest) => {
         if (quest.condition) {
           let isValid = true;
           quest.condition.map((item) => {
@@ -452,8 +452,8 @@ const GetStartedBuyer = (props) => {
       changeFieldValue('company', company.stub);
       changeFieldValue('finance.currency', get(company, 'country.currency', 'CHF'));
       changeFieldValue('price.currency', get(company, 'country.currency', 'CHF'));
-      setQuestions(QuestionsList(getLang, companyCountry));
-      setQuest(QuestionsList(getLang, companyCountry)[currentIndex]);
+      setQuestions(QuestionsList(getLang, companyCountry, changeFieldValue));
+      setQuest(QuestionsList(getLang, companyCountry, changeFieldValue)[currentIndex]);
       const companyCountryCode = get(company, 'country.code', 'CH');
       const countryPhoneCode = phonecode.find((code) => code.code === companyCountryCode);
       changeFieldValue('register.phone.prefix', countryPhoneCode.dial_code);
@@ -827,8 +827,10 @@ const mapStateToProps = (state, ownProps) => {
       locations: get(state, 'brixelForm.GetStarted.values.locations', []),
       characteristics: {
         livingArea: {
-          unit: 'm2',
+          min: 0,
+          max: 300,
         },
+        bedrooms: {min: 0, max: 9}
       },
       owner: get(state, 'user.loggedInUser.user.id', null),
       user: get(state, 'user.loggedInUser.user.id', null),

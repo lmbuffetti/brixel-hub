@@ -10,9 +10,9 @@ import {
   BrixelSelect,
   Validation,
 } from '@brixel/brixel-components/dist/form';
+import { BrixelAutocomplete } from '@brixel/brixel-components/dist/map';
 import get from 'lodash/get';
 import LoginSignup from '../../components/LoginSignup';
-import MapsCities from '../../components/Map/MapsCities';
 import { configureStore } from '../../store';
 import translateTo from '../../utils/translation';
 import { svgIcons } from '../Utilities/svgIcons';
@@ -20,7 +20,7 @@ import { svgIcons } from '../Utilities/svgIcons';
 const { factsOptions } = FactsOptions;
 
 // QUESTION LISTS
-export const QuestionsList = (lang, type) => {
+export const QuestionsList = (lang, type, changeField) => {
   let countryList = [];
   let formValue = {};
   // let company = null;
@@ -40,7 +40,7 @@ export const QuestionsList = (lang, type) => {
     ...item,
     label: translateTo(item.label, lang)
   }));
-
+  const multiCities = [...get(formValue, 'locations', [])];
   const question = [
     {
       title: translateTo(type === 'searchProfile' ? 'Property Type' : 'What kind of property would you like to buy?', lang),
@@ -165,21 +165,27 @@ export const QuestionsList = (lang, type) => {
           large: true,
         },
         {
-          component: MapsCities,
+          component: BrixelAutocomplete,
           classBoxWrapper: 'w-perc-100 flex-1 searchMapFields',
           className: type === 'searchProfile' ? 'max-w-fix-400' : '',
           showMap: false,
           blockScroll: type === 'searchProfile',
           label: 'latitude',
-          name: 'locations[0].latitude',
+          name: 'location.searchAddress',
           classNameBox: 'max-w-perc-100',
+          searchType: 'cities',
           type: 'Map',
-          mapOptions: {
-            showMap: false,
-            hideSearch: false,
-            showSelectCountry: true,
-            multipleFieldSearch: true,
-            draggable: true,
+          multiCities: multiCities,
+          deleteMultiCity: (id) => {
+            const location = multiCities;
+            location.splice(id, 1);
+            changeField('locations', location);
+          },
+          onSelectAddress: (val) => {
+            const location = multiCities;
+            location.push(val);
+            changeField('location.searchAddress', '');
+            changeField('locations', location);
           },
           validation: [Validation.required],
         },
