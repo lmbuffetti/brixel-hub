@@ -1,8 +1,9 @@
 import { BrixelButtonText, BrixelIcon, FormatValue, translateTo } from '@brixel/brixel-components';
+import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
+import { BrixelMap } from '@brixel/brixel-components/dist/map';
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import Maps from '../../../components/Map/Maps';
 
 const ModalPropertyCard = (props) => {
   const {
@@ -26,21 +27,21 @@ const ModalPropertyCard = (props) => {
         onClick={() => onClose()}
         icon="close-small"
       />
-      <Maps
+      <BrixelMap
+        baseByData={baseByData}
+        gestureHandling="auto"
+        lang={lang}
         hideExternalZoom
         externalControls
-        showRadar={true}
-        rad={true}
-        minHeight={390}
-        className="w-perc-100 h-perc-100"
-        latitude={property.location.latitude}
-        longitude={property.location.longitude}
-        mapType={'satellite'}
-        nearBy={false}
-        property={property}
-        showMap={true}
-        scrollZoom
-        zoom={16}
+        hideLocation={true}
+        className="w-perc-100 h-fix-400"
+        center={{
+          lat: property.location.latitude,
+          lng: property.location.longitude,
+        }}
+        type={'satellite'}
+        marker={property}
+        zoom={15}
       />
       <div className="p-2">
         <div className="mt-2 mb-1">

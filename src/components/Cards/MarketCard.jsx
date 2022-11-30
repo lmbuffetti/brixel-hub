@@ -8,6 +8,7 @@ import {
   ProgressRing,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
+import { BrixelMap } from '@brixel/brixel-components/dist/map';
 import cloneDeep from 'lodash/cloneDeep';
 import compact from 'lodash/compact';
 import get from 'lodash/get';
@@ -37,7 +38,6 @@ import NotInterestedConfirmModal from '../../Pages/Market/Buyer/NotInterestedCon
 import { calcPercentageProEstimation, completedBestimate, getCookie, setCookie } from '../../utils/helpers';
 import translateTo from '../../utils/translation';
 import CoverPropertyImage from '../CoverPropertyImage';
-import Maps from '../Map/Maps';
 import CardImageText from '../Skeleton/CardImageText';
 
 const MarketCard = (props) => {
@@ -524,19 +524,21 @@ const MarketCard = (props) => {
                 {
                   isShowLocationCard ? (
                     <div>
-                      <Maps
-                        showRadar={!isFullVisitble}
-                        rad={!isFullVisitble}
+                      <BrixelMap
+                        className="w-perc-100 h-fix-208"
+                        gestureHandling="auto"
+                        baseByData={baseByData}
+                        lang={lang}
+                        hideLocation={!isFullVisitble}
                         minHeight={208}
-                        className="w-perc-100 h-perc-100"
-                        latitude={item.location.latitude}
-                        longitude={item.location.longitude}
-                        mapType={'satellite'}
-                        nearBy={false}
-                        property={item}
-                        showMap={true}
-                        scrollZoom
-                        zoom={16}
+                        externalControls={false}
+                        center={{
+                          lat: item.location.latitude,
+                          lng: item.location.longitude,
+                        }}
+                        type={'satellite'}
+                        marker={item}
+                        zoom={14}
                       />
                     </div>
                   ) : (

@@ -8,10 +8,11 @@ import translateTo from '../utils/translation';
 
 const SearchProfileField = (props) => {
   const {
-    searchProfile,
+    changeFieldValue,
     field,
     lang,
     onClick,
+    searchProfile,
   } = props;
 
   const renderFieldsSearchProfile = () => {
@@ -43,7 +44,7 @@ const SearchProfileField = (props) => {
       )
     } else if (get(searchProfile, `${field}.min`, -1) > -1) {
       const inputs = [];
-      QuestionsList(lang).forEach((input) => {
+      QuestionsList(lang, 'searchProfile', changeFieldValue, 'SearchProfile').forEach((input) => {
         if (input.inputs) {
           input.inputs.forEach(inp => {
             inputs.push(inp);
@@ -110,10 +111,11 @@ const SearchProfileField = (props) => {
 }
 
 SearchProfileField.propTypes = {
-  searchProfile: PropTypes.object.isRequired,
+  changeFieldValue: PropTypes.func,
   field: PropTypes.string,
   lang: PropTypes.string.isRequired,
   onClick: PropTypes.func,
+  searchProfile: PropTypes.object.isRequired,
 }
 
 SearchProfileField.defaultProps = {

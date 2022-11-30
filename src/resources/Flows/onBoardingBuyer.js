@@ -20,14 +20,13 @@ import { svgIcons } from '../Utilities/svgIcons';
 const { factsOptions } = FactsOptions;
 
 // QUESTION LISTS
-export const QuestionsList = (lang, type, changeField) => {
+export const QuestionsList = (lang, type, changeField, formName = 'GetStarted') => {
   let countryList = [];
   let formValue = {};
   // let company = null;
-
   if (configureStore) {
     countryList = get(configureStore.getState(), 'common.country', []);
-    formValue = get(configureStore.getState(), 'brixelForm.GetStarted.values', []);
+    formValue = get(configureStore.getState(), `brixelForm[${formName}].values`, []);
     // company = get(configureStore.getState(), 'brixelForm.GetStarted.values.company', '');
     // country = get(configureStore.getState(), 'brixelForm.GetStarted.values.location.countryCode', 'CH');
   }

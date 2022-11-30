@@ -1,11 +1,10 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { BrixelButtonIcon, BrixelButtonPrimary, BrixelIcon, BrixelTabs } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import PropTypes from 'prop-types';
 import React, { Suspense, useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
 import { bindActionCreators, compose } from 'redux';
 import { setHistory, setModal, setSplashType } from '../../actions/CommonActions';
@@ -179,11 +178,9 @@ const MarketCategoryListBuyer = (props) => {
 
   return (
     <>
-      {
-        get(history, 'location.pathname', '').includes('searchProfile') && (
-          <SearchProfileModal />
-        )
-      }
+      <Routes>
+        <Route path="/list/*" element={<SearchProfileModal />} />
+      </Routes>
       <Suspense fallback="">
         <div className="buyerMarket">
           {/* SECTION: buyer welcome message  */}
@@ -397,7 +394,7 @@ const MarketCategoryListBuyer = (props) => {
                         <div className="w-perc-100 max-w-fix-880 ml-a mr-a ta-c">
                           <Link
                             className="fweight-600 fsize-300 td-u"
-                            to='/buy/searchProfile'
+                            to='/buy/searchProfile/list'
                           >
                             {translateTo('Manage Search Profiles', lang)}
                           </Link>
@@ -415,7 +412,7 @@ const MarketCategoryListBuyer = (props) => {
                                     field !== 'isDefault' && field !== 'name' && (
                                       <>
                                         <SearchProfileField
-                                          onClick={() => history.push(`/buy/searchProfile/edit/${activeSearchProfile.id}`, {state: { state: '/buy' }})}
+                                          onClick={() => history.push(`/buy/searchProfile/list/edit/${activeSearchProfile.id}`, {state: { url: '/buy' }})}
                                           searchProfile={activeSearchProfile}
                                           field={field}
                                           lang={lang}
@@ -430,7 +427,7 @@ const MarketCategoryListBuyer = (props) => {
                               icon="edit-setting"
                               secondary
                               className="bgWhite"
-                              onClick={() => history.push(`/buy/searchProfile/edit/${activeSearchProfile.id}`, {state: { url: '/buy' }})}
+                              onClick={() => history.push(`/buy/searchProfile/list/edit/${activeSearchProfile.id}`, {state: { url: '/buy' }})}
                             />
                           </div>
                         </div>

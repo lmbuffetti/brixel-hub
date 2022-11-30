@@ -71,7 +71,7 @@ const SearchProfileModal = (props) => {
         user: loggedInUser.id,
       },
       id,
-      redirectToUrl: url || '/buy/searchProfile',
+      redirectToUrl: url || '/buy/searchProfile/list',
       smallLoader: 'saveData',
     }
     if (type === 'update') {
@@ -93,19 +93,19 @@ const SearchProfileModal = (props) => {
   const onClose = () => {
     const url = get(history, 'location.state.url', null);
     switch(history.location.pathname) {
-      case '/buy/searchProfile':
+      case '/buy/searchProfile/list':
         history.push(url || '/buy');
         break;
       default:
-        history.push(url || '/buy/searchProfile');
+        history.push(url || '/buy/searchProfile/list');
     }
   }
 
   const modalTitle = () => {
     switch(history.location.pathname) {
-      case '/buy/searchProfile':
+      case '/buy/searchProfile/list':
         return 'Manage Search Profiles';
-      case '/buy/searchProfile/create':
+      case '/buy/searchProfile/list/create':
         return 'Create Search Profiles';
       default:
         return 'Edit Search Profile';
@@ -143,7 +143,7 @@ const SearchProfileModal = (props) => {
             btnType: 'Secondary',
             className: 'mr-1',
             name: translateTo('Cancel', lang),
-            func: () => history.push('/buy/searchProfile'),
+            func: () => history.push('/buy/searchProfile/list'),
           },
           {
             round: true,
@@ -164,7 +164,7 @@ const SearchProfileModal = (props) => {
             btnType: 'Secondary',
             className: 'mr-1',
             name: translateTo('Cancel', lang),
-            func: () => history.push('/buy/searchProfile'),
+            func: () => history.push('/buy/searchProfile/list'),
           },
           {
             round: true,

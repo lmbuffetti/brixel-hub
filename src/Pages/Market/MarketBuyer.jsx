@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { BrixelTabs } from '@brixel/brixel-components';
 import { destroy } from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
@@ -23,9 +24,10 @@ import { getUserSearchProfiles } from '../../actions/SearchProfileActions';
 import { updateFavorite } from '../../actions/UserActions';
 import lazyWithRetry from '../../components/LazyWithRetry';
 import '../../styles/SCSS/pages/market.scss';
+import translateTo from '../../utils/translation';
 
 const MarketCategoryListBuyer = lazyWithRetry(() => import('./MarketCategoryListBuyer'));
-const MarketList = lazyWithRetry(() => import('./MarketList'));
+const FavoritesProperty = lazyWithRetry(() => import('./Buyer/FavoritesProperty'));
 
 const MarketBuyer = (props) => {
   const history = {
@@ -46,9 +48,25 @@ const MarketBuyer = (props) => {
     handleGetWishlistProperties,
     handleSpinnerOff,
     isSmallLoading,
+    lang,
     loggedInUser,
   } = props;
   const [activeTab, setActiveTab] = useState('all');
+  const [activeTopTab, setActiveTopTab] = useState('searchProfile');
+  const topTab = [
+    {
+      label: 'Search',
+      value: 'searchProfile',
+    },
+    {
+      label: 'Saved properties',
+      value: 'favorites',
+    },
+    {
+      label: 'Estimations',
+      value: 'estimations',
+    },
+  ]
   // URL PARAMS
   const catName = get(match, 'cat', null);
   const [page, setPage] = useState({
@@ -126,15 +144,27 @@ const MarketBuyer = (props) => {
   
   useEffect(() => {
     getPropertiesPage(activeTab);
-  }, [isSmallLoading])
+  }, [isSmallLoading]);
+  
+  const onClickOnTopTab = (tab) => {
+    history.push(`/buy/${tab}`);
+    setActiveTopTab(tab)
+  }
 
   return (
     <div className="bgOverlay market-container buyerPage" id="market">
       {/* premarket overlay */}
       <Suspense fallback="">
+        <BrixelTabs
+          className="mb-2"
+          clicksList={topTab.map((item) => item.value)}
+          labels={topTab.map((item) => translateTo(item.label, lang))}
+          activeTab={activeTopTab}
+          onClick={(tab) => onClickOnTopTab(tab)}
+        />
         <Routes>
           <Route
-            path="/"
+            path="/searchProfile/*"
             element={
               <MarketCategoryListBuyer
                 onPageChange={(resultsPerPage, pageNumber, type) => getPropertiesPage(type, pageNumber)}
@@ -142,9 +172,8 @@ const MarketBuyer = (props) => {
               />
             }
           />
-          <Route path="/searchProfile/*" element={<MarketCategoryListBuyer />} />
-          <Route path="/:cat" element={<MarketList isBuyer />} />
-          <Route path="*" element={<Navigate to="/buy" />} />
+          <Route path="/favorites/*" element={<FavoritesProperty />} />
+          <Route path="*" element={<Navigate to="/buy/searchProfile" />} />
         </Routes>
       </Suspense>
     </div>
@@ -163,6 +192,7 @@ MarketBuyer.propTypes = {
   handleGetWishlistProperties: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
+  lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
 };
 
@@ -175,6 +205,7 @@ const mapStateToProps = (state) => ({
   activeSearchProfile: get(state, 'user.activeSearchProfile', null),
   favoritesProperties: get(state, 'market.favoritesProperties', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
+  lang: get(state, 'common.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser.user', { }),
   preMarketProperties: get(state, 'market.preMarketProperties.data', []),
   splashScreenType: get(state, 'common.splashScreenType', ''),

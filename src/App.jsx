@@ -29,7 +29,6 @@ import { setActiveSingleProperty } from './actions/PropertyActions';
 import { getImageType } from './actions/UploadActions';
 import { checkToken, setUserTypes } from './actions/UserActions';
 import BestimateCardOverlay from './components/BestimateCardOverlay';
-import WizardCard from './components/Cards/WizardCard';
 import PageFooter from './components/Footer/PageFooter';
 import Loading from './components/Loading';
 // IMAGES
@@ -136,7 +135,6 @@ const App = (props) => {
     teamAvatars,
     userTypes,
     windowDimensions,
-    wizard,
   } = props;
   // STATE
   // CONSTANT TO PREVENT TRANSIFEX ERROR
@@ -773,12 +771,6 @@ const App = (props) => {
             )
           }
 
-          {
-            get(wizard, 'type', null) && get(wizard, 'type', '') !== 'preMarketOverlay' && (
-              <WizardCard lang={lang} />
-            )
-          }
-
           { /* SECTION: GENERAL NOTIFICATION - use redux notification to populate */}
           {
             notification && notification.length > 0 &&
@@ -866,7 +858,6 @@ App.propTypes = {
   teamAvatars: PropTypes.arrayOf(PropTypes.object).isRequired,
   userTypes: PropTypes.string,
   windowDimensions: PropTypes.object.isRequired,
-  wizard: PropTypes.object.isRequired,
 };
 
 App.defaultProps = {
@@ -892,7 +883,6 @@ const mapStateToProps = (state) => ({
   teamAvatars: get(state, 'companies.activeSingleCompany.teamAvatars', get(state, 'user.loggedInUser.user.company.teamAvatars', [])),
   userTypes: get(state, 'user.userTypes', null),
   windowDimensions: get(state, 'common.windowDimensions', {}),
-  wizard: get(state, 'common.wizard', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({

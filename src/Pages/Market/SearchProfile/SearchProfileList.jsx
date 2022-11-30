@@ -1,5 +1,11 @@
-import { BrixelButtonIcon, BrixelButtonSecondary, BrixelButtonText, BrixelDropdownMini, useOutsideAlerter } from '@brixel/brixel-components';
-import { BrixelRadioButton, initializeForm } from '@brixel/brixel-components/dist/form';
+import {
+  BrixelButtonIcon,
+  BrixelButtonSecondary,
+  BrixelButtonText,
+  BrixelDropdownMini,
+  useOutsideAlerter,
+} from '@brixel/brixel-components';
+import { BrixelRadioButton, change, initializeForm } from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
 import set from 'lodash/set';
 import PropTypes from 'prop-types';
@@ -10,10 +16,10 @@ import { bindActionCreators, compose } from 'redux';
 import { setModal } from '../../../actions/CommonActions';
 import { deleteUserSearchProfile, updateUserSearchProfile } from '../../../actions/SearchProfileActions';
 import SearchProfileField from '../../../components/SearchProfileField';
+import exclamationIcon from '../../../images/searchProfile/exclamation-icon.svg';
 import { QuestionsList } from '../../../resources/Flows/onBoardingBuyer';
 import { titleSearchProfile } from '../../../utils/titleCreationSearchProfile';
 import translateTo from '../../../utils/translation';
-import exclamationIcon from '../../../images/searchProfile/exclamation-icon.svg';
 
 const SearchProfileList = (props) => {
   const history = {
@@ -21,6 +27,7 @@ const SearchProfileList = (props) => {
     location: useLocation(),
   };
   const {
+    changeFieldValue,
     handleDeleteUserSearchProfile,
     handleSetModal,
     initForm,
@@ -42,7 +49,7 @@ const SearchProfileList = (props) => {
 
   useEffect(() => {
     const fields = [...fieldsSearchProfile];
-    QuestionsList('en', 'searchProfile').forEach((inputs) => {
+    QuestionsList(lang, 'searchProfile', changeFieldValue, 'SearchProfile').forEach((inputs) => {
       if (inputs.inputs) {
         inputs.inputs.forEach((field) => {
           if (field.name !== 'location.countryCode') {
@@ -61,7 +68,7 @@ const SearchProfileList = (props) => {
       set(initialValue, field, get(searchProfile, field, ''));
     })
     initForm(initialValue)
-    history.push(`/buy/searchProfile/edit/${searchProfile.id}`)
+    history.push(`/buy/searchProfile/list/edit/${searchProfile.id}`)
   }
 
   const onDeleteSearchProfile = (profile) => {
@@ -135,7 +142,7 @@ const SearchProfileList = (props) => {
           <BrixelButtonText
             label="New Search Profile"
             leftIcon="plus"
-            onClick={() => history.push('/buy/searchProfile/create')}
+            onClick={() => history.push('/buy/searchProfile/list/create')}
           />
         </div>
       </div>
@@ -233,10 +240,11 @@ const SearchProfileList = (props) => {
                               field !== 'isDefault' && field !== 'name' && (
                                 <>
                                   <SearchProfileField
+                                    changeFieldValue={(fld, val) => changeFieldValue(fld, val)}
                                     searchProfile={searchProfile}
                                     field={field}
                                     lang={lang}
-                                    onClick={() => history.push(`/buy/searchProfile/edit/${searchProfile.id}`)}
+                                    onClick={() => history.push(`/buy/searchProfile/list/edit/${searchProfile.id}`)}
                                   />
                                 </>
                               )
@@ -273,6 +281,7 @@ const SearchProfileList = (props) => {
 };
 
 SearchProfileList.propTypes = {
+  changeFieldValue: PropTypes.func.isRequired,
   handleDeleteUserSearchProfile: PropTypes.func.isRequired,
   handleSetModal: PropTypes.func.isRequired,
   handleUpdateSearchProfile: PropTypes.func.isRequired,
@@ -295,6 +304,9 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  changeFieldValue(field, value) {
+    dispatch(change('SearchProfile', field, value));
+  },
   initForm(value) {
     dispatch(initializeForm('SearchProfile', value));
   },
