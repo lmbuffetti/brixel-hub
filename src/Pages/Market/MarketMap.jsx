@@ -15,7 +15,6 @@ const MarketMap = (props) => {
     onActiveProperty,
     properties,
     lang,
-    showMap,
     subMinHeight,
     windowDimensions,
     zoom,
@@ -59,10 +58,6 @@ const MarketMap = (props) => {
                   lng: properties[0].location.longitude,
                 }}
                 onSelProperty={(id) => onSelProperty(id)}
-                style={{
-                  width: showMap ? '100%' : '0px',
-                  height: showMap ? '100%' : '0px',
-                }}
                 markers={properties}
               />
             )
@@ -78,7 +73,6 @@ MarketMap.propTypes = {
   lang: PropTypes.string.isRequired,
   onActiveProperty: PropTypes.func.isRequired,
   properties: PropTypes.arrayOf(PropTypes.object).isRequired,
-  showMap: PropTypes.bool,
   subMinHeight: PropTypes.string,
   windowDimensions: PropTypes.object.isRequired,
   zoom: PropTypes.number,
@@ -86,7 +80,6 @@ MarketMap.propTypes = {
 
 MarketMap.defaultProps = {
   activeProperty: null,
-  showMap: true,
   subMinHeight: '',
   type: null,
   zoom: 10,
