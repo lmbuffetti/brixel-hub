@@ -1,38 +1,29 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-nested-ternary */
-/* eslint-disable no-shadow */
-import React, { useState, useEffect, useRef } from 'react';
-import PropTypes from 'prop-types';
-import {
-  BrixelButtonIcon,
-  BrixelButtonPrimary,
-  BrixelProgressBar,
-} from '@brixel/brixel-components';
-import translateTo from '../../../../utils/translation';
-import {
-  MultiFileldsReduxForm,
-  change,
-  destroy,
-  reset,
-  initializeForm,
-} from '@brixel/brixel-components/dist/form';
-import { bindActionCreators, compose } from 'redux';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { BrixelButtonIcon, BrixelButtonPrimary, BrixelProgressBar } from '@brixel/brixel-components';
+import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/BrixelButtonSecondary';
+import { change, destroy, initializeForm, MultiFileldsReduxForm, reset } from '@brixel/brixel-components/dist/form';
+import { FinancialCalculator } from '@brixel/brixel-components/dist/utils/FinancialFormulas';
+import cloneDeep from 'lodash/cloneDeep';
 import get from 'lodash/get';
 import has from 'lodash/has';
-import cloneDeep from 'lodash/cloneDeep';
-import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/BrixelButtonSecondary';
-import { FinancialCalculator } from '@brixel/brixel-components/dist/utils/FinancialFormulas';
 import isArray from 'lodash/isArray';
-import { MakeOfferQuestions } from '../../../../resources/Deals/MakeOffer';
-import { sendUserScanTrial } from '../../../../actions/UserActions';
+import PropTypes from 'prop-types';
+/* eslint-disable no-nested-ternary */
+/* eslint-disable no-shadow */
+import React, { useEffect, useRef, useState } from 'react';
+import { connect } from 'react-redux';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { bindActionCreators, compose } from 'redux';
 import { setModal, spinnerOff } from '../../../../actions/CommonActions';
-import { getCookie, setCookie } from '../../../../utils/helpers';
 import { getActiveSingleCompany } from '../../../../actions/CompanyActions';
+import { getActiveSingleDeal, getBuyerDeal, saveMakeOffer } from '../../../../actions/DealActions';
 import { getActiveSingleProperty } from '../../../../actions/PropertyActions';
-import { saveMakeOffer, getActiveSingleDeal, getBuyerDeal } from '../../../../actions/DealActions';
 import { multiUploadDocument } from '../../../../actions/UploadActions';
+import { sendUserScanTrial } from '../../../../actions/UserActions';
+import { MakeOfferQuestions } from '../../../../resources/Deals/MakeOffer';
+import { QuestionsList } from '../../../../resources/Flows/onBoardingSeller';
+import { getCookie, setCookie } from '../../../../utils/helpers';
+import translateTo from '../../../../utils/translation';
 
 const MakeOffer = (props) => {
   const history = {
@@ -61,6 +52,7 @@ const MakeOffer = (props) => {
     lang,
     loggedInUser,
     handleReset,
+    translations,
   } = props;
   let lowCountry = get(formValue, 'propertyLocation.countryCode', '');
   lowCountry = lowCountry ? lowCountry.toLowerCase() : '';
@@ -405,6 +397,12 @@ const MakeOffer = (props) => {
       delete formValue.document;
     }
   }, [get(formValue, 'document', null)]);
+  
+  // ON CHANGE LANGUAGE RELOAD THE QUESTIONS TRANSLATED
+  useEffect(() => {
+    setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue));
+    setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue)[currentIndex]);
+  }, [lang, translations]);
 
   // FUNCTION TO LOAD DIFFERENT BUTTON LABEL BY STEP
   const buttonLabel = () => {
@@ -628,6 +626,7 @@ MakeOffer.propTypes = {
   isSmallLoading: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
+  translations: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -639,6 +638,7 @@ const mapStateToProps = (state) => ({
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
   lang: get(state, 'common.language', ''),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
+  translations: get(state, 'translations', { }),
   initialValues: {
     ...get(state, 'brixelForm.offerFlow.values', {}),
     affordabilityCheck: null,

@@ -54,7 +54,7 @@ const GetStartedEstimation = (props) => {
     handleDoLogin,
     handleGetActiveSingleCompany,
     handleCreateEstimation,
-    // handleSaveActiveSingleProperty,
+    // handleSaveActiveSingleProperty,s
     // handleSaveActiveSingleUser,
     handleSpinnerOn,
     handleSpinnerOff,
@@ -70,11 +70,11 @@ const GetStartedEstimation = (props) => {
   } = props;
   // STATE
   // SET THE QUESTIONS IN BASE OF THE COUNTRY
-  const [questions, setQuestions] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')));
+  const [questions, setQuestions] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue));
   const [currentIndex, setCurrentIndex] = useState(0);
   const [oldIndex, setOldIndex] = useState(0);
   // SET QUEST TO FIRST QUESTION OF QuestionsList()
-  const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0]);
+  const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue)[0]);
   const [showError, setShowError] = useState(false);
   const [loadingRequest, setLoadingRequest] = useState(false);
   // GET URL PARAMS
@@ -459,7 +459,7 @@ const GetStartedEstimation = (props) => {
       inputSheet.totalComplete = calcPercentageFacts('GetStarted').calcPerc;
       changeFieldValue('inputSheet', inputSheet);
     }
-    const newQuest = QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'));
+    const newQuest = QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue);
     if (newQuest[currentIndex].inputs && newQuest[currentIndex].inputs.length === 1 && get(newQuest[currentIndex], 'inputs[0].options', []).length > 0 && get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), null) && !isArray(get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), [])) && oldIndex <= currentIndex) {
       changeStep('next', null, 1, true);
     }
@@ -503,13 +503,13 @@ const GetStartedEstimation = (props) => {
 
   // ON CHANGE LANGUAGE RELOAD THE QUESTIONS TRANSLATED
   useEffect(() => {
-    const currentQuest = QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex];
+    const currentQuest = QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue)[currentIndex];
     if (currentQuest.effect === 'slideUp') {
-      setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')));
-      setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex - 1]);
+      setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue));
+      setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue)[currentIndex - 1]);
     } else {
-      setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')));
-      setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex]);
+      setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue));
+      setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue)[currentIndex]);
     }
   }, [lang, translations]);
 
@@ -554,7 +554,7 @@ const GetStartedEstimation = (props) => {
   useEffect(() => {
     if (formValue) {
       const newQuest = [];
-      QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')).map((quest) => {
+      QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue).map((quest) => {
         if (quest.condition) {
           let isValid = true;
           quest.condition.map((item) => {
