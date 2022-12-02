@@ -20,11 +20,13 @@
     .innerWrap {
       display: flex;
       flex-direction: column;
+      height: 100%;
 
       @media (min-width: $responsive-medium) {
         padding-left: 236px;
       }
       .dashboardContainer {
+        padding-bottom: 50px;
         flex: 1;
         @media (max-width: $responsive-medium) {
           padding-bottom: $step;
@@ -33,7 +35,6 @@
     }
   }
   .innerWrap {
-    flex: 1;
     z-index: 1;
 
     @media (max-width: $responsive-medium) {

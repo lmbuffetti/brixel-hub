@@ -7,27 +7,24 @@ import React, { Suspense, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Navigate, Route, Routes, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
-import { setSplashType, spinnerOff } from '../../actions/CommonActions';
+import { spinnerOff } from '../../actions/CommonActions';
+import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import {
   getAllProperties,
   getFavoritesProperties,
-  getLastViewedProperties,
-  getNewProperties,
   getOwnedEstimations,
-  getOwnedProperties,
   getPremarketProperties,
   getPremiumProperties,
   getWishlistProperties,
 } from '../../actions/MarketActions';
-import { setActiveMarketOverlayPropertyLists } from '../../actions/PropertyActions';
 import { getUserSearchProfiles } from '../../actions/SearchProfileActions';
-import { updateFavorite } from '../../actions/UserActions';
 import lazyWithRetry from '../../components/LazyWithRetry';
 import '../../styles/SCSS/pages/market.scss';
 import translateTo from '../../utils/translation';
 
 const MarketCategoryListBuyer = lazyWithRetry(() => import('./MarketCategoryListBuyer'));
 const FavoritesProperty = lazyWithRetry(() => import('./Buyer/FavoritesProperty'));
+const EstimationsPropertyList = lazyWithRetry(() => import('./Buyer/EstimationsPropertyList'));
 
 const MarketBuyer = (props) => {
   const history = {
@@ -39,8 +36,9 @@ const MarketBuyer = (props) => {
   const {
     activeSearchProfile,
     destroyForm,
-    handleGetFavoritesProperties,
+    handleGetActiveSingleCompany,
     handleGetAllProperties,
+    handleGetFavoritesProperties,
     handleGetOwnedEstimations,
     handleGetPreMarketProperties,
     handleGetPremiumProperties,
@@ -90,10 +88,14 @@ const MarketBuyer = (props) => {
         isBuyer: true,
       };
       if (!catName) handleGetFavoritesProperties(data);
-      handleGetWishlistProperties(data);
       handleGetUserSearchProfiles(loggedInUser.id);
       handleGetOwnedEstimations(data);
+      data.resultsPerPage = 50;
+      handleGetWishlistProperties(data);
       handleSpinnerOff();
+      if (get(loggedInUser, 'companies[0]', null)) {
+        handleGetActiveSingleCompany({ id: get(loggedInUser, 'companies[0]', null) });
+      }
     }
   }, [loggedInUser.id]);
   
@@ -146,17 +148,28 @@ const MarketBuyer = (props) => {
     getPropertiesPage(activeTab);
   }, [isSmallLoading]);
   
+  useEffect(() => {
+    const activeListMap = topTab.map((tb) => {
+      const url = history.location.pathname || '';
+      tb.active = url.includes(tb.value);
+      return tb;
+    });
+    const actMenu = activeListMap.find((itm) => itm.active);
+    if(actMenu) setActiveTopTab(actMenu.value);
+  }, [get(history, 'location.pathname', null)]);
+  
+  
   const onClickOnTopTab = (tab) => {
     history.push(`/buy/${tab}`);
     setActiveTopTab(tab)
   }
 
   return (
-    <div className="bgOverlay market-container buyerPage" id="market">
+    <div className="dis-fl-col h-perc-100 market-container buyerPage" id="market">
       {/* premarket overlay */}
       <Suspense fallback="">
         <BrixelTabs
-          className="mb-2"
+          className="mb-2 mx-a ta-c"
           clicksList={topTab.map((item) => item.value)}
           labels={topTab.map((item) => translateTo(item.label, lang))}
           activeTab={activeTopTab}
@@ -173,6 +186,7 @@ const MarketBuyer = (props) => {
             }
           />
           <Route path="/favorites/*" element={<FavoritesProperty />} />
+          <Route path="/estimations/*" element={<EstimationsPropertyList />} />
           <Route path="*" element={<Navigate to="/buy/searchProfile" />} />
         </Routes>
       </Suspense>
@@ -183,6 +197,7 @@ const MarketBuyer = (props) => {
 MarketBuyer.propTypes = {
   activeSearchProfile: PropTypes.object,
   destroyForm: PropTypes.func.isRequired,
+  handleGetActiveSingleCompany: PropTypes.func.isRequired,
   handleGetAllProperties: PropTypes.func.isRequired,
   handleGetFavoritesProperties: PropTypes.func.isRequired,
   handleGetOwnedEstimations: PropTypes.func.isRequired,
@@ -216,20 +231,15 @@ const mapDispatchToProps = (dispatch) => ({
   destroyForm() {
     dispatch(destroy('Property'));
   },
+  handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
   handleGetAllProperties: bindActionCreators(getAllProperties, dispatch),
   handleGetFavoritesProperties: bindActionCreators(getFavoritesProperties, dispatch),
-  handleGetLastViewedProperties: bindActionCreators(getLastViewedProperties, dispatch),
-  handleGetNewProperties: bindActionCreators(getNewProperties, dispatch),
   handleGetOwnedEstimations: bindActionCreators(getOwnedEstimations, dispatch),
   handleGetPreMarketProperties: bindActionCreators(getPremarketProperties, dispatch),
   handleGetPremiumProperties: bindActionCreators(getPremiumProperties, dispatch),
-  handleGetSellerProperties: bindActionCreators(getOwnedProperties, dispatch),
   handleGetUserSearchProfiles: bindActionCreators(getUserSearchProfiles, dispatch),
   handleGetWishlistProperties: bindActionCreators(getWishlistProperties, dispatch),
-  handleSetActiveMarketOverlayPropertyLists: bindActionCreators(setActiveMarketOverlayPropertyLists, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
-  handleUpdateFavorites: bindActionCreators(updateFavorite, dispatch),
-  setSplashScreen: bindActionCreators(setSplashType, dispatch),
 });
 
 export default compose(

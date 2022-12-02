@@ -133,3 +133,10 @@ $responsive-desktop: map-get($grid-breakpoints, xl );
     }
   }
 }
+
+.detailList {
+  > div {
+    margin-right: $step * 3;
+    margin-bottom: $step * 3;
+  }
+}

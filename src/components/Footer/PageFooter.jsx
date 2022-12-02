@@ -1,9 +1,9 @@
-import translateTo from '../../utils/translation';
-import React, { useEffect, useState } from 'react';
 import get from 'lodash/get';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 import { CompaniesData } from '../../resources/Companies/Companies';
+import translateTo from '../../utils/translation';
 // import { connect } from 'react-redux';
 // import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -40,7 +40,7 @@ function PageFooter(props) {
                 {
                   activeSingleCompany.stub === 'ubs' && <span className="mr-2 fsize-300 txtAltGrey400">{translateTo('Your partner for financial questions', lang)}</span>
                 }
-                <div className="h-fix-20 h-fix-lg-24">
+                <div className="h-fix-20 h-fix-lg-24 dis-f">
                   {
                     get(activeCompanyData, 'logos', []).map((logo, i) => (
                       <img
