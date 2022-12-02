@@ -1,36 +1,68 @@
+import { translateTo } from '@brixel/brixel-components';
+import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/BrixelButtonSecondary';
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators, compose } from 'redux';
-import { setModal } from '../../../actions/CommonActions';
-import MarketCardFavorites from '../../../components/Cards/MarketCardFavorites';
+import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import { compose } from 'redux';
+import FavoritesPropertyList from './FavoritesPropertyList';
+import FavoritesPropertyMap from './FavoritesPropertyMap';
 
-const LearnMoreListingsProperty = (props) => {
+const FavoritesProperty = (props) => {
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
+  // PROPS
   const {
-    handleSetModal,
     lang,
-    mapStateToProps,
     wishlistProperties,
   } = props;
-  const [step, setStep] = useState(1);
+  // STATE
+  const [view, setView] = useState('list');
+  
+  useEffect(() => {
+    if (get(history, 'location.pathname', '').includes('map')) setView('map');
+    else setView('list');
+  }, [get(history, 'location.pathname', null)]);
+  
+  const onClickMapNav = () => {
+    if (view === 'map') history.push(`/buy/favorites/list`)
+    else history.push(`/buy/favorites/map`);
+  }
+  
   return (
-    <div className="mt-6-neg ov-v">
-      {
-        get(wishlistProperties, 'data', []).map((item, index) => (
-          <MarketCardFavorites
-            key={`cardFavorites-${index.toString()}`}
-            activeSingleProperty={item}
-            lang={lang}
+    <div className="container dis-fl-col h-perc-100">
+      <div className="dis-f a-c jc-b my-3">
+        <h1>
+          <span>{translateTo('Your estimations', lang)}</span>
+          <span className="ml-1">({wishlistProperties.total || '-'})</span>
+        </h1>
+        
+        <div>
+          <BrixelButtonSecondary
+            rounded
+            label={view === 'map' ? 'List view' : 'Map view'}
+            leftIcon={view === 'map' ? 'lists' : 'roadmap'}
+            theme="dark"
+            themeSat={700}
+            onClick={() => onClickMapNav()}
           />
-        ))
-      }
+        </div>
+      </div>
+      
+      <Routes>
+        <Route path="/list" element={<FavoritesPropertyList />} />
+        <Route path="/map" element={<FavoritesPropertyMap />} />
+        <Route path="*" element={<Navigate to="/buy/favorites/list" />} />
+      </Routes>
+      
     </div>
   )
 }
 
-LearnMoreListingsProperty.propTypes = {
-  handleSetModal: PropTypes.func.isRequired,
+FavoritesProperty.propTypes = {
   lang: PropTypes.string.isRequired,
   wishlistProperties: PropTypes.object.isRequired,
 }
@@ -38,12 +70,8 @@ LearnMoreListingsProperty.propTypes = {
 const mapStateToProps = (state) => ({
   lang: get(state, 'common.language', 'en'),
   wishlistProperties: get(state, 'market.wishlistProperties', {}),
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  handleSetModal: bindActionCreators(setModal, dispatch),
 })
 
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-)(LearnMoreListingsProperty);
+  connect(mapStateToProps, null),
+)(FavoritesProperty);

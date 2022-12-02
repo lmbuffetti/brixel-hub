@@ -1,18 +1,10 @@
-import React, {
-  useRef, Suspense,
-} from 'react';
+import { useOutsideAlerter } from '@brixel/brixel-components';
+import get from 'lodash/get';
 import PropTypes from 'prop-types';
+import React, { useRef } from 'react';
+import { connect } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { compose } from 'redux';
-import { connect } from 'react-redux';
-import {
-  useOutsideAlerter,
-} from '@brixel/brixel-components';
-import get from 'lodash/get';
-import lazyWithRetry from './LazyWithRetry';
-import Loading from './Loading';
-
-const SplashScreenContent = lazyWithRetry(() => import('./SplashScreenContent'));
 
 const SplashScreen = (props) => {
   const history = {
@@ -45,15 +37,7 @@ const SplashScreen = (props) => {
     <div className={`wrapSplash ${type === 'marketOverlay' ? 'fixed' : ''} ${className} ${type} ${wizard.type ? 'bgOverlayDark' : ''}`}>
       <div className="container brdRadius m-a bgWhite p-small-4" ref={drawerRef}>
         <div className={`h-perc-100 ov-a dis-fl-col ${type === 'marketOverlay' ? '' : 'p-lg-3 p-2 px-2'}`}>
-          {
-            children || (
-              <Suspense fallback={<Loading isLoading />}>
-                <SplashScreenContent
-                  type={type}
-                />
-              </Suspense>
-            )
-          }
+          {children}
         </div>
       </div>
     </div>
