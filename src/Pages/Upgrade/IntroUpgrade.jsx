@@ -1,16 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {
-  useEffect, useRef, useState,
-} from 'react';
-import PropTypes from 'prop-types';
-import { bindActionCreators, compose } from 'redux';
-import { connect } from 'react-redux';
-import {
-  useLocation,
-  useNavigate, useParams,
-} from 'react-router-dom';
-import get from 'lodash/get';
-import orderBy from 'lodash/orderBy';
 import {
   BrixelButtonPrimary,
   BrixelButtonSecondary,
@@ -18,25 +6,32 @@ import {
   BrixelIcon,
   Helpers,
 } from '@brixel/brixel-components';
-import translateTo from '../../utils/translation';
 import { SkeletonPackages } from '@brixel/brixel-components/dist/skeleton';
+import get from 'lodash/get';
+import orderBy from 'lodash/orderBy';
+import PropTypes from 'prop-types';
+import React, { useEffect, useRef, useState } from 'react';
+import { connect } from 'react-redux';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import Slider from 'react-slick';
-import { getPackageProperty } from '../../actions/PropertyActions';
+import { bindActionCreators, compose } from 'redux';
 import { getActiveSingleCompany, getActiveSingleCompanyPackages } from '../../actions/CompanyActions';
+import { getPackageProperty } from '../../actions/PropertyActions';
 import lazyWithRetry from '../../components/LazyWithRetry';
-import { CompaniesData } from '../../resources/Companies/Companies';
+import EmptyHubImg from '../../images/emptyHub.svg';
+import Testimonial1CH from '../../images/getstarted/testimonial-1_CH.jpeg';
+import Testimonial1PT from '../../images/getstarted/testimonial-1_PT.jpg';
+import Testimonial2CH from '../../images/getstarted/testimonial-2_CH.jpeg';
+import Testimonial2PT from '../../images/getstarted/testimonial-2_PT.jpg';
+import Testimonial3CH from '../../images/getstarted/testimonial-3_CH.jpeg';
+import Testimonial3PT from '../../images/getstarted/testimonial-3_PT.jpg';
 
 import BookOnlineImg from '../../images/Upgrade/bookOnline.svg';
 import CallUsImg from '../../images/Upgrade/callUs.svg';
 import NotNowImg from '../../images/Upgrade/notNow.svg';
 import WrireUsImg from '../../images/Upgrade/writeUs.svg';
-import Testimonial1CH from '../../images/getstarted/testimonial-1_CH.jpeg';
-import Testimonial2CH from '../../images/getstarted/testimonial-2_CH.jpeg';
-import Testimonial3CH from '../../images/getstarted/testimonial-3_CH.jpeg';
-import Testimonial1PT from '../../images/getstarted/testimonial-1_PT.jpg';
-import Testimonial2PT from '../../images/getstarted/testimonial-2_PT.jpg';
-import Testimonial3PT from '../../images/getstarted/testimonial-3_PT.jpg';
-import EmptyHubImg from '../../images/emptyHub.svg';
+import { CompaniesData } from '../../resources/Companies/Companies';
+import translateTo from '../../utils/translation';
 
 const PackagesComparePlans = lazyWithRetry(() => import('../../components/PackagesComparePlans'));
 const BoxTrialTestDirve = lazyWithRetry(() => import('../../components/BoxTrialTestDirve'));
@@ -194,8 +189,9 @@ const IntroUpgrade = (props) => {
       <section className="max-w-fix-1200 intro container">
 
         <h2 className="mb-3 mb-lg-5 fsize-600 fsize-md-800 fweight-600">
-          {translateTo('Boost your private sale with an upgrade.', lang)} <br/>
-          {translateTo('by Brixel.', lang)}
+          <span>{translateTo('Boost your private sale with an upgrade.', lang)}</span>
+          <br/>
+          <span>{translateTo('by Brixel.', lang)}</span>
         </h2>
       </section>
 
