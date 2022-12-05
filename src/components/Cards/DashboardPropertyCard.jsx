@@ -68,10 +68,20 @@ const DashboardPropertyCard = (props) => {
             (type === 'sold' || type === 'buy') ? (
               <div className="w-perc-100">
                 <div className="fweight-600 txtBlue700 fsize-500 mb-2">
-                  <span>{get(activeSingleProperty, 'price.currency', 'CHF')}</span>
-                  <span className="ml-1">
-                    {Helpers.formatNumberValue(get(activeSingleProperty, 'price.total', 0), get(activeSingleProperty, 'price.currency', 0))}
-                  </span>
+                  {
+                    type !== 'sold' && get(activeSingleProperty, 'status', null) === 'on-sale' ? (
+                      <>
+                        <span>{get(activeSingleProperty, 'price.currency', 'CHF')}</span>
+                        <span className="ml-1">
+                          {Helpers.formatNumberValue(get(activeSingleProperty, 'price.total', 0), get(activeSingleProperty, 'price.currency', 0))}
+                        </span>
+                      </>
+                    ) : (
+                      <span>
+                        {translateTo('Reserved', lang)}
+                      </span>
+                    )
+                  }
                 </div>
                 {
                   type === 'buy' ? (
