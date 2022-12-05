@@ -32,7 +32,7 @@ const DashboardPropertyCard = (props) => {
     smallLayout,
     type,
   } = props;
-
+  
   return (
     <>
       <div className={`shadow-2dp imgSection bgWhite brdRadius dis-fl-col dis-fl-row-sm ${smallLayout ? 'p-sm-3' : 'p-sm-3 pt-0 pb-2 mb-3'} ov-h`}>
@@ -62,16 +62,26 @@ const DashboardPropertyCard = (props) => {
           <div className="">
             <h4 className="txtDark700 fweight-600 fsize-sm-600 fsize-500"> {get(activeSingleProperty, 'title', '')} </h4>
             <span className="fsize-300 txtLight600"> {get(activeSingleProperty.location, 'city', '')}, {get(activeSingleProperty.location, 'state', '')}  </span>
-
+          
           </div>
           {
             (type === 'sold' || type === 'buy') ? (
               <div className="w-perc-100">
                 <div className="fweight-600 txtBlue700 fsize-500 mb-2">
-                  <span>{get(activeSingleProperty, 'price.currency', 'CHF')}</span>
-                  <span className="ml-1">
-                    {Helpers.formatNumberValue(get(activeSingleProperty, 'price.total', 0), get(activeSingleProperty, 'price.currency', 0))}
-                  </span>
+                  {
+                    type !== 'sold' && get(activeSingleProperty, 'status', null) === 'on-sale' ? (
+                      <>
+                        <span>{get(activeSingleProperty, 'price.currency', 'CHF')}</span>
+                        <span className="ml-1">
+                          {Helpers.formatNumberValue(get(activeSingleProperty, 'price.total', 0), get(activeSingleProperty, 'price.currency', 0))}
+                        </span>
+                      </>
+                    ) : (
+                      <span>
+                        {translateTo('Reserved', lang)}
+                      </span>
+                    )
+                  }
                 </div>
                 {
                   type === 'buy' ? (
@@ -103,14 +113,14 @@ const DashboardPropertyCard = (props) => {
                           </p>
                         </div>
                       </div>
-
+                      
                       <BrixelButtonSecondary
                         className="as-fs mt-2 mt-a-sm mb-a w-auto-sm w-perc-100"
                         rounded
                         label={translateTo('View', lang)}
                         onClick={() => window.open(`${baseByData.pageUrl}${activeSingleProperty.stub}`, '_blank')}
                       />
-
+                    
                     </div>
                   ) : (
                     <div className="dis-f a-c">
