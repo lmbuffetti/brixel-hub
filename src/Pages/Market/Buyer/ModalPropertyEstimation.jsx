@@ -7,7 +7,6 @@ import {
   Helpers,
   translateTo,
 } from '@brixel/brixel-components';
-import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/BrixelButtonSecondary';
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
@@ -363,10 +362,10 @@ const ModalPropertyEstimation = (props) => {
             onClick={() => onClose()}
           />
           
-          <BrixelButtonSecondary
-            rounded
-            label="Contact support"
-          />
+          {/*<BrixelButtonSecondary*/}
+          {/*  rounded*/}
+          {/*  label="Contact support"*/}
+          {/*/>*/}
         </div>
         
       </div>
