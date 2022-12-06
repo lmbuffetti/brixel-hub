@@ -33,6 +33,8 @@ import {
   setEstimation,
 } from '../../actions/PropertyActions';
 import { addNotInterested, updateFavorite } from '../../actions/UserActions';
+import api from '../../controllers/api/config';
+import testdrive from '../../images/Market/testDriveSell.svg';
 import ModalPropertyCard from '../../Pages/Market/Buyer/ModalPropertyCard';
 import NotInterestedConfirmModal from '../../Pages/Market/Buyer/NotInterestedConfirmModal';
 import { calcPercentageProEstimation, completedBestimate, getCookie, setCookie } from '../../utils/helpers';
@@ -56,6 +58,7 @@ const MarketCard = (props) => {
   };
   // PROPS
   const {
+    companyDetail,
     companyListings,
     favoritesProperties,
     handleGenerateBestimate,
@@ -64,6 +67,7 @@ const MarketCard = (props) => {
     handleSetModal,
     handleMarkNotInterested,
     handleUpdateFavorites,
+    index,
     isSmallLoading,
     item,
     lang,
@@ -83,6 +87,7 @@ const MarketCard = (props) => {
   const [coverImgLoaded, setCoverImgLoaded] = useState(false);
   const [removeSkeleton, setRemoveSkeleton] = useState(false);
   const [isFullVisitble, setIsFullVisitble] = useState(false);
+  const [propertyServicePacakges, setPropertyServicePacakge] = useState();
 
   // TODO: Based on "type" prop, sent by the category, open each property on buyer dashboard/seller dashboard/page, etc.
   useEffect(() => {
@@ -119,6 +124,13 @@ const MarketCard = (props) => {
       handleGetPackageProperty({ id: get(item, 'id', null), smallLoader: `loadPackage${get(item, 'id', '')}`, addToOwnerProp: true });
     }
   }, [layout, item]);
+  
+  useEffect(() => {
+    if (type === 'own') {
+      api.property.packagePage(item.id)
+        .then((res) => setPropertyServicePacakge(res.data));
+    }
+  }, [item.id])
 
   const openCard = (e) => {
     if (e) e.preventDefault();
@@ -174,7 +186,6 @@ const MarketCard = (props) => {
       }
     }
   };
-
   const selectActiveServicePackage = () => {
     let basicPackage = null;
     if (companyListings.length > 0) {
@@ -183,8 +194,8 @@ const MarketCard = (props) => {
         const activeCompanyPackages = get(activeCompany, 'servicePackages', []);
         basicPackage = activeCompanyPackages.find((pkg) => pkg.type === 'basic');
       }
-      if (get(item, 'servicePackage', null)) {
-        const activeSinglePropertyPackage = cloneDeep(get(item, 'servicePackage', []));
+      if (propertyServicePacakges && propertyServicePacakges.length > 0) {
+        const activeSinglePropertyPackage = cloneDeep(propertyServicePacakges);
         if (activeSinglePropertyPackage.length > 0) {
           const sortedPackage = orderBy(activeSinglePropertyPackage, ['price.total'], ['desc']);
           const getActivePackage = sortedPackage.find((pkg) => pkg.started);
@@ -328,6 +339,73 @@ const MarketCard = (props) => {
       {
         (!removeSkeleton || !item) && (
           <CardImageText type={type} />
+        )
+      }
+      {
+        index === 0 && (
+          <>
+            {
+              propertyServicePacakges ? (
+                <>
+                  {
+                    selectActiveServicePackage().type === 'basic' && (
+                      <div
+                        className="w-perc-100 dis-f bgBlue100 brdRadiusSmall px-2 pl-md-0 pr-md-6 mb-2 mb-sm-3 cur-poi"
+                        onClick={() => history.push(`/${item.id}/trialRequest?url=/sell`)}
+                      >
+                        <div className="hide dis-b-md">
+                          <img width="176" height="158" src={testdrive} alt="testdrive" />
+                        </div>
+                        <div className="ml-md-5">
+                          <h3 className="fsize-500 fsize-md-700 fweight-600 pt-2">
+                            {translateTo('Test drive our service. No strings attached.', lang)}
+                          </h3>
+                          <h5 className="fweight-400 fsize-300 fsize-md-400 mt-1 mb-1 mb-sm-3 txtBlue700">
+                            {
+                              companyDetail && get(companyDetail, 'meta.teaserPackage.price', 0) > 0 ? (
+                                <>
+                                  <span>
+                                    {translateTo('Get the full Brixel experience worth', lang)}
+                                  </span>
+                                  <span className="ml-small-4">{get(companyDetail, 'meta.teaserPackage.currency', '')} {Helpers.formatNumberValue(get(companyDetail, 'meta.teaserPackage.price', ''), get(companyDetail, 'meta.teaserPackage.currency', ''))}.</span>
+                                </>
+                              ) : (
+                                <span>
+                                  {translateTo('Get the full Brixel experience', lang)}
+                                </span>
+                              )
+                            }
+                          </h5>
+                          <div>
+                            <ul className="checked markerDot mt-1 mt-md-4 txtDark700 dis-fl-row-sm fsize-400 mb-2 hide">
+                              <li>
+                                {translateTo('Personal consultation', lang)}
+                              </li>
+                              <li className="pl-sm-2" dangerouslySetInnerHTML={{ __html: translateTo('Free 3D tour &amp; HD photos', lang)}} />
+                              <li className="pl-sm-2">
+                                {translateTo('Full estimation by an expert', lang)}
+                              </li>
+                            </ul>
+                          </div>
+      
+                        </div>
+    
+                      </div>
+                    )
+                  }
+                </>
+              ) : (
+                <div className="w-perc-100 ov-h brdRadius skeletonBg h-fix-md-152 mb-4">
+                  <div className="w-fix-216 skeletonBgInner hide dis-b-md" />
+                  <div className="ml-md-4 ml-2 h-perc-100 dis-fl-col w-perc-100 py-2">
+                    <p className="h-fix-40 skeletonBgInner w-perc-60"> </p>
+                    <p className="h-fix-16 mt-1 skeletonBgInner hide dis-b-md w-perc-30"> </p>
+                    <p className="h-fix-16 mt-a-md mt-2 skeletonBgInner w-perc-50"> </p>
+                  </div>
+                </div>
+              )
+            }
+          </>
         )
       }
       <div
@@ -548,12 +626,15 @@ const MarketCard = (props) => {
                           <div className="h-fix-208">
                             <Slider {...settingSlider}>
                               {
-                                item.photos.map((photo, index) => (
+                                item.photos.map((photo, i) => (
                                   <div
-                                    key={`itm_${index.toString()}`}
+                                    key={`itm_${i.toString()}`}
                                     className={`${isPreMarket() ? 'pre-market' : ''} ${get(item, 'tags', []).join(' ')} cover mb-1 w-perc-100 h-fix-200 h-perc-100 pos-r`}
                                   >
-                                    <img src={`${baseByData.shortPath}${photo.path}`} key={`photo${index.toString()}`} />
+                                    <img
+                                      src={`${baseByData.shortPath}${photo.path}`}
+                                      alt={`Photo ${i.toString()}`}
+                                    />
                                   </div>
                                 ))
                               }
@@ -802,6 +883,7 @@ const MarketCard = (props) => {
 };
 
 MarketCard.propTypes = {
+  companyDetail: PropTypes.object,
   companyListings: PropTypes.arrayOf(PropTypes.object).isRequired,
   estimation: PropTypes.object.isRequired,
   favoritesProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -811,6 +893,7 @@ MarketCard.propTypes = {
   handleMarkNotInterested: PropTypes.func.isRequired,
   handleSetModal: PropTypes.func.isRequired,
   handleUpdateFavorites: PropTypes.func.isRequired,
+  index: PropTypes.number.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   item: PropTypes.object,
   lang: PropTypes.string.isRequired,
@@ -827,6 +910,7 @@ MarketCard.propTypes = {
 };
 
 MarketCard.defaultProps = {
+  companyDetail: {},
   item: null,
   onSetActiveProperty: () => '',
   layout: null,
