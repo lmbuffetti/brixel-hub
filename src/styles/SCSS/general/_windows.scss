@@ -20,7 +20,7 @@
     .innerWrap {
       display: flex;
       flex-direction: column;
-      height: 100%;
+      // height: 100%;
 
       @media (min-width: $responsive-medium) {
         padding-left: 236px;
@@ -36,6 +36,7 @@
   }
   .innerWrap {
     z-index: 1;
+    flex: 1;
 
     @media (max-width: $responsive-medium) {
       background-color: map-get($lightColor, 100);

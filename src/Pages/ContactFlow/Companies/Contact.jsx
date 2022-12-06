@@ -237,7 +237,7 @@ const Contact = (props) => {
           if (singleStepEl && singleStepEl.scrollTop) singleStepEl.scrollTop = 0;
           if (multiStepSlidesEl && multiStepSlidesEl.scrollTop) multiStepSlidesEl.scrollTop = 0;
         } else {
-  
+
           if (singleStepEl && typeof singleStepEl.scrollTo === 'function') singleStepEl.scrollTo({ top: 0, behavior: 'smooth' });
           if (multiStepSlidesEl && typeof multiStepSlidesEl.scrollTo === 'function') multiStepSlidesEl.scrollTo({ top: 0, behavior: 'smooth' });
         }
@@ -405,7 +405,7 @@ const Contact = (props) => {
                               get(quest, 'textsCard', []).map((txtCard, i) => (
                                 <div key={`card${i.toString()}`} className="ta-c col-12 col-sm-4 p-2 p-md-5">
                                   <div className="h-fix-80 mb-2 mb-sm-3">
-                                    <img loading="lazy" height={'100px'} src={txtCard.image} alt={txtCard.title} />
+                                    <img className="ml-a mr-a"  src={txtCard.image} alt={txtCard.title} />
                                   </div>
                                   <h5 className="fsize-400 fsize-md-500 max-w-fix-280 max-w-fix-sm-320 ml-a mr-a">{txtCard.title}</h5>
                                 </div>

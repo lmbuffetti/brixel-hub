@@ -21,25 +21,25 @@ const FavoritesProperty = (props) => {
   } = props;
   // STATE
   const [view, setView] = useState('list');
-  
+
   useEffect(() => {
     if (get(history, 'location.pathname', '').includes('map')) setView('map');
     else setView('list');
   }, [get(history, 'location.pathname', null)]);
-  
+
   const onClickMapNav = () => {
     if (view === 'map') history.push(`/buy/favorites/list`)
     else history.push(`/buy/favorites/map`);
   }
-  
+
   return (
-    <div className="container dis-fl-col h-perc-100">
+    <div className="container dis-fl-col h-perc-100 pb-10">
       <div className="dis-f a-c jc-b my-3">
         <h1>
           <span>{translateTo('Saved properties', lang)}</span>
           <span className="ml-1">({wishlistProperties.total || '-'})</span>
         </h1>
-        
+
         <div>
           <BrixelButtonSecondary
             rounded
@@ -51,13 +51,13 @@ const FavoritesProperty = (props) => {
           />
         </div>
       </div>
-      
+
       <Routes>
         <Route path="/list" element={<FavoritesPropertyList />} />
         <Route path="/map" element={<FavoritesPropertyMap />} />
         <Route path="*" element={<Navigate to="/buy/favorites/list" />} />
       </Routes>
-      
+
     </div>
   )
 }
