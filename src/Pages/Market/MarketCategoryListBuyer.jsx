@@ -1,4 +1,4 @@
-import { BrixelButtonIcon, BrixelButtonPrimary, BrixelIcon, BrixelTabs } from '@brixel/brixel-components';
+import { BrixelButtonIcon, BrixelButtonPrimary, BrixelDropdown, BrixelIcon } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
 import React, { Suspense, useEffect, useState } from 'react';
@@ -44,7 +44,7 @@ const MarketCategoryListBuyer = (props) => {
   } = props;
   // STATE
   const [fieldsSearchProfile, setFieldsSearchProfile] = useState([]);
-  const [activeTab, setActiveTab] = useState('all');
+  const [activeTab, setActiveTab] = useState('All');
 
   useEffect(() => {
     const fields = [...fieldsSearchProfile];
@@ -173,7 +173,7 @@ const MarketCategoryListBuyer = (props) => {
           }
 
           { /* SEARCH PROFILE */}
-          <div className="bgBlue100 mt-3 min-h-fix-320">
+          <div className="bgGreen100 mt-3 min-h-fix-320">
             {
               !userSearchProfiles ? (
                 <div className="container py-10">
@@ -242,11 +242,11 @@ const MarketCategoryListBuyer = (props) => {
                           )
                         }
                         <div className="max-w-fix-312 w-perc-100 pb-8 pb-md-0 ta-c ta-l-md m-a m-md-0">
-                          <h3 className="txtBlue700 fweight-600 mt-4 mt-md-0 mb-1">
-                            {translateTo('Search Profile')}
+                          <h3 className="txtGreen700 fweight-600 mt-4 mt-md-0 mb-1">
+                            {translateTo('Create your personalized Search')}
                           </h3>
                           <p className="fsize-300 txtAltGrey700">
-                            {translateTo('Create different search profiles to keep track of the properties that match your needs.', lang)}
+                            {translateTo('You can create multiple Search Profiles to apply different filters and find the properties that best match your needs. ', lang)}
                           </p>
                           <BrixelButtonPrimary
                             onClick={() => history.push('/buy/searchProfile')}
@@ -271,42 +271,69 @@ const MarketCategoryListBuyer = (props) => {
             }
 
           </div>
-          
+
           <div className="container">
-            <div className="ta-c max-w-fix-264 mx-a my-5">
-              <h4 className="fweight-600">
-                <span>{get(allProperties, 'total', 0)}</span>
-                <span className="ml-1">{translateTo('Results', lang)}</span>
-              </h4>
-              <div>
-                <p className="txtAltGrey700 fSizePx14">
-                  <span>
-                    {translateTo('Properties could already be for sale or still in the Pre-Market.', lang)}
-                  </span>
-                  <span>
-                    <button
-                      className="ml-1 txtGreen400 td-u fweight-600"
-                      onClick={() => onLearnMore()}
-                    >
-                      Learn more.
-                    </button>
-                  </span>
-                </p>
+            <div className="dis-f a-b jc-b my-5">
+              <div className="ta-l max-w-fix-264">
+                <h4 className="fweight-600 dis-f a-c">
+                  <span className="mr-1">{translateTo('Results', lang)}</span>
+                  <span>({get(allProperties, 'total', 0)})</span>
+                  {
+                    allProperties.total > 0 && (
+                      <BrixelIcon
+                        color="green"
+                        className="ml-1"
+                        icon="info"
+                        onClick={() => onLearnMore()}
+                      />
+                    )
+                  }
+                </h4>
+                {
+                  get(allProperties, 'total', null) !== null && (
+                    <>
+                      {
+                        allProperties.total === 0 && (
+                          <div>
+                            <p className="txtAltGrey700 fSizePx14">
+                              <span>
+                                {translateTo('Properties could already be for sale or still in the Pre-Market.', lang)}
+                              </span>
+                              <span>
+                                <button
+                                  className="ml-1 txtGreen400 td-u fweight-600"
+                                  onClick={() => onLearnMore()}
+                                >
+                                  Learn more.
+                                </button>
+                              </span>
+                            </p>
+                          </div>
+                        )
+                      }
+                    </>
+                  )
+                }
               </div>
-            </div>
-            <div>
-              <BrixelTabs
-                className="mb-3"
-                theme='btnStyleTab'
-                activeTab={activeTab}
-                onClick={(val) => setActiveTab(val)}
-                clicksList={['all', 'published', 'preMarket']}
-                labels={[
-                  'All properties',
-                  'Published',
-                  'Pre-Market'
-                ]}
-              />
+              <div>
+                <BrixelDropdown
+                  selected={activeTab}
+                  onSelect={(e, val) => setActiveTab(val.label)}
+                  options={[
+                    {
+                      label: 'All',
+                      value: 'all',
+                    },
+                    {
+                      label: 'Published',
+                      value: 'published',
+                    },
+                    {
+                      label: 'Pre-Market',
+                      value: 'pre-market',
+                    }]}
+                />
+              </div>
             </div>
             <div className="row-cols-3-gut-3">
               {

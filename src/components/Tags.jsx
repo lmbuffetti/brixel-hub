@@ -17,6 +17,8 @@ const Tags = (props) => {
       return 'Green';
     } else if (status === 'pending') {
       return 'Yellow';
+    } else if (status === 'pre-market') {
+      return 'Blue';
     }
   };
   
@@ -25,6 +27,8 @@ const Tags = (props) => {
       return 'check';
     } else if (status === 'pending') {
       return 'clock';
+    } else if (status === 'pre-market') {
+      return '';
     }
   };
   
@@ -35,13 +39,18 @@ const Tags = (props) => {
   
   return (
     <div className={`bg${getColor()}100 txt${getColor()}600 brdRadius px-1 py-small-6 fsize-300 dis-f a-c`}>
-      <BrixelIcon
-        size={16}
-        color={getColor()}
-        saturationTxt={600}
-        icon={getIcon()}
-      />
-      <span className="ml-1">
+      {
+        getIcon() && (
+          <BrixelIcon
+            className="mr-1"
+            size={16}
+            color={getColor()}
+            saturationTxt={600}
+            icon={getIcon()}
+          />
+        )
+      }
+      <span>
         {translateTo(message[status], lang)}
       </span>
     </div>

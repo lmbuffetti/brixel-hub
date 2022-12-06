@@ -28,7 +28,7 @@ const FavoritesPropertyList = (props) => {
       <div className="container">
         <div className="dis-f a-c jc-b my-3">
           <h1>
-            <span>{translateTo('Saved Properties', lang)}</span>
+            <span>{translateTo('Your Estimations', lang)}</span>
             <span className="ml-1">({ownerEstimations.total || '-'})</span>
           </h1>
           

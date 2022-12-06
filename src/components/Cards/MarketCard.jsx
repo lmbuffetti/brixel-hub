@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import {
   BrixelButtonPrimary,
   BrixelButtonSecondary,
@@ -17,7 +16,7 @@ import orderBy from 'lodash/orderBy';
 import pullAt from 'lodash/pullAt';
 import set from 'lodash/set';
 import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
@@ -46,15 +45,6 @@ const MarketCard = (props) => {
   const history = {
     push: useNavigate(),
     location: useLocation(),
-  };
-  const settingSlider = {
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    centerPadding: '8px',
-    arrows: false,
-    dots: true,
-    lazyLoad: 'progressive',
   };
   // PROPS
   const {
@@ -88,6 +78,23 @@ const MarketCard = (props) => {
   const [removeSkeleton, setRemoveSkeleton] = useState(false);
   const [isFullVisitble, setIsFullVisitble] = useState(false);
   const [propertyServicePacakges, setPropertyServicePacakge] = useState();
+  const [activeSlide, setActiveSlide] = useState(0);
+  const [showSlideData, setShowSlideData] = useState(false);
+  
+  const settingSlider = {
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    centerPadding: '8px',
+    arrows: false,
+    dots: false,
+    lazyLoad: 'progressive',
+    beforeChange: (oldIndex, newIndex) => {
+      setActiveSlide(newIndex);
+    }
+  };
+  
+  const imgSlide = useRef(null);
 
   // TODO: Based on "type" prop, sent by the category, open each property on buyer dashboard/seller dashboard/page, etc.
   useEffect(() => {
@@ -333,6 +340,16 @@ const MarketCard = (props) => {
       default:
     }
   };
+  
+  const slideImg = (e, act, slideIndex = 0) => {
+    if (e) e.stopPropagation();
+    if (imgSlide) {
+      const slide = imgSlide.current;
+      if (act === 'next') slide.slickNext();
+      if (act === 'prev') slide.slickPrev();
+      if (act === 'goTo') slide.slickGoTo(slideIndex);
+    }
+  }
 
   return (
     <>
@@ -597,7 +614,12 @@ const MarketCard = (props) => {
                 </div>
               </>
             ) : (
-              <div className="brdSmall brdRadius brdLight200 ov-h bgWhite">
+              <div
+                className="brdSmall brdRadius brdLight200 ov-h bgWhite"
+                onClick={() => openCard()}
+                onMouseEnter={() => setShowSlideData(true)}
+                onMouseLeave={() => setShowSlideData(false)}
+              >
                 { /* IMAGES */ }
                 {
                   isShowLocationCard ? (
@@ -623,8 +645,48 @@ const MarketCard = (props) => {
                     <>
                       {
                         get(item, 'photos', []).length > 0 ? (
-                          <div className="h-fix-208">
-                            <Slider {...settingSlider}>
+                          <div className="h-fix-208 pos-r">
+                            {
+                              showSlideData && (
+                                <>
+                                  <BrixelIcon
+                                    rounded
+                                    background="white"
+                                    saturation={0}
+                                    icon="arrow-simple-left"
+                                    className="pos-a y-c zIndex2 ml-1"
+                                    onClick={(e) => slideImg(e, 'prev')}
+                                  />
+                                  <BrixelIcon
+                                    rounded
+                                    background="white"
+                                    saturation={0}
+                                    icon="arrow-simple-right"
+                                    className="pos-a y-c x-r zIndex2 mr-1"
+                                    onClick={(e) => slideImg(e, 'next')}
+                                  />
+                                  <ul
+                                    className="slick-dots pos-a x-c ta-c zIndex2 bt mb-1"
+                                  >
+                                    {
+                                      item.photos.map((photo, i) => (
+                                        <li
+                                          key={`dots${i.toString()}`}
+                                          className={activeSlide === i ? 'slick-active' : ''}
+                                          onClick={(e) => slideImg(e, 'goTo', i)}
+                                        >
+                                          <button>1</button>
+                                        </li>
+                                      ))
+                                    }
+                                  </ul>
+                                </>
+                              )
+                            }
+                            <Slider
+                              ref={imgSlide}
+                              {...settingSlider}
+                            >
                               {
                                 item.photos.map((photo, i) => (
                                   <div
@@ -893,7 +955,7 @@ MarketCard.propTypes = {
   handleMarkNotInterested: PropTypes.func.isRequired,
   handleSetModal: PropTypes.func.isRequired,
   handleUpdateFavorites: PropTypes.func.isRequired,
-  index: PropTypes.number.isRequired,
+  index: PropTypes.number,
   isSmallLoading: PropTypes.object.isRequired,
   item: PropTypes.object,
   lang: PropTypes.string.isRequired,
@@ -912,6 +974,7 @@ MarketCard.propTypes = {
 MarketCard.defaultProps = {
   companyDetail: {},
   item: null,
+  index: -1,
   onSetActiveProperty: () => '',
   layout: null,
   preventClick: false,

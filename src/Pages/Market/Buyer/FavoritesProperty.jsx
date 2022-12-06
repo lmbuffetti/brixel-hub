@@ -36,7 +36,7 @@ const FavoritesProperty = (props) => {
     <div className="container dis-fl-col h-perc-100">
       <div className="dis-f a-c jc-b my-3">
         <h1>
-          <span>{translateTo('Your estimations', lang)}</span>
+          <span>{translateTo('Saved properties', lang)}</span>
           <span className="ml-1">({wishlistProperties.total || '-'})</span>
         </h1>
         
