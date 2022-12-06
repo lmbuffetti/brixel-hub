@@ -52,6 +52,7 @@ export default {
     preMarket: (paginationLimit, paginationSkip, data) => `/market/list/preMarket/${paginationLimit}/${paginationSkip}${data}`,
     preMarketStats: (query) => `/market/list/preMarketStats${query}`,
     premium: (paginationLimit, paginationSkip, data) => `/market/list/premium/${paginationLimit}/${paginationSkip}${data}`,
+    wishlists: (paginationLimit, paginationSkip, data) => `/market/list/wishlist/${paginationLimit}/${paginationSkip}${data}`,
   },
   note: {
     createSingleNote: (type) => `/note/${type}`,

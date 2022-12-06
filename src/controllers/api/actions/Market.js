@@ -1,6 +1,5 @@
-import Base from '../config/Base';
-
 import ep from '../../endPoints.constant';
+import Base from '../config/Base';
 
 class Market extends Base {
   getAllProperties(paginationLimit, paginationSkip, data) {
@@ -50,6 +49,11 @@ class Market extends Base {
 
   preMarketStats(query) {
     const url = ep.market.preMarketStats(query);
+    return this.apiClient.get(url);
+  }
+  
+  getWishlists(paginationLimit, paginationSkip, data) {
+    const url = ep.market.wishlists(paginationLimit, paginationSkip, data);
     return this.apiClient.get(url);
   }
 }

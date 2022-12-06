@@ -305,7 +305,7 @@ const checkLead = (store) => (next) => (action) => {
         },
       });
       const queryParams = `?order=${action.payload.order}&direction=${action.payload.direction}`;
-      api.market.getDeals(action.payload.resultsPerPage, action.payload.offset, queryParams)
+      api.market.getWishlists(action.payload.resultsPerPage, action.payload.offset, queryParams)
         .then((res) => {
           if (res.meta.status === 200) {
             store.dispatch({ type: SET_WISHLIST_PROPERTIES, payload: res.data });

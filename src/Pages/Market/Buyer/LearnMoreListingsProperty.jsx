@@ -1,12 +1,23 @@
-import { BrixelButtonPrimary, BrixelButtonSecondary, BrixelProgressBar, translateTo } from '@brixel/brixel-components';
+import {
+  BrixelButtonPrimary,
+  BrixelButtonSecondary,
+  BrixelButtonText,
+  BrixelProgressBar,
+  translateTo,
+} from '@brixel/brixel-components';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
 import { setModal } from '../../../actions/CommonActions';
-import PreImagePublishedImg from '../../../images/Market/preImagePublished.svg';
+import learMoreImg1 from '../../../images/Market/learMoreImg1.svg';
+import learMoreImg2 from '../../../images/Market/learMoreImg2.svg';
+import learMoreImg3 from '../../../images/Market/learMoreImg3.svg';
+import learMoreImg4 from '../../../images/Market/learMoreImg4.svg';
+import learMoreImg5 from '../../../images/Market/learMoreImg5.svg';
 
 const LearnMoreListingsProperty = (props) => {
+  const stepsNumber = 5;
   const {
     handleSetModal,
     lang,
@@ -18,22 +29,28 @@ const LearnMoreListingsProperty = (props) => {
         <span>{translateTo('Step', lang)}</span>
         <span className="mx-small-4">{step}</span>
         <span>{translateTo('of', lang)}</span>
-        <span className="ml-small-4">3</span>
+        <span className="ml-small-4">{stepsNumber}</span>
       </p>
       <div className="mt-3 mb-5">
         <BrixelProgressBar
           barBackground="altGrey"
           rounded
-          progressValue={(step * 100) / 3}
+          progressValue={(step * 100) / stepsNumber}
         />
       </div>
   
       {
         step === 1 && (
           <div>
-            <img className="mb-5" src={PreImagePublishedImg} alt="Pre Image Published" />
-            <h4 className="mb-2">{translateTo('Published and Pre-Market Properties', lang)}</h4>
-            <p>{translateTo('General explanation of published and pre-market properties', lang)}</p>
+            <img className="mb-5" src={learMoreImg1} alt="Pre Image Published" />
+            <h4 className="mb-2">{translateTo('Welcome 👋', lang)}</h4>
+            <p>
+              <span>{translateTo('This is your Brixel Hub space.', lang)}</span>
+              <span className="dis-b">{translateTo('A place where you can do great things and find your dream home.', lang)}</span>
+            </p>
+            <p>
+              {translateTo('Let’s find out what you can do here! 🚀', lang)}
+            </p>
           </div>
         )
       }
@@ -41,9 +58,10 @@ const LearnMoreListingsProperty = (props) => {
       {
         step === 2 && (
           <div>
-            <img className="mb-5" src={PreImagePublishedImg} alt="Pre Image Published" />
-            <h4 className="mb-2">{translateTo('Published Properties', lang)}</h4>
-            <p>{translateTo('Explain what published properties are, like: properties already for sale that people could potentially buy. you can see real image, price, more info etc...', lang)}</p>
+            <img className="mb-5" src={learMoreImg2} alt="Pre Image Published" />
+            <h4 className="mb-2">{translateTo('Search Profile', lang)}</h4>
+            <p>{translateTo('To find exactly what you’re looking for you can first create a Search Profile.', lang)}</p>
+            <p>{translateTo('By telling us your preferences, we can show you the right properties so you’re more likely to find your dream house!', lang)}</p>
           </div>
         )
       }
@@ -51,39 +69,72 @@ const LearnMoreListingsProperty = (props) => {
       {
         step === 3 && (
           <div>
-            <img className="mb-5" src={PreImagePublishedImg} alt="Pre Image Published" />
+            <img className="mb-5" src={learMoreImg3} alt="Pre Image Published" />
             <h4 className="mb-2">{translateTo('Pre-Market Properties', lang)}</h4>
-            <p>{translateTo('Explain what pre-market properties are, like: not for sale - no price, no image, just very basic information, no personal detail, fav to get notified if it\'s for sale etc...', lang)}</p>
+            <p>{translateTo('Discover exclusive properties which are not on sale yet, but waiting for your first move.', lang)}</p>
+            <p>{translateTo('Pre-Market properties have no price or real image, just really basic informations and no seller details.', lang)}</p>
           </div>
         )
       }
       
-      <div className="dis-f a-c jc-fe brdSmallTop brdAltGrey200 mt-2 pt-2">
-        <BrixelButtonSecondary
-          rounded
-          label="Back"
-          disabled={step === 1}
-          onClick={() => setStep(step - 1)}
+      {
+        step === 4 && (
+          <div>
+            <img className="mb-5" src={learMoreImg4} alt="Pre Image Published" />
+            <h4 className="mb-2">{translateTo('Published properties', lang)}</h4>
+            <p>{translateTo('Explore our properties that are already on sale with 3D tour, real pictures, documentation and verified informations.', lang)}</p>
+            <p>{translateTo('You found your dream house? You can already start an offer!', lang)}</p>
+          </div>
+        )
+      }
+      
+      {
+        step === 5 && (
+          <div>
+            <img className="mb-5" src={learMoreImg5} alt="Pre Image Published" />
+            <h4 className="mb-2">{translateTo('Property card actions', lang)}</h4>
+            <ul className="pl-3">
+              <li>{translateTo('Easily see property location;', lang)}</li>
+              <li className="my-1">{translateTo('Hide a property if you’re not interested;', lang)}</li>
+              <li>{translateTo('Like properties to add them to your saved list. If you save a Pre-Market property, you get notified when it’ll be available on the market.', lang)}</li>
+            </ul>
+          </div>
+        )
+      }
+      
+      <div className="dis-f a-c jc-b brdSmallTop brdAltGrey200 mt-2 pt-2">
+        <BrixelButtonText
+          bgTransparent
+          label="Skip"
+          onClick={() => handleSetModal({state: false})}
         />
-        {
-          step < 3 ? (
-            <BrixelButtonPrimary
-              rightIcon="arrow-right"
-              className="ml-1"
-              rounded
-              label="Next"
-              onClick={() => setStep(step + 1)}
-            />
-          ) : (
-            <BrixelButtonPrimary
-              rightIcon="check"
-              className="ml-1"
-              rounded
-              label="Done"
-              onClick={() => handleSetModal({state: false})}
-            />
-          )
-        }
+        <div className="dis-f jc-fe">
+          <BrixelButtonSecondary
+            rounded
+            label="Back"
+            disabled={step === 1}
+            onClick={() => setStep(step - 1)}
+          />
+          {
+            step < stepsNumber ? (
+              <BrixelButtonPrimary
+                rightIcon="arrow-right"
+                className="ml-1"
+                rounded
+                label="Next"
+                onClick={() => setStep(step + 1)}
+              />
+            ) : (
+              <BrixelButtonPrimary
+                rightIcon="check"
+                className="ml-1"
+                rounded
+                label="Done"
+                onClick={() => handleSetModal({state: false})}
+              />
+            )
+          }
+        </div>
       </div>
       
     </div>
