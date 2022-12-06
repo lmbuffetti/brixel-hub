@@ -546,19 +546,22 @@ const IntroUpgrade = (props) => {
         <h3 className="ta-c fweight-600 fsize-600 fsize-sm-700">{translateTo('Do you want to upgrade or change plans?', lang)}</h3>
 
         <div className="dis-fl-col dis-fl-row-md a-fs jc-b mt-8 max-w-fix-928 m-a">
-          <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0 ta-c-md">
-            <img loading="lazy" className="w-fix-56 w-fix-lg-104" src={BookOnlineImg} alt="Call Us" />
-            <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0 mt-3">
-
-              <h6>{translateTo('Book Online', lang)}</h6>
-              <BrixelButtonText
-                bgTransparent
-                onClick={() => bookNow()}
-                className="ml-a mr-a"
-                label={translateTo('Request Now', lang)}
-              />
-            </div>
-          </div>
+          {
+            propID !== 'company' && (
+              <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0 ta-c-md">
+                <img loading="lazy" className="w-fix-56 w-fix-lg-104" src={BookOnlineImg} alt="Call Us" />
+                <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0 mt-3">
+                  <h6>{translateTo('Book Online', lang)}</h6>
+                  <BrixelButtonText
+                    bgTransparent
+                    onClick={() => bookNow()}
+                    className="ml-a mr-a"
+                    label={translateTo('Request Now', lang)}
+                  />
+                </div>
+              </div>
+            )
+          }
           <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0 ta-c-md">
             <img loading="lazy" className="w-fix-56 w-fix-lg-104" src={CallUsImg} alt="Call Us" />
             <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0 mt-3">
