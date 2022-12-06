@@ -29,8 +29,10 @@ const MarketCategoryListBuyer = (props) => {
 
   // PROPS
   const {
+    activeFilter,
     allProperties,
     activeSearchProfile,
+    filterPropType,
     handleGetActiveSingleCompany,
     handleSetModal,
     lang,
@@ -44,7 +46,7 @@ const MarketCategoryListBuyer = (props) => {
   } = props;
   // STATE
   const [fieldsSearchProfile, setFieldsSearchProfile] = useState([]);
-  const [activeTab, setActiveTab] = useState('All');
+  const [activeTab, setActiveTab] = useState(filterPropType[0]);
 
   useEffect(() => {
     const fields = [...fieldsSearchProfile];
@@ -91,6 +93,11 @@ const MarketCategoryListBuyer = (props) => {
     };
   }, []);
   
+  useEffect(() => {
+    const fltProp = filterPropType.find((flt) => flt.value === activeFilter);
+    if (fltProp) setActiveTab(fltProp);
+  }, [activeFilter]);
+  
   const onLearnMore = () => {
     handleSetModal({
       bodyClassColor: 'white ov-v',
@@ -100,6 +107,11 @@ const MarketCategoryListBuyer = (props) => {
       component: React.createElement(LearnMoreListingsProperty, {lang}),
       state: true,
     })
+  }
+  
+  const onChangeFilter = (val) => {
+    setActiveTab(val);
+    history.push(`/buy/searchProfile/${val.value}`);
   }
 
   return (
@@ -317,21 +329,9 @@ const MarketCategoryListBuyer = (props) => {
               </div>
               <div>
                 <BrixelDropdown
-                  selected={activeTab}
-                  onSelect={(e, val) => setActiveTab(val.label)}
-                  options={[
-                    {
-                      label: 'All',
-                      value: 'all',
-                    },
-                    {
-                      label: 'Published',
-                      value: 'published',
-                    },
-                    {
-                      label: 'Pre-Market',
-                      value: 'pre-market',
-                    }]}
+                  selected={activeTab.label}
+                  onSelect={(e, val) => onChangeFilter(val)}
+                  options={filterPropType}
                 />
               </div>
             </div>
@@ -369,10 +369,12 @@ const MarketCategoryListBuyer = (props) => {
 };
 
 MarketCategoryListBuyer.propTypes = {
+  activeFilter: PropTypes.string.isRequired,
   activeSearchProfile: PropTypes.object,
   allProperties: PropTypes.object.isRequired,
-  handleSetModal: PropTypes.func.isRequired,
+  filterPropType: PropTypes.arrayOf(PropTypes.object),
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
+  handleSetModal: PropTypes.func.isRequired,
   lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   onPageChange: PropTypes.func.isRequired,
@@ -385,6 +387,7 @@ MarketCategoryListBuyer.propTypes = {
 
 MarketCategoryListBuyer.defaultProps = {
   activeSearchProfile: null,
+  filterPropType: [],
   userSearchProfiles: null,
 };
 

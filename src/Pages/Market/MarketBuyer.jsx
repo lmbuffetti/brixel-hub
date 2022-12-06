@@ -51,6 +51,8 @@ const MarketBuyer = (props) => {
   } = props;
   const [activeTab, setActiveTab] = useState('all');
   const [activeTopTab, setActiveTopTab] = useState('searchProfile');
+  
+  // MAIN NAVIGATION
   const topTab = [
     {
       label: 'Search',
@@ -64,7 +66,23 @@ const MarketBuyer = (props) => {
       label: 'Estimations',
       value: 'estimations',
     },
-  ]
+  ];
+  
+  // FILTER BY PROP TYPE
+  const filterPropType = [
+    {
+      label: 'All',
+      value: 'all',
+    },
+    {
+      label: 'Published',
+      value: 'published',
+    },
+    {
+      label: 'Pre-Market',
+      value: 'pre-market',
+    }]
+  
   // URL PARAMS
   const catName = get(match, 'cat', null);
   const [page, setPage] = useState({
@@ -176,8 +194,34 @@ const MarketBuyer = (props) => {
           onClick={(tab) => onClickOnTopTab(tab)}
         />
         <Routes>
+          {
+            filterPropType.map((nav, i) => (
+              <Route
+                key={`route${i.toString()}`}
+                path={`/searchProfile/${nav.value}`}
+                element={
+                  <MarketCategoryListBuyer
+                    activeFilter={nav.value}
+                    filterPropType={filterPropType}
+                    onPageChange={(resultsPerPage, pageNumber, type) => getPropertiesPage(type, pageNumber)}
+                    page={page}
+                  />
+                }
+              />
+            ))
+          }
+          
           <Route
-            path="/searchProfile/*"
+            path="/searchProfile/pre-market"
+            element={
+              <MarketCategoryListBuyer
+                onPageChange={(resultsPerPage, pageNumber, type) => getPropertiesPage(type, pageNumber)}
+                page={page}
+              />
+            }
+          />
+          <Route
+            path="/searchProfile/published"
             element={
               <MarketCategoryListBuyer
                 onPageChange={(resultsPerPage, pageNumber, type) => getPropertiesPage(type, pageNumber)}
@@ -187,7 +231,7 @@ const MarketBuyer = (props) => {
           />
           <Route path="/favorites/*" element={<FavoritesProperty />} />
           <Route path="/estimations/*" element={<EstimationsPropertyList />} />
-          <Route path="*" element={<Navigate to="/buy/searchProfile" />} />
+          <Route path="*" element={<Navigate to="/buy/searchProfile/all" />} />
         </Routes>
       </Suspense>
     </div>
