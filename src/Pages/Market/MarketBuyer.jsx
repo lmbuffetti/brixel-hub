@@ -13,8 +13,6 @@ import {
   getAllProperties,
   getFavoritesProperties,
   getOwnedEstimations,
-  getPremarketProperties,
-  getPremiumProperties,
   getWishlistProperties,
 } from '../../actions/MarketActions';
 import { getUserSearchProfiles } from '../../actions/SearchProfileActions';
@@ -25,6 +23,38 @@ import translateTo from '../../utils/translation';
 const MarketCategoryListBuyer = lazyWithRetry(() => import('./MarketCategoryListBuyer'));
 const FavoritesProperty = lazyWithRetry(() => import('./Buyer/FavoritesProperty'));
 const EstimationsPropertyList = lazyWithRetry(() => import('./Buyer/EstimationsPropertyList'));
+
+// MAIN NAVIGATION
+const topTab = [
+  {
+    label: 'Search',
+    value: 'searchProfile',
+  },
+  {
+    label: 'Saved properties',
+    value: 'favorites',
+  },
+  {
+    label: 'Estimations',
+    value: 'estimations',
+  },
+];
+
+// FILTER BY PROP TYPE
+const filterPropType = [
+  {
+    label: 'All',
+    value: 'all',
+  },
+  {
+    label: 'Published',
+    value: 'published',
+  },
+  {
+    label: 'Pre-Market',
+    value: 'pre-market',
+  }]
+
 
 const MarketBuyer = (props) => {
   const history = {
@@ -40,8 +70,6 @@ const MarketBuyer = (props) => {
     handleGetAllProperties,
     handleGetFavoritesProperties,
     handleGetOwnedEstimations,
-    handleGetPreMarketProperties,
-    handleGetPremiumProperties,
     handleGetUserSearchProfiles,
     handleGetWishlistProperties,
     handleSpinnerOff,
@@ -49,39 +77,8 @@ const MarketBuyer = (props) => {
     lang,
     loggedInUser,
   } = props;
-  const [activeTab, setActiveTab] = useState('all');
+  const [activeTab, setActiveTab] = useState(filterPropType[0].value);
   const [activeTopTab, setActiveTopTab] = useState('searchProfile');
-  
-  // MAIN NAVIGATION
-  const topTab = [
-    {
-      label: 'Search',
-      value: 'searchProfile',
-    },
-    {
-      label: 'Saved properties',
-      value: 'favorites',
-    },
-    {
-      label: 'Estimations',
-      value: 'estimations',
-    },
-  ];
-  
-  // FILTER BY PROP TYPE
-  const filterPropType = [
-    {
-      label: 'All',
-      value: 'all',
-    },
-    {
-      label: 'Published',
-      value: 'published',
-    },
-    {
-      label: 'Pre-Market',
-      value: 'pre-market',
-    }]
   
   // URL PARAMS
   const catName = get(match, 'cat', null);
@@ -117,7 +114,9 @@ const MarketBuyer = (props) => {
     }
   }, [loggedInUser.id]);
   
-  const getPropertiesPage = (type, pageNumber = page[activeTab]) => {
+  const getPropertiesPage = (pageNumber = page[activeTab]) => {
+    const url = get(history, 'location.pathname', '').split("/");
+    const type = url[url.length - 1];
     if (activeSearchProfile !== null) {
       const data = {
         resultsPerPage: 9,
@@ -132,16 +131,16 @@ const MarketBuyer = (props) => {
       };
       switch (type) {
         case 'all':
-          data.offset = page.all;
+          data.offset = 0;
           handleGetAllProperties(data);
           break;
         case 'preMarket':
-          data.preMarket = page.all;
-          handleGetPreMarketProperties(data);
+          data.offset = 0;
+          handleGetAllProperties(data);
           break;
         case 'published':
-          data.offset = page.published;
-          handleGetPremiumProperties(data);
+          data.offset = 0;
+          handleGetAllProperties(data);
           break;
         default:
           return null;
@@ -155,7 +154,9 @@ const MarketBuyer = (props) => {
 
   useEffect(() => {
     if (activeSearchProfile !== null) {
-      getPropertiesPage('all', page['all']);
+      const url = get(history, 'location.pathname', '').split("/");
+      const actUrl = url[url.length - 1];
+      getPropertiesPage('all', 0, actUrl);
       // getPropertiesPage('preMarket', page['preMarket']);
       // getPropertiesPage('published', page['published']);
       handleSpinnerOff();
@@ -210,25 +211,6 @@ const MarketBuyer = (props) => {
               />
             ))
           }
-          
-          <Route
-            path="/searchProfile/pre-market"
-            element={
-              <MarketCategoryListBuyer
-                onPageChange={(resultsPerPage, pageNumber, type) => getPropertiesPage(type, pageNumber)}
-                page={page}
-              />
-            }
-          />
-          <Route
-            path="/searchProfile/published"
-            element={
-              <MarketCategoryListBuyer
-                onPageChange={(resultsPerPage, pageNumber, type) => getPropertiesPage(type, pageNumber)}
-                page={page}
-              />
-            }
-          />
           <Route path="/favorites/*" element={<FavoritesProperty />} />
           <Route path="/estimations/*" element={<EstimationsPropertyList />} />
           <Route path="*" element={<Navigate to="/buy/searchProfile/all" />} />
@@ -245,8 +227,6 @@ MarketBuyer.propTypes = {
   handleGetAllProperties: PropTypes.func.isRequired,
   handleGetFavoritesProperties: PropTypes.func.isRequired,
   handleGetOwnedEstimations: PropTypes.func.isRequired,
-  handleGetPreMarketProperties: PropTypes.func.isRequired,
-  handleGetPremiumProperties: PropTypes.func.isRequired,
   handleGetUserSearchProfiles: PropTypes.func.isRequired,
   handleGetWishlistProperties: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
@@ -279,8 +259,6 @@ const mapDispatchToProps = (dispatch) => ({
   handleGetAllProperties: bindActionCreators(getAllProperties, dispatch),
   handleGetFavoritesProperties: bindActionCreators(getFavoritesProperties, dispatch),
   handleGetOwnedEstimations: bindActionCreators(getOwnedEstimations, dispatch),
-  handleGetPreMarketProperties: bindActionCreators(getPremarketProperties, dispatch),
-  handleGetPremiumProperties: bindActionCreators(getPremiumProperties, dispatch),
   handleGetUserSearchProfiles: bindActionCreators(getUserSearchProfiles, dispatch),
   handleGetWishlistProperties: bindActionCreators(getWishlistProperties, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),

@@ -41,6 +41,7 @@ import browserDetection from './utils/browserDetection';
 import translateTo from './utils/translation';
 
 const SplashScreen = lazy(() => import('./components/SplashScreen'));
+const RemoveTrailingSlash = lazy(() => import('./components/RemoveTrailingSlash'));
 const Support = lazy(() => import('./components/Support'));
 const ErrorBoundering = lazy(() => import('./components/ErrorBoundering'));
 // GET STARTED AND ADD PROPERTY
@@ -513,6 +514,7 @@ const App = (props) => {
                   <div
                     className="w-perc-100 innerWrap"
                   >
+                    <RemoveTrailingSlash/>
                     <Routes>
                       <Route path="/500" element={<ErrorBoundering />} />
                       { /* SECTION: ONBOARDING */}
