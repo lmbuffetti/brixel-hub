@@ -1,26 +1,26 @@
 /* eslint-disable max-len */
-/* eslint-disable react/jsx-filename-extension */
-import React from 'react';
 import { FactsOptions } from '@brixel/brixel-components';
-import translateTo from '../../utils/translation';
 import {
-  BrixelRadioButton,
-  BrixelInputText,
   BrixelInputDatePicker,
+  BrixelInputText,
   BrixelInputTextStep,
-  Validation,
+  BrixelMultiUploadFile,
+  BrixelRadioButton,
   BrixelSelect,
   BrixelTextArea,
-  BrixelMultiUploadFile,
+  Validation,
 } from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
+/* eslint-disable react/jsx-filename-extension */
+import React from 'react';
+import BaloiseLogoImg from '../../images/Companies/Baloise/BaloiseLogo.svg';
+import Key4LogoImg from '../../images/Companies/ubsKey4/key4Logo.svg';
+import UBSLogoImg from '../../images/Companies/ubsKey4/ubsLogo.svg';
+import ClipboardImg from '../../images/scanTrial/clipboard.png';
 import FinanceCertificate from '../../Pages/Closing/Offers/Flow/FinanceCertificate';
 import Key4Registration from '../../Pages/Closing/Offers/Flow/Key4Registration';
-import ClipboardImg from '../../images/scanTrial/clipboard.png';
 import { configureStore } from '../../store';
-import BaloiseLogoImg from '../../images/Companies/Baloise/BaloiseLogo.svg';
-import UBSLogoImg from '../../images/Companies/ubsKey4/ubsLogo.svg';
-import Key4LogoImg from '../../images/Companies/ubsKey4/key4Logo.svg';
+import translateTo from '../../utils/translation';
 
 const { factsOptions } = FactsOptions;
 
@@ -71,7 +71,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal, lang)
         <hr className="bgAltGrey200" />
         <p className="txtDark700 fsize-500 p-5">
           <span>{translateTo('You don\'t have a proof of financing yet?', lang)}</span>
-          <span className="cur-poi dis-b td-u" type="button" onClick={() => sendData()}>
+          <span className="cur-poi dis-b td-u" onClick={() => sendData()}>
             <span>{translateTo('Apply now on key4', lang)}</span>
           </span>
         </p>
@@ -90,6 +90,10 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal, lang)
     }
   }
   
+  let companyName = '';
+  if (formValue.company === 'ubs') companyName = 'UBS';
+  if (formValue.company === 'baloise') companyName = 'Baloise';
+  
   const TextPartnerUpload = () => {
     return (
       <>
@@ -101,7 +105,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal, lang)
                   {translateTo('No. Order a proof of financing here.', lang)}
                 </h6>
                 <span>
-                  {translateTo('No problem. Our partner Baloise will provide you with a financing certificate free of charge. This is a non-binding offer.', lang)}
+                  {translateTo(`No problem. Our partner ${companyName} will provide you with a financing certificate free of charge. This is a non-binding offer.`, lang)}
                 </span>
   
                 {
