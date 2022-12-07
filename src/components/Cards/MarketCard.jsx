@@ -367,7 +367,7 @@ const MarketCard = (props) => {
               propertyServicePacakges ? (
                 <>
                   {
-                    selectActiveServicePackage().type === 'basic' && (
+                    get(selectActiveServicePackage(), 'type', null) === 'basic' && (
                       <div
                         className="w-perc-100 dis-f bgBlue100 brdRadiusSmall px-2 pl-md-0 pr-md-6 mb-2 mb-sm-3 cur-poi"
                         onClick={() => history.push(`/${item.id}/trialRequest?url=/sell`)}
