@@ -18,6 +18,7 @@ const FavoritesPropertyList = (props) => {
     activeSingleCompany,
     lang,
     ownerEstimations,
+    skeleton,
   } = props;
   // STATE
   return (
@@ -40,14 +41,42 @@ const FavoritesPropertyList = (props) => {
           />
           
         </div>
+  
         {
-          get(ownerEstimations, 'data', []).map((item, index) => (
-            <MarketCardEstimation
-              key={`cardFavorites-${index.toString()}`}
-              activeSingleProperty={item}
-              lang={lang}
-            />
-          ))
+          skeleton.estimation ? (
+            <>
+              {
+                [...Array(3)].map((x, i) => (
+                  <div
+                    key={`skeleton${i.toString()}`}
+                    className="w-perc-100 pb-2"
+                  >
+                    <div className="dis-f a-t brdRadius ov-h">
+                      <div className="h-fix-208 w-fix-flex-320 pos-r skeletonBgInner w-perc-100" />
+                      <div className="w-perc-100 pl-2">
+                        <div className="h-fix-16 mt-1 skeletonBgInner hide dis-b-md w-perc-100" />
+                        <div className="h-fix-40 mt-2 skeletonBgInner w-perc-100" />
+                        <div className="h-fix-16 mt-1 skeletonBgInner w-perc-100" />
+                        <div className="h-fix-40 mt-2 skeletonBgInner w-perc-100" />
+                      </div>
+                    </div>
+                  </div>
+                ))
+              }
+            </>
+          ): (
+            <>
+              {
+                get(ownerEstimations, 'data', []).map((item, index) => (
+                  <MarketCardEstimation
+                    key={`cardFavorites-${index.toString()}`}
+                    activeSingleProperty={item}
+                    lang={lang}
+                  />
+                ))
+              }
+            </>
+          )
         }
       </div>
     </>
@@ -58,12 +87,14 @@ FavoritesPropertyList.propTypes = {
   activeSingleCompany: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
   ownerEstimations: PropTypes.object.isRequired,
+  skeleton: PropTypes.object.isRequired,
 }
 
 const mapStateToProps = (state) => ({
   activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   lang: get(state, 'common.language', 'en'),
   ownerEstimations: get(state, 'market.ownerEstimations', {}),
+  skeleton: get(state, 'common.skeleton', {}),
 })
 
 export default compose(
