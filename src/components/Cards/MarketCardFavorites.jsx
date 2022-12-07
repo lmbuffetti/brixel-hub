@@ -98,7 +98,7 @@ const MarketCardFavorites = (props) => {
         hideClose: true,
       })
     } else {
-      window.open(`${baseByData.pageUrl}${activeSingleProperty.stub}`, '_blank');
+      history.push(`/buyer/${activeSingleProperty.id}/home`);
     }
   }
   
@@ -135,7 +135,7 @@ const MarketCardFavorites = (props) => {
                 <div className={showSlideData ? 'show' : ''}>
                   <BrixelIcon
                     rounded
-                    background="white"
+                    background={`white`}
                     saturation={0}
                     icon="arrow-simple-left"
                     className="pos-a y-c zIndex2 ml-1"
@@ -143,7 +143,7 @@ const MarketCardFavorites = (props) => {
                   />
                   <BrixelIcon
                     rounded
-                    background="white"
+                    background={`white`}
                     saturation={0}
                     icon="arrow-simple-right"
                     className="pos-a y-c x-r zIndex2 mr-1"
@@ -175,7 +175,11 @@ const MarketCardFavorites = (props) => {
                         key={`itm_${index.toString()}`}
                         className={`${isPreMarket() ? 'pre-market' : ''} ${get(activeSingleProperty, 'tags', []).join(' ')} cover w-perc-100 h-fix-200 h-perc-100 pos-r`}
                       >
-                        <img src={`${baseByData.shortPath}${photo.path}`} key={`photo${index.toString()}`} />
+                        <img
+                          src={`${baseByData.shortPath}${photo.path}`}
+                          key={`photo${index.toString()}`}
+                          alt={`Property Photos ${index.toString()}`}
+                        />
                       </div>
                     ))
                   }
