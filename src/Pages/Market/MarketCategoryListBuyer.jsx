@@ -3,7 +3,7 @@ import get from 'lodash/get';
 import PropTypes from 'prop-types';
 import React, { Suspense, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { Link, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import { Link, Route, Routes, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
 import { setHistory, setModal, setSplashType } from '../../actions/CommonActions';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
@@ -26,7 +26,7 @@ const MarketCategoryListBuyer = (props) => {
     push: useNavigate(),
     location: useLocation(),
   };
-
+  const match = useParams();
   // PROPS
   const {
     activeFilter,
@@ -37,9 +37,8 @@ const MarketCategoryListBuyer = (props) => {
     handleSetModal,
     lang,
     loggedInUser,
-    onPageChange,
-    page,
     setSplashScreen,
+    skeleton,
     splashScreenType,
     userSearchProfiles,
     windowDimensions,
@@ -47,6 +46,9 @@ const MarketCategoryListBuyer = (props) => {
   // STATE
   const [fieldsSearchProfile, setFieldsSearchProfile] = useState([]);
   const [activeTab, setActiveTab] = useState(filterPropType[0]);
+  // URL PARAMS
+  const cat = get(match, 'cat', null);
+  const page = get(match, 'page', null);
 
   useEffect(() => {
     const fields = [...fieldsSearchProfile];
@@ -62,6 +64,15 @@ const MarketCategoryListBuyer = (props) => {
     });
     setFieldsSearchProfile(fields);
   }, []);
+  
+  useEffect(() => {
+    let defCat;
+    let defPage;
+    if (!cat || cat !== activeFilter) defCat = filterPropType[0].value;
+    if (!page) defPage = 1;
+    if (!cat || cat !== activeFilter || !page) history.push(`/buy/searchProfile/${defCat}/${defPage}`)
+  }, [page, cat]);
+  
 
   useEffect(() => {
     if (get(loggedInUser, 'id', null)) {
@@ -111,7 +122,7 @@ const MarketCategoryListBuyer = (props) => {
   
   const onChangeFilter = (val) => {
     setActiveTab(val);
-    history.push(`/buy/searchProfile/${val.value}`);
+    history.push(`/buy/searchProfile/${val.value}/1`);
   }
 
   return (
@@ -337,15 +348,39 @@ const MarketCategoryListBuyer = (props) => {
             </div>
             <div className="row-cols-3-gut-3">
               {
-                get(allProperties, 'data', []).map((property, index) => (
-                  <MarketCard
-                    layout="singleOwnCard"
-                    type="premium"
-                    key={`nmCrd_${index.toString()}`}
-                    item={property}
-                    lang={lang}
-                  />
-                ))
+                skeleton.allProperties === 'CardImageTextVertical' ? (
+                  <>
+                    {
+                      [...Array(3)].map((x, i) => (
+                        <div
+                          key={`skeleton${i.toString()}`}
+                          className="w-perc-100 ov-h brdRadius pb-2"
+                        >
+                          <div className="h-perc-100 dis-fl-col w-perc-100">
+                            <div className="h-fix-208 skeletonBgInner w-perc-100" />
+                            <div className="h-fix-16 mt-1 skeletonBgInner hide dis-b-md w-perc-100" />
+                            <div className="h-fix-16 mt-1 skeletonBgInner w-perc-100" />
+                            <div className="h-fix-40 mt-2 skeletonBgInner w-perc-100" />
+                          </div>
+                        </div>
+                      ))
+                    }
+                  </>
+                ) : (
+                  <>
+                    {
+                      get(allProperties, 'data', []).map((property, index) => (
+                        <MarketCard
+                          layout="singleOwnCard"
+                          type="premium"
+                          key={`nmCrd_${index.toString()}`}
+                          item={property}
+                          lang={lang}
+                        />
+                      ))
+                    }
+                  </>
+                )
               }
             </div>
             <div className="pb-8">
@@ -353,10 +388,8 @@ const MarketCategoryListBuyer = (props) => {
                 className="mt-5 pb-10"
                 totalItems={allProperties.total || 0}
                 itemsPerPage={9}
-                activePage={get(page, activeTab, 0)}
-                paginate={(resultsPerPage, pageNumber) => {
-                  onPageChange(resultsPerPage, pageNumber, activeTab);
-                }}
+                activePage={(page - 1) * 9}
+                paginate={(resultsPerPage, skip, pageNumber) => history.push(`/buy/searchProfile/${cat}/${pageNumber}`)}
                 showResultsPerPage={false}
                 lang={lang}
               />
@@ -377,9 +410,8 @@ MarketCategoryListBuyer.propTypes = {
   handleSetModal: PropTypes.func.isRequired,
   lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  onPageChange: PropTypes.func.isRequired,
-  page: PropTypes.object.isRequired,
   setSplashScreen: PropTypes.func.isRequired,
+  skeleton: PropTypes.object.isRequired,
   splashScreenType: PropTypes.string.isRequired,
   userSearchProfiles: PropTypes.arrayOf(PropTypes.object),
   windowDimensions: PropTypes.object.isRequired,
@@ -401,6 +433,7 @@ const mapStateToProps = (state) => ({
   preMarketStats: get(state, 'market.preMarketStats', {}),
   premiumEuropeProperties: get(state, 'market.premiumEuropeProperties', {}),
   premiumProperties: get(state, 'market.premiumProperties', {}),
+  skeleton: get(state, 'common.skeleton', {}),
   splashScreenType: get(state, 'common.splashScreenType', ''),
   userSearchProfiles: get(state, 'user.userSearchProfiles', []),
   windowDimensions: get(state, 'common.windowDimensions', {}),

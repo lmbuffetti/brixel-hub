@@ -302,7 +302,7 @@ const MarketCard = (props) => {
         return 'Blue200';
       }
       case 'updated': {
-        return 'Yellow';
+        return 'Green100';
       }
       case 'premium': {
         return 'Red';
@@ -318,6 +318,8 @@ const MarketCard = (props) => {
     switch (text) {
       case 'new':
         return 'star-new';
+      case 'updated':
+        return 'update-property';
       default:
         return null;
     }
@@ -329,7 +331,7 @@ const MarketCard = (props) => {
         return 'Blue700';
       }
       case 'updated': {
-        return 'Yellow';
+        return 'Green400';
       }
       case 'premium': {
         return 'Red';
@@ -644,7 +646,7 @@ const MarketCard = (props) => {
                   ) : (
                     <>
                       {
-                        get(item, 'photos', []).length > 0 ? (
+                        get(item, 'photos', []).length > 1 ? (
                           <div className="h-fix-208 pos-r">
                             {
                               showSlideData && (

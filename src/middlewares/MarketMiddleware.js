@@ -98,7 +98,7 @@ const checkLead = (store) => (next) => (action) => {
     case GET_ALL_PROPERTIES: {
       next(action);
       let loadSkeleton = cloneDeep(get(store.getState(), 'common.skeleton', {}));
-      loadSkeleton.favorite = 'CardImageTextVertical';
+      loadSkeleton.allProperties = 'CardImageTextVertical';
       store.dispatch({
         type: SKELETON_ON,
         payload: {
@@ -113,7 +113,7 @@ const checkLead = (store) => (next) => (action) => {
             store.dispatch({ type: SET_ALL_PROPERTIES, payload: res.data });
           }
           loadSkeleton = cloneDeep(get(store.getState(), 'common.skeleton', {}));
-          loadSkeleton.favorite = false;
+          loadSkeleton.allProperties = false;
           store.dispatch({ type: SKELETON_OFF, payload: loadSkeleton });
         })
         .catch(() => {

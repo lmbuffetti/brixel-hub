@@ -21,7 +21,7 @@ const Pagination = (props) => {
   
   const processPagination = (val, action) => {
     if (action === 'results') {
-      paginate(val.value, activePage);
+      paginate(val.value, activePage, (activePage / itemsPerPage) + 1);
     } else if (action === 'page') {
       // Creating the pagination offset here, otherwise each page click
       // would get just one new result
@@ -31,8 +31,7 @@ const Pagination = (props) => {
       } else {
         paginationSkip = 0;
       }
-      
-      paginate(itemsPerPage, paginationSkip);
+      paginate(itemsPerPage, paginationSkip, (paginationSkip / itemsPerPage) + 1);
     }
     const scrollEl = document.getElementsByClassName('content')[0];
     scrollEl.scroll({

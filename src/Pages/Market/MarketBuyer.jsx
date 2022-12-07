@@ -82,11 +82,7 @@ const MarketBuyer = (props) => {
   
   // URL PARAMS
   const catName = get(match, 'cat', null);
-  const [page, setPage] = useState({
-    all: 0,
-    published: 0,
-    preMarket: 0,
-  });
+  const [page, setPage] = useState(1);
 
   useEffect(() => { destroyForm(); }, [history.location.pathname]);
 
@@ -114,13 +110,14 @@ const MarketBuyer = (props) => {
     }
   }, [loggedInUser.id]);
   
-  const getPropertiesPage = (pageNumber = page[activeTab]) => {
+  const getPropertiesPage = (pageNumber = page) => {
     const url = get(history, 'location.pathname', '').split("/");
-    const type = url[url.length - 1];
+    const type = url[url.length - 2];
+    const curPage = url[url.length - 1];
     if (activeSearchProfile !== null) {
       const data = {
         resultsPerPage: 9,
-        offset: pageNumber,
+        offset: (curPage - 1) * 9,
         order: 'updatedAt',
         direction: 'DESC',
         setAsSingle: true,
@@ -131,15 +128,12 @@ const MarketBuyer = (props) => {
       };
       switch (type) {
         case 'all':
-          data.offset = 0;
           handleGetAllProperties(data);
           break;
         case 'preMarket':
-          data.offset = 0;
           handleGetAllProperties(data);
           break;
         case 'published':
-          data.offset = 0;
           handleGetAllProperties(data);
           break;
         default:
@@ -155,10 +149,8 @@ const MarketBuyer = (props) => {
   useEffect(() => {
     if (activeSearchProfile !== null) {
       const url = get(history, 'location.pathname', '').split("/");
-      const actUrl = url[url.length - 1];
-      getPropertiesPage('all', 0, actUrl);
-      // getPropertiesPage('preMarket', page['preMarket']);
-      // getPropertiesPage('published', page['published']);
+      const actPage = url[url.length - 1];
+      getPropertiesPage(actPage);
       handleSpinnerOff();
     }
   }, [activeSearchProfile, get(history, 'location.pathname', null)]);
@@ -199,7 +191,7 @@ const MarketBuyer = (props) => {
             filterPropType.map((nav, i) => (
               <Route
                 key={`route${i.toString()}`}
-                path={`/searchProfile/${nav.value}`}
+                path={`/searchProfile/:cat/:page`}
                 element={
                   <MarketCategoryListBuyer
                     activeFilter={nav.value}
@@ -213,7 +205,7 @@ const MarketBuyer = (props) => {
           }
           <Route path="/favorites/*" element={<FavoritesProperty />} />
           <Route path="/estimations/*" element={<EstimationsPropertyList />} />
-          <Route path="*" element={<Navigate to="/buy/searchProfile/all" />} />
+          <Route path="*" element={<Navigate to="/buy/searchProfile/all/1" />} />
         </Routes>
       </Suspense>
     </div>
