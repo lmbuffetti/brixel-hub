@@ -1,25 +1,19 @@
 /* eslint-disable max-len */
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import get from 'lodash/get';
-import cloneDeep from 'lodash/cloneDeep';
-import {
-  BrixelIcon,
-  BrixelButtonIcon,
-  BrixelProgressBar,
-  BrixelButtonText,
-  Helpers,
-} from '@brixel/brixel-components';
-import translateTo from '../../utils/translation';
+import { BrixelButtonIcon, BrixelButtonText, BrixelIcon, BrixelProgressBar, Helpers } from '@brixel/brixel-components';
 import { change } from '@brixel/brixel-components/dist/utils/ReduxForm.Functions';
-import { bindActionCreators, compose } from 'redux';
-import { connect } from 'react-redux';
+import cloneDeep from 'lodash/cloneDeep';
+import get from 'lodash/get';
 import last from 'lodash/last';
+import PropTypes from 'prop-types';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { bindActionCreators, compose } from 'redux';
 import { setPageData } from '../../actions/CommonActions';
 import { InputSheets } from '../../resources/SingleProperty/inputSheets';
 import { calcPercentageFacts, checkBrowser } from '../../utils/helpers';
+import translateTo from '../../utils/translation';
 
 // COMPONENTS
 import FactsQuestion from './FactsQuestion';
@@ -88,7 +82,7 @@ const Facts = (props) => {
       setQuestions(InputSheets('facts', lang));
       setSelectedQuest(quest);
     }
-  }, [formValue]);
+  }, [formValue, lang]);
 
   // ON CHANGE HISTORY SELECT THE CORRECT QUESTIONS
   useEffect(() => {

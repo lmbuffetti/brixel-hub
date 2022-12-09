@@ -1,23 +1,19 @@
 /* eslint-disable max-len */
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import { BrixelButtonIcon } from '@brixel/brixel-components';
+import { change, MultiFileldsReduxForm, reset } from '@brixel/brixel-components/dist/form';
+import { diff } from 'deep-object-diff';
 import get from 'lodash/get';
 import unset from 'lodash/unset';
-import { diff } from 'deep-object-diff';
-import { bindActionCreators, compose } from 'redux';
+import PropTypes from 'prop-types';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { BrixelButtonIcon } from '@brixel/brixel-components';
-import translateTo from '../../utils/translation';
-import {
-  MultiFileldsReduxForm,
-  change,
-  reset,
-} from '@brixel/brixel-components/dist/form';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { bindActionCreators, compose } from 'redux';
 import { saveActiveSingleProperty } from '../../actions/PropertyActions';
-import { keyify } from '../../utils/helpers';
 import { InputSheets } from '../../resources/SingleProperty/inputSheets';
+import { keyify } from '../../utils/helpers';
+import translateTo from '../../utils/translation';
 
 const FactsQuestion = (props) => {
   const history = {
@@ -68,7 +64,7 @@ const FactsQuestion = (props) => {
         });
       });
     });
-  }, [formValue]);
+  }, [formValue, lang]);
   
   return (
     <div
