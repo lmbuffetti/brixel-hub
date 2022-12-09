@@ -1,20 +1,20 @@
 /* eslint-disable array-callback-return */
+import { BrixelIcon, BrixelModal } from '@brixel/brixel-components';
+import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
+import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
+import get from 'lodash/get';
+import PropTypes from 'prop-types';
 /* eslint-disable dot-notation */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { bindActionCreators, compose } from 'redux';
-import get from 'lodash/get';
-import { BrixelIcon, BrixelModal } from '@brixel/brixel-components';
-import translateTo from '../../../utils/translation';
-import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
-import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
-import { createPropertyVisitBooking } from '../../../actions/PropertyActions';
-import { spinnerSmallOff } from '../../../actions/CommonActions';
-import ContactForm from '../../../components/ContactForm';
 import 'react-input-range/lib/css/index.css';
+import { connect } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { bindActionCreators, compose } from 'redux';
+import { spinnerSmallOff } from '../../../actions/CommonActions';
+import { createPropertyVisitBooking } from '../../../actions/PropertyActions';
+import ContactForm from '../../../components/ContactForm';
+import translateTo from '../../../utils/translation';
 
 // COMPONENTS
 
@@ -121,11 +121,11 @@ const AddContactBuyer = (props) => {
                     saturation={200}
                     saturationTxt={700}
                   />
-                  {translateTo('Do not forget to favorite the property to keep all the information in one place', lang)}
+                  <span>{translateTo('Do not forget to favorite the property to keep all the information in one place', lang)}</span>
                 </li>
                 <li className="redIcon">
                   <BrixelIcon icon="money" color="green" background="green" saturation={200} saturationTxt={700} />
-                  {translateTo('Get in touch with your bank about financing before you visit', lang)}
+                  <span>{translateTo('Get in touch with your bank about financing before you visit', lang)}</span>
                 </li>
               </ul>
             </section>
