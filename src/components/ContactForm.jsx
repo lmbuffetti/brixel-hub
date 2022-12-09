@@ -276,11 +276,11 @@ function ContactForm(props) {
                 </li>
                 <li className="redIcon">
                   <BrixelIcon icon="favorite-house" color="green" background="green" saturation={200} saturationTxt={700} />
-                  {translateTo('Do not forget to favorite the property to keep all the information in one place', lang)}
+                  <span>{translateTo('Do not forget to favorite the property to keep all the information in one place', lang)}</span>
                 </li>
                 <li className="redIcon">
                   <BrixelIcon icon="money" color="green" background="green" saturation={200} saturationTxt={700} />
-                  {translateTo('Get in touch with your bank about financing before you visit', lang)}
+                  <span>{translateTo('Get in touch with your bank about financing before you visit', lang)}</span>
                 </li>
               </ul>
             </section>
