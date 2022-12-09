@@ -65,7 +65,7 @@ const FactsQuestion = (props) => {
         });
       });
     });
-  }, [formValue]);
+  }, [formValue,lang]);
   
   return (
     <div
