@@ -43,6 +43,7 @@ export default {
   },
   market: {
     allProperties: (paginationLimit, paginationSkip, data) => `/market/list/all/${paginationLimit}/${paginationSkip}${data}`,
+    buyer: (paginationLimit, paginationSkip, data) => `/market/buyer/list/${paginationLimit}/${paginationSkip}${data}`,
     deal: (paginationLimit, paginationSkip, data) => `/market/list/deals/${paginationLimit}/${paginationSkip}${data}`,
     favorites: (paginationLimit, paginationSkip, data) => `/market/list/favorites/${paginationLimit}/${paginationSkip}${data}`,
     lastViewed: () => '/market/list/lastViewed/',

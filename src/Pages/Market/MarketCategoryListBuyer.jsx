@@ -3,10 +3,11 @@ import get from 'lodash/get';
 import PropTypes from 'prop-types';
 import React, { Suspense, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { Link, Route, Routes, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
 import { setHistory, setModal, setSplashType } from '../../actions/CommonActions';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
+import { getBuyerProperties } from '../../actions/MarketActions';
 import { setActiveMarketOverlayProperty, setEstimation } from '../../actions/PropertyActions';
 import MarketCard from '../../components/Cards/MarketCard';
 import Pagination from '../../components/Pagination';
@@ -19,7 +20,6 @@ import { getCookie, setCookie } from '../../utils/helpers';
 import { titleSearchProfile } from '../../utils/titleCreationSearchProfile';
 import translateTo from '../../utils/translation';
 import LearnMoreListingsProperty from './Buyer/LearnMoreListingsProperty';
-import SearchProfileModal from './SearchProfile/SearchProfileModal';
 
 const MarketCategoryListBuyer = (props) => {
   const history = {
@@ -29,10 +29,10 @@ const MarketCategoryListBuyer = (props) => {
   const match = useParams();
   // PROPS
   const {
-    activeFilter,
-    allProperties,
+    buyerProperties,
     activeSearchProfile,
     filterPropType,
+    handleGetActiveBuyerProperties,
     handleGetActiveSingleCompany,
     handleSetModal,
     lang,
@@ -66,13 +66,18 @@ const MarketCategoryListBuyer = (props) => {
   }, []);
   
   useEffect(() => {
-    let defCat;
-    let defPage;
-    if (!cat || cat !== activeFilter) defCat = filterPropType[0].value;
-    if (!page) defPage = 1;
-    if (!cat || cat !== activeFilter || !page) history.push(`/buy/searchProfile/${defCat}/${defPage}`)
-  }, [page, cat]);
-  
+    if (page && cat) {
+      const data = {
+        limit: 9,
+        offset: 0,
+        order: 'updatedAt',
+        direction: 'DESC',
+        searchProfileId: activeSearchProfile.id,
+        type: cat,
+      }
+      handleGetActiveBuyerProperties(data);
+    }
+  }, [page, cat, activeSearchProfile]);
 
   useEffect(() => {
     if (get(loggedInUser, 'id', null)) {
@@ -105,9 +110,9 @@ const MarketCategoryListBuyer = (props) => {
   }, []);
   
   useEffect(() => {
-    const fltProp = filterPropType.find((flt) => flt.value === activeFilter);
+    const fltProp = filterPropType.find((flt) => flt.value === cat);
     if (fltProp) setActiveTab(fltProp);
-  }, [activeFilter]);
+  }, [cat]);
   
   const onLearnMore = () => {
     handleSetModal({
@@ -127,9 +132,6 @@ const MarketCategoryListBuyer = (props) => {
 
   return (
     <>
-      <Routes>
-        <Route path="/list/*" element={<SearchProfileModal />} />
-      </Routes>
       <Suspense fallback="">
         <div className="buyerMarket">
           {/* SECTION: buyer welcome message  */}
@@ -300,9 +302,9 @@ const MarketCategoryListBuyer = (props) => {
               <div className="ta-l max-w-fix-264">
                 <h4 className="fweight-600 dis-f a-c">
                   <span className="mr-1">{translateTo('Results', lang)}</span>
-                  <span>({get(allProperties, 'total', 0)})</span>
+                  <span>({get(buyerProperties, 'total', 0)})</span>
                   {
-                    allProperties.total > 0 && (
+                    buyerProperties.total > 0 && (
                       <BrixelIcon
                         color="green"
                         className="ml-1"
@@ -313,10 +315,10 @@ const MarketCategoryListBuyer = (props) => {
                   }
                 </h4>
                 {
-                  get(allProperties, 'total', null) !== null && (
+                  get(buyerProperties, 'total', null) !== null && (
                     <>
                       {
-                        allProperties.total === 0 && (
+                        buyerProperties.total === 0 && (
                           <div>
                             <p className="txtAltGrey700 fSizePx14">
                               <span>
@@ -348,7 +350,7 @@ const MarketCategoryListBuyer = (props) => {
             </div>
             <div className="row-cols-3-gut-3">
               {
-                skeleton.allProperties === 'CardImageTextVertical' ? (
+                skeleton.buyerProperties === 'CardImageTextVertical' ? (
                   <>
                     {
                       [...Array(3)].map((x, i) => (
@@ -369,7 +371,7 @@ const MarketCategoryListBuyer = (props) => {
                 ) : (
                   <>
                     {
-                      get(allProperties, 'data', []).map((property, index) => (
+                      get(buyerProperties, 'data', []).map((property, index) => (
                         <MarketCard
                           layout="singleOwnCard"
                           type="premium"
@@ -386,7 +388,7 @@ const MarketCategoryListBuyer = (props) => {
             <div className="pb-8">
               <Pagination
                 className="mt-5 pb-10"
-                totalItems={allProperties.total || 0}
+                totalItems={buyerProperties.total || 0}
                 itemsPerPage={9}
                 activePage={(page - 1) * 9}
                 paginate={(resultsPerPage, skip, pageNumber) => history.push(`/buy/searchProfile/${cat}/${pageNumber}`)}
@@ -402,10 +404,10 @@ const MarketCategoryListBuyer = (props) => {
 };
 
 MarketCategoryListBuyer.propTypes = {
-  activeFilter: PropTypes.string.isRequired,
   activeSearchProfile: PropTypes.object,
-  allProperties: PropTypes.object.isRequired,
+  buyerProperties: PropTypes.object.isRequired,
   filterPropType: PropTypes.arrayOf(PropTypes.object),
+  handleGetActiveBuyerProperties: PropTypes.func.isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
   handleSetModal: PropTypes.func.isRequired,
   lang: PropTypes.string.isRequired,
@@ -424,7 +426,7 @@ MarketCategoryListBuyer.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  allProperties: get(state, 'market.allProperties', {}),
+  buyerProperties: get(state, 'market.buyerProperties', {}),
   activeSearchProfile: get(state, 'user.activeSearchProfile', null),
   estimation: get(state, 'property.estimation', {}),
   lang: get(state, 'common.language', 'en'),
@@ -441,6 +443,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  handleGetActiveBuyerProperties: bindActionCreators(getBuyerProperties, dispatch),
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
   handleSetHistory: bindActionCreators(setHistory, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),

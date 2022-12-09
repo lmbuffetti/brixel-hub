@@ -19,6 +19,7 @@ import { getUserSearchProfiles } from '../../actions/SearchProfileActions';
 import lazyWithRetry from '../../components/LazyWithRetry';
 import '../../styles/SCSS/pages/market.scss';
 import translateTo from '../../utils/translation';
+import SearchProfileModal from './SearchProfile/SearchProfileModal';
 
 const MarketCategoryListBuyer = lazyWithRetry(() => import('./MarketCategoryListBuyer'));
 const FavoritesProperty = lazyWithRetry(() => import('./Buyer/FavoritesProperty'));
@@ -187,6 +188,7 @@ const MarketBuyer = (props) => {
           onClick={(tab) => onClickOnTopTab(tab)}
         />
         <Routes>
+          <Route path="/searchProfile/list/*" element={<SearchProfileModal />} />
           {
             filterPropType.map((nav, i) => (
               <Route
@@ -194,7 +196,6 @@ const MarketBuyer = (props) => {
                 path={`/searchProfile/:cat/:page`}
                 element={
                   <MarketCategoryListBuyer
-                    activeFilter={nav.value}
                     filterPropType={filterPropType}
                     onPageChange={(resultsPerPage, pageNumber, type) => getPropertiesPage(type, pageNumber)}
                     page={page}

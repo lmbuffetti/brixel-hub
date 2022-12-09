@@ -5,6 +5,7 @@ import set from 'lodash/set';
 import { SKELETON_OFF, SKELETON_ON } from '../actions/types/CommonTypes';
 import {
   GET_ALL_PROPERTIES,
+  GET_BUYER_PROPERTIES,
   GET_FAVORITES_PROPERTIES,
   GET_LAST_VIEWED_PROPERTIES,
   GET_NEW_PROPERTIES,
@@ -15,6 +16,7 @@ import {
   GET_PREMIUM_PROPERTIES,
   GET_WISHLIST_PROPERTIES,
   SET_ALL_PROPERTIES,
+  SET_BUYER_PROPERTIES,
   SET_FAVORITES_PROPERTIES,
   SET_NEW_PROPERTIES,
   SET_OWNED_ESTIMATIONS,
@@ -331,6 +333,35 @@ const checkLead = (store) => (next) => (action) => {
           if (res.meta.status === 200) {
             store.dispatch({ type: SET_PREMARKET_STATS, payload: res.data });
           }
+        });
+      break;
+    }
+    case GET_BUYER_PROPERTIES: {
+      const {
+        limit,
+        offset,
+        order,
+        direction,
+        searchProfileId,
+        type, // all|published|premarket
+      } = action.payload;
+      let loadSkeleton = cloneDeep(get(store.getState(), 'common.skeleton', {}));
+      loadSkeleton.buyerProperties = 'CardImageTextVertical';
+      store.dispatch({
+        type: SKELETON_ON,
+        payload: {
+          ...loadSkeleton,
+        },
+      });
+      let query = `?type=${type}&order=${order}&direction=${direction}`;
+      if (searchProfileId) query += `&searchprofileid=${searchProfileId}`;
+      api.market.getBuyerProperties(limit, offset, query)
+        .then((res) => {
+          if (res.meta.status === 200) {
+            store.dispatch({ type: SET_BUYER_PROPERTIES, payload: res.data });
+          }
+          loadSkeleton.buyerProperties = false;
+          store.dispatch({ type: SKELETON_OFF, payload: loadSkeleton });
         });
       break;
     }

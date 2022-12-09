@@ -148,7 +148,7 @@ const SearchProfileList = (props) => {
       </div>
       {
         userSearchProfiles && userSearchProfiles.map((searchProfile, i) => (
-          <>
+          <React.Fragment key={`usrProfile${i.toString()}`}>
             {
               searchProfile.id && (
                 <div
@@ -273,7 +273,7 @@ const SearchProfileList = (props) => {
                 </div>
               )
             }
-          </>
+          </React.Fragment>
         ))
       }
     </div>

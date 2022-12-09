@@ -56,6 +56,11 @@ class Market extends Base {
     const url = ep.market.wishlists(paginationLimit, paginationSkip, data);
     return this.apiClient.get(url);
   }
+  
+  getBuyerProperties(paginationLimit, paginationSkip, data) {
+    const url = ep.market.buyer(paginationLimit, paginationSkip, data);
+    return this.apiClient.get(url);
+  }
 }
 
 export default Market;

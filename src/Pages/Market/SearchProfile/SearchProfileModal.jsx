@@ -82,14 +82,6 @@ const SearchProfileModal = (props) => {
     }
   }
 
-  const saveChangeSearchProfile = () => {
-    const newSearchProfile = userSearchProfiles.find((src) => src.id === userActiveSearchProfileId);
-    if (newSearchProfile) {
-      window.sessionStorage.setItem('profileID', newSearchProfile.id);
-      handleSetUserActiveSearchProfile(newSearchProfile);
-    }
-  }
-
   const onClose = () => {
     const url = get(history, 'location.state.url', null);
     switch(history.location.pathname) {
@@ -111,11 +103,20 @@ const SearchProfileModal = (props) => {
         return 'Edit Search Profile';
     }
   }
+  
+  const saveChangeSearchProfile = () => {
+    const newSearchProfile = userSearchProfiles.find((src) => src.id === userActiveSearchProfileId);
+    if (newSearchProfile) {
+      window.sessionStorage.setItem('profileID', newSearchProfile.id);
+      handleSetUserActiveSearchProfile(newSearchProfile);
+      onClose();
+    }
+  }
 
   const multiActions = () => {
     const diffForm = diff(initialValues, formValue) || {};
     switch(history.location.pathname) {
-      case '/buy/searchProfile':
+      case '/buy/searchProfile/list':
         return ([
           {
             round: true,
@@ -217,7 +218,7 @@ SearchProfileModal.propTypes = {
   isSmallLoading: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  userSearchProfiles: PropTypes.arrayOf(PropTypes.object).isRequired,
+  userSearchProfiles: PropTypes.arrayOf(PropTypes.object),
 };
 
 const mapStateToProps = (state) => ({
