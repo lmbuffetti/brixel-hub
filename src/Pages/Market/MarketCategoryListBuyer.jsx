@@ -237,7 +237,7 @@ const MarketCategoryListBuyer = (props) => {
                                     field !== 'isDefault' && field !== 'name' && (
                                       <>
                                         <SearchProfileField
-                                          onClick={() => history.push(`/buy/searchProfile/list/edit/${activeSearchProfile.id}`, {state: { url: '/buy' }})}
+                                          onClick={() => history.push(`/buy/searchProfile/list/edit/${activeSearchProfile.id}`, {state: { url: `/buy/searchProfile/${cat}/${page}` }})}
                                           searchProfile={activeSearchProfile}
                                           field={field}
                                           lang={lang}
@@ -252,7 +252,7 @@ const MarketCategoryListBuyer = (props) => {
                               icon="edit-setting"
                               secondary
                               className="bgWhite"
-                              onClick={() => history.push(`/buy/searchProfile/list/edit/${activeSearchProfile.id}`, {state: { url: '/buy' }})}
+                              onClick={() => history.push(`/buy/searchProfile/list/edit/${activeSearchProfile.id}`, {state: { url: `/buy/searchProfile/${cat}/${page}` }})}
                             />
                           </div>
                         </div>
