@@ -50,7 +50,7 @@ function ContactForm(props) {
   // STATE
   const [step, setStep] = useState('form');
   const [showErrors, setShowErrors] = useState(false);
-
+  
   useEffect(() => {
     setStep('form');
     return () => {
@@ -58,7 +58,7 @@ function ContactForm(props) {
       destroyForm();
     };
   }, []);
-
+  
   useEffect(() => {
     if (isSmallLoading.sendMessage === 'sentMessage') {
       setStep('success');
@@ -68,7 +68,7 @@ function ContactForm(props) {
       // handleResetSendMessage();
     }
   }, [isSmallLoading]);
-
+  
   useEffect(() => {
     if (!formValue.userEmail && loggedInUser.email) {
       changeFieldValue('userName', loggedInUser.name);
@@ -76,7 +76,7 @@ function ContactForm(props) {
       changeFieldValue('userEmail', loggedInUser.email);
     }
   }, [initialValues, loggedInUser, activeSingleCompany.id]);
-
+  
   const checkField = () => {
     let isValid = true;
     const currentError = cloneDeep(errorValue);
@@ -88,7 +88,7 @@ function ContactForm(props) {
     });
     return isValid;
   };
-
+  
   const submitContactForm = (e) => {
     if (e) {
       e.preventDefault();
@@ -132,13 +132,13 @@ function ContactForm(props) {
     }
     return null;
   };
-
+  
   useEffect(() => {
     if (action === 'send') {
       submitContactForm();
     }
   }, [action]);
-
+  
   return (
     <>
       {
@@ -220,7 +220,7 @@ function ContactForm(props) {
                         />
                       </div>
                     </div>
-
+                    
                     <ReduxField
                       form="ContactForm"
                       component={BrixelTextArea}
@@ -263,7 +263,7 @@ function ContactForm(props) {
             </section>
             <section className="bodySection mx-2-neg px-2 bgWhite shadow-1dp brdRadiusTop pt-2 pb-4 mx-sm-5-neg px-sm-5 mb-1-neg">
               <p className="mb-2"><b>{translateTo('Here are 3 tips for a smooth process', lang)}</b></p>
-
+              
               <ul>
                 <li>
                   <BrixelIcon icon="tour" color="green" background="green" saturation={200} saturationTxt={700} />
