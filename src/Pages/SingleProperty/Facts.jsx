@@ -82,7 +82,7 @@ const Facts = (props) => {
       setQuestions(InputSheets('facts', lang, changeFieldValue));
       setSelectedQuest(quest);
     }
-  }, [formValue]);
+  }, [formValue, lang]);
 
   // ON CHANGE HISTORY SELECT THE CORRECT QUESTIONS
   useEffect(() => {
