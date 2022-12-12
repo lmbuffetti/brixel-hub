@@ -15,7 +15,7 @@ const FavoritesPropertyList = (props) => {
   return (
     <>
       {
-        skeleton.favorite ? (
+        skeleton.wishlist ? (
           <>
             {
               [...Array(3)].map((x, i) => (
