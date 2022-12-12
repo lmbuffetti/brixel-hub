@@ -59,7 +59,7 @@ const checkLead = (store) => (next) => (action) => {
           store.dispatch({ type: SKELETON_OFF, payload: { own: false } });
         })
         .catch(() => {
-          store.dispatch({ type: SKELETON_OFF });
+          store.dispatch({ type: SKELETON_OFF, payload: { own: false } });
         });
       break;
     }
@@ -75,7 +75,7 @@ const checkLead = (store) => (next) => (action) => {
           store.dispatch({ type: SKELETON_OFF, payload: { favorite: false } });
         })
         .catch(() => {
-          store.dispatch({ type: SKELETON_OFF });
+          store.dispatch({ type: SKELETON_OFF, payload: { favorite: false } });
         });
       break;
     }
@@ -92,7 +92,7 @@ const checkLead = (store) => (next) => (action) => {
           store.dispatch({ type: SKELETON_OFF, payload: { allProperties: false } });
         })
         .catch(() => {
-          store.dispatch({ type: SKELETON_OFF });
+          store.dispatch({ type: SKELETON_OFF, payload: { allProperties: false } });
         });
       break;
     }
@@ -115,7 +115,7 @@ const checkLead = (store) => (next) => (action) => {
           store.dispatch({ type: SKELETON_OFF, payload: { favorite: false } });
         })
         .catch(() => {
-          store.dispatch({ type: SKELETON_OFF });
+          store.dispatch({ type: SKELETON_OFF, payload: { favorite: false } });
         });
       break;
     }
@@ -144,7 +144,7 @@ const checkLead = (store) => (next) => (action) => {
           store.dispatch({ type: SKELETON_OFF, payload: { estimation: false } });
         })
         .catch(() => {
-          store.dispatch({ type: SKELETON_OFF });
+          store.dispatch({ type: SKELETON_OFF, payload: { estimation: false } });
         });
       break;
     }
@@ -200,7 +200,7 @@ const checkLead = (store) => (next) => (action) => {
           store.dispatch({ type: SKELETON_OFF, payload: { favorite: false } });
         })
         .catch(() => {
-          store.dispatch({ type: SKELETON_OFF });
+          store.dispatch({ type: SKELETON_OFF, payload: { favorite: false } });
         });
       break;
     }
@@ -229,7 +229,7 @@ const checkLead = (store) => (next) => (action) => {
           store.dispatch({ type: SKELETON_OFF, payload: { favorite: false } });
         })
         .catch(() => {
-          store.dispatch({ type: SKELETON_OFF });
+          store.dispatch({ type: SKELETON_OFF, payload: { favorite: false } });
         });
       break;
     }
@@ -245,7 +245,7 @@ const checkLead = (store) => (next) => (action) => {
           store.dispatch({ type: SKELETON_OFF, payload: { wishlist: false } });
         })
         .catch(() => {
-          store.dispatch({ type: SKELETON_OFF });
+          store.dispatch({ type: SKELETON_OFF, payload: { wishlist: false } });
         });
       break;
     }
@@ -261,7 +261,7 @@ const checkLead = (store) => (next) => (action) => {
           if (res.meta.status === 200) {
             store.dispatch({ type: SET_PREMARKET_STATS, payload: res.data });
           }
-        });
+        })
       break;
     }
     case GET_BUYER_PROPERTIES: {
@@ -281,6 +281,9 @@ const checkLead = (store) => (next) => (action) => {
           if (res.meta.status === 200) {
             store.dispatch({ type: SET_BUYER_PROPERTIES, payload: res.data });
           }
+          store.dispatch({ type: SKELETON_OFF, payload: { buyerProperties: false } });
+        })
+        .catch(() => {
           store.dispatch({ type: SKELETON_OFF, payload: { buyerProperties: false } });
         });
       break;
