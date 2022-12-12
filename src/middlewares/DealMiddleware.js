@@ -186,6 +186,7 @@ const checkCommon = (store) => (next) => (action) => {
       const {
         id,
         smallLoader,
+        property,
       } = action.payload;
       if (smallLoader) {
         store.dispatch({
@@ -212,7 +213,7 @@ const checkCommon = (store) => (next) => (action) => {
               let dealUserHistory = {};
               let call3;
               let updatedDeal;
-              const queryParamsDealUser = `?parent=${response.data.user.id}&order=createdAt&direction=ASC&historyType=user`;
+              const queryParamsDealUser = `?parent=${response.data.user.id}&child=${property}&order=createdAt&direction=ASC&historyType=user`;
               // eslint-disable-next-line no-return-assign
               const call2 = api.history.getHistoryList(10, 0, queryParamsDealUser, ActionStubs.DealOwner)
                 .then((res) => {
