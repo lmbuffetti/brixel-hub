@@ -8,7 +8,6 @@
   },
   "dependencies": {
     "@brixel/brixel-components": "git+https://brixel_admin:e1C13Nz8THA_psP6pe1e@gitlab.com/brixel/brixel-styleguide-components.git#master",
-    "date-fns": "^2.29.3",
     "deep-object-diff": "^1.1.9",
     "draft-js": "^0.11.7",
     "eslint-plugin-jsx-a11y": "^6.6.1",
