@@ -1,4 +1,3 @@
-/* eslint-disable array-callback-return */
 import { BrixelButtonIcon, BrixelButtonPrimary, BrixelButtonText } from '@brixel/brixel-components';
 import BrixelSwitchButton from '@brixel/brixel-components/dist/components/Form/BrixelSwitchButton';
 import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
@@ -14,9 +13,6 @@ import get from 'lodash/get';
 import has from 'lodash/has';
 import { DateTime } from 'luxon';
 import PropTypes from 'prop-types';
-/* eslint-disable dot-notation */
-/* eslint-disable react-hooks/exhaustive-deps */
-// import InputRange from 'react-input-range';
 import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -500,14 +496,16 @@ const AddShowingsBuyer = (props) => {
                                   {hours.min % 1 !== 0 ? `${Math.trunc(hours.min)}:30` : `${hours.min}:00`} - {hours.max % 1 !== 0 ? `${Math.trunc(hours.max)}:30` : `${hours.max}:00`}
                                 </p>
                                 <BrixelInputMultiRange
-                                  maxValue={20}
-                                  minValue={8}
+                                  maxLengthNum={20}
+                                  minLengthNum={8}
+                                  value={hours}
                                   step={0.5}
                                   formatLabel={(value) => `${value % 1 !== 0 ? `${Math.trunc(value)}:30` : `${value}:00`}`}
+                                  onChange={(value) => setHours(value)}
                                   disabled={allDay}
                                   input={{
                                     value: hours,
-                                    onChange: (value) => setHours(value),
+                                    onChange: (value) => setHours(value)
                                   }}
                                 />
                                 <div className="dis-f a-c mt-4 mb-lg-0">
