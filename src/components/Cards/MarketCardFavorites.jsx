@@ -36,22 +36,20 @@ const MarketCardFavorites = (props) => {
   const [offerDetail, setOfferDetail] = useState({});
   const [activeSlide, setActiveSlide] = useState(0);
   const [showSlideData, setShowSlideData] = useState(false);
-  
+
   const settingSlider = {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    centerPadding: '8px',
     arrows: false,
     dots: false,
-    lazyLoad: 'progressive',
     beforeChange: (oldIndex, newIndex) => {
       setActiveSlide(newIndex);
     }
   };
-  
+
   const imgSlide = useRef(null);
-  
+
   useEffect(() => {
     if (activeSingleProperty.id) {
       api.deal.getBuyerDeal(activeSingleProperty.id)
@@ -60,7 +58,7 @@ const MarketCardFavorites = (props) => {
         })
     }
   }, [activeSingleProperty]);
-  
+
   useEffect(() => {
     if (get(dealDetail, 'id', null)) {
       const offerData = get(dealDetail, 'closing.stageOffer', {});
@@ -70,7 +68,7 @@ const MarketCardFavorites = (props) => {
       setOfferDetail(offerData);
     }
   }, [dealDetail]);
-  
+
   const slideImg = (e, act, slideIndex = 0) => {
     if (e) e.stopPropagation();
     if (imgSlide) {
@@ -80,7 +78,7 @@ const MarketCardFavorites = (props) => {
       if (act === 'goTo') slide.slickGoTo(slideIndex);
     }
   }
-  
+
   const onOpenCard = () => {
     if (get(activeSingleProperty, 'tags', []).includes('pre-market')) {
       const propsModal = {
@@ -101,14 +99,13 @@ const MarketCardFavorites = (props) => {
       history.push(`/buyer/${activeSingleProperty.id}/home`);
     }
   }
-  
+
   const isPreMarket = () => get(activeSingleProperty, 'tags', []).includes('pre-market');
-  
+
   return (
     <div className="mb-3 marketCardFavorite">
-      <div className="dis-f brdRadius brdSmall brdAltGrey200 ov-h">
-        <div className="w-fix-flex-320 pos-r">
-          
+      <div className="dis-fl-col dis-fl-row-md dis-f brdRadius brdSmall brdAltGrey200 ov-h h-perc-100">
+        <div className="w-fix-md-320 pos-r h-perc-100">
           {
             isPreMarket() && (
               <div className="pos-a-fix x-t-1 x-l-1 zIndex5">
@@ -123,7 +120,7 @@ const MarketCardFavorites = (props) => {
               </div>
             )
           }
-          
+
           {
             get(activeSingleProperty, 'photos', []).length > 0 && dealDetail ? (
               <div
@@ -173,9 +170,10 @@ const MarketCardFavorites = (props) => {
                     activeSingleProperty.photos.map((photo, index) => (
                       <div
                         key={`itm_${index.toString()}`}
-                        className={`${isPreMarket() ? 'pre-market' : ''} ${get(activeSingleProperty, 'tags', []).join(' ')} cover w-perc-100 h-fix-200 h-perc-100 pos-r`}
+                        className={`${isPreMarket() ? 'pre-market' : ''} ${get(activeSingleProperty, 'tags', []).join(' ')} cover pos-r`}
                       >
                         <img
+                          className="cover h-fix-216"
                           src={`${baseByData.shortPath}${photo.path}`}
                           key={`photo${index.toString()}`}
                           alt={`Property Photos ${index.toString()}`}
@@ -187,7 +185,7 @@ const MarketCardFavorites = (props) => {
               </div>
             ) : (
               <CoverPropertyImage
-                className={`${isPreMarket() ? 'pre-market' : ''} ${get(activeSingleProperty, 'tags', []).join(' ')} cover w-perc-100 h-perc-100 pos-r cur-poi`}
+                className={`${isPreMarket() ? 'pre-market' : ''} ${get(activeSingleProperty, 'tags', []).join(' ')} cover w-perc-100 h-perc-100 h-fix-208 pos-r cur-poi`}
                 coverPhoto={get(activeSingleProperty, 'coverPhoto.galleryThumbnailPath', undefined)}
                 propertyType={get(activeSingleProperty, 'properties.propertyType', undefined)}
                 onClick={() => onOpenCard()}
@@ -195,8 +193,8 @@ const MarketCardFavorites = (props) => {
             )
           }
         </div>
-        
-        <div className="w-perc-100 p-2">
+
+        <div className="dis-fl-col p-2 flex-1">
           <div className="dis-f a-t jc-b">
             <div>
               <span className="fsize-300 txtAltGrey700 mb-1 ta-l">
@@ -209,16 +207,17 @@ const MarketCardFavorites = (props) => {
                   )
                 }
               </span>
-              <h3
-                className="cur-poi"
+              <h6
+                className="cur-poi fweight-600 fSizePx18 mb-1"
                 onClick={() => onOpenCard()}
               >
                 {translateTo(activeSingleProperty.title, lang)}
-              </h3>
+              </h6>
               <BrixelButtonText
                 label={translateTo('View property page', lang)}
-                iconRight="link-open"
+                rightIcon="link-open"
                 bgTransparent
+                labelClass="fsize-300"
               />
             </div>
             <div>
@@ -245,12 +244,12 @@ const MarketCardFavorites = (props) => {
               </div>
             </div>
           </div>
-          
-          <div className="dis-f jc-b a-b">
-            <div className="fsize-300 pt-1 txtDark400 pb-1">
+
+          <div className="dis-fl-col dis-fl-row-md jc-b pt-2 mt-a">
+            <div className="fsize-300 txtDark400 mb-2 mb-md-0">
               <div className="dis-f a-c jc-fs flex-wrap w-perc-100">
-  
-                <div className="bottom a-c txtDark700 mt-2 mb-2 brdSmallRight brdAltGrey200 pr-6 mr-6">
+
+                <div className="bottom a-c txtDark700 brdSmallRight brdAltGrey200 pr-2 mr-2 pr-sm-6 mr-sm-6">
                   <span className="fsize-300 dis-b txtAltGrey400">
                     {translateTo('Price', lang)}
                   </span>
@@ -265,19 +264,19 @@ const MarketCardFavorites = (props) => {
                         </span>
                       </div>
                     ) : (
-                      <span className="txtGreen400 fsize-500">
+                      <span className="txtGreen400 fsize-500 ff-mono">
                         {translateTo(get(activeSingleProperty, 'status', null) === 'sold' ? 'Sold' : 'On Request', lang)}
                       </span>
                     )
                   }
-  
+
                 </div>
-              
+
                 <div>
                   <span className="fsize-300 dis-b txtAltGrey400">
                     {translateTo('Rooms', lang)}
                   </span>
-                  <span className="ff-mono fszie-400 txtBlack">
+                  <span className="ff-mono fsize-400 txtBlack dis-b pt-small-4">
                     {FormatValue.formatRooms(get(activeSingleProperty, 'properties.typology.bedrooms', 0), get(activeSingleProperty, 'location.countryCode', 'CH'))}
                   </span>
                 </div>
@@ -285,7 +284,7 @@ const MarketCardFavorites = (props) => {
                   <span className="fsize-300 dis-b txtAltGrey400">
                     {translateTo('Size', lang)}
                   </span>
-                  <span className="ff-mono fszie-400 txtBlack">
+                  <span className="ff-mono fsize-400 txtBlack dis-b pt-small-4">
                     {get(activeSingleProperty, 'properties.typology.livingArea.value', 0)} m2
                   </span>
                 </div>
@@ -293,14 +292,14 @@ const MarketCardFavorites = (props) => {
                   <span className="fsize-300 dis-b txtAltGrey400">
                     {translateTo('Year built', lang)}
                   </span>
-                  <span className="ff-mono fszie-400 txtBlack">
+                  <span className="ff-mono fsize-400 txtBlack dis-b pt-small-4">
                     {get(activeSingleProperty, 'properties.building.built', 0)}
                   </span>
                 </div>
               </div>
             </div>
-          
-            <div>
+
+            <div className="mt-a mb-a ml-a">
               {
                 (get(offerDetail, 'offer.status', false) === 'none' || get(offerDetail, 'offer.status', null) === 'rejected') && !isPreMarket() && (
                   <BrixelButtonPrimary

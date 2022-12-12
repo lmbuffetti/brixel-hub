@@ -318,8 +318,12 @@ const App = (props) => {
       } else if (history.location.pathname.includes('prospects') || history.location.pathname.includes('closing')) {
         setClassMain('w-perc-100 pos-r hubContainer dealsTop withTopBar sellerHub');
       } else if (history.location.pathname.includes('/sell') || history.location.pathname.includes('/buy')) {
-        setClassMain('w-perc-100 pos-r ov-h marketHome');
-      } else if (history.location.pathname.includes('offers')) {
+        if (history.location.pathname.includes('/buy/favorites/map')) {
+          setClassMain('w-perc-100 pos-r ov-h marketHome mapView');
+        } else {
+          setClassMain('w-perc-100 pos-r ov-h marketHome');
+        }
+      }  else if (history.location.pathname.includes('offers')) {
         setClassMain('w-perc-100 pos-r hubContainer offersTop withTopBar sellerHub');
       } else {
         setClassMain('w-perc-100 pos-r hubContainer ov-h');
