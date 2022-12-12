@@ -7,7 +7,6 @@ import PropTypes from 'prop-types';
 /* eslint-disable dot-notation */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
-import 'react-input-range/lib/css/index.css';
 import { connect } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
