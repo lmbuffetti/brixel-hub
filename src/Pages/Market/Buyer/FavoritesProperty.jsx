@@ -33,12 +33,12 @@ const FavoritesProperty = (props) => {
   }
 
   return (
-    <div className="container dis-fl-col h-perc-100 pb-10">
+    <div className={`container dis-fl-col h-perc-100 ${view === 'map' ? '' : 'pb-10'}`}>
       <div className="dis-f a-c jc-b my-3">
-        <h1>
+        <h4 className="fweight-600">
           <span>{translateTo('Saved properties', lang)}</span>
           <span className="ml-1">({wishlistProperties.total || '-'})</span>
-        </h1>
+        </h4>
 
         <div>
           <BrixelButtonSecondary

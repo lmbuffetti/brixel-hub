@@ -64,7 +64,7 @@ const MarketCategoryListBuyer = (props) => {
     });
     setFieldsSearchProfile(fields);
   }, []);
-  
+
   useEffect(() => {
     if (page && cat) {
       const data = {
@@ -108,12 +108,12 @@ const MarketCategoryListBuyer = (props) => {
       if (catList) catList.classList.remove('market-listings');
     };
   }, []);
-  
+
   useEffect(() => {
     const fltProp = filterPropType.find((flt) => flt.value === cat);
     if (fltProp) setActiveTab(fltProp);
   }, [cat]);
-  
+
   const onLearnMore = () => {
     handleSetModal({
       bodyClassColor: 'white ov-v',
@@ -124,7 +124,7 @@ const MarketCategoryListBuyer = (props) => {
       state: true,
     })
   }
-  
+
   const onChangeFilter = (val) => {
     setActiveTab(val);
     history.push(`/buy/searchProfile/${val.value}/1`);
@@ -298,8 +298,8 @@ const MarketCategoryListBuyer = (props) => {
           </div>
 
           <div className="container">
-            <div className="dis-f a-b jc-b my-5">
-              <div className="ta-l max-w-fix-264">
+            <div className="dis-fl-col dis-fl-row-sm a-c jc-c jc-b-sm my-5">
+              <div className="ta-l max-w-fix-264 mb-2 mb-sm-0">
                 <h4 className="fweight-600 dis-f a-c">
                   <span className="mr-1">{translateTo('Results', lang)}</span>
                   <span>({get(buyerProperties, 'total', 0)})</span>
@@ -348,7 +348,7 @@ const MarketCategoryListBuyer = (props) => {
                 />
               </div>
             </div>
-            <div className="row-cols-3-gut-3">
+            <div className="row-cols-1-gut-3 row-cols-sm-2-gut-3 row-cols-md-3-gut-3">
               {
                 skeleton.buyerProperties === 'CardImageTextVertical' ? (
                   <>

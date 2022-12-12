@@ -4,10 +4,6 @@ $lightColorNew: #F7F6F5;
 $lightColorNew2: #F0F0F2;
 
 .marketHome {
-  .sellerPage,
-  .innerWrap {
-    height: 100%;
-  }
   .sellerPage {
     display: flex;
     flex-direction: column;
@@ -293,7 +289,6 @@ $lightColorNew2: #F0F0F2;
   .slick-slider {
     height: 100%;
     div, img {
-      height: 100%;
       width: 100%;
       object-fit: cover;
     }
@@ -303,6 +298,19 @@ $lightColorNew2: #F0F0F2;
     .slick-slide {
       float: none !important;
     }
+  }
+}
+
+.mapView {
+  .brixelMap {
+    width: calc(100% + 40px);
+    margin-left: -20px;
+  }
+  .innerWrap {
+    height: 100%;
+  }
+  .supportBtn {
+    display: none;
   }
 }
 

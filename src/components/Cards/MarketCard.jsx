@@ -80,7 +80,7 @@ const MarketCard = (props) => {
   const [propertyServicePacakges, setPropertyServicePacakge] = useState();
   const [activeSlide, setActiveSlide] = useState(0);
   const [showSlideData, setShowSlideData] = useState(false);
-  
+
   const settingSlider = {
     speed: 500,
     slidesToShow: 1,
@@ -93,14 +93,14 @@ const MarketCard = (props) => {
       setActiveSlide(newIndex);
     }
   };
-  
+
   const imgSlide = useRef(null);
 
   // TODO: Based on "type" prop, sent by the category, open each property on buyer dashboard/seller dashboard/page, etc.
   useEffect(() => {
     setRemoveSkeleton(true);
   }, [skeleton, coverImgLoaded]);
-  
+
   useEffect(() => {
     if (item.tags.includes('pre-market') || item.hideAddress) {
       setIsFullVisitble(false);
@@ -108,7 +108,7 @@ const MarketCard = (props) => {
       setIsFullVisitble(true)
     }
   }, [item.id]);
-  
+
 
   const isPreMarket = () => get(item, 'tags', []).includes('pre-market');
 
@@ -131,7 +131,7 @@ const MarketCard = (props) => {
       handleGetPackageProperty({ id: get(item, 'id', null), smallLoader: `loadPackage${get(item, 'id', '')}`, addToOwnerProp: true });
     }
   }, [layout, item]);
-  
+
   useEffect(() => {
     if (type === 'own') {
       api.property.packagePage(item.id)
@@ -223,7 +223,7 @@ const MarketCard = (props) => {
     if (findIndex < 0) findIndex = wishlistProperties.findIndex((prop) => prop.id === get(item, 'id', null));
     return findIndex > -1;
   };
-  
+
   const saveFavorite = (action) => {
     const data = {
       act: action,
@@ -237,7 +237,7 @@ const MarketCard = (props) => {
     handleUpdateFavorites(data);
     handleSetModal({ state: false });
   }
-  
+
   const onRemoveProperty = () => {
     const isHideModal = getCookie('brixelHideNotInterested');
     if (isHideModal === true || isHideModal === 'true') {
@@ -253,7 +253,7 @@ const MarketCard = (props) => {
       })
     }
   }
-  
+
   const onOpenCard = () => {
     if (item.tags.includes('pre-market')) {
       const propsModal = {
@@ -277,7 +277,7 @@ const MarketCard = (props) => {
       window.open(`${baseByData.pageUrl}${item.stub}`, '_blank');
     }
   }
-  
+
   const getTypeText = (text) => {
     switch (text) {
       case 'new': {
@@ -295,7 +295,7 @@ const MarketCard = (props) => {
       default:
     }
   };
-  
+
   const getColor = (text) => {
     switch (text) {
       case 'new': {
@@ -313,7 +313,7 @@ const MarketCard = (props) => {
       default:
     }
   };
-  
+
   const iconTag = (text) => {
     switch (text) {
       case 'new':
@@ -324,7 +324,7 @@ const MarketCard = (props) => {
         return null;
     }
   }
-  
+
   const textColor = (text) => {
     switch (text) {
       case 'new': {
@@ -342,7 +342,7 @@ const MarketCard = (props) => {
       default:
     }
   };
-  
+
   const slideImg = (e, act, slideIndex = 0) => {
     if (e) e.stopPropagation();
     if (imgSlide) {
@@ -406,9 +406,9 @@ const MarketCard = (props) => {
                               </li>
                             </ul>
                           </div>
-      
+
                         </div>
-    
+
                       </div>
                     )
                   }
@@ -437,7 +437,7 @@ const MarketCard = (props) => {
               <>
                 <CoverPropertyImage
                   loadedImg={(val) => setCoverImgLoaded(val)}
-                  className={`${isPreMarket() ? 'pre-market' : ''} ${get(item, 'tags', []).join(' ')} cover w-perc-100 ${layout === 'singleOwnCard' ? 'w-fix-sm-184 h-fix-184 mb-1 mb-sm-0' : 'w-fix-sm-208 h-fix-208 mb-1'}`}
+                  className={`${isPreMarket() ? 'pre-market' : ''} ${get(item, 'tags', []).join(' ')} cover w-perc-100 ${layout === 'singleOwnCard' ? 'w-fix-sm-184 h-fix-184 mb-sm-0' : 'w-fix-sm-216 h-fix-216'}`}
                   coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
                   propertyType={get(item, 'properties.propertyType', undefined)}
                   onClick={(e) => openCard(e)}
@@ -617,7 +617,7 @@ const MarketCard = (props) => {
               </>
             ) : (
               <div
-                className="brdSmall brdRadius brdLight200 ov-h bgWhite"
+                className="brdSmall brdLight200 brdRadius  ov-h bgWhite"
                 onClick={() => openCard()}
                 onMouseEnter={() => setShowSlideData(true)}
                 onMouseLeave={() => setShowSlideData(false)}
@@ -627,12 +627,12 @@ const MarketCard = (props) => {
                   isShowLocationCard ? (
                     <div>
                       <BrixelMap
-                        className="w-perc-100 h-fix-208"
+                        className="w-perc-100 h-fix-216"
                         gestureHandling="auto"
                         baseByData={baseByData}
                         lang={lang}
                         hideLocation={!isFullVisitble}
-                        minHeight={208}
+                        minHeight={216}
                         externalControls={false}
                         center={{
                           lat: item.location.latitude,
@@ -647,7 +647,7 @@ const MarketCard = (props) => {
                     <>
                       {
                         get(item, 'photos', []).length > 1 ? (
-                          <div className="h-fix-208 pos-r">
+                          <div className="h-fix-216 pos-r">
                             {
                               showSlideData && (
                                 <>
@@ -693,11 +693,12 @@ const MarketCard = (props) => {
                                 item.photos.map((photo, i) => (
                                   <div
                                     key={`itm_${i.toString()}`}
-                                    className={`${isPreMarket() ? 'pre-market' : ''} ${get(item, 'tags', []).join(' ')} cover mb-1 w-perc-100 h-fix-200 h-perc-100 pos-r`}
+                                    className={`${isPreMarket() ? 'pre-market' : ''} ${get(item, 'tags', []).join(' ')} cover w-perc-100 h-fix-216 h-perc-100 pos-r`}
                                   >
                                     <img
                                       src={`${baseByData.shortPath}${photo.path}`}
                                       alt={`Photo ${i.toString()}`}
+                                      className="h-perc-100 cover w-perc-100"
                                     />
                                   </div>
                                 ))
@@ -707,7 +708,7 @@ const MarketCard = (props) => {
                         ) : (
                           <CoverPropertyImage
                             loadedImg={(val) => setCoverImgLoaded(val)}
-                            className={`${isPreMarket() ? 'pre-market' : ''} ${get(item, 'tags', []).join(' ')} cover mb-1 w-perc-100 h-perc-100 h-fix-208 pos-r`}
+                            className={`${isPreMarket() ? 'pre-market' : ''} ${get(item, 'tags', []).join(' ')} cover w-perc-100 h-perc-100 h-fix-216 pos-r`}
                             coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
                             propertyType={get(item, 'properties.propertyType', undefined)}
                           />
@@ -782,7 +783,7 @@ const MarketCard = (props) => {
                 <div className="info dis-fl-col jc-b">
                   <div className="top dis-fl-col notranslate px-3 pt-3">
                     <span
-                      className="fsize-300 txtDark700 mt-1 notranslate cur-poi"
+                      className="fsize-400 txtAltGrey600 notranslate cur-poi"
                       onClick={() => onOpenCard()}
                     >
                       {get(item, 'location.zip', '')} {get(item, 'location.city', '')}
@@ -816,21 +817,23 @@ const MarketCard = (props) => {
                           </span>
                         </div>
                       ) : (
-                        <span className="txtGreen400 fsize-500">
+                        <span className="txtGreen400 ff-mono fsize-500">
                           {translateTo(get(item, 'status', null) === 'sold' ? 'Sold' : 'On Request', lang)}
                         </span>
                       )
                     }
 
                   </div>
-                  <span className="hr lighter" />
-                  <div className="mid dis-fl-row a-c fsize-300 px-3 pt-1 txtDark400 pb-2">
+                  <div className="mx-3">
+                    <span className="hr lighter" />
+                  </div>
+                  <div className="mid dis-fl-row a-c fsize-300 px-3 pt-2 txtDark400 pb-2">
                     <div className="dis-f a-c jc-b flex-wrap w-perc-100">
                       <div>
                         <span className="fsize-300 dis-b txtAltGrey400">
                           {translateTo('Rooms', lang)}
                         </span>
-                        <span className="ff-mono fszie-400 txtBlack">
+                        <span className="ff-mono fsize-400 txtBlack">
                           {FormatValue.formatRooms(get(item, 'properties.typology.bedrooms', 0), get(item, 'location.countryCode', 'CH'))}
                         </span>
                       </div>
@@ -838,7 +841,7 @@ const MarketCard = (props) => {
                         <span className="fsize-300 dis-b txtAltGrey400">
                           {translateTo('Size', lang)}
                         </span>
-                        <span className="ff-mono fszie-400 txtBlack">
+                        <span className="ff-mono fsize-400 txtBlack">
                           {get(item, 'properties.typology.livingArea.value', 0)} m2
                         </span>
                       </div>
@@ -846,7 +849,7 @@ const MarketCard = (props) => {
                         <span className="fsize-300 dis-b txtAltGrey400">
                           {translateTo('Year built', lang)}
                         </span>
-                        <span className="ff-mono fszie-400 txtBlack">
+                        <span className="ff-mono fsize-400 txtBlack">
                           {get(item, 'properties.building.built', 0)}
                         </span>
                       </div>
