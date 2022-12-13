@@ -21,12 +21,12 @@ const MarketMap = (props) => {
   } = props;
   const mapRef = useRef(null);
   const [mapHeight, setMapHeight] = useState(0);
-  
+
   // FUNCTION FORM MARKERS MAP
   const onSelProperty = (id) => {
     onActiveProperty(id);
   };
-  
+
   useEffect(() => {
     if (windowDimensions.width <= 1024) {
       setMapHeight(windowDimensions.height);

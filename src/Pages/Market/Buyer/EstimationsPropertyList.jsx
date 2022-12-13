@@ -28,20 +28,20 @@ const FavoritesPropertyList = (props) => {
       </Routes>
       <div className="container">
         <div className="dis-f a-c jc-b my-3">
-          <h1>
+          <h4 className="fweight-600">
             <span>{translateTo('Your Estimations', lang)}</span>
             <span className="ml-1">({ownerEstimations.total || '-'})</span>
-          </h1>
-          
+          </h4>
+
           <BrixelButtonPrimary
             rounded
             leftIcon="plus"
             label="New estimations"
             onClick={() => history.push(`/packageFlow/getStartedEstimation/${activeSingleCompany.stub}/estimationType`)}
           />
-          
+
         </div>
-  
+
         {
           skeleton.estimation ? (
             <>

@@ -303,8 +303,9 @@ $lightColorNew2: #F0F0F2;
 
 .mapView {
   .brixelMap {
-    width: calc(100% + 40px);
-    margin-left: -20px;
+    width: 100vw;
+    transform: translateX(-50%);
+    left: 50%;
   }
   .innerWrap {
     height: 100%;
