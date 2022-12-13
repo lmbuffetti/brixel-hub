@@ -7,7 +7,6 @@ import {
   initializeForm,
   MultiFileldsReduxForm,
 } from '@brixel/brixel-components/dist/form';
-import subDays from 'date-fns/subDays';
 import { diff } from 'deep-object-diff';
 import get from 'lodash/get';
 import has from 'lodash/has';
@@ -477,7 +476,7 @@ const AddShowingsBuyer = (props) => {
                                 inline
                                 selected={date}
                                 onChange={(day) => handleChangeDate(day)}
-                                minDate={subDays(new Date(), 0)}
+                                minDate={new Date()}
                                 lang={lang.value || lang}
                                 onClick={() => {
                                 }}
