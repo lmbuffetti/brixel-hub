@@ -52,7 +52,7 @@
     "build-dev": "NODE_ENV=page-dev webpack --config webpack.config.js --progress --env DEV --mode production",
     "build-stage": "NODE_ENV=page-stage webpack --config webpack.config.js --progress --env STAGING --mode production",
     "build-prod": "NODE_ENV=page-prod webpack --config webpack.config.js --progress --env PROD --mode production",
-    "install-styleguide": "npm install git+https://brixel_admin:e1C13Nz8THA_psP6pe1e@gitlab.com/brixel/brixel-styleguide-components.git#master --no-save --force --verbose",
+    "install-styleguide": "npm install git+https://brixel_admin:e1C13Nz8THA_psP6pe1e@gitlab.com/brixel/brixel-styleguide-components.git#master --force",
     "start-updated": "rm -rf node_modules/@brixel && rm -rf package-lock.json && npm install && npx kill-port 5000 && NODE_ENV=page-dev webpack serve --no-client-overlay --config webpack.config.js --progress profile --env DEV_LOCAL --mode development",
     "eject": "react-scripts eject",
     "lint": "turbo run lint:turbo",
