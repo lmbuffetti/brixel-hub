@@ -16,7 +16,7 @@ build site:
     FOLDER: $CI_COMMIT_REF_NAME
   script:
     - npm -v;
-    - npm run install-styleguide
+    - npm ci
     - if [ "$FOLDER" == "feature/BRI-218-Listing-Properties" ]; then npm run build-dev; fi
     - if [ "$FOLDER" == "staging" ]; then npm run build-stage; fi
     - if [ "$FOLDER" == "master" ]; then npm run build-prod; fi
