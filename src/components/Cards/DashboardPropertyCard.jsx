@@ -78,7 +78,7 @@ const DashboardPropertyCard = (props) => {
                       </>
                     ) : (
                       <span>
-                        {translateTo('Reserved', lang)}
+                        {type !== 'sold' ? translateTo('Sold', lang) : translateTo('Reserved', lang)}
                       </span>
                     )
                   }
