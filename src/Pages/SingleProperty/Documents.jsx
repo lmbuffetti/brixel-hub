@@ -9,6 +9,7 @@ import {
 import documentConfig from '@brixel/brixel-components/dist/configuration/DocumentsConfig';
 import getConfigEnv from '@brixel/brixel-components/dist/configuration/Settings';
 import { change } from '@brixel/brixel-components/dist/form';
+import { diff } from 'deep-object-diff';
 import cloneDeep from 'lodash/cloneDeep';
 import findIndex from 'lodash/findIndex';
 import get from 'lodash/get';
@@ -23,6 +24,7 @@ import { connect } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { ReactSortable } from 'react-sortablejs';
 import { bindActionCreators, compose } from 'redux';
+import { saveActiveSingleProperty } from '../../actions/PropertyActions';
 import { deleteDocument, multiUploadDocument, uploadDocument } from '../../actions/UploadActions';
 import buyerDocumentsEmpty from '../../images/Media/buyer_docuboxEmpty.svg';
 import uploadDocumentsEmpty from '../../images/Upload/upload_documents_empty.svg';
@@ -41,6 +43,7 @@ const Documents = (props) => {
     changeFieldValue,
     formValue,
     handleMultiUploadDocument,
+    handleSaveActiveSingleProperty,
     loggedInUser,
     handleDeleteDocument,
     isBuyer,
@@ -249,7 +252,16 @@ const Documents = (props) => {
           });
         });
       });
-      changeFieldValue('documents', docsToSave);
+      const diffData = diff(documents, docsToSave);
+      if (Object.keys(diffData).length > 0) {
+        changeFieldValue('documents', docsToSave);
+        const dataToSave = {
+          id: propID,
+          smallLoader: 'saveData',
+          documents: docsToSave,
+        }
+        handleSaveActiveSingleProperty(dataToSave);
+      }
     }
   }, [processedDocuments]);
 
@@ -760,6 +772,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleUploadDocument: bindActionCreators(uploadDocument, dispatch),
   handleMultiUploadDocument: bindActionCreators(multiUploadDocument, dispatch),
   handleDeleteDocument: bindActionCreators(deleteDocument, dispatch),
+  handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
 });
 
 export default compose(
