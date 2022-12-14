@@ -39,10 +39,10 @@ const DashboardPropertyCard = (props) => {
         <div>
           <div
             onClick={() => history.push(`/${activeSingleProperty.id}/property/facts`)}
-            className={`dis-b w-perc-100 ${smallLayout ? 'w-fix-sm-160' : 'w-fix-sm-232'} h-fix-160 pos-r`}
+            className={`dis-b w-perc-100 ${smallLayout ? 'min-w-fix-sm-208' : 'w-fix-sm-232'} h-fix-160 pos-r`}
           >
             <CoverPropertyImage
-              className="cover w-perc-100 h-perc-100 negTop"
+              className="cover w-perc-100 h-perc-100 negTop brdRadius"
               coverPhoto={get(activeSingleProperty, 'coverPhoto.galleryThumbnailPath', undefined)}
               propertyType={get(activeSingleProperty, 'properties.propertyType', undefined)}
             />
@@ -58,7 +58,7 @@ const DashboardPropertyCard = (props) => {
             }
           </div>
         </div>
-        <div className="pl-sm-3 pl-2 pt-2 pt-sm-1 dis-fl-col jc-b w-perc-100">
+        <div className="pl-sm-3 pl-2 pt-2 pt-sm-0 dis-fl-col jc-b w-perc-100">
           <div className="">
             <h4 className="txtDark700 fweight-600 fsize-sm-600 fsize-500"> {get(activeSingleProperty, 'title', '')} </h4>
             <span className="fsize-300 txtLight600"> {get(activeSingleProperty.location, 'city', '')}, {get(activeSingleProperty.location, 'state', '')}  </span>
@@ -68,10 +68,20 @@ const DashboardPropertyCard = (props) => {
             (type === 'sold' || type === 'buy') ? (
               <div className="w-perc-100">
                 <div className="fweight-600 txtBlue700 fsize-500 mb-2">
-                  <span>{get(activeSingleProperty, 'price.currency', 'CHF')}</span>
-                  <span className="ml-1">
-                    {Helpers.formatNumberValue(get(activeSingleProperty, 'price.total', 0), get(activeSingleProperty, 'price.currency', 0))}
-                  </span>
+                  {
+                    type !== 'sold' && get(activeSingleProperty, 'status', null) === 'on-sale' ? (
+                      <>
+                        <span>{get(activeSingleProperty, 'price.currency', 'CHF')}</span>
+                        <span className="ml-1">
+                          {Helpers.formatNumberValue(get(activeSingleProperty, 'price.total', 0), get(activeSingleProperty, 'price.currency', 0))}
+                        </span>
+                      </>
+                    ) : (
+                      <span>
+                        {type !== 'sold' ? translateTo('Sold', lang) : translateTo('Reserved', lang)}
+                      </span>
+                    )
+                  }
                 </div>
                 {
                   type === 'buy' ? (

@@ -1,40 +1,32 @@
-/* eslint-disable array-callback-return */
-import { diff } from 'deep-object-diff';
-import has from 'lodash/has';
-/* eslint-disable dot-notation */
-/* eslint-disable react-hooks/exhaustive-deps */
-import InputRange from 'react-input-range';
-import React, { useEffect, useRef, useState } from 'react';
-import PropTypes from 'prop-types';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { connect } from 'react-redux';
-import subDays from 'date-fns/subDays';
-import { bindActionCreators, compose } from 'redux';
-import get from 'lodash/get';
-import {
-  BrixelButtonIcon,
-  BrixelButtonPrimary,
-  BrixelButtonText,
-} from '@brixel/brixel-components';
-import translateTo from '../../../utils/translation';
+import { BrixelButtonIcon, BrixelButtonPrimary, BrixelButtonText } from '@brixel/brixel-components';
 import BrixelSwitchButton from '@brixel/brixel-components/dist/components/Form/BrixelSwitchButton';
+import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
 import {
+  BrixelDatePicker,
+  BrixelInputMultiRange,
   initializeForm,
   MultiFileldsReduxForm,
-  BrixelDatePicker,
 } from '@brixel/brixel-components/dist/form';
+import subDays from 'date-fns/subDays';
+import { diff } from 'deep-object-diff';
+import get from 'lodash/get';
+import has from 'lodash/has';
 import { DateTime } from 'luxon';
-import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
+import PropTypes from 'prop-types';
+import React, { useEffect, useRef, useState } from 'react';
+import { connect } from 'react-redux';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { bindActionCreators, compose } from 'redux';
+import { spinnerSmallOff } from '../../../actions/CommonActions';
 import {
   createPropertyVisitBooking,
   getActiveSingleProperty,
   getActiveSinglePropertyBookings,
 } from '../../../actions/PropertyActions';
-import { spinnerSmallOff } from '../../../actions/CommonActions';
-import { QuestionsList } from '../../../resources/SingleProperty/AddShowings';
-import 'react-input-range/lib/css/index.css';
-import { checkBrowser } from '../../../utils/helpers';
 import scheduleSvg from '../../../images/dashboard/scehdule.svg';
+import { QuestionsList } from '../../../resources/SingleProperty/AddShowings';
+import { checkBrowser } from '../../../utils/helpers';
+import translateTo from '../../../utils/translation';
 
 const AddShowingsBuyer = (props) => {
   const history = {
@@ -503,14 +495,18 @@ const AddShowingsBuyer = (props) => {
                                 >
                                   {hours.min % 1 !== 0 ? `${Math.trunc(hours.min)}:30` : `${hours.min}:00`} - {hours.max % 1 !== 0 ? `${Math.trunc(hours.max)}:30` : `${hours.max}:00`}
                                 </p>
-                                <InputRange
-                                  maxValue={20}
-                                  minValue={8}
+                                <BrixelInputMultiRange
+                                  maxLengthNum={20}
+                                  minLengthNum={8}
                                   value={hours}
                                   step={0.5}
                                   formatLabel={(value) => `${value % 1 !== 0 ? `${Math.trunc(value)}:30` : `${value}:00`}`}
                                   onChange={(value) => setHours(value)}
                                   disabled={allDay}
+                                  input={{
+                                    value: hours,
+                                    onChange: (value) => setHours(value)
+                                  }}
                                 />
                                 <div className="dis-f a-c mt-4 mb-lg-0">
                                   <BrixelSwitchButton

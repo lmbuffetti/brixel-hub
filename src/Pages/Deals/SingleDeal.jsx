@@ -88,6 +88,8 @@ const SingleDeal = (props) => {
     factsOptions,
   } = FactsOptions;
 
+  const propID = get(match, 'propID', null);
+
   const optionsRef = useRef(null);
 
   useEffect(() => () => {
@@ -121,7 +123,7 @@ const SingleDeal = (props) => {
         actionStubs: ActionStubs.Deal,
         smallLoader: 'getDealHistory',
       };
-      getActiveDeal({ id: dealID, smallLoader: 'getDeal' });
+      getActiveDeal({ id: dealID, property: propID, smallLoader: 'getDeal' });
       getDealNotes(payloadNote);
       getHistoryList(payloadDealHistory);
     }
@@ -434,7 +436,6 @@ const SingleDeal = (props) => {
                           <span className="fsize-200 overline tt-up mb-2">{translateTo('Information', lang)}</span>
 
                           <div className="detail-part dis-fl-row">
-
                             <div className="dis-fl-col col-6 p-0">
                               <div className="dis-fl-col ta-l mb-2">
                                 <span className="subtitle fsize-200 txtDark200">{translateTo('Phone', lang)}</span>
@@ -447,21 +448,6 @@ const SingleDeal = (props) => {
                                 }
                               </div>
                             </div>
-
-                            <div className="dis-fl-col col-6 p-0">
-                              <div className="dis-fl-col ta-l mb-2">
-                                <span className="subtitle fsize-200 txtDark200">{translateTo('Signed Up', lang)}</span>
-                                {
-                                  get(activeSingleDeal, 'user.createdAt', null) ? (
-                                    <span className="value txtDark700">{DateTime.fromMillis(activeSingleDeal.user.createdAt, { locale: lang }).toFormat('dd LLL yy, H:mm')}</span>
-                                  ) : (
-                                    <span className="value txtDark700">-</span>
-                                  )
-                                }
-
-                              </div>
-                            </div>
-
                           </div>
 
                         </div>

@@ -11,6 +11,7 @@ import {
   Helpers,
 } from '@brixel/brixel-components';
 import translateTo from '../../utils/translation';
+import { useParams } from 'react-router-dom';
 import {
   DateTime,
 } from 'luxon';
@@ -18,6 +19,7 @@ import TimelineActionStubs from '../../resources/Utilities/timelineActionStubs';
 import api from '../../controllers/api/config';
 
 const DealsCard = (props) => {
+  const match = useParams();
   const {
     className,
     name,
@@ -36,6 +38,8 @@ const DealsCard = (props) => {
   } = props;
   
   const [lastAction, setLastAction] = useState({})
+
+  const propID = get(match, 'propID', null);
 
   const returnMessage = () => {
     if (Object.keys(lastAction).length > 0) {
@@ -56,7 +60,7 @@ const DealsCard = (props) => {
   
   useEffect(() => {
     if (stage === 'Interested') {
-      const queryParams = `?parent=${profileId}&order=DESC&direction=createdAt&historyType=user`;
+      const queryParams = `?parent=${profileId}&child=${propID}&order=DESC&direction=createdAt&historyType=user`;
       api.history.getHistoryList(1, 0, queryParams, TimelineActionStubs.DealLastAction)
         .then((res) => {
           setLastAction(get(res, 'data.data.[0]', {}));

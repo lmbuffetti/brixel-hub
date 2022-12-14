@@ -14,7 +14,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
-import { getHistoryListings } from '../../../actions/HistoryActions';
+import { getHistoryListings, setPropertyHistoryListings } from '../../../actions/HistoryActions';
 import { sendScanTrialRequest } from '../../../actions/PropertyActions';
 import ScantTrailBookedImg from '../../../images/TestDrive/reviewScanTrial.svg';
 import { ScanTrialQuestions } from '../../../resources/Flows/ScanTrialRequest';
@@ -37,6 +37,7 @@ const ScanTrialFlow = (props) => {
     errorValue,
     formValue,
     handleGetHistoryFeed,
+    handleSetPropertyHistory,
     handleReset,
     handleSendScanTrial,
     initForm,
@@ -64,7 +65,10 @@ const ScanTrialFlow = (props) => {
 
   useEffect(() => {
     localStorage.setItem('brixelRegField', JSON.stringify({}));
-    return () => destroyForm();
+    return () => {
+      handleSetPropertyHistory({});
+      destroyForm();
+    }
   }, []);
 
   // ON CHANGE STEP LOAD THE ENTER EFFECT
@@ -324,16 +328,16 @@ const ScanTrialFlow = (props) => {
     return label;
   };
 
-  if (!activeSingleScanTrial) return <div />
+  if (activeSingleScanTrial === null) return <div />
 
   return (
-    <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'background', '')} ${get(quest, 'classWrapper', '')} ${showBookedTrial ? 'bgGreen200' : ''}`}>
+    <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'background', '')} ${get(quest, 'classWrapper', '')} ${showBookedTrial ? 'bgGreen100' : ''}`}>
 
-      <div className={`bodyModal dis-fl-col upgradeModal container ${get(quest, 'history', '')} ${get(quest, 'background', '') ? '' : ''} ${get(quest, 'vCentered', null) ? 'jc-c vCentered' : ''} stepNo${currentIndex}`}>
+      <div className={`bodyModal dis-fl-col upgradeModal container ${get(quest, 'history', '')} ${showBookedTrial ? 'dis-f jc-c' : ''} stepNo${currentIndex}`}>
         <form
           id="multiStepForm"
           autoComplete="off"
-          className={`interactive dis-fl-col jc-b ${get(quest, 'background', null) || ''} ${questions[currentIndex].effect === 'slideUp' ? 'ov-v signUp' : ''}`}
+          className={`interactive dis-fl-col jc-b ${get(quest, 'background', null) || ''}`}
           onSubmit={(e) => changeStep(null, e)}
         >
           <div ref={multiStepSlidesRef} className="multiStepSlides">
@@ -343,7 +347,7 @@ const ScanTrialFlow = (props) => {
                   <div className="subcontainer m-a">
                     <div className="ta-c mx-a max-w-fix-400">
                       <img src={ScantTrailBookedImg} alt="Scan Trial Booked" />
-                      <h4 className="txtGreen700 mt-5">
+                      <h4 className="txtGreen700 fweight-600 mt-6">
                         <span>{translateTo('You have requested a test drive for', lang)}</span>
                         {
                           !isNaN(get(activeSingleScanTrial, 'meta.meta.date', '')) && (
@@ -351,12 +355,12 @@ const ScanTrialFlow = (props) => {
                           )
                         }
                       </h4>
-                      <p className="mt-3">
+                      <p className="mt-3 txtAltGrey700">
                         {translateTo(' 💡 Remember to fill out as many facts about your property as possible. The more information we have, the better we can assist you.', lang)}
                       </p>
                       <BrixelButtonPrimary
                         rounded
-                        className="mt-3 mx-a"
+                        className="mt-5 mx-a"
                         onClick={() => {
                           changeFieldValue('analysis', 'remote');
                           changeFieldValue('email', loggedInUser.email);
@@ -548,6 +552,7 @@ ScanTrialFlow.propTypes = {
   handleGetHistoryFeed: PropTypes.func.isRequired,
   handleReset: PropTypes.func.isRequired,
   handleSendScanTrial: PropTypes.func.isRequired,
+  handleSetPropertyHistory: PropTypes.func.isRequired,
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
@@ -609,6 +614,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleReset(form) {
     (dispatch(reset(form)));
   },
+  handleSetPropertyHistory: bindActionCreators(setPropertyHistoryListings, dispatch),
   handleSendScanTrial: bindActionCreators(sendScanTrialRequest, dispatch),
   handleGetHistoryFeed: bindActionCreators(getHistoryListings, dispatch),
 });

@@ -1,40 +1,68 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React from 'react';
-import PropTypes from 'prop-types';
+import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
+import { BrixelMap } from '@brixel/brixel-components/dist/map';
 import get from 'lodash/get';
-import { bindActionCreators, compose } from 'redux';
+import PropTypes from 'prop-types';
+import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators, compose } from 'redux';
 import { setWindowDimensions } from '../../actions/CommonActions';
-import MarketMapComponent from '../../components/Map/MarketMapComponent';
 
 const MarketMap = (props) => {
   // PROPS
   const {
     activeProperty,
     onActiveProperty,
-    onMarker,
-    parentMarker,
     properties,
-    type,
+    lang,
+    subMinHeight,
+    windowDimensions,
+    zoom,
   } = props;
+  const mapRef = useRef(null);
+  const [mapHeight, setMapHeight] = useState(0);
+  
+  // FUNCTION FORM MARKERS MAP
+  const onSelProperty = (id) => {
+    onActiveProperty(id);
+  };
+  
+  useEffect(() => {
+    if (windowDimensions.width <= 1024) {
+      setMapHeight(windowDimensions.height);
+    } else {
+      setMapHeight(windowDimensions.height - 64);
+    }
+  });
 
   return (
     <>
       <div className="map-inner">
-        {
-          properties.length > 0 && (
-            <MarketMapComponent
-              activeProperty={activeProperty}
-              onActiveProperty={(val) => onActiveProperty(val)}
-              onMarker={(val) => onMarker(val)}
-              parentMarker={parentMarker || []}
-              properties={properties}
-              subMinHeight="full-h-map-wrapper"
-              type={type}
-              visible
-            />
-          )
-        }
+        <div
+          ref={mapRef}
+          className={`min-h-fix-400 pos-r ${subMinHeight}`}
+          style={{ height: mapHeight }}
+        >
+          {
+            get(properties[0], 'location.latitude', null) && (
+              <BrixelMap
+                baseByData={baseByData}
+                externalControls={false}
+                activePropertyId={get(activeProperty, 'id', undefined)}
+                className="w-perc-100 h-perc-100"
+                gestureHandling="auto"
+                lang={lang}
+                zoom={zoom}
+                center={{
+                  lat: properties[0].location.latitude,
+                  lng: properties[0].location.longitude,
+                }}
+                onSelProperty={(id) => onSelProperty(id)}
+                markers={properties}
+              />
+            )
+          }
+        </div>
       </div>
     </>
   );
@@ -42,19 +70,23 @@ const MarketMap = (props) => {
 
 MarketMap.propTypes = {
   activeProperty: PropTypes.string,
+  lang: PropTypes.string.isRequired,
   onActiveProperty: PropTypes.func.isRequired,
-  onMarker: PropTypes.func.isRequired,
   properties: PropTypes.arrayOf(PropTypes.object).isRequired,
-  parentMarker: PropTypes.arrayOf(PropTypes.string).isRequired,
-  type: PropTypes.string,
+  subMinHeight: PropTypes.string,
+  windowDimensions: PropTypes.object.isRequired,
+  zoom: PropTypes.number,
 };
 
 MarketMap.defaultProps = {
   activeProperty: null,
+  subMinHeight: '',
   type: null,
+  zoom: 10,
 };
 
 const mapStateToProps = (state) => ({
+  lang: get(state, 'common.language', 'en'),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 

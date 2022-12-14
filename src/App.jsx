@@ -1,5 +1,5 @@
 /* global ga, gtag, Transifex */
-import { BrixelIcon, BrixelModal, BrixelNotification } from '@brixel/brixel-components';
+import { BrixelIcon, BrixelModal, BrixelModalConfirm, BrixelNotification } from '@brixel/brixel-components';
 import BrixelPage500 from '@brixel/brixel-components/dist/components/BrixelPage500';
 import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import { reset } from '@brixel/brixel-components/dist/form';
@@ -8,8 +8,8 @@ import get from 'lodash/get';
 import has from 'lodash/has';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
-// COMPONENTS
 import React, { Fragment, lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react';
+// COMPONENTS
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
@@ -681,6 +681,17 @@ const App = (props) => {
             )
           }
           {
+            modal.type === 'confirm' && (
+              <BrixelModalConfirm
+                confirm={() => modal.confirm()}
+                cancel={() => modal.cancel()}
+                title={modal.title}
+                titleIcon="alert"
+                message={modal.message}
+              />
+            )
+          }
+          {
             modal.state && !modal.type && modal.small && (
               <BrixelModal
                 bodyActionsClass={modal.bodyActionsClass}
@@ -857,7 +868,7 @@ App.defaultProps = {
 const mapStateToProps = (state) => ({
   activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
-  config: get(state, 'common.config', {}),
+  config: get(state, 'common.configUrl', {}),
   isLoading: get(state, 'common.isLoading', 0) > 0,
   isSmallLoading: get(state, 'common.isSmallLoading', { }),
   lang: get(state, 'common.language', 'en'),

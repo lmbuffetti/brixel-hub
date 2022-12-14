@@ -1,4 +1,4 @@
-import { change} from '@brixel/brixel-components/dist/form';
+import { change } from '@brixel/brixel-components/dist/form';
 import React from 'react';
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
@@ -9,9 +9,10 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { compose } from 'redux';
 
 // LOGOS
-import key4Logo from '../../../images/Companies/ubsKey4/key4Logo.svg';
+// import key4Logo from '../../../images/Companies/ubsKey4/key4Logo.svg';
 import ubsLogo from '../../../images/Companies/ubsKey4/ubsLogo.svg';
 
+// test commit
 
 const IntroBuyerUBS = (props) => {
   const history = {
@@ -44,8 +45,8 @@ const IntroBuyerUBS = (props) => {
         </h2>
 
       </div>
-      <div className="dis-fl-col dis-fl-row-md">
-        <div className="dis-fl-col w-perc-100 w-perc-md-50 mr-0 mr-md-2 shadow-2dp bgWhite brdRadius p-3 p-md-6 mb-3 mb-md-0">
+      <div className="dis-fl-col">
+        <div className="dis-fl-col w-perc-100 w-perc-lg-50 shadow-2dp bgWhite brdRadius p-3 p-md-6 mb-3 mb-md-0 ml-a mr-a">
           <div className="dis-f mb-3">
             <div className="w-perc-70 w-perc-md-55">
               <h5 className="fweight-600 fSizePx18"> {translateTo('Personal consultation on site or via video call.', lang)}</h5>
@@ -70,7 +71,17 @@ const IntroBuyerUBS = (props) => {
             />
           </div>
         </div>
-        <div className="w-perc-100 w-perc-md-50 ml-0 ml-md-2 shadow-2dp bgWhite brdRadius p-3 p-md-5">
+        <div className="dis-fl-col w-perc-100 w-perc-lg-50 shadow-2dp bgGreen100 brdRadius p-3 px-md-6 py-4 mt-2 ml-a mr-a">
+          <span className="ta-c mb-2"> {translateTo('Or would you rather check interest rates digitally in the self-service first?', lang)} </span>
+          <BrixelButtonText
+            rounded
+            bgTransparent
+            className="ml-a mr-a"
+            onClick={() => history.push(`/buyer/${propID}/financingFlow?subtype=standard`)}
+            label={translateTo('Request indicative interest', lang)}
+          />
+        </div>
+        {/* <div className="w-perc-100 w-perc-md-50 ml-0 ml-md-2 shadow-2dp bgWhite brdRadius p-3 p-md-5">
           <div className="dis-f mb-3">
             <div className="w-perc-70 w-perc-md-55">
               <h5 className="fweight-600 fSizePx18">{translateTo('Compare offers and apply for a mortgage online.', lang)}</h5>
@@ -106,7 +117,7 @@ const IntroBuyerUBS = (props) => {
               />
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </main>
   );

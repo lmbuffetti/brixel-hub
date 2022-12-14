@@ -1,5 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import { BrixelButtonIcon, BrixelButtonPrimary, BrixelProgressBar, DataByCountry } from '@brixel/brixel-components';
+import { languagesList } from '@brixel/brixel-components/dist/configuration/Constants';
 import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
 import { change, destroy, initializeForm, MultiFileldsReduxForm, reset } from '@brixel/brixel-components/dist/form';
 import cloneDeep from 'lodash/cloneDeep';
@@ -59,14 +60,14 @@ const GetStartedSeller = (props) => {
   } = props;
   // STATE
   // SET THE QUESTIONS IN BASE OF THE COUNTRY
-  const [questions, setQuestions] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')));
+  const [questions, setQuestions] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue));
   const [currentIndex, setCurrentIndex] = useState(0);
   const [oldIndex, setOldIndex] = useState(0);
   const [showError, setShowError] = useState(false);
   const [action, setAction] = useState('next');
   const [loadingRequest, setLoadingRequest] = useState(false);
   // SET QUEST TO FIRST QUESTION OF QuestionsList()
-  const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0]);
+  const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue)[0]);
   // const [roomValue, setRoomValue] = useState('');
   // GET URL PARAMS
   const propID = get(match, 'propID', null);
@@ -124,6 +125,9 @@ const GetStartedSeller = (props) => {
     };
     // PROPERTY DATA
     delete dataFormAnswer.login;
+    let saveLangUser = 'en';
+    const checkValidLang = languagesList.find((lng) => lng.code === lang);
+    if (checkValidLang) saveLangUser = lang;
     const data = {
       ...dataFormAnswer,
       packageFlowProcess: {
@@ -134,7 +138,7 @@ const GetStartedSeller = (props) => {
       ownerType: 'seller',
       purpose: 'seller',
       preMarketVisible: true,
-      language: lang || 'en',
+      language: saveLangUser,
       title: formValue.pageTitle,
       status: 'on-request',
       listed: false,
@@ -182,7 +186,7 @@ const GetStartedSeller = (props) => {
         signupAccept: true,
         signupChannel: get(formValue, 'channel', 'default'),
         signupProduct: null,
-        language: lang || 'en',
+        language: saveLangUser,
         createUser: true,
         company,
         ignoreEmail: false,
@@ -207,7 +211,7 @@ const GetStartedSeller = (props) => {
   const checkCondition = (id, act) => {
     if (company.stub) {
       let newIndex = id;
-      const newQuestions = QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'));
+      const newQuestions = QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue);
       if (get(newQuestions, `[${newIndex}].conditions`, null)) {
         let checkCond = true;
         newQuestions[newIndex].conditions.map((cond) => {
@@ -366,7 +370,7 @@ const GetStartedSeller = (props) => {
   useEffect(() => {
     setOldIndex(currentIndex);
     if (company.stub) {
-      const newQuest = QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'));
+      const newQuest = QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue);
       if (newQuest[currentIndex].inputs && newQuest[currentIndex].inputs.length === 1 && get(newQuest[currentIndex], 'inputs[0].options', []).length > 0 && get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), null) && !isArray(get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), [])) && oldIndex <= currentIndex && !newQuest[currentIndex].noAutoStepForward) {
         changeStep('next', null, 1, true);
       }
@@ -408,8 +412,8 @@ const GetStartedSeller = (props) => {
 
   // ON CHANGE LANGUAGE RELOAD THE QUESTIONS TRANSLATED
   useEffect(() => {
-    setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')));
-    setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex]);
+    setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue));
+    setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue)[currentIndex]);
   }, [lang, company.stub, translations]);
 
   useEffect(() => {
@@ -461,7 +465,7 @@ const GetStartedSeller = (props) => {
   useEffect(() => {
     if (formValue && company.stub) {
       const newQuest = [];
-      QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')).map((quest) => {
+      QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue).map((quest) => {
         if (quest.condition) {
           let isValid = true;
           quest.condition.map((item) => {

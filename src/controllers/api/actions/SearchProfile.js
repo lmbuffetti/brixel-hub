@@ -1,6 +1,5 @@
-import Base from '../config/Base';
-
 import ep from '../../endPoints.constant';
+import Base from '../config/Base';
 
 class SearchProfile extends Base {
   searchProfileByUserID(id) {
@@ -16,6 +15,11 @@ class SearchProfile extends Base {
   updateSearchProfile(data, id) {
     const url = ep.searchProfile.singleSearchProfileById(id);
     return this.apiClient.put(url, { }, data);
+  }
+  
+  deleteSearchProfile(id) {
+    const url = ep.searchProfile.singleSearchProfileById(id);
+    return this.apiClient.delete(url, { }, {});
   }
 }
 
