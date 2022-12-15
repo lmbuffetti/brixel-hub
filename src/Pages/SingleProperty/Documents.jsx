@@ -58,6 +58,7 @@ const Documents = (props) => {
   const [isCopied, setIsCopied] = useState(false);
   const [isReady, setIsReady] = useState(false);
   const [mandatoryDocuments, setMandatoryDocuments] = useState([]);
+  const [isMovingFolder, setIsMovingFolder] = useState(false);
 
   const { documents } = formValue;
 
@@ -78,7 +79,11 @@ const Documents = (props) => {
       const newDoc = new Map();
       docs.forEach((doc) => {
         const folderName = doc.folder || 'NoFolder';
-        if (newDoc[folderName]) newDoc[folderName].push(doc);
+        if (newDoc.get(folderName)) {
+          const activeDoc = newDoc.get(folderName);
+          activeDoc.push(doc);
+          newDoc.set(folderName, activeDoc);
+        }
         else newDoc.set(folderName, [doc]);
       })
       const defDocs = [];
@@ -260,10 +265,22 @@ const Documents = (props) => {
           smallLoader: 'saveData',
           documents: docsToSave,
         }
-        handleSaveActiveSingleProperty(dataToSave);
+        //handleSaveActiveSingleProperty(dataToSave);
       }
     }
   }, [processedDocuments]);
+  
+  const onExpandFolder = (e, i) => {
+    console.log(e, i);
+    if (e) e.preventDefault();
+    const clone = cloneDeep(showFullFolder);
+    if (index(i) === -1) {
+      clone.push(i);
+    } else if (index(i) !== -1) {
+      clone.splice(index(i), 1);
+    }
+    setShowFullFolder(clone);
+  }
 
   // Function to close the small menus when we click outside
   useOutsideAlerter(documentRef, {
@@ -433,16 +450,8 @@ const Documents = (props) => {
                                   <div
                                     className="document-folder cur-poi shadow-1dp dis-fl-col p-1 mb-2 brdRadius"
                                     key={`prcDcc_${i.toString()}`}
-                                    onClick={(e) => {
-                                      e.preventDefault();
-                                      const clone = cloneDeep(showFullFolder);
-                                      if (index(i) === -1) {
-                                        clone.push(i);
-                                      } else if (index(i) !== -1) {
-                                        clone.splice(index(i), 1);
-                                      }
-                                      setShowFullFolder(clone);
-                                    }}
+                                    onMouseEnter={(e) => isMovingFolder ? onExpandFolder(e, i) : console.log('hover')}
+                                    onClick={(e) => onExpandFolder(e, i)}
                                   >
                                     <div className="dis-fl-row jc-b a-c">
                                       <div className={`dis-fl-row a-c ${(index(i) !== -1) ? 'mb-3' : ''}`}>
@@ -487,6 +496,8 @@ const Documents = (props) => {
                                       list={cloneDeep(docList)}
                                       className=""
                                       setList={(order) => dragDocuments(order, i, get(docList[0], 'folder', null))}
+                                      onStart={() => console.log('moving')}
+                                      onEnd={() => console.log('end')}
                                     >
                                       {
                                         (index(i) !== -1) && docList.map((doc, k) => (
@@ -607,6 +618,8 @@ const Documents = (props) => {
                                     list={cloneDeep(docList)}
                                     className=""
                                     setList={(order) => dragDocuments(order, i, 'NoFolder')}
+                                    onStart={() => console.log('moving')}
+                                    onEnd={() => console.log('end')}
                                   >
                                     {
                                       docList.map((doc, k) => (
