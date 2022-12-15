@@ -306,6 +306,7 @@ const MarketCardFavorites = (props) => {
                     rounded
                     label={translateTo('Make an offer', lang)}
                     isLoading={!dealDetail.id}
+                    onClick={() => history.push(`/packageFlow/${activeSingleProperty.id}/makeOffer/priceInfo`)}
                   />
                 )
               }
@@ -315,7 +316,7 @@ const MarketCardFavorites = (props) => {
                     rounded
                     label={translateTo('View offer', lang)}
                     isLoading={!dealDetail.id}
-                    onClick={() => history.push(`/buyer/${activeSingleProperty.id}/closing/${dealDetail.id}`)}
+                    onClick={() => history.push(`/buyer/${activeSingleProperty.id}/closing/${dealDetail.id}?url=${history.location.pathname}`)}
                   />
                 )
               }
