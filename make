@@ -1,4 +1,0 @@
-Cache verified and compressed (~/.npm/_cacache)
-Content verified: 0 (0 bytes)
-Index entries: 0
-Finished in 0.004s
