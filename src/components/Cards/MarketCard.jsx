@@ -334,7 +334,7 @@ const MarketCard = (props) => {
         return 'Green400';
       }
       case 'premium': {
-        return 'Red';
+        return 'White';
       }
       case 'pre-market': {
         return 'Blue700';
@@ -452,7 +452,7 @@ const MarketCard = (props) => {
                             className={`type-tag pos-r non-favorite fsize-200 fweight-500 txtWhite mr-1 bg${getColor(tag)}`}
                             onClick={() => tag === 'pre-market' && history.push(`/${item.id}/marketing/portals`)}
                           >
-                            <span className="type">
+                            w                            <span className="type txtWhite">
                               {translateTo(getTypeText(tag), lang)}
                             </span>
                           </p>

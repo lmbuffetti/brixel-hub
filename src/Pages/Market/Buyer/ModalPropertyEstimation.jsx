@@ -34,20 +34,20 @@ const ModalPropertyEstimation = (props) => {
   const [activeExtraFeatures, setActiveExtraFeatures] = useState([]);
   // URL PARAMS
   const propID = get(match, 'propID', null);
-  
+
   // CONSTANTS VALUE
   const currency = get(activeEstimation, 'result.currency', 0);
   const value = Math.round(get(activeEstimation, 'result.value', 0));
   const lowerValue = Math.round(get(activeEstimation, 'result.lowerValue', 0));
   const higherValue = Math.round(get(activeEstimation, 'result.higherValue', 0));
-  
+
   useEffect(() => {
     if (ownerEstimations.length > 0) {
       const getEstimation = ownerEstimations.find((est) => est.id === propID);
       if (getEstimation) setActiveEstimation(getEstimation);
     }
   }, [ownerEstimations, propID]);
-  
+
   useEffect(() => {
     const localActiveExtraFeatures = get(activeEstimation, 'data.properties.extraFeatures', {});
     if (localActiveExtraFeatures) {
@@ -63,26 +63,24 @@ const ModalPropertyEstimation = (props) => {
       });
     }
   }, [activeEstimation]);
-  
-  
+
+
   const onClose = () => {
     history.push('/buy/estimations');
   }
-  
+
   return (
     <BrixelModal
       clickOutsideToClose={false}
       onClose={() => onClose()}
-      titleTop
       layout="xxlarge"
-      titleTopClass="modalTitleClass fweight-600 fsize-500 fsize-md-600 brdSmallBottom brdLight200 ta-c mb-2 mb-md-4"
       bodyClassColor="bgWhite p-0"
       hideHeader={true}
       // multiActions={multiActions()}
     >
       <div>
-        <div className={`dis-f jc-c a-c py-6 ${get(activeEstimation, 'result.available', false) ? 'bgGreen200' : 'bgYellow200'}`}>
-          
+        <div className={`dis-f jc-c a-c py-7 ${get(activeEstimation, 'result.available', false) ? 'bgGreen200' : 'bgYellow200'}`}>
+
           <BrixelIcon
             rounded
             background="white"
@@ -92,7 +90,7 @@ const ModalPropertyEstimation = (props) => {
             icon="close-small"
             onClick={() => onClose()}
           />
-          
+
           {
             get(activeEstimation, 'result.available', false) ? (
               <img src={CoverEstimationGreenImg} alt="completed estimation" />
@@ -101,19 +99,17 @@ const ModalPropertyEstimation = (props) => {
             )
           }
         </div>
-        
-        <div className="p-3">
-  
-          <h3
-            className="mb-3"
-          >
+
+        <div className="p-4">
+
+          <h4 className="mb-3 fweight-600">
             {translateTo(get(activeEstimation, 'data.title', ''), lang)}
-          </h3>
-          
-          <div className="dis-f jc-fs">
-            
-            <div className="brdSmallRight brdAltGrey200 mr-2 pr-2">
-              <h6 className="fsize-300 txtAltGrey400">
+          </h4>
+
+          <div className="dis-fl-col dis-fl-row-sm jc-fs">
+
+            <div className="brdSmallRight-sm brdAltGrey100 mr-2 pr-2">
+              <h6 className="fsize-300 fweight-400 txtAltGrey400 pb-1">
                 {translateTo('Property worth', lang)}
               </h6>
               <p className="ff-mono dis-f a-b txtGreen400">
@@ -121,67 +117,67 @@ const ModalPropertyEstimation = (props) => {
                 <span className="fsize-500">{Helpers.formatNumberValue(value, currency)}</span>
               </p>
             </div>
-  
-            
-            <div>
-              <h6 className="fsize-300 txtAltGrey400">
+
+
+            <div className="mt-1 mt-sm-0">
+              <h6 className="fsize-300 fweight-400 txtAltGrey400 pb-1">
                 {translateTo('Similar properties are currently worth between', lang)}
               </h6>
               <p className="ff-mono dis-f a-b txtGreen400">
                 <span>
-                  <span className="mr-1 fsize-300">{currency}</span>
+                  <span className="mr-1 fsize-400">{currency}</span>
                   <span>{Helpers.formatNumberValue(lowerValue, currency)}</span>
                 </span>
                 <span className="mx-2">-</span>
                 <span>
-                  <span className="mr-1 fsize-300">{currency}</span>
+                  <span className="mr-1 fsize-400">{currency}</span>
                   <span>{Helpers.formatNumberValue(higherValue, currency)}</span>
                 </span>
               </p>
             </div>
-            
+
           </div>
-          
-          <hr className="my-2" />
-  
-          <div className="dis-f a-t jc-b flext-wrap">
+
+          <hr className="my-4 lighter" />
+
+          <div className="dis-f a-t jc-b flex-wrap">
             <div>
-              <span className="fsize-300 dis-b txtAltGrey400">
+              <span className="fsize-300 dis-b txtAltGrey400 mb-1">
                 {translateTo('Property Type', lang)}
               </span>
-              <span className="ff-mono fszie-400 txtBlack">
+              <span className="ff-mono fsize-500 txtBlack">
                 {translateTo(get(activeEstimation, 'data.properties.propertyType', 0), lang)}
               </span>
             </div>
             <div>
-              <span className="fsize-300 dis-b txtAltGrey400">
+              <span className="fsize-300 dis-b txtAltGrey400 mb-1">
                 {translateTo('Rooms', lang)}
               </span>
-              <span className="ff-mono fszie-400 txtBlack">
+              <span className="ff-mono fsize-500 txtBlack">
                 {FormatValue.formatRooms(get(activeEstimation, 'data.properties.typology.bedrooms', 0), get(activeEstimation, 'data.location.countryCode', 'CH'))}
               </span>
             </div>
             <div>
-              <span className="fsize-300 dis-b txtAltGrey400">
+              <span className="fsize-300 dis-b txtAltGrey400 mb-1">
                 {translateTo('Size', lang)}
               </span>
-              <span className="ff-mono fszie-400 txtBlack">
+              <span className="ff-mono fsize-500 txtBlack">
                 {get(activeEstimation, 'data.properties.typology.livingArea.value', 0)} m2
               </span>
             </div>
             <div>
-              <span className="fsize-300 dis-b txtAltGrey400">
+              <span className="fsize-300 dis-b txtAltGrey400 mb-1">
                 {translateTo('Year built', lang)}
               </span>
-              <span className="ff-mono fszie-400 txtBlack">
+              <span className="ff-mono fsize-500 txtBlack">
                 {get(activeEstimation, 'data.properties.building.built', 0)}
               </span>
             </div>
             <div>
-              <span className="fsize-300 dis-b txtAltGrey400">
+              <span className="fsize-300 dis-b txtAltGrey400 mb-1">
                 {translateTo('Location', lang)}
               </span>
-              <span className="fsize-300 txtDark700 mt-1 notranslate">
+              <span className="fsize-500 txtDark700 mt-1 notranslate">
                 {get(activeEstimation, 'data.location.zip', '')} {get(activeEstimation, 'data.location.city', '')}
                 {
                   get(activeEstimation, 'data.location.countryCode', 'CH') === 'CH' && (
@@ -193,27 +189,27 @@ const ModalPropertyEstimation = (props) => {
               </span>
             </div>
           </div>
-  
-          <hr className="my-2" />
-          
+
+          <hr className="my-4 lighter" />
+
           <BrixelButtonText
             label="Show details"
             rightIcon={showDetail ? 'arrow-simple-up' : 'arrow-simple-down'}
             bgTransparent
             onClick={() => setShowDetail(!showDetail)}
           />
-  
+
           {
             showDetail && (
               <>
-                <div className="dis-f a-t jc-fs flex-wrap detailList mt-3">
+                <div className="dis-f a-t jc-b flex-wrap detailList mt-3">
                   {
                     get(activeEstimation, 'data.properties.building.conditionStatus', null) && (
                       <div>
-                        <span className="fsize-300 dis-b txtAltGrey400">
+                        <span className="fsize-300 dis-b txtAltGrey400 mb-1">
                           {translateTo('Condition', lang)}
                         </span>
-                        <span className="ff-mono fszie-400 txtBlack">
+                        <span className="ff-mono fsize-500 txtBlack">
                           {translateTo(get(activeEstimation, 'data.properties.building.conditionStatus', 0), lang)}
                         </span>
                       </div>
@@ -222,30 +218,30 @@ const ModalPropertyEstimation = (props) => {
                   {
                     get(activeEstimation, 'data.properties.typology.bathrooms', null) && (
                       <div>
-                        <span className="fsize-300 dis-b txtAltGrey400">
+                        <span className="fsize-300 dis-b txtAltGrey400 mb-1">
                           {translateTo('Bathrooms', lang)}
                         </span>
-                        <span className="ff-mono fszie-400 txtBlack">
+                        <span className="ff-mono fsize-500 txtBlack">
                           {translateTo(get(activeEstimation, 'data.properties.typology.bathrooms', 0), lang)}
                         </span>
                       </div>
                     )
                   }
-  
+
                   {
                     Object.keys(get(activeEstimation, 'data.properties.building.solarOrientarion', {} )).length > 0 && (
                       <div>
-                        <span className="fsize-300 dis-b txtAltGrey400">
+                        <span className="fsize-300 dis-b txtAltGrey400 mb-1">
                           {translateTo('Solar orientations', lang)}
                         </span>
-  
+
                         {
                           Object.keys(get(activeEstimation, 'data.properties.building.solarOrientarion', {} )).map((key, i) => (
                             <>
                               {i > 0 && (<span className="mr-1">,</span>)}
                               <span
                                 key={`solar${i.toString()}`}
-                                className="ff-mono fszie-400 txtBlack"
+                                className="ff-mono fsize-500 txtBlack"
                               >
                                 {translateTo(get(activeEstimation, `data.properties.building.solarOrientarion[${key}]`, {} ), lang)}
                               </span>
@@ -255,76 +251,76 @@ const ModalPropertyEstimation = (props) => {
                       </div>
                     )
                   }
-  
+
                   {
                     get(activeEstimation, 'data.properties.parking.garage', 0) > 0 && (
                       <div>
-                        <span className="fsize-300 dis-b txtAltGrey400">
+                        <span className="fsize-300 dis-b txtAltGrey400 mb-1">
                           {translateTo('Garage', lang)}
                         </span>
-                        <span className="ff-mono fszie-400 txtBlack">
+                        <span className="ff-mono fsize-500 txtBlack">
                           {translateTo(get(activeEstimation, 'data.properties.parking.garage', 0), lang)}
                         </span>
                       </div>
                     )
                   }
-  
+
                   {
                     get(activeEstimation, 'data.properties.parking.outside', 0) > 0 && (
                       <div>
-                        <span className="fsize-300 dis-b txtAltGrey400">
+                        <span className="fsize-300 dis-b txtAltGrey400 mb-1">
                           {translateTo('Parking outside', lang)}
                         </span>
-                        <span className="ff-mono fszie-400 txtBlack">
+                        <span className="ff-mono fsize-500 txtBlack">
                           {translateTo(get(activeEstimation, 'data.properties.parking.outside', 0), lang)}
                         </span>
                       </div>
                     )
                   }
-  
+
                   {
                     get(activeEstimation, 'data.properties.parking.underground', 0) > 0 && (
                       <div>
-                        <span className="fsize-300 dis-b txtAltGrey400">
+                        <span className="fsize-300 dis-b txtAltGrey400 mb-1">
                           {translateTo('Parking underground', lang)}
                         </span>
-                        <span className="ff-mono fszie-400 txtBlack">
+                        <span className="ff-mono fsize-500 txtBlack">
                           {translateTo(get(activeEstimation, 'data.properties.parking.underground', 0), lang)}
                         </span>
                       </div>
                     )
                   }
-  
+
                   {
                     get(activeEstimation, 'data.properties.energy.efficiency', null) && (
                       <div>
-                        <span className="fsize-300 dis-b txtAltGrey400">
+                        <span className="fsize-300 dis-b txtAltGrey400 mb-1">
                           {translateTo('Energy efficiency', lang)}
                         </span>
-                        <span className="ff-mono fszie-400 txtBlack">
+                        <span className="ff-mono fsize-500 txtBlack">
                           {translateTo(get(activeEstimation, 'data.properties.energy.efficiency', ''), lang)}
                         </span>
                       </div>
                     )
                   }
-                  
+
                   {
                     get(activeEstimation, 'data.properties.energy.efficiencyCertified', null) && (
                       <div>
-                        <span className="fsize-300 dis-b txtAltGrey400">
+                        <span className="fsize-300 dis-b txtAltGrey400 mb-1">
                           {translateTo('Energy certified', lang)}
                         </span>
-                        <span className="ff-mono fszie-400 txtBlack">
+                        <span className="ff-mono fsize-500 txtBlack">
                           {translateTo(get(activeEstimation, 'data.properties.energy.efficiencyCertified', ''), lang)}
                         </span>
                       </div>
                     )
                   }
-  
+
                   {
                     activeExtraFeatures.length > 0 && (
                       <div>
-                        <span className="fsize-300 dis-b txtAltGrey400">
+                        <span className="fsize-300 dis-b txtAltGrey400 mb-1">
                           {translateTo('Extra Features', lang)}
                         </span>
                         {
@@ -333,7 +329,7 @@ const ModalPropertyEstimation = (props) => {
                               {i > 0 && (<span className="mr-1">,</span>)}
                               <span
                                 key={`extra${i.toString()}`}
-                                className="ff-mono fszie-400 txtBlack"
+                                className="ff-mono fsize-500 txtBlack"
                               >
                                 {translateTo(extra.label, lang)}
                               </span>
@@ -345,29 +341,29 @@ const ModalPropertyEstimation = (props) => {
                   }
                 </div>
               </>
-              
+
             )
           }
-          
+
         </div>
-        
-        <hr className="my-2" />
-        
-        <div className="dis-f a-c jc-b mb-2 px-3">
+
+        <hr className="mt-2 mb-4 lighter" />
+
+        <div className="dis-f a-c jc-b mb-4 px-3">
           <BrixelButtonText
             theme="altGrey"
             className="td-u"
             bgTransparent
-            label="close"
+            label="Close"
             onClick={() => onClose()}
           />
-          
+
           {/*<BrixelButtonSecondary*/}
           {/*  rounded*/}
           {/*  label="Contact support"*/}
           {/*/>*/}
         </div>
-        
+
       </div>
     </BrixelModal>
   )

@@ -9,9 +9,9 @@ const Tags = (props) => {
     status,
     text,
   } = props;
-  
+
   const [tag, setTag] = useState({});
-  
+
   const getColor = () => {
     if (status === 'accepted' || status === 'completed') {
       return 'Green';
@@ -21,24 +21,24 @@ const Tags = (props) => {
       return 'Blue';
     }
   };
-  
+
   const getIcon = () => {
     if (status === 'accepted' || status === 'completed') {
-      return 'check';
+      return 'check-thin';
     } else if (status === 'pending') {
       return 'clock';
     } else if (status === 'pre-market') {
       return '';
     }
   };
-  
+
   useEffect(() => {
     setTag({...tag, text: text});
   }, [text]);
-  
-  
+
+
   return (
-    <div className={`bg${getColor()}100 txt${getColor()}600 brdRadius px-1 py-small-6 fsize-300 dis-f a-c`}>
+    <div className={`bg${getColor()}100 txt${getColor()}600 brdRadius px-1 py-small-3 fsize-300 dis-f a-c`}>
       {
         getIcon() && (
           <BrixelIcon
