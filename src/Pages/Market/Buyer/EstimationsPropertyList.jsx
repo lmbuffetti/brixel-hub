@@ -7,6 +7,7 @@ import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { compose } from 'redux';
 import MarketCardEstimation from '../../../components/Cards/MarketCardEstimation';
 import ModalPropertyEstimation from './ModalPropertyEstimation';
+import emptyEst from '../../../images/empty-est.svg';
 
 const FavoritesPropertyList = (props) => {
   const history = {
@@ -27,20 +28,42 @@ const FavoritesPropertyList = (props) => {
         <Route path="/:propID" element={<ModalPropertyEstimation />} />
       </Routes>
       <div className="container">
-        <div className="dis-f a-c jc-b my-3">
-          <h4 className="fweight-600">
-            <span>{translateTo('Your Estimations', lang)}</span>
-            <span className="ml-1">({ownerEstimations.total || '-'})</span>
-          </h4>
+        {
+          ownerEstimations.total ? (
+            <div>
+              <div className="dis-f a-c jc-b my-3">
+                <h4 className="fweight-600">
+                  <span>{translateTo('Your Estimations', lang)}</span>
+                  <span className="ml-1">({ownerEstimations.total || '-'})</span>
+                </h4>
 
-          <BrixelButtonPrimary
-            rounded
-            leftIcon="plus"
-            label="New estimations"
-            onClick={() => history.push(`/packageFlow/getStartedEstimation/${activeSingleCompany.stub}/estimationType`)}
-          />
+                <BrixelButtonPrimary
+                  rounded
+                  leftIcon="plus"
+                  label="New estimations"
+                  onClick={() => history.push(`/packageFlow/getStartedEstimation/${activeSingleCompany.stub}/estimationType`)}
+                />
 
-        </div>
+              </div>
+            </div>
+          ) : (
+            <div className='dis-fl-col a-c py-8'>
+              <img width="200" src={emptyEst} alt="" />
+              <div className=" ta-c mt-3">
+                <h3 className="fweight-600 mb-2">You haven’t created any Estimation</h3>
+                <p className="txtAltGrey400 max-w-fix-320 ml-a mr-a">Short description about how estimation works (wait for confirmation etc.) </p>
+
+                <BrixelButtonPrimary
+                  rounded
+                  label="Create Estimation"
+                  leftIcon="plus"
+                  className="ml-a mr-a mt-3"
+                  onClick={() => history.push(`/packageFlow/getStartedEstimation/${activeSingleCompany.stub}/estimationType`)}
+                />
+              </div>
+            </div>
+          )
+        }
 
         {
           skeleton.estimation ? (

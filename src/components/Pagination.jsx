@@ -14,11 +14,11 @@ const Pagination = (props) => {
     totalItems,
   } = props;
   const pageNumbers = [];
-  
+
   for (let i = 1; i <= Math.ceil(totalItems / itemsPerPage); i += 1) {
     pageNumbers.push(i);
   }
-  
+
   const processPagination = (val, action) => {
     if (action === 'results') {
       paginate(val.value, activePage, (activePage / itemsPerPage) + 1);
@@ -40,7 +40,7 @@ const Pagination = (props) => {
       top: 0,
     });
   };
-  
+
   const processResults = () => {
     if (totalItems > 10) {
       if (activePage === '0') {
@@ -52,7 +52,7 @@ const Pagination = (props) => {
     }
     return totalItems;
   };
-  
+
   return (
     <div className={`dis-f a-c jc-b w-perc-100 pb-5 ${className}`}>
       <p className="w-perc-50">
@@ -87,7 +87,7 @@ const Pagination = (props) => {
                             key={(number - 2)}
                             className={pageNumbers[(activePage / itemsPerPage)] === (number - 2) ? 'page-item mr-1 active' : 'page-item mr-1'}
                           >
-                            <span onClick={() => processPagination((number - 2), 'page')} className="page-link">
+                            <span onClick={() => processPagination((number - 2), 'page')} className="page-link ff-mono">
                               {(number - 2)}
                             </span>
                           </li>
@@ -99,7 +99,7 @@ const Pagination = (props) => {
                             key={(number - 1)}
                             className={pageNumbers[(activePage / itemsPerPage)] === (number - 1) ? 'page-item mr-1 active' : 'page-item mr-1'}
                           >
-                            <span onClick={() => processPagination((number - 1), 'page')} className="page-link">
+                            <span onClick={() => processPagination((number - 1), 'page')} className="page-link ff-mono">
                               {(number - 1)}
                             </span>
                           </li>
