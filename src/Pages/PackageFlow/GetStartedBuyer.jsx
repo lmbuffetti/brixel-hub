@@ -218,7 +218,7 @@ const GetStartedBuyer = (props) => {
         } else if (input.validation) {
           // const getRegField = get(registeredFields
           let field;
-          if (input.name === 'profileUaer') {
+          if (input.name === 'profileUser') {
             const page = get(formValue, 'signupScreen', null);
             field = ['register.email', 'register.firstName', 'register.lastName', 'register.password', 'register.privacy'];
             if (page === 'login') {
