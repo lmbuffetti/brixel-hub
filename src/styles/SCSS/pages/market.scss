@@ -177,35 +177,7 @@ $lightColorNew2: #F0F0F2;
     left: $step;
   }
 }
-.tag-container {
-  top: 12px;
-  left: 20px;
 
-  .type-tag {
-    &.favorite {
-      left: auto;
-      right: $step * 2;
-      top: 12px;
-    }
-
-    &.non-favorite {
-      border-radius: $step / 2;
-      padding-top: $step / 2;
-      padding-bottom: $step / 2;
-      padding-left: $step;
-      padding-right: $step;
-    }
-    &.bgGreen {
-      background-color: rgba(map-get($greenColor, 400), 0.8);
-    }
-    &.bgPrimary {
-      background-color: rgba(map-get($primaryColor, 400), 0.8);
-    }
-    &.bgRed {
-      background-color: rgba(map-get($redColor, 400), 0.8);
-    }
-  }
-}
 .prop-box .tag-container .type-tag {
   top: $step / 2;
   left: $step / 2;
