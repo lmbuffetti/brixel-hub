@@ -121,6 +121,7 @@ export const MapsWithModalManual = (props) => {
               externalControls={false}
               className={mapSize}
               baseByData={baseByData}
+              marker={formValue}
               gestureHandling="none"
               center={{
                 lat: get(formValue, 'location.latitude', 0),

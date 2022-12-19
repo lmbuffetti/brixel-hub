@@ -174,6 +174,8 @@ export const QuestionsList = (lang, type, changeField, formName = 'GetStarted') 
           classNameBox: 'max-w-perc-100',
           searchType: 'cities',
           type: 'Map',
+          lang: lang,
+          country: get(formValue, 'location.countryCode', 'ch'),
           multiCities: multiCities,
           deleteMultiCity: (id) => {
             const location = multiCities;
