@@ -9,7 +9,7 @@ build site:
   stage: build
   only:
     refs:
-      - feature/BRI-218-Listing-Properties
+      - develop
       - staging
       - master
   variables:
@@ -17,7 +17,7 @@ build site:
   script:
     - npm -v;
     - npm run install-styleguide
-    - if [ "$FOLDER" == "feature/BRI-218-Listing-Properties" ]; then npm run build-dev; fi
+    - if [ "$FOLDER" == "develop" ]; then npm run build-dev; fi
     - if [ "$FOLDER" == "staging" ]; then npm run build-stage; fi
     - if [ "$FOLDER" == "master" ]; then npm run build-prod; fi
   artifacts:
@@ -31,7 +31,7 @@ test integration:
   stage: test
   only:
     refs:
-      - feature/BRI-218-Listing-Properties
+      - develop
       - staging
       - master
   variables:
@@ -53,7 +53,7 @@ test integration:
     - chmod 600 ~/.ssh/id_dsa;
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config;
     - scp -r cypress/ ubuntu@3.124.80.14:/srv/development/brixel-hub/cypress;
-    - if [ "$FOLDER" == "feature/BRI-218-Listing-Properties" ]; then ssh ubuntu@3.124.80.14 'cd /srv/development/brixel-api; NODE_ENV=development node scripts/dataManagement/cleanJestTestsData.js delete'; fi
+    - if [ "$FOLDER" == "develop" ]; then ssh ubuntu@3.124.80.14 'cd /srv/development/brixel-api; NODE_ENV=development node scripts/dataManagement/cleanJestTestsData.js delete'; fi
     - if [ "$FOLDER" == "staging" ]; then ssh ubuntu@3.124.80.14 'cd /srv/staging/brixel-api; NODE_ENV=staging node scripts/dataManagement/cleanJestTestsData.js delete'; fi
     - if [ "$FOLDER" == "master" ]; then ssh ubuntu@3.124.95.1 'cd /srv/production/brixel-api; NODE_ENV=production node scripts/dataManagement/cleanJestTestsData.js delete'; fi
 
@@ -62,7 +62,7 @@ deploy_dev:
   image: alpine
   stage: deploy
   only:
-    - feature/BRI-218-Listing-Properties
+    - develop
   script:
     - apk add --no-cache rsync openssh
     - mkdir -p ~/.ssh
