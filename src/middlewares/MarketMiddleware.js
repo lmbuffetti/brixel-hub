@@ -1,38 +1,34 @@
+import cloneDeep from 'lodash/cloneDeep';
 import get from 'lodash/get';
 import set from 'lodash/set';
-import cloneDeep from 'lodash/cloneDeep';
+
+import { SKELETON_OFF, SKELETON_ON } from '../actions/types/CommonTypes';
 import {
   GET_ALL_PROPERTIES,
-  SET_ALL_PROPERTIES,
-  GET_NEW_PROPERTIES,
-  SET_NEW_PROPERTIES,
-  GET_OWNED_PROPERTIES,
-  SET_OWNED_PROPERTIES,
-  GET_OWNED_ESTIMATIONS,
-  SET_OWNED_ESTIMATIONS,
-  GET_LAST_VIEWED_PROPERTIES,
-  // SET_LAST_VIEWED_PROPERTIES,
-  GET_PREMARKET_PROPERTIES,
-  SET_PREMARKET_PROPERTIES,
-  GET_PREMIUM_PROPERTIES,
-  SET_PREMIUM_PROPERTIES,
-  SET_PREMIUM_EUROPE_PROPERTIES,
+  GET_BUYER_PROPERTIES,
   GET_FAVORITES_PROPERTIES,
-  SET_FAVORITES_PROPERTIES,
-  GET_WISHLIST_PROPERTIES,
-  SET_WISHLIST_PROPERTIES,
+  GET_LAST_VIEWED_PROPERTIES,
+  GET_NEW_PROPERTIES,
+  GET_OWNED_ESTIMATIONS,
+  GET_OWNED_PROPERTIES,
+  GET_PREMARKET_PROPERTIES,
   GET_PREMARKET_STATS,
+  GET_PREMIUM_PROPERTIES,
+  GET_WISHLIST_PROPERTIES,
+  SET_ALL_PROPERTIES,
+  SET_BUYER_PROPERTIES,
+  SET_FAVORITES_PROPERTIES,
+  SET_NEW_PROPERTIES,
+  SET_OWNED_ESTIMATIONS,
+  SET_OWNED_PROPERTIES,
+  SET_PREMARKET_PROPERTIES,
   SET_PREMARKET_STATS,
+  SET_PREMIUM_EUROPE_PROPERTIES,
+  SET_PREMIUM_PROPERTIES,
+  SET_WISHLIST_PROPERTIES,
 } from '../actions/types/MarketTypes';
 
-import {
-  SET_ACTIVE_MARKET_OVERLAY_PROPERTY_LISTS,
-} from '../actions/types/PropertyTypes';
-
-import {
-  SKELETON_ON,
-  SKELETON_OFF,
-} from '../actions/types/CommonTypes';
+import { SET_ACTIVE_MARKET_OVERLAY_PROPERTY_LISTS } from '../actions/types/PropertyTypes';
 
 import api from '../controllers/api/config';
 
@@ -40,14 +36,7 @@ const checkLead = (store) => (next) => (action) => {
   switch (action.type) {
     case GET_OWNED_PROPERTIES: {
       next(action);
-      let loadSkeleton = cloneDeep(get(store.getState(), 'common.skeleton', {}));
-      loadSkeleton.own = 'CardImageText';
-      store.dispatch({
-        type: SKELETON_ON,
-        payload: {
-          ...loadSkeleton,
-        },
-      });
+      store.dispatch({ type: SKELETON_ON, payload: { own: 'CardImageText' } });
       const queryParams = `?order=${action.payload.order}&direction=${action.payload.direction}`;
       api.market.getOwnedProperties(action.payload.resultsPerPage, action.payload.offset, queryParams)
         .then((res) => {
@@ -67,50 +56,32 @@ const checkLead = (store) => (next) => (action) => {
               });
             } else store.dispatch({ type: SET_OWNED_PROPERTIES, payload: res.data });
           }
-          loadSkeleton = cloneDeep(get(store.getState(), 'common.skeleton', {}));
-          loadSkeleton.own = false;
-          store.dispatch({ type: SKELETON_OFF, payload: loadSkeleton });
+          store.dispatch({ type: SKELETON_OFF, payload: { own: false } });
         })
         .catch(() => {
-          store.dispatch({ type: SKELETON_OFF });
+          store.dispatch({ type: SKELETON_OFF, payload: { own: false } });
         });
       break;
     }
     case GET_FAVORITES_PROPERTIES: {
       next(action);
-      let loadSkeleton = cloneDeep(get(store.getState(), 'common.skeleton', {}));
-      loadSkeleton.favorite = 'CardImageTextVertical';
-      store.dispatch({
-        type: SKELETON_ON,
-        payload: {
-          ...loadSkeleton,
-        },
-      });
+      store.dispatch({ type: SKELETON_ON, payload: { favorite: 'CardImageTextVertical' } });
       const queryParams = `?order=${action.payload.order}&direction=${action.payload.direction}`;
       api.market.getFavoriteProperties(action.payload.resultsPerPage, action.payload.offset, queryParams)
         .then((res) => {
           if (res.meta.status === 200) {
             store.dispatch({ type: SET_FAVORITES_PROPERTIES, payload: res.data });
           }
-          loadSkeleton = cloneDeep(get(store.getState(), 'common.skeleton', {}));
-          loadSkeleton.favorite = false;
-          store.dispatch({ type: SKELETON_OFF, payload: loadSkeleton });
+          store.dispatch({ type: SKELETON_OFF, payload: { favorite: false } });
         })
         .catch(() => {
-          store.dispatch({ type: SKELETON_OFF });
+          store.dispatch({ type: SKELETON_OFF, payload: { favorite: false } });
         });
       break;
     }
     case GET_ALL_PROPERTIES: {
       next(action);
-      let loadSkeleton = cloneDeep(get(store.getState(), 'common.skeleton', {}));
-      loadSkeleton.favorite = 'CardImageTextVertical';
-      store.dispatch({
-        type: SKELETON_ON,
-        payload: {
-          ...loadSkeleton,
-        },
-      });
+      store.dispatch({ type: SKELETON_ON, payload: { allProperties: 'CardImageTextVertical' } });
       let queryParams = `?order=${action.payload.order}&direction=${action.payload.direction}`;
       if (action.payload.searchProfileId) queryParams = `?searchprofileid=${action.payload.searchProfileId}&order=${action.payload.order}&direction=${action.payload.direction}`;
       api.market.getAllProperties(action.payload.resultsPerPage, action.payload.offset, queryParams)
@@ -118,26 +89,17 @@ const checkLead = (store) => (next) => (action) => {
           if (res.meta.status === 200) {
             store.dispatch({ type: SET_ALL_PROPERTIES, payload: res.data });
           }
-          loadSkeleton = cloneDeep(get(store.getState(), 'common.skeleton', {}));
-          loadSkeleton.favorite = false;
-          store.dispatch({ type: SKELETON_OFF, payload: loadSkeleton });
+          store.dispatch({ type: SKELETON_OFF, payload: { allProperties: false } });
         })
         .catch(() => {
-          store.dispatch({ type: SKELETON_OFF });
+          store.dispatch({ type: SKELETON_OFF, payload: { allProperties: false } });
         });
       break;
     }
     case GET_NEW_PROPERTIES: {
       next(action);
-      let loadSkeleton = cloneDeep(get(store.getState(), 'common.skeleton', {}));
-      loadSkeleton.favorite = 'CardImageTextVertical';
       const { overlayCard } = action.payload;
-      store.dispatch({
-        type: SKELETON_ON,
-        payload: {
-          ...loadSkeleton,
-        },
-      });
+      store.dispatch({ type: SKELETON_ON, payload: { favorite: 'CardImageTextVertical' } });
       let queryParams = `?order=${action.payload.order}&direction=${action.payload.direction}`;
       if (action.payload.searchProfileId) queryParams = `?searchprofileid=${action.payload.searchProfileId}&order=${action.payload.order}&direction=${action.payload.direction}`;
       api.market.getNewInRadar(action.payload.resultsPerPage, action.payload.offset, queryParams)
@@ -150,19 +112,15 @@ const checkLead = (store) => (next) => (action) => {
             propertyList.push(...res.data.data);
             store.dispatch({ type: SET_ACTIVE_MARKET_OVERLAY_PROPERTY_LISTS, payload: propertyList });
           }
-          loadSkeleton = cloneDeep(get(store.getState(), 'common.skeleton', {}));
-          loadSkeleton.favorite = false;
-          store.dispatch({ type: SKELETON_OFF, payload: loadSkeleton });
+          store.dispatch({ type: SKELETON_OFF, payload: { favorite: false } });
         })
         .catch(() => {
-          store.dispatch({ type: SKELETON_OFF });
+          store.dispatch({ type: SKELETON_OFF, payload: { favorite: false } });
         });
       break;
     }
     case GET_OWNED_ESTIMATIONS: {
       next(action);
-      let loadSkeleton = cloneDeep(get(store.getState(), 'common.skeleton', {}));
-      loadSkeleton.estimation = 'CardImageTextVertical';
       const {
         direction,
         offset,
@@ -171,12 +129,7 @@ const checkLead = (store) => (next) => (action) => {
         ownerId,
         resultsPerPage,
       } = action.payload;
-      store.dispatch({
-        type: SKELETON_ON,
-        payload: {
-          ...loadSkeleton,
-        },
-      });
+      store.dispatch({ type: SKELETON_OFF, payload: { estimation: 'CardImageTextVertical' } });
       let queryParams = `&order=${order}&direction=${direction}`;
       if (isBuyer) queryParams += '&buyerOnly=true';
       api.estimation.getEstimationsList(resultsPerPage, offset, ownerId, queryParams)
@@ -188,12 +141,10 @@ const checkLead = (store) => (next) => (action) => {
             countData.total -= redExcludedData.length;
             store.dispatch({ type: SET_OWNED_ESTIMATIONS, payload: { ...countData, data: redData } });
           }
-          loadSkeleton = cloneDeep(get(store.getState(), 'common.skeleton', {}));
-          loadSkeleton.estimation = false;
-          store.dispatch({ type: SKELETON_OFF, payload: loadSkeleton });
+          store.dispatch({ type: SKELETON_OFF, payload: { estimation: false } });
         })
         .catch(() => {
-          store.dispatch({ type: SKELETON_OFF });
+          store.dispatch({ type: SKELETON_OFF, payload: { estimation: false } });
         });
       break;
     }
@@ -225,8 +176,6 @@ const checkLead = (store) => (next) => (action) => {
     }
     case GET_PREMARKET_PROPERTIES: {
       next(action);
-      let loadSkeleton = cloneDeep(get(store.getState(), 'common.skeleton', {}));
-      loadSkeleton.favorite = 'CardImageTextVertical';
       const {
         direction,
         offset,
@@ -234,12 +183,7 @@ const checkLead = (store) => (next) => (action) => {
         resultsPerPage,
         searchProfileId,
       } = action.payload;
-      store.dispatch({
-        type: SKELETON_ON,
-        payload: {
-          ...loadSkeleton,
-        },
-      });
+      store.dispatch({ type: SKELETON_ON, payload: { favorite: 'CardImageTextVertical' } });
       let queryParams = `?order=${order}&direction=${direction}`;
       if (searchProfileId) queryParams = `?searchprofileid=${searchProfileId}&order=${order}&direction=${direction}`;
       api.market.getPreMarketProperties(resultsPerPage, offset, queryParams)
@@ -253,12 +197,10 @@ const checkLead = (store) => (next) => (action) => {
             });
             store.dispatch({ type: SET_ACTIVE_MARKET_OVERLAY_PROPERTY_LISTS, payload: propertyList });
           }
-          loadSkeleton = cloneDeep(get(store.getState(), 'common.skeleton', {}));
-          loadSkeleton.favorite = false;
-          store.dispatch({ type: SKELETON_OFF, payload: loadSkeleton });
+          store.dispatch({ type: SKELETON_OFF, payload: { favorite: false } });
         })
         .catch(() => {
-          store.dispatch({ type: SKELETON_OFF });
+          store.dispatch({ type: SKELETON_OFF, payload: { favorite: false } });
         });
       break;
     }
@@ -273,14 +215,7 @@ const checkLead = (store) => (next) => (action) => {
         resultType,
         searchProfileId,
       } = action.payload;
-      let loadSkeleton = cloneDeep(get(store.getState(), 'common.skeleton', {}));
-      loadSkeleton.favorite = 'CardImageTextVertical';
-      store.dispatch({
-        type: SKELETON_ON,
-        payload: {
-          ...loadSkeleton,
-        },
-      });
+      store.dispatch({ type: SKELETON_ON, payload: { favorite: 'CardImageTextVertical' } });
       let queryParams = `?order=${order}&direction=${direction}`;
       if (searchProfileId) queryParams = `?searchprofileid=${searchProfileId}&order=${order}&direction=${direction}`;
       if (allCountry) queryParams += '&allCountry=true';
@@ -291,37 +226,26 @@ const checkLead = (store) => (next) => (action) => {
             if (resultType === 'europe') store.dispatch({ type: SET_PREMIUM_EUROPE_PROPERTIES, payload: res.data });
             else store.dispatch({ type: SET_PREMIUM_PROPERTIES, payload: res.data });
           }
-          loadSkeleton = cloneDeep(get(store.getState(), 'common.skeleton', {}));
-          loadSkeleton.favorite = false;
-          store.dispatch({ type: SKELETON_OFF, payload: loadSkeleton });
+          store.dispatch({ type: SKELETON_OFF, payload: { favorite: false } });
         })
         .catch(() => {
-          store.dispatch({ type: SKELETON_OFF });
+          store.dispatch({ type: SKELETON_OFF, payload: { favorite: false } });
         });
       break;
     }
     case GET_WISHLIST_PROPERTIES: {
       next(action);
-      let loadSkeleton = cloneDeep(get(store.getState(), 'common.skeleton', {}));
-      loadSkeleton.favorite = 'CardImageTextVertical';
-      store.dispatch({
-        type: SKELETON_ON,
-        payload: {
-          ...loadSkeleton,
-        },
-      });
+      store.dispatch({ type: SKELETON_ON, payload: { wishlist: 'CardImageTextVertical' } });
       const queryParams = `?order=${action.payload.order}&direction=${action.payload.direction}`;
-      api.market.getDeals(action.payload.resultsPerPage, action.payload.offset, queryParams)
+      api.market.getWishlists(action.payload.resultsPerPage, action.payload.offset, queryParams)
         .then((res) => {
           if (res.meta.status === 200) {
             store.dispatch({ type: SET_WISHLIST_PROPERTIES, payload: res.data });
           }
-          loadSkeleton = cloneDeep(get(store.getState(), 'common.skeleton', {}));
-          loadSkeleton.favorite = false;
-          store.dispatch({ type: SKELETON_OFF, payload: loadSkeleton });
+          store.dispatch({ type: SKELETON_OFF, payload: { wishlist: false } });
         })
         .catch(() => {
-          store.dispatch({ type: SKELETON_OFF });
+          store.dispatch({ type: SKELETON_OFF, payload: { wishlist: false } });
         });
       break;
     }
@@ -337,6 +261,30 @@ const checkLead = (store) => (next) => (action) => {
           if (res.meta.status === 200) {
             store.dispatch({ type: SET_PREMARKET_STATS, payload: res.data });
           }
+        })
+      break;
+    }
+    case GET_BUYER_PROPERTIES: {
+      const {
+        limit,
+        offset,
+        order,
+        direction,
+        searchProfileId,
+        type, // all|published|premarket
+      } = action.payload;
+      store.dispatch({ type: SKELETON_ON, payload: { buyerProperties: 'CardImageTextVertical' } });
+      let query = `?type=${type}&order=${order}&direction=${direction}`;
+      if (searchProfileId) query += `&searchprofileid=${searchProfileId}`;
+      api.market.getBuyerProperties(limit, offset, query)
+        .then((res) => {
+          if (res.meta.status === 200) {
+            store.dispatch({ type: SET_BUYER_PROPERTIES, payload: res.data });
+          }
+          store.dispatch({ type: SKELETON_OFF, payload: { buyerProperties: false } });
+        })
+        .catch(() => {
+          store.dispatch({ type: SKELETON_OFF, payload: { buyerProperties: false } });
         });
       break;
     }

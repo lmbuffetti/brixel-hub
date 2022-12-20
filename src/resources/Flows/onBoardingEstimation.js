@@ -6,6 +6,7 @@ import {
   BrixelRadioButton,
   Validation,
 } from '@brixel/brixel-components/dist/form';
+import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import { BrixelAutocomplete } from '@brixel/brixel-components/dist/map';
 import get from 'lodash/get';
 import LoginSignup from '../../components/LoginSignup';
@@ -225,11 +226,12 @@ export const QuestionsList = (lang, country = 'CH', changeValue) => {
           onSelectAddress: (val) => changeValue('location', val),
           validation: [Validation.required],
           mapOptions: {
-            showMap: false,
-            hideSearch: false,
-            showSelectCountry: true,
-            multipleFieldSearch: true,
-            draggable: true,
+            baseByData: baseByData,
+            country: country,
+            lang: lang,
+            input: {
+              onSelectAddress: (val) => changeValue('location', val),
+            },
           },
         },
       ],

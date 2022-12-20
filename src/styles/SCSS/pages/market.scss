@@ -1,12 +1,9 @@
 @import '~@brixel/brixel-components/dist/styles/SCSS/general/variables';
+$imgRootpath: "~@brixel/brixel-components/dist/";
 $lightColorNew: #F7F6F5;
 $lightColorNew2: #F0F0F2;
 
 .marketHome {
-  .sellerPage,
-  .innerWrap {
-    min-height: 100%;
-  }
   .sellerPage {
     display: flex;
     flex-direction: column;
@@ -180,35 +177,7 @@ $lightColorNew2: #F0F0F2;
     left: $step;
   }
 }
-.tag-container {
-  top: 12px;
-  left: 20px;
 
-  .type-tag {
-    &.favorite {
-      left: auto;
-      right: $step * 2;
-      top: 12px;
-    }
-
-    &.non-favorite {
-      border-radius: $step / 2;
-      padding-top: $step / 2;
-      padding-bottom: $step / 2;
-      padding-left: $step;
-      padding-right: $step;
-    }
-    &.bgGreen {
-      background-color: rgba(map-get($greenColor, 400), 0.8);
-    }
-    &.bgPrimary {
-      background-color: rgba(map-get($primaryColor, 400), 0.8);
-    }
-    &.bgRed {
-      background-color: rgba(map-get($redColor, 400), 0.8);
-    }
-  }
-}
 .prop-box .tag-container .type-tag {
   top: $step / 2;
   left: $step / 2;
@@ -248,9 +217,73 @@ $lightColorNew2: #F0F0F2;
 {
   color: inherit;
   outline: inherit;
-  background: inherit;
+  background: $brx-white;
   svg path {
     fill: currentColor;
+  }
+}
+
+.slick-next,
+.slick-prev {
+  z-index: 5;
+  background: $brx-white;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  &:before {
+    display: none !important;
+  }
+  &:after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.slick-next {
+  right: 8px;
+  &:after {
+    background-image: url('~@brixel/brixel-components/dist/images/Icons/svg/arrow-simple-right.svg?url');
+  }
+}
+
+.slick-prev {
+  left: 8px;
+  &:after {
+    background-image: url('~@brixel/brixel-components/dist/images/Icons/svg/arrow-simple-left.svg?url');
+  }
+}
+
+.marketCardFavorite, .marketCard {
+  .slick-track,
+  .slick-list,
+  .slick-slider {
+    height: 100%;
+    div, img {
+      width: 100%;
+      object-fit: cover;
+    }
+  }
+  .slick-track {
+    display: flex;
+    .slick-slide {
+      float: none !important;
+    }
+  }
+}
+
+.mapView {
+  .brixelMap {
+    width: 100vw;
+    transform: translateX(-50%);
+    left: 50%;
+  }
+  .innerWrap {
+    height: 100%;
+  }
+  .supportBtn {
+    display: none;
   }
 }
 

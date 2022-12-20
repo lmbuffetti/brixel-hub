@@ -1,30 +1,61 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { BrixelTabs } from '@brixel/brixel-components';
 import { destroy } from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
-import React, { Suspense, useEffect } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Navigate, Route, Routes, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
-import { setSplashType, spinnerOff } from '../../actions/CommonActions';
+import { spinnerOff } from '../../actions/CommonActions';
+import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import {
+  getAllProperties,
   getFavoritesProperties,
-  getLastViewedProperties,
-  getNewProperties,
   getOwnedEstimations,
-  getOwnedProperties,
-  getPremarketProperties,
-  getPremiumProperties,
   getWishlistProperties,
 } from '../../actions/MarketActions';
-import { setActiveMarketOverlayPropertyLists } from '../../actions/PropertyActions';
 import { getUserSearchProfiles } from '../../actions/SearchProfileActions';
-import { updateFavorite } from '../../actions/UserActions';
 import lazyWithRetry from '../../components/LazyWithRetry';
 import '../../styles/SCSS/pages/market.scss';
+import translateTo from '../../utils/translation';
+import SearchProfileModal from './SearchProfile/SearchProfileModal';
 
 const MarketCategoryListBuyer = lazyWithRetry(() => import('./MarketCategoryListBuyer'));
-const MarketList = lazyWithRetry(() => import('./MarketList'));
+const FavoritesProperty = lazyWithRetry(() => import('./Buyer/FavoritesProperty'));
+const EstimationsPropertyList = lazyWithRetry(() => import('./Buyer/EstimationsPropertyList'));
+
+// MAIN NAVIGATION
+const topTab = [
+  {
+    label: 'Search',
+    value: 'searchProfile',
+  },
+  {
+    label: 'Saved properties',
+    value: 'favorites',
+  },
+  {
+    label: 'Estimations',
+    value: 'estimations',
+  },
+];
+
+// FILTER BY PROP TYPE
+const filterPropType = [
+  {
+    label: 'All',
+    value: 'all',
+  },
+  {
+    label: 'Published',
+    value: 'published',
+  },
+  {
+    label: 'Pre-Market',
+    value: 'pre-market',
+  }]
+
 
 const MarketBuyer = (props) => {
   const history = {
@@ -36,18 +67,23 @@ const MarketBuyer = (props) => {
   const {
     activeSearchProfile,
     destroyForm,
+    handleGetActiveSingleCompany,
+    handleGetAllProperties,
     handleGetFavoritesProperties,
     handleGetOwnedEstimations,
-    handleGetPreMarketProperties,
-    handleGetPremiumProperties,
     handleGetUserSearchProfiles,
     handleGetWishlistProperties,
     handleSpinnerOff,
+    isSmallLoading,
+    lang,
     loggedInUser,
-    preMarketProperties,
   } = props;
+  const [activeTab, setActiveTab] = useState(filterPropType[0].value);
+  const [activeTopTab, setActiveTopTab] = useState('searchProfile');
+  
   // URL PARAMS
   const catName = get(match, 'cat', null);
+  const [page, setPage] = useState(1);
 
   useEffect(() => { destroyForm(); }, [history.location.pathname]);
 
@@ -64,52 +100,113 @@ const MarketBuyer = (props) => {
         isBuyer: true,
       };
       if (!catName) handleGetFavoritesProperties(data);
-      handleGetWishlistProperties(data);
       handleGetUserSearchProfiles(loggedInUser.id);
       handleGetOwnedEstimations(data);
+      data.resultsPerPage = 50;
+      handleGetWishlistProperties(data);
       handleSpinnerOff();
+      if (get(loggedInUser, 'companies[0]', null)) {
+        handleGetActiveSingleCompany({ id: get(loggedInUser, 'companies[0]', null) });
+      }
     }
   }, [loggedInUser.id]);
-
-  useEffect(() => {
-    // handleSetActiveMarketOverlayPropertyLists(preMarketProperties);
-  }, [preMarketProperties]);
-
-  useEffect(() => {
+  
+  const getPropertiesPage = (pageNumber = page) => {
+    const url = get(history, 'location.pathname', '').split("/");
+    const type = url[url.length - 2];
+    const curPage = url[url.length - 1];
     if (activeSearchProfile !== null) {
       const data = {
-        resultsPerPage: 10,
-        offset: 0,
+        resultsPerPage: 9,
+        offset: (curPage - 1) * 9,
         order: 'updatedAt',
         direction: 'DESC',
         setAsSingle: true,
         multiLoader: true,
         overlayCard: true,
         resultType: 'buyer',
-        searchProfileId: get(activeSearchProfile, 'id', null),
+        searchProfileId: get(activeSearchProfile, '.id', null),
       };
-      handleGetPreMarketProperties(data);
-      if (get(activeSearchProfile, 'id', null)) {
-        handleGetPremiumProperties(data);
-        data.resultType = 'europe';
-        handleGetPremiumProperties(data);
-      } else {
-        data.resultType = 'seller';
-        handleGetPremiumProperties(data);
+      switch (type) {
+        case 'all':
+          handleGetAllProperties(data);
+          break;
+        case 'preMarket':
+          handleGetAllProperties(data);
+          break;
+        case 'published':
+          handleGetAllProperties(data);
+          break;
+        default:
+          return null;
       }
+      if (type) {
+        setActiveTab(type);
+        setPage({... page, [type]: pageNumber });
+      }
+    }
+  }
+
+  useEffect(() => {
+    if (activeSearchProfile !== null) {
+      const url = get(history, 'location.pathname', '').split("/");
+      const actPage = url[url.length - 1];
+      getPropertiesPage(actPage);
       handleSpinnerOff();
     }
   }, [activeSearchProfile, get(history, 'location.pathname', null)]);
+  
+  useEffect(() => {
+    getPropertiesPage(activeTab);
+  }, [isSmallLoading]);
+  
+  useEffect(() => {
+    const activeListMap = topTab.map((tb) => {
+      const url = history.location.pathname || '';
+      tb.active = url.includes(tb.value);
+      return tb;
+    });
+    const actMenu = activeListMap.find((itm) => itm.active);
+    if(actMenu) setActiveTopTab(actMenu.value);
+  }, [get(history, 'location.pathname', null)]);
+  
+  
+  const onClickOnTopTab = (tab) => {
+    history.push(`/buy/${tab}`);
+    setActiveTopTab(tab)
+  }
 
   return (
-    <div className="bgOverlay market-container buyerPage" id="market">
+    <div className="dis-fl-col h-perc-100 market-container buyerPage" id="market">
       {/* premarket overlay */}
       <Suspense fallback="">
+        <BrixelTabs
+          className="mb-2 mx-a ta-c"
+          clicksList={topTab.map((item) => item.value)}
+          labels={topTab.map((item) => translateTo(item.label, lang))}
+          activeTab={activeTopTab}
+          onClick={(tab) => onClickOnTopTab(tab)}
+        />
         <Routes>
-          <Route path="/" element={<MarketCategoryListBuyer />} />
-          <Route path="/searchProfile/*" element={<MarketCategoryListBuyer />} />
-          <Route path="/:cat" element={<MarketList isBuyer />} />
-          <Route path="*" element={<Navigate to="/buy" />} />
+          <Route path="/searchProfile/list/*" element={<SearchProfileModal />} />
+          {
+            filterPropType.map((nav, i) => (
+              <Route
+                key={`route${i.toString()}`}
+                path={`/searchProfile/:cat/:page`}
+                element={
+                  <MarketCategoryListBuyer
+                    filterPropType={filterPropType}
+                    onPageChange={(resultsPerPage, pageNumber, type) => getPropertiesPage(type, pageNumber)}
+                    page={page}
+                  />
+                }
+              />
+            ))
+          }
+          <Route path="/favorites/*" element={<FavoritesProperty />} />
+          <Route path="/estimations/*" element={<EstimationsPropertyList />} />
+          <Route path="*" element={<Navigate to="/buy/searchProfile/all/1" />} />
         </Routes>
       </Suspense>
     </div>
@@ -119,16 +216,16 @@ const MarketBuyer = (props) => {
 MarketBuyer.propTypes = {
   activeSearchProfile: PropTypes.object,
   destroyForm: PropTypes.func.isRequired,
+  handleGetActiveSingleCompany: PropTypes.func.isRequired,
+  handleGetAllProperties: PropTypes.func.isRequired,
   handleGetFavoritesProperties: PropTypes.func.isRequired,
   handleGetOwnedEstimations: PropTypes.func.isRequired,
-  handleGetPreMarketProperties: PropTypes.func.isRequired,
-  handleGetPremiumProperties: PropTypes.func.isRequired,
   handleGetUserSearchProfiles: PropTypes.func.isRequired,
   handleGetWishlistProperties: PropTypes.func.isRequired,
-  // handleSetActiveMarketOverlayPropertyLists: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
+  isSmallLoading: PropTypes.object.isRequired,
+  lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  preMarketProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 MarketBuyer.defaultProps = {
@@ -140,6 +237,7 @@ const mapStateToProps = (state) => ({
   activeSearchProfile: get(state, 'user.activeSearchProfile', null),
   favoritesProperties: get(state, 'market.favoritesProperties', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
+  lang: get(state, 'common.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser.user', { }),
   preMarketProperties: get(state, 'market.preMarketProperties.data', []),
   splashScreenType: get(state, 'common.splashScreenType', ''),
@@ -150,19 +248,13 @@ const mapDispatchToProps = (dispatch) => ({
   destroyForm() {
     dispatch(destroy('Property'));
   },
+  handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
+  handleGetAllProperties: bindActionCreators(getAllProperties, dispatch),
   handleGetFavoritesProperties: bindActionCreators(getFavoritesProperties, dispatch),
-  handleGetLastViewedProperties: bindActionCreators(getLastViewedProperties, dispatch),
-  handleGetNewProperties: bindActionCreators(getNewProperties, dispatch),
   handleGetOwnedEstimations: bindActionCreators(getOwnedEstimations, dispatch),
-  handleGetPreMarketProperties: bindActionCreators(getPremarketProperties, dispatch),
-  handleGetPremiumProperties: bindActionCreators(getPremiumProperties, dispatch),
-  handleGetSellerProperties: bindActionCreators(getOwnedProperties, dispatch),
   handleGetUserSearchProfiles: bindActionCreators(getUserSearchProfiles, dispatch),
   handleGetWishlistProperties: bindActionCreators(getWishlistProperties, dispatch),
-  handleSetActiveMarketOverlayPropertyLists: bindActionCreators(setActiveMarketOverlayPropertyLists, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
-  handleUpdateFavorites: bindActionCreators(updateFavorite, dispatch),
-  setSplashScreen: bindActionCreators(setSplashType, dispatch),
 });
 
 export default compose(
