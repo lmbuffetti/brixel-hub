@@ -274,7 +274,7 @@ const MarketCategoryListBuyer = (props) => {
                             {translateTo('You can create multiple Search Profiles to apply different filters and find the properties that best match your needs. ', lang)}
                           </p>
                           <BrixelButtonPrimary
-                            onClick={() => history.push('/buy/searchProfile')}
+                            onClick={() => history.push('/buy/searchProfile/list/create')}
                             className="mt-3 mx-a mx-md-0"
                             rounded
                             leftIcon="plus"
