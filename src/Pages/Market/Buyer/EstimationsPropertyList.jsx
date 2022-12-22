@@ -41,7 +41,10 @@ const FavoritesPropertyList = (props) => {
                   rounded
                   leftIcon="plus"
                   label="New estimation"
-                  onClick={() => history.push(`/packageFlow/getStartedEstimation/${activeSingleCompany.stub}/estimationType`)}
+                  onClick={() => {
+                    localStorage.setItem('backUrlBuyerEstimations', `/buy/estimations`);
+                    history.push(`/packageFlow/getStartedEstimation/${activeSingleCompany.stub}/estimationType`);
+                  }}
                 />
 
               </div>
@@ -58,7 +61,10 @@ const FavoritesPropertyList = (props) => {
                   label="Create Estimation"
                   leftIcon="plus"
                   className="ml-a mr-a mt-3"
-                  onClick={() => history.push(`/packageFlow/getStartedEstimation/${activeSingleCompany.stub}/estimationType`)}
+                  onClick={() => {
+                    localStorage.setItem('backUrlBuyerEstimations', `/buy/estimations`);
+                    history.push(`/packageFlow/getStartedEstimation/${activeSingleCompany.stub}/estimationType`);
+                  }}
                 />
               </div>
             </div>
