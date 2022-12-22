@@ -91,8 +91,9 @@ const MarketCardFavorites = (props) => {
         state: true,
         component: React.createElement(ModalPropertyCard, propsModal),
         small: true,
-        layout: 'xlarge',
-        bodyClassColor: 'white p-0',
+        layout: 'xxlarge',
+        bodyClassColor: 'white p-0 preMarketModal',
+        className: 'test',
         hideClose: true,
       })
     } else {

@@ -359,3 +359,33 @@ $lightColorNew2: #F0F0F2;
     }
   }
 }
+
+.backIcon {
+  transform: rotate(270deg);
+  position: absolute !important;
+  top: 18px;
+  z-index: 2;
+  @media (max-width: $responsive-small) {
+    top: 10px;
+  }
+}
+
+
+.preMarketModal {
+  > div {
+    height: 100%;
+  }
+  .actionMap.left {
+    left: 24px;
+    top: 24px;
+    bottom: auto;
+    left: 24px;
+    transform: initial;
+  }
+  .actionMap .btn-action .actionLabel {
+    font-size: 16px;
+  }
+  .actionMapsBottom {
+    bottom: 24px;
+  }
+}

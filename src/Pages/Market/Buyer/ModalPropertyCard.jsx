@@ -16,14 +16,14 @@ const ModalPropertyCard = (props) => {
   } = props;
   // STATE
   const [isShowMoreInfo, setIsShowMoreInfo] = useState(false);
-  
+
   return (
-    <div className="po-r">
+    <div className="dis-fl-col po-r">
       <BrixelIcon
         rounded
         background="white"
         saturation={0}
-        className="pos-a-fix x-r-1 x-t-1 zIndex10"
+        className="pos-a-fix x-r-3 x-t-3 zIndex10"
         onClick={() => onClose()}
         icon="close-small"
       />
@@ -43,11 +43,11 @@ const ModalPropertyCard = (props) => {
         marker={property}
         zoom={15}
       />
-      <div className="p-2">
+      <div className="px-sm-3 px-2 pt-3 pb-1">
         <div className="mt-2 mb-1">
-          <h4>{get(property, 'title', '')}</h4>
+          <h4 className='fweight-600'>{get(property, 'title', '')}</h4>
         </div>
-      
+
         <h6 className="fsize-300 dis-f">
           <span>This is a Pre-Market property.</span>
           <button
@@ -64,15 +64,17 @@ const ModalPropertyCard = (props) => {
       </div>
       {
         isShowMoreInfo && (
-          <p className="fsize-300">
+          <p className="fsize-300 px-2 px-sm-3 txtAltGrey700">
             {translateTo('This property is not for sale yet and all personal data are hidden until it gets on the market. You can like the property and be informed about any important updates.', lang)}
           </p>
         )
       }
-  
-      <hr className="mx-2 mt-3" />
-      
-      <div className="dis-f a-t jc-b flext-wrap p-2">
+
+      <div className="px-2 px-sm-3 mt-5">
+        <hr className="lighter" />
+      </div>
+
+      <div className="dis-f a-t jc-b flext-wrap p-2 p-sm-3">
         <div>
           <span className="fsize-300 dis-b txtAltGrey400">
             {translateTo('Property Type', lang)}
@@ -121,10 +123,10 @@ const ModalPropertyCard = (props) => {
           </span>
         </div>
       </div>
-  
-      <hr />
-      
-      <div className="row-cols-3-gut-1 p-2">
+
+      <hr className="lighter mt-a" />
+
+      <div className="row-cols-3-gut-1 p-2 p-sm-3">
         <div>
           <BrixelButtonText
             className="td-u"

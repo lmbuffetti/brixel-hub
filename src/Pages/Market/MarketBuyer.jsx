@@ -80,7 +80,7 @@ const MarketBuyer = (props) => {
   } = props;
   const [activeTab, setActiveTab] = useState(filterPropType[0].value);
   const [activeTopTab, setActiveTopTab] = useState('searchProfile');
-  
+
   // URL PARAMS
   const catName = get(match, 'cat', null);
   const [page, setPage] = useState(1);
@@ -110,7 +110,7 @@ const MarketBuyer = (props) => {
       }
     }
   }, [loggedInUser.id]);
-  
+
   const getPropertiesPage = (pageNumber = page) => {
     const url = get(history, 'location.pathname', '').split("/");
     const type = url[url.length - 2];
@@ -155,11 +155,11 @@ const MarketBuyer = (props) => {
       handleSpinnerOff();
     }
   }, [activeSearchProfile, get(history, 'location.pathname', null)]);
-  
+
   useEffect(() => {
     getPropertiesPage(activeTab);
   }, [isSmallLoading]);
-  
+
   useEffect(() => {
     const activeListMap = topTab.map((tb) => {
       const url = history.location.pathname || '';
@@ -169,8 +169,8 @@ const MarketBuyer = (props) => {
     const actMenu = activeListMap.find((itm) => itm.active);
     if(actMenu) setActiveTopTab(actMenu.value);
   }, [get(history, 'location.pathname', null)]);
-  
-  
+
+
   const onClickOnTopTab = (tab) => {
     history.push(`/buy/${tab}`);
     setActiveTopTab(tab)
@@ -206,7 +206,7 @@ const MarketBuyer = (props) => {
           }
           <Route path="/favorites/*" element={<FavoritesProperty />} />
           <Route path="/estimations/*" element={<EstimationsPropertyList />} />
-          <Route path="*" element={<Navigate to="/buy/searchProfile/all/1" />} />
+          <Route path="*" element={<Navigate to="/buy/searchProfile/published/1" />} />
         </Routes>
       </Suspense>
     </div>

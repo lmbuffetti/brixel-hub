@@ -269,7 +269,7 @@ const MarketCard = (props) => {
         state: true,
         component: React.createElement(ModalPropertyCard, propsModal),
         small: true,
-        layout: 'xlarge',
+        layout: 'xxlarge',
         bodyClassColor: 'white p-0',
         hideClose: true,
       })
@@ -617,8 +617,8 @@ const MarketCard = (props) => {
               </>
             ) : (
               <div
-                className="brdSmall brdLight200 brdRadius  ov-h bgWhite"
-                onClick={() => openCard()}
+                className="brdSmall brdLight200 brdRadius ov-h bgWhite"
+                // onClick={() => openCard()}
                 onMouseEnter={() => setShowSlideData(true)}
                 onMouseLeave={() => setShowSlideData(false)}
               >
