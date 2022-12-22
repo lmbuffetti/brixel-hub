@@ -219,6 +219,7 @@ const MarketCardFavorites = (props) => {
                 rightIcon="link-open"
                 bgTransparent
                 labelClass="fsize-300"
+                onClick={() => window.open(`${baseByData.pageUrl}${activeSingleProperty.stub}`, '_blank')}
               />
             </div>
             <div>
