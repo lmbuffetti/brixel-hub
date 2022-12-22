@@ -197,7 +197,7 @@ const GetStartedEstimation = (props) => {
         addProperty: data.addProperty,
         extraLoading: data.extraLoading,
         generate: true,
-        redirectTo: '/buy',
+        redirectTo: '/buy/estimations',
       };
     }
     if (formValue.pageID) data.id = formValue.pageID;
