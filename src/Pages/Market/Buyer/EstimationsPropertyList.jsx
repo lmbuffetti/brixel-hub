@@ -40,7 +40,7 @@ const FavoritesPropertyList = (props) => {
                 <BrixelButtonPrimary
                   rounded
                   leftIcon="plus"
-                  label="New estimations"
+                  label="New estimation"
                   onClick={() => history.push(`/packageFlow/getStartedEstimation/${activeSingleCompany.stub}/estimationType`)}
                 />
 
