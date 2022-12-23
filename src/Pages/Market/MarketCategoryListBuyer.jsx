@@ -201,7 +201,7 @@ const MarketCategoryListBuyer = (props) => {
           <div className="bgGreen100 mt-3 min-h-fix-320">
             {
               !userSearchProfiles ? (
-                <div className="container py-10">
+                <div className="container px-0 py-10">
                   <div className="w-perc-80 ov-h brdRadius h-fix-md-152 mb-4 dis-f">
                     <div className="ml-md-4 ml-2 h-perc-100 dis-fl-col w-perc-100 py-2">
                       <p className="h-fix-40 skeletonBgInner w-perc-70"> </p>
@@ -212,7 +212,7 @@ const MarketCategoryListBuyer = (props) => {
                   </div>
                 </div>
               ) : (
-                <div className="container">
+                <div className={windowDimensions.width <= 768 && !activeSearchProfile.id ? '' : 'container'}>
                   {
                     activeSearchProfile.id ? (
                       <div className="dis-f jc-b-lg a-c py-10">
@@ -261,8 +261,8 @@ const MarketCategoryListBuyer = (props) => {
                       <div className="dis-f jc-b-lg a-c flex-wrap">
                         {
                           windowDimensions.width <= 768 && (
-                            <div className="mx-a">
-                              <img src={searchProfileMobileImg} alt="Search Profile" />
+                            <div className="w-100-vw">
+                              <img width="100%" src={searchProfileMobileImg} alt="Search Profile" />
                             </div>
                           )
                         }

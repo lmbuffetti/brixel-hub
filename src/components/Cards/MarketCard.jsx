@@ -452,7 +452,7 @@ const MarketCard = (props) => {
                             className={`type-tag pos-r non-favorite fsize-200 fweight-500 txtWhite mr-1 bg${getColor(tag)}`}
                             onClick={() => tag === 'pre-market' && history.push(`/${item.id}/marketing/portals`)}
                           >
-                            w                            <span className="type txtWhite">
+                            <span className="type txtWhite">
                               {translateTo(getTypeText(tag), lang)}
                             </span>
                           </p>
@@ -648,43 +648,46 @@ const MarketCard = (props) => {
                       {
                         get(item, 'photos', []).length > 1 ? (
                           <div className="h-fix-216 pos-r">
-                            {
-                              showSlideData && (
-                                <>
-                                  <BrixelIcon
-                                    rounded
-                                    background="white"
-                                    saturation={0}
-                                    icon="arrow-simple-left"
-                                    className="pos-a y-c zIndex2 ml-1"
-                                    onClick={(e) => slideImg(e, 'prev')}
-                                  />
-                                  <BrixelIcon
-                                    rounded
-                                    background="white"
-                                    saturation={0}
-                                    icon="arrow-simple-right"
-                                    className="pos-a y-c x-r zIndex2 mr-1"
-                                    onClick={(e) => slideImg(e, 'next')}
-                                  />
-                                  <ul
-                                    className="slick-dots pos-a x-c ta-c zIndex2 bt mb-1"
+                            <div className={`sliderControl ${showSlideData ? 'show' : ''}`}>
+                              <BrixelIcon
+                                rounded
+                                background="white"
+                                saturation={0}
+                                saturationTxt={600}
+                                color="altGrey"
+                                icon="arrow-simple-left"
+                                className="pos-a y-c zIndex2 ml-1"
+                                onClick={(e) => slideImg(e, 'prev')}
+                                iconSize="small"
+                              />
+                              <BrixelIcon
+                                rounded
+                                background="white"
+                                saturation={0}
+                                saturationTxt={600}
+                                color="altGrey"
+                                icon="arrow-simple-right"
+                                className="pos-a y-c x-r zIndex2 mr-1"
+                                iconSize="small"
+                                onClick={(e) => slideImg(e, 'next')}
+                              />
+                            </div>
+
+                            <ul
+                              className="slick-dots pos-a x-c ta-c zIndex2 bt mb-1"
+                            >
+                              {
+                                item.photos.map((photo, i) => (
+                                  <li
+                                    key={`dots${i.toString()}`}
+                                    className={activeSlide === i ? 'slick-active' : ''}
+                                    onClick={(e) => slideImg(e, 'goTo', i)}
                                   >
-                                    {
-                                      item.photos.map((photo, i) => (
-                                        <li
-                                          key={`dots${i.toString()}`}
-                                          className={activeSlide === i ? 'slick-active' : ''}
-                                          onClick={(e) => slideImg(e, 'goTo', i)}
-                                        >
-                                          <button>1</button>
-                                        </li>
-                                      ))
-                                    }
-                                  </ul>
-                                </>
-                              )
-                            }
+                                    <button>1</button>
+                                  </li>
+                                ))
+                              }
+                            </ul>
                             <Slider
                               ref={imgSlide}
                               {...settingSlider}

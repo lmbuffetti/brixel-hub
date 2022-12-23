@@ -126,27 +126,29 @@ const MarketCardFavorites = (props) => {
             get(activeSingleProperty, 'photos', []).length > 0 && dealDetail ? (
               <div
                 className="h-perc-100"
-                onClick={() => onOpenCard()}
+                /* onClick={() => onOpenCard()} */
                 onMouseEnter={() => setShowSlideData(true)}
                 onMouseLeave={() => setShowSlideData(false)}
               >
-                <div className={showSlideData ? 'show' : ''}>
-                  <BrixelIcon
-                    rounded
-                    background={`white`}
-                    saturation={0}
-                    icon="arrow-simple-left"
-                    className="pos-a y-c zIndex2 ml-1"
-                    onClick={(e) => slideImg(e, 'prev')}
-                  />
-                  <BrixelIcon
-                    rounded
-                    background={`white`}
-                    saturation={0}
-                    icon="arrow-simple-right"
-                    className="pos-a y-c x-r zIndex2 mr-1"
-                    onClick={(e) => slideImg(e, 'next')}
-                  />
+                <div>
+                  <div className={`sliderControl ${showSlideData ? 'show' : ''}`}>
+                    <BrixelIcon
+                      rounded
+                      background={`white`}
+                      saturation={0}
+                      icon="arrow-simple-left"
+                      className="pos-a y-c zIndex2 ml-1"
+                      onClick={(e) => slideImg(e, 'prev')}
+                    />
+                    <BrixelIcon
+                      rounded
+                      background={`white`}
+                      saturation={0}
+                      icon="arrow-simple-right"
+                      className="pos-a y-c x-r zIndex2 mr-1"
+                      onClick={(e) => slideImg(e, 'next')}
+                    />
+                  </div>
                   <ul
                     className="slick-dots pos-a x-c ta-c zIndex2 bt mb-1"
                   >
@@ -215,8 +217,8 @@ const MarketCardFavorites = (props) => {
                 {translateTo(activeSingleProperty.title, lang)}
               </h6>
               <BrixelButtonText
-                label={translateTo('View property page', lang)}
-                rightIcon="link-open"
+                label={get(activeSingleProperty, 'tags', []).includes('pre-market') ? translateTo('View details', lang) : translateTo('View property page', lang) }
+                rightIcon={get(activeSingleProperty, 'tags', []).includes('pre-market') ? "" : "link-open"}
                 bgTransparent
                 labelClass="fsize-300"
                 onClick={() => window.open(`${baseByData.pageUrl}${activeSingleProperty.stub}`, '_blank')}
