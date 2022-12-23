@@ -270,15 +270,18 @@ $lightColorNew2: #F0F0F2;
     display: flex;
     .slick-slide {
       float: none !important;
+      > div {
+        height: 100%;
+      }
     }
   }
 }
+.scaleFix {
+  transform: scale(1.01);
+}
 .sliderControl {
-  background: red;
-  z-index: 10;
   .brixelIcon {
     opacity: 0;
-    z-index: 10;
     transition: opacity 500ms ease;
   }
   &.show {

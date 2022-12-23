@@ -106,7 +106,7 @@ const MarketCardFavorites = (props) => {
   return (
     <div className="mb-3 marketCardFavorite">
       <div className="dis-fl-col dis-fl-row-md dis-f brdRadius brdSmall brdAltGrey200 ov-h h-perc-100">
-        <div className="w-fix-md-320 pos-r h-perc-100">
+        <div className="w-fix-md-320 pos-r h-perc-100 ov-h">
           {
             isPreMarket() && (
               <div className="pos-a-fix x-t-1 x-l-1 zIndex5">
@@ -125,7 +125,7 @@ const MarketCardFavorites = (props) => {
           {
             get(activeSingleProperty, 'photos', []).length > 0 && dealDetail ? (
               <div
-                className="h-perc-100"
+                className="h-perc-100 scaleFix"
                 /* onClick={() => onOpenCard()} */
                 onMouseEnter={() => setShowSlideData(true)}
                 onMouseLeave={() => setShowSlideData(false)}
@@ -173,10 +173,10 @@ const MarketCardFavorites = (props) => {
                     activeSingleProperty.photos.map((photo, index) => (
                       <div
                         key={`itm_${index.toString()}`}
-                        className={`${isPreMarket() ? 'pre-market' : ''} ${get(activeSingleProperty, 'tags', []).join(' ')} cover pos-r`}
+                        className={`${isPreMarket() ? 'pre-market' : ''} ${get(activeSingleProperty, 'tags', []).join(' ')} cover pos-r h-perc-100`}
                       >
                         <img
-                          className="cover h-fix-216"
+                          className="cover h-perc-100"
                           src={`${baseByData.shortPath}${photo.path}`}
                           key={`photo${index.toString()}`}
                           alt={`Property Photos ${index.toString()}`}
@@ -249,8 +249,8 @@ const MarketCardFavorites = (props) => {
             </div>
           </div>
 
-          <div className="dis-fl-col dis-fl-row-md jc-b pt-2 mt-a">
-            <div className="fsize-300 txtDark400 mb-2 mb-md-0">
+          <div className="dis-fl-col dis-fl-row-md jc-b pt-2 mt-a flex-wrap">
+            <div className="fsize-300 txtDark400 mb-2 mb-lg-0">
               <div className="dis-f a-c jc-fs flex-wrap w-perc-100">
 
                 <div className="bottom a-c txtDark700 brdSmallRight brdAltGrey200 pr-2 mr-2 pr-sm-6 mr-sm-6">
