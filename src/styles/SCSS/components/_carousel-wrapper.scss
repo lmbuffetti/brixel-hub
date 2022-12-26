@@ -50,3 +50,30 @@ $trans_func: cubic-bezier(0.39, 0.575, 0.565, 1);
 .slide-without-arrow {
   width: 100%;
 }
+
+
+body {
+  .slick-dots {
+    bottom: 4px;
+    li {
+      width: 8px;
+      height: 8px;
+      button{
+        opacity: 0.6;
+        background-color: #FFFFFF;
+        border-radius: 50%;
+        width: 8px;
+        height: 8px;
+        padding: 4px;
+        &:before {
+          display: none;
+        }
+      }
+      &.slick-active {
+        button {
+          opacity: 1;
+        }
+      }
+    }
+  }
+}

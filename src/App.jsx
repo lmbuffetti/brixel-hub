@@ -29,7 +29,6 @@ import { setActiveSingleProperty } from './actions/PropertyActions';
 import { getImageType } from './actions/UploadActions';
 import { checkToken, setUserTypes } from './actions/UserActions';
 import BestimateCardOverlay from './components/BestimateCardOverlay';
-import WizardCard from './components/Cards/WizardCard';
 import PageFooter from './components/Footer/PageFooter';
 import Loading from './components/Loading';
 // IMAGES
@@ -42,6 +41,7 @@ import browserDetection from './utils/browserDetection';
 import translateTo from './utils/translation';
 
 const SplashScreen = lazy(() => import('./components/SplashScreen'));
+const RemoveTrailingSlash = lazy(() => import('./components/RemoveTrailingSlash'));
 const Support = lazy(() => import('./components/Support'));
 const ErrorBoundering = lazy(() => import('./components/ErrorBoundering'));
 // GET STARTED AND ADD PROPERTY
@@ -136,7 +136,6 @@ const App = (props) => {
     teamAvatars,
     userTypes,
     windowDimensions,
-    wizard,
   } = props;
   // STATE
   // CONSTANT TO PREVENT TRANSIFEX ERROR
@@ -319,8 +318,12 @@ const App = (props) => {
       } else if (history.location.pathname.includes('prospects') || history.location.pathname.includes('closing')) {
         setClassMain('w-perc-100 pos-r hubContainer dealsTop withTopBar sellerHub');
       } else if (history.location.pathname.includes('/sell') || history.location.pathname.includes('/buy')) {
-        setClassMain('w-perc-100 pos-r ov-h marketHome');
-      } else if (history.location.pathname.includes('offers')) {
+        if (history.location.pathname.includes('/buy/favorites/map')) {
+          setClassMain('w-perc-100 pos-r ov-h marketHome mapView');
+        } else {
+          setClassMain('w-perc-100 pos-r ov-h marketHome');
+        }
+      }  else if (history.location.pathname.includes('offers')) {
         setClassMain('w-perc-100 pos-r hubContainer offersTop withTopBar sellerHub');
       } else {
         setClassMain('w-perc-100 pos-r hubContainer ov-h');
@@ -515,6 +518,7 @@ const App = (props) => {
                   <div
                     className="w-perc-100 innerWrap"
                   >
+                    <RemoveTrailingSlash/>
                     <Routes>
                       <Route path="/500" element={<ErrorBoundering />} />
                       { /* SECTION: ONBOARDING */}
@@ -694,6 +698,7 @@ const App = (props) => {
           {
             modal.state && !modal.type && modal.small && (
               <BrixelModal
+                hideHeader={modal.hideHeader}
                 bodyActionsClass={modal.bodyActionsClass}
                 bodyClassColor={modal.bodyClassColor}
                 classContainer={modal.classContainer}
@@ -704,11 +709,20 @@ const App = (props) => {
                 multiBodyActions={modal.multiBodyActions}
                 title={modal.title}
                 titleImg={modal.titleImg}
-                onClose={() => {
-                  handleSetModal({ state: false });
-                }}
+                onClose={modal.hideClose !== true ? () => handleSetModal({ state: false }) : null}
               >
-                <div className={modal.bodyInnerClass} dangerouslySetInnerHTML={{ __html: modal.body }} />
+                {
+                  modal.body && (
+                    <div className={modal.bodyInnerClass} dangerouslySetInnerHTML={{ __html: modal.body }} />
+                  )
+                }
+                {
+                  modal.component && (
+                    <>
+                      {modal.component}
+                    </>
+                  )
+                }
                 {
                   modal.showSupport && (
                     <Support
@@ -760,12 +774,6 @@ const App = (props) => {
           {
             has(splashScreenType, 'component') && (
               React.createElement(splashScreenType.component, splashScreenType.props)
-            )
-          }
-
-          {
-            get(wizard, 'type', null) && get(wizard, 'type', '') !== 'preMarketOverlay' && (
-              <WizardCard lang={lang} />
             )
           }
 
@@ -856,7 +864,6 @@ App.propTypes = {
   teamAvatars: PropTypes.arrayOf(PropTypes.object).isRequired,
   userTypes: PropTypes.string,
   windowDimensions: PropTypes.object.isRequired,
-  wizard: PropTypes.object.isRequired,
 };
 
 App.defaultProps = {
@@ -882,7 +889,6 @@ const mapStateToProps = (state) => ({
   teamAvatars: get(state, 'companies.activeSingleCompany.teamAvatars', get(state, 'user.loggedInUser.user.company.teamAvatars', [])),
   userTypes: get(state, 'user.userTypes', null),
   windowDimensions: get(state, 'common.windowDimensions', {}),
-  wizard: get(state, 'common.wizard', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({

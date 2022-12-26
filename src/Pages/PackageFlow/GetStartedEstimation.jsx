@@ -157,11 +157,11 @@ const GetStartedEstimation = (props) => {
     // PROPERTY DATA
     delete dataFormAnswer.login;
     if (get(dataFormAnswer, 'estimationType', '') === 'seller' && action === 'skip') delete dataFormAnswer.baloiseInfo;
-    dataFormAnswer.properties.typology.bathrooms = 0;
+    if (!dataFormAnswer.properties.typology.bathrooms) dataFormAnswer.properties.typology.bathrooms = 0;
     dataFormAnswer.properties.parking = {
-      garage: 0,
-      outside: 0,
-      underground: 0,
+      garage: dataFormAnswer.properties.parking.garage || 0,
+      outside: dataFormAnswer.properties.parking.outside || 0,
+      underground: dataFormAnswer.properties.parking.underground || 0,
     };
     let saveLangUser = 'en';
     const checkValidLang = languagesList.find((lng) => lng.code === lang);
@@ -197,7 +197,7 @@ const GetStartedEstimation = (props) => {
         addProperty: data.addProperty,
         extraLoading: data.extraLoading,
         generate: true,
-        redirectTo: '/buy',
+        redirectTo: '/buy/estimations',
       };
     }
     if (formValue.pageID) data.id = formValue.pageID;

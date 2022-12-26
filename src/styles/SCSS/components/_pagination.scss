@@ -27,9 +27,8 @@
       color: map_get($darkColor, 400);
       cursor: pointer;
       transition: all $default-time-long;
-      @include fontStyle(300,'regular',left);
-      width: 24px;
-      height: 24px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       display: flex;
       justify-content: center;
@@ -37,7 +36,8 @@
 
       &:hover,
       &.active {
-        background: map_get($lightColor, 100);
+        background: map_get($greenColor, 400);
+        color: $brx-white
       }
 
       &:last-child {

@@ -1,27 +1,22 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useRef, useState, useEffect } from 'react';
-import get from 'lodash/get';
-import PropTypes from 'prop-types';
-import { compose } from 'redux';
-import { connect } from 'react-redux';
+import { BrixelButtonPrimary, BrixelIcon, Helpers, useOutsideAlerter } from '@brixel/brixel-components';
 import {
-  BrixelButtonPrimary,
-  BrixelIcon,
-  Helpers,
-  useOutsideAlerter,
-} from '@brixel/brixel-components';
-import translateTo from '../../../utils/translation';
-import {
-  BrixelInputText,
   BrixelInputDatePicker,
+  BrixelInputText,
   change,
-  ReduxField, Validation,
+  ReduxField,
+  Validation,
 } from '@brixel/brixel-components/dist/form';
+import get from 'lodash/get';
 import { DateTime } from 'luxon';
-import { addDays } from 'date-fns';
+import PropTypes from 'prop-types';
+import React, { useEffect, useRef, useState } from 'react';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 import Accordion from '../../../components/Accordion';
 import PhoneImg from '../../../images/TestDrive/phoneTrial.svg';
 import VidelCallImg from '../../../images/TestDrive/VideoCall.svg';
+import translateTo from '../../../utils/translation';
 
 const BookTrialFlow = (props) => {
   const {
@@ -112,6 +107,7 @@ const BookTrialFlow = (props) => {
                 onExpand={(val) => setOpenAccordion(val === true ? 'online' : '')}
                 isExpanded={openAccordion === 'online'}
               >
+                {`${DateTime.now().year}-12-${DateTime.now().day + 1}`}
                 <div className="dis-f a-t w-perc-100">
                   <div className="pos-r pr-1 w-perc-100 max-w-perc-50">
                     <ReduxField
@@ -128,8 +124,8 @@ const BookTrialFlow = (props) => {
                       input={{
                         name: 'dateBook',
                         type: 'date',
-                        maxDate: `${DateTime.now().year + 1}-12-31`,
-                        minDate: addDays(new Date(), 1),
+                        maxDate: new Date(`${DateTime.now().year + 1}-12-31`),
+                        minDate: new Date(`${DateTime.now().year}-12-${DateTime.now().day + 1}`),
                         onChange: (val) => handleChangeDate(val, 'new'),
                         validate: [Validation.required]
                       }}

@@ -68,6 +68,16 @@ html {
   }
 }
 
+img {
+  display: block;
+}
+
+.brdRadius {
+  .slick-slider {
+    margin-top: -1px;
+  }
+}
+
 .scrollSmooth {
   .flowScrollWrap {
     --scroll-behavior: smooth;
@@ -1137,4 +1147,8 @@ input::-webkit-date-and-time-value {
       padding-left: $step * 2;
     }
   }
+}
+
+.w-100-vw {
+  width: 100vw;
 }

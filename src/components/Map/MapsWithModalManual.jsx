@@ -6,7 +6,6 @@ import { BrixelAutocomplete, BrixelMap } from '@brixel/brixel-components/dist/ma
 import cloneDeep from 'lodash/cloneDeep';
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
-/* eslint-disable array-callback-return */
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -122,6 +121,7 @@ export const MapsWithModalManual = (props) => {
               externalControls={false}
               className={mapSize}
               baseByData={baseByData}
+              marker={formValue}
               gestureHandling="none"
               center={{
                 lat: get(formValue, 'location.latitude', 0),

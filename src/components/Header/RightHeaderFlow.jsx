@@ -116,11 +116,18 @@ function RightHeaderFlow(props) {
       history.push(`${BASEURL}/${propID}/home`);
     } else {
       let url = localStorage.getItem('backUrlBis');
+      let urlBuyer = localStorage.getItem('backUrlBuyerEstimations');
       if (url) {
         localStorage.removeItem('backUrlBis');
-      } else {
-        url = localStorage.getItem('backUrl');
+      } 
+      else {
+        if (urlBuyer) {
+          url = urlBuyer;
+        } else {
+          url = localStorage.getItem('backUrl');
+        }
         localStorage.removeItem('backUrl');
+        localStorage.removeItem('backUrlBuyerEstimations');
       }
       history.push(url || '/sell');
     }

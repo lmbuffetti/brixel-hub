@@ -1,4 +1,4 @@
-import { BrixelModal, translateTo } from '@brixel/brixel-components';
+import { BrixelModal, BrixelButtonIcon, translateTo } from '@brixel/brixel-components';
 import { diff } from 'deep-object-diff';
 import get from 'lodash/get';
 import set from 'lodash/set';
@@ -71,7 +71,7 @@ const SearchProfileModal = (props) => {
         user: loggedInUser.id,
       },
       id,
-      redirectToUrl: url || '/buy/searchProfile',
+      redirectToUrl: url || '/buy/searchProfile/list',
       smallLoader: 'saveData',
     }
     if (type === 'update') {
@@ -82,40 +82,50 @@ const SearchProfileModal = (props) => {
     }
   }
 
-  const saveChangeSearchProfile = () => {
-    const newSearchProfile = userSearchProfiles.find((src) => src.id === userActiveSearchProfileId);
-    if (newSearchProfile) {
-      window.sessionStorage.setItem('profileID', newSearchProfile.id);
-      handleSetUserActiveSearchProfile(newSearchProfile);
-    }
-  }
-
   const onClose = () => {
     const url = get(history, 'location.state.url', null);
     switch(history.location.pathname) {
-      case '/buy/searchProfile':
+      case '/buy/searchProfile/list':
         history.push(url || '/buy');
         break;
       default:
-        history.push(url || '/buy/searchProfile');
+        history.push(url || '/buy');
+    }
+  }
+
+  const onBack = () => {
+    const url = get(history, 'location.state.url', null);
+    if (history.location.pathname.includes('/buy/searchProfile/list/edit') || history.location.pathname.includes('/buy/searchProfile/list/create')) {
+      history.push('/buy/searchProfile/list');
+    } else {
+      history.push(url || '/buy');
     }
   }
 
   const modalTitle = () => {
     switch(history.location.pathname) {
-      case '/buy/searchProfile':
+      case '/buy/searchProfile/list':
         return 'Manage Search Profiles';
-      case '/buy/searchProfile/create':
+      case '/buy/searchProfile/list/create':
         return 'Create Search Profiles';
       default:
         return 'Edit Search Profile';
     }
   }
 
+  const saveChangeSearchProfile = () => {
+    const newSearchProfile = userSearchProfiles.find((src) => src.id === userActiveSearchProfileId);
+    if (newSearchProfile) {
+      window.sessionStorage.setItem('profileID', newSearchProfile.id);
+      handleSetUserActiveSearchProfile(newSearchProfile);
+      onClose();
+    }
+  }
+
   const multiActions = () => {
     const diffForm = diff(initialValues, formValue) || {};
     switch(history.location.pathname) {
-      case '/buy/searchProfile':
+      case '/buy/searchProfile/list':
         return ([
           {
             round: true,
@@ -143,7 +153,7 @@ const SearchProfileModal = (props) => {
             btnType: 'Secondary',
             className: 'mr-1',
             name: translateTo('Cancel', lang),
-            func: () => history.push('/buy/searchProfile'),
+            func: () => history.push('/buy'),
           },
           {
             round: true,
@@ -164,7 +174,7 @@ const SearchProfileModal = (props) => {
             btnType: 'Secondary',
             className: 'mr-1',
             name: translateTo('Cancel', lang),
-            func: () => history.push('/buy/searchProfile'),
+            func: () => history.push('/buy'),
           },
           {
             round: true,
@@ -179,6 +189,8 @@ const SearchProfileModal = (props) => {
     }
   }
 
+  const showBackIcon = () => history.location.pathname.includes('/buy/searchProfile/list/create') || history.location.pathname.includes('/buy/searchProfile/list/edit');
+
   return (
     <BrixelModal
       clickOutsideToClose={false}
@@ -190,6 +202,17 @@ const SearchProfileModal = (props) => {
       bodyClassColor="bgWhite"
       multiActions={multiActions()}
     >
+      {
+        showBackIcon() && (
+          <BrixelButtonIcon
+            icon='dropdown-open'
+            ghost
+            theme='dark'
+            className='backIcon'
+            onClick={() => onBack()}
+          />
+        )
+      }
       <Routes>
         <Route
           path="/"
@@ -217,7 +240,7 @@ SearchProfileModal.propTypes = {
   isSmallLoading: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  userSearchProfiles: PropTypes.arrayOf(PropTypes.object).isRequired,
+  userSearchProfiles: PropTypes.arrayOf(PropTypes.object),
 };
 
 const mapStateToProps = (state) => ({

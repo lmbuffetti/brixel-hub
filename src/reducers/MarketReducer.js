@@ -1,31 +1,31 @@
-import {
-  handleActions,
-} from 'redux-actions';
+import { handleActions } from 'redux-actions';
 import {
   SET_ALL_PROPERTIES,
-  SET_OWNED_PROPERTIES,
-  SET_OWNED_ESTIMATIONS,
+  SET_BUYER_PROPERTIES,
   SET_FAVORITES_PROPERTIES,
-  SET_NEW_PROPERTIES,
   SET_LAST_VIEWED_PROPERTIES,
-  SET_PREMIUM_PROPERTIES,
-  SET_PREMIUM_EUROPE_PROPERTIES,
+  SET_NEW_PROPERTIES,
+  SET_OWNED_ESTIMATIONS,
+  SET_OWNED_PROPERTIES,
   SET_PREMARKET_PROPERTIES,
-  SET_WISHLIST_PROPERTIES,
   SET_PREMARKET_STATS,
+  SET_PREMIUM_EUROPE_PROPERTIES,
+  SET_PREMIUM_PROPERTIES,
+  SET_WISHLIST_PROPERTIES,
 } from '../actions/types/MarketTypes';
 
 export const defaultState = {
   allProperties: {},
-  ownerProperties: {},
-  ownerEstimations: {},
+  buyerProperties: {},
   favoritesProperties: {},
-  newProperties: {},
   lastViewedProperties: {},
-  premiumEuropeProperties: {},
-  premiumProperties: {},
+  newProperties: {},
+  ownerEstimations: {},
+  ownerProperties: {},
   preMarketProperties: {},
   preMarketStats: {},
+  premiumEuropeProperties: {},
+  premiumProperties: {},
   wishlistProperties: {},
 };
 
@@ -34,6 +34,10 @@ export default handleActions(
     [SET_ALL_PROPERTIES]: (state, action) => ({
       ...state,
       allProperties: action.payload,
+    }),
+    [SET_BUYER_PROPERTIES]: (state, action) => ({
+      ...state,
+      buyerProperties: action.payload,
     }),
     [SET_PREMARKET_STATS]: (state, action) => ({
       ...state,

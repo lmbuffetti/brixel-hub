@@ -1,12 +1,12 @@
 import { BrixelButtonSecondary } from '@brixel/brixel-components';
 import get from 'lodash/get';
-import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { compose } from 'redux';
-import { transformInternalLink } from '../../utils/helpers';
 import api from '../../controllers/api/graphql';
+import { transformInternalLink } from '../../utils/helpers';
 
 const BannerBox = (props) => {
   const history = {
