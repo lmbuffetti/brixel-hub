@@ -259,7 +259,7 @@ const MarketCard = (props) => {
       const propsModal = {
         lang,
         property: item,
-        onRemoveProperty: onRemoveProperty(),
+        onRemoveProperty: () => onRemoveProperty(),
         saveFavorite: (act) => saveFavorite(act),
         onClose: () => handleSetModal({state: false}),
         isFavorite: checkFavorite(),
@@ -344,13 +344,17 @@ const MarketCard = (props) => {
   };
 
   const slideImg = (e, act, slideIndex = 0) => {
-    if (e) e.stopPropagation();
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     if (imgSlide) {
       const slide = imgSlide.current;
       if (act === 'next') slide.slickNext();
       if (act === 'prev') slide.slickPrev();
       if (act === 'goTo') slide.slickGoTo(slideIndex);
     }
+    return false;
   }
 
   return (
@@ -465,7 +469,7 @@ const MarketCard = (props) => {
                 <div className="info dis-fl-col pl-sm-4 pl-0 w-perc-100 jc-b">
                   <div>
                     <div
-                      className="top dis-fl-col"
+                      className="top dis-fl-col cur-poi"
                       onClick={(e) => openCard(e)}
                     >
                       <h6
