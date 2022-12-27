@@ -70,6 +70,13 @@ const SearchProfileList = (props) => {
     initForm(initialValue)
     history.push(`/buy/searchProfile/list/edit/${searchProfile.id}`)
   }
+  
+  const deleteSearchProfile = (profile) => {
+    handleDeleteUserSearchProfile(profile);
+    handleSetModal({
+      state: false,
+    })
+  }
 
   const onDeleteSearchProfile = (profile) => {
     handleSetModal({
@@ -98,7 +105,7 @@ const SearchProfileList = (props) => {
           name: translateTo('Yes, remove it', lang),
           round: true,
           className: 'ml-1',
-          func: () => handleDeleteUserSearchProfile(profile),
+          func: () => deleteSearchProfile(profile),
         }
       ]
     })
