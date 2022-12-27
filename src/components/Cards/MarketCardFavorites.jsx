@@ -314,7 +314,7 @@ const MarketCardFavorites = (props) => {
                     rounded
                     label={translateTo('Make an offer', lang)}
                     isLoading={!dealDetail.id}
-                    onClick={() => history.push(`/packageFlow/${activeSingleProperty.id}/makeOffer/priceInfo`)}
+                    onClick={() => history.push(`/packageFlow/${activeSingleProperty.id}/makeOffer/priceInfo?url=${history.location.pathname}`)}
                   />
                 )
               }
