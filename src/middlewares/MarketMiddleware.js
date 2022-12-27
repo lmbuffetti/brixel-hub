@@ -236,8 +236,8 @@ const checkLead = (store) => (next) => (action) => {
     case GET_WISHLIST_PROPERTIES: {
       next(action);
       store.dispatch({ type: SKELETON_ON, payload: { wishlist: 'CardImageTextVertical' } });
-      const queryParams = `?order=${action.payload.order}&direction=${action.payload.direction}`;
-      api.market.getWishlists(action.payload.resultsPerPage, action.payload.offset, queryParams)
+      const queryParams = `?order=${action.payload.order || 'updatedAt'}&direction=${action.payload.direction || 'DESC'}`;
+      api.market.getWishlists(action.payload.resultsPerPage || 50, action.payload.offset || 0, queryParams)
         .then((res) => {
           if (res.meta.status === 200) {
             store.dispatch({ type: SET_WISHLIST_PROPERTIES, payload: res.data });
