@@ -61,6 +61,11 @@ const Documents = (props) => {
   const [isMovingFolder, setIsMovingFolder] = useState(false);
 
   const { documents } = formValue;
+  
+  useEffect(() => {
+    setTimeout(() => {setIsReady(true)}, 200);
+  }, []);
+  
 
   useEffect(() => {
     if (has(formValue, 'location.countryCode')) {
@@ -265,13 +270,12 @@ const Documents = (props) => {
           smallLoader: 'saveData',
           documents: docsToSave,
         }
-        //handleSaveActiveSingleProperty(dataToSave);
+        handleSaveActiveSingleProperty(dataToSave);
       }
     }
   }, [processedDocuments]);
   
   const onExpandFolder = (e, i) => {
-    console.log(e, i);
     if (e) e.preventDefault();
     const clone = cloneDeep(showFullFolder);
     if (index(i) === -1) {
@@ -290,8 +294,6 @@ const Documents = (props) => {
       setDocumentOptionsOpen({ id: null, active: false });
     },
   });
-
-  setTimeout(() => {setIsReady(true)}, 200);
 
   return (
     <>
@@ -450,11 +452,10 @@ const Documents = (props) => {
                                   <div
                                     className="document-folder cur-poi shadow-1dp dis-fl-col p-1 mb-2 brdRadius"
                                     key={`prcDcc_${i.toString()}`}
-                                    onMouseEnter={(e) => isMovingFolder ? onExpandFolder(e, i) : console.log('hover')}
                                     onClick={(e) => onExpandFolder(e, i)}
                                   >
                                     <div className="dis-fl-row jc-b a-c">
-                                      <div className={`dis-fl-row a-c ${(index(i) !== -1) ? 'mb-3' : ''}`}>
+                                      <div className={`dis-fl-row a-c ${(index(i) !== -1 || isMovingFolder) ? 'mb-3' : ''}`}>
                                         <BrixelIcon
                                           icon="menu"
                                           className="folderHandle cur-move mr-1"
@@ -496,11 +497,11 @@ const Documents = (props) => {
                                       list={cloneDeep(docList)}
                                       className=""
                                       setList={(order) => dragDocuments(order, i, get(docList[0], 'folder', null))}
-                                      onStart={() => console.log('moving')}
-                                      onEnd={() => console.log('end')}
+                                      onStart={() => setIsMovingFolder(true)}
+                                      onEnd={() => setIsMovingFolder(false)}
                                     >
                                       {
-                                        (index(i) !== -1) && docList.map((doc, k) => (
+                                        (index(i) !== -1 || isMovingFolder) && docList.map((doc, k) => (
                                           <li
                                             key={`prcDocs_${k.toString()}`}
                                             className="single-document pl-2 dis-fl-row a-c jc-b pb-1 mb-1"
@@ -618,8 +619,8 @@ const Documents = (props) => {
                                     list={cloneDeep(docList)}
                                     className=""
                                     setList={(order) => dragDocuments(order, i, 'NoFolder')}
-                                    onStart={() => console.log('moving')}
-                                    onEnd={() => console.log('end')}
+                                    onStart={() => setIsMovingFolder(true)}
+                                    onEnd={() => setIsMovingFolder(false)}
                                   >
                                     {
                                       docList.map((doc, k) => (
@@ -758,10 +759,11 @@ Documents.propTypes = {
   formValue: PropTypes.object.isRequired,
   handleDeleteDocument: PropTypes.func.isRequired,
   handleMultiUploadDocument: PropTypes.func.isRequired,
+  handleSaveActiveSingleProperty: PropTypes.func.isRequired,
   isBuyer: PropTypes.bool,
   isSmallLoading: PropTypes.object.isRequired,
-  loggedInUser: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
+  loggedInUser: PropTypes.object.isRequired,
   userType: PropTypes.string.isRequired,
 };
 
