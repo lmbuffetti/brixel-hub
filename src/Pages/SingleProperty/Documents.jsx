@@ -1,39 +1,37 @@
 /* eslint-disable array-callback-return */
-/* eslint-disable dot-notation */
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, {
-  useState, useRef, useCallback, useEffect,
-} from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import get from 'lodash/get';
-import set from 'lodash/set';
-import has from 'lodash/has';
-import values from 'lodash/values';
-import isNaN from 'lodash/isNaN';
-import findIndex from 'lodash/findIndex';
-import uniq from 'lodash/uniq';
-import cloneDeep from 'lodash/cloneDeep';
 import {
   BrixelButtonIcon,
   BrixelButtonPrimary,
-  BrixelIcon,
   BrixelDropdownMini,
+  BrixelIcon,
   useOutsideAlerter,
 } from '@brixel/brixel-components';
-import translateTo from '../../utils/translation';
-import { bindActionCreators, compose } from 'redux';
-import getConfigEnv from '@brixel/brixel-components/dist/configuration/Settings';
 import documentConfig from '@brixel/brixel-components/dist/configuration/DocumentsConfig';
-import { useDropzone } from 'react-dropzone';
+import getConfigEnv from '@brixel/brixel-components/dist/configuration/Settings';
+import cloneDeep from 'lodash/cloneDeep';
+import findIndex from 'lodash/findIndex';
+import get from 'lodash/get';
+import has from 'lodash/has';
+import isNaN from 'lodash/isNaN';
+import set from 'lodash/set';
+import uniq from 'lodash/uniq';
+import values from 'lodash/values';
 import { DateTime } from 'luxon';
-import { uploadDocument, deleteDocument, multiUploadDocument } from '../../actions/UploadActions';
+import PropTypes from 'prop-types';
+/* eslint-disable dot-notation */
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useDropzone } from 'react-dropzone';
+import { connect } from 'react-redux';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { bindActionCreators, compose } from 'redux';
+import { deleteDocument, multiUploadDocument, uploadDocument } from '../../actions/UploadActions';
+import buyerDocumentsEmpty from '../../images/Media/buyer_docuboxEmpty.svg';
 //import Loading from '../../components/Loading';
 // IMAGES
 import uploadDocumentsEmpty from '../../images/Upload/upload_documents_empty.svg';
-import buyerDocumentsEmpty from '../../images/Media/buyer_docuboxEmpty.svg';
 import { tobase64Handler } from '../../utils/helpers';
+import translateTo from '../../utils/translation';
 
 // COMPONENTS
 
@@ -526,7 +524,7 @@ const Documents = (props) => {
                                       </div>
                                       <div className="dis-fl-col cur-poi" onClick={(e) => openDocument(e, doc.id)}>
                                         <span className="document-title fsize-400 txtDark700 dont-break-out">{doc.name}</span>
-                                        <span className="body2 txtDark200 dont-break-out">{doc.type}</span>
+                                        <span className="body2 txtDark200 dont-break-out">{translateTo(doc.type, lang)}</span>
                                         {
                                           get(doc, 'createdAt', null) ? (
                                             <span className="date body2 txtDark200">
