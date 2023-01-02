@@ -1,39 +1,37 @@
 /* eslint-disable array-callback-return */
-/* eslint-disable dot-notation */
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, {
-  useState, useRef, useCallback, useEffect,
-} from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import get from 'lodash/get';
-import set from 'lodash/set';
-import has from 'lodash/has';
-import values from 'lodash/values';
-import isNaN from 'lodash/isNaN';
-import findIndex from 'lodash/findIndex';
-import uniq from 'lodash/uniq';
-import cloneDeep from 'lodash/cloneDeep';
 import {
   BrixelButtonIcon,
   BrixelButtonPrimary,
-  BrixelIcon,
   BrixelDropdownMini,
+  BrixelIcon,
   useOutsideAlerter,
 } from '@brixel/brixel-components';
-import translateTo from '../../utils/translation';
-import { bindActionCreators, compose } from 'redux';
-import getConfigEnv from '@brixel/brixel-components/dist/configuration/Settings';
 import documentConfig from '@brixel/brixel-components/dist/configuration/DocumentsConfig';
-import { useDropzone } from 'react-dropzone';
+import getConfigEnv from '@brixel/brixel-components/dist/configuration/Settings';
+import cloneDeep from 'lodash/cloneDeep';
+import findIndex from 'lodash/findIndex';
+import get from 'lodash/get';
+import has from 'lodash/has';
+import isNaN from 'lodash/isNaN';
+import set from 'lodash/set';
+import uniq from 'lodash/uniq';
+import values from 'lodash/values';
 import { DateTime } from 'luxon';
-import { uploadDocument, deleteDocument, multiUploadDocument } from '../../actions/UploadActions';
+import PropTypes from 'prop-types';
+/* eslint-disable dot-notation */
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useDropzone } from 'react-dropzone';
+import { connect } from 'react-redux';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { bindActionCreators, compose } from 'redux';
+import { deleteDocument, multiUploadDocument, uploadDocument } from '../../actions/UploadActions';
+import buyerDocumentsEmpty from '../../images/Media/buyer_docuboxEmpty.svg';
 //import Loading from '../../components/Loading';
 // IMAGES
 import uploadDocumentsEmpty from '../../images/Upload/upload_documents_empty.svg';
-import buyerDocumentsEmpty from '../../images/Media/buyer_docuboxEmpty.svg';
 import { tobase64Handler } from '../../utils/helpers';
+import translateTo from '../../utils/translation';
 
 // COMPONENTS
 
@@ -63,9 +61,9 @@ const Documents = (props) => {
   const [isReady, setIsReady] = useState(false);
   const [documentLists, setDocumentLists] = useState([]);
   const [mandatoryDocuments, setMandatoryDocuments] = useState([]);
-
+  
   const { documents } = formValue;
-
+  
   useEffect(() => {
     if (has(formValue, 'location.countryCode')) {
       if (documentConfig.mandatoryDocuments[get(formValue, 'location.countryCode')]) {
@@ -75,13 +73,13 @@ const Documents = (props) => {
       }
     }
   }, [formValue]);
-
+  
   useEffect(() => {
     const docs = documents || [];
     if (userType === 'seller') setDocumentLists(docs);
     else setDocumentLists(docs.filter((item) => !item.isPrivate));
   }, [documents, userType]);
-
+  
   useEffect(() => {
     let docs = documents || [];
     if (userType === 'buyer') docs = docs.filter((item) => !item.isPrivate);
@@ -110,7 +108,7 @@ const Documents = (props) => {
     }
     if (documents && documents.length === 0) setProcessedDocuments({});
   }, [documents && documents.length, documents]);
-
+  
   const manageDocument = (e, id) => {
     if (e) e.preventDefault();
     setDocumentOptionsOpen({
@@ -120,26 +118,26 @@ const Documents = (props) => {
     const path = get(history, 'location.pathname', '').replace(/\/$/, '');
     history.push(`${path}/${id}/editDocument`);
   };
-
+  
   const openDocument = (e, id) => {
     if (e) e.preventDefault();
     window.open(`${getConfigEnv.shortPath}/document/${id}`, '_blank');
   };
-
+  
   const index = (key) => findIndex(showFullFolder, (el) => el === key);
-
+  
   // URL PARAMS
   const propID = get(match, 'propID', null);
-
+  
   // REF
   const documentRef = useRef(null);
-
+  
   useEffect(() => {
     if (!isSmallLoading.uploadMedia) {
       setDocumentOptionsOpen({ id: null, active: false });
     }
   }, [isSmallLoading]);
-
+  
   // MULTIUPLOADING FUNCTION
   const onDrop = useCallback(async (acceptedFiles) => {
     const reader = new FileReader();
@@ -159,7 +157,7 @@ const Documents = (props) => {
       });
     });
   }, [formValue]);
-
+  
   const loadFile = async (e, type = '', key = '') => {
     if (e) e.preventDefault();
     const acceptedFiles = values(document.getElementById(`documentInput${key}`).files);
@@ -182,7 +180,7 @@ const Documents = (props) => {
       //   });
     });
   };
-
+  
   // DROPZONE SETTINGS - SUPPORTED EXTENSIONS AND MAX SIZE AND OTHER SETTINGS
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
@@ -190,7 +188,7 @@ const Documents = (props) => {
     minSize: 0,
     maxSize: 1e+7,
   });
-
+  
   // REMOVE DOCUMENTS
   const deleteDocs = (e, idDocs) => {
     if (e) e.preventDefault();
@@ -202,7 +200,7 @@ const Documents = (props) => {
     };
     handleDeleteDocument(data);
   };
-
+  
   // COPY DOCUMENT LINK
   const copyLinkToClipboard = (id) => {
     const dummy = document.createElement('input');
@@ -215,7 +213,7 @@ const Documents = (props) => {
     setIsCopied(true);
     setTimeout(() => { setIsCopied(false); }, 2000);
   };
-
+  
   const countMandatoryDocuments = () => {
     let count = 0;
     documents.forEach((doc) => {
@@ -225,7 +223,7 @@ const Documents = (props) => {
     });
     return count;
   };
-
+  
   const mandatoryDocumentExists = (el) => {
     let result = false;
     documents.forEach((doc) => {
@@ -233,7 +231,7 @@ const Documents = (props) => {
     });
     return result;
   };
-
+  
   // Function to close the small menus when we click outside
   useOutsideAlerter(documentRef, {
     id: documentId,
@@ -242,10 +240,10 @@ const Documents = (props) => {
       setDocumentOptionsOpen({ id: null, active: false });
     },
   });
-
-
+  
+  
   setTimeout(() => {setIsReady(true)}, 200);
-
+  
   return (
     <>
       {
@@ -441,14 +439,14 @@ const Documents = (props) => {
                                             }
                                           </div>
                                         </div>
-
+                                        
                                         <div className="pos-r dis-fl-row a-c">
                                           <BrixelIcon
                                             className="mr-1"
                                             color={`${(doc.isPrivate === true || doc.isPrivate === 'Private') ? 'red' : 'green'}`}
                                             icon={`${(doc.isPrivate === true || doc.isPrivate === 'Private') ? 'locked' : 'eye'}`}
                                           />
-
+                                          
                                           <BrixelButtonIcon
                                             ghost
                                             theme="dark"
@@ -513,7 +511,7 @@ const Documents = (props) => {
                                     key={`prcDocs_${k.toString()}`}
                                     className="single-document-folder dis-fl-row a-c jc-b p-1 mb-2 brdRadius shadow-1dp"
                                   >
-
+                                    
                                     <div className="name w-perc-100 dis-fl-row a-c pr-1 pr-sm-0">
                                       <div className="icon-container brdRadius dis-f w-fix-40 h-fix-40 jc-c a-c mr-1">
                                         <BrixelIcon
@@ -526,7 +524,7 @@ const Documents = (props) => {
                                       </div>
                                       <div className="dis-fl-col cur-poi" onClick={(e) => openDocument(e, doc.id)}>
                                         <span className="document-title fsize-400 txtDark700 dont-break-out">{doc.name}</span>
-                                        <span className="body2 txtDark200 dont-break-out">{doc.type}</span>
+                                        <span className="body2 txtDark200 dont-break-out">{translateTo(doc.type, lang)}</span>
                                         {
                                           get(doc, 'createdAt', null) ? (
                                             <span className="date body2 txtDark200">
@@ -544,7 +542,7 @@ const Documents = (props) => {
                                         }
                                       </div>
                                     </div>
-
+                                    
                                     <div className="pos-r dis-fl-row a-c">
                                       {
                                         userType !== 'buyer' && (

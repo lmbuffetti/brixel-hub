@@ -1,55 +1,45 @@
 /* eslint-disable array-callback-return */
-/* eslint-disable dot-notation */
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, {
-  useEffect, useState, useRef,
-} from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import get from 'lodash/get';
-import set from 'lodash/set';
-import find from 'lodash/find';
-import has from 'lodash/has';
-import cloneDeep from 'lodash/cloneDeep';
-import forEach from 'lodash/forEach';
-import filter from 'lodash/filter';
-import { DateTime } from 'luxon';
-import {
-  bindActionCreators, compose,
-} from 'redux';
-import {
-  connect,
-} from 'react-redux';
-import getConfigEnv from '@brixel/brixel-components/dist/configuration/Settings';
 import {
   BrixelAvatar,
   BrixelButtonIcon,
   BrixelButtonSecondary,
-  Helpers,
-  FactsOptions,
-  useOutsideAlerter,
   BrixelDropdownMini,
   BrixelIcon,
+  FactsOptions,
+  Helpers,
+  useOutsideAlerter,
 } from '@brixel/brixel-components';
-import translateTo from '../../utils/translation';
+import getConfigEnv from '@brixel/brixel-components/dist/configuration/Settings';
 import { change } from '@brixel/brixel-components/dist/form';
+import cloneDeep from 'lodash/cloneDeep';
+import filter from 'lodash/filter';
+import find from 'lodash/find';
+import forEach from 'lodash/forEach';
+import get from 'lodash/get';
+import has from 'lodash/has';
+import set from 'lodash/set';
+import { DateTime } from 'luxon';
+import PropTypes from 'prop-types';
+/* eslint-disable dot-notation */
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useRef, useState } from 'react';
+import { connect } from 'react-redux';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { bindActionCreators, compose } from 'redux';
 import {
-  getActiveSingleDeal, saveActiveSingleDeal, updateMultipleDeals,
+  getActiveSingleDeal,
+  saveActiveSingleDeal,
   setActiveSingleDeal,
+  updateMultipleDeals,
 } from '../../actions/DealActions';
-import {
-  getNoteListings, setDealNoteListings,
-} from '../../actions/NoteActions';
-import {
-  getHistoryListings, setDealHistoryListings, setDealOwnerHistoryListings,
-} from '../../actions/HistoryActions';
-import {
-  formatPrice,
-} from '../../utils/helpers';
+import { getHistoryListings, setDealHistoryListings, setDealOwnerHistoryListings } from '../../actions/HistoryActions';
+import { getNoteListings, setDealNoteListings } from '../../actions/NoteActions';
 
 // COMPONENTS
 import ProgressBar from '../../components/ProgressBar';
 import Timeline from '../../components/Timeline';
+import { formatPrice } from '../../utils/helpers';
+import translateTo from '../../utils/translation';
 
 const ActionStubs = require('../../resources/Utilities/timelineActionStubs');
 
@@ -558,7 +548,7 @@ const SingleDeal = (props) => {
                             )
                           }
 
-                          <span className="overline mb-3">Offer</span>
+                          <span className="overline mb-3">{translateTo('Offer', lang)}</span>
                           <div className="brdRadius shadow-1dp pos-r dis-fl-col bgWhite p-small-12 w-perc-100">
                             <div className="dis-fl-row jc-b">
                               <div className="dis-f a-c">
