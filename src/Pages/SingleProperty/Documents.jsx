@@ -645,7 +645,7 @@ const Documents = (props) => {
                                             </div>
                                             <div className="dis-fl-col cur-poi" onClick={(e) => openDocument(e, doc.id)}>
                                               <span className="document-title fsize-400 txtDark700 dont-break-out">{doc.name}</span>
-                                              <span className="body2 txtGreen400 dont-break-out">{doc.type}</span>
+                                              <span className="body2 txtGreen400 dont-break-out">{translateTo(doc.type, lang)}</span>
                                               {
                                                 get(doc, 'createdAt', null) ? (
                                                   <span className="date body2 txtDark200">
