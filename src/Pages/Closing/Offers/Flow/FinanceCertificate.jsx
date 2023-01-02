@@ -92,7 +92,7 @@ const FinanceCertificate = (props) => {
             </div>
           ) : (
             <div className="p-5">
-              <p className="txtDark700" dangerouslySetInnerHTML={{ __html: translateTo('No problem.<br /> We suggest checking your financing as soon as possible.', lang)}} />
+              <p className="txtDark700" dangerouslySetInnerHTML={{ __html: translateTo('No problem.<br>We suggest checking your financing as soon as possible.', lang)}} />
               <p className="txtDark700 pt-2">
                 {translateTo('A pre-approved mortgage gets you ahead of unqualified buyers. That\'s how you can get one:', lang)}
               </p>
