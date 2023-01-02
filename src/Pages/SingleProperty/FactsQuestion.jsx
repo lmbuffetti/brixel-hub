@@ -65,7 +65,7 @@ const FactsQuestion = (props) => {
       });
     });
   }, [formValue, lang]);
-  
+
   return (
     <div
       className="questContent"
@@ -80,6 +80,7 @@ const FactsQuestion = (props) => {
       </div>
       
       <MultiFileldsReduxForm
+        lang={lang}
         autofocus={false}
         classNameBox={quest.classNameBox}
         className="singleInput"
