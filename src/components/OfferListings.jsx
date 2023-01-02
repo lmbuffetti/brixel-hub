@@ -1,21 +1,16 @@
 /* eslint-disable array-callback-return */
+import { BrixelAvatar, BrixelStatus, Helpers, ListingsHeaderFilter } from '@brixel/brixel-components';
+import get from 'lodash/get';
+import { DateTime } from 'luxon';
+import PropTypes from 'prop-types';
 /* eslint-disable dot-notation */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { Fragment, useCallback } from 'react';
-import PropTypes from 'prop-types';
-import get from 'lodash/get';
-import {
-  BrixelAvatar,
-  Helpers,
-  BrixelStatus,
-  ListingsHeaderFilter,
-} from '@brixel/brixel-components';
-import translateTo from '../utils/translation';
-import { compose } from 'redux';
-import { DateTime } from 'luxon';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 import emptyOffer from '../images/empty-offer.svg';
 import femaleAvatar from '../images/female-avatar.png';
+import translateTo from '../utils/translation';
 
 const OfferListings = (props) => {
   const {
@@ -38,18 +33,6 @@ const OfferListings = (props) => {
     <>
       <div className="w-perc-100 txtDark700 dealsListings">
         <h3 className="mb-3 hide dis-b-lg">{translateTo('Closing', lang)}</h3>
-        {/* <div className="dis-f">
-          <div className="fixedIcon w-perc-100">
-            <BrixelButtonIcon
-              className="hide-md"
-              icon="arrow-left-small"
-              theme="dark"
-              ghost
-              onClick={() => history.push(`/${propID}/property`)}
-            />
-          </div>
-        </div> */}
-        
         {
           get(data[0], 'deal', null) === 'sample' && (
             <div className="ta-c txtDark700">
@@ -70,10 +53,10 @@ const OfferListings = (props) => {
                 className="users-filter"
                 searchType="Users"
                 labels={[
-                  'Name',
-                  'Amount',
-                  'Date',
-                  'Status',
+                  translateTo('Name', lang),
+                  translateTo('Amount', lang),
+                  translateTo('Date', lang),
+                  translateTo('Status', lang),
                 ]}
                 activeSearchText=""
                 activeSortDirection=""

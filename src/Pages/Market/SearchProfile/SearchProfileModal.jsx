@@ -1,4 +1,4 @@
-import { BrixelModal, BrixelButtonIcon, translateTo } from '@brixel/brixel-components';
+import { BrixelButtonIcon, BrixelModal, translateTo } from '@brixel/brixel-components';
 import { diff } from 'deep-object-diff';
 import get from 'lodash/get';
 import set from 'lodash/set';
@@ -144,7 +144,7 @@ const SearchProfileModal = (props) => {
             isLoading: isSmallLoading.saveData,
           }
         ])
-      case '/buy/searchProfile/create':
+      case '/buy/searchProfile/list/create':
         delete diffForm.changeCountry;
         delete diffForm.location;
         return ([
