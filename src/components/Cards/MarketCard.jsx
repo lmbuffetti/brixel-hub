@@ -997,7 +997,7 @@ const mapStateToProps = (state) => ({
   allProperties: get(state, 'market.allProperties.data', []),
   companyListings: get(state, 'companies.companyListings.data', []),
   estimation: get(state, 'property.estimation', {}),
-  favoritesProperties: get(state, 'market.favoritesProperties.data', []),
+  favoritesProperties: get(state, 'market.wishlistProperties.data', []),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
   lastViewedProperties: get(state, 'market.lastViewedProperties.data', []),
   loggedInUser: get(state, 'user.loggedInUser.user', { }),

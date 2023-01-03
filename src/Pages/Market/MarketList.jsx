@@ -1,26 +1,28 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {
-  useEffect, useState, Suspense,
-} from 'react';
-import PropTypes from 'prop-types';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { BrixelButtonIcon, BrixelButtonPrimary, BrixelButtonText } from '@brixel/brixel-components';
+import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import get from 'lodash/get';
 import set from 'lodash/set';
-import { BrixelButtonIcon, BrixelButtonPrimary, BrixelButtonText } from '@brixel/brixel-components';
-import translateTo from '../../utils/translation';
-import { bindActionCreators, compose } from 'redux';
+import PropTypes from 'prop-types';
+import React, { Suspense, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
-import {
-  getAllProperties, getFavoritesProperties, getLastViewedProperties,
-  getNewProperties, getOwnedProperties, getPremarketProperties,
-  getPremiumProperties, getWishlistProperties,
-} from '../../actions/MarketActions';
-import lazyWithRetry from '../../components/LazyWithRetry';
-import MarketCardMap from '../../components/Cards/MarketCardMap';
-import Pagination from '../../components/Pagination';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { bindActionCreators, compose } from 'redux';
 import { setSplashType, setWindowDimensions } from '../../actions/CommonActions';
+import {
+  getAllProperties,
+  getLastViewedProperties,
+  getNewProperties,
+  getOwnedProperties,
+  getPremarketProperties,
+  getPremiumProperties,
+  getWishlistProperties,
+} from '../../actions/MarketActions';
 import { setActiveMarketOverlayProperty } from '../../actions/PropertyActions';
+import MarketCardMap from '../../components/Cards/MarketCardMap';
+import lazyWithRetry from '../../components/LazyWithRetry';
+import Pagination from '../../components/Pagination';
+import translateTo from '../../utils/translation';
 
 const MarketMap = lazyWithRetry(() => import('./MarketMap'));
 
@@ -34,9 +36,8 @@ const MarketList = (props) => {
   const {
     allProperties,
     companyListings,
-    favoritesProperties,
     handleGetAllProperties,
-    handleGetFavoritesProperties,
+    handleGetwishlistProperties,
     handleGetLastViewedProperties,
     handleGetNewProperties,
     handleGetPreMarketProperties,
@@ -101,7 +102,7 @@ const MarketList = (props) => {
           break;
         }
         case 'favorites': {
-          handleGetFavoritesProperties(data);
+          handleGetwishlistProperties(data);
           break;
         }
         case 'lastViewed': {
@@ -148,7 +149,7 @@ const MarketList = (props) => {
         break;
       }
       case 'favorites': {
-        setPropertyListings(favoritesProperties.data || []);
+        setPropertyListings(wishlistProperties.data || []);
         break;
       }
       case 'lastViewed': {
@@ -175,7 +176,7 @@ const MarketList = (props) => {
         setPropertyListings([]);
     }
   }, [ownerProperties,
-    favoritesProperties,
+    wishlistProperties,
     lastViewedProperties,
     premiumProperties,
     preMarketProperties,
@@ -239,7 +240,7 @@ const MarketList = (props) => {
         return wishlistProperties.total;
       }
       case 'favorites': {
-        return favoritesProperties.total;
+        return wishlistProperties.total;
       }
       case 'lastViewed': {
         return lastViewedProperties.total;
@@ -406,15 +407,14 @@ const MarketList = (props) => {
 MarketList.propTypes = {
   allProperties: PropTypes.object.isRequired,
   companyListings: PropTypes.arrayOf(PropTypes.object).isRequired,
-  favoritesProperties: PropTypes.object.isRequired,
   handleGetAllProperties: PropTypes.func.isRequired,
-  handleGetFavoritesProperties: PropTypes.func.isRequired,
   handleGetLastViewedProperties: PropTypes.func.isRequired,
   handleGetNewProperties: PropTypes.func.isRequired,
   handleGetPreMarketProperties: PropTypes.func.isRequired,
   handleGetPremiumProperties: PropTypes.func.isRequired,
   handleGetSellerProperties: PropTypes.func.isRequired,
   handleGetWishlistProperties: PropTypes.func.isRequired,
+  handleGetwishlistProperties: PropTypes.func.isRequired,
   lang: PropTypes.string.isRequired,
   lastViewedProperties: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
@@ -436,7 +436,6 @@ MarketList.defaultProps = {
 const mapStateToProps = (state) => ({
   allProperties: get(state, 'market.allProperties', {}),
   companyListings: get(state, 'companies.companyListings.data', []),
-  favoritesProperties: get(state, 'market.favoritesProperties', {}),
   lang: get(state, 'common.language', 'en'),
   lastViewedProperties: get(state, 'market.lastViewedProperties', {}),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
@@ -451,7 +450,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   handleGetAllProperties: bindActionCreators(getAllProperties, dispatch),
-  handleGetFavoritesProperties: bindActionCreators(getFavoritesProperties, dispatch),
   handleGetLastViewedProperties: bindActionCreators(getLastViewedProperties, dispatch),
   handleGetNewProperties: bindActionCreators(getNewProperties, dispatch),
   handleGetPreMarketProperties: bindActionCreators(getPremarketProperties, dispatch),
