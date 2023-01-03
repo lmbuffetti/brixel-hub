@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "types": ["google.maps"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "incremental": true,
+    "isolatedModules": true,
+    "jsx": "react",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": false,
+    "outDir": "lib",
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strict": true,
+  },
+  "files": ["src/@types/custom.d.ts"],
+  "include": [
+    "src",
+    "src/@types/custom.d.ts"
+  ]
+}
