@@ -328,7 +328,7 @@ const checkUser = (store) => (next) => (action) => {
         reloadProperties,
       } = action.payload;
       store.dispatch({ type: SPINNER_SMALL, payload: { [`favorite-${id}`]: true } });
-      const favoritesData = cloneDeep(get(store.getState(), 'market.favoritesProperties', {}));
+      const favoritesData = cloneDeep(get(store.getState(), 'market.wishlistProperties', {}));
       const favoritesList = favoritesData.data;
       if (act === 'add') {
         api.user.addFavorite(id, data)
@@ -344,7 +344,7 @@ const checkUser = (store) => (next) => (action) => {
             store.dispatch({ type: SPINNER_SMALL, payload: { [`favorite-${id}`]: false } });
           });
       } else {
-        api.user.removeFavorite(id, data)
+        api.user.removeWishlist(id, data)
           .then(() => {
             if (favoritesList && property) {
               const findIndex = favoritesList.findIndex((fav) => fav.id === property.id);
