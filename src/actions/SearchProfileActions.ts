@@ -1,4 +1,4 @@
-import { createActions } from 'redux-actions';
+import {createActions} from 'redux-actions';
 import {
   CREATE_USER_SEARCH_PROFILE,
   DELETE_USER_SEARCH_PROFILE,

@@ -1,16 +1,16 @@
-import { createActions } from 'redux-actions';
+import {createActions} from 'redux-actions';
 import {
-  ROTATE_IMG,
-  GET_IMAGE_TYPE,
-  SET_IMAGE_TYPE,
-  SET_COVER_PHOTO,
-  UPLOAD_IMG,
-  DELETE_IMG,
-  UPLOAD_DOCUMENT,
-  MULTI_UPLOAD_IMG,
   DELETE_DOCUMENT,
-  UPDATE_DOCUMENT,
+  DELETE_IMG,
+  GET_IMAGE_TYPE,
   MULTI_UPLOAD_DOCUMENT,
+  MULTI_UPLOAD_IMG,
+  ROTATE_IMG,
+  SET_COVER_PHOTO,
+  SET_IMAGE_TYPE,
+  UPDATE_DOCUMENT,
+  UPLOAD_DOCUMENT,
+  UPLOAD_IMG,
 } from './types/UploadTypes';
 
 export const {

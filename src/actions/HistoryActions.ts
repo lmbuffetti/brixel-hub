@@ -1,13 +1,11 @@
-import {
-  createActions,
-} from 'redux-actions';
+import {createActions,} from 'redux-actions';
 import {
   GET_HISTORY_LISTINGS,
+  SET_DEAL_HISTORY_LISTINGS,
+  SET_DEAL_OWNER_HISTORY_LISTINGS,
   SET_PROPERTY_HISTORY_LISTINGS,
   SET_PROPERTY_OWNER_HISTORY_LISTINGS,
   SET_USER_HISTORY_LISTINGS,
-  SET_DEAL_HISTORY_LISTINGS,
-  SET_DEAL_OWNER_HISTORY_LISTINGS,
 } from './types/HistoryTypes';
 
 export const {

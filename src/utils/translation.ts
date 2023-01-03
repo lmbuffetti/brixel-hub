@@ -1,6 +1,6 @@
-import { translateTo } from '@brixel/brixel-components';
+import {translateTo} from '@brixel/brixel-components';
 import get from 'lodash/get';
-import { configureStore } from '../store';
+import {configureStore} from '../store';
 
 const translateToComponent = (word, lang, options) => {
   const store = configureStore;

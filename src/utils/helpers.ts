@@ -2,12 +2,13 @@ import isObject from 'lodash/isObject';
 import Cookies from 'universal-cookie';
 import get from 'lodash/get';
 import isArray from 'lodash/isArray';
-import { isEmptyWithBool } from '@brixel/brixel-components/dist/utils/helper';
+import {isEmptyWithBool} from '@brixel/brixel-components/dist/utils/helper';
 import translateTo from './translation';
 import has from 'lodash/has';
-import { configureStore } from '../store';
-import { InputSheets } from '../resources/SingleProperty/inputSheets';
-import { BestimateQuestions } from '../resources/Flows/Bestimate';
+import {configureStore} from '../store';
+import {InputSheets} from '../resources/SingleProperty/inputSheets';
+import {BestimateQuestions} from '../resources/Flows/Bestimate';
+import {calcPercentageProEstimationType} from '../@types/utils/helpers';
 
 const cookies = new Cookies();
 
@@ -59,18 +60,18 @@ export const calcPercentageFacts = (form = 'Property', value = {}) => {
 export const calcPercentageProEstimation = (form = 'Property', value = {}) => {
   let countTotal = 0;
   let countDone = 0;
-  const questList = [];
+  const questList: calcPercentageProEstimationType['inputs'] = [];
   const formValue = get(configureStore.getState(), `brixelForm[${form}].values`, value);
-  InputSheets('proEstimation').forEach((singleQuest) => {
+  InputSheets('proEstimation').forEach((singleQuest: calcPercentageProEstimationType) => {
     singleQuest.inputs.forEach((input) => {
       if (input.isProEstimation) {
-        let mergeCondition = [];
+        let mergeCondition: calcPercentageProEstimationType['inputs'][0]['condition'][] | calcPercentageProEstimationType['inputs'][0]['condition'] = [];
         if (input.condition && input.condition.name && input.condition.value) {
           mergeCondition = [{ name: input.condition.name, value: input.condition.value }];
         } else if (input.condition && input.condition.name && input.condition.noValue) {
           mergeCondition = [{ name: input.condition.name, noValue: input.condition.noValue }];
         } else if (input.condition) {
-          mergeCondition = input.condition;
+          mergeCondition = [input.condition];
         }
         if (input.proEstimationConditions) {
           mergeCondition = mergeCondition.concat(input.proEstimationConditions);
@@ -171,10 +172,11 @@ export function roundFifty(value) {
 }
 
 export const loadScript = (src) => {
-  const tag = document.createElement('script');
+  const body = document.getElementsByTagName('body') as HTMLCollectionOf<HTMLBodyElement>;
+  const tag = document.createElement('script') as HTMLScriptElement;
   tag.async = false;
   tag.src = src;
-  document.getElementsByTagName('body').appendChild(tag);
+  if (body[0]) body[0].appendChild(tag);
 };
 
 export const formatDistance = (val) => {

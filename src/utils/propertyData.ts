@@ -1,5 +1,5 @@
 // import React from 'react';
-import { FactsOptions } from '@brixel/brixel-components';
+import {FactsOptions} from '@brixel/brixel-components';
 import get from 'lodash/get';
 
 const { factsOptions } = FactsOptions;

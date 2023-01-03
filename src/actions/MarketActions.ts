@@ -1,4 +1,4 @@
-import { createActions } from 'redux-actions';
+import {createActions} from 'redux-actions';
 import {
   GET_ALL_PROPERTIES,
   GET_BUYER_PROPERTIES,

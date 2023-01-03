@@ -1,5 +1,5 @@
 import get from 'lodash/get';
-import { QuestionsList } from '../resources/Flows/onBoardingBuyer';
+import {QuestionsList} from '../resources/Flows/onBoardingBuyer';
 import translateTo from './translation';
 
 export const titleSearchProfile = (formValue, lang) => {
@@ -31,7 +31,7 @@ export const titleSearchProfile = (formValue, lang) => {
   let roomsText = ''
   if (rooms.min > -1 && rooms.min !== rooms.max) roomsText = `${rooms.min || dafualtValRooms.min} - ${rooms.max || dafualtValRooms.max} rooms`;
   else if (rooms.min > -1 && rooms.min === rooms.max) roomsText = `${rooms.min} rooms`;
-  
+
   let locationText = '';
   if (locations) {
     locations.forEach((location, index) => {

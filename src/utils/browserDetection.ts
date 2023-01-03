@@ -1,7 +1,7 @@
 const browserDetection = () => {
   const module = {
     options: [],
-    header: [navigator.platform, navigator.userAgent, navigator.appVersion, navigator.vendor, window.opera],
+    header: [navigator.platform, navigator.userAgent, navigator.appVersion, navigator.vendor],
     dataos: [
       { name: 'Windows Phone', value: 'Windows Phone', version: 'OS' },
       { name: 'Windows', value: 'Win', version: 'NT' },
