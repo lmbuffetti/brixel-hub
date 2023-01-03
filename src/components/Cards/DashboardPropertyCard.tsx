@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+import React from 'react';
 import {
   BrixelButtonPrimary,
   BrixelButtonSecondary,
@@ -9,7 +9,6 @@ import {
 import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
-import React from 'react';
 import { connect } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
@@ -17,8 +16,9 @@ import { setModal, setSplashType } from '../../actions/CommonActions';
 import { completedBestimate } from '../../utils/helpers';
 import translateTo from '../../utils/translation';
 import CoverPropertyImage from '../CoverPropertyImage';
+import type {DashboardPropertyCardProps} from '../../@types/components/Cards/DashboardPropertyCard';
 
-const DashboardPropertyCard = (props) => {
+const DashboardPropertyCard: (props: DashboardPropertyCardProps) => JSX.Element = (props: DashboardPropertyCardProps) => {
   const history = {
     push: useNavigate(),
     location: useLocation(),
@@ -29,8 +29,8 @@ const DashboardPropertyCard = (props) => {
     estimation,
     handleSetModal,
     lang,
-    smallLayout,
-    type,
+    smallLayout = false,
+    type = 'own',
   } = props;
 
   return (
@@ -339,20 +339,6 @@ const DashboardPropertyCard = (props) => {
       </div>
     </>
   );
-};
-
-DashboardPropertyCard.propTypes = {
-  activeSingleProperty: PropTypes.object.isRequired,
-  estimation: PropTypes.object.isRequired,
-  handleSetModal: PropTypes.func.isRequired,
-  lang: PropTypes.string.isRequired,
-  smallLayout: PropTypes.bool,
-  type: PropTypes.string,
-};
-
-DashboardPropertyCard.defaultProps = {
-  smallLayout: false,
-  type: 'own',
 };
 
 const mapStateToProps = (state) => ({
