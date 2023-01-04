@@ -6,3 +6,4 @@ dist
 _accordion.scss
 ./cypress/videos/*
 ./cypress/screenshots/*
+**/.DS_Store
