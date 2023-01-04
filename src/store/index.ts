@@ -1,8 +1,8 @@
 import get from 'lodash/get';
-import { applyMiddleware, compose, createStore } from 'redux';
-import { createLogger } from 'redux-logger';
+import {applyMiddleware, createStore, Middleware} from 'redux';
+import {createLogger} from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
-
+import {composeWithDevTools} from 'redux-devtools-extension';
 // MIDDLEWARES
 import CommonMiddleware from '../middlewares/CommonMiddleware';
 import CompanyMiddleware from '../middlewares/CompanyMiddleware';
@@ -17,10 +17,15 @@ import PropertyMiddleware from '../middlewares/PropertyMiddleware';
 import SearchProfile from '../middlewares/SearchProfileMiddleware';
 import ImageMiddleware from '../middlewares/UploadMiddleware';
 import UserMiddleware from '../middlewares/UserMiddleware';
-import { rootReducer } from '../reducers';
+import {rootReducer} from '../reducers';
 
-const enhancers = [];
-const middlewares = [thunkMiddleware];
+declare let process : {
+  env: {
+    NODE_ENV: string
+  }
+}
+
+const middlewares: Middleware[] = [thunkMiddleware];
 
 const getIfDev = (get(window, 'location.href', '')).split('?');
 
@@ -28,15 +33,17 @@ if (typeof window !== 'undefined' && (process.env.NODE_ENV === 'development' || 
   middlewares.push(createLogger({
     collapsed: true,
     colors: {
-      title: () => "#002bff",
-      prevState: () => "#de6f0d",
-      action: () => "#6e13ab",
-      nextState: () => "#1a9134",
+      title: () => '#002bff',
+      prevState: () => '#de6f0d',
+      action: () => '#6e13ab',
+      nextState: () => '#1a9134',
     },
   }));
 }
 
-const composedEnhancers = compose(
+const composeEnhancers = composeWithDevTools({});
+
+const composedEnhancers = composeEnhancers(
   applyMiddleware(
     ...middlewares,
     CraftCMS,
@@ -53,12 +60,11 @@ const composedEnhancers = compose(
     SearchProfile,
     EstimationMiddleware,
   ),
-  ...enhancers,
 );
 
 export const configureStore = createStore(rootReducer, {}, composedEnhancers);
 const store = createStore(rootReducer);
-
-export const configureStorePreload = (initialValues = {}) => createStore(rootReducer, initialValues, composedEnhancers);
-
 export default store;
+
+export type AppDispatch = typeof store.dispatch;
+export type RootState = typeof configureStore;

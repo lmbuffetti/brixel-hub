@@ -13,8 +13,9 @@ import {
   SET_PREMIUM_PROPERTIES,
   SET_WISHLIST_PROPERTIES,
 } from '../actions/types/MarketTypes';
+import type {MarketReducerType} from '../@types/reducer/MarketReducer';
 
-export const defaultState = {
+export const defaultState: MarketReducerType = {
   allProperties: {},
   buyerProperties: {},
   favoritesProperties: {},
@@ -29,7 +30,7 @@ export const defaultState = {
   wishlistProperties: {},
 };
 
-export default handleActions(
+export default handleActions<MarketReducerType>(
   {
     [SET_ALL_PROPERTIES]: (state, action) => ({
       ...state,

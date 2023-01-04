@@ -64,6 +64,10 @@ export const defaultState: CommonReducerType = {
   wizard: {},
 };
 
+const convertLanguage = (lang) => {
+  return lang === 'en_US' ? 'en' : lang;
+}
+
 export default handleActions<CommonReducerType>(
   {
     [SET_WINDOW_DIMENSIONS]: (state, action) => ({
@@ -99,11 +103,11 @@ export default handleActions<CommonReducerType>(
     }),
     [REQUEST_DONE]: (state, action) => ({
       ...state,
-      requestDone: action.payload,
+      requestDone: Boolean(action.payload),
     }),
     [SET_LANGUAGE]: (state, action) => ({
       ...state,
-      language: action.payload,
+      language: convertLanguage(action.payload),
     }),
     [SET_NOTIFICATION]: (state, action) => ({
       ...state,
@@ -119,7 +123,7 @@ export default handleActions<CommonReducerType>(
     }),
     [PREVENT_EXIT_FROM_SCREEN]: (state, action) => ({
       ...state,
-      preventExitFromScreen: action.payload,
+      preventExitFromScreen: Boolean(action.payload),
     }),
     [SET_UNSAVED_CHANGES_MODAL]: (state, action) => ({
       ...state,
@@ -149,7 +153,7 @@ export default handleActions<CommonReducerType>(
     },
     [SET_SPLASH_TYPE]: (state, action) => ({
       ...state,
-      splashScreenType: action.payload,
+      splashScreenType: action.payload.toString(),
     }),
     [SET_HISTORY]: (state, action) => ({
       ...state,

@@ -9,29 +9,17 @@ export interface CommonReducerType {
   isSmallLoading: object;
   language: string;
   languages: object[],
-  modal: {
-    state: boolean;
-    title: string;
-    body: string;
-    action: object;
-    multiActions: object[];
-  },
-  notification: object[];
+  modal: object,
+  notification: object;
   percentage: number;
   preventExitFromScreen: boolean;
-  redirectTo?: object | null;
+  redirectTo: object | null;
   requestDone: boolean;
-  setPageData?: object | null;
+  setPageData: object | null;
   skeleton: object;
   splashScreenType: string;
   translation: object;
-  unsavedChangesModal: {
-    state: boolean;
-    link: string;
-  },
-  windowDimensions?: {
-    width?: number;
-    height?: number;
-  },
+  unsavedChangesModal: object,
+  windowDimensions: object,
   wizard: object;
 }

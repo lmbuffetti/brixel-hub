@@ -7,8 +7,9 @@ import {
   SET_USER_PROPERTIES,
   SET_USER_TYPES,
 } from '../actions/types/UserTypes';
+import type {UserReducerType} from '../@types/reducer/UserReducer';
 
-export const defaultState = {
+export const defaultState: UserReducerType = {
   userTypes: '',
   loggedInUser: {},
   userSearchProfiles: null,
@@ -17,7 +18,7 @@ export const defaultState = {
   userBuyerProperties: [],
 };
 
-export default handleActions(
+export default handleActions<any>(
   {
     [SET_USER_TYPES]: (state, action) => ({
       ...state,

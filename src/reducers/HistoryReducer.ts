@@ -5,14 +5,15 @@ import {
   SET_PROPERTY_OWNER_HISTORY_LISTINGS,
   SET_USER_HISTORY_LISTINGS,
 } from '../actions/types/HistoryTypes';
+import type {HistoryReducerType} from '../@types/reducer/HistoryReducer';
 
-export const defaultState = {
+export const defaultState: HistoryReducerType = {
   activeSinglePropertyHistory: {},
   activeSingleUserHistory: {},
   activeSinglePropertyOwnerHistory: {},
 };
 
-export default handleActions(
+export default handleActions<HistoryReducerType>(
   {
     [SET_PROPERTY_HISTORY_LISTINGS]: (state, action) => ({
       ...state,
