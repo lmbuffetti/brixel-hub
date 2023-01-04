@@ -41,7 +41,7 @@ const clientConfig = (env) => {
     entry: {
       polyfill: '@babel/polyfill',
       main: [
-        './src/index.jsx',
+        './src/index.tsx',
         './service-worker-brixel.js',
         './src/styles/SCSS/general/main.scss',
       ],
@@ -116,7 +116,7 @@ const clientConfig = (env) => {
           ],
         },
         {
-          test: /\.jsx?/,
+          test: /\.(ts|js)x$/,
           exclude: /node_modules/,
           use: [
             {
