@@ -2,7 +2,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import get from 'lodash/get';
 import set from 'lodash/set';
 
-import { SKELETON_OFF, SKELETON_ON } from '../actions/types/CommonTypes';
+import {SKELETON_OFF, SKELETON_ON} from '../actions/types/CommonTypes';
 import {
   GET_ALL_PROPERTIES,
   GET_BUYER_PROPERTIES,
@@ -28,7 +28,7 @@ import {
   SET_WISHLIST_PROPERTIES,
 } from '../actions/types/MarketTypes';
 
-import { SET_ACTIVE_MARKET_OVERLAY_PROPERTY_LISTS } from '../actions/types/PropertyTypes';
+import {SET_ACTIVE_MARKET_OVERLAY_PROPERTY_LISTS} from '../actions/types/PropertyTypes';
 
 import api from '../controllers/api/config';
 

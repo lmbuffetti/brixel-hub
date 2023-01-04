@@ -1,5 +1,5 @@
 import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
-import { change } from '@brixel/brixel-components/dist/form';
+import {change} from '@brixel/brixel-components/dist/form';
 import cloneDeep from 'lodash/cloneDeep';
 import get from 'lodash/get';
 
@@ -13,12 +13,12 @@ import {
   SPINNER_SMALL,
 } from '../actions/types/CommonTypes';
 
-import { CREATE_ESTIMATION } from '../actions/types/EstimationTypes';
-import { GET_WISHLIST_PROPERTIES, SET_FAVORITES_PROPERTIES } from '../actions/types/MarketTypes';
+import {CREATE_ESTIMATION} from '../actions/types/EstimationTypes';
+import {GET_WISHLIST_PROPERTIES, SET_FAVORITES_PROPERTIES} from '../actions/types/MarketTypes';
 
-import { CREATE_ACTIVE_SINGLE_PROPERTY } from '../actions/types/PropertyTypes';
+import {CREATE_ACTIVE_SINGLE_PROPERTY} from '../actions/types/PropertyTypes';
 
-import { CREATE_USER_SEARCH_PROFILE } from '../actions/types/SearchProfileTypes';
+import {CREATE_USER_SEARCH_PROFILE} from '../actions/types/SearchProfileTypes';
 import {
   ADD_NOT_INTERESTED,
   CHECK_TOKEN,
@@ -39,7 +39,7 @@ import {
 
 import api from '../controllers/api/config';
 
-import { removeCookie, setCookie } from '../utils/helpers';
+import {removeCookie, setCookie} from '../utils/helpers';
 
 const checkUser = (store) => (next) => (action) => {
   switch (action.type) {

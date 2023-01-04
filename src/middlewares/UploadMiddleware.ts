@@ -1,37 +1,30 @@
 /* eslint-disable no-case-declarations */
-import { reset, change } from '@brixel/brixel-components/dist/utils/ReduxForm.Functions';
+import {change, reset} from '@brixel/brixel-components/dist/utils/ReduxForm.Functions';
 import set from 'lodash/set';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import cloneDeep from 'lodash/cloneDeep';
 import isArray from 'lodash/isArray';
 import {
-  ROTATE_IMG,
-  GET_IMAGE_TYPE,
-  SET_IMAGE_TYPE,
-  UPLOAD_IMG,
-  DELETE_IMG,
-  SET_COVER_PHOTO,
-  MULTI_UPLOAD_DOCUMENT,
-  UPLOAD_DOCUMENT,
   DELETE_DOCUMENT,
-  UPDATE_DOCUMENT,
+  DELETE_IMG,
+  GET_IMAGE_TYPE,
+  MULTI_UPLOAD_DOCUMENT,
   MULTI_UPLOAD_IMG,
+  ROTATE_IMG,
+  SET_COVER_PHOTO,
+  SET_IMAGE_TYPE,
+  UPDATE_DOCUMENT,
+  UPLOAD_DOCUMENT,
+  UPLOAD_IMG,
 } from '../actions/types/UploadTypes';
 
-import {
-  SAVE_ACTIVE_SINGLE_PROPERTY,
-} from '../actions/types/PropertyTypes';
+import {SAVE_ACTIVE_SINGLE_PROPERTY,} from '../actions/types/PropertyTypes';
 
 import api from '../controllers/api/config';
-import { SAVE_ACTIVE_SINGLE_USER } from '../actions/types/UserTypes';
-import {
-  SPINNER_ON,
-  SPINNER_OFF,
-  SPINNER_SMALL,
-  REQUEST_DONE,
-} from '../actions/types/CommonTypes';
-import { SAVE_CLOSING_IDENTIFICATION, SAVE_FINANCING_REQUEST, SAVE_MAKE_OFFER } from '../actions/types/DealTypes';
+import {SAVE_ACTIVE_SINGLE_USER} from '../actions/types/UserTypes';
+import {REQUEST_DONE, SPINNER_OFF, SPINNER_ON, SPINNER_SMALL,} from '../actions/types/CommonTypes';
+import {SAVE_CLOSING_IDENTIFICATION, SAVE_FINANCING_REQUEST, SAVE_MAKE_OFFER} from '../actions/types/DealTypes';
 
 const checkCommon = (store) => (next) => (action) => {
   switch (action.type) {

@@ -1,5 +1,5 @@
 /* eslint-disable no-case-declarations */
-import { change } from '@brixel/brixel-components/dist/form';
+import {change} from '@brixel/brixel-components/dist/form';
 import cloneDeep from 'lodash/cloneDeep';
 import filter from 'lodash/filter';
 import findIndex from 'lodash/findIndex';
@@ -17,8 +17,8 @@ import {
   SPINNER_SMALL,
 } from '../actions/types/CommonTypes';
 
-import { CREATE_ESTIMATION, SEND_PROESTIMATION_NOTIFICATION } from '../actions/types/EstimationTypes';
-import { SET_OWNED_PROPERTIES } from '../actions/types/MarketTypes';
+import {CREATE_ESTIMATION, SEND_PROESTIMATION_NOTIFICATION} from '../actions/types/EstimationTypes';
+import {SET_OWNED_PROPERTIES} from '../actions/types/MarketTypes';
 import {
   CREATE_ACTIVE_SINGLE_PROPERTY,
   CREATE_PROPERTY_VISIT_BOOKING,
@@ -47,7 +47,7 @@ import {
   UPDATE_PORTALS_REVIEW,
   UPDATE_PUBLISHED_REVIEW,
 } from '../actions/types/PropertyTypes';
-import { SAVE_ACTIVE_SINGLE_USER } from '../actions/types/UserTypes';
+import {SAVE_ACTIVE_SINGLE_USER} from '../actions/types/UserTypes';
 
 import api from '../controllers/api/config';
 

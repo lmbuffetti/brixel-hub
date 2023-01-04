@@ -4,7 +4,7 @@ import has from 'lodash/has';
 
 import set from 'lodash/set';
 
-import { SPINNER_OFF, SPINNER_ON, SPINNER_SMALL } from '../actions/types/CommonTypes';
+import {SPINNER_OFF, SPINNER_ON, SPINNER_SMALL} from '../actions/types/CommonTypes';
 
 import {
   GET_HISTORY_LISTINGS,

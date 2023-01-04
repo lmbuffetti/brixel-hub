@@ -1,15 +1,8 @@
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
-import {
-  SPINNER_ON,
-  SPINNER_OFF,
-  SPINNER_SMALL,
-} from '../actions/types/CommonTypes';
+import {SPINNER_OFF, SPINNER_ON, SPINNER_SMALL,} from '../actions/types/CommonTypes';
 
-import {
-  SET_CONTENT,
-  GET_CONTENT,
-} from '../actions/types/CraftCMS';
+import {GET_CONTENT, SET_CONTENT,} from '../actions/types/CraftCMS';
 
 import api from '../controllers/api/graphql';
 

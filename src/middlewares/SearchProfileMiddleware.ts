@@ -15,7 +15,7 @@ import {
   SET_USER_SEARCH_PROFILES,
   UPDATE_USER_SEARCH_PROFILE,
 } from '../actions/types/SearchProfileTypes';
-import { SAVE_ACTIVE_SINGLE_USER } from '../actions/types/UserTypes';
+import {SAVE_ACTIVE_SINGLE_USER} from '../actions/types/UserTypes';
 
 import api from '../controllers/api/config';
 

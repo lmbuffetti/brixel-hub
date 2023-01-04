@@ -3,17 +3,13 @@ import cloneDeep from 'lodash/cloneDeep';
 import {
   CREATE_NOTE,
   GET_NOTE_LISTINGS,
-  SET_USER_NOTE_LISTINGS,
-  SET_PROPERTY_NOTE_LISTINGS,
-  SET_DEAL_NOTE_LISTINGS,
   SAVE_ACTIVE_SINGLE_NOTE,
+  SET_DEAL_NOTE_LISTINGS,
+  SET_PROPERTY_NOTE_LISTINGS,
+  SET_USER_NOTE_LISTINGS,
 } from '../actions/types/NoteTypes';
 
-import {
-  SPINNER_ON,
-  SPINNER_OFF,
-  SET_SCREEN_NOTIFICATION, SPINNER_SMALL,
-} from '../actions/types/CommonTypes';
+import {SET_SCREEN_NOTIFICATION, SPINNER_OFF, SPINNER_ON, SPINNER_SMALL,} from '../actions/types/CommonTypes';
 
 import api from '../controllers/api/config';
 
