@@ -342,6 +342,15 @@ const checkUser = (store) => (next) => (action) => {
             }
             // store.dispatch({ type: GET_FAVORITES_PROPERTIES, payload: favParams });
             store.dispatch({ type: SPINNER_SMALL, payload: { [`favorite-${id}`]: false } });
+            store.dispatch({
+              type: SET_SCREEN_NOTIFICATION,
+              payload: {
+                icon: 'favorite-fill',
+                state: true,
+                label: 'Added to saved properties',
+                type: 'done',
+              },
+            })
           });
       } else {
         api.user.removeWishlist(id, data)
@@ -355,6 +364,15 @@ const checkUser = (store) => (next) => (action) => {
               store.dispatch({ type: GET_WISHLIST_PROPERTIES, payload: favoritesData });
             }
             store.dispatch({ type: SPINNER_SMALL, payload: { [`favorite-${id}`]: false } });
+            store.dispatch({
+              type: SET_SCREEN_NOTIFICATION,
+              payload: {
+                icon: 'favorite-fill',
+                state: true,
+                label: 'Removed from saved properties',
+                type: 'done',
+              },
+            })
           });
       }
       break;
