@@ -16,6 +16,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
 import { bindActionCreators, compose } from 'redux';
 import { setModal } from '../../actions/CommonActions';
+import { updateFavorite } from '../../actions/UserActions';
 import api from '../../controllers/api/config';
 import ModalPropertyCard from '../../Pages/Market/Buyer/ModalPropertyCard';
 import translateTo from '../../utils/translation';
@@ -30,12 +31,16 @@ const MarketCardFavorites = (props) => {
   const {
     activeSingleProperty,
     handleSetModal,
+    handleUpdateFavorites,
+    isSmallLoading,
     lang,
+    loggedInUser,
   } = props;
   const [dealDetail, setDealDetail] = useState(null);
   const [offerDetail, setOfferDetail] = useState({});
   const [activeSlide, setActiveSlide] = useState(0);
   const [showSlideData, setShowSlideData] = useState(false);
+  const [isUnFavorite, setIsUnFavorite] = useState(false);
 
   const settingSlider = {
     speed: 500,
@@ -70,13 +75,17 @@ const MarketCardFavorites = (props) => {
   }, [dealDetail]);
 
   const slideImg = (e, act, slideIndex = 0) => {
-    if (e) e.stopPropagation();
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     if (imgSlide) {
       const slide = imgSlide.current;
       if (act === 'next') slide.slickNext();
       if (act === 'prev') slide.slickPrev();
       if (act === 'goTo') slide.slickGoTo(slideIndex);
     }
+    return false;
   }
 
   const onOpenCard = () => {
@@ -99,6 +108,24 @@ const MarketCardFavorites = (props) => {
     } else {
       history.push(`/buyer/${activeSingleProperty.id}/home`);
     }
+  }
+  
+  const onChangeFavorite = () => {
+    setIsUnFavorite(!isUnFavorite);
+    let data = {
+      act: 'remove',
+      id: activeSingleProperty.id,
+      property: activeSingleProperty,
+      data: {
+        email: get(loggedInUser, 'email', ''),
+        language: loggedInUser.lang,
+      },
+    };
+    if (isUnFavorite) {
+      data.act = 'add';
+    }
+    handleUpdateFavorites(data);
+    handleSetModal({ state: false });
   }
 
   const isPreMarket = () => get(activeSingleProperty, 'tags', []).includes('pre-market');
@@ -123,7 +150,7 @@ const MarketCardFavorites = (props) => {
           }
 
           {
-            get(activeSingleProperty, 'photos', []).length > 0 && dealDetail ? (
+            get(activeSingleProperty, 'photos', []).length > 1 && dealDetail ? (
               <div
                 className="h-perc-100 scaleFix"
                 /* onClick={() => onOpenCard()} */
@@ -241,9 +268,11 @@ const MarketCardFavorites = (props) => {
                   )
                 }
                 <BrixelIcon
+                  isLoading={isSmallLoading[`favorite-${activeSingleProperty.id}`]}
                   className="ml-2"
                   color="red"
-                  icon="favorite-fill"
+                  icon={!isUnFavorite ? 'favorite-fill' : 'favorite'}
+                  onClick={() => onChangeFavorite()}
                 />
               </div>
             </div>
@@ -310,7 +339,7 @@ const MarketCardFavorites = (props) => {
                     rounded
                     label={translateTo('Make an offer', lang)}
                     isLoading={!dealDetail.id}
-                    onClick={() => history.push(`/packageFlow/${activeSingleProperty.id}/makeOffer/priceInfo`)}
+                    onClick={() => history.push(`/packageFlow/${activeSingleProperty.id}/makeOffer/priceInfo?url=${history.location.pathname}`)}
                   />
                 )
               }
@@ -335,15 +364,21 @@ const MarketCardFavorites = (props) => {
 MarketCardFavorites.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
   handleSetModal: PropTypes.func.isRequired,
+  handleUpdateFavorites: PropTypes.func.isRequired,
+  isSmallLoading: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
+  loggedInUser: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
+  isSmallLoading: get(state, 'common.isSmallLoading', {}),
+  loggedInUser: get(state, 'user.loggedInUser.user', { }),
   wishlistProperties: get(state, 'market.wishlistProperties.data', []),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   handleSetModal: bindActionCreators(setModal, dispatch),
+  handleUpdateFavorites: bindActionCreators(updateFavorite, dispatch),
 });
 
 export default compose(

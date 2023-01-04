@@ -16,7 +16,7 @@ import CardImageText from '../Skeleton/CardImageText';
 const MarketCardMap = (props) => {
   // PROPS
   const {
-    favoritesProperties,
+    wishlistProperties,
     handleUpdateFavorites,
     isSmallLoading,
     item,
@@ -30,7 +30,7 @@ const MarketCardMap = (props) => {
   // STATE
   const [coverImgLoaded, setCoverImgLoaded] = useState(false);
   const [removeSkeleton, setRemoveSkeleton] = useState(false);
-  // const [optionsOpen, setOptionsOpen] = useState(false);
+  const [isUnFavorite, setIsUnFavorite] = useState(false);
 
   // TODO: Based on "type" prop, sent by the category, open each property on buyer dashboard/seller dashboard/page, etc.
   useEffect(() => {
@@ -40,7 +40,7 @@ const MarketCardMap = (props) => {
   }, [skeleton, coverImgLoaded]);
 
   const checkFavorite = () => {
-    const findIndex = favoritesProperties.findIndex((prop) => prop.id === item.id);
+    const findIndex = wishlistProperties.findIndex((prop) => prop.id === item.id);
     return findIndex > -1;
   };
 
@@ -99,15 +99,19 @@ const MarketCardMap = (props) => {
   };
 
   const onChangeFavorite = () => {
-    const data = {
-      act: checkFavorite() ? 'remove' : 'add',
+    setIsUnFavorite(!isUnFavorite);
+    let data = {
+      act: 'remove',
       id: item.id,
-      property: item,
+      property: item.id,
       data: {
         email: get(loggedInUser, 'email', ''),
         language: loggedInUser.lang,
       },
     };
+    if (isUnFavorite) {
+      data.act = 'add';
+    }
     handleUpdateFavorites(data);
   };
 
@@ -181,7 +185,7 @@ const MarketCardMap = (props) => {
                   theme="red"
                   small
                   ghost
-                  icon={checkFavorite() ? 'favorite-fill' : 'favorite'}
+                  icon={checkFavorite() && !isUnFavorite ? 'favorite-fill' : 'favorite'}
                   onClick={() => onChangeFavorite()}
                   isLoading={isSmallLoading === `favorite-${item.id}`}
                 />
@@ -240,7 +244,7 @@ const MarketCardMap = (props) => {
 };
 
 MarketCardMap.propTypes = {
-  favoritesProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
+  wishlistProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
   handleUpdateFavorites: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   item: PropTypes.object.isRequired,
@@ -257,7 +261,7 @@ MarketCardMap.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  favoritesProperties: get(state, 'market.favoritesProperties.data', []),
+  wishlistProperties: get(state, 'market.wishlistProperties.data', []),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
   loggedInUser: get(state, 'user.loggedInUser.user', { }),
   skeleton: get(state, 'common.skeleton', {}),

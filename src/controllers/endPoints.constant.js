@@ -101,6 +101,7 @@ export default {
     recoverPassword: (email) => `/user/recoverPassword/${email}`,
     removeAsNotInterested: (pageId) => `/user/notInterested/page/${pageId}/remove`,
     removeFavorite: (id) => `/user/favorite/page/${id}/remove`,
+    removeWishlist: (id) => `/user/wishlist/page/${id}/remove`,
     scanTrial: () => '/user/scanTrial',
     userById: (userId) => `/user/${userId}`,
     userByToken: () => '/user/',

@@ -1,41 +1,35 @@
 // @collapse
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, {
-  useEffect, useState, Suspense,
-} from 'react';
-import {
-  Routes, Route, useLocation, useNavigate, useParams,
-} from 'react-router-dom';
-import PropTypes from 'prop-types';
+import { change, initializeForm, reset } from '@brixel/brixel-components/dist/form';
+import { diff } from 'deep-object-diff';
+import cloneDeep from 'lodash/cloneDeep';
+import find from 'lodash/find';
 import get from 'lodash/get';
+import has from 'lodash/has';
 import isObject from 'lodash/isObject';
 import omit from 'lodash/omit';
-import { bindActionCreators, compose } from 'redux';
-import { connect } from 'react-redux';
-import cloneDeep from 'lodash/cloneDeep';
 import set from 'lodash/set';
-import find from 'lodash/find';
-import { diff } from 'deep-object-diff';
-import has from 'lodash/has';
-import { change, initializeForm, reset } from '@brixel/brixel-components/dist/form';
-import { setUserTypes } from '../../../actions/UserActions';
-import lazyWithRetry from '../../../components/LazyWithRetry';
+import PropTypes from 'prop-types';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { Suspense, useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import { Navigate, Route, Routes, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { bindActionCreators, compose } from 'redux';
+import { setModal, setPageData, setScreenNotification, spinnerOff, spinnerOn } from '../../../actions/CommonActions';
+import { getActiveSingleCompany } from '../../../actions/CompanyActions';
 import {
-  getPropertyListings,
-  getActiveSingleProperty,
-  saveActiveSingleProperty,
-  getActiveSinglePropertyBookings,
-  savePropertyVisitSchedule,
   createPropertyVisitSchedule,
-  savePropertyVisitBooking,
+  getActiveSingleProperty,
+  getActiveSinglePropertyBookings,
   getEstimation,
   getPackageProperty,
+  getPropertyListings,
+  saveActiveSingleProperty,
+  savePropertyVisitBooking,
+  savePropertyVisitSchedule,
 } from '../../../actions/PropertyActions';
-import { deleteDocument, uploadDocument, getImageType } from '../../../actions/UploadActions';
-import {
-  setModal, setPageData, setScreenNotification, spinnerOff, spinnerOn,
-} from '../../../actions/CommonActions';
-import { getActiveSingleCompany } from '../../../actions/CompanyActions';
+import { deleteDocument, getImageType, uploadDocument } from '../../../actions/UploadActions';
+import { setUserTypes } from '../../../actions/UserActions';
+import lazyWithRetry from '../../../components/LazyWithRetry';
 import { calcPercentageFacts } from '../../../utils/helpers';
 
 import SellerSidebar from './SellerSidebar';
@@ -345,12 +339,13 @@ const Dashboard = (props) => {
               <Route path="/home" element={<DashboardHome onProgressStep={(step) => setProgressStep(step)} />} />
               <Route path="/property/*" element={<PropertyDashboard />} />
               <Route path="/docubox/*" element={<Documents />} />
-              <Route path="/marketing/*" element={<MarketingDashboard />} />
+              <Route path="/marketing" element={<MarketingDashboard />} />
               <Route path="/prospects/*" element={<Deals />} />
               <Route path="/closing/*" element={<DashboardOffer />} />
               <Route path="/upgrade/*" element={<Upgrade />} />
               <Route path="/trialRequest/*" element={<ScanTrialFlow />} />
               <Route path="/no-property" element={<EmptyProperty />} />
+              <Route path="*" element={<Navigate to={`/${propID}/home`} />} />
             </Routes>
           </Suspense>
         </div>

@@ -14,7 +14,7 @@ import {
 } from '../actions/types/CommonTypes';
 
 import { CREATE_ESTIMATION } from '../actions/types/EstimationTypes';
-import { SET_FAVORITES_PROPERTIES } from '../actions/types/MarketTypes';
+import { GET_WISHLIST_PROPERTIES, SET_FAVORITES_PROPERTIES } from '../actions/types/MarketTypes';
 
 import { CREATE_ACTIVE_SINGLE_PROPERTY } from '../actions/types/PropertyTypes';
 
@@ -321,10 +321,14 @@ const checkUser = (store) => (next) => (action) => {
     case UPDATE_FAVORITE: {
       next(action);
       const {
-        id, data, act, property,
+        act,
+        data,
+        id,
+        property,
+        reloadProperties,
       } = action.payload;
       store.dispatch({ type: SPINNER_SMALL, payload: { [`favorite-${id}`]: true } });
-      const favoritesData = cloneDeep(get(store.getState(), 'market.favoritesProperties', {}));
+      const favoritesData = cloneDeep(get(store.getState(), 'market.wishlistProperties', {}));
       const favoritesList = favoritesData.data;
       if (act === 'add') {
         api.user.addFavorite(id, data)
@@ -333,16 +337,22 @@ const checkUser = (store) => (next) => (action) => {
               favoritesList.unshift(property);
               store.dispatch({ type: SET_FAVORITES_PROPERTIES, payload: favoritesData });
             }
+            if (reloadProperties) {
+              store.dispatch({ type: GET_WISHLIST_PROPERTIES, payload: favoritesData });
+            }
             // store.dispatch({ type: GET_FAVORITES_PROPERTIES, payload: favParams });
             store.dispatch({ type: SPINNER_SMALL, payload: { [`favorite-${id}`]: false } });
           });
       } else {
-        api.user.removeFavorite(id, data)
+        api.user.removeWishlist(id, data)
           .then(() => {
             if (favoritesList && property) {
               const findIndex = favoritesList.findIndex((fav) => fav.id === property.id);
               favoritesList.splice(findIndex, 1);
               store.dispatch({ type: SET_FAVORITES_PROPERTIES, payload: favoritesData });
+            }
+            if (reloadProperties) {
+              store.dispatch({ type: GET_WISHLIST_PROPERTIES, payload: favoritesData });
             }
             store.dispatch({ type: SPINNER_SMALL, payload: { [`favorite-${id}`]: false } });
           });
