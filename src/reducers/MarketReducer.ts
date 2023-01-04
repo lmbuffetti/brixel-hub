@@ -1,4 +1,4 @@
-import { handleActions } from 'redux-actions';
+import {handleActions} from 'redux-actions';
 import {
   SET_ALL_PROPERTIES,
   SET_BUYER_PROPERTIES,

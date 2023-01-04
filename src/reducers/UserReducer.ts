@@ -1,6 +1,6 @@
-import { handleActions } from 'redux-actions';
+import {handleActions} from 'redux-actions';
 
-import { SET_USER_ACTIVE_SEARCH_PROFILE, SET_USER_SEARCH_PROFILES } from '../actions/types/SearchProfileTypes';
+import {SET_USER_ACTIVE_SEARCH_PROFILE, SET_USER_SEARCH_PROFILES} from '../actions/types/SearchProfileTypes';
 import {
   SET_LOGGED_IN_USER,
   SET_USER_PAGES_DEALS,

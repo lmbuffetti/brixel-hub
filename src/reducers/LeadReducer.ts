@@ -1,9 +1,5 @@
-import {
-  handleActions,
-} from 'redux-actions';
-import {
-  SET_GLOBAL_LEAD_LISTINGS,
-} from '../actions/types/LeadTypes';
+import {handleActions,} from 'redux-actions';
+import {SET_GLOBAL_LEAD_LISTINGS,} from '../actions/types/LeadTypes';
 
 export const defaultState = {
   globalListings: {

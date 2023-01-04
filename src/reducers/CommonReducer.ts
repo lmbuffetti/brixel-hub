@@ -1,7 +1,8 @@
-import { countryList } from '@brixel/brixel-components';
+import {countryList} from '@brixel/brixel-components';
 import getConfigEnv from '@brixel/brixel-components/dist/configuration/Settings';
-import { handleActions } from 'redux-actions';
+import {handleActions} from 'redux-actions';
 import Cookies from 'universal-cookie';
+import type {CommonReducerType} from '../@types/reducer/CommonReducer';
 
 import {
   PREVENT_EXIT_FROM_SCREEN,
@@ -30,7 +31,7 @@ import {
 
 const cookie = new Cookies();
 
-export const defaultState = {
+export const defaultState: CommonReducerType = {
   configUrl: getConfigEnv,
   country: countryList,
   errorMsg: {},
@@ -57,13 +58,13 @@ export const defaultState = {
     state: false, link: '',
   },
   windowDimensions: {
-    width: window.innerWidth,
-    height: window.innerHeight,
+    width: typeof window !== 'undefined' ? window.innerWidth : 0,
+    height: typeof window !== 'undefined' ? window.innerHeight : 0,
   },
   wizard: {},
 };
 
-export default handleActions(
+export default handleActions<CommonReducerType>(
   {
     [SET_WINDOW_DIMENSIONS]: (state, action) => ({
       ...state,
@@ -102,7 +103,7 @@ export default handleActions(
     }),
     [SET_LANGUAGE]: (state, action) => ({
       ...state,
-      language: action.payload === 'en_US' ? 'en' : action.payload,
+      language: action.payload,
     }),
     [SET_NOTIFICATION]: (state, action) => ({
       ...state,

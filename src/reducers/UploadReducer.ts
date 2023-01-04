@@ -1,7 +1,5 @@
-import { handleActions } from 'redux-actions';
-import {
-  SET_IMAGE_TYPE,
-} from '../actions/types/UploadTypes';
+import {handleActions} from 'redux-actions';
+import {SET_IMAGE_TYPE,} from '../actions/types/UploadTypes';
 
 export const defaultState = {
   imageType: [],

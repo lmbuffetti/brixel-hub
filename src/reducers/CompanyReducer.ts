@@ -1,4 +1,4 @@
-import { handleActions } from 'redux-actions';
+import {handleActions} from 'redux-actions';
 
 import {
   SET_ACTIVE_SINGLE_COMPANY,

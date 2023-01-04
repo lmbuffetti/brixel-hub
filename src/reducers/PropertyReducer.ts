@@ -1,4 +1,4 @@
-import { handleActions } from 'redux-actions';
+import {handleActions} from 'redux-actions';
 import {
   SET_ACTIVE_MARKET_OVERLAY_PROPERTY,
   SET_ACTIVE_MARKET_OVERLAY_PROPERTY_LISTS,
@@ -8,16 +8,13 @@ import {
   SET_ACTIVE_SINGLE_PROPERTY_BOOKINGS_SLOTS,
   SET_ACTIVE_SINGLE_PROPERTY_DEALS_COUNT,
   SET_ESTIMATION,
-  SET_PACKAGES_PROPERTY,
   SET_PACKAGE_PROPERTY,
+  SET_PACKAGES_PROPERTY,
   SET_PAGE_DEALS,
   SET_PROPERTY_LISTINGS,
 } from '../actions/types/PropertyTypes';
 
-import {
-  SET_PROPERTY_HISTORY_LISTINGS,
-  SET_PROPERTY_OWNER_HISTORY_LISTINGS,
-} from '../actions/types/HistoryTypes';
+import {SET_PROPERTY_HISTORY_LISTINGS, SET_PROPERTY_OWNER_HISTORY_LISTINGS,} from '../actions/types/HistoryTypes';
 
 export const defaultState = {
   activeMarketOverlayProperty: {},
