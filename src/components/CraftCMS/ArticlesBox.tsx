@@ -1,12 +1,12 @@
 import get from 'lodash/get';
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
+import {useLocation, useNavigate} from 'react-router-dom';
 import api from '../../controllers/api/graphql';
-import { transformInternalLink } from '../../utils/helpers';
+import {transformInternalLink} from '../../utils/helpers';
 import ContentCard from './ContentCard';
+import type {ArticlePlacementType, ArticlesBoxPropsType} from '../../@types/components/CraftCMS/ArticlesBox';
 
-const ArticlesBox = (props) => {
+const ArticlesBox = (props: ArticlesBoxPropsType) => {
   const history = {
     push: useNavigate(),
     location: useLocation(),
@@ -19,7 +19,7 @@ const ArticlesBox = (props) => {
     className,
   } = props;
 
-  const [placement, setPlacement] = useState([]);
+  const [placement, setPlacement] = useState<ArticlePlacementType>({});
   const [articles, setArticles] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -29,7 +29,7 @@ const ArticlesBox = (props) => {
         placementSlug,
         partner: activeSingleCompany.type !== 'partner' ? 'brixel' : activeSingleCompany.stub,
         language: lang,
-        queryType: 'articles'
+        queryType: 'articles',
       };
       api.craftCMS.getHubContent(data)
         .then((res) => {
@@ -86,7 +86,7 @@ const ArticlesBox = (props) => {
                 }
                 <div className="div">
                   {
-                    get(placement, 'logo[0]', null) && (
+                    placement.logo && get(placement, 'logo[0]', null) && (
                       <img loading="lazy" className="h-fix-20 h-fix-lg-24" src={placement.logo[0].url} alt={placement.logo[0].alt} />
                     )
                   }
@@ -130,7 +130,7 @@ const ArticlesBox = (props) => {
                 articles.map((card) => (
                   <ContentCard
                     key={ get(card, 'id', '') }
-                    image={ get(card, 'mainImage[0]', null) }
+                    image={ get(card, 'mainImage[0]', undefined) }
                     title={ get(card, 'cardTitle', '') }
                     previewCopy={ get(card, 'previewCopy', '') }
                     hrefUrl={ get(card, 'cardLink.url', '') }
@@ -146,14 +146,6 @@ const ArticlesBox = (props) => {
       </div>
     </div>
   );
-};
-
-ArticlesBox.propTypes = {
-  activeSingleCompany: PropTypes.object.isRequired,
-  activeSingleProperty: PropTypes.object.isRequired,
-  lang: PropTypes.string.isRequired,
-  placementSlug: PropTypes.string.isRequired,
-  className: PropTypes.string,
 };
 
 export default ArticlesBox;

@@ -1,9 +1,9 @@
-import { BrixelButtonText } from '@brixel/brixel-components';
+import {BrixelButtonText} from '@brixel/brixel-components';
 import React from 'react';
-import PropTypes from 'prop-types';
 import get from 'lodash/get';
+import type {ContentCardType} from '../../@types/components/CraftCMS/ContentCard';
 
-const ContentCard = (props) => {
+const ContentCard = (props: ContentCardType) => {
   const {
     hrefOnClick,
     hrefTarget,
@@ -17,7 +17,7 @@ const ContentCard = (props) => {
   return (
     <div className="mb-3 mb-sm-0">
       {
-        get(image, 'url', null) && (
+        image && get(image, 'url', null) && (
           <a href={hrefUrl}
             className="dis-f ov-h a-b cur-poi"
             target="_blank" rel="noreferrer"
@@ -40,15 +40,4 @@ const ContentCard = (props) => {
     </div>
   );
 };
-
-ContentCard.propTypes = {
-  hrefOnClick: PropTypes.func.isRequired,
-  hrefTarget: PropTypes.string.isRequired,
-  hrefTitle: PropTypes.string.isRequired,
-  hrefUrl: PropTypes.string.isRequired,
-  image: PropTypes.object.isRequired,
-  previewCopy: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-};
-
 export default ContentCard;

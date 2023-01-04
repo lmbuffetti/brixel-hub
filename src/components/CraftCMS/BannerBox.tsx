@@ -1,14 +1,14 @@
-import { BrixelButtonSecondary } from '@brixel/brixel-components';
+import {BrixelButtonSecondary} from '@brixel/brixel-components';
 import get from 'lodash/get';
-import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { compose } from 'redux';
+import React, {useEffect, useState} from 'react';
+import {connect} from 'react-redux';
+import {useLocation, useNavigate} from 'react-router-dom';
+import {compose} from 'redux';
 import api from '../../controllers/api/graphql';
-import { transformInternalLink } from '../../utils/helpers';
+import {transformInternalLink} from '../../utils/helpers';
+import type {BannerBoxType, BannerStateType} from '../../@types/components/CraftCMS/BannerBox';
 
-const BannerBox = (props) => {
+const BannerBox = (props: BannerBoxType) => {
   const history = {
     push: useNavigate(),
     location: useLocation(),
@@ -22,7 +22,7 @@ const BannerBox = (props) => {
     title,
   } = props;
 
-  const [banner, setBanner] = useState([]);
+  const [banner, setBanner] = useState<BannerStateType>({});
 
   useEffect(() => {
     if (activeSingleCompany.stub) {
@@ -30,13 +30,16 @@ const BannerBox = (props) => {
         bannerSlug: placementSlug,
         partner: activeSingleCompany.type !== 'partner' ? 'brixel' : activeSingleCompany.stub,
         language: lang,
-        queryType: 'banners'
+        queryType: 'banners',
       };
       api.craftCMS.getHubContent(data)
         .then((res) => {
           setBanner(get(res, 'data.data.bannersEntries[0]', {}))
         })
-        .catch(() => {});
+        .catch((error) => {
+          // eslint-disable-next-line no-console
+          console.error(error);
+        });
     }
   }, [activeSingleCompany, lang]);
 
@@ -67,8 +70,8 @@ const BannerBox = (props) => {
               get(banner, 'bannerButton.text', null) && get(banner, 'bannerButton.url', null) && (
                 <BrixelButtonSecondary
                   rounded
-                  onClick={() => onClickBanner(banner.bannerButton.url)}
-                  label={banner.bannerButton.text}
+                  onClick={() => onClickBanner(get(banner, 'bannerButton.url', ''))}
+                  label={get(banner, 'bannerButton.text', '')}
                 />
               )
             }
@@ -76,7 +79,7 @@ const BannerBox = (props) => {
           {
             get(banner, 'mainImage[0].url', null) && (
               <div className='ml-0 ml-sm-4 px-2 pb-1 pb-sm-0 p-sm-0 dis-f a-c jc-sm-fe'>
-                <img loading="lazy" className="w-fix-120" src={get(banner, 'mainImage[0].url', '')} alt={banner.mainImage[0].alt} />
+                <img loading="lazy" className="w-fix-120" src={get(banner, 'mainImage[0].url', '')} alt={get(banner, 'mainImage[0].alt', '')} />
               </div>
             )
           }
@@ -84,7 +87,7 @@ const BannerBox = (props) => {
         {
           get(banner, 'logo[0].url', null) && (
             <div className="pos-a-fix x-r-2 x-t-2 w-fix-72">
-              <img loading="lazy" src={banner.logo[0].url} alt={banner.logo[0].alt} />
+              <img loading="lazy" src={get(banner, 'logo[0].url', '')} alt={get(banner, 'logo[0].alt', '')} />
             </div>
           )
         }
@@ -92,19 +95,6 @@ const BannerBox = (props) => {
     </div>
   );
 };
-
-BannerBox.propTypes = {
-  activeSingleCompany: PropTypes.object.isRequired,
-  activeSingleProperty: PropTypes.object.isRequired,
-  className: PropTypes.string.isRequired,
-  lang: PropTypes.string.isRequired,
-  placementSlug: PropTypes.string.isRequired,
-  title: PropTypes.string,
-};
-
-BannerBox.defaultProps = {
-  title: null,
-}
 
 const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),

@@ -2,16 +2,16 @@ import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
 import {
   REQUEST_DONE,
-  SPINNER_ON,
-  SPINNER_OFF,
-  SET_SAVED_SCREEN,
-  SET_NOTIFICATION,
-  SET_SCREEN_NOTIFICATION,
   SEND_MESSAGE,
-  SEND_SUPPORT_MESSAGE,
-  SPINNER_SMALL,
-  SEND_SLACK_NOTIFICATION,
   SEND_MESSAGE_CONTACT,
+  SEND_SLACK_NOTIFICATION,
+  SEND_SUPPORT_MESSAGE,
+  SET_NOTIFICATION,
+  SET_SAVED_SCREEN,
+  SET_SCREEN_NOTIFICATION,
+  SPINNER_OFF,
+  SPINNER_ON,
+  SPINNER_SMALL,
 } from '../actions/types/CommonTypes';
 
 import api from '../controllers/api/config';
