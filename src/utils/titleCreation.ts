@@ -1,4 +1,3 @@
-/* global Transifex */
 import get from 'lodash/get';
 import {FormatValue} from '@brixel/brixel-components';
 import translateTo from './translation';
@@ -142,7 +141,7 @@ const houseAdjective = {
     'Sophistiqué',
     'Moderne',
     'Incroyable',
-  ]
+  ],
 };
 
 const builadingLandAdjective = {
@@ -203,7 +202,7 @@ const builadingLandAdjective = {
     'Sophistiquée',
     'Moderne',
     'Incroyable',
-  ]
+  ],
 };
 
 
@@ -212,8 +211,7 @@ export const titleProperty = (location, propertyType, lang, formValue) => {
   const getCountry = get(location, 'countryCode', null);
   let adjective = aptAdjective;
   let pageTitle;
-  let translatedPropertyType = translateTo(propertyType);
-  translatedPropertyType = (typeof Transifex !== 'undefined') ? Transifex.live.translateText(translatedPropertyType) : translatedPropertyType;
+  const translatedPropertyType = translateTo(propertyType, lang);
   if (propertyType === 'House' || propertyType === 'Commercial') adjective = houseAdjective;
   if (propertyType === 'Building land') adjective = builadingLandAdjective;
   if (getCountry === 'PT') {

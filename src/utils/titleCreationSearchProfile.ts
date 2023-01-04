@@ -1,21 +1,22 @@
 import get from 'lodash/get';
 import {QuestionsList} from '../resources/Flows/onBoardingBuyer';
 import translateTo from './translation';
+import type {ModelInputQuestionType} from '../@types/resources/Flows/ModelQuestionList';
 
 export const titleSearchProfile = (formValue, lang) => {
   let pageTitle;
   let translatedPropertyType = '';
-  const inputs = [];
+  const inputs: ModelInputQuestionType[] = [];
   QuestionsList(lang).forEach((input) => {
     if(input.inputs) {
-      input.inputs.forEach(inp => {
+      input.inputs.forEach((inp: ModelInputQuestionType) => {
         inputs.push(inp);
       })
     }
   })
-  const checkMaxValue = inputs.filter((inp) => inp.maxLengthNum);
-  let maxValue = {};
-  checkMaxValue.forEach((val) => {
+  const checkMaxValue = inputs.filter((inp: ModelInputQuestionType) => inp.maxLengthNum);
+  const maxValue = {};
+  checkMaxValue.forEach((val: ModelInputQuestionType) => {
     if(!get(formValue, `${val.name}.max`, null)) {
       maxValue[val.name] = val.maxLengthNum;
     }
