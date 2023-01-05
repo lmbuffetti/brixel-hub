@@ -1,36 +1,31 @@
-import {
-  BrixelAvatar,
-  BrixelButtonIcon,
-  BrixelIcon,
-  FactsOptions,
-  useOutsideAlerter,
-} from '@brixel/brixel-components';
+import {BrixelAvatar, BrixelButtonIcon, BrixelIcon, FactsOptions, useOutsideAlerter} from '@brixel/brixel-components';
 import logoMobile from '@brixel/brixel-components/dist/configuration/images/logo_colors_icon_new.svg';
 import logo from '@brixel/brixel-components/dist/configuration/images/logo_colors_v2.svg';
 import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
-import { BrixelSelect, destroy } from '@brixel/brixel-components/dist/form';
+import {BrixelSelect, destroy} from '@brixel/brixel-components/dist/form';
 import cloneDeep from 'lodash/cloneDeep';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import orderBy from 'lodash/orderBy';
-import PropTypes from 'prop-types';
-import React, { useEffect, useRef, useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 /* eslint-disable react-hooks/exhaustive-deps */
-import { connect } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { bindActionCreators } from 'redux';
-import { setLanguage } from '../../actions/CommonActions';
+import {connect} from 'react-redux';
+import {useLocation, useNavigate} from 'react-router-dom';
+import {bindActionCreators} from 'redux';
+import {setLanguage} from '../../actions/CommonActions';
 import {
   getPackageProperty,
   getPackagesProperty,
   setActiveSingleProperty,
   setActiveSinglePropertyActivePackage,
 } from '../../actions/PropertyActions';
-import { saveActiveSingleUser, setUserTypes } from '../../actions/UserActions';
-import { sidebarNavigationBuyer, sidebarNavigationSeller } from '../../resources/Utilities/navigationRoutes';
-import { setCookie } from '../../utils/helpers';
+import {saveActiveSingleUser, setUserTypes} from '../../actions/UserActions';
+import {sidebarNavigationBuyer, sidebarNavigationSeller} from '../../resources/Utilities/navigationRoutes';
+import {setCookie} from '../../utils/helpers';
 import translateTo from '../../utils/translation';
 import lazyWithRetry from '../LazyWithRetry';
+import type {LanguagesType, PageHeaderType} from '../../@types/components/Header/PageHeader';
+import {OptionsType} from '@brixel/brixel-components/dist/@types/Form/Input';
 
 const RightFlowHeader = lazyWithRetry(() => import('./RightHeaderFlow'));
 const AccountDropdown = lazyWithRetry(() => import('../AccountDropdown'));
@@ -39,7 +34,7 @@ const ProgressSellerStage = lazyWithRetry(() => import('../ProgressSellerStage')
 
 const { factsOptions } = FactsOptions;
 
-function PageHeader(props) {
+function PageHeader(props: PageHeaderType) {
   const history = {
     push: useNavigate(),
     location: useLocation(),
@@ -48,16 +43,16 @@ function PageHeader(props) {
   const {
     activeCompanyPackages,
     activeSingleProperty,
-    changeZIndex,
+    changeZIndex = () => 1,
     handleSaveActiveSingleUser,
     handleSetActiveSingleProperty,
     handleSetActiveSinglePropertyActivePackage,
     handleSetLanguage,
     handleSetUserTypes,
-    isFlow,
-    lang,
+    isFlow = false,
+    lang = 'en',
     languages,
-    loggedInUser,
+    loggedInUser = {},
     ownerProperties,
     packagesProperty,
     showFooter,
@@ -65,7 +60,7 @@ function PageHeader(props) {
     windowDimensions,
   } = props;
   // STATE
-  const [langMenu, setLangMenu] = useState([]);
+  const [langMenu, setLangMenu] = useState<OptionsType[]>([]);
   const [langSel, setSelLang] = useState(lang);
   const [openMenu, setOpenMenu] = useState(false);
   const [packageName, setPackageName] = useState('Basic');
@@ -82,25 +77,25 @@ function PageHeader(props) {
   const currentPathName = get(history, 'location.pathname', '').split('/')[get(history, 'location.pathname', '').split('/').length - 1];
 
   // URL PARAMS
-  let propID = history.location.pathname.split('/')[1];
+  let propID: string | null = history.location.pathname.split('/')[1];
   if (propID === 'buyer') propID = history.location.pathname.split('/')[2];
   if (propID === 'home' || propID === 'seller') propID = null;
 
   // FOOTER HEIGHT
-  const footer = document.getElementsByClassName('footerWrap')[0];
+  const footer = document.getElementsByClassName('footerWrap')[0] as HTMLDivElement;
   const footerHeight =  footer ? footer.offsetHeight : '';
 
   useEffect(() => {
-    if (activeSingleProperty.id) {
+    if (get(activeSingleProperty, 'id', null)) {
       const defState = factsOptions.progressBarOptions.find((item) => item.value === get(activeSingleProperty, 'progress.state', ''));
       if (defState) {
-        const defIndexState = factsOptions.progressBarOptions.findIndex((item) => item.value === activeSingleProperty.progress.state);
+        const defIndexState = factsOptions.progressBarOptions.findIndex((item) => item.value === get(activeSingleProperty, 'progress.state', null));
         if (defState.label === 'Sales Lead') defState.label = 'Onboarding';
         setIndexProgrss(defIndexState);
       }
-      if (get(activeSingleProperty, 'sellerStatus', '') === 'success') setIndexProgrss(5);
+      if (get(activeSingleProperty, 'sellerStatus', null) === 'success') setIndexProgrss(5);
     }
-  }, [activeSingleProperty.id]);
+  }, [get(activeSingleProperty, 'id', null)]);
 
   useEffect(() => {
     const activeSinglePropertyPackage = cloneDeep(packagesProperty);
@@ -110,7 +105,7 @@ function PageHeader(props) {
     if (activeSinglePropertyPackage.length > 0) {
       const sortedPackage = orderBy(activeSinglePropertyPackage, ['price.total'], ['desc']);
       const getActivePackage = sortedPackage.find((pkg) => pkg.started);
-      if (get(getActivePackage, 'servicePackage', null)) {
+      if (getActivePackage && get(getActivePackage, 'servicePackage', null)) {
         handleSetActiveSinglePropertyActivePackage(getActivePackage.servicePackage);
         setPackageName(getActivePackage.servicePackage.name);
       } else if (get(sortedPackage[0], 'servicePackage', null)) {
@@ -122,11 +117,10 @@ function PageHeader(props) {
 
   // GET LANGUAGE LISTS
   useEffect(() => {
-    const langHeader = [];
-    languages.map((lng, i) => {
-      langHeader[i] = lng;
+    const langHeader: OptionsType[] = [];
+    languages.map((lng: LanguagesType, i: number) => {
       langHeader[i].value = lng.code;
-      langHeader[i].shortValue = lng.code;
+      langHeader[i].shortLabel = lng.code;
       langHeader[i].label = lng.name;
       return null;
     });
@@ -173,7 +167,7 @@ function PageHeader(props) {
       windowDimensions.width > 1024 && (
         (
           !isFlow &&
-        activeSingleProperty.id &&
+        get(activeSingleProperty, 'id', null) &&
         propID &&
         propID.length > 9 &&
         userType === 'seller'
@@ -186,7 +180,7 @@ function PageHeader(props) {
     } else {
       setShowProgressStage(false);
     }
-  }, [get(history, 'location.pathname', null), isFlow, userType, propID, activeSingleProperty.id]);
+  }, [get(history, 'location.pathname', null), isFlow, userType, propID, get(activeSingleProperty, 'id', null)]);
 
   // SHOW/HIDE MOBILE MENU
   const toggleMobileMenu = () => {
@@ -228,20 +222,9 @@ function PageHeader(props) {
   });
   // add shadow header on body scroll
   useEffect(() => {
-    const dashContentEl = document.getElementsByClassName('hubDasContent')[0];
-    // const dashWrapperEl = document.getElementsByClassName('hubDashboard')[0];
+    const dashContentEl = document.getElementsByClassName('hubDasContent')[0] as HTMLDivElement;
     if (dashContentEl) {
       dashContentEl.addEventListener('scroll', () => {
-        /*  if (dashContentEl.scrollTop > 5) {
-          dashWrapperEl.classList.add('scrollingHeader');
-        } else {
-          dashWrapperEl.classList.remove('scrollingHeader');
-        }
-        if (dashContentEl.scrollTop > 40) {
-          dashWrapperEl.classList.add('longScroll');
-        } else {
-          dashWrapperEl.classList.remove('longScroll');
-        } */
         if (showMobileMenu) {
           dashContentEl.classList.add('menuOn');
           dashContentEl.style.overflowY = 'hidden';
@@ -261,18 +244,18 @@ function PageHeader(props) {
   const urlBackAction = () => {
     if (get(history, 'location.pathname', '').includes('buyer')) {
       if (get(history, 'location.pathname', '').includes('docubox')) {
-        history.push(`/buyer/${activeSingleProperty.id}/property`);
+        history.push(`/buyer/${get(activeSingleProperty, 'id', '')}/property`);
       } else if (currentPathName === getCurrentRoute().name) {
         history.push('/buy');
       } else if (get(history, 'location.pathname', '').includes('closing')) {
-        history.push(`/buyer/${activeSingleProperty.id}/property`);
+        history.push(`/buyer/${get(activeSingleProperty, 'id', '')}/property`);
       } else {
-        history.push(`/buyer${getCurrentRoute().path.replace(':propID', activeSingleProperty.id)}`);
+        history.push(`/buyer${getCurrentRoute().path.replace(':propID', get(activeSingleProperty, 'id', ''))}`);
       }
     } else if (currentPathName === getCurrentRoute().name) {
-      history.push(`/${activeSingleProperty.id}/home`);
+      history.push(`/${get(activeSingleProperty, 'id', '')}/home`);
     } else if (getCurrentRoute().path.includes(':propID')) {
-      history.push(`${getCurrentRoute().path.replace(':propID', activeSingleProperty.id)}`);
+      history.push(`${getCurrentRoute().path.replace(':propID', get(activeSingleProperty, 'id', ''))}`);
     }
   };
 
@@ -288,7 +271,7 @@ function PageHeader(props) {
       setOpenMenu(false);
     },
   });
-  
+
   return (
     <>
       <header className={`bgOverlay hubDasHeader ${showMobileMenu ? 'menu-active' : ''} bgWhite`}>
@@ -300,7 +283,7 @@ function PageHeader(props) {
                   className={`header-section dis-fl-row a-c jc-b w-perc-100 w-perc-lg-80 ${showMobileMenu ? 'hide' : ''}`}
                 >
                   <div
-                    className={`dis-f a-c pl-0 pl-lg-3 logoWrapper ${isFlow ? '' : 'min-w-fix-lg-232'} w-fit min-w-fix-40 ${((!isFlow && activeSingleProperty.id && propID && propID.length > 9) || (propID === 'sell' || propID === 'buy') || showProgressStage) ? 'brdSmallRight brdAltGrey200' : ''} w-fit`}
+                    className={`dis-f a-c pl-0 pl-lg-3 logoWrapper ${isFlow ? '' : 'min-w-fix-lg-232'} w-fit min-w-fix-40 ${((!isFlow && get(activeSingleProperty, 'id', '') && propID && propID.length > 9) || (propID === 'sell' || propID === 'buy') || showProgressStage) ? 'brdSmallRight brdAltGrey200' : ''} w-fit`}
                   >
                     <div className={`${isFlow ? '' : 'brdSmallRight brdAltGrey200'} min-w-88 w-perc-100 h-fix-72 dis-f a-c pr-2`}>
                       <img
@@ -317,13 +300,13 @@ function PageHeader(props) {
                       />
                     </div>
                     {
-                      ((activeSingleProperty.id && propID && propID.length > 9) || (propID === 'sell' || propID === 'buy')) && !isFlow && (
+                      ((get(activeSingleProperty, 'id', '') && propID && propID.length > 9) || (propID === 'sell' || propID === 'buy')) && !isFlow && (
 
                         <div className={`hubNavigation ${openMenu ? 'open' : 'close'}`} ref={menuHub}>
                           <div className="dis-f titleSection txtDark700" onClick={() => setOpenMenu(!openMenu)}>
                             <span>{translateTo(section, lang)}</span>
                             <BrixelIcon
-                              icon={openMenu ? "dropdown-open" : "dropdown-close"}
+                              icon={openMenu ? 'dropdown-open' : 'dropdown-close'}
                             />
                           </div>
                           {
@@ -379,7 +362,7 @@ function PageHeader(props) {
                 <div className="dis-f a-c">
                   {
                     (
-                      propID !== 'buy' && propID !== 'sell' && !get(history, 'location.pathname', null).includes('buyer/')
+                      propID !== 'buy' && propID !== 'sell' && !get(history, 'location.pathname', '').includes('buyer/')
                     ) && (
                       <div className="ws-nw flex-nowrap dis-f a-c txtDark700 pb-sm-1 pr-0 pr-sm-1 pr-lg-0 pb-lg-0 pr-lg-4">
                         <span className="hide dis-b-md">
@@ -446,7 +429,7 @@ function PageHeader(props) {
                                       onClick={() => toggleMobileMenu()}
                                     >
                                       <BrixelAvatar
-                                        avatarImg={get(loggedInUser, 'user.avatar[0]', '') ? baseByData.shortPath + get(loggedInUser, 'user.avatar[0]', '').thumbnailPath : null}
+                                        avatarImg={get(loggedInUser, 'user.avatar[0]', '') ? baseByData.shortPath + get(loggedInUser, 'user.avatar[0].thumbnailPath', '') : null}
                                         name={get(loggedInUser, 'user.email')}
                                         isIcon
                                         profileId={get(loggedInUser, 'user.id', '')}
@@ -471,7 +454,7 @@ function PageHeader(props) {
 
                         <div
                           className="mobile-menu w-perc-100 dis-fl-col a-c zIndex3"
-                          style={{ height: showMobileMenu ? (showFooter ? windowDimensions.height - footerHeight : windowDimensions.height ) : '0px' }}
+                          style={{ height: showMobileMenu ? (showFooter ? windowDimensions.height - +footerHeight : windowDimensions.height ) : '0px' }}
                         >
                           <div className="links dis-fl-col as-b jc-fe w-perc-100 ov-a">
                             {
@@ -512,7 +495,7 @@ function PageHeader(props) {
                               )
                             }
                             {
-                              activeSingleProperty.id && (
+                              get(activeSingleProperty, 'id', '') && (
                                 <MenuSidebar
                                   onClickLink={() => setShowMobileMenu(false)}
                                 />
@@ -548,7 +531,7 @@ function PageHeader(props) {
                                       >
                                         <div className="dis-f w-perc-100 a-c">
                                           <BrixelAvatar
-                                            avatarImg={get(loggedInUser, 'user.avatar[0]', '') ? baseByData.shortPath + get(loggedInUser, 'user.avatar[0]', '').thumbnailPath : null}
+                                            avatarImg={get(loggedInUser, 'user.avatar[0]', '') ? baseByData.shortPath + get(loggedInUser, 'user.avatar[0].thumbnailPath', '') : null}
                                             name={get(loggedInUser, 'user.email')}
                                             isIcon
                                             profileId={get(loggedInUser, 'user.id', '')}
@@ -624,33 +607,6 @@ function PageHeader(props) {
     </>
   );
 }
-
-PageHeader.propTypes = {
-  activeCompanyPackages: PropTypes.arrayOf(PropTypes.object).isRequired,
-  activeSingleProperty: PropTypes.object.isRequired,
-  changeZIndex: PropTypes.func,
-  handleSaveActiveSingleUser: PropTypes.func.isRequired,
-  handleSetActiveSingleProperty: PropTypes.func.isRequired,
-  handleSetActiveSinglePropertyActivePackage: PropTypes.func.isRequired,
-  handleSetLanguage: PropTypes.func.isRequired,
-  handleSetUserTypes: PropTypes.func.isRequired,
-  isFlow: PropTypes.bool,
-  lang: PropTypes.oneOfType([PropTypes.any]),
-  languages: PropTypes.arrayOf(PropTypes.object).isRequired,
-  loggedInUser: PropTypes.object,
-  ownerProperties: PropTypes.object.isRequired,
-  packagesProperty: PropTypes.arrayOf(PropTypes.object).isRequired,
-  showFooter: PropTypes.bool.isRequired,
-  userType: PropTypes.string.isRequired,
-  windowDimensions: PropTypes.object.isRequired,
-};
-
-PageHeader.defaultProps = {
-  changeZIndex: () => 1,
-  isFlow: false,
-  lang: 'en',
-  loggedInUser: {},
-};
 
 const mapStateToProps = (state) => ({
   activeCompanyPackages: get(state, 'companies.activeSingleCompany.servicePackages', []),

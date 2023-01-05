@@ -1,18 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
-import { BrixelIcon } from '@brixel/brixel-components';
+import React, {useEffect, useState} from 'react';
+import {BrixelIcon} from '@brixel/brixel-components';
 import translateTo from '../../utils/translation';
-import { destroy } from '@brixel/brixel-components/dist/form';
+import {destroy} from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { bindActionCreators, compose } from 'redux';
-import { setActiveSingleProperty } from '../../actions/PropertyActions';
-import { setUserTypes } from '../../actions/UserActions';
-import { sidebarNavigationBuyer, sidebarNavigationSeller } from '../../resources/Utilities/navigationRoutes';
+import {connect} from 'react-redux';
+import {Link, useLocation, useNavigate} from 'react-router-dom';
+import {bindActionCreators, compose} from 'redux';
+import {setActiveSingleProperty} from '../../actions/PropertyActions';
+import {setUserTypes} from '../../actions/UserActions';
+import {sidebarNavigationBuyer, sidebarNavigationSeller} from '../../resources/Utilities/navigationRoutes';
+import type {MenuSidebarType, NavigationType} from '../../@types/components/Header/MenuSidebar';
 
-const MenuSidebar = (props) => {
+const MenuSidebar = (props: MenuSidebarType) => {
   const history = {
     push: useNavigate(),
     location: useLocation(),
@@ -20,12 +20,12 @@ const MenuSidebar = (props) => {
   const {
     activeSingleDeal,
     lang,
-    onClickLink,
-    userType,
+    onClickLink = () => '',
+    userType = 'user',
     windowDimensions,
   } = props;
   // STATE
-  const [navigationMenu, setNavigationMenu] = useState([]);
+  const [navigationMenu, setNavigationMenu] = useState<NavigationType[]>([]);
   // URL PARAMS
   const propID = userType === 'seller' ? history.location.pathname.split('/')[1] : history.location.pathname.split('/')[2];
   const levelUrl = history.location.pathname.split('/');
@@ -54,7 +54,7 @@ const MenuSidebar = (props) => {
             <div>
               <ul className="sidebarNav dis-fl-col">
                 {
-                  navigationMenu.map((nav, i) => (
+                  navigationMenu && navigationMenu.map((nav, i) => (
                     <React.Fragment key={`mnu_${i.toString()}`}>
                       {
                         !linkMenu(nav.path).includes('undefined') && (
@@ -66,15 +66,15 @@ const MenuSidebar = (props) => {
                             <Link
                               to={linkMenu(nav.path)}
                             >
-        
+
                               <BrixelIcon
                                 color="blue"
                                 saturationTxt={700}
                                 icon={nav.icon}
                               />
-        
+
                               <span className="pl-1">{translateTo(nav.title, lang)}</span>
-      
+
                             </Link>
                             {
                               nav.submenu && (
@@ -111,19 +111,6 @@ const MenuSidebar = (props) => {
       </header>
     </>
   );
-};
-
-MenuSidebar.propTypes = {
-  activeSingleDeal: PropTypes.object.isRequired,
-  lang: PropTypes.string.isRequired,
-  onClickLink: PropTypes.func,
-  userType: PropTypes.string,
-  windowDimensions: PropTypes.object.isRequired,
-};
-
-MenuSidebar.defaultProps = {
-  onClickLink: () => '',
-  userType: 'user',
 };
 
 const mapStateToProps = (state) => ({

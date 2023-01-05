@@ -1,18 +1,17 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { BrixelDropdown } from '@brixel/brixel-components';
+import React, {useEffect, useState} from 'react';
+import {BrixelDropdown} from '@brixel/brixel-components';
 import BrixelButtonIcon from '@brixel/brixel-components/dist/components/BrixelButtonIcon';
 import get from 'lodash/get';
-import PropTypes from 'prop-types';
 import queryString from 'query-string';
-/* global Transifex */
-import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { bindActionCreators } from 'redux';
-import { setLanguage } from '../../actions/CommonActions';
-import { checkBrowser, setCookie } from '../../utils/helpers';
+import {connect} from 'react-redux';
+import {useLocation, useNavigate} from 'react-router-dom';
+import {bindActionCreators} from 'redux';
+import {setLanguage} from '../../actions/CommonActions';
+import {checkBrowser, setCookie} from '../../utils/helpers';
+import type {RightHeaderFlowType} from '../../@types/components/Header/RightHeaderFlow';
+import type {LanguagesType} from '../../@types/components/Header/PageHeader';
 
-function RightHeaderFlow(props) {
+function RightHeaderFlow(props: RightHeaderFlowType) {
   const history = {
     push: useNavigate(),
     location: useLocation(),
@@ -20,10 +19,10 @@ function RightHeaderFlow(props) {
   // PROPS
   const {
     handleSetLanguage,
-    lang,
-    languages,
+    lang = 'en',
+    languages = [],
     loggedInUser,
-    userType
+    userType,
   } = props;
 
   // GET URL PARAMS
@@ -34,19 +33,20 @@ function RightHeaderFlow(props) {
 
   // STATE
   const [currentLang, setCurrentLang] = useState(lang);
-  const [dropLang, setDropLang] = useState([]);
+  const [dropLang, setDropLang] = useState<LanguagesType[]>([]);
 
   useEffect(() => {
     if (get(history, 'location.search', null) && get(history, 'location.search', '').includes('?url=')) {
       const urlParams = queryString.parse(get(history, 'location.search', ''));
-      localStorage.setItem('backUrl', urlParams.url);
-      localStorage.setItem('backUrlBis', urlParams.url);
+      const url = get(urlParams, 'url', '') || '';
+      localStorage.setItem('backUrl', url.toString());
+      localStorage.setItem('backUrlBis', url.toString());
     }
   }, [history]);
 
   // FUNCTION TO CHECK IF USER IS LOGGED IN
   useEffect(() => {
-    if (loggedInUser && loggedInUser.language) {
+    if (loggedInUser) {
       const langUsr = loggedInUser.language;
       setCurrentLang(lang);
       setCookie('brixelLang', langUsr);
@@ -62,7 +62,6 @@ function RightHeaderFlow(props) {
   // FUNCTION TO TRANSLATE THE CONTENT USING TRANSIFEX
   useEffect(() => {
     setCurrentLang(lang);
-    if (typeof Transifex !== 'undefined') Transifex.live.translateTo(lang);
   }, [lang]);
 
   // FUNCTION TO INITIALIZE THE EVENT LISTENER FOR SCREEN RESIZE
@@ -78,6 +77,7 @@ function RightHeaderFlow(props) {
     // this changes the scrolling behavior to "smooth"
     if (window.innerWidth < 590) {
       if (checkBrowser() > 0) {
+        // @ts-ignore
         window.scrollTop = 0;
       } else {
         window.scrollTo({ top: 0 });
@@ -90,7 +90,6 @@ function RightHeaderFlow(props) {
     e.stopPropagation();
     setCurrentLang(langCode.value);
     handleSetLanguage(langCode.value);
-    if (typeof Transifex !== 'undefined') Transifex.live.translateTo(langCode.value);
     setCookie('brixelLang', langCode.value);
   };
 
@@ -115,7 +114,7 @@ function RightHeaderFlow(props) {
       history.push(url || `${BASEURL}/${propID}/home`);
     } else {
       url = localStorage.getItem('backUrlBis');
-      let urlBuyer = localStorage.getItem('backUrlBuyerEstimations');
+      const urlBuyer = localStorage.getItem('backUrlBuyerEstimations');
       if (url) {
         localStorage.removeItem('backUrlBis');
       }
@@ -135,14 +134,13 @@ function RightHeaderFlow(props) {
   return (
     <div className="dis-f a-c">
       {
-        !loggedInUser.id ? (
+        loggedInUser && !loggedInUser.id ? (
           <div className="">
             <BrixelDropdown
               noBorder
               className="langMenu"
               color="dark"
               saturationTxt={700}
-              lang={lang}
               keyType="label"
               selected={currentLang}
               options={dropLang}
@@ -165,20 +163,6 @@ function RightHeaderFlow(props) {
     </div>
   );
 }
-
-RightHeaderFlow.propTypes = {
-  handleSetLanguage: PropTypes.func.isRequired,
-  lang: PropTypes.string,
-  languages: PropTypes.arrayOf(PropTypes.object),
-  loggedInUser: PropTypes.object,
-  userType: PropTypes.string.isRequired,
-};
-
-RightHeaderFlow.defaultProps = {
-  languages: [],
-  lang: 'en',
-  loggedInUser: {},
-};
 
 const mapStateToProps = (state) => ({
   activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),

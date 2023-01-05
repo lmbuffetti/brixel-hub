@@ -1,22 +1,16 @@
 import get from 'lodash/get';
-import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import { CompaniesData } from '../../resources/Companies/Companies';
+import React, {useEffect, useState} from 'react';
+import {connect} from 'react-redux';
+import {CompaniesData} from '../../resources/Companies/Companies';
 import translateTo from '../../utils/translation';
-// import { connect } from 'react-redux';
-// import { useLocation, useNavigate } from 'react-router-dom';
+import type {PageFooterType} from '../../@types/components/Footer/PageFooter';
 
-function PageFooter(props) {
-  // const history = {
-  //   push: useNavigate(),
-  //   location: useLocation(),
-  // };
+function PageFooter(props: PageFooterType) {
   // PROPS
   const {
-    activeSideBar,
+    activeSideBar = false,
     activeSingleCompany,
-    className,
+    className = '',
     lang,
   } = props;
   // STATE
@@ -47,7 +41,7 @@ function PageFooter(props) {
                         loading="lazy"
                         key={`logo${i.toString()}`}
                         src={logo}
-                        alt={`${activeSingleCompany.name} logo ${i}`}
+                        alt={`${get(activeSingleCompany, 'name', '')} logo ${i}`}
                         className={`${i > 0 ? 'ml-2 brdSmallLeft brdAltGrey300 pl-2' : ''} h-perc-100`}
                       />
                     ))
@@ -60,7 +54,7 @@ function PageFooter(props) {
             {
               get(activeSingleCompany, 'links.privacy', null) && (
                 <a
-                  href={get(activeSingleCompany, 'links.privacy', null)}
+                  href={get(activeSingleCompany, 'links.privacy', '')}
                   className="fsize-300 txtAltGrey400 link"
                   target="_blank"
                   rel="noreferrer"
@@ -72,7 +66,7 @@ function PageFooter(props) {
             {
               get(activeSingleCompany, 'links.privacy', null) && (
                 <a
-                  href={get(activeSingleCompany, 'links.terms', null)}
+                  href={get(activeSingleCompany, 'links.terms', '')}
                   className="ml-2 fsize-300 txtAltGrey400 link"
                   target="_blank"
                   rel="noreferrer"
@@ -91,18 +85,6 @@ function PageFooter(props) {
     </>
   );
 }
-
-PageFooter.propTypes = {
-  activeSideBar: PropTypes.bool,
-  activeSingleCompany: PropTypes.object.isRequired,
-  className: PropTypes.string,
-  lang: PropTypes.string.isRequired,
-};
-
-PageFooter.defaultProps = {
-  activeSideBar: false,
-  className: '',
-};
 
 const mapStateToProps = (state) => ({
   activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
