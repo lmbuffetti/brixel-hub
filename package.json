@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "private": true,
   "engines": {
-    "npm": "8.*",
     "node": "18.*"
   },
   "dependencies": {
@@ -84,7 +83,6 @@
     "del": "^7.0.0",
     "eslint": "8.31.0",
     "eslint-plugin-cypress": "^2.12.1",
-    "eslint-plugin-flowtype": "^8.0.3",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-redux": "^4.0.0",

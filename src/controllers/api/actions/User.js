@@ -1,6 +1,5 @@
-import Base from '../config/Base';
-
 import ep from '../../endPoints.constant';
+import Base from '../config/Base';
 
 class Property extends Base {
   validateToken(token) {
@@ -57,6 +56,11 @@ class Property extends Base {
 
   removeFavorite(id, data) {
     const url = ep.user.removeFavorite(id);
+    return this.apiClient.put(url, {}, data);
+  }
+  
+  removeWishlist(id, data) {
+    const url = ep.user.removeWishlist(id);
     return this.apiClient.put(url, {}, data);
   }
 
