@@ -1,3 +1,4 @@
+import React, { useEffect, useRef, useState } from 'react';
 import {
   BrixelButtonPrimary,
   BrixelButtonSecondary,
@@ -15,8 +16,6 @@ import has from 'lodash/has';
 import orderBy from 'lodash/orderBy';
 import pullAt from 'lodash/pullAt';
 import set from 'lodash/set';
-import PropTypes from 'prop-types';
-import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
@@ -40,15 +39,17 @@ import { calcPercentageProEstimation, completedBestimate, getCookie, setCookie }
 import translateTo from '../../utils/translation';
 import CoverPropertyImage from '../CoverPropertyImage';
 import CardImageText from '../Skeleton/CardImageText';
+import type { MarketCardProps } from '../../@types/components/Cards/MarketCard';
+import type { PropertyListType, ServicePackageType } from '@brixel/brixel-components/dist/@types/Model';
 
-const MarketCard = (props) => {
+const MarketCard = (props: MarketCardProps) => {
   const history = {
     push: useNavigate(),
     location: useLocation(),
   };
   // PROPS
   const {
-    companyDetail,
+    companyDetail = {},
     companyListings,
     favoritesProperties,
     handleGenerateBestimate,
@@ -57,19 +58,19 @@ const MarketCard = (props) => {
     handleSetModal,
     handleMarkNotInterested,
     handleUpdateFavorites,
-    index,
+    index = -1,
     isSmallLoading,
     item,
     lang,
     layout,
     loggedInUser,
-    onSetActiveProperty,
-    preventClick,
+    onSetActiveProperty = () => '',
+    preventClick = false,
     setMarketOverlayProperty,
     setPropertyEstimation,
     setSplashScreen,
     skeleton,
-    type,
+    type = '',
     wishlistProperties,
   } = props;
   // STATE
@@ -77,9 +78,10 @@ const MarketCard = (props) => {
   const [coverImgLoaded, setCoverImgLoaded] = useState(false);
   const [removeSkeleton, setRemoveSkeleton] = useState(false);
   const [isFullVisitble, setIsFullVisitble] = useState(false);
-  const [propertyServicePacakges, setPropertyServicePacakge] = useState();
+  const [propertyServicePacakges, setPropertyServicePacakge] = useState<ServicePackageType[]>();
   const [activeSlide, setActiveSlide] = useState(0);
   const [showSlideData, setShowSlideData] = useState(false);
+  const checkTag: string[] = get(item, 'tags', []);
 
   const settingSlider = {
     speed: 500,
@@ -88,13 +90,12 @@ const MarketCard = (props) => {
     centerPadding: '8px',
     arrows: false,
     dots: false,
-    lazyLoad: 'progressive',
     beforeChange: (oldIndex, newIndex) => {
       setActiveSlide(newIndex);
-    }
+    },
   };
 
-  const imgSlide = useRef(null);
+  const imgSlide = useRef() as React.MutableRefObject<Slider>;
 
   // TODO: Based on "type" prop, sent by the category, open each property on buyer dashboard/seller dashboard/page, etc.
   useEffect(() => {
@@ -102,20 +103,23 @@ const MarketCard = (props) => {
   }, [skeleton, coverImgLoaded]);
 
   useEffect(() => {
-    if (item.tags.includes('pre-market') || item.hideAddress) {
+    if (item && (checkTag.includes('pre-market') || item.hideAddress)) {
       setIsFullVisitble(false);
     } else {
       setIsFullVisitble(true)
     }
-  }, [item.id]);
+    if (type === 'own' && get(item, 'id', null)) {
+      api.property.packagePage(get(item, 'id', ''))
+        .then((res) => setPropertyServicePacakge(res.data));
+    }
+  }, [get(item, 'id', null)]);
 
-
-  const isPreMarket = () => get(item, 'tags', []).includes('pre-market');
+  const isPreMarket = () => item ? checkTag.includes('pre-market') : false;
 
   // Process tags
   useEffect(() => {
-    const result = [];
-    if (get(item, 'tags', []).length > 1) {
+    const result: string[] = [];
+    if (item && get(item, 'tags', []).length > 1) {
       item.tags.forEach((tag) => {
         if (tag === 'updated') result.splice(0, 0, tag);
         if (tag === 'new') result.splice(1, 0, tag);
@@ -132,34 +136,21 @@ const MarketCard = (props) => {
     }
   }, [layout, item]);
 
-  useEffect(() => {
-    if (type === 'own') {
-      api.property.packagePage(item.id)
-        .then((res) => setPropertyServicePacakge(res.data));
-    }
-  }, [item.id])
-
   const openCard = (e) => {
     if (e) e.preventDefault();
     if (!preventClick) {
       if (type === 'own') {
-        history.push({
-          pathname: `/${item.id}/home`,
-          state: { section: 'Market' },
-        });
-      } else if (type === 'preMarket' || get(item, 'tags', []).includes('pre-market') ||
+        history.push(`/${get(item,  'id', '')}/home`, { state: { section: 'Market' }} );
+      } else if (type === 'preMarket' || checkTag.includes('pre-market') ||
         ((
-          type === 'premium' || get(item, 'tags', []).includes('premium') ||
-          type === 'new' || get(item, 'tags', []).includes('new')
+          type === 'premium' || checkTag.includes('premium') ||
+          type === 'new' || checkTag.includes('new')
         ) && type !== 'favorite' && type !== 'wishlist' && !history.location.pathname.includes('sell'))
       ) {
-        window.open(`${baseByData.pageUrl}${item.stub}`, '_blank');
+        window.open(`${baseByData.pageUrl}${get(item, 'stub', '')}`, '_blank');
       } else if (type === 'favorite' || type === 'wishlist') {
-        history.push({
-          pathname: `/buyer/${item.id}/home`,
-          state: { section: 'Market' },
-        });
-      } else window.open(`${baseByData.pageUrl}${item.stub}`, '_blank');
+        history.push(`/buyer/${get(item,  'id', '')}/home`, { state: { section: 'Market' }} );
+      } else window.open(`${baseByData.pageUrl}${get(item, 'stub', '')}`, '_blank');
       // TODO: Estimation opens overlay
     }
   };
@@ -181,7 +172,7 @@ const MarketCard = (props) => {
           const payload = {
             reloadOnwProperties: true,
             type: 'market',
-            id: item.id,
+            id: get(item, 'id', ''),
           };
           handleGetEstimation(payload);
         } else if (has(estim, 'result') && !has(estim, 'result.value')) {
@@ -194,7 +185,7 @@ const MarketCard = (props) => {
     }
   };
   const selectActiveServicePackage = () => {
-    let basicPackage = null;
+    let basicPackage: ServicePackageType | undefined = undefined;
     if (companyListings.length > 0) {
       const activeCompany = companyListings.find((cmp) => cmp.id === get(item, 'company', ''));
       if (activeCompany) {
@@ -206,7 +197,7 @@ const MarketCard = (props) => {
         if (activeSinglePropertyPackage.length > 0) {
           const sortedPackage = orderBy(activeSinglePropertyPackage, ['price.total'], ['desc']);
           const getActivePackage = sortedPackage.find((pkg) => pkg.started);
-          if (get(getActivePackage, 'servicePackage', null)) {
+          if (getActivePackage && get(getActivePackage, 'servicePackage', null)) {
             return getActivePackage.servicePackage;
           }
           if (get(sortedPackage[0], 'servicePackage', null)) {
@@ -225,37 +216,41 @@ const MarketCard = (props) => {
   };
 
   const saveFavorite = (action) => {
-    const data = {
-      act: action,
-      id: item.id,
-      property: item,
-      data: {
-        email: get(loggedInUser, 'email', ''),
-        language: loggedInUser.lang,
-      },
-    };
-    handleUpdateFavorites(data);
-    handleSetModal({ state: false });
+    if (item) {
+      const data = {
+        act: action,
+        id: get(item,  'id', ''),
+        property: item,
+        data: {
+          email: get(loggedInUser, 'email', ''),
+          language: loggedInUser.language,
+        },
+      };
+      handleUpdateFavorites(data);
+      handleSetModal({state: false});
+    }
   }
 
   const onRemoveProperty = () => {
-    const isHideModal = getCookie('brixelHideNotInterested');
-    if (isHideModal === true || isHideModal === 'true') {
-      handleMarkNotInterested(item.id);
-      handleSetModal({ state: false });
-    } else {
-      handleSetModal({
-        state: true,
-        component: React.createElement(NotInterestedConfirmModal, {lang, onClick: handleMarkNotInterested(item.id)}),
-        small: true,
-        layout: 'large',
-        bodyClassColor: 'white',
-      })
+    if (item) {
+      const isHideModal = getCookie('brixelHideNotInterested');
+      if (isHideModal === true || isHideModal === 'true') {
+        handleMarkNotInterested(get(item,  'id', ''));
+        handleSetModal({state: false});
+      } else {
+        handleSetModal({
+          state: true,
+          component: React.createElement(NotInterestedConfirmModal, {lang, onClick: handleMarkNotInterested(get(item,  'id', ''))}),
+          small: true,
+          layout: 'large',
+          bodyClassColor: 'white',
+        })
+      }
     }
   }
 
   const onOpenCard = () => {
-    if (item.tags.includes('pre-market')) {
+    if (item && item.tags.includes('pre-market')) {
       const propsModal = {
         lang,
         property: item,
@@ -274,7 +269,7 @@ const MarketCard = (props) => {
         hideClose: true,
       })
     } else {
-      window.open(`${baseByData.pageUrl}${item.stub}`, '_blank');
+      window.open(`${baseByData.pageUrl}${get(item, 'stub', '')}`, '_blank');
     }
   }
 
@@ -293,6 +288,7 @@ const MarketCard = (props) => {
         return 'Pre-market';
       }
       default:
+        return '';
     }
   };
 
@@ -321,7 +317,7 @@ const MarketCard = (props) => {
       case 'updated':
         return 'update-property';
       default:
-        return null;
+        return '';
     }
   }
 
@@ -350,9 +346,9 @@ const MarketCard = (props) => {
     }
     if (imgSlide) {
       const slide = imgSlide.current;
-      if (act === 'next') slide.slickNext();
-      if (act === 'prev') slide.slickPrev();
-      if (act === 'goTo') slide.slickGoTo(slideIndex);
+      if (act === 'next' && slide) slide.slickNext();
+      if (act === 'prev' && slide) slide.slickPrev();
+      if (act === 'goTo' && slide) slide.slickGoTo(slideIndex);
     }
     return false;
   }
@@ -374,7 +370,7 @@ const MarketCard = (props) => {
                     get(selectActiveServicePackage(), 'type', null) === 'basic' && (
                       <div
                         className="w-perc-100 dis-f bgBlue100 brdRadiusSmall px-2 pl-md-0 pr-md-6 mb-2 mb-sm-3 cur-poi"
-                        onClick={() => history.push(`/${item.id}/trialRequest?url=/sell`)}
+                        onClick={() => history.push(`/${get(item,  'id', '')}/trialRequest?url=/sell`)}
                       >
                         <div className="hide dis-b-md">
                           <img width="176" height="158" src={testdrive} alt="testdrive" />
@@ -390,7 +386,7 @@ const MarketCard = (props) => {
                                   <span>
                                     {translateTo('Get the full Brixel experience worth', lang)}
                                   </span>
-                                  <span className="ml-small-4">{get(companyDetail, 'meta.teaserPackage.currency', '')} {Helpers.formatNumberValue(get(companyDetail, 'meta.teaserPackage.price', ''), get(companyDetail, 'meta.teaserPackage.currency', ''))}.</span>
+                                  <span className="ml-small-4">{get(companyDetail, 'meta.teaserPackage.currency', '')} {Helpers.formatNumberValue(get(companyDetail, 'meta.teaserPackage.price', 0), get(companyDetail, 'meta.teaserPackage.currency', ''))}.</span>
                                 </>
                               ) : (
                                 <span>
@@ -454,7 +450,7 @@ const MarketCard = (props) => {
                           <p
                             key={`itm_${i.toString()}`}
                             className={`type-tag pos-r non-favorite fsize-200 fweight-500 txtWhite mr-1 bg${getColor(tag)}`}
-                            onClick={() => tag === 'pre-market' && history.push(`/${item.id}/marketing/portals`)}
+                            onClick={() => tag === 'pre-market' && history.push(`/${get(item,  'id', '')}/marketing/portals`)}
                           >
                             <span className="type txtWhite">
                               {translateTo(getTypeText(tag), lang)}
@@ -526,9 +522,9 @@ const MarketCard = (props) => {
                             <div className="ml-2 dis-fl-col">
                               <span className="txtLight600 fsize-300">
                                 {translateTo('Your Price', lang)}</span>
-                              <Link to={`/${item.id}/property/price`} className="txtBlue700 fweight-600">
+                              <Link to={`/${get(item,  'id', '')}/property/price`} className="txtBlue700 fweight-600">
                                 <span>{get(item, 'price.currency', 0)}</span>
-                                <span className="ml-1">{Helpers.formatNumberValue(get(item, 'price.total', 0), get(item, 'price.currency', 0))}</span>
+                                <span className="ml-1">{Helpers.formatNumberValue(get(item, 'price.total', 0), get(item, 'price.currency', 'EUR'))}</span>
                               </Link>
                             </div>
                           </div>
@@ -549,16 +545,16 @@ const MarketCard = (props) => {
                           <div className="dis-fl-col">
                             <span className="txtLight600 fsize-300">{translateTo('Your Bestimate', lang)}</span>
                             {
-                              ((get(item, 'estimation.status', '') === 'pending' && completedBestimate(item)) || (get(item, 'properties.propertyType', null) === 'Commercial' || get(item, 'properties.propertyType', null) === 'Building land')) ? (
+                              ((get(item, 'estimation.status', null) === 'pending' && completedBestimate(item)) || (get(item, 'properties.propertyType', null) === 'Commercial' || get(item, 'properties.propertyType', null) === 'Building land')) ? (
                                 <span className="txtBlue700 fweight-600">
                                   {translateTo('Pending', lang)}
                                 </span>
                               ) : (
                                 <>
                                   {
-                                    get(item, 'estimation.status', '') !== 'processed' && (
+                                    get(item, 'estimation.status', null) !== 'processed' && (
                                       <Link
-                                        to={`/${item.id}/singleFlow/achievement/bestimate/step1?url=/sell`}
+                                        to={`/${get(item,  'id', '')}/singleFlow/achievement/bestimate/step1?url=/sell`}
                                         className="txtBlue700 fweight-600"
                                       >
                                         {translateTo('Get Estimation', lang)}
@@ -569,26 +565,26 @@ const MarketCard = (props) => {
                               )
                             }
                             {
-                              get(item, 'estimation.status', '') === 'processed' && (get(item, 'properties.propertyType', null) === 'House' || get(item, 'properties.propertyType', null) === 'Apartment') && (
+                              get(item, 'estimation.status', null) === 'processed' && (get(item, 'properties.propertyType', null) === 'House' || get(item, 'properties.propertyType', null) === 'Apartment') && (
                                 <div
-                                  onClick={(e) => openBestimateOverlay(e, item.location, item.estimation, item, 'exists')}
+                                  onClick={(e) => openBestimateOverlay(e, get(item, 'location', {}), get(item, 'estimation', {}), item, 'exists')}
                                   className="txtBlue700 no-state fweight-600"
                                 >
-                                  {get(item, 'estimation.result.currency', '')} {Helpers.formatNumberValue(get(item, 'estimation.result.higherValue', ''), get(item, 'estimation.currency', ''))}
+                                  {get(item, 'estimation.result.currency', '')} {Helpers.formatNumberValue(get(item, 'estimation.result.higherValue', 0), get(item, 'estimation.currency', ''))}
                                 </div>
                               )
                             }
                           </div>
                           {
-                            (get(item, 'properties.propertyType', '') === 'House' || get(item, 'properties.propertyType', '') === 'Apartment') && (
+                            (get(item, 'properties.propertyType', null) === 'House' || get(item, 'properties.propertyType', null) === 'Apartment') && (
                               <div
-                                onClick={() => window.location.assign(`/${item.id}/property/price/proEstimation`)}
+                                onClick={() => window.location.assign(`/${get(item,  'id', '')}/property/price/proEstimation`)}
                                 className="dis-fl-row a-c ml-4 brdSmallLeft brdLight400 pl-4"
                               >
                                 <div className="hide dis-fl-row-sm">
                                   <div className="pos-r h-fix-48 w-fix-48">
                                     <ProgressRing
-                                      customIcon={get(item, 'proEstimation.value', 0) <= 0 && calcPercentageProEstimation(item).realPerc === 100 ? 'hourglass' : null}
+                                      customIcon={get(item, 'proEstimation.value', 0) <= 0 && calcPercentageProEstimation('', item).realPerc === 100 ? 'hourglass' : undefined}
                                       iconColor={{
                                         color: 'primary',
                                         sat: 400,
@@ -636,11 +632,10 @@ const MarketCard = (props) => {
                         baseByData={baseByData}
                         lang={lang}
                         hideLocation={!isFullVisitble}
-                        minHeight={216}
                         externalControls={false}
                         center={{
-                          lat: item.location.latitude,
-                          lng: item.location.longitude,
+                          lat: get(item, 'location.latitude', 0),
+                          lng: get(item, 'location.longitude', 0),
                         }}
                         type={'satellite'}
                         marker={item}
@@ -681,7 +676,7 @@ const MarketCard = (props) => {
                               className="slick-dots pos-a x-c ta-c zIndex2 bt mb-1"
                             >
                               {
-                                item.photos.map((photo, i) => (
+                                item && item.photos.map((photo, i) => (
                                   <li
                                     key={`dots${i.toString()}`}
                                     className={activeSlide === i ? 'slick-active' : ''}
@@ -697,7 +692,7 @@ const MarketCard = (props) => {
                               {...settingSlider}
                             >
                               {
-                                item.photos.map((photo, i) => (
+                                item && item.photos.map((photo, i) => (
                                   <div
                                     key={`itm_${i.toString()}`}
                                     className={`${isPreMarket() ? 'pre-market' : ''} ${get(item, 'tags', []).join(' ')} cover w-perc-100 h-fix-216 h-perc-100 pos-r`}
@@ -732,7 +727,7 @@ const MarketCard = (props) => {
                       get(item, 'tags', []).length > 0 && (
                         <div className="dis-fl-row a-c jc-b">
                           {
-                            item.tags.map((tag, i) => (
+                            item && item.tags.map((tag, i) => (
                               <p
                                 key={`itmTgs_${i.toString()}`}
                                 className={`type-tag pos-r non-favorite fsize-200 fweight-500 mr-1 bg${getColor(tag)} txt${textColor(tag)} dis-f a-c brdRadiusSmall px-1 py-small-4`}
@@ -743,7 +738,7 @@ const MarketCard = (props) => {
                                       iconSize="w-fix-16"
                                       className="mr-1"
                                       icon={iconTag(tag)}
-                                      color={textColor(tag, true)}
+                                      color={textColor(tag)}
                                       saturationTxt={0}
                                     />
                                   )
@@ -766,7 +761,7 @@ const MarketCard = (props) => {
                       onClick={() => setIsShowLocationCard(!isShowLocationCard)}
                     />
                     <BrixelIcon
-                      isLoading={isSmallLoading[`notInterested-${item.id}`]}
+                      isLoading={isSmallLoading[`notInterested-${get(item,  'id', '')}`]}
                       className="mx-1"
                       color="blue"
                       saturationTxt={700}
@@ -777,7 +772,7 @@ const MarketCard = (props) => {
                       onClick={() => onRemoveProperty()}
                     />
                     <BrixelIcon
-                      isLoading={isSmallLoading[`favorite-${item.id}`]}
+                      isLoading={isSmallLoading[`favorite-${get(item,  'id', '')}`]}
                       rounded
                       background="white"
                       saturation={0}
@@ -874,26 +869,26 @@ const MarketCard = (props) => {
               <span className="hr mt-3 lighter mb-1" />
 
               <div
-                className={`dis-fl-col dis-fl-row-sm a-c-sm jc-b-sm flex-wrap ${has(item, 'published') && item.published === false ? '' : ''}`}
+                className={`dis-fl-col dis-fl-row-sm a-c-sm jc-b-sm flex-wrap ${has(item, 'published') && get(item, 'published', null) === false ? '' : ''}`}
               >
 
                 {
-                  has(item, 'published') && item.published === false ? (
+                  get(item, 'published', null) === false ? (
                     <div
                       className="dis-fl-col dis-fl-row-sm"
                     >
                       <div className="dis-fl-row-sm">
 
                         {
-                          get(item, 'tags', []).length > 0 && item.tags.includes('pre-market') ? (
+                          item && get(item, 'tags', []).length > 0 && item.tags.includes('pre-market') ? (
                             <>
-                              <p className="pl-1 fsize-300 txtLight600" dangerouslySetInnerHTML={{ __html: `<span>${translateTo('Your property is visible on our pre-market.', lang)}</span> <a href="/${item.id}/marketing" class="fsize-300 fweight-500 txtBlue700 cur-poi ml-1 td-u lh-in btnInline">${translateTo('Learn more.', lang)}</a>` }} />
+                              <p className="pl-1 fsize-300 txtLight600" dangerouslySetInnerHTML={{ __html: `<span>${translateTo('Your property is visible on our pre-market.', lang)}</span> <a href="/${get(item,  'id', '')}/marketing" class="fsize-300 fweight-500 txtBlue700 cur-poi ml-1 td-u lh-in btnInline">${translateTo('Learn more.', lang)}</a>` }} />
                             </>
                           ) : (
                             <>
                               <p className="pl-1 fsize-300 txtLight600" dangerouslySetInnerHTML={{ __html: `<span>${translateTo('Your property is <strong class="lh-in fweight-600">not</strong> visible to any buyers.', lang)}</span>` }} />
                               <a
-                                href={`/${item.id}/marketing`}
+                                href={`/${get(item,  'id', '')}/marketing`}
                                 className="fsize-300 fweight-500 txtBlue700 cur-poi ml-1 td-u p-0 btnInline"
                               >
                                 {translateTo('Change it here.', lang)}
@@ -925,7 +920,7 @@ const MarketCard = (props) => {
                         </span>
                         <span
                           className="ml-1 td-u cur-poi"
-                          onClick={() => history.push(`/${item.id}/upgrade`)}
+                          onClick={() => history.push(`/${get(item,  'id', '')}/upgrade`)}
                         >
                           {get(selectActiveServicePackage(), 'name', 'Basic')}
                         </span>
@@ -937,13 +932,13 @@ const MarketCard = (props) => {
                       className="ml-sm-2 my-1 my-sm-0"
                       rounded
                       label={translateTo('Edit', lang)}
-                      onClick={() => history.push(`/${item.id}/home`)}
+                      onClick={() => history.push(`/${get(item,  'id', '')}/home`)}
                     />
                     <BrixelButtonPrimary
                       className="ml-sm-2"
                       rounded
                       label={translateTo('Request test drive', lang)}
-                      onClick={() => history.push(`/${item.id}/trialRequest?url=/sell`)}
+                      onClick={() => history.push(`/${get(item,  'id', '')}/trialRequest?url=/sell`)}
                     />
                   </div>
                 </div>
@@ -954,43 +949,6 @@ const MarketCard = (props) => {
       </div>
     </>
   );
-};
-
-MarketCard.propTypes = {
-  companyDetail: PropTypes.object,
-  companyListings: PropTypes.arrayOf(PropTypes.object).isRequired,
-  estimation: PropTypes.object.isRequired,
-  favoritesProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
-  handleGenerateBestimate: PropTypes.func.isRequired,
-  handleGetEstimation: PropTypes.func.isRequired,
-  handleGetPackageProperty: PropTypes.func.isRequired,
-  handleMarkNotInterested: PropTypes.func.isRequired,
-  handleSetModal: PropTypes.func.isRequired,
-  handleUpdateFavorites: PropTypes.func.isRequired,
-  index: PropTypes.number,
-  isSmallLoading: PropTypes.object.isRequired,
-  item: PropTypes.object,
-  lang: PropTypes.string.isRequired,
-  layout: PropTypes.string,
-  loggedInUser: PropTypes.object.isRequired,
-  onSetActiveProperty: PropTypes.func,
-  preventClick: PropTypes.bool,
-  setMarketOverlayProperty: PropTypes.func.isRequired,
-  setPropertyEstimation: PropTypes.func.isRequired,
-  setSplashScreen: PropTypes.func.isRequired,
-  skeleton: PropTypes.object.isRequired,
-  type: PropTypes.string,
-  wishlistProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
-};
-
-MarketCard.defaultProps = {
-  companyDetail: {},
-  item: null,
-  index: -1,
-  onSetActiveProperty: () => '',
-  layout: null,
-  preventClick: false,
-  type: '',
 };
 
 const mapStateToProps = (state) => ({

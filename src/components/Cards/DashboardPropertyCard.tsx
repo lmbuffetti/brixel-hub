@@ -38,7 +38,7 @@ const DashboardPropertyCard: (props: DashboardPropertyCardProps) => JSX.Element 
       <div className={`shadow-2dp imgSection bgWhite brdRadius dis-fl-col dis-fl-row-sm ${smallLayout ? 'p-sm-3' : 'p-sm-3 pt-0 pb-2 mb-3'} ov-h`}>
         <div>
           <div
-            onClick={() => history.push(`/${activeSingleProperty.id}/property/facts`)}
+            onClick={() => history.push(`/${get(activeSingleProperty, 'id', '')}/property/facts`)}
             className={`dis-b w-perc-100 ${smallLayout ? 'min-w-fix-sm-208' : 'w-fix-sm-232'} h-fix-160 pos-r`}
           >
             <CoverPropertyImage
@@ -49,7 +49,7 @@ const DashboardPropertyCard: (props: DashboardPropertyCardProps) => JSX.Element 
             {
               type !== 'sold' && type !== 'buy' && (
                 <Link
-                  to={`/${activeSingleProperty.id}/property/photos`}
+                  to={`/${get(activeSingleProperty, 'id', '')}/property/photos`}
                   className="pos-a-fix x-r-1 x-b-1 brdRadiusLrg px-2 bgWhite p-small-10 txtDark700 opacity-08"
                 >
                   {translateTo('Edit', lang)}
@@ -61,7 +61,7 @@ const DashboardPropertyCard: (props: DashboardPropertyCardProps) => JSX.Element 
         <div className="pl-sm-3 pl-2 pt-2 pt-sm-0 dis-fl-col jc-b w-perc-100">
           <div className="">
             <h4 className="txtDark700 fweight-600 fsize-sm-600 fsize-500"> {get(activeSingleProperty, 'title', '')} </h4>
-            <span className="fsize-300 txtLight600"> {get(activeSingleProperty.location, 'city', '')}, {get(activeSingleProperty.location, 'state', '')}  </span>
+            <span className="fsize-300 txtLight600"> {get(activeSingleProperty, 'location.city', '')}, {get(activeSingleProperty, 'location.state', '')}  </span>
 
           </div>
           {
@@ -73,7 +73,7 @@ const DashboardPropertyCard: (props: DashboardPropertyCardProps) => JSX.Element 
                       <>
                         <span>{get(activeSingleProperty, 'price.currency', 'CHF')}</span>
                         <span className="ml-1">
-                          {Helpers.formatNumberValue(get(activeSingleProperty, 'price.total', 0), get(activeSingleProperty, 'price.currency', 0))}
+                          {Helpers.formatNumberValue(get(activeSingleProperty, 'price.total', 0), get(activeSingleProperty, 'price.currency', 'EUR'))}
                         </span>
                       </>
                     ) : (
@@ -118,7 +118,7 @@ const DashboardPropertyCard: (props: DashboardPropertyCardProps) => JSX.Element 
                         className="as-fs mt-2 mt-a-sm mb-a w-auto-sm w-perc-100"
                         rounded
                         label={translateTo('View', lang)}
-                        onClick={() => window.open(`${baseByData.pageUrl}${activeSingleProperty.stub}`, '_blank')}
+                        onClick={() => window.open(`${baseByData.pageUrl}${get(activeSingleProperty, 'stub', '')}`, '_blank')}
                       />
 
                     </div>
@@ -129,7 +129,7 @@ const DashboardPropertyCard: (props: DashboardPropertyCardProps) => JSX.Element 
                           <div className="bgBlue300 tourLink">
                             <button
                               onClick={() => history.push(`/${get(activeSingleProperty, 'id', '')}/property/tour`)}
-                              className="dis-f a-c" rel="noreferrer"
+                              className="dis-f a-c"
                             >
                               <BrixelIcon
                                 color="Blue"
@@ -148,7 +148,7 @@ const DashboardPropertyCard: (props: DashboardPropertyCardProps) => JSX.Element 
                         )
                       }
                       {
-                        activeSingleProperty.photos && activeSingleProperty.photos.length > 0 && (
+                        get(activeSingleProperty, 'photos', null) && get(activeSingleProperty, 'photos', []).length > 0 && (
                           <div className="ml-1">
                             <BrixelIcon
                               color="red"
@@ -164,7 +164,7 @@ const DashboardPropertyCard: (props: DashboardPropertyCardProps) => JSX.Element 
                         )
                       }
                       {
-                        activeSingleProperty.floorPlans && activeSingleProperty.floorPlans.length > 0 && (
+                        get(activeSingleProperty, 'floorPlans', null) && get(activeSingleProperty, 'floorPlans', []).length > 0 && (
                           <div className="ml-1">
                             <BrixelIcon
                               color="green"
@@ -203,9 +203,9 @@ const DashboardPropertyCard: (props: DashboardPropertyCardProps) => JSX.Element 
                           <span className="txtLight600 fsize-300">
                             {translateTo('Your Price', lang)}
                           </span>
-                          <Link to={`/${activeSingleProperty.id}/property/price`} className="txtBlue700 fweight-600">
+                          <Link to={`/${get(activeSingleProperty, 'id', '')}/property/price`} className="txtBlue700 fweight-600">
                             <span>{get(activeSingleProperty, 'price.currency', 0)}</span>
-                            <span className="ml-1">{Helpers.formatNumberValue(get(activeSingleProperty, 'price.total', 0), get(activeSingleProperty, 'price.currency', 0))}</span>
+                            <span className="ml-1">{Helpers.formatNumberValue(get(activeSingleProperty, 'price.total', 0), get(activeSingleProperty, 'price.currency', 'EUR'))}</span>
                           </Link>
                         </div>
                       </div>
@@ -213,7 +213,7 @@ const DashboardPropertyCard: (props: DashboardPropertyCardProps) => JSX.Element 
                         className="mt-2 mt-sm-0 mr-a mr-sm-0 mb-3 mb-sm-0"
                         rounded
                         label={translateTo('Open', lang)}
-                        onClick={() => window.open(`${baseByData.pageUrl}${activeSingleProperty.stub}`, '_blank')}
+                        onClick={() => window.open(`${baseByData.pageUrl}${get(activeSingleProperty, 'stub', '')}`, '_blank')}
                       />
                     </div>
                   ) : (
@@ -236,9 +236,9 @@ const DashboardPropertyCard: (props: DashboardPropertyCardProps) => JSX.Element 
                                 <span className="txtLight600 fsize-300">
                                   {translateTo('Your Price', lang)}
                                 </span>
-                                <Link to={`/${activeSingleProperty.id}/property/price`} className="txtBlue700 fweight-600">
+                                <Link to={`/${get(activeSingleProperty, 'id', '')}/property/price`} className="txtBlue700 fweight-600">
                                   <span>{get(activeSingleProperty, 'price.currency', 0)}</span>
-                                  <span className="ml-1">{Helpers.formatNumberValue(get(activeSingleProperty, 'price.total', 0), get(activeSingleProperty, 'price.currency', 0))}</span>
+                                  <span className="ml-1">{Helpers.formatNumberValue(get(activeSingleProperty, 'price.total', 0), get(activeSingleProperty, 'price.currency', 'EUR'))}</span>
                                 </Link>
                               </div>
                             </div>
@@ -262,13 +262,13 @@ const DashboardPropertyCard: (props: DashboardPropertyCardProps) => JSX.Element 
                                     <span className="txtLight600 fsize-300">
                                       {translateTo('Pro estimation', lang)}
                                     </span>
-                                    <Link to={`/${activeSingleProperty.id}/property/price`} className="txtBlue700 no-state fweight-600">
-                                      {get(activeSingleProperty, 'proEstimation.currency', 0)} {Helpers.formatNumberValue(get(activeSingleProperty, 'proEstimation.value', 0), get(activeSingleProperty, 'proEstimation.currency', 0))}
+                                    <Link to={`/${get(activeSingleProperty, 'id', '')}/property/price`} className="txtBlue700 no-state fweight-600">
+                                      {get(activeSingleProperty, 'proEstimation.currency', 0)} {Helpers.formatNumberValue(get(activeSingleProperty, 'proEstimation.value', 0), get(activeSingleProperty, 'proEstimation.currency', 'EUR'))}
                                     </Link>
                                   </div>
                                   <div className="tagBg dis-fl-row-sm hide a-c">
                                     <span className="activeDot" />
-                                    <Link to={`/${activeSingleProperty.id}/property/price`} className="px-2 no-state txtBlue700">
+                                    <Link to={`/${get(activeSingleProperty, 'id', '')}/property/price`} className="px-2 no-state txtBlue700">
                                       {translateTo('Set your price', lang)}
                                     </Link>
                                   </div>
@@ -290,21 +290,21 @@ const DashboardPropertyCard: (props: DashboardPropertyCardProps) => JSX.Element 
                                       {translateTo('Your Bestimate', lang)}
                                     </span>
                                     {
-                                      !get(estimation, 'status', null) || !completedBestimate(activeSingleProperty) && !get(estimation, 'status', '') === 'processed' && (
-                                        <Link to={`/${activeSingleProperty.id}/singleFlow/achievement/bestimate/step1`} className="txtBlue700 fweight-600">
+                                      (!get(estimation, 'status', null) || !completedBestimate(activeSingleProperty) && get(estimation, 'status', null) === 'processed') && (
+                                        <Link to={`/${get(activeSingleProperty, 'id', '')}/singleFlow/achievement/bestimate/step1`} className="txtBlue700 fweight-600">
                                           {translateTo('Get Estimation', lang)}
                                         </Link>
                                       )
                                     }
                                     {
-                                      get(estimation, 'status', '') === 'pending' && completedBestimate(activeSingleProperty) && (
+                                      get(estimation, 'status', null) === 'pending' && completedBestimate(activeSingleProperty) && (
                                         <span className="txtBlue700 fweight-600">
                                           {translateTo('Pending', lang)}
                                         </span>
                                       )
                                     }
                                     {
-                                      get(estimation, 'status', '') === 'processed' && (
+                                      get(estimation, 'status', null) === 'processed' && (
                                         <button
                                           onClick={() => handleSetModal({
                                             state: true,
@@ -312,14 +312,14 @@ const DashboardPropertyCard: (props: DashboardPropertyCardProps) => JSX.Element 
                                           })}
                                           className="txtBlue700 no-state fweight-600 fsize-400 ml-1-neg"
                                         >
-                                          {get(estimation, 'result.currency', '')} {Helpers.formatNumberValue(get(estimation, 'result.higherValue', '').toFixed(0), get(estimation, 'result.currency', ''))}
+                                          {get(estimation, 'result.currency', '')} {Helpers.formatNumberValue(get(estimation, 'result.higherValue', 0), get(estimation, 'result.currency', ''))}
                                         </button>
                                       )
                                     }
                                   </div>
                                   <div className="tagBg dis-fl-row-sm hide a-c">
                                     <span className="activeDot" />
-                                    <Link to={`/${activeSingleProperty.id}/property/price`} className="px-2 no-state txtBlue700">
+                                    <Link to={`/${get(activeSingleProperty, 'id', '')}/property/price`} className="px-2 no-state txtBlue700">
                                       {translateTo('Set your price', lang)}
                                     </Link>
                                   </div>

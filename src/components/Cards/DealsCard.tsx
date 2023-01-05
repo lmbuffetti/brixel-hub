@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import getConfigEnv from '@brixel/brixel-components/dist/configuration/Settings';
@@ -17,27 +16,29 @@ import {
 } from 'luxon';
 import TimelineActionStubs from '../../resources/Utilities/timelineActionStubs';
 import api from '../../controllers/api/config';
+import type {DealsCardProps} from '../../@types/components/Cards/DealsCard';
+import type { HistoryType } from '../../@types/components/Cards/DealsCard';
 
-const DealsCard = (props) => {
+const DealsCard = (props: DealsCardProps) => {
   const match = useParams();
   const {
-    className,
-    name,
-    parentOnClick,
-    archOnClick,
-    date,
-    feedback,
-    offer,
-    profileId,
-    archived,
-    isWinner,
-    isNew,
-    stage,
-    visit,
-    lang,
+    archOnClick= () => '',
+    archived= false,
+    className= '',
+    date= '',
+    feedback= {},
+    isNew= false,
+    isWinner= false,
+    lang= 'en',
+    name= '',
+    offer= {},
+    parentOnClick= () => '',
+    profileId= '',
+    stage= '',
+    visit= 0,
   } = props;
-  
-  const [lastAction, setLastAction] = useState({})
+
+  const [lastAction, setLastAction] = useState<HistoryType>({})
 
   const propID = get(match, 'propID', null);
 
@@ -50,14 +51,14 @@ const DealsCard = (props) => {
       if (lastAction.actionStub === 'user-portal-create-deal') return translateTo('Interacted through portal', lang);
       if (lastAction.actionStub === 'user-portal') return translateTo('Interacted through portal', lang);
       if (lastAction.actionStub === 'user-message') return translateTo('Sent a message', lang);
-      if (lastAction.actionStub === 'user-portal-create-message') return `<span><span>${translateTo('Sent new message on', lang)}</span> <span>${lastAction.meta.portal}</span></span>`;
+      if (lastAction.actionStub === 'user-portal-create-message') return `<span><span>${translateTo('Sent new message on', lang)}</span> <span>${get(lastAction, 'meta.portal', '')}</span></span>`;
       if (lastAction.actionStub === 'user-send-message') {
-        return translateTo(`"${lastAction.meta.message}"`, lang);
+        return translateTo(`"${get(lastAction, 'meta.message', '')}"`, lang);
       }
-    } else if (offer === '') return translateTo('Made an offer', lang);
+    } else if (!offer) return translateTo('Made an offer', lang);
     return '';
   };
-  
+
   useEffect(() => {
     if (stage === 'Interested') {
       const queryParams = `?parent=${profileId}&child=${propID}&order=DESC&direction=createdAt&historyType=user`;
@@ -94,15 +95,15 @@ const DealsCard = (props) => {
   };
 
   const getOfferColor = () => {
-    if (offer.offer.status === 'pending') return 'Yellow';
-    if (offer.offer.status === 'accepted') return 'Green';
-    if (offer.offer.status === 'rejected') return 'Red';
+    if (get(offer, 'offer.status', null) === 'pending') return 'Yellow';
+    if (get(offer, 'offer.status', null) === 'accepted') return 'Green';
+    if (get(offer, 'offer.status', null) === 'rejected') return 'Red';
     return 'Dark';
   };
 
   const getFeedback = () => {
-    if (feedback.isInterested === true) return translateTo('Still interested 👍', lang);
-    if (feedback.isInterested === false) return translateTo('Not interested anymore 👎', lang);
+    if (get(feedback, 'isInterested', null) === true) return translateTo('Still interested 👍', lang);
+    if (get(feedback, 'isInterested', null) === false) return translateTo('Not interested anymore 👎', lang);
     return 'Visited';
   };
 
@@ -136,7 +137,7 @@ const DealsCard = (props) => {
             {
               stage === 'Visit' && (
                 // eslint-disable-next-line no-nested-ternary
-                visit === null || visit.length === 0 ? (
+                visit === null || visit === 0 ? (
                   <div className="dis-fl-row a-c">
                     <BrixelIcon
                       icon="calendar-add"
@@ -153,7 +154,6 @@ const DealsCard = (props) => {
                     <div className="dis-fl-row a-c">
                       <BrixelIcon
                         icon={getIcon()}
-                        noBorder
                         color={getColor()}
                         saturationTxt={getSaturation()}
                         className="mr-1"
@@ -173,19 +173,17 @@ const DealsCard = (props) => {
                       <>
                         <BrixelIcon
                           icon="money"
-                          noBorder
                           color={getOfferColor()}
                           saturationTxt={400}
                           className="mr-1"
                           iconWidth="w-fix-16"
                         />
-                        <span className={`txt${getOfferColor()}400 fsize-300`}>{get(offer, 'offer.currency', '')} {Helpers.formatNumberValue(get(offer, 'offer.amount', 0), get(offer, 'offer.currency', 0))}</span>
+                        <span className={`txt${getOfferColor()}400 fsize-300`}>{get(offer, 'offer.currency', '')} {Helpers.formatNumberValue(get(offer, 'offer.amount', 0), get(offer, 'offer.currency', 'EUR'))}</span>
                       </>
                     ) : (
                       <>
                         <BrixelIcon
                           icon="money"
-                          noBorder
                           color="dark"
                           saturationTxt={200}
                           className="mr-1"
@@ -237,40 +235,6 @@ const DealsCard = (props) => {
       />
     </>
   );
-};
-
-DealsCard.propTypes = {
-  archOnClick: PropTypes.func,
-  archived: PropTypes.bool,
-  className: PropTypes.string,
-  date: PropTypes.string,
-  feedback: PropTypes.object,
-  isNew: PropTypes.bool,
-  isWinner: PropTypes.bool,
-  lang: PropTypes.string,
-  name: PropTypes.string,
-  offer: PropTypes.object,
-  parentOnClick: PropTypes.func,
-  profileId: PropTypes.string,
-  stage: PropTypes.string,
-  visit: PropTypes.number,
-};
-
-DealsCard.defaultProps = {
-  archOnClick: () => '',
-  archived: false,
-  className: '',
-  date: '',
-  feedback: {},
-  isNew: false,
-  isWinner: false,
-  lang: 'en',
-  name: '',
-  offer: {},
-  parentOnClick: () => '',
-  profileId: '',
-  stage: '',
-  visit: 0,
 };
 
 export default DealsCard;

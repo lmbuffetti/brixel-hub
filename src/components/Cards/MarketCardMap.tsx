@@ -12,8 +12,9 @@ import { updateFavorite } from '../../actions/UserActions';
 import translateTo from '../../utils/translation';
 import CoverPropertyImage from '../CoverPropertyImage';
 import CardImageText from '../Skeleton/CardImageText';
+import type { MarketCardMapType } from '../../@types/components/Cards/MarketCardMap';
 
-const MarketCardMap = (props) => {
+const MarketCardMap = (props: MarketCardMapType) => {
   // PROPS
   const {
     wishlistProperties,
@@ -25,12 +26,14 @@ const MarketCardMap = (props) => {
     onClick,
     onHover,
     skeleton,
-    type,
+    type = '',
   } = props;
   // STATE
   const [coverImgLoaded, setCoverImgLoaded] = useState(false);
   const [removeSkeleton, setRemoveSkeleton] = useState(false);
   const [isUnFavorite, setIsUnFavorite] = useState(false);
+
+  const isPreMarket: () => boolean = () => item.tags ? item.tags.includes('pre-market') : false;
 
   // TODO: Based on "type" prop, sent by the category, open each property on buyer dashboard/seller dashboard/page, etc.
   useEffect(() => {
@@ -46,9 +49,9 @@ const MarketCardMap = (props) => {
 
   // Process tags
   useEffect(() => {
-    const result = [];
-    if (item.tags.length > 1) {
-      item.tags.forEach((tag) => {
+    const result: string[] = [];
+    if (get(item, 'tags', []).length > 1) {
+      get(item, 'tags', []).forEach((tag) => {
         if (tag === 'updated') result.splice(0, 0, tag);
         if (tag === 'new') result.splice(1, 0, tag);
         if (tag === 'premium') result.splice(2, 0, tag);
@@ -57,8 +60,6 @@ const MarketCardMap = (props) => {
       set(item, 'tags', pullAt(compact(result), [0, 1]));
     }
   }, [item.tags]);
-
-  const isPreMarket = () => get(item, 'tags', []).includes('pre-market');
 
   // eslint-disable-next-line consistent-return
   const getTypeText = (text) => {
@@ -76,6 +77,7 @@ const MarketCardMap = (props) => {
         return 'Pre-market';
       }
       default:
+        return '';
     }
   };
 
@@ -95,18 +97,19 @@ const MarketCardMap = (props) => {
         return 'Primary';
       }
       default:
+        return '';
     }
   };
 
   const onChangeFavorite = () => {
     setIsUnFavorite(!isUnFavorite);
-    let data = {
+    const data = {
       act: 'remove',
       id: item.id,
       property: item.id,
       data: {
         email: get(loggedInUser, 'email', ''),
-        language: loggedInUser.lang,
+        language: get(loggedInUser, 'lang', 'en'),
       },
     };
     if (isUnFavorite) {
@@ -141,10 +144,10 @@ const MarketCardMap = (props) => {
                 propertyType={get(item, 'properties.propertyType', undefined)}
               />
               {
-                item.tags.length > 0 && (
+                get(item, 'tags', []).length > 0 && (
                   <div className="tag-container pos-a dis-fl-row a-c jc-b">
                     {
-                      item.tags.map((tag, i) => (
+                      get(item, 'tags', []).map((tag, i) => (
                         <p
                           key={`tag_${i.toString()}`}
                           className={`type-tag pos-r non-favorite fsize-200 fweight-500 txtWhite mr-1 bg${getColor(tag)}`}
@@ -187,7 +190,7 @@ const MarketCardMap = (props) => {
                   ghost
                   icon={checkFavorite() && !isUnFavorite ? 'favorite-fill' : 'favorite'}
                   onClick={() => onChangeFavorite()}
-                  isLoading={isSmallLoading === `favorite-${item.id}`}
+                  isLoading={isSmallLoading[`favorite-${item.id}`]}
                 />
               </div>
             </div>
@@ -206,7 +209,7 @@ const MarketCardMap = (props) => {
                   </span>
                 </span>
                 {
-                  get(item, 'properties.typology.bedrooms') > 0 && (
+                  get(item, 'properties.typology.bedrooms', 0) > 0 && (
                     <span className="px-1 notranslate"> &middot; </span>
                   )
                 }
@@ -224,7 +227,7 @@ const MarketCardMap = (props) => {
             </div>
             <div className="bottom m-a ml-0 mb-0 dis-f a-c fsize-400">
               {
-                get(item, 'price.total', 0) !== 0 && get(item, 'status', null) === 'on-sale' && !item.tags.includes('pre-market') ? (
+                get(item, 'price.total', 0) !== 0 && get(item, 'status', null) === 'on-sale' && !isPreMarket() ? (
                   <>
                     <span className="notranslate fsize-400 txtDark700 fweight-600">{get(item, 'price.currency', '')} &nbsp; </span>
                     <span className="notranslate fsize-400 txtDark700 fweight-600">{Helpers.formatNumberValue(get(item, 'price.total', 0), get(item, 'price.currency', ''))}</span>
@@ -241,23 +244,6 @@ const MarketCardMap = (props) => {
       </div>
     </>
   );
-};
-
-MarketCardMap.propTypes = {
-  wishlistProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
-  handleUpdateFavorites: PropTypes.func.isRequired,
-  isSmallLoading: PropTypes.object.isRequired,
-  item: PropTypes.object.isRequired,
-  lang: PropTypes.string.isRequired,
-  loggedInUser: PropTypes.object.isRequired,
-  onClick: PropTypes.func.isRequired,
-  onHover: PropTypes.func.isRequired,
-  skeleton: PropTypes.object.isRequired,
-  type: PropTypes.string,
-};
-
-MarketCardMap.defaultProps = {
-  type: '',
 };
 
 const mapStateToProps = (state) => ({

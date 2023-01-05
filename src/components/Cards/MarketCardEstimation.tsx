@@ -1,7 +1,6 @@
+import React from 'react';
 import { BrixelButtonText, FormatValue, Helpers } from '@brixel/brixel-components';
 import get from 'lodash/get';
-import PropTypes from 'prop-types';
-import React from 'react';
 import { connect } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { compose } from 'redux';
@@ -9,8 +8,9 @@ import CoverEstimationGreenImg from '../../images/Market/icnEstimationGreen.svg'
 import CoverEstimationYellowImg from '../../images/Market/icnEstimationYellow.svg';
 import translateTo from '../../utils/translation';
 import Tags from '../Tags';
+import type { MarketCardEstimationType } from '../../@types/components/Cards/MarketCardEstimation';
 
-const MarketCardFavorites = (props) => {
+const MarketCardFavorites = (props: MarketCardEstimationType) => {
   const history = {
     push: useNavigate(),
     location: useLocation(),
@@ -58,7 +58,7 @@ const MarketCardFavorites = (props) => {
               </h3>
               <BrixelButtonText
                 label={translateTo('View details', lang)}
-                iconRight="link-open"
+                rightIcon="link-open"
                 bgTransparent
                 onClick={() => openProperty()}
               />
@@ -136,12 +136,6 @@ const MarketCardFavorites = (props) => {
     </div>
   );
 };
-
-MarketCardFavorites.propTypes = {
-  activeSingleProperty: PropTypes.object.isRequired,
-  lang: PropTypes.string.isRequired,
-};
-
 const mapStateToProps = (state) => ({
   wishlistProperties: get(state, 'market.wishlistProperties.data', []),
 });

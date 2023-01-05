@@ -22,8 +22,9 @@ import ModalPropertyCard from '../../Pages/Market/Buyer/ModalPropertyCard';
 import translateTo from '../../utils/translation';
 import CoverPropertyImage from '../CoverPropertyImage';
 import Tags from '../Tags';
+import type { MarketCardFavoritesType } from '../../@types/components/Cards/MarketCardFavorites';
 
-const MarketCardFavorites = (props) => {
+const MarketCardFavorites = (props: MarketCardFavoritesType) => {
   const history = {
     push: useNavigate(),
     location: useLocation(),
@@ -42,6 +43,8 @@ const MarketCardFavorites = (props) => {
   const [showSlideData, setShowSlideData] = useState(false);
   const [isUnFavorite, setIsUnFavorite] = useState(false);
 
+  const isPreMarket: () => boolean = () => activeSingleProperty.tags ? activeSingleProperty.tags.includes('pre-market') : false;
+
   const settingSlider = {
     speed: 500,
     slidesToShow: 1,
@@ -50,10 +53,10 @@ const MarketCardFavorites = (props) => {
     dots: false,
     beforeChange: (oldIndex, newIndex) => {
       setActiveSlide(newIndex);
-    }
+    },
   };
 
-  const imgSlide = useRef(null);
+  const imgSlide = useRef() as React.MutableRefObject<Slider>;
 
   useEffect(() => {
     if (activeSingleProperty.id) {
@@ -89,7 +92,7 @@ const MarketCardFavorites = (props) => {
   }
 
   const onOpenCard = () => {
-    if (get(activeSingleProperty, 'tags', []).includes('pre-market')) {
+    if (isPreMarket()) {
       const propsModal = {
         lang,
         property: activeSingleProperty,
@@ -109,16 +112,16 @@ const MarketCardFavorites = (props) => {
       history.push(`/buyer/${activeSingleProperty.id}/home`);
     }
   }
-  
+
   const onChangeFavorite = () => {
     setIsUnFavorite(!isUnFavorite);
-    let data = {
+    const data = {
       act: 'remove',
       id: activeSingleProperty.id,
       property: activeSingleProperty,
       data: {
         email: get(loggedInUser, 'email', ''),
-        language: loggedInUser.lang,
+        language: get(loggedInUser, 'lang', 'en'),
       },
     };
     if (isUnFavorite) {
@@ -127,8 +130,6 @@ const MarketCardFavorites = (props) => {
     handleUpdateFavorites(data);
     handleSetModal({ state: false });
   }
-
-  const isPreMarket = () => get(activeSingleProperty, 'tags', []).includes('pre-market');
 
   return (
     <div className="mb-3 marketCardFavorite">
@@ -161,7 +162,7 @@ const MarketCardFavorites = (props) => {
                   <div className={`sliderControl ${showSlideData ? 'show' : ''}`}>
                     <BrixelIcon
                       rounded
-                      background={`white`}
+                      background="white"
                       saturation={0}
                       icon="arrow-simple-left"
                       className="pos-a y-c zIndex2 ml-1"
@@ -169,7 +170,7 @@ const MarketCardFavorites = (props) => {
                     />
                     <BrixelIcon
                       rounded
-                      background={`white`}
+                      background="white"
                       saturation={0}
                       icon="arrow-simple-right"
                       className="pos-a y-c x-r zIndex2 mr-1"
@@ -180,7 +181,7 @@ const MarketCardFavorites = (props) => {
                     className="slick-dots pos-a x-c ta-c zIndex2 bt mb-1"
                   >
                     {
-                      activeSingleProperty.photos.map((photo, i) => (
+                      get(activeSingleProperty, 'photos', []).map((photo, i) => (
                         <li
                           key={`dots${i.toString()}`}
                           className={activeSlide === i ? 'slick-active' : ''}
@@ -197,7 +198,7 @@ const MarketCardFavorites = (props) => {
                   {...settingSlider}
                 >
                   {
-                    activeSingleProperty.photos.map((photo, index) => (
+                    get(activeSingleProperty, 'photos', []).map((photo, index) => (
                       <div
                         key={`itm_${index.toString()}`}
                         className={`${isPreMarket() ? 'pre-market' : ''} ${get(activeSingleProperty, 'tags', []).join(' ')} cover pos-r h-perc-100`}
@@ -244,8 +245,8 @@ const MarketCardFavorites = (props) => {
                 {translateTo(activeSingleProperty.title, lang)}
               </h6>
               <BrixelButtonText
-                label={get(activeSingleProperty, 'tags', []).includes('pre-market') ? translateTo('View details', lang) : translateTo('View property page', lang) }
-                rightIcon={get(activeSingleProperty, 'tags', []).includes('pre-market') ? "" : "link-open"}
+                label={isPreMarket() ? translateTo('View details', lang) : translateTo('View property page', lang) }
+                rightIcon={isPreMarket() ? '' : 'link-open'}
                 bgTransparent
                 labelClass="fsize-300"
                 onClick={() => window.open(`${baseByData.pageUrl}${activeSingleProperty.stub}`, '_blank')}
@@ -254,7 +255,7 @@ const MarketCardFavorites = (props) => {
             <div>
               <div className="dis-f a-c">
                 {
-                  get(offerDetail, 'offer.status', 'none') !== 'none' && get(offerDetail, 'offer.status', 'none') !== 'rejected' && !isPreMarket() && (
+                  get(offerDetail, 'offer.status', 'none') !== 'none' && get(offerDetail, 'offer.status', null) !== 'rejected' && !isPreMarket() && (
                     <Tags
                       lang={lang}
                       status={get(offerDetail, 'offer.status', '')}
@@ -262,7 +263,7 @@ const MarketCardFavorites = (props) => {
                       message={{
                         accepted: 'Offer accepted',
                         pending: 'Offer sent',
-                        rejected: 'Offer rejected'
+                        rejected: 'Offer rejected',
                       }}
                     />
                   )
@@ -334,11 +335,11 @@ const MarketCardFavorites = (props) => {
 
             <div className="mt-a mb-a ml-a">
               {
-                (get(offerDetail, 'offer.status', false) === 'none' || get(offerDetail, 'offer.status', null) === 'rejected') && !isPreMarket() && (
+                (get(offerDetail, 'offer.status', null) === 'none' || get(offerDetail, 'offer.status', null) === 'rejected') && !isPreMarket() && (
                   <BrixelButtonPrimary
                     rounded
                     label={translateTo('Make an offer', lang)}
-                    isLoading={!dealDetail.id}
+                    isLoading={!get(dealDetail, 'id', false)}
                     onClick={() => history.push(`/packageFlow/${activeSingleProperty.id}/makeOffer/priceInfo?url=${history.location.pathname}`)}
                   />
                 )
@@ -348,8 +349,8 @@ const MarketCardFavorites = (props) => {
                   <BrixelButtonSecondary
                     rounded
                     label={translateTo('View offer', lang)}
-                    isLoading={!dealDetail.id}
-                    onClick={() => history.push(`/buyer/${activeSingleProperty.id}/closing/${dealDetail.id}?url=${history.location.pathname}`)}
+                    isLoading={!get(dealDetail, 'id', false)}
+                    onClick={() => history.push(`/buyer/${activeSingleProperty.id}/closing/${get(dealDetail, 'id', '')}?url=${history.location.pathname}`)}
                   />
                 )
               }
@@ -360,16 +361,6 @@ const MarketCardFavorites = (props) => {
     </div>
   );
 };
-
-MarketCardFavorites.propTypes = {
-  activeSingleProperty: PropTypes.object.isRequired,
-  handleSetModal: PropTypes.func.isRequired,
-  handleUpdateFavorites: PropTypes.func.isRequired,
-  isSmallLoading: PropTypes.object.isRequired,
-  lang: PropTypes.string.isRequired,
-  loggedInUser: PropTypes.object.isRequired,
-};
-
 const mapStateToProps = (state) => ({
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
   loggedInUser: get(state, 'user.loggedInUser.user', { }),

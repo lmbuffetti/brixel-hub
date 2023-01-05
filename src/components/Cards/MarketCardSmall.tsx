@@ -1,6 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
@@ -11,31 +9,34 @@ import CoverPropertyImage from '../CoverPropertyImage';
 import CardImageText from '../Skeleton/CardImageText';
 import { setActiveMarketOverlayProperty, setActiveSingleProperty, setEstimation } from '../../actions/PropertyActions';
 import { setSplashType } from '../../actions/CommonActions';
+import type { MarketCardSmallType } from '../../@types/components/Cards/MarketCardSmall';
 
-const MarketCardSmall = (props) => {
+const MarketCardSmall = (props: MarketCardSmallType) => {
   const history = {
     push: useNavigate(),
     location: useLocation(),
   };
   // PROPS
   const {
-    className,
-    estimation,
+    className = '',
+    estimation = {},
     handleSetActiveSingleProperty,
     handleSetEstimation,
     handleSetSplashType,
     item,
     lang,
-    readOnly,
+    readOnly = false,
     setMarketOverlayProperty,
     setSplashScreen,
-    showAddess,
+    showAddess = false,
     skeleton,
-    type,
+    type = '',
   } = props;
   // STATE
   const [coverImgLoaded, setCoverImgLoaded] = useState(false);
   const [removeSkeleton, setRemoveSkeleton] = useState(false);
+
+  const isPreMarket: () => boolean = () => item && item.tags ? item.tags.includes('pre-market') : false;
 
   // TODO: Based on "type" prop, sent by the category, open each property on buyer dashboard/seller dashboard/page, etc.
   useEffect(() => {
@@ -44,18 +45,13 @@ const MarketCardSmall = (props) => {
     }
   }, [skeleton, coverImgLoaded]);
 
-  const isPreMarket = () => get(item, 'tags', []).includes('pre-market');
-
   const openCard = (e) => {
     if (e) e.preventDefault();
     if (isPreMarket()) {
       setSplashScreen('marketOverlay');
       setMarketOverlayProperty(item);
     } else if (type !== 'estimation') {
-      history.push({
-        pathname: `/buyer/${item.id}/home`,
-        state: { section: 'Market' },
-      });
+      history.push(`/buyer/${get(item, 'id', '')}/home`, { state: { section: 'Market' }});
     } else {
       const data = {
         ...item,
@@ -66,7 +62,7 @@ const MarketCardSmall = (props) => {
       handleSetEstimation({
         result: {
           ...estimation,
-          higherValue: estimation.higherValue || 0,
+          higherValue: get(estimation, 'higherValue', 0) || 0,
         },
       });
       handleSetActiveSingleProperty(data);
@@ -125,11 +121,11 @@ const MarketCardSmall = (props) => {
                 type === 'estimation' && (
                   <div className="px-2">
                     {
-                      estimation.higherValue ? (
+                      get(estimation, 'higherValue', null) ? (
                         <p className="txtLight400">
-                          <span>{estimation.currency}</span>
+                          <span>{get(estimation, 'currency', 'EUR')}</span>
                           <span className="ml-1">
-                            {Helpers.formatNumberValue(Math.round(estimation.higherValue), estimation.currency)}
+                            {Helpers.formatNumberValue(Math.round(get(estimation, 'higherValue', 0)), get(estimation, 'currency', 'EUR'))}
                           </span>
                         </p>
                       ) : (
@@ -147,31 +143,6 @@ const MarketCardSmall = (props) => {
       </div>
     </>
   );
-};
-
-MarketCardSmall.propTypes = {
-  className: PropTypes.string,
-  estimation: PropTypes.object,
-  handleSetActiveSingleProperty: PropTypes.func.isRequired,
-  handleSetEstimation: PropTypes.func.isRequired,
-  handleSetSplashType: PropTypes.func.isRequired,
-  item: PropTypes.object,
-  lang: PropTypes.string.isRequired,
-  readOnly: PropTypes.bool,
-  setMarketOverlayProperty: PropTypes.func.isRequired,
-  setSplashScreen: PropTypes.func.isRequired,
-  showAddess: PropTypes.bool,
-  skeleton: PropTypes.object.isRequired,
-  type: PropTypes.string,
-};
-
-MarketCardSmall.defaultProps = {
-  className: '',
-  readOnly: false,
-  estimation: {},
-  item: null,
-  showAddess: false,
-  type: '',
 };
 
 const mapStateToProps = (state) => ({
