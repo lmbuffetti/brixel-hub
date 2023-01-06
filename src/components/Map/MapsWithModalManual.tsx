@@ -1,19 +1,20 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { BrixelButtonIcon, BrixelButtonPrimary, BrixelButtonSecondary } from '@brixel/brixel-components';
+import {BrixelButtonIcon, BrixelButtonPrimary, BrixelButtonSecondary} from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
-import { BrixelInputText, BrixelSelect, change, ReduxField, Validation } from '@brixel/brixel-components/dist/form';
-import { BrixelAutocomplete, BrixelMap } from '@brixel/brixel-components/dist/map';
+import {BrixelInputText, BrixelSelect, change, ReduxField, Validation} from '@brixel/brixel-components/dist/form';
+import {BrixelAutocomplete, BrixelMap} from '@brixel/brixel-components/dist/map';
 import cloneDeep from 'lodash/cloneDeep';
 import get from 'lodash/get';
-import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { bindActionCreators, compose } from 'redux';
-import { setCountryList } from '../../actions/CommonActions';
+import React, {useEffect, useState} from 'react';
+import {connect} from 'react-redux';
+import {useLocation, useNavigate} from 'react-router-dom';
+import {bindActionCreators, compose} from 'redux';
+import {setCountryList} from '../../actions/CommonActions';
 import translateTo from '../../utils/translation';
+import type {MapsWithModalManualType} from '../../@types/components/Maps/MapsWithModalManual';
+import {LocationType} from '@brixel/brixel-components/dist/@types/Model';
 
-export const MapsWithModalManual = (props) => {
+export const MapsWithModalManual = (props: MapsWithModalManualType) => {
   const history = {
     push: useNavigate(),
     location: useLocation(),
@@ -21,8 +22,8 @@ export const MapsWithModalManual = (props) => {
   // PROPS
   const {
     changeFieldValue,
-    className,
-    country,
+    className = '',
+    country = [],
     formName,
     formValue,
     lang,
@@ -35,26 +36,28 @@ export const MapsWithModalManual = (props) => {
   const [showManualInput, setShowManualInput] = useState(false);
   const [loadingAddress, setLoadingAddress] = useState(false);
   const [updateAddress, setUpdateAddress] = useState(0);
-  
+
   useEffect(() => {
     const checkPath = get(history, 'location.pathname', '').split('/');
     if (checkPath[checkPath.length - 1] === 'locationInput') {
-      changeFieldValue('location.latitude', null);
-      changeFieldValue('location.longitude', null);
+      changeFieldValue(formName, 'location.latitude', null);
+      changeFieldValue(formName, 'location.longitude', null);
     }
   }, [history.location.pathname]);
-  
+
   useEffect(() => {
     setTimeout(() => {
-      const getCurStep = document.getElementById('searchInputWrap');
+      const getCurStep = document.getElementById('searchInputWrap') as HTMLInputElement;
       if (getCurStep && getCurStep.querySelector('input[type="number"]')) {
-        getCurStep.querySelector('input[type="number"]').focus();
+        const numberEl = getCurStep.querySelector('input[type="number"]') as HTMLInputElement;
+        if (numberEl) numberEl.focus();
       } else if (getCurStep && getCurStep.querySelector('input[type="text"]')) {
-        getCurStep.querySelector('input[type="text"]').focus();
+        const textEl = getCurStep.querySelector('input[type="text"]') as HTMLInputElement;
+        if (textEl) textEl.focus();
       }
     }, 100);
   }, []);
-  
+
   useEffect(() => {
     const { body } = document;
     if (body) {
@@ -62,16 +65,18 @@ export const MapsWithModalManual = (props) => {
       else body.classList.remove('overlayOpen');
     }
   }, [showManualInput]);
-  
+
   const saveCurrentLocation = () => {
     const address = get(formValue, 'location.name', '');
     const zipCode = get(formValue, 'location.zip', '');
     const city = get(formValue, 'location.city', '');
     const streetNumber = get(formValue, 'location.streetNumber', '');
     const getRealCountry = country.find(((item) => item.value === get(formValue, 'location.countryCode', 'all')));
-    const searchAddr = `${address} ${streetNumber}, ${zipCode} ${city} ${getRealCountry.full}`;
-    changeFieldValue(formName, 'location.searchAddress', searchAddr);
-    const manualSyncError = cloneDeep(get(syncErrors, 'location', {}));
+    if (getRealCountry) {
+      const searchAddr = `${address} ${streetNumber}, ${zipCode} ${city} ${getRealCountry.full}`;
+      changeFieldValue(formName, 'location.searchAddress', searchAddr);
+    }
+    const manualSyncError: LocationType = cloneDeep(get(syncErrors, 'location', {}));
     delete manualSyncError.latitude;
     let invalidField = false;
     if (Validation.required(zipCode) !== true || Validation.required(address) !== true) {
@@ -85,14 +90,14 @@ export const MapsWithModalManual = (props) => {
       setLoadingAddress(true);
     }
   };
-  
+
   const mapWindowSize = windowDimensions.width >= 1024 ? 'h-fix-232' : 'h-fix-240';
   const mapSize = !className && showMap ? mapWindowSize : 'h-perc-100';
-  
+
   const closeModal = () => {
     setShowManualInput(false);
   };
-  
+
   return (
     // Important! Always set the container height explicitly
     <>
@@ -172,7 +177,7 @@ export const MapsWithModalManual = (props) => {
                         invalid: true,
                         dirty: true,
                         message: {
-                          error: translateTo('Please insert a valid address'),
+                          error: translateTo('Please insert a valid address', lang),
                         },
                       }}
                       component={BrixelInputText}
@@ -194,7 +199,7 @@ export const MapsWithModalManual = (props) => {
                       component={BrixelInputText}
                     />
                   </div>
-                  
+
                   <div className="dis-f a-t jc-b">
                     <ReduxField
                       multiple={false}
@@ -269,14 +274,14 @@ export const MapsWithModalManual = (props) => {
                     <BrixelButtonSecondary
                       rounded
                       className="mr-3"
-                      label={translateTo("Cancel", lang)}
+                      label={translateTo('Cancel', lang)}
                       onClick={() => closeModal()}
                     />
                     <BrixelButtonPrimary
                       rounded
                       theme="green"
                       themeSat={500}
-                      label={translateTo("Save Address", lang)}
+                      label={translateTo('Save Address', lang)}
                       onClick={() => saveCurrentLocation()}
                       isLoading={loadingAddress}
                     />
@@ -298,7 +303,7 @@ export const MapsWithModalManual = (props) => {
           <span className="fweight-400 txtDark200 fsize-200 dis-b">{get(formValue, 'location.cityZip', '')}</span>
         </div>
         <BrixelButtonSecondary
-          label={translateTo("Edit", lang)}
+          label={translateTo('Edit', lang)}
           rounded
           small={windowDimensions.width < 590}
           onClick={() => setShowManualInput(true)}
@@ -306,24 +311,6 @@ export const MapsWithModalManual = (props) => {
       </div>
     </>
   );
-};
-
-MapsWithModalManual.propTypes = {
-  changeFieldValue: PropTypes.func.isRequired,
-  className: PropTypes.string,
-  country: PropTypes.arrayOf(PropTypes.object),
-  formName: PropTypes.string,
-  formValue: PropTypes.object.isRequired,
-  lang: PropTypes.string.isRequired,
-  showMap: PropTypes.bool,
-  syncErrors: PropTypes.object.isRequired,
-  windowDimensions: PropTypes.object.isRequired,
-};
-
-MapsWithModalManual.defaultProps = {
-  className: '',
-  country: [],
-  formName: '',
 };
 
 const mapStateToProps = (state, ownProps) => {

@@ -1,12 +1,11 @@
-/* eslint-disable no-nested-ternary */
-import React  from 'react';
+import React from 'react';
 import get from 'lodash/get';
-import { compose } from 'redux';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import {compose} from 'redux';
+import {connect} from 'react-redux';
 import SkeletonClosingCard from '@brixel/brixel-components/dist/images/Skeleton/Svg/skeleton-closing-tree.svg';
+import type {ClosingTreeType} from '../../@types/components/Skeleton/ClosingTree';
 
-const ClosingTree = (props) => {
+const ClosingTree = (props: ClosingTreeType) => {
   const {
     className,
   } = props;
@@ -23,14 +22,6 @@ const ClosingTree = (props) => {
       />
     </>
   );
-};
-
-ClosingTree.propTypes = {
-  className: PropTypes.string,
-};
-
-ClosingTree.defaultProps = {
-  className: '',
 };
 
 const mapStateToProps = (state) => ({

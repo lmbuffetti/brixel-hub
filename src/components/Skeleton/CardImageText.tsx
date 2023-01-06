@@ -1,21 +1,42 @@
-/* eslint-disable no-nested-ternary */
 import React from 'react';
 import get from 'lodash/get';
-import { compose } from 'redux';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import {compose} from 'redux';
+import {connect} from 'react-redux';
 import SkeletonCard from '../../images/skeletonCard.svg';
 import SkeletonOwnCard from '../../images/Market/skeletonOwnCard.svg';
 import SkeletonMapCard from '../../images/skeletonMapCard.svg';
 import SkeletonCardOwnMobile from '../../images/Market/skeletonCardMobile.svg';
 import SkeletonFav from '../../images/Market/skeleton-property-thumb.svg';
+import type {CardImageTextType} from '../../@types/components/Skeleton/CardImageText';
 
-const CardImageText = (props) => {
+const CardImageText = (props: CardImageTextType) => {
   const {
+    className = '',
     type,
     windowDimensions,
-    className,
   } = props;
+
+  const sourceSkeleton = () => {
+    if (type === 'own') {
+      if (windowDimensions.width < 590 ) return SkeletonCardOwnMobile;
+      else return SkeletonOwnCard;
+    }
+    if (type === 'map-view') {
+      if (windowDimensions.width < 590 ) return SkeletonCard;
+      else return SkeletonMapCard;
+    }
+    return SkeletonCard;
+  }
+
+  const classSkeleton = () => {
+    if (type === 'own' || type === 'map-view') {
+      if (windowDimensions.width < 590 ) return 'w-perc-100 pr-2';
+    }
+    if (type === 'own') {
+      if (windowDimensions.width >= 590 ) return 'h-fix-208';
+    }
+    return 'w-perc-100 pr-2';
+  }
 
   return (
     <>
@@ -28,8 +49,8 @@ const CardImageText = (props) => {
               loading="lazy"
               alt="Sckeleton Card Loading"
               id="cartello"
-              src={type === 'own' ? windowDimensions.width < 590 ? SkeletonCardOwnMobile : SkeletonOwnCard : type === 'map-view' ? windowDimensions.width < 590 ? SkeletonCard : SkeletonMapCard : SkeletonCard}
-              className={`notranslate ${type === 'map-view' ? '' : type === 'own' ? '' : 'ml-1'} ${type === 'own' || type === 'map-view' ? windowDimensions.width < 590 ? 'w-perc-100 pr-2' : type === 'own' ? '' : 'h-fix-208' : 'w-perc-100 pr-2'} ${className}`}
+              src={sourceSkeleton()}
+              className={`notranslate ${classSkeleton()} ${className}`}
             />
             {
               type === 'map-view' && (
@@ -41,16 +62,6 @@ const CardImageText = (props) => {
       }
     </>
   );
-};
-
-CardImageText.propTypes = {
-  type: PropTypes.string.isRequired,
-  className: PropTypes.string,
-  windowDimensions: PropTypes.object.isRequired,
-};
-
-CardImageText.defaultProps = {
-  className: '',
 };
 
 const mapStateToProps = (state) => ({
