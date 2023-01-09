@@ -9,5 +9,5 @@ export interface LeadReducerType{
       total: number,
     },
   },
-};
+}
 

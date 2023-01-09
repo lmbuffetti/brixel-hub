@@ -1,23 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, {useEffect, useState} from 'react';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import getConfigEnv from '@brixel/brixel-components/dist/configuration/Settings';
-import {
-  BrixelButtonIcon,
-  BrixelAvatar,
-  BrixelStatus,
-  BrixelIcon,
-  Helpers,
-} from '@brixel/brixel-components';
+import {BrixelAvatar, BrixelButtonIcon, BrixelIcon, BrixelStatus, Helpers,} from '@brixel/brixel-components';
 import translateTo from '../../utils/translation';
-import { useParams } from 'react-router-dom';
-import {
-  DateTime,
-} from 'luxon';
+import {useParams} from 'react-router-dom';
+import {DateTime,} from 'luxon';
 import TimelineActionStubs from '../../resources/Utilities/timelineActionStubs';
 import api from '../../controllers/api/config';
-import type {DealsCardProps} from '../../@types/components/Cards/DealsCard';
-import type { HistoryType } from '../../@types/components/Cards/DealsCard';
+import type {DealsCardProps, HistoryType} from '../../@types/components/Cards/DealsCard';
 
 const DealsCard = (props: DealsCardProps) => {
   const match = useParams();

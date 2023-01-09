@@ -9,7 +9,7 @@ import {
   SET_USER_NOTE_LISTINGS,
 } from '../actions/types/NoteTypes';
 
-import {SET_SCREEN_NOTIFICATION, SPINNER_OFF, SPINNER_ON, SPINNER_SMALL,} from '../actions/types/CommonTypes';
+import {SET_SCREEN_NOTIFICATION, SPINNER_OFF, SPINNER_ON, SPINNER_SMALL} from '../actions/types/CommonTypes';
 
 import api from '../controllers/api/config';
 

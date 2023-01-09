@@ -1,25 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, Suspense } from 'react';
-import PropTypes from 'prop-types';
-import {
-  Routes, Route, useLocation, useNavigate, useParams, Navigate,
-} from 'react-router-dom';
+import { BrixelButtonBox, BrixelButtonIcon } from '@brixel/brixel-components';
 import get from 'lodash/get';
-import {
-  BrixelButtonBox,
-  BrixelButtonIcon,
-} from '@brixel/brixel-components';
-import translateTo from '../../../utils/translation';
-import { compose } from 'redux';
-import { connect } from 'react-redux';
 import last from 'lodash/last';
+import PropTypes from 'prop-types';
+import React, { Suspense, useEffect } from 'react';
+import { connect } from 'react-redux';
+import { Navigate, Route, Routes, useLocation, useNavigate, useParams } from 'react-router-dom';
 import Sticker from 'react-stickyfill';
+import { compose } from 'redux';
 import lazyWithRetry from '../../../components/LazyWithRetry';
 import Loading from '../../../components/Loading';
+import translateTo from '../../../utils/translation';
 
 const PageBuyer = lazyWithRetry(() => import('./PageBuyer'));
-
-const ShowingsBuyer = lazyWithRetry(() => import('./ShowingsBuyer'));
 
 const ContactBuyer = lazyWithRetry(() => import('./ContactBuyer'));
 
@@ -176,7 +169,6 @@ const PropertyBuyerDashboard = (props) => {
                 <Routes>
                   <Route path="/page" element={<PageBuyer />} />
                   <Route path="/contact/*" element={<ContactBuyer />} />
-                  <Route path="/showings/*" element={<ShowingsBuyer />} />
                   <Route path="*" element={<Navigate to={`/buyer/${propID}/property/page`} />} />
                 </Routes>
               </Suspense>

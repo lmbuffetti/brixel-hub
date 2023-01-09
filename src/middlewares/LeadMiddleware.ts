@@ -1,5 +1,5 @@
 import take from 'lodash/take';
-import {GET_GLOBAL_LEAD_LISTINGS, SET_GLOBAL_LEAD_LISTINGS,} from '../actions/types/LeadTypes';
+import {GET_GLOBAL_LEAD_LISTINGS, SET_GLOBAL_LEAD_LISTINGS} from '../actions/types/LeadTypes';
 
 import api from '../controllers/api/config';
 

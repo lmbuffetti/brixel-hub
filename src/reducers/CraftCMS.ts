@@ -1,6 +1,6 @@
 import {handleActions} from 'redux-actions';
 
-import {SET_CONTENT,} from '../actions/types/CraftCMS';
+import {SET_CONTENT} from '../actions/types/CraftCMS';
 import type {CommonReducerType} from '../@types/reducer/CraftReducer';
 
 export const defaultState: CommonReducerType = {

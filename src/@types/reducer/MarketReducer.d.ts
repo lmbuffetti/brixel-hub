@@ -11,4 +11,4 @@ export interface MarketReducerType {
   premiumEuropeProperties: object,
   premiumProperties: object,
   wishlistProperties: object,
-};
+}

@@ -14,7 +14,7 @@ import {
   SET_PROPERTY_LISTINGS,
 } from '../actions/types/PropertyTypes';
 
-import {SET_PROPERTY_HISTORY_LISTINGS, SET_PROPERTY_OWNER_HISTORY_LISTINGS,} from '../actions/types/HistoryTypes';
+import {SET_PROPERTY_HISTORY_LISTINGS, SET_PROPERTY_OWNER_HISTORY_LISTINGS} from '../actions/types/HistoryTypes';
 
 export const defaultState = {
   activeMarketOverlayProperty: {},

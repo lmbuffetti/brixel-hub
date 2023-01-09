@@ -1,4 +1,4 @@
-import {createActions,} from 'redux-actions';
+import {createActions} from 'redux-actions';
 import {
   CREATE_DEAL,
   GET_ACTIVE_SINGLE_DEAL,

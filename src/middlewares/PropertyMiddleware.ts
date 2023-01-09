@@ -117,7 +117,7 @@ const checkCommon = (store) => (next) => (action) => {
             store.dispatch(change('GetStarted', 'pageID', res.data.id));
             store.dispatch(change('GetStarted', 'pageAnswer', res.data.packageFlowProcess));
             if (baloiseInfo) {
-              let data = {
+              const data = {
                 id: res.data.owner,
               };
               if (baloiseInfo === 'baloiseBank') set(data, 'termsBaloiseBank', true);
@@ -129,7 +129,7 @@ const checkCommon = (store) => (next) => (action) => {
               store.dispatch({ type: SAVE_ACTIVE_SINGLE_USER, payload: data });
             }
             if (termsUBS) {
-              let data = {
+              const data = {
                 id: res.data.owner,
               };
               set(data, 'termsUBS', termsUBS);

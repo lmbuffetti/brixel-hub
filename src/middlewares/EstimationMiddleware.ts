@@ -8,13 +8,13 @@ import {
   SEND_PROESTIMATION_NOTIFICATION,
 } from '../actions/types/EstimationTypes';
 
-import {SET_ESTIMATION,} from '../actions/types/PropertyTypes';
+import {SET_ESTIMATION} from '../actions/types/PropertyTypes';
 
-import {SAVE_ACTIVE_SINGLE_USER,} from '../actions/types/UserTypes';
+import {SAVE_ACTIVE_SINGLE_USER} from '../actions/types/UserTypes';
 
-import {SET_OWNED_PROPERTIES,} from '../actions/types/MarketTypes';
+import {SET_OWNED_PROPERTIES} from '../actions/types/MarketTypes';
 
-import {SET_SCREEN_NOTIFICATION, SPINNER_OFF, SPINNER_ON, SPINNER_SMALL,} from '../actions/types/CommonTypes';
+import {SET_SCREEN_NOTIFICATION, SPINNER_OFF, SPINNER_ON, SPINNER_SMALL} from '../actions/types/CommonTypes';
 
 import api from '../controllers/api/config';
 

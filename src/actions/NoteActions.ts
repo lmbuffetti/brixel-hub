@@ -1,4 +1,4 @@
-import {createActions,} from 'redux-actions';
+import {createActions} from 'redux-actions';
 import {
   CREATE_NOTE,
   GET_NOTE_LISTINGS,

@@ -1,4 +1,4 @@
-import {createActions,} from 'redux-actions';
+import {createActions} from 'redux-actions';
 import {
   GET_HISTORY_LISTINGS,
   SET_DEAL_HISTORY_LISTINGS,

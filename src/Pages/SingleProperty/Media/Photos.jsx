@@ -1,34 +1,30 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {
-  useCallback, useEffect, useState, useRef,
-} from 'react';
-import {
-  Routes, Route, useLocation, useNavigate, useParams,
-} from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { bindActionCreators, compose } from 'redux';
-import { connect } from 'react-redux';
-import { useDropzone } from 'react-dropzone';
-import { diff } from 'deep-object-diff';
-import get from 'lodash/get';
-import cloneDeep from 'lodash/cloneDeep';
-import isArray from 'lodash/isArray';
 import {
   BrixelButtonIcon,
-  BrixelIcon,
   BrixelButtonPrimary,
   BrixelButtonSecondary,
+  BrixelIcon,
+  useOutsideAlerter,
 } from '@brixel/brixel-components';
-import translateTo from '../../../utils/translation';
-import { change } from '@brixel/brixel-components/dist/form';
 import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
+import { change } from '@brixel/brixel-components/dist/form';
+import { diff } from 'deep-object-diff';
+import cloneDeep from 'lodash/cloneDeep';
+import get from 'lodash/get';
+import isArray from 'lodash/isArray';
+import PropTypes from 'prop-types';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useDropzone } from 'react-dropzone';
+import { connect } from 'react-redux';
+import { Route, Routes, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { ReactSortable } from 'react-sortablejs';
-import { deleteImg, uploadImg, multiUploadImg } from '../../../actions/UploadActions';
-import DetailMedia from './DetailMedia';
-import { Truncate, tobase64Handler } from '../../../utils/helpers';
-import uploadPhotosEmpty from '../../../images/Upload/upload_photos_empty.svg';
-import OutsideElement from '../../../components/OutsideElement';
+import { bindActionCreators, compose } from 'redux';
+import { deleteImg, multiUploadImg, uploadImg } from '../../../actions/UploadActions';
 import BrixelUpgradeMessage from '../../../components/BrixelUpgradeMessage';
+import uploadPhotosEmpty from '../../../images/Upload/upload_photos_empty.svg';
+import { tobase64Handler, Truncate } from '../../../utils/helpers';
+import translateTo from '../../../utils/translation';
+import DetailMedia from './DetailMedia';
 
 const Photos = (props) => {
   const history = {
@@ -150,7 +146,7 @@ const Photos = (props) => {
   };
 
   // CLICK OUTSIDE OF IMAGES
-  OutsideElement(wrappImg, {
+  useOutsideAlerter(wrappImg, {
     id: confirmDelete || 0,
     action: 'function',
     func: () => { setConfirmDelete(null); },

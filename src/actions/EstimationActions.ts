@@ -1,5 +1,5 @@
-import {createActions,} from 'redux-actions';
-import {CREATE_ESTIMATION, GENERATE_ESTIMATION, SEND_PROESTIMATION_NOTIFICATION,} from './types/EstimationTypes';
+import {createActions} from 'redux-actions';
+import {CREATE_ESTIMATION, GENERATE_ESTIMATION, SEND_PROESTIMATION_NOTIFICATION} from './types/EstimationTypes';
 
 export const {
   createEstimation,

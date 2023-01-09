@@ -1,33 +1,29 @@
 /* eslint-disable max-len */
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, {
-  useCallback, useEffect, useRef, useState,
-} from 'react';
-import {
-  Routes, Route, useLocation, useNavigate, useParams,
-} from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { bindActionCreators, compose } from 'redux';
-import { connect } from 'react-redux';
-import { useDropzone } from 'react-dropzone';
-import get from 'lodash/get';
 import {
   BrixelButtonIcon,
   BrixelButtonPrimary,
   BrixelButtonSecondary,
+  useOutsideAlerter,
 } from '@brixel/brixel-components';
-import translateTo from '../../../utils/translation';
-import { change } from '@brixel/brixel-components/dist/form';
 import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
-import { ReactSortable } from 'react-sortablejs';
-import cloneDeep from 'lodash/cloneDeep';
+import { change } from '@brixel/brixel-components/dist/form';
 import { diff } from 'deep-object-diff';
+import cloneDeep from 'lodash/cloneDeep';
+import get from 'lodash/get';
+import PropTypes from 'prop-types';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useDropzone } from 'react-dropzone';
+import { connect } from 'react-redux';
+import { Route, Routes, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { ReactSortable } from 'react-sortablejs';
+import { bindActionCreators, compose } from 'redux';
 import { deleteImg, multiUploadImg, uploadImg } from '../../../actions/UploadActions';
-import DetailMedia from './DetailMedia';
-import uploadFloorPlansEmpty from '../../../images/Upload/upload_floorPlans_empty.svg';
-import OutsideElement from '../../../components/OutsideElement';
-import { tobase64Handler, Truncate, checkBrowser } from '../../../utils/helpers';
 import BrixelUpgradeMessage from '../../../components/BrixelUpgradeMessage';
+import uploadFloorPlansEmpty from '../../../images/Upload/upload_floorPlans_empty.svg';
+import { checkBrowser, tobase64Handler, Truncate } from '../../../utils/helpers';
+import translateTo from '../../../utils/translation';
+import DetailMedia from './DetailMedia';
 
 const Photos = (props) => {
   const history = {
@@ -136,7 +132,7 @@ const Photos = (props) => {
   };
 
   // CLICK OUTSIDE OF IMAGES
-  OutsideElement(wrappImg, {
+  useOutsideAlerter(wrappImg, {
     id: confirmDelete || 0,
     action: 'function',
     func: () => { setConfirmDelete(null); },

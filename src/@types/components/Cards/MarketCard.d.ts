@@ -1,5 +1,9 @@
-import {LoggedUserType, PhotosType, ServicePackageType, PropertyListType} from '@brixel/brixel-components/dist/@types/Model';
-import {CompanyType} from '@brixel/brixel-components/dist/@types/Model';
+import {
+  CompanyType,
+  LoggedUserType,
+  PropertyListType,
+  ServicePackageType
+} from '@brixel/brixel-components/dist/@types/Model';
 
 export interface CompanyTypeListType extends CompanyType {
   tags: string[];

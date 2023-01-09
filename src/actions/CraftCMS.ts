@@ -1,5 +1,5 @@
 import {createActions} from 'redux-actions';
-import {GET_CONTENT, SET_CONTENT,} from './types/CraftCMS';
+import {GET_CONTENT, SET_CONTENT} from './types/CraftCMS';
 
 export const {
   getContent,

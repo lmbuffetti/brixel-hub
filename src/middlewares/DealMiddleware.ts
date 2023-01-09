@@ -28,9 +28,9 @@ import {
   UPDATE_MULTIPLE_DEALS,
 } from '../actions/types/DealTypes';
 
-import {GET_HISTORY_LISTINGS, SET_DEAL_OWNER_HISTORY_LISTINGS,} from '../actions/types/HistoryTypes';
+import {GET_HISTORY_LISTINGS, SET_DEAL_OWNER_HISTORY_LISTINGS} from '../actions/types/HistoryTypes';
 
-import {GET_PAGE_DEALS,} from '../actions/types/PropertyTypes';
+import {GET_PAGE_DEALS} from '../actions/types/PropertyTypes';
 
 import {exampleDeal} from '../resources/Deals/exampleDeal';
 

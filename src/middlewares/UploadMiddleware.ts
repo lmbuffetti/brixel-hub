@@ -19,11 +19,11 @@ import {
   UPLOAD_IMG,
 } from '../actions/types/UploadTypes';
 
-import {SAVE_ACTIVE_SINGLE_PROPERTY,} from '../actions/types/PropertyTypes';
+import {SAVE_ACTIVE_SINGLE_PROPERTY} from '../actions/types/PropertyTypes';
 
 import api from '../controllers/api/config';
 import {SAVE_ACTIVE_SINGLE_USER} from '../actions/types/UserTypes';
-import {REQUEST_DONE, SPINNER_OFF, SPINNER_ON, SPINNER_SMALL,} from '../actions/types/CommonTypes';
+import {REQUEST_DONE, SPINNER_OFF, SPINNER_ON, SPINNER_SMALL} from '../actions/types/CommonTypes';
 import {SAVE_CLOSING_IDENTIFICATION, SAVE_FINANCING_REQUEST, SAVE_MAKE_OFFER} from '../actions/types/DealTypes';
 
 const checkCommon = (store) => (next) => (action) => {
