@@ -1,18 +1,16 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { BrixelButtonIcon, FormatValue, Helpers } from '@brixel/brixel-components';
+import React, {useEffect, useState} from 'react';
+import {BrixelButtonIcon, FormatValue, Helpers} from '@brixel/brixel-components';
 import compact from 'lodash/compact';
 import get from 'lodash/get';
 import pullAt from 'lodash/pullAt';
 import set from 'lodash/set';
-import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators, compose } from 'redux';
-import { updateFavorite } from '../../actions/UserActions';
+import {connect} from 'react-redux';
+import {bindActionCreators, compose} from 'redux';
+import {updateFavorite} from '../../actions/UserActions';
 import translateTo from '../../utils/translation';
 import CoverPropertyImage from '../CoverPropertyImage';
 import CardImageText from '../Skeleton/CardImageText';
-import type { MarketCardMapType } from '../../@types/components/Cards/MarketCardMap';
+import type {MarketCardMapType} from '../../@types/components/Cards/MarketCardMap';
 
 const MarketCardMap = (props: MarketCardMapType) => {
   // PROPS
@@ -135,7 +133,7 @@ const MarketCardMap = (props: MarketCardMapType) => {
           <div className="">
             <>
               <CoverPropertyImage
-                onClick={(e) => onClick(e)}
+                onClick={() => onClick()}
                 onMouseEnter={(e) => onHover(e)}
                 onMouseLeave={() => onHover(null)}
                 loadedImg={(val) => setCoverImgLoaded(val)}

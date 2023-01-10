@@ -36,7 +36,7 @@ import {exampleDeal} from '../resources/Deals/exampleDeal';
 
 import api from '../controllers/api/config';
 
-const ActionStubs = require('../resources/Utilities/timelineActionStubs');
+import {TimelineActionStubs} from '../resources/Utilities/timelineActionStubs';
 
 const checkCommon = (store) => (next) => (action) => {
   switch (action.type) {
@@ -211,7 +211,7 @@ const checkCommon = (store) => (next) => (action) => {
               let updatedDeal;
               const queryParamsDealUser = `?parent=${response.data.user.id}&child=${property}&order=createdAt&direction=ASC&historyType=user`;
               // eslint-disable-next-line no-return-assign
-              const call2 = api.history.getHistoryList(10, 0, queryParamsDealUser, ActionStubs.DealOwner)
+              const call2 = api.history.getHistoryList(10, 0, queryParamsDealUser, TimelineActionStubs.DealOwner)
                 .then((res) => {
                   if (res.meta.status === 200) dealUserHistory = res.data;
                 });
@@ -237,7 +237,7 @@ const checkCommon = (store) => (next) => (action) => {
               Promise.all([call2, call3]).then(() => {
                 // Set the parent of each history entry with the user
                 // associated with the deal api call
-                dealUserHistory.data.forEach((entry) => {
+                get(dealUserHistory, 'data', []).forEach((entry) => {
                   set(entry, 'parent', response.data.user);
                 });
 
@@ -303,6 +303,7 @@ const checkCommon = (store) => (next) => (action) => {
         .then((res) => {
           if (!res.data) {
             const deal = {
+              actionStub: null,
               page: id,
               user: get(store.getState(), 'user.loggedInUser.user.id', ''),
               stage: 'Interested',
@@ -503,8 +504,8 @@ const checkCommon = (store) => (next) => (action) => {
         });
       }
       const arrDeals = cloneDeep(deals);
-      const multiCall = [];
-      const resDeals = [];
+      const multiCall: string[] = [];
+      const resDeals: object[] = [];
       arrDeals.forEach((deal) => {
         const obj = cloneDeep(deal.data);
         delete obj.user;

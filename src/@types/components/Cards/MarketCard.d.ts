@@ -2,7 +2,7 @@ import {
   CompanyType,
   LoggedUserType,
   PropertyListType,
-  ServicePackageType
+  ServicePackageType,
 } from '@brixel/brixel-components/dist/@types/Model';
 
 export interface CompanyTypeListType extends CompanyType {

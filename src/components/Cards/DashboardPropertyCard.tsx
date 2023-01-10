@@ -1,19 +1,12 @@
 import React from 'react';
-import {
-  BrixelButtonPrimary,
-  BrixelButtonSecondary,
-  BrixelIcon,
-  FormatValue,
-  Helpers,
-} from '@brixel/brixel-components';
+import {BrixelButtonPrimary, BrixelButtonSecondary, BrixelIcon, FormatValue, Helpers} from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import get from 'lodash/get';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { bindActionCreators, compose } from 'redux';
-import { setModal, setSplashType } from '../../actions/CommonActions';
-import { completedBestimate } from '../../utils/helpers';
+import {connect} from 'react-redux';
+import {Link, useLocation, useNavigate} from 'react-router-dom';
+import {bindActionCreators, compose} from 'redux';
+import {setModal, setSplashType} from '../../actions/CommonActions';
+import {completedBestimate} from '../../utils/helpers';
 import translateTo from '../../utils/translation';
 import CoverPropertyImage from '../CoverPropertyImage';
 import type {DashboardPropertyCardProps} from '../../@types/components/Cards/DashboardPropertyCard';

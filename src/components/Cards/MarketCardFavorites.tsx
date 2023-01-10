@@ -1,3 +1,4 @@
+import React, {useEffect, useRef, useState} from 'react';
 import {
   BrixelButtonPrimary,
   BrixelButtonSecondary,
@@ -9,20 +10,18 @@ import {
 import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import get from 'lodash/get';
 import set from 'lodash/set';
-import PropTypes from 'prop-types';
-import React, { useEffect, useRef, useState } from 'react';
-import { connect } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router-dom';
+import {connect} from 'react-redux';
+import {useLocation, useNavigate} from 'react-router-dom';
 import Slider from 'react-slick';
-import { bindActionCreators, compose } from 'redux';
-import { setModal } from '../../actions/CommonActions';
-import { updateFavorite } from '../../actions/UserActions';
+import {bindActionCreators, compose} from 'redux';
+import {setModal} from '../../actions/CommonActions';
+import {updateFavorite} from '../../actions/UserActions';
 import api from '../../controllers/api/config';
 import ModalPropertyCard from '../../Pages/Market/Buyer/ModalPropertyCard';
 import translateTo from '../../utils/translation';
 import CoverPropertyImage from '../CoverPropertyImage';
 import Tags from '../Tags';
-import type { MarketCardFavoritesType } from '../../@types/components/Cards/MarketCardFavorites';
+import type {MarketCardFavoritesType} from '../../@types/components/Cards/MarketCardFavorites';
 
 const MarketCardFavorites = (props: MarketCardFavoritesType) => {
   const history = {

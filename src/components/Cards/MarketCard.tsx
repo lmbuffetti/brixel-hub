@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   BrixelButtonPrimary,
   BrixelButtonSecondary,
@@ -8,7 +8,7 @@ import {
   ProgressRing,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
-import { BrixelMap } from '@brixel/brixel-components/dist/map';
+import {BrixelMap} from '@brixel/brixel-components/dist/map';
 import cloneDeep from 'lodash/cloneDeep';
 import compact from 'lodash/compact';
 import get from 'lodash/get';
@@ -16,12 +16,12 @@ import has from 'lodash/has';
 import orderBy from 'lodash/orderBy';
 import pullAt from 'lodash/pullAt';
 import set from 'lodash/set';
-import { connect } from 'react-redux';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import {connect} from 'react-redux';
+import {Link, useLocation, useNavigate} from 'react-router-dom';
 import Slider from 'react-slick';
-import { bindActionCreators, compose } from 'redux';
-import { setModal, setSplashType } from '../../actions/CommonActions';
-import { generateEstimation } from '../../actions/EstimationActions';
+import {bindActionCreators, compose} from 'redux';
+import {setModal, setSplashType} from '../../actions/CommonActions';
+import {generateEstimation} from '../../actions/EstimationActions';
 import {
   getEstimation,
   getPackageProperty,
@@ -30,17 +30,17 @@ import {
   setActiveSingleProperty,
   setEstimation,
 } from '../../actions/PropertyActions';
-import { addNotInterested, updateFavorite } from '../../actions/UserActions';
+import {addNotInterested, updateFavorite} from '../../actions/UserActions';
 import api from '../../controllers/api/config';
 import testdrive from '../../images/Market/testDriveSell.svg';
 import ModalPropertyCard from '../../Pages/Market/Buyer/ModalPropertyCard';
 import NotInterestedConfirmModal from '../../Pages/Market/Buyer/NotInterestedConfirmModal';
-import { calcPercentageProEstimation, completedBestimate, getCookie, setCookie } from '../../utils/helpers';
+import {calcPercentageProEstimation, completedBestimate, getCookie, setCookie} from '../../utils/helpers';
 import translateTo from '../../utils/translation';
 import CoverPropertyImage from '../CoverPropertyImage';
 import CardImageText from '../Skeleton/CardImageText';
-import type { MarketCardProps } from '../../@types/components/Cards/MarketCard';
-import type { PropertyListType, ServicePackageType } from '@brixel/brixel-components/dist/@types/Model';
+import type {MarketCardProps} from '../../@types/components/Cards/MarketCard';
+import type {ServicePackageType} from '@brixel/brixel-components/dist/@types/Model';
 
 const MarketCard = (props: MarketCardProps) => {
   const history = {
@@ -440,7 +440,7 @@ const MarketCard = (props: MarketCardProps) => {
                   className={`${isPreMarket() ? 'pre-market' : ''} ${get(item, 'tags', []).join(' ')} cover w-perc-100 ${layout === 'singleOwnCard' ? 'w-fix-sm-184 h-fix-184 mb-sm-0' : 'w-fix-sm-216 h-fix-216'}`}
                   coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
                   propertyType={get(item, 'properties.propertyType', undefined)}
-                  onClick={(e) => openCard(e)}
+                  onClick={() => openCard(null)}
                 />
                 {
                   get(item, 'tags', []).length > 0 && layout !== 'singleOwnCard' && (

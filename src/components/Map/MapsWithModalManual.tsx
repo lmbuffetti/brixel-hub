@@ -14,7 +14,7 @@ import translateTo from '../../utils/translation';
 import type {MapsWithModalManualType} from '../../@types/components/Maps/MapsWithModalManual';
 import {LocationType} from '@brixel/brixel-components/dist/@types/Model';
 
-export const MapsWithModalManual = (props: MapsWithModalManualType) => {
+const MapsWithModalManual = (props: MapsWithModalManualType) => {
   const history = {
     push: useNavigate(),
     location: useLocation(),

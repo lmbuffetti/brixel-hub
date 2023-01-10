@@ -1,6 +1,6 @@
 import {handleActions} from 'redux-actions';
 import {SET_GLOBAL_LEAD_LISTINGS} from '../actions/types/LeadTypes';
-import {LeadReducerType} from '../@types/reducer/LeadReducer';
+import type {LeadReducerType} from '../@types/reducer/LeadReducer';
 
 export const defaultState: LeadReducerType = {
   globalListings: {

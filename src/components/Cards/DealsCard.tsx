@@ -2,11 +2,11 @@ import React, {useEffect, useState} from 'react';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import getConfigEnv from '@brixel/brixel-components/dist/configuration/Settings';
-import {BrixelAvatar, BrixelButtonIcon, BrixelIcon, BrixelStatus, Helpers,} from '@brixel/brixel-components';
+import {BrixelAvatar, BrixelButtonIcon, BrixelIcon, BrixelStatus, Helpers} from '@brixel/brixel-components';
 import translateTo from '../../utils/translation';
 import {useParams} from 'react-router-dom';
-import {DateTime,} from 'luxon';
-import TimelineActionStubs from '../../resources/Utilities/timelineActionStubs';
+import {DateTime} from 'luxon';
+import {TimelineActionStubs} from '../../resources/Utilities/timelineActionStubs';
 import api from '../../controllers/api/config';
 import type {DealsCardProps, HistoryType} from '../../@types/components/Cards/DealsCard';
 

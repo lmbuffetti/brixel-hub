@@ -1,6 +1,6 @@
 // List of action stubs used by each type of timeline (user, page or deal) sent as payload to the history endpoint
 
-module.exports = {
+export const TimelineActionStubs = {
   Deal: [
     'update-deal',
     'portal-create-deal',

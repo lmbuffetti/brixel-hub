@@ -1,5 +1,5 @@
 import type {PropertyType} from '../Model';
 
 export interface PropertyReducerType {
-  property: PropertyType | {};
+  property: PropertyType | object;
 }
