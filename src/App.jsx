@@ -709,6 +709,7 @@ const App = (props) => {
                 multiBodyActions={modal.multiBodyActions}
                 title={modal.title}
                 titleImg={modal.titleImg}
+                coverImg={modal.coverImg}
                 onClose={modal.hideClose !== true ? () => handleSetModal({ state: false }) : null}
               >
                 {

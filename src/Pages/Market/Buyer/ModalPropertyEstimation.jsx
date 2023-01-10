@@ -86,7 +86,7 @@ const ModalPropertyEstimation = (props) => {
             background="white"
             saturation={0}
             color="altGrey"
-            className="pos-a-fix x-r-1 x-t-1"
+            className="pos-a-fix x-r-2 x-t-2"
             icon="close-small"
             onClick={() => onClose()}
           />
