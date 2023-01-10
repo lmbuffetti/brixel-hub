@@ -89,7 +89,7 @@ const WelecomeOnboardingStage = (props) => {
       return (
         <div className="multiFieldWrap w-perc-100">
           <div className="dis-f jc-b h-perc-100 a-c">
-            <div className="dis-f-col jc-c a-c w-perc-100 pos-r pt-2">
+            <div className="dis-f-col jc-c a-c w-perc-100 pos-r pt-2 ta-c">
               {
                 imgProperty && (
                   <img loading="lazy" width={315} src={imgProperty} alt={activeSingleProperty.title} />

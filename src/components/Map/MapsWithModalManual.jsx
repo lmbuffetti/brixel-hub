@@ -35,7 +35,7 @@ export const MapsWithModalManual = (props) => {
   const [showManualInput, setShowManualInput] = useState(false);
   const [loadingAddress, setLoadingAddress] = useState(false);
   const [updateAddress, setUpdateAddress] = useState(0);
-  
+
   useEffect(() => {
     const checkPath = get(history, 'location.pathname', '').split('/');
     if (checkPath[checkPath.length - 1] === 'locationInput') {
@@ -43,7 +43,7 @@ export const MapsWithModalManual = (props) => {
       changeFieldValue('location.longitude', null);
     }
   }, [history.location.pathname]);
-  
+
   useEffect(() => {
     setTimeout(() => {
       const getCurStep = document.getElementById('searchInputWrap');
@@ -54,7 +54,7 @@ export const MapsWithModalManual = (props) => {
       }
     }, 100);
   }, []);
-  
+
   useEffect(() => {
     const { body } = document;
     if (body) {
@@ -62,7 +62,7 @@ export const MapsWithModalManual = (props) => {
       else body.classList.remove('overlayOpen');
     }
   }, [showManualInput]);
-  
+
   const saveCurrentLocation = () => {
     const address = get(formValue, 'location.name', '');
     const zipCode = get(formValue, 'location.zip', '');
@@ -85,14 +85,14 @@ export const MapsWithModalManual = (props) => {
       setLoadingAddress(true);
     }
   };
-  
+
   const mapWindowSize = windowDimensions.width >= 1024 ? 'h-fix-232' : 'h-fix-240';
   const mapSize = !className && showMap ? mapWindowSize : 'h-perc-100';
-  
+
   const closeModal = () => {
     setShowManualInput(false);
   };
-  
+
   return (
     // Important! Always set the container height explicitly
     <>
@@ -139,8 +139,9 @@ export const MapsWithModalManual = (props) => {
           >
             <div className="addressInner pos-r">
               <BrixelButtonIcon
-                className="pos-a-fix x-r-1 x-t-1 zIndex2"
+                className="pos-a-fix x-r-2 x-t-2 zIndex2"
                 ghost
+                small
                 icon="close"
                 theme="dark"
                 onClick={() => closeModal()}
@@ -194,7 +195,7 @@ export const MapsWithModalManual = (props) => {
                       component={BrixelInputText}
                     />
                   </div>
-                  
+
                   <div className="dis-f a-t jc-b">
                     <ReduxField
                       multiple={false}
