@@ -61,11 +61,11 @@ const Documents = (props) => {
   const [isMovingFolder, setIsMovingFolder] = useState(false);
 
   const { documents } = formValue;
-  
+
   useEffect(() => {
     setTimeout(() => {setIsReady(true)}, 200);
   }, []);
-  
+
 
   useEffect(() => {
     if (has(formValue, 'location.countryCode')) {
@@ -229,7 +229,7 @@ const Documents = (props) => {
     if (countMandatoryDocuments() === 0) return 'txtRed400';
     return 'txtYellow400';
   }
-  
+
   const dragDocuments = (doc, id, list) => {
     if (list === 'folderList') {
       if (doc.length === processedDocuments.length) setProcessedDocuments(doc);
@@ -248,7 +248,7 @@ const Documents = (props) => {
       })
     }
   };
-  
+
   useEffect(() => {
     if (Object.keys(processedDocuments).length > 0) {
       const docsToSave = [];
@@ -274,7 +274,7 @@ const Documents = (props) => {
       }
     }
   }, [processedDocuments]);
-  
+
   const onExpandFolder = (e, i) => {
     if (e) e.preventDefault();
     const clone = cloneDeep(showFullFolder);
@@ -415,8 +415,8 @@ const Documents = (props) => {
                         {
                           (!processedDocuments || (processedDocuments.length === 0)) && (
                             <div>
-                              <img loading="lazy" className="h-fix-120" src={uploadDocumentsEmpty} alt="Empty Documents" />
-                              <h5 className="mt-3 mb-2">{translateTo('Upload your first document', lang)}</h5>
+                              <img loading="lazy" className="h-fix-120 ml-a mr-a mt-5" src={uploadDocumentsEmpty} alt="Empty Documents" />
+                              <h5 className="mt-2 mb-2">{translateTo('Upload your first document', lang)}</h5>
                             </div>
                           )
                         }
@@ -488,7 +488,7 @@ const Documents = (props) => {
                                         }}
                                       />
                                     </div>
-    
+
                                     <ReactSortable
                                       handle=".docsHandle"
                                       delayOnTouchStart={true}
@@ -540,7 +540,7 @@ const Documents = (props) => {
                                                 }
                                               </div>
                                             </div>
-    
+
                                             <div className="pos-r dis-fl-row a-c">
                                               <BrixelIcon
                                                 className="mr-1"
@@ -549,7 +549,7 @@ const Documents = (props) => {
                                                 color={`${(doc.isPrivate === true || doc.isPrivate === 'Private') ? 'red' : 'green'}`}
                                                 icon={`${(doc.isPrivate === true || doc.isPrivate === 'Private') ? 'locked' : 'eye'}`}
                                               />
-    
+
                                               <BrixelButtonIcon
                                                 ghost
                                                 theme="dark"
@@ -628,7 +628,7 @@ const Documents = (props) => {
                                           key={`prcDocs_${k.toString()}`}
                                           className="single-document-folder dis-fl-row a-c jc-b p-1 mb-2 brdRadius shadow-1dp"
                                         >
-  
+
                                           <div className="name w-perc-100 dis-fl-row a-c pr-1 pr-sm-0">
                                             <div className="icon-container brdRadius dis-f w-fix-80 h-fix-40 jc-c a-c mr-1">
                                               <BrixelIcon
@@ -663,7 +663,7 @@ const Documents = (props) => {
                                               }
                                             </div>
                                           </div>
-  
+
                                           <div className="pos-r dis-fl-row a-c">
                                             {
                                               userType !== 'buyer' && (
