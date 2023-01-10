@@ -159,7 +159,6 @@ const mapStateToProps = (state) => ({
   activeSingleDeal: get(state, 'deal.activeSingleDeal', {}),
   activeSingleCompany: get(state, 'companies.activeSingleCompany.id', { }),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
-  favoritesProperties: get(state, 'market.favoritesProperties', []),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
 });
 const mapDispatchToProps = (dispatch) => ({

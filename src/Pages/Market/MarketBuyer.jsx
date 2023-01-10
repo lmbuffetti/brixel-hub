@@ -5,16 +5,11 @@ import get from 'lodash/get';
 import PropTypes from 'prop-types';
 import React, { Suspense, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { Navigate, Route, Routes, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
 import { spinnerOff } from '../../actions/CommonActions';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
-import {
-  getAllProperties,
-  getFavoritesProperties,
-  getOwnedEstimations,
-  getWishlistProperties,
-} from '../../actions/MarketActions';
+import { getAllProperties, getOwnedEstimations, getWishlistProperties } from '../../actions/MarketActions';
 import { getUserSearchProfiles } from '../../actions/SearchProfileActions';
 import lazyWithRetry from '../../components/LazyWithRetry';
 import '../../styles/SCSS/pages/market.scss';
@@ -62,14 +57,12 @@ const MarketBuyer = (props) => {
     push: useNavigate(),
     location: useLocation(),
   };
-  const match = useParams();
   // PROPS
   const {
     activeSearchProfile,
     destroyForm,
     handleGetActiveSingleCompany,
     handleGetAllProperties,
-    handleGetFavoritesProperties,
     handleGetOwnedEstimations,
     handleGetUserSearchProfiles,
     handleGetWishlistProperties,
@@ -82,7 +75,6 @@ const MarketBuyer = (props) => {
   const [activeTopTab, setActiveTopTab] = useState('searchProfile');
 
   // URL PARAMS
-  const catName = get(match, 'cat', null);
   const [page, setPage] = useState(1);
 
   useEffect(() => { destroyForm(); }, [history.location.pathname]);
@@ -99,7 +91,6 @@ const MarketBuyer = (props) => {
         ownerId: loggedInUser.id,
         isBuyer: true,
       };
-      if (!catName) handleGetFavoritesProperties(data);
       handleGetUserSearchProfiles(loggedInUser.id);
       handleGetOwnedEstimations(data);
       data.resultsPerPage = 50;
@@ -218,7 +209,6 @@ MarketBuyer.propTypes = {
   destroyForm: PropTypes.func.isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
   handleGetAllProperties: PropTypes.func.isRequired,
-  handleGetFavoritesProperties: PropTypes.func.isRequired,
   handleGetOwnedEstimations: PropTypes.func.isRequired,
   handleGetUserSearchProfiles: PropTypes.func.isRequired,
   handleGetWishlistProperties: PropTypes.func.isRequired,
@@ -235,7 +225,7 @@ MarketBuyer.defaultProps = {
 
 const mapStateToProps = (state) => ({
   activeSearchProfile: get(state, 'user.activeSearchProfile', null),
-  favoritesProperties: get(state, 'market.favoritesProperties', {}),
+  favoritesProperties: get(state, 'market.wishlistProperties', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
   lang: get(state, 'common.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser.user', { }),
@@ -250,7 +240,6 @@ const mapDispatchToProps = (dispatch) => ({
   },
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
   handleGetAllProperties: bindActionCreators(getAllProperties, dispatch),
-  handleGetFavoritesProperties: bindActionCreators(getFavoritesProperties, dispatch),
   handleGetOwnedEstimations: bindActionCreators(getOwnedEstimations, dispatch),
   handleGetUserSearchProfiles: bindActionCreators(getUserSearchProfiles, dispatch),
   handleGetWishlistProperties: bindActionCreators(getWishlistProperties, dispatch),

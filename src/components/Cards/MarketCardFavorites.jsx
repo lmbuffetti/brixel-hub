@@ -40,6 +40,7 @@ const MarketCardFavorites = (props) => {
   const [offerDetail, setOfferDetail] = useState({});
   const [activeSlide, setActiveSlide] = useState(0);
   const [showSlideData, setShowSlideData] = useState(false);
+  const [isUnFavorite, setIsUnFavorite] = useState(false);
 
   const settingSlider = {
     speed: 500,
@@ -109,9 +110,9 @@ const MarketCardFavorites = (props) => {
     }
   }
   
-  const removeFavorite = () => {
-    const data = {
-      reloadProperties: true,
+  const onChangeFavorite = () => {
+    setIsUnFavorite(!isUnFavorite);
+    let data = {
       act: 'remove',
       id: activeSingleProperty.id,
       property: activeSingleProperty,
@@ -120,6 +121,9 @@ const MarketCardFavorites = (props) => {
         language: loggedInUser.lang,
       },
     };
+    if (isUnFavorite) {
+      data.act = 'add';
+    }
     handleUpdateFavorites(data);
     handleSetModal({ state: false });
   }
@@ -267,8 +271,8 @@ const MarketCardFavorites = (props) => {
                   isLoading={isSmallLoading[`favorite-${activeSingleProperty.id}`]}
                   className="ml-2"
                   color="red"
-                  icon="favorite-fill"
-                  onClick={() => removeFavorite()}
+                  icon={!isUnFavorite ? 'favorite-fill' : 'favorite'}
+                  onClick={() => onChangeFavorite()}
                 />
               </div>
             </div>
