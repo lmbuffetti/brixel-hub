@@ -423,8 +423,8 @@ const Documents = (props) => {
                         {
                           (!processedDocuments || (processedDocuments.length === 0)) && (
                             <div>
-                              <img loading="lazy" className="h-fix-120" src={uploadDocumentsEmpty} alt="Empty Documents" />
-                              <h5 className="mt-3 mb-2">{translateTo('Upload your first document', lang)}</h5>
+                              <img loading="lazy" className="h-fix-120 ml-a mr-a mt-5" src={uploadDocumentsEmpty} alt="Empty Documents" />
+                              <h5 className="mt-2 mb-2">{translateTo('Upload your first document', lang)}</h5>
                             </div>
                           )
                         }
