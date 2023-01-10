@@ -24,7 +24,7 @@ import {
   change,
   BrixelSelect,
   BrixelInputText,
-  BrixelRadioButton,
+  BrixelRadioButton, initializeForm,
 } from '@brixel/brixel-components/dist/form';
 import documentConfig from '@brixel/brixel-components/dist/configuration/DocumentsConfig';
 import {
@@ -47,6 +47,7 @@ const SingleDocument = (props) => {
     formValue,
     handleUpdateDocument,
     initialValues,
+    initForm,
     isRequestDone,
     isSmallLoading,
     lang,
@@ -54,16 +55,25 @@ const SingleDocument = (props) => {
   } = props;
 
   const [activeDocument, setActiveDocument] = useState({});
-  const [activeDocumentKey, setActiveDocumentKey] = useState();
   const [documentFolders, setDocumentFolders] = useState([]);
   const [newFolder, setNewFolder] = useState(false);
   const [docuementsType, setDocumentsType] = useState([]);
+  
+  const docID = get(match, 'docID', null);
 
   useEffect(() => () => setRequestDone(false), []);
+  
+  useEffect(() => {
+    if (activeSingleProperty.id) {
+      const currentDoc = activeSingleProperty.documents.find((doc) => doc.id === docID);
+      initForm(currentDoc);
+    }
+  }, [activeSingleProperty.id]);
+  
 
   useEffect(() => {
-    if (has(formValue, 'location.countryCode')) {
-      const docsConfig = documentConfig.mandatoryDocuments[get(formValue, 'location.countryCode')][get(formValue, 'properties.propertyType')];
+    if (has(activeSingleProperty, 'location.countryCode')) {
+      const docsConfig = documentConfig.mandatoryDocuments[get(activeSingleProperty, 'location.countryCode')][get(activeSingleProperty, 'properties.propertyType')];
       const docsOptions = [{
         label: 'Generic',
         value: 'Generic',
@@ -79,15 +89,13 @@ const SingleDocument = (props) => {
   }, [formValue]);
 
   useEffect(() => {
-    const docID = get(match, 'docID', null);
     const folderArrayAux = [];
     if (docID) {
-      find(activeSingleProperty.documents, (el, key) => {
+      find(activeSingleProperty.documents, (el) => {
         if (el.id === docID) {
           if (el.isPrivate === true) set(el, 'isPrivate', 'Private');
           else if (el.isPrivate === false) set(el, 'isPrivate', 'Public');
           setActiveDocument(el);
-          setActiveDocumentKey(key);
         }
       });
       if (has(formValue, 'id')) {
@@ -111,7 +119,7 @@ const SingleDocument = (props) => {
     if (has(activeDocument, 'id')) {
       if (activeDocument.isPrivate === true) set(activeDocument, 'isPrivate', 'Private');
       else if (activeDocument.isPrivate === false) set(activeDocument, 'isPrivate', 'Public');
-      changeFieldValue(`documents[${activeDocumentKey}].isPrivate`, get(activeDocument, 'isPrivate', null));
+      changeFieldValue(`documents.isPrivate`, get(activeDocument, 'isPrivate', null));
     }
   }, [activeDocument]);
 
@@ -128,12 +136,12 @@ const SingleDocument = (props) => {
       pageID: activeSingleProperty.id,
       id: activeDocument.id,
       body: {
-        name: formValue.documents[`${activeDocumentKey}`].name,
-        isPrivate: formValue.documents[`${activeDocumentKey}`].isPrivate === 'Private',
-        folder: formValue.documents[`${activeDocumentKey}`].folder,
+        name: formValue.name,
+        isPrivate: formValue.isPrivate === 'Private',
+        folder: formValue.folder,
         path: activeDocument.path,
         mimeType: activeDocument.mimeType,
-        type: formValue.documents[`${activeDocumentKey}`].type,
+        type: formValue.type,
       },
       smallLoader: 'saveData',
     };
@@ -142,7 +150,7 @@ const SingleDocument = (props) => {
   };
 
   const checkDisabled = () => {
-    const isDocEdit = find(diff(initialValues, formValue).documents, (el) => {
+    const isDocEdit = find(diff(initialValues, formValue), (el) => {
       if (history.location.pathname.includes('docubox') &&
           (has(el, 'isPrivate') || has(el, 'name') || has(el, 'type') || has(el, 'folder')) &&
           !has(el, 'id') && newFolder === false) {
@@ -158,9 +166,9 @@ const SingleDocument = (props) => {
   const createNewFolder = (event) => {
     event.preventDefault();
     const folder = {
-      label: formValue.documents[activeDocumentKey].folder,
-      value: formValue.documents[activeDocumentKey].folder,
-      id: formValue.documents[activeDocumentKey].folder.toLowerCase(),
+      label: formValue.folder,
+      value: formValue.folder,
+      id: formValue.folder.toLowerCase(),
     };
     documentFolders.push(folder);
     setDocumentFolders(documentFolders);
@@ -192,12 +200,12 @@ const SingleDocument = (props) => {
               {/* middle panel */}
               <div className="mid dis-fl-col mb-6">
                 <ReduxField
-                  form="Property"
+                  form="SingleDoc"
                   design={{
                     className: 'mb-3 zIndex1',
                   }}
                   input={{
-                    name: `documents[${activeDocumentKey}].name`,
+                    name: `name`,
                     placeholder: 'Name this document',
                   }}
                   labels={{
@@ -206,14 +214,14 @@ const SingleDocument = (props) => {
                   component={BrixelInputText}
                 />
                 <ReduxField
-                  form="Property"
+                  form="SingleDoc"
                   design={{
                     className: 'zIndex3 mb-3',
                     borderColor: 'light',
                     color: 'light',
                   }}
                   input={{
-                    name: `documents[${activeDocumentKey}].type`,
+                    name: `type`,
                     options: docuementsType,
                   }}
                   labels={{
@@ -222,14 +230,14 @@ const SingleDocument = (props) => {
                   component={BrixelSelect}
                 />
                 <ReduxField
-                  form="Property"
+                  form="SingleDoc"
                   design={{
                     className: 'zIndex2 w-fix-248',
                     borderColor: 'light',
                     color: 'light',
                   }}
                   input={{
-                    name: `documents[${activeDocumentKey}].isPrivate`,
+                    name: `isPrivate`,
                     options: [{
                       label: translateTo('Private', lang),
                       value: 'Private',
@@ -248,12 +256,12 @@ const SingleDocument = (props) => {
                   newFolder ? (
                     <div className="dis-fl-row mt-3">
                       <ReduxField
-                        form="Property"
+                        form="SingleDoc"
                         design={{
                           className: 'mr-2 zIndex1 w-fix-248',
                         }}
                         input={{
-                          name: `documents[${activeDocumentKey}].folder`,
+                          name: `folder`,
                           placeholder: 'New folder name',
                         }}
                         labels={{
@@ -276,7 +284,7 @@ const SingleDocument = (props) => {
                         theme="red"
                         label="Cancel"
                         onClick={() => {
-                          changeFieldValue(`documents[${activeDocumentKey}].folder`, get(`initialValues.documents[${activeDocumentKey}]`, 'folder', ''));
+                          changeFieldValue(`folder`, get(initialValues, 'folder', ''));
                           setNewFolder(false);
                         }}
                       />
@@ -286,12 +294,12 @@ const SingleDocument = (props) => {
                       {
                         documentFolders.length > 0 && (
                           <ReduxField
-                            form="Property"
+                            form="SingleDoc"
                             design={{
                               className: 'mt-3',
                             }}
                             input={{
-                              name: `documents[${activeDocumentKey}].folder`,
+                              name: 'folder',
                               options: documentFolders,
                             }}
                             labels={{
@@ -305,7 +313,7 @@ const SingleDocument = (props) => {
                         className={`edit as-fs ${documentFolders.length > 0 ? 'mt-1' : 'mt-3'}`}
                         label={translateTo('New folder', lang)}
                         onClick={() => {
-                          changeFieldValue(`documents[${activeDocumentKey}].folder`, '');
+                          changeFieldValue('folder', '');
                           setNewFolder(true);
                         }}
                       />
@@ -322,7 +330,7 @@ const SingleDocument = (props) => {
                   small
                   label={translateTo('Cancel', lang)}
                   onClick={() => {
-                    changeFieldValue('documents', initialValues.documents);
+                    changeFieldValue('documents', initialValues);
                     history.push(`/${activeSingleProperty.id}/docubox`);
                   }}
                 />
@@ -351,6 +359,7 @@ SingleDocument.propTypes = {
   changeFieldValue: PropTypes.func.isRequired,
   formValue: PropTypes.object.isRequired,
   handleUpdateDocument: PropTypes.func.isRequired,
+  initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   isRequestDone: PropTypes.bool.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
@@ -362,8 +371,8 @@ SingleDocument.defaultProps = {};
 
 const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
-  formValue: get(state, 'brixelForm.Property.values', {}),
-  initialValues: get(state, 'property.activeSingleProperty', {}),
+  formValue: get(state, 'brixelForm.SingleDoc.values', {}),
+  initialValues: get(state, 'brixelForm.SingleDoc.initialValues', {}),
   isRequestDone: get(state, 'common.requestDone', false),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
   isSuperAdmin: get(state, 'common.superAdmin', false),
@@ -372,7 +381,10 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
-    dispatch(change('Property', field, value));
+    dispatch(change('SingleDoc', field, value));
+  },
+  initForm(value) {
+    dispatch(initializeForm('SingleDoc', value));
   },
   handleUpdateDocument: bindActionCreators(updateDocument, dispatch),
   setRequestDone: bindActionCreators(requestDone, dispatch),

@@ -42,13 +42,13 @@ const Documents = (props) => {
     activeSingleProperty,
     changeFieldValue,
     formValue,
+    handleDeleteDocument,
     handleMultiUploadDocument,
     handleSaveActiveSingleProperty,
-    loggedInUser,
-    handleDeleteDocument,
     isBuyer,
     isSmallLoading,
     lang,
+    loggedInUser,
     userType,
   } = props;
   const [documentOptionsOpen, setDocumentOptionsOpen] = useState({ id: null, active: false });
@@ -94,7 +94,8 @@ const Documents = (props) => {
       const defDocs = [];
       // eslint-disable-next-line no-unused-vars
       for (let [key, value] of newDoc) {
-        defDocs.push(value);
+        if (key ==='NoFolder') defDocs.unshift(value);
+        else defDocs.push(value);
       }
       setProcessedDocuments(defDocs);
     }
@@ -285,6 +286,13 @@ const Documents = (props) => {
     }
     setShowFullFolder(clone);
   }
+  
+  const filterDocsByFodler = (docs, folderName) => {
+    if (!folderName || folderName === 'NoFodler') {
+      return processedDocuments.filter((dc) => dc[0] && dc[0].folder !== 'NoFolder' && dc[0].folder)
+    }
+    return processedDocuments.filter((dc) => dc[0] && dc[0].folder !== 'NoFolder');
+  }
 
   // Function to close the small menus when we click outside
   useOutsideAlerter(documentRef, {
@@ -447,15 +455,169 @@ const Documents = (props) => {
                             setList={(newState) => dragDocuments(newState, 0, 'folderList')}
                           >
                             {
-                              processedDocuments.map((docList, i) => (
-                                docList[0] && docList[0].folder !== 'NoFolder' && docList[0].folder ? (
-                                  <div
-                                    className="document-folder cur-poi shadow-1dp dis-fl-col p-1 mb-2 brdRadius"
+                              filterDocsByFodler(processedDocuments, 'NoFolder').map((docList, i) => (
+                                <div key={`noFolderDoc${i.toString()}`}>
+                                  {
+                                    i === 0 && (
+                                      <h3>Files</h3>
+                                    )
+                                  }
+        
+                                  <ReactSortable
                                     key={`prcDcc_${i.toString()}`}
-                                    onClick={(e) => onExpandFolder(e, i)}
+                                    handle=".docsHandle"
+                                    delayOnTouchStart={true}
+                                    delay={2}
+                                    group="groupName"
+                                    list={cloneDeep(docList)}
+                                    className=""
+                                    setList={(order) => dragDocuments(order, i, 'NoFolder')}
+                                    onStart={() => setIsMovingFolder(true)}
+                                    onEnd={() => setIsMovingFolder(false)}
+                                  >
+                                    {
+                                      docList.length === 0 ? (
+                                        <div>
+                                          Empty state
+                                        </div>
+                                      ) : (
+                                        <>
+                                          {
+                                            docList.map((doc, k) => (
+                                              <div
+                                                key={`prcDocs_${k.toString()}`}
+                                                className="single-document-folder dis-fl-row a-c jc-b p-1 mb-2 brdRadius shadow-1dp"
+                                              >
+                      
+                                                <div className="name w-perc-100 dis-fl-row a-c pr-1 pr-sm-0">
+                                                  <div className="icon-container brdRadius dis-f w-fix-80 h-fix-40 jc-c a-c mr-1">
+                                                    <BrixelIcon
+                                                      icon="menu"
+                                                      className="docsHandle cur-move mr-1"
+                                                    />
+                                                    <BrixelIcon
+                                                      icon="document"
+                                                      background="blue"
+                                                      saturation={100}
+                                                      color="blue"
+                                                      saturationTxt={400}
+                                                    />
+                                                  </div>
+                                                  <div className="dis-fl-col cur-poi" onClick={(e) => openDocument(e, doc.id)}>
+                                                    <span className="document-title fsize-400 txtDark700 dont-break-out">{doc.name}</span>
+                                                    <span className="body2 txtGreen400 dont-break-out">{translateTo(doc.type, lang)}</span>
+                                                    {
+                                                      get(doc, 'createdAt', null) ? (
+                                                        <span className="date body2 txtDark200">
+                                                          {
+                                                            !isNaN(+doc.createdAt) ? (
+                                                              <>{DateTime.fromMillis(doc.createdAt, { locale: lang }).toFormat('dd LLL yyyy, H:mm')}</>
+                                                            ) : (
+                                                              <>{DateTime.fromISO(doc.createdAt, { locale: lang }).toFormat('dd LLL yyyy, H:mm')}</>
+                                                            )
+                                                          }
+                                                        </span>
+                                                      ) : (
+                                                        <span className="date body2 txtDark200">-</span>
+                                                      )
+                                                    }
+                                                  </div>
+                                                </div>
+                      
+                                                <div className="pos-r dis-fl-row a-c">
+                                                  {
+                                                    userType !== 'buyer' && (
+                                                      <BrixelIcon
+                                                        className="mr-1"
+                                                        label={`${translateTo('This document is set to', lang)} ${translateTo(`${(doc.isPrivate === true || doc.isPrivate === 'Private') ? 'private' : 'public'}`, lang)}. ${translateTo('Edit to change.', lang)}`}
+                                                        tooltipWidth="208"
+                                                        color={`${(doc.isPrivate === true || doc.isPrivate === 'Private') ? 'red' : 'green'}`}
+                                                        icon={`${(doc.isPrivate === true || doc.isPrivate === 'Private') ? 'locked' : 'eye'}`}
+                                                      />
+                                                    )
+                                                  }
+                                                  <BrixelButtonIcon
+                                                    bgTransparent
+                                                    ghost
+                                                    theme="dark"
+                                                    icon="options-vertical"
+                                                    onClick={() => {
+                                                      setDocumentOptionsOpen({
+                                                        id: doc.id,
+                                                        active: !documentOptionsOpen.active,
+                                                      });
+                                                      setDocumentId(i);
+                                                    }}
+                                                  />
+                                                  {
+                                                    (documentOptionsOpen.id === doc.id && documentOptionsOpen.active) && (
+                                                      <>
+                                                        <BrixelDropdownMini
+                                                          topOffset={40}
+                                                          rightAligned
+                                                          links={userType !== 'buyer' ?
+                                                            [
+                                                              {
+                                                                label: translateTo(isCopied ? 'Copied' : 'Copy Link', lang),
+                                                                clickFunc: () => copyLinkToClipboard(doc.id),
+                                                              },
+                                                              {
+                                                                label: translateTo('View', lang),
+                                                                clickFunc: (e) => openDocument(e, doc.id),
+                                                              },
+                                                              {
+                                                                label: translateTo('Edit', lang),
+                                                                clickFunc: (e) => {
+                                                                  manageDocument(e, doc.id);
+                                                                },
+                                                              },
+                                                              {
+                                                                label: translateTo('Remove', lang),
+                                                                className: 'txtRed400',
+                                                                clickFunc: (e) => deleteDocs(e, doc.id),
+                                                              },
+                                                            ] : [
+                                                              {
+                                                                label: translateTo(isCopied ? 'Copied' : 'Copy Link', lang),
+                                                                clickFunc: () => copyLinkToClipboard(doc.id),
+                                                              },
+                                                              {
+                                                                label: translateTo('View', lang),
+                                                                clickFunc: (e) => openDocument(e, doc.id),
+                                                              },
+                                                            ]}
+                                                        />
+                                                      </>
+                                                    )
+                                                  }
+                                                </div>
+                                              </div>
+                                            ))
+                                          }
+                                        </>
+                                      )
+                                    }
+                                  </ReactSortable>
+                                </div>
+                              ))
+                            }
+                            {
+                              filterDocsByFodler(processedDocuments, 'folder').map((docList, i) => (
+                                <div key={`folderDoc${i.toString()}`}>
+                                  {
+                                    i === 0 && (
+                                      <h3>Folders</h3>
+                                    )
+                                  }
+                                  <div
+                                    className="document-folder shadow-1dp dis-fl-col p-1 mb-2 brdRadius"
+                                    key={`prcDcc_${i.toString()}`}
                                   >
                                     <div className="dis-fl-row jc-b a-c">
-                                      <div className={`dis-fl-row a-c ${(index(i) !== -1 || isMovingFolder) ? 'mb-3' : ''}`}>
+                                      <div
+                                        className={`dis-fl-row a-c ${(index(i) !== -1 || isMovingFolder) ? 'mb-3' : ''}`}
+                                        onClick={(e) => onExpandFolder(e, i)}
+                                      >
                                         <BrixelIcon
                                           icon="menu"
                                           className="folderHandle cur-move mr-1"
@@ -488,7 +650,7 @@ const Documents = (props) => {
                                         }}
                                       />
                                     </div>
-    
+      
                                     <ReactSortable
                                       handle=".docsHandle"
                                       delayOnTouchStart={true}
@@ -540,7 +702,7 @@ const Documents = (props) => {
                                                 }
                                               </div>
                                             </div>
-    
+              
                                             <div className="pos-r dis-fl-row a-c">
                                               <BrixelIcon
                                                 className="mr-1"
@@ -549,7 +711,7 @@ const Documents = (props) => {
                                                 color={`${(doc.isPrivate === true || doc.isPrivate === 'Private') ? 'red' : 'green'}`}
                                                 icon={`${(doc.isPrivate === true || doc.isPrivate === 'Private') ? 'locked' : 'eye'}`}
                                               />
-    
+                
                                               <BrixelButtonIcon
                                                 ghost
                                                 theme="dark"
@@ -609,133 +771,7 @@ const Documents = (props) => {
                                       }
                                     </ReactSortable>
                                   </div>
-                                ) : (
-                                  <ReactSortable
-                                    key={`prcDcc_${i.toString()}`}
-                                    handle=".docsHandle"
-                                    delayOnTouchStart={true}
-                                    delay={2}
-                                    group="groupName"
-                                    list={cloneDeep(docList)}
-                                    className=""
-                                    setList={(order) => dragDocuments(order, i, 'NoFolder')}
-                                    onStart={() => setIsMovingFolder(true)}
-                                    onEnd={() => setIsMovingFolder(false)}
-                                  >
-                                    {
-                                      docList.map((doc, k) => (
-                                        <div
-                                          key={`prcDocs_${k.toString()}`}
-                                          className="single-document-folder dis-fl-row a-c jc-b p-1 mb-2 brdRadius shadow-1dp"
-                                        >
-  
-                                          <div className="name w-perc-100 dis-fl-row a-c pr-1 pr-sm-0">
-                                            <div className="icon-container brdRadius dis-f w-fix-80 h-fix-40 jc-c a-c mr-1">
-                                              <BrixelIcon
-                                                icon="menu"
-                                                className="docsHandle cur-move mr-1"
-                                              />
-                                              <BrixelIcon
-                                                icon="document"
-                                                background="blue"
-                                                saturation={100}
-                                                color="blue"
-                                                saturationTxt={400}
-                                              />
-                                            </div>
-                                            <div className="dis-fl-col cur-poi" onClick={(e) => openDocument(e, doc.id)}>
-                                              <span className="document-title fsize-400 txtDark700 dont-break-out">{doc.name}</span>
-                                              <span className="body2 txtGreen400 dont-break-out">{translateTo(doc.type, lang)}</span>
-                                              {
-                                                get(doc, 'createdAt', null) ? (
-                                                  <span className="date body2 txtDark200">
-                                                    {
-                                                      !isNaN(+doc.createdAt) ? (
-                                                        <>{DateTime.fromMillis(doc.createdAt, { locale: lang }).toFormat('dd LLL yyyy, H:mm')}</>
-                                                      ) : (
-                                                        <>{DateTime.fromISO(doc.createdAt, { locale: lang }).toFormat('dd LLL yyyy, H:mm')}</>
-                                                      )
-                                                    }
-                                                  </span>
-                                                ) : (
-                                                  <span className="date body2 txtDark200">-</span>
-                                                )
-                                              }
-                                            </div>
-                                          </div>
-  
-                                          <div className="pos-r dis-fl-row a-c">
-                                            {
-                                              userType !== 'buyer' && (
-                                                <BrixelIcon
-                                                  className="mr-1"
-                                                  label={`${translateTo('This document is set to', lang)} ${translateTo(`${(doc.isPrivate === true || doc.isPrivate === 'Private') ? 'private' : 'public'}`, lang)}. ${translateTo('Edit to change.', lang)}`}
-                                                  tooltipWidth="208"
-                                                  color={`${(doc.isPrivate === true || doc.isPrivate === 'Private') ? 'red' : 'green'}`}
-                                                  icon={`${(doc.isPrivate === true || doc.isPrivate === 'Private') ? 'locked' : 'eye'}`}
-                                                />
-                                              )
-                                            }
-                                            <BrixelButtonIcon
-                                              bgTransparent
-                                              ghost
-                                              theme="dark"
-                                              icon="options-vertical"
-                                              onClick={() => {
-                                                setDocumentOptionsOpen({
-                                                  id: doc.id,
-                                                  active: !documentOptionsOpen.active,
-                                                });
-                                                setDocumentId(i);
-                                              }}
-                                            />
-                                            {
-                                              (documentOptionsOpen.id === doc.id && documentOptionsOpen.active) && (
-                                                <>
-                                                  <BrixelDropdownMini
-                                                    topOffset={40}
-                                                    rightAligned
-                                                    links={userType !== 'buyer' ?
-                                                      [
-                                                        {
-                                                          label: translateTo(isCopied ? 'Copied' : 'Copy Link', lang),
-                                                          clickFunc: () => copyLinkToClipboard(doc.id),
-                                                        },
-                                                        {
-                                                          label: translateTo('View', lang),
-                                                          clickFunc: (e) => openDocument(e, doc.id),
-                                                        },
-                                                        {
-                                                          label: translateTo('Edit', lang),
-                                                          clickFunc: (e) => {
-                                                            manageDocument(e, doc.id);
-                                                          },
-                                                        },
-                                                        {
-                                                          label: translateTo('Remove', lang),
-                                                          className: 'txtRed400',
-                                                          clickFunc: (e) => deleteDocs(e, doc.id),
-                                                        },
-                                                      ] : [
-                                                        {
-                                                          label: translateTo(isCopied ? 'Copied' : 'Copy Link', lang),
-                                                          clickFunc: () => copyLinkToClipboard(doc.id),
-                                                        },
-                                                        {
-                                                          label: translateTo('View', lang),
-                                                          clickFunc: (e) => openDocument(e, doc.id),
-                                                        },
-                                                      ]}
-                                                  />
-                                                </>
-                                              )
-                                            }
-                                          </div>
-                                        </div>
-                                      ))
-                                    }
-                                  </ReactSortable>
-                                )
+                                </div>
                               ))
                             }
                           </ReactSortable>
