@@ -30,7 +30,6 @@ import {
   GET_PACKAGE_PROPERTY,
   GET_PACKAGES_PROPERTY,
   GET_PAGE_DEALS,
-  GET_PROPERTY_LISTINGS,
   SAVE_ACTIVE_SINGLE_PROPERTY,
   SAVE_PROPERTY_VISIT_BOOKING,
   SAVE_PROPERTY_VISIT_SCHEDULE,
@@ -43,7 +42,6 @@ import {
   SET_PACKAGE_PROPERTY,
   SET_PACKAGES_PROPERTY,
   SET_PAGE_DEALS,
-  SET_PROPERTY_LISTINGS,
   UPDATE_PORTALS_REVIEW,
   UPDATE_PUBLISHED_REVIEW,
 } from '../actions/types/PropertyTypes';
@@ -51,7 +49,8 @@ import {SAVE_ACTIVE_SINGLE_USER} from '../actions/types/UserTypes';
 
 import api from '../controllers/api/config';
 
-const ActionStubs = require('../resources/Utilities/timelineActionStubs');
+import ActionStubs from '../resources/Utilities/timelineActionStubs';
+import {DealType} from '@brixel/brixel-components/dist/@types/Model';
 
 const checkCommon = (store) => (next) => (action) => {
   switch (action.type) {
@@ -401,79 +400,6 @@ const checkCommon = (store) => (next) => (action) => {
         });
       break;
     }
-    // DISPATCH TO GET USER PROPERTIES LIST - by USER ID
-    case GET_PROPERTY_LISTINGS: {
-      next(action);
-      const { setAsSingle, multiLoader, smallLoader } = action.payload;
-      delete action.payload.setAsSingle;
-      delete action.payload.multiLoader;
-      if (smallLoader) {
-        store.dispatch({
-          type: SPINNER_SMALL,
-          payload: {
-            [smallLoader]: true,
-          },
-        });
-      } else {
-        store.dispatch({
-          type: SPINNER_ON,
-        });
-      }
-      api.property.getProperties(action.payload.limit, action.payload.offset)
-        .then((res) => {
-          if (setAsSingle) {
-            if (res.data[0].id) {
-              store.dispatch({ type: GET_ACTIVE_SINGLE_PROPERTY, payload: { id: res.data[0].id } });
-            } else {
-              window.location.assign('/sell');
-            }
-          } else {
-            store.dispatch({ type: SET_PROPERTY_LISTINGS, payload: res.data || {} });
-          }
-          if (multiLoader) store.dispatch({ type: SPINNER_OFF });
-          if (smallLoader) {
-            store.dispatch({
-              type: SPINNER_SMALL,
-              payload: {
-                [smallLoader]: false,
-              },
-            });
-          } else {
-            store.dispatch({
-              type: SPINNER_OFF,
-            });
-          }
-        })
-        .catch(() => {
-          if (get(window, 'location.href', '').includes('localhost')) {
-            if (setAsSingle) {
-              store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: {} });
-            } else {
-              store.dispatch({ type: SET_PROPERTY_LISTINGS, payload: [] });
-            }
-          }
-          if (setAsSingle) {
-            store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: {} });
-            window.location.assign('/sell');
-          } else {
-            store.dispatch({ type: SET_PROPERTY_LISTINGS, payload: [] });
-          }
-          if (multiLoader) store.dispatch({ type: SPINNER_OFF });
-          if (smallLoader) {
-            store.dispatch({
-              type: SPINNER_SMALL,
-              payload: {
-                [smallLoader]: false,
-              },
-            });
-          } else {
-            store.dispatch({
-              type: SPINNER_OFF,
-            });
-          }
-        });
-      break;
-    }
     // DISPATCH TO GET USER PROPERTIES LIST - by PROPERTY ID
     case GET_ESTIMATION: {
       next(action);
@@ -653,7 +579,7 @@ const checkCommon = (store) => (next) => (action) => {
           type: SET_ACTIVE_SINGLE_PROPERTY_BOOKINGS,
           payload: response.data,
         });
-        const slots = [];
+        const slots: object[] = [];
         response.data.forEach((item) => {
           item.slots.forEach((slot) => {
             slots.push(slot);
@@ -993,6 +919,7 @@ const checkCommon = (store) => (next) => (action) => {
               // if get user push
               if (has(deals, 'user.id')) {
                 const queryParams2 = `?parent=${deals.user.id}&child=${id}&order=updatedAt&direction=DESC&historyType=user`;
+                // @ts-ignore
                 calls.push(api.history.getHistoryList(50, 0, queryParams2, ActionStubs.DealOwner));
               }
             }
@@ -1007,10 +934,10 @@ const checkCommon = (store) => (next) => (action) => {
               // Process the user history for each deal
               res.forEach((userHistory) => {
                 // We need the the user history filtered by the active property
-                const userHistoryFiltered = filter(userHistory.data.data, (el) => get(el, 'child', '') === action.payload.id);
+                const userHistoryFiltered = filter(get(userHistory, 'data.data', []), (el) => get(el, 'child', '') === action.payload.id);
                 // We need the most recent entry, which is the first position based on the direction written on the queryparams
                 const mostRecentUserHistoryFiltered = userHistoryFiltered[0];
-                const dealIndex = findIndex(deals, (d) => d.user.id === get(mostRecentUserHistoryFiltered, 'parent', ''));
+                const dealIndex = findIndex(deals, (d: DealType) => d.user.id === get(mostRecentUserHistoryFiltered, 'parent', ''));
                 set(deals[dealIndex], 'lastAction', mostRecentUserHistoryFiltered);
                 if (smallLoader) {
                   store.dispatch({

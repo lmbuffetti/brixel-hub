@@ -12,7 +12,6 @@ import {
   GET_PACKAGE_PROPERTY,
   GET_PACKAGES_PROPERTY,
   GET_PAGE_DEALS,
-  GET_PROPERTY_LISTINGS,
   SAVE_ACTIVE_SINGLE_PROPERTY,
   SAVE_PROPERTY_VISIT_BOOKING,
   SAVE_PROPERTY_VISIT_SCHEDULE,
@@ -28,7 +27,6 @@ import {
   SET_PACKAGE_PROPERTY,
   SET_PACKAGES_PROPERTY,
   SET_PAGE_DEALS,
-  SET_PROPERTY_LISTINGS,
   UPDATE_PORTALS_REVIEW,
   UPDATE_PUBLISHED_REVIEW,
 } from './types/PropertyTypes';
@@ -46,7 +44,6 @@ export const {
   getPackageProperty,
   getPackagesProperty,
   getPageDeals,
-  getPropertyListings,
   saveActiveSingleProperty,
   savePropertyVisitBooking,
   savePropertyVisitSchedule,
@@ -63,7 +60,6 @@ export const {
   setPackageProperty,
   setPackagesProperty,
   setPageDeals,
-  setPropertyListings,
   updatePortalsReview,
   updatePublishedReview,
 } = createActions({
@@ -80,7 +76,6 @@ export const {
   [GET_PACKAGES_PROPERTY]: (payload) => payload,
   [GET_PACKAGE_PROPERTY]: (payload) => payload,
   [GET_PAGE_DEALS]: (payload) => payload,
-  [GET_PROPERTY_LISTINGS]: (payload) => payload,
   [SAVE_ACTIVE_SINGLE_PROPERTY]: (payload) => payload,
   [SAVE_PROPERTY_VISIT_BOOKING]: (payload) => payload,
   [SAVE_PROPERTY_VISIT_SCHEDULE]: (payload) => payload,
@@ -97,7 +92,6 @@ export const {
   [SET_PACKAGES_PROPERTY]: (payload) => payload,
   [SET_PACKAGE_PROPERTY]: (payload) => payload,
   [SET_PAGE_DEALS]: (payload) => payload,
-  [SET_PROPERTY_LISTINGS]: (payload) => payload,
   [UPDATE_PORTALS_REVIEW]: (payload) => payload,
   [UPDATE_PUBLISHED_REVIEW]: (payload) => payload,
 });

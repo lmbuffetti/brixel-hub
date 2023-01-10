@@ -22,7 +22,6 @@ import {
   getActiveSinglePropertyBookings,
   getEstimation,
   getPackageProperty,
-  getPropertyListings,
   saveActiveSingleProperty,
   savePropertyVisitBooking,
   savePropertyVisitSchedule,
@@ -76,7 +75,6 @@ const Dashboard = (props) => {
     handleGetActiveSinglePropertyEstimation,
     handleGetImageType,
     handleGetPackageProperty,
-    handleGetPropertyListings,
     handleSaveActiveSingleProperty,
     handleSavePropertyVisitSchedule,
     handleSetScreenNotification,
@@ -125,19 +123,6 @@ const Dashboard = (props) => {
     }
   }, [history.location.pathname]);
 
-  // FUNCTION TO LOAD DEFAULT USER PROPERTY IF NO ID
-  const loadDefaultProperty = () => {
-    if (!get(formValue, 'id', null)) {
-      const data = {
-        limit: 1,
-        offset: `0/?owner=${get(loggedInUser, 'user.id', '')}`,
-        setAsSingle: true,
-        multiLoader: true,
-      };
-      handleGetPropertyListings(data);
-    }
-  };
-
   // FUNCTION TO LOAD THE PROPERTY BY ID OR LOAD THE DEFAULT
   useEffect(() => {
     if ((propID !== get(activeSingleProperty, 'id', null) || !get(activeSingleProperty, 'id', null)) && propID !== 'sell') {
@@ -145,9 +130,6 @@ const Dashboard = (props) => {
         handleGetActiveSingleProperty({ fullVersion: true, id: propID, multiLoader: !formValue.id });
         handleGetPackageProperty({ id: propID });
         handleGetActiveSinglePropertyEstimation({ id: propID, smallLoader: 'getEstimation' });
-      } else if (!propID) {
-        // history.push('/home');
-        loadDefaultProperty();
       } else {
         handleSpinnerOff();
       }
@@ -374,7 +356,6 @@ Dashboard.propTypes = {
   handleGetActiveSinglePropertyEstimation: PropTypes.func.isRequired,
   handleGetImageType: PropTypes.func.isRequired,
   handleGetPackageProperty: PropTypes.func.isRequired,
-  handleGetPropertyListings: PropTypes.func.isRequired,
   handleReset: PropTypes.func.isRequired,
   handleSaveActiveSingleProperty: PropTypes.func.isRequired,
   handleSavePropertyVisitSchedule: PropTypes.func.isRequired,
@@ -491,7 +472,6 @@ const mapDispatchToProps = (dispatch) => ({
   handleGetActiveSinglePropertyEstimation: bindActionCreators(getEstimation, dispatch),
   handleGetImageType: bindActionCreators(getImageType, dispatch),
   handleGetPackageProperty: bindActionCreators(getPackageProperty, dispatch),
-  handleGetPropertyListings: bindActionCreators(getPropertyListings, dispatch),
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
   handleSaveData: bindActionCreators(setPageData, dispatch),
   handleSavePropertyVisitBooking: bindActionCreators(savePropertyVisitBooking, dispatch),
