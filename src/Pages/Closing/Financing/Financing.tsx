@@ -292,7 +292,7 @@ const Financing = (props: FinancingType) => {
   const multiStepSlidesEl = multiStepSlidesRef.current;
 
   // FUNCTION TO GO TO NEXT STEP
-  const changeStep = (act = 'next', e: null | React.MouseEvent<HTMLElement> = null, step = 1, skipValidation = false) => {
+  const changeStep = (act = 'next', e: null | React.FormEvent = null, step = 1, skipValidation = false) => {
     if (e) e.preventDefault();
     let newIndex = currentIndex;
     setShowError(false);
