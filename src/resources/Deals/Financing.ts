@@ -7,7 +7,7 @@ import Key4Registration from '../../Pages/Closing/Offers/Flow/Key4Registration';
 import {configureStore} from '../../store';
 import translateTo from '../../utils/translation';
 
-export const QuestionsList = (changeVal, changeIndex, handleSetModal, lang) => {
+export const QuestionsList = (changeVal, lang) => {
   let formValue: {
     affordability?: string;
     company?: string;
