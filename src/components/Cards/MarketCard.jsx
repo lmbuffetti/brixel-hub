@@ -681,7 +681,7 @@ const MarketCard = (props) => {
                               className="slick-dots pos-a x-c ta-c zIndex2 bt mb-1"
                             >
                               {
-                                item.photos.map((photo, i) => (
+                                item.photos.slice(0, 5).map((photo, i) => (
                                   <li
                                     key={`dots${i.toString()}`}
                                     className={activeSlide === i ? 'slick-active' : ''}
@@ -697,7 +697,7 @@ const MarketCard = (props) => {
                               {...settingSlider}
                             >
                               {
-                                item.photos.map((photo, i) => (
+                                item.photos.slice(0, 5).map((photo, i) => (
                                   <div
                                     key={`itm_${i.toString()}`}
                                     className={`${isPreMarket() ? 'pre-market' : ''} ${get(item, 'tags', []).join(' ')} cover w-perc-100 h-fix-216 h-perc-100 pos-r`}

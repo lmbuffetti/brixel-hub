@@ -109,7 +109,7 @@ const MarketCardFavorites = (props) => {
       history.push(`/buyer/${activeSingleProperty.id}/home`);
     }
   }
-  
+
   const onChangeFavorite = () => {
     setIsUnFavorite(!isUnFavorite);
     let data = {
@@ -180,7 +180,7 @@ const MarketCardFavorites = (props) => {
                     className="slick-dots pos-a x-c ta-c zIndex2 bt mb-1"
                   >
                     {
-                      activeSingleProperty.photos.map((photo, i) => (
+                      activeSingleProperty.photos.slice(0, 5).map((photo, i) => (
                         <li
                           key={`dots${i.toString()}`}
                           className={activeSlide === i ? 'slick-active' : ''}
@@ -197,7 +197,7 @@ const MarketCardFavorites = (props) => {
                   {...settingSlider}
                 >
                   {
-                    activeSingleProperty.photos.map((photo, index) => (
+                    activeSingleProperty.photos.slice(0, 5).map((photo, index) => (
                       <div
                         key={`itm_${index.toString()}`}
                         className={`${isPreMarket() ? 'pre-market' : ''} ${get(activeSingleProperty, 'tags', []).join(' ')} cover pos-r h-perc-100`}
