@@ -91,7 +91,7 @@ export const QuestionsList = (lang, type, changeField, formName = 'GetStarted') 
       title: translateTo(type === 'searchProfile' ? 'How big should it be?' : 'How big should it be?', lang),
       history: 'tipology',
       vCentered: true,
-      classWrap: type === 'searchProfile' ? 'brdSmallBottom brdLight200 pb-2 pb-md-4 inputRangeWrap' : 'inputRangeWrap',
+      classWrap: type === 'searchProfile' ? 'brdSmallBottom brdLight200 pb-6 inputRangeWrap' : 'inputRangeWrap',
       className: 'fieldHolder bgWhite brdRadius max-w-fix-600 m-a pl-2 pr-0 px-sm-5 py-5',
       footerWidth: 'max-w-fix-600',
       inputs: [

@@ -199,7 +199,7 @@ const SearchProfileModal = (props) => {
       titleTop
       layout="xxlarge"
       titleTopClass="modalTitleClass fweight-600 fsize-500 fsize-md-600 brdSmallBottom brdLight200 ta-c mb-2 mb-md-4"
-      bodyClassColor="bgWhite"
+      bodyClassColor="bgWhite p-3 pt-4"
       multiActions={multiActions()}
     >
       {

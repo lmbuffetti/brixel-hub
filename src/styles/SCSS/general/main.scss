@@ -1147,8 +1147,15 @@ input::-webkit-date-and-time-value {
       padding-left: $step * 2;
     }
   }
+  margin-bottom: 0px !important;
 }
 
 .w-100-vw {
   width: 100vw;
+}
+
+.update-item {
+  border-color: lightgrey;
+  border-width: 1px;
+  border-style: solid;
 }

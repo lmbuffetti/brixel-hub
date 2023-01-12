@@ -70,7 +70,7 @@ const SearchProfileList = (props) => {
     initForm(initialValue)
     history.push(`/buy/searchProfile/list/edit/${searchProfile.id}`)
   }
-  
+
   const deleteSearchProfile = (profile) => {
     handleDeleteUserSearchProfile(profile);
     handleSetModal({
