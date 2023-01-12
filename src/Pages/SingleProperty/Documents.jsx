@@ -232,21 +232,24 @@ const Documents = (props) => {
   }
   
   const dragDocuments = (doc, id, list) => {
-    if (list === 'folderList') {
-      if (doc.length === processedDocuments.length) setProcessedDocuments(doc);
-    } else if (list) {
-      setProcessedDocuments((prevState) => {
-        const newDoc = [...prevState];
-        const updateDoc = doc.map((dc) => ({ ...dc, folder: list }));
-        delete updateDoc.chosen;
-        delete updateDoc.selected;
-        newDoc[id] = [
-          ...updateDoc,
-        ];
-        return [
-          ...newDoc,
-        ]
-      })
+    if (list) {
+      if (list === 'folderList') {
+        if (doc.length === processedDocuments.length) setProcessedDocuments(doc);
+      } else if (list) {
+        setProcessedDocuments((prevState) => {
+          const newDoc = [...prevState];
+          const folderID = prevState.findIndex((dc) => dc[0].folder === list);
+          const updateDoc = doc.map((dc) => ({ ...dc, folder: list }));
+          delete updateDoc.chosen;
+          delete updateDoc.selected;
+          newDoc[folderID] = [
+            ...updateDoc,
+          ];
+          return [
+            ...newDoc,
+          ]
+        })
+      }
     }
   };
   
@@ -288,8 +291,8 @@ const Documents = (props) => {
   }
   
   const filterDocsByFodler = (docs, folderName) => {
-    if (!folderName || folderName === 'NoFodler') {
-      return processedDocuments.filter((dc) => dc[0] && dc[0].folder !== 'NoFolder' && dc[0].folder)
+    if (!folderName || folderName === 'NoFolder') {
+      return processedDocuments.filter((dc) => dc[0] && (dc[0].folder === 'NoFolder' || !dc[0].folder))
     }
     return processedDocuments.filter((dc) => dc[0] && dc[0].folder !== 'NoFolder');
   }
@@ -444,9 +447,10 @@ const Documents = (props) => {
                   (processedDocuments && processedDocuments.length > 0) && (
                     <>
                       <div className="documents-container w-perc-100 dis-fl-col mt-3">
-                        <ul
+                        <div
                           className="folder-list"
                         >
+                          <h3>Files</h3>
                           <ReactSortable
                             handle=".folderHandle"
                             group="folder"
@@ -457,12 +461,6 @@ const Documents = (props) => {
                             {
                               filterDocsByFodler(processedDocuments, 'NoFolder').map((docList, i) => (
                                 <div key={`noFolderDoc${i.toString()}`}>
-                                  {
-                                    i === 0 && (
-                                      <h3>Files</h3>
-                                    )
-                                  }
-        
                                   <ReactSortable
                                     key={`prcDcc_${i.toString()}`}
                                     handle=".docsHandle"
@@ -602,13 +600,13 @@ const Documents = (props) => {
                               ))
                             }
                             {
+                              filterDocsByFodler(processedDocuments, 'folder').length > 0 && (
+                                <h3>Folders</h3>
+                              )
+                            }
+                            {
                               filterDocsByFodler(processedDocuments, 'folder').map((docList, i) => (
                                 <div key={`folderDoc${i.toString()}`}>
-                                  {
-                                    i === 0 && (
-                                      <h3>Folders</h3>
-                                    )
-                                  }
                                   <div
                                     className="document-folder shadow-1dp dis-fl-col p-1 mb-2 brdRadius"
                                     key={`prcDcc_${i.toString()}`}
@@ -775,7 +773,7 @@ const Documents = (props) => {
                               ))
                             }
                           </ReactSortable>
-                        </ul>
+                        </div>
                       </div>
                     </>
                   )
