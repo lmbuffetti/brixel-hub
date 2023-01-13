@@ -11,7 +11,6 @@ import {
   SET_PACKAGE_PROPERTY,
   SET_PACKAGES_PROPERTY,
   SET_PAGE_DEALS,
-  SET_PROPERTY_LISTINGS,
 } from '../actions/types/PropertyTypes';
 
 import {SET_PROPERTY_HISTORY_LISTINGS, SET_PROPERTY_OWNER_HISTORY_LISTINGS} from '../actions/types/HistoryTypes';
@@ -38,10 +37,6 @@ export default handleActions(
     [SET_ESTIMATION]: (state, action) => ({
       ...state,
       estimation: action.payload,
-    }),
-    [SET_PROPERTY_LISTINGS]: (state, action) => ({
-      ...state,
-      propertyListings: action.payload,
     }),
     [SET_ACTIVE_SINGLE_PROPERTY]: (state, action) => ({
       ...state,

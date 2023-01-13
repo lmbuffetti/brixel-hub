@@ -835,23 +835,6 @@ const BrixelClosingTree = (props: BrixelClosingTreeType) => {
       <div className={`w-perc-100 max-w-fix-1200 ${className} closingTree`}>
         <div className="dis-fl-row">
           <div className="phases dis-fl-col h-perc-100 w-perc-100 txtDark700">
-
-            {/* <div className="hide header bgGreen100 brdRadius dis-f-lg jc-b a-c w-perc-100 px-2 py-2">
-              <span className="w-perc-40 tt-up">Process</span>
-              <span className="w-perc-30 px-2 tt-up">Buyer</span>
-              <span className="w-perc-30 pl-2 tt-up">{translateTo('Seller', lang)}</span>
-            </div>
-
-             <BrixelTabs
-                className="hide-lg ov-h"
-                classNameUl="ov-y-h"
-                labels={['Buyer', '{translateTo('Seller', lang)}']}
-                clicksList={['buyer', 'seller']}
-                onClick={(val) => setShowTabSection(val)}
-                activeTab={showTabSection}
-                fullWidth
-              /> */}
-
             {
               closingStage.map((stage, i) => (
                 <div
@@ -904,44 +887,6 @@ const BrixelClosingTree = (props: BrixelClosingTreeType) => {
                 </div>
               ))
             }
-
-            {/*   {
-              closingStage.map((stage, i) => (
-                <div
-                  className={`offer-container dis-fl-row jc-b ${get(activeSingleClosing, `${stage.stageName}.active`, null) ? 'active' : 'locked'} ${closingStage.length > i + 1 ? 'brdSmallBottom brdAltGrey100' : ''} flex-wrap`}
-                  key={`clsStg_${i.toString()}`}
-                >
-                  <div className="w-perc-50 w-perc-lg-40 py-2 py-lg-4 px-2">
-                    <h5 className="mb-2 fweight-600 fsize-300 fsize-lg-400">{stage.title}</h5>
-                    <div className="fsize-300" dangerouslySetInnerHTML={{ __html: stage.subtitle }} />
-                  </div>
-                  {
-                    (!showTabSection || showTabSection === 'buyer') && (
-                      <div className="w-perc-50 w-perc-lg-30 bg-lgLight100 py-2 py-lg-4 px-2 ta-r ta-l-lg">
-                        {buyerSection(stage.stageName)}
-                      </div>
-                    )
-                  }
-
-                  {
-                    (!showTabSection || showTabSection === 'seller') && (
-                      <div className="w-perc-50 w-perc-lg-30 py-2 py-lg-4 px-2 ta-r ta-l-lg">
-                        {sellerSection(stage.stageName)}
-                      </div>
-                    )
-                  }
-
-                  {
-                    stage.stageName === 'stageIdentification' && showTabSection && (
-                      <>
-                        {personsInfo(showTabSection, 'mb-2 mx-2 mx-lg-0')}
-                      </>
-                    )
-                  }
-
-                </div>
-              ))
-            } */}
           </div>
         </div>
       </div>

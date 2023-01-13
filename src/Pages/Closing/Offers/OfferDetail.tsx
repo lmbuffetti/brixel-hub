@@ -7,7 +7,7 @@ import translateTo from '../../../utils/translation';
 import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import {setSplashType} from '../../../actions/CommonActions';
 import BrixelClosingTree from '../../../components/BrixelClosingTree';
-import {getActiveSingleDeal, setActiveSingleDeal} from '../../../actions/DealActions';
+import {getActiveSingleDeal} from '../../../actions/DealActions';
 import type {OfferDetailType} from '../../../@types/Pages/Closing/Offers/OfferDetail';
 
 const OfferDetail = (props: OfferDetailType) => {
@@ -27,8 +27,6 @@ const OfferDetail = (props: OfferDetailType) => {
   // PARAMS
   const dealID = get(match, 'dealID', '');
   const propID = get(match, 'propID', '');
-
-  // useEffect(() => () => handleSetActiveSingleDeal({}), []);
 
   useEffect(() => {
     if (activeSingleProperty.id && activeSingleDeal.id !== dealID && !isBuyer) {
@@ -110,7 +108,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   handleGetActiveSingleDeal: bindActionCreators(getActiveSingleDeal, dispatch),
-  handleSetActiveSingleDeal: bindActionCreators(setActiveSingleDeal, dispatch),
   setSplashScreen: bindActionCreators(setSplashType, dispatch),
 });
 

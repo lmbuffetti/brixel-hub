@@ -3,7 +3,7 @@ import React, {Suspense, useEffect} from 'react';
 import {connect} from 'react-redux';
 import {Navigate, Route, Routes, useParams} from 'react-router-dom';
 import {bindActionCreators, compose} from 'redux';
-import {getOfferListings, setActiveSingleDeal} from '../../../actions/DealActions';
+import {getOfferListings} from '../../../actions/DealActions';
 import lazyWithRetry from '../../../components/LazyWithRetry';
 import Loading from '../../../components/Loading';
 import type {DashboardOfferType} from '../../../@types/Pages/Closing/Offers/DashboardOffer';
@@ -44,7 +44,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   handleGetOfferListings: bindActionCreators(getOfferListings, dispatch),
-  handleSetActiveSingleDeal: bindActionCreators(setActiveSingleDeal, dispatch),
 });
 
 export default compose(
