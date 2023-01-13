@@ -2,7 +2,6 @@ import ep from '../../endPoints.constant';
 import Base from '../config/Base';
 
 class Property extends Base {
-  private apiClient: any;
   validateToken(token) {
     const url = ep.user.validateToken();
     return this.apiClient.get(url, { token });

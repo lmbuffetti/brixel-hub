@@ -3,7 +3,6 @@ import Base from '../config/Base';
 import ep from '../../endPoints.constant';
 
 class Company extends Base {
-  private apiClient: any;
   getCompanyByStub(stub) {
     const url = ep.company.getCompanyByStub(stub);
     return this.apiClient.get(url, { });

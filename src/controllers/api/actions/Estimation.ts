@@ -3,7 +3,6 @@ import Base from '../config/Base';
 import ep from '../../endPoints.constant';
 
 class Estimation extends Base {
-  private apiClient: any;
   generateEstimation(id, token) {
     const url = ep.estimation.generateEstimation(id);
     return this.apiClient.post(url, { token });

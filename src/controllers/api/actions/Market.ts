@@ -2,7 +2,6 @@ import ep from '../../endPoints.constant';
 import Base from '../config/Base';
 
 class Market extends Base {
-  private apiClient: any;
   getAllProperties(paginationLimit, paginationSkip, data) {
     const url = ep.market.allProperties(paginationLimit, paginationSkip, data);
     return this.apiClient.get(url);

@@ -2,7 +2,6 @@ import Base from '../config/Base';
 import ep from '../../endPoints.constant';
 
 class Common extends Base {
-  private apiClient: any;
   sendSlackNotification(data: object, channel: string) {
     const url = ep.common.sendSlackNotification(channel);
     return this.apiClient.post(url, {}, data);

@@ -2,7 +2,6 @@ import ep from '../../endPoints.constant';
 import Base from '../config/Base';
 
 class SearchProfile extends Base {
-  private apiClient: any;
   searchProfileByUserID(id) {
     const url = ep.searchProfile.searchProfileByUserID(id);
     return this.apiClient.get(url);

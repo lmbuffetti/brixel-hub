@@ -3,7 +3,6 @@ import Base from '../config/Base';
 import ep from '../../endPoints.constant';
 
 class Upload extends Base {
-  private apiClient: any;
   rotateImg(id, angle) {
     const url = ep.upload.rotate(id, angle);
     return this.apiClient.put(url);

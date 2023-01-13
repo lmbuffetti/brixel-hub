@@ -3,7 +3,6 @@ import Base from '../config/Base';
 import ep from '../../endPoints.constant';
 
 class Deal extends Base {
-  private apiClient: any;
   updateSingleDeal(id, data) {
     const url = ep.deal.singleDeal(id);
     return this.apiClient.put(url, {}, data);
