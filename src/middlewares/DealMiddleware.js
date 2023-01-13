@@ -1,13 +1,13 @@
 import cloneDeep from 'lodash/cloneDeep';
-import omit from 'lodash/omit';
 import get from 'lodash/get';
-import set from 'lodash/set';
 import has from 'lodash/has';
+import omit from 'lodash/omit';
+import set from 'lodash/set';
 import {
-  SPINNER_ON,
-  SPINNER_OFF,
   REDIRECT_TO,
   SET_SCREEN_NOTIFICATION,
+  SPINNER_OFF,
+  SPINNER_ON,
   SPINNER_SMALL,
 } from '../actions/types/CommonTypes';
 
@@ -17,28 +17,24 @@ import {
   GET_BUYER_DEAL,
   GET_OFFER_LISTINGS,
   SAVE_ACTIVE_SINGLE_DEAL,
-  SAVE_MAKE_OFFER,
   SAVE_CLOSING_IDENTIFICATION,
+  SAVE_FINANCING_REQUEST,
+  SAVE_MAKE_OFFER,
   SAVE_REVIEW_OFFER,
   SEND_VISIT_FEEDBACK,
   SET_ACTIVE_SINGLE_DEAL,
   SET_OFFER_LISTINGS,
   UPDATE_DEALS_ORDER,
   UPDATE_MULTIPLE_DEALS,
-  SAVE_FINANCING_REQUEST,
 } from '../actions/types/DealTypes';
 
-import {
-  SET_DEAL_OWNER_HISTORY_LISTINGS, GET_HISTORY_LISTINGS,
-} from '../actions/types/HistoryTypes';
+import { GET_HISTORY_LISTINGS, SET_DEAL_OWNER_HISTORY_LISTINGS } from '../actions/types/HistoryTypes';
 
-import {
-  GET_PAGE_DEALS,
-} from '../actions/types/PropertyTypes';
-
-import { exampleDeal } from '../resources/Deals/exampleDeal';
+import { GET_PAGE_DEALS } from '../actions/types/PropertyTypes';
 
 import api from '../controllers/api/config';
+
+import { exampleDeal } from '../resources/Deals/exampleDeal';
 
 const ActionStubs = require('../resources/Utilities/timelineActionStubs');
 
@@ -213,7 +209,8 @@ const checkCommon = (store) => (next) => (action) => {
               let dealUserHistory = {};
               let call3;
               let updatedDeal;
-              const queryParamsDealUser = `?parent=${response.data.user.id}&child=${property}&order=createdAt&direction=ASC&historyType=user`;
+              let queryParamsDealUser = `?parent=${response.data.user.id}&order=createdAt&direction=ASC&historyType=user`;
+              if (property) queryParamsDealUser = `?parent=${response.data.user.id}&child=${property}&order=createdAt&direction=ASC&historyType=user`;
               // eslint-disable-next-line no-return-assign
               const call2 = api.history.getHistoryList(10, 0, queryParamsDealUser, ActionStubs.DealOwner)
                 .then((res) => {
