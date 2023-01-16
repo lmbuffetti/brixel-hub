@@ -1,23 +1,24 @@
 import get from 'lodash/get';
 import {QuestionsList} from '../resources/Flows/onBoardingBuyer';
 import translateTo from './translation';
-import type {ModelInputQuestionType} from '../@types/resources/Flows/ModelQuestionList';
+import {QuestionInputType} from '@brixel/brixel-components/dist/@types/Model';
+
 
 export const titleSearchProfile = (formValue, lang) => {
   let pageTitle;
   let translatedPropertyType = '';
-  const inputs: ModelInputQuestionType[] = [];
-  QuestionsList(lang).forEach((input) => {
+  const inputs: QuestionInputType[] = [];
+  QuestionsList(lang, '', () => '', '').forEach((input) => {
     if(input.inputs) {
-      input.inputs.forEach((inp: ModelInputQuestionType) => {
+      input.inputs.forEach((inp) => {
         inputs.push(inp);
       })
     }
   })
-  const checkMaxValue = inputs.filter((inp: ModelInputQuestionType) => inp.maxLengthNum);
+  const checkMaxValue = inputs.filter((inp: QuestionInputType) => inp.maxLengthNum);
   const maxValue = {};
-  checkMaxValue.forEach((val: ModelInputQuestionType) => {
-    if(!get(formValue, `${val.name}.max`, null)) {
+  checkMaxValue.forEach((val: QuestionInputType) => {
+    if(!get(formValue, `${val.name}.max`, null) && val.name) {
       maxValue[val.name] = val.maxLengthNum;
     }
   })

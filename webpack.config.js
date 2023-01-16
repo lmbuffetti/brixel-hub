@@ -116,7 +116,7 @@ const clientConfig = (env) => {
           ],
         },
         {
-          test: /\.(ts|js)x$/,
+          test: /\.(js)x$/,
           exclude: /node_modules/,
           use: [
             {
@@ -130,6 +130,11 @@ const clientConfig = (env) => {
               },
             },
           ],
+        },
+        {
+          test: /\.(ts)x$/,
+          exclude: /node_modules/,
+          use: 'ts-loader',
         },
         // Svg loader
         {
@@ -212,7 +217,7 @@ const clientConfig = (env) => {
       }),
     ],
     resolve: {
-      extensions: ['.js', '.jsx'],
+      extensions: ['.js', '.jsx', '.ts', '.tsx'],
     },
     performance: {
       hints: false

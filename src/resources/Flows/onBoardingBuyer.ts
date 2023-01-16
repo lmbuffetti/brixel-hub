@@ -21,7 +21,7 @@ import {QuestionsListType} from '@brixel/brixel-components/dist/@types/Model';
 const { factsOptions } = FactsOptions;
 
 // QUESTION LISTS
-export const QuestionsList: (lang: string, type: string, changeField: (field: string, val: any) => void, formName: string) => void = (lang, type, changeField, formName = 'GetStarted') => {
+export const QuestionsList: (lang: string, type: string, changeField: (field: string, val: any) => void, formName: string) => QuestionsListType[] = (lang, type, changeField, formName = 'GetStarted') => {
   let countryList: any = [];
   let formValue = {};
   // let company = null;
