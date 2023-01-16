@@ -501,7 +501,7 @@ const Documents = (props) => {
 
                                                 <div className="name w-perc-100 dis-fl-row a-c pr-1 pr-sm-0">
                                                   <div className="icon-container brdRadius dis-f w-fix-24 h-fix-40 jc-c a-c ml-1 mr-1">
-                                                    <img width={18} className='cur-move docsHandle' src={dragIcon} />
+                                                    <img width={18} className='cur-grab docsHandle' src={dragIcon} />
                                                   </div>
                                                   <div className="dis-fl-col cur-poi" onClick={(e) => openDocument(e, doc.id)}>
                                                     <span className="document-title fweight-500 fsize-400 txtDark700 dont-break-out">{doc.name}</span>
@@ -618,7 +618,7 @@ const Documents = (props) => {
                                                 className={`dis-fl-row a-c p-1 ${(index(i) !== -1 || isMovingFolder) ? '' : ''}`}
                                                 onClick={(e) => onExpandFolder(e, i)}
                                               >
-                                                <img width={18} className='cur-move docsHandle' src={dragIcon} />
+                                                <img width={18} className='cur-grab docsHandle' src={dragIcon} />
                                                 <BrixelIcon
                                                   icon="folder"
                                                   color="green"
@@ -667,7 +667,7 @@ const Documents = (props) => {
                                                   >
                                                     <div className="name w-fix-184 w-fix-lg-352 dis-fl-row a-c pr-1 pr-sm-0">
                                                       <div className="icon-container brdRadius dis-f w-fix-24 h-fix-40 jc-c a-c mr-1">
-                                                        <img width={18} className='cur-move docsHandle' src={dragIcon} />
+                                                        <img width={18} className='cur-grab docsHandle' src={dragIcon} />
                                                       </div>
                                                       <div className="dis-fl-col cur-poi" onClick={(e) => openDocument(e, doc.id)}>
                                                         <span className="document-title max-w-fix-168 max-w-perc-lg-100 txtDark700 dont-break-out">{doc.name}</span>

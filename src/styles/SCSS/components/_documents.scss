@@ -9,6 +9,7 @@
     width: calc(100% - 50px);
   }
 
+
   .sortable-ghost {
     position: absolute;
     width: calc(100% - 16px);
@@ -18,9 +19,15 @@
       border-top: 1px solid transparent !important;
     }
   }
+  .sortable-chosen {
+    + .single-document {
+      border-top: 1px solid transparent !important;
+    }
+  }
 
   .single-document {
     &:not(.sortable-chosen) {
+      border: 1px solid transparent;
       border-top: 1px solid map_get($lightColor, 200);
     }
     cursor: grab;
@@ -54,4 +61,17 @@
   bottom: 0;
   background: map_get($primaryColor, 400);
   transition: all $default-time;
+}
+
+
+.document-folder {
+  border: 1px solid transparent;
+  &:has(.sortable-chosen) {
+    border-color: map_get($primaryColor, 400);
+    .single-document {
+      &:first-child {
+        border-top-color: map_get($primaryColor, 400);
+      }
+    }
+  }
 }
