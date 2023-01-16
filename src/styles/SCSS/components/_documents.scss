@@ -12,21 +12,18 @@
   .sortable-ghost {
     position: absolute;
     width: calc(100% - 16px);
-
+    height: 1px;
+    border-top: 1px solid map_get($primaryColor, 400) !important;
     + .single-document {
-      border-color: transparent !important;
+      border-top: 1px solid transparent !important;
     }
   }
 
   .single-document {
-    border-top: 1px solid map_get($lightColor, 200);
-    cursor: grab;
-
-    &:first-child {
-      border-top: 0;
-      margin-top: 0;
-      padding-top: 0;
+    &:not(.sortable-chosen) {
+      border-top: 1px solid map_get($lightColor, 200);
     }
+    cursor: grab;
 
     .name {
       width: calc(100% - 44px);

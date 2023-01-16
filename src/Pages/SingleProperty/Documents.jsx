@@ -654,7 +654,7 @@ const Documents = (props) => {
                                               delay={2}
                                               group="groupName"
                                               list={cloneDeep(docList)}
-                                              className={(index(i) !== -1 || isMovingFolder) ? 'mt-1 pt-2 brdSmallTop brdLight200' : ''}
+                                              className={(index(i) !== -1 || isMovingFolder) ? 'mt-1 pt-0' : ''}
                                               setList={(order) => dragDocuments(order, i, get(docList[0], 'folder', null))}
                                               onStart={() => setIsMovingFolder(true)}
                                               onEnd={() => setIsMovingFolder(false)}
@@ -663,7 +663,7 @@ const Documents = (props) => {
                                                 (index(i) !== -1 || isMovingFolder) && docList.map((doc, k) => (
                                                   <li
                                                     key={`prcDocs_${k.toString()}`}
-                                                    className="single-document pl-2 dis-fl-row a-c jc-b pt-1 mb-1"
+                                                    className="single-document pl-2 dis-fl-row a-c jc-b py-1"
                                                   >
                                                     <div className="name w-fix-184 w-fix-lg-352 dis-fl-row a-c pr-1 pr-sm-0">
                                                       <div className="icon-container brdRadius dis-f w-fix-24 h-fix-40 jc-c a-c mr-1">
