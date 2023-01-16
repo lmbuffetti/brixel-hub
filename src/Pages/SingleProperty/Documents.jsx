@@ -1,6 +1,5 @@
 import {
   BrixelButtonIcon,
-  BrixelButtonPrimary,
   BrixelButtonSecondary,
   BrixelDropdownMini,
   BrixelIcon,
@@ -28,6 +27,7 @@ import { saveActiveSingleProperty } from '../../actions/PropertyActions';
 import { deleteDocument, multiUploadDocument, uploadDocument } from '../../actions/UploadActions';
 import buyerDocumentsEmpty from '../../images/Media/buyer_docuboxEmpty.svg';
 import uploadDocumentsEmpty from '../../images/Upload/upload_documents_empty.svg';
+import dragIcon from '../../images/Upload/drag-icon.svg';
 import { tobase64Handler } from '../../utils/helpers';
 import translateTo from '../../utils/translation';
 
@@ -61,11 +61,11 @@ const Documents = (props) => {
   const [isMovingFolder, setIsMovingFolder] = useState(false);
 
   const { documents } = formValue;
-  
+
   useEffect(() => {
     setTimeout(() => {setIsReady(true)}, 200);
   }, []);
-  
+
 
   useEffect(() => {
     if (has(formValue, 'location.countryCode')) {
@@ -230,7 +230,7 @@ const Documents = (props) => {
     if (countMandatoryDocuments() === 0) return 'txtRed400';
     return 'txtYellow400';
   }
-  
+
   const dragDocuments = (doc, id, list) => {
     if (list) {
       if (list === 'folderList') {
@@ -252,7 +252,7 @@ const Documents = (props) => {
       }
     }
   };
-  
+
   useEffect(() => {
     if (Object.keys(processedDocuments).length > 0) {
       const docsToSave = [];
@@ -278,7 +278,7 @@ const Documents = (props) => {
       }
     }
   }, [processedDocuments]);
-  
+
   const onExpandFolder = (e, i) => {
     if (e) e.preventDefault();
     const clone = cloneDeep(showFullFolder);
@@ -289,7 +289,7 @@ const Documents = (props) => {
     }
     setShowFullFolder(clone);
   }
-  
+
   const filterDocsByFodler = (docs, folderName) => {
     if (!folderName || folderName === 'NoFolder') {
       return processedDocuments.filter((dc) => dc[0] && (dc[0].folder === 'NoFolder' || !dc[0].folder))
@@ -338,7 +338,7 @@ const Documents = (props) => {
                 <>
                   {
                     mandatoryDocuments && (
-                      <div className="mandatory-documents min-h-fix-304 mb-5">
+                      <div className="mandatory-documents mb-5">
                         <p className={`fweight-500 fsize-500 ${getTxtColor()} mb-4`}>
                           <span>{translateTo('You have uploaded', lang)}</span>
                           <span> {countMandatoryDocuments()} </span>
@@ -414,31 +414,43 @@ const Documents = (props) => {
                 {
                   userType === 'seller' && (
                     <>
-                      <div className="docubox-info mb-3 dis-fl-col a-c as-fs">
-                        <h5 className="as-fs">{translateTo('Drag to move and reorder documents', lang)}</h5>
-                        <span className="as-fs txtDark200">{translateTo('The order will be the same as seen on your Brixel Page.', lang)}</span>
-                      </div>
+                      {
+                        (documents && documents.length !== 0) && (
+                          <div className="docubox-info mb-3 dis-fl-col a-c as-fs">
+                            <h5 className="as-fs fSizePx20 fweight-600">{translateTo('Drag to move and reorder documents', lang)}</h5>
+                            <span className="as-fs txtDark200 fsize-300">{translateTo('The order will be the same as seen on your Brixel Page.', lang)}</span>
+                          </div>
+                        )
+                      }
                       <div
-                        className={`${(!processedDocuments || (processedDocuments.length === 0)) ? 'emptyState mb-5' : 'hasImages py-2 py-lg-3'} upload-container dis-fl-col a-c ta-c w-perc-100`}
+                        className={`${(!processedDocuments || (processedDocuments.length === 0)) ? 'emptyState my-3 my-sm-5' : 'hasImages py-2 py-lg-3'} upload-container dis-fl-col a-c ta-c w-perc-100`}
                         {...getRootProps()}
                       >
                         <input {...getInputProps()} />
+
+                        <div>
+                          <img loading="lazy" className={`${(!processedDocuments || (processedDocuments.length === 0)) ? 'h-fix-120' : 'h-fix-64' }  ml-a mr-a`} src={uploadDocumentsEmpty} alt="Empty Documents" />
+                          <p className="mt-2 dis-b w-fix-304 txtGreen400">
+                            {
+                              (!processedDocuments || (processedDocuments.length === 0)) ? (
+                                <>
+                                  <span className='td-u fweight-500'>{translateTo('Click to upload', lang)}</span> {translateTo('your first document or drag and drop.', lang)}
+                                </>
+                              ) : (
+                                <>
+                                  <span className='td-u fweight-600'>{translateTo('Click to upload files', lang)}</span> {translateTo('or drag and drop.', lang)}
+                                </>
+                              )
+                            }
+                          </p>
+                        </div>
                         {
                           (!processedDocuments || (processedDocuments.length === 0)) && (
-                            <div>
-                              <img loading="lazy" className="h-fix-120 ml-a mr-a mt-5" src={uploadDocumentsEmpty} alt="Empty Documents" />
-                              <h5 className="mt-2 mb-2">{translateTo('Upload your first document', lang)}</h5>
-                            </div>
+                            <span className='brdSmallTop brdAltGrey200 w-fix-104 my-2'></span>
                           )
                         }
-                        <span className="body2 txtDark200 max-width-220">{translateTo('Choose .pdf .jpeg .png with max. 10 MB size', lang)}</span>
-                        <BrixelButtonPrimary
-                          label={translateTo('upload', lang)}
-                          rightIcon="upload"
-                          rounded
-                          className="mt-3"
-                          isLoading={isSmallLoading.uploadMedia}
-                        />
+
+                        <span className="body2 txtAltGrey400 max-w-fix-288">{translateTo('Choose .pdf .jpg .png with max. 10 MB size', lang)}</span>
                       </div>
                     </>
                   )
@@ -448,9 +460,9 @@ const Documents = (props) => {
                     <>
                       <div className="documents-container w-perc-100 dis-fl-col mt-3">
                         <div
-                          className="folder-list"
+                          className="folder-list pos-r"
                         >
-                          <h3>Files</h3>
+                          <span className='fsize-300 fweight-600 dis-b mb-2'>Files</span>
                           <ReactSortable
                             handle=".folderHandle"
                             group="folder"
@@ -479,34 +491,24 @@ const Documents = (props) => {
                                           Empty state
                                         </div>
                                       ) : (
-                                        <>
+                                        <div className='shadow-1dp brdRadius'>
                                           {
                                             docList.map((doc, k) => (
                                               <div
                                                 key={`prcDocs_${k.toString()}`}
-                                                className="single-document-folder dis-fl-row a-c jc-b p-1 mb-2 brdRadius shadow-1dp"
+                                                className="single-document-folder dis-fl-row a-c jc-b p-1 mb-1"
                                               >
-                      
+
                                                 <div className="name w-perc-100 dis-fl-row a-c pr-1 pr-sm-0">
-                                                  <div className="icon-container brdRadius dis-f w-fix-80 h-fix-40 jc-c a-c mr-1">
-                                                    <BrixelIcon
-                                                      icon="menu"
-                                                      className="docsHandle cur-move mr-1"
-                                                    />
-                                                    <BrixelIcon
-                                                      icon="document"
-                                                      background="blue"
-                                                      saturation={100}
-                                                      color="blue"
-                                                      saturationTxt={400}
-                                                    />
+                                                  <div className="icon-container brdRadius dis-f w-fix-24 h-fix-40 jc-c a-c ml-1 mr-1">
+                                                    <img width={18} className='cur-move docsHandle' src={dragIcon} />
                                                   </div>
                                                   <div className="dis-fl-col cur-poi" onClick={(e) => openDocument(e, doc.id)}>
-                                                    <span className="document-title fsize-400 txtDark700 dont-break-out">{doc.name}</span>
+                                                    <span className="document-title fweight-500 fsize-400 txtDark700 dont-break-out">{doc.name}</span>
                                                     <span className="body2 txtGreen400 dont-break-out">{translateTo(doc.type, lang)}</span>
                                                     {
                                                       get(doc, 'createdAt', null) ? (
-                                                        <span className="date body2 txtDark200">
+                                                        <span className="date fsize-200 txtLight400">
                                                           {
                                                             !isNaN(+doc.createdAt) ? (
                                                               <>{DateTime.fromMillis(doc.createdAt, { locale: lang }).toFormat('dd LLL yyyy, H:mm')}</>
@@ -516,12 +518,12 @@ const Documents = (props) => {
                                                           }
                                                         </span>
                                                       ) : (
-                                                        <span className="date body2 txtDark200">-</span>
+                                                        <span className="date fsize-200 txtDark200">-</span>
                                                       )
                                                     }
                                                   </div>
                                                 </div>
-                      
+
                                                 <div className="pos-r dis-fl-row a-c">
                                                   {
                                                     userType !== 'buyer' && (
@@ -592,7 +594,7 @@ const Documents = (props) => {
                                               </div>
                                             ))
                                           }
-                                        </>
+                                        </div>
                                       )
                                     }
                                   </ReactSortable>
@@ -603,7 +605,7 @@ const Documents = (props) => {
                               {
                                 filterDocsByFodler(processedDocuments, 'folder').length > 0 && (
                                   <>
-                                    <h3>Folders</h3>
+                                    <span className='fsize-300 fweight-600 dis-b pt-1 mb-2'>Folders</span>
                                     {
                                       filterDocsByFodler(processedDocuments, 'folder').map((docList, i) => (
                                         <div key={`folderDoc${i.toString()}`}>
@@ -613,26 +615,23 @@ const Documents = (props) => {
                                           >
                                             <div className="dis-fl-row jc-b a-c">
                                               <div
-                                                className={`dis-fl-row a-c ${(index(i) !== -1 || isMovingFolder) ? 'mb-3' : ''}`}
+                                                className={`dis-fl-row a-c p-1 ${(index(i) !== -1 || isMovingFolder) ? '' : ''}`}
                                                 onClick={(e) => onExpandFolder(e, i)}
                                               >
-                                                <BrixelIcon
-                                                  icon="menu"
-                                                  className="folderHandle cur-move mr-1"
-                                                />
+                                                <img width={18} className='cur-move docsHandle' src={dragIcon} />
                                                 <BrixelIcon
                                                   icon="folder"
                                                   color="green"
                                                   saturationTxt={400}
                                                   saturation={100}
                                                   background="green"
-                                                  className="mr-2"
+                                                  className="mx-1"
                                                   isLoading={isSmallLoading.deleteMedia}
                                                 />
-                                                <h6>{docList[0].folder}</h6>
+                                                <h6 className='fweight-600'>{docList[0].folder}</h6>
                                               </div>
                                               <BrixelButtonIcon
-                                                className={`${(index(i) !== -1) ? 'as-fs' : ''}`}
+                                                className={`${(index(i) !== -1) ? '' : ''}`}
                                                 ghost
                                                 theme="dark"
                                                 icon={`${(index(i) !== -1) ? 'arrow-simple-up' : 'arrow-simple-down'}`}
@@ -648,14 +647,14 @@ const Documents = (props) => {
                                                 }}
                                               />
                                             </div>
-            
+
                                             <ReactSortable
                                               handle=".docsHandle"
                                               delayOnTouchStart={true}
                                               delay={2}
                                               group="groupName"
                                               list={cloneDeep(docList)}
-                                              className=""
+                                              className={(index(i) !== -1 || isMovingFolder) ? 'mt-1 pt-2 brdSmallTop brdLight200' : ''}
                                               setList={(order) => dragDocuments(order, i, get(docList[0], 'folder', null))}
                                               onStart={() => setIsMovingFolder(true)}
                                               onEnd={() => setIsMovingFolder(false)}
@@ -664,21 +663,11 @@ const Documents = (props) => {
                                                 (index(i) !== -1 || isMovingFolder) && docList.map((doc, k) => (
                                                   <li
                                                     key={`prcDocs_${k.toString()}`}
-                                                    className="single-document pl-2 dis-fl-row a-c jc-b pb-1 mb-1"
+                                                    className="single-document pl-2 dis-fl-row a-c jc-b pt-1 mb-1"
                                                   >
                                                     <div className="name w-fix-184 w-fix-lg-352 dis-fl-row a-c pr-1 pr-sm-0">
-                                                      <div className="icon-container brdRadius dis-f w-fix-80 h-fix-40 jc-c a-c mr-1">
-                                                        <BrixelIcon
-                                                          icon="menu"
-                                                          className="docsHandle cur-move mr-1"
-                                                        />
-                                                        <BrixelIcon
-                                                          icon="document"
-                                                          background="blue"
-                                                          saturation={100}
-                                                          color="blue"
-                                                          saturationTxt={400}
-                                                        />
+                                                      <div className="icon-container brdRadius dis-f w-fix-24 h-fix-40 jc-c a-c mr-1">
+                                                        <img width={18} className='cur-move docsHandle' src={dragIcon} />
                                                       </div>
                                                       <div className="dis-fl-col cur-poi" onClick={(e) => openDocument(e, doc.id)}>
                                                         <span className="document-title max-w-fix-168 max-w-perc-lg-100 txtDark700 dont-break-out">{doc.name}</span>
@@ -700,7 +689,7 @@ const Documents = (props) => {
                                                         }
                                                       </div>
                                                     </div>
-                    
+
                                                     <div className="pos-r dis-fl-row a-c">
                                                       <BrixelIcon
                                                         className="mr-1"
@@ -709,7 +698,7 @@ const Documents = (props) => {
                                                         color={`${(doc.isPrivate === true || doc.isPrivate === 'Private') ? 'red' : 'green'}`}
                                                         icon={`${(doc.isPrivate === true || doc.isPrivate === 'Private') ? 'locked' : 'eye'}`}
                                                       />
-                      
+
                                                       <BrixelButtonIcon
                                                         ghost
                                                         theme="dark"

@@ -51,8 +51,9 @@
 
 .upload-container {
   &.hasImages {
-    border: 1px dashed map_get($lightColor, 200);
+    border: 1px dashed map_get($primaryColor, 400);
     border-radius: $brd-radius-small;
+    background-color: map_get($primaryColor, 100);
   }
 }
 
