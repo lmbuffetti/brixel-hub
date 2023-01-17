@@ -146,20 +146,23 @@ const SingleDocument = (props) => {
 
               {/* middle panel */}
               <div className="mid dis-fl-col mb-6">
-                
                 <BrixelRadioButton
                   input={{
                     onChange: (val) => setFolderAction(val),
                     value: folderAction,
                     name: 'folderAction',
                   }}
-                  options={[{
-                    label: 'Create new folder',
-                    value: 'newFolder',
-                  }, {
-                    label: 'Add to existing folder',
-                    value: 'addToFolder',
-                  }]}
+                  options={
+                    documentFolders.length > 0 ? [{
+                      label: 'Create new folder',
+                      value: 'newFolder',
+                    }, {
+                      label: 'Add to existing folder',
+                      value: 'addToFolder',
+                    }] : [{
+                      label: 'Create new folder',
+                      value: 'newFolder',
+                    }]}
                 />
                 <div className="dis-fl-row mt-3">
                   {
