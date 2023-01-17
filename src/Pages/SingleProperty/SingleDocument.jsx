@@ -8,14 +8,12 @@ import get from 'lodash/get';
 import set from 'lodash/set';
 import find from 'lodash/find';
 import has from 'lodash/has';
-import uniq from 'lodash/uniq';
 import { diff } from 'deep-object-diff';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import {
   BrixelButtonIcon,
   BrixelButtonPrimary,
-  BrixelButtonText,
   BrixelButtonSecondary,
 } from '@brixel/brixel-components';
 import translateTo from '../../utils/translation';
@@ -24,7 +22,7 @@ import {
   change,
   BrixelSelect,
   BrixelInputText,
-  BrixelRadioButton, initializeForm,
+  initializeForm,
 } from '@brixel/brixel-components/dist/form';
 import documentConfig from '@brixel/brixel-components/dist/configuration/DocumentsConfig';
 import {
@@ -55,8 +53,6 @@ const SingleDocument = (props) => {
   } = props;
 
   const [activeDocument, setActiveDocument] = useState({});
-  const [documentFolders, setDocumentFolders] = useState([]);
-  const [newFolder, setNewFolder] = useState(false);
   const [docuementsType, setDocumentsType] = useState([]);
   
   const docID = get(match, 'docID', null);
@@ -89,7 +85,6 @@ const SingleDocument = (props) => {
   }, [formValue]);
 
   useEffect(() => {
-    const folderArrayAux = [];
     if (docID) {
       find(activeSingleProperty.documents, (el) => {
         if (el.id === docID) {
@@ -98,20 +93,6 @@ const SingleDocument = (props) => {
           setActiveDocument(el);
         }
       });
-      if (has(formValue, 'id')) {
-        activeSingleProperty.documents.forEach((value) => {
-          if (get(value, 'folder')) folderArrayAux.push(value.folder);
-        });
-        const array = uniq(folderArrayAux);
-        array.forEach((value, key) => {
-          array[key] = {
-            label: translateTo(value, lang),
-            value,
-            id: value.toLowerCase(),
-          };
-        });
-        setDocumentFolders(array);
-      }
     }
   }, [activeSingleProperty.updatedAt, formValue]);
 
@@ -146,14 +127,13 @@ const SingleDocument = (props) => {
       smallLoader: 'saveData',
     };
     handleUpdateDocument(data);
-    setDocumentFolders([]);
   };
 
   const checkDisabled = () => {
     const isDocEdit = find(diff(initialValues, formValue), (el) => {
       if (history.location.pathname.includes('docubox') &&
           (has(el, 'isPrivate') || has(el, 'name') || has(el, 'type') || has(el, 'folder')) &&
-          !has(el, 'id') && newFolder === false) {
+          !has(el, 'id')) {
         return true;
       }
       return false;
@@ -161,18 +141,6 @@ const SingleDocument = (props) => {
 
     if (has(isDocEdit, 'name') || has(isDocEdit, 'isPrivate') || has(isDocEdit, 'type') || has(isDocEdit, 'folder')) return false;
     return true;
-  };
-
-  const createNewFolder = (event) => {
-    event.preventDefault();
-    const folder = {
-      label: formValue.folder,
-      value: formValue.folder,
-      id: formValue.folder.toLowerCase(),
-    };
-    documentFolders.push(folder);
-    setDocumentFolders(documentFolders);
-    setNewFolder(false);
   };
 
   return (
@@ -252,74 +220,6 @@ const SingleDocument = (props) => {
                   }}
                   component={BrixelSelect}
                 />
-                {
-                  newFolder ? (
-                    <div className="dis-fl-row mt-3">
-                      <ReduxField
-                        form="SingleDoc"
-                        design={{
-                          className: 'mr-2 zIndex1 w-fix-248',
-                        }}
-                        input={{
-                          name: `folder`,
-                          placeholder: 'New folder name',
-                        }}
-                        labels={{
-                          label: translateTo('New folder', lang),
-                        }}
-                        component={BrixelInputText}
-                      />
-                      <BrixelButtonIcon
-                        icon="check-small"
-                        ghost
-                        theme="green"
-                        className="add-button as-fe"
-                        label="Save"
-                        onClick={(e) => createNewFolder(e)}
-                      />
-                      <BrixelButtonIcon
-                        icon="close-circle"
-                        ghost
-                        className="add-button as-fe"
-                        theme="red"
-                        label="Cancel"
-                        onClick={() => {
-                          changeFieldValue(`folder`, get(initialValues, 'folder', ''));
-                          setNewFolder(false);
-                        }}
-                      />
-                    </div>
-                  ) : (
-                    <>
-                      {
-                        documentFolders.length > 0 && (
-                          <ReduxField
-                            form="SingleDoc"
-                            design={{
-                              className: 'mt-3',
-                            }}
-                            input={{
-                              name: 'folder',
-                              options: documentFolders,
-                            }}
-                            labels={{
-                              label: 'Folder',
-                            }}
-                            component={BrixelRadioButton}
-                          />
-                        )
-                      }
-                      <BrixelButtonText
-                        className={`edit as-fs ${documentFolders.length > 0 ? 'mt-1' : 'mt-3'}`}
-                        label={translateTo('New folder', lang)}
-                        onClick={() => {
-                          changeFieldValue('folder', '');
-                          setNewFolder(true);
-                        }}
-                      />
-                    </>
-                  )
-                }
               </div>
               {/* bottom panel */}
               <div className="bottom dis-fl-row jc-fe w-perc-100 h-perc-100">
