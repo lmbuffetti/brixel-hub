@@ -495,6 +495,7 @@ const Documents = (props) => {
                                           {
                                             docList.map((doc, k) => (
                                               <div
+                                                id={`nofolderDocs${doc.id}`}
                                                 key={`prcDocs_${k.toString()}`}
                                                 className="single-document-folder dis-fl-row a-c jc-b p-1 mb-1"
                                               >
