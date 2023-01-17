@@ -1,22 +1,17 @@
 /* eslint-disable max-len */
-import {
-  BrixelCheckbox,
-  BrixelInputText,
-  BrixelSelect,
-  Validation,
-} from '@brixel/brixel-components/dist/form';
-import translateTo from '../../utils/translation';
+import { BrixelCheckbox, BrixelInputText, BrixelSelect, Validation } from '@brixel/brixel-components/dist/form';
 import { DateTime } from 'luxon';
 import lazyWithRetry from '../../components/LazyWithRetry';
 
 import checkSvg from '../../images/Contact/checkContact.svg';
-import houseHandSvg from '../../images/Contact/houseHand.svg';
 import dotsHandSvg from '../../images/Contact/dotsHand.svg';
+import houseHandSvg from '../../images/Contact/houseHand.svg';
+import inheritanceContactSvg from '../../images/Contact/inheritanceContact.svg';
+import puzzleHandSvg from '../../images/Contact/puzzleHand.svg';
 import taxInfo from '../../images/Contact/taxInfo.svg';
 import threeDotsHandSvg from '../../images/Contact/threeDotsHand.svg';
-import puzzleHandSvg from '../../images/Contact/puzzleHand.svg';
-import inheritanceContactSvg from '../../images/Contact/inheritanceContact.svg';
 import ClipboardImg from '../../images/scanTrial/clipboard.png';
+import translateTo from '../../utils/translation';
 
 const IntroBuyerUBS = lazyWithRetry(() => import('../../Pages/ContactFlow/Companies/IntroBuyerUBS'));
 
@@ -77,7 +72,7 @@ export const QuestionsList = (lang, company, isBuyer) => {
           title: translateTo('Information on inheritance or estate planning', lang),
           image: houseHandSvg,
         }, {
-          title: translateTo('Investing and pension planning', lang),
+          title: translateTo('Pension planning and investing', lang),
           image: threeDotsHandSvg,
         },
       ],
@@ -117,7 +112,7 @@ export const QuestionsList = (lang, company, isBuyer) => {
           title: translateTo('Information on inheritance or estate planning', lang),
           image: houseHandSvg,
         }, {
-          title: translateTo('Investing and pension planning', lang),
+          title: translateTo('Pension planning and investing', lang),
           image: threeDotsHandSvg,
         },
       ];
@@ -135,8 +130,8 @@ export const QuestionsList = (lang, company, isBuyer) => {
           value: 'Tax implications, inheritance, and estate planning'
         },
         {
-          label: translateTo('Investment options or retirement planning', lang),
-          value: 'Investment options or retirement planning'
+          label: translateTo('Retirement planning or investment options', lang),
+          value: 'Retirement planning or investment options'
         }
       ];
     }
@@ -162,7 +157,7 @@ export const QuestionsList = (lang, company, isBuyer) => {
           title: translateTo('Inheritance and estate planning', lang),
           image: inheritanceContactSvg,
         }, {
-          title: translateTo('Investing and pension planning', lang),
+          title: translateTo('Pension planning and investing', lang),
           image: threeDotsHandSvg,
         },
       ];
@@ -184,8 +179,8 @@ export const QuestionsList = (lang, company, isBuyer) => {
           value: 'Tax implications, inheritance, and estate planning'
         },
         {
-          label: translateTo('Investment options or retirement planning', lang),
-          value: 'Investment options or retirement planning'
+          label: translateTo('Retirement planning or investment options', lang),
+          value: 'Retirement planning or investment options'
         }
       ]
     } else {
