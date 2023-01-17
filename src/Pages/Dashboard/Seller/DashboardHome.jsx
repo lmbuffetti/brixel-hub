@@ -273,6 +273,7 @@ const DashboardHome = (props) => {
           <div className="w-perc-100 max-w-fix-204 ta-r">
             <img
               loading="lazy"
+              className='ml-a'
               src={contactTestDriveImg}
               alt="Book Test Drive"
             />

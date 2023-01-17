@@ -1,37 +1,27 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {
-  useEffect, useState, Suspense,
-} from 'react';
-import PropTypes from 'prop-types';
-import { useLocation, useNavigate } from 'react-router-dom';
-import get from 'lodash/get';
-import has from 'lodash/has';
 import {
+  BrixelButtonIcon,
   BrixelButtonPrimary,
   BrixelButtonSecondary,
-  BrixelButtonIcon,
-  Helpers,
   BrixelButtonText,
+  Helpers,
 } from '@brixel/brixel-components';
-import translateTo from '../../utils/translation';
-import { SkeletonPackages } from '@brixel/brixel-components/dist/skeleton';
 import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
-import { bindActionCreators, compose } from 'redux';
-import { connect } from 'react-redux';
+import { SkeletonPackages } from '@brixel/brixel-components/dist/skeleton';
+import get from 'lodash/get';
+import has from 'lodash/has';
 import orderBy from 'lodash/orderBy';
-import lazyWithRetry from '../../components/LazyWithRetry';
-import MarketCard from '../../components/Cards/MarketCard';
-import { setCookie, getCookie } from '../../utils/helpers';
-import SplashScreen from '../../components/SplashScreen';
-import BestimateCardOverlay from '../../components/BestimateCardOverlay';
-import generatingBestimate from '../../images/Bestimate/generatingBestimate.svg';
-import startBestimate from '../../images/Bestimate/startBestimate.svg';
-import { setSplashType, setHistory } from '../../actions/CommonActions';
+import PropTypes from 'prop-types';
+import React, { Suspense, useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { bindActionCreators, compose } from 'redux';
+import { setHistory, setSplashType } from '../../actions/CommonActions';
 import {
+  getActiveSingleCompany,
+  getActiveSingleCompanyPackages,
   getCompanyListing,
   setActiveSingleCompany,
-  getActiveSingleCompanyPackages,
-  getActiveSingleCompany,
 } from '../../actions/CompanyActions';
 import {
   getEstimation,
@@ -40,12 +30,19 @@ import {
   setActiveSingleProperty,
   setEstimation,
 } from '../../actions/PropertyActions';
-import ArticlesList from '../../resources/Dashboard/homeArticles';
+import BestimateCardOverlay from '../../components/BestimateCardOverlay';
+import MarketCard from '../../components/Cards/MarketCard';
+import lazyWithRetry from '../../components/LazyWithRetry';
+import SplashScreen from '../../components/SplashScreen';
+import generatingBestimate from '../../images/Bestimate/generatingBestimate.svg';
+import startBestimate from '../../images/Bestimate/startBestimate.svg';
 import EmptyHubImg from '../../images/emptyHub.svg';
-// images
-import testdrive from '../../images/Market/testDriveSell.svg';
-import skeletonOwnCard from '../../images/Market/skeletonOwnCard.svg';
 import marketSkeltonMobile from '../../images/Market/skeletonCardMobile.svg';
+// images
+import skeletonOwnCard from '../../images/Market/skeletonOwnCard.svg';
+import ArticlesList from '../../resources/Dashboard/homeArticles';
+import { getCookie, setCookie } from '../../utils/helpers';
+import translateTo from '../../utils/translation';
 
 const CarouselWrapper = lazyWithRetry(() => import('../../components/CarouselWrapper'));
 
@@ -442,77 +439,18 @@ const MarketCategoryListSeller = (props) => {
                         className="shadow-3dp p-2 mt-3 brdRadiusSmall"
                         key={`ownProp_${i.toString()}`}
                       >
-
                         {
                           ownerProperties.total > 0 ? (
-                            <>
-                              {
-                                i === 0 && ((prop.servicePackage && prop.servicePackage.length === 0) || (get(prop, 'servicePackage[0].servicePackage.type', '') === 'basic')) ? (
-                                  <div
-                                    className="w-perc-100 dis-f bgBlue100 brdRadiusSmall px-2 pl-md-0 pr-md-6 mb-2 mb-sm-3 cur-poi"
-                                    onClick={() => history.push(`/${prop.id}/trialRequest?url=/sell`)}
-                                  >
-                                    <div className="hide dis-b-md">
-                                      <img width="176" height="158" src={testdrive} alt="testdrive" />
-                                    </div>
-                                    <div className="ml-md-5">
-                                      <h3 className="fsize-500 fsize-md-700 fweight-600 pt-2">
-                                        {translateTo('Test drive our service. No strings attached.', lang)}
-                                      </h3>
-                                      <h5 className="fweight-400 fsize-300 fsize-md-400 mt-1 mb-1 mb-sm-3 txtBlue700">
-                                        {
-                                          companyDetail && get(companyDetail, 'meta.teaserPackage.price', 0) > 0 ? (
-                                            <>
-                                              <span>
-                                                {translateTo('Get the full Brixel experience worth', lang)}
-                                              </span>
-                                              <span className="ml-small-4">{get(companyDetail, 'meta.teaserPackage.currency', '')} {Helpers.formatNumberValue(get(companyDetail, 'meta.teaserPackage.price', ''), get(companyDetail, 'meta.teaserPackage.currency', ''))}.</span>
-                                            </>
-                                          ) : (
-                                            <span>
-                                              {translateTo('Get the full Brixel experience', lang)}
-                                            </span>
-                                          )
-                                        }
-                                      </h5>
-                                      <div>
-                                        <ul className="checked markerDot mt-1 mt-md-4 txtDark700 dis-fl-row-sm fsize-400 mb-2 hide">
-                                          <li>
-                                            {translateTo('Personal consultation', lang)}
-                                          </li>
-                                          <li className="pl-sm-2" dangerouslySetInnerHTML={{ __html: translateTo('Free 3D tour &amp; HD photos', lang)}} />
-                                          <li className="pl-sm-2">
-                                            {translateTo('Full estimation by an expert', lang)}
-                                          </li>
-                                        </ul>
-                                      </div>
-
-                                    </div>
-
-                                  </div>
-                                ) : (
-                                  <>
-                                    <div className={`w-perc-100 ov-h brdRadius skeletonBg h-fix-md-152 mb-4 ${i > 0 ? 'hide' : 'dis-f'}`}>
-                                      <div className="w-fix-216 skeletonBgInner hide dis-b-md" />
-                                      <div className="ml-md-4 ml-2 h-perc-100 dis-fl-col w-perc-100 py-2">
-                                        <p className="h-fix-40 skeletonBgInner w-perc-60"> </p>
-                                        <p className="h-fix-16 mt-1 skeletonBgInner hide dis-b-md w-perc-30"> </p>
-                                        <p className="h-fix-16 mt-a-md mt-2 skeletonBgInner w-perc-50"> </p>
-                                      </div>
-                                    </div>
-                                  </>
-                                )
-                              }
-
-                              <MarketCard
-                                layout="singleOwnCard"
-                                type="own"
-                                item={prop}
-                                onSetActiveProperty={(id) => setPropertyId(id)}
-                                bookProp={() => bookNow()}
-                                lang={lang}
-                              />
-                            </>
+                            <MarketCard
+                              companyDetail={companyDetail}
+                              index={i}
+                              layout="singleOwnCard"
+                              type="own"
+                              item={prop}
+                              onSetActiveProperty={(id) => setPropertyId(id)}
+                              bookProp={() => bookNow()}
+                              lang={lang}
+                            />
                           ) : (
                             <>
                               <div className="m-a w-perc-100">

@@ -22,6 +22,7 @@ const FactsQuestion = (props) => {
   };
   const match = useParams();
   const {
+    changeFieldValue,
     formValue,
     initValues,
     lang,
@@ -42,7 +43,7 @@ const FactsQuestion = (props) => {
     const fieldsChanged = diff(initValues, formValue);
     const keyChanged = keyify(fieldsChanged);
     keyChanged.forEach((item) => {
-      InputSheets('facts', lang).forEach((singleQuest) => {
+      InputSheets('facts', lang, changeFieldValue).forEach((singleQuest) => {
         singleQuest.inputs.forEach((input) => {
           if (input.condition) {
             if (input.condition.name) {
@@ -64,8 +65,8 @@ const FactsQuestion = (props) => {
         });
       });
     });
-  }, [formValue, lang]);
-
+  }, [formValue,lang]);
+  
   return (
     <div
       className="questContent"
@@ -80,7 +81,6 @@ const FactsQuestion = (props) => {
       </div>
       
       <MultiFileldsReduxForm
-        lang={lang}
         autofocus={false}
         classNameBox={quest.classNameBox}
         className="singleInput"
@@ -96,6 +96,7 @@ const FactsQuestion = (props) => {
 };
 
 FactsQuestion.propTypes = {
+  changeFieldValue: PropTypes.func.isRequired,
   formValue: PropTypes.object.isRequired,
   initValues: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,

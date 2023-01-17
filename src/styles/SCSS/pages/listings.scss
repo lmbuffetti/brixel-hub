@@ -50,3 +50,11 @@
     }
   }
 }
+
+.detailList {
+  > div {
+    margin-right: $step * 2;
+    margin-bottom: $step * 2;
+
+  }
+}

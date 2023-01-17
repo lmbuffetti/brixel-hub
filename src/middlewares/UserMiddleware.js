@@ -1,45 +1,45 @@
-import get from 'lodash/get';
-import cloneDeep from 'lodash/cloneDeep';
 import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import { change } from '@brixel/brixel-components/dist/form';
+import cloneDeep from 'lodash/cloneDeep';
+import get from 'lodash/get';
+
 import {
+  REDIRECT_TO,
+  SET_FORM_ERROR,
+  SET_LANGUAGE,
+  SET_SCREEN_NOTIFICATION,
+  SPINNER_OFF,
+  SPINNER_ON,
+  SPINNER_SMALL,
+} from '../actions/types/CommonTypes';
+
+import { CREATE_ESTIMATION } from '../actions/types/EstimationTypes';
+import { GET_WISHLIST_PROPERTIES, SET_FAVORITES_PROPERTIES } from '../actions/types/MarketTypes';
+
+import { CREATE_ACTIVE_SINGLE_PROPERTY } from '../actions/types/PropertyTypes';
+
+import { CREATE_USER_SEARCH_PROFILE } from '../actions/types/SearchProfileTypes';
+import {
+  ADD_NOT_INTERESTED,
   CHECK_TOKEN,
   CREATE_USER,
   DO_LOGIN,
-  SET_LOGGED_IN_USER,
-  SAVE_ACTIVE_SINGLE_USER,
-  VALIDATE_USER,
-  GET_USER_PROPERTIES,
-  SET_USER_PROPERTIES,
   GET_USER_PAGES_DEALS,
-  SET_USER_PAGES_DEALS,
-  UPDATE_FAVORITE,
-  ADD_NOT_INTERESTED,
-  REMOVE_NOT_INTERESTED,
+  GET_USER_PROPERTIES,
   RECOVER_PASSWORD,
+  REMOVE_NOT_INTERESTED,
+  SAVE_ACTIVE_SINGLE_USER,
   SEND_USER_SCAN_TRIAL,
+  SET_LOGGED_IN_USER,
+  SET_USER_PAGES_DEALS,
+  SET_USER_PROPERTIES,
+  UPDATE_FAVORITE,
+  VALIDATE_USER,
 } from '../actions/types/UserTypes';
-
-import {
-  SPINNER_ON,
-  SPINNER_OFF,
-  SPINNER_SMALL,
-  REDIRECT_TO,
-  SET_FORM_ERROR,
-  SET_SCREEN_NOTIFICATION,
-  SET_LANGUAGE,
-} from '../actions/types/CommonTypes';
-
-import { CREATE_USER_SEARCH_PROFILE } from '../actions/types/SearchProfileTypes';
-
-import { CREATE_ACTIVE_SINGLE_PROPERTY } from '../actions/types/PropertyTypes';
-import { SET_FAVORITES_PROPERTIES } from '../actions/types/MarketTypes';
-
-import { CREATE_ESTIMATION } from '../actions/types/EstimationTypes';
 
 import api from '../controllers/api/config';
 
-import { setCookie, removeCookie } from '../utils/helpers';
+import { removeCookie, setCookie } from '../utils/helpers';
 
 const checkUser = (store) => (next) => (action) => {
   switch (action.type) {
@@ -321,10 +321,14 @@ const checkUser = (store) => (next) => (action) => {
     case UPDATE_FAVORITE: {
       next(action);
       const {
-        id, data, act, property,
+        act,
+        data,
+        id,
+        property,
+        reloadProperties,
       } = action.payload;
       store.dispatch({ type: SPINNER_SMALL, payload: { [`favorite-${id}`]: true } });
-      const favoritesData = cloneDeep(get(store.getState(), 'market.favoritesProperties', {}));
+      const favoritesData = cloneDeep(get(store.getState(), 'market.wishlistProperties', {}));
       const favoritesList = favoritesData.data;
       if (act === 'add') {
         api.user.addFavorite(id, data)
@@ -333,37 +337,63 @@ const checkUser = (store) => (next) => (action) => {
               favoritesList.unshift(property);
               store.dispatch({ type: SET_FAVORITES_PROPERTIES, payload: favoritesData });
             }
+            if (reloadProperties) {
+              store.dispatch({ type: GET_WISHLIST_PROPERTIES, payload: favoritesData });
+            }
             // store.dispatch({ type: GET_FAVORITES_PROPERTIES, payload: favParams });
             store.dispatch({ type: SPINNER_SMALL, payload: { [`favorite-${id}`]: false } });
+            store.dispatch({
+              type: SET_SCREEN_NOTIFICATION,
+              payload: {
+                icon: 'favorite-fill',
+                state: true,
+                label: 'Added to saved properties',
+                type: 'done',
+              },
+            })
           });
       } else {
-        api.user.removeFavorite(id, data)
+        api.user.removeWishlist(id, data)
           .then(() => {
             if (favoritesList && property) {
               const findIndex = favoritesList.findIndex((fav) => fav.id === property.id);
               favoritesList.splice(findIndex, 1);
               store.dispatch({ type: SET_FAVORITES_PROPERTIES, payload: favoritesData });
             }
+            if (reloadProperties) {
+              store.dispatch({ type: GET_WISHLIST_PROPERTIES, payload: favoritesData });
+            }
             store.dispatch({ type: SPINNER_SMALL, payload: { [`favorite-${id}`]: false } });
+            store.dispatch({
+              type: SET_SCREEN_NOTIFICATION,
+              payload: {
+                icon: 'favorite-fill',
+                state: true,
+                label: 'Removed from saved properties',
+                type: 'done',
+              },
+            })
           });
       }
       break;
     }
     case ADD_NOT_INTERESTED: {
       next(action);
-      api.user.addAsNotInterested(action.payload)
+      const id = action.payload;
+      store.dispatch({ type: SPINNER_SMALL, payload: { [`notInterested-${id}`]: true } });
+      api.user.addAsNotInterested(id)
         .then(() => {
-          // console.log(res);
-          // store.dispatch({ type: GET_FAVORITES_PROPERTIES, payload: favParams });
+          store.dispatch({ type: SPINNER_SMALL, payload: { [`notInterested-${id}`]: false } });
         });
       break;
     }
     case REMOVE_NOT_INTERESTED: {
       next(action);
-      api.user.removeAsNotInterested(action.payload)
+      const id = action.payload;
+      store.dispatch({ type: SPINNER_SMALL, payload: { [`notInterested-${id}`]: true } });
+      api.user.removeAsNotInterested(id)
         .then(() => {
-          // console.log(res);
-          // store.dispatch({ type: GET_FAVORITES_PROPERTIES, payload: favParams });
+          store.dispatch({ type: SPINNER_SMALL, payload: { [`notInterested-${id}`]: false } });
         });
       break;
     }

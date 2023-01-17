@@ -62,7 +62,7 @@ const IntroUpgrade = (props) => {
   const [packageName, setPackageName] = useState({ });
   const propID = get(match, 'propID', null);
   const [activeCompanyData, setActiveCompanyData] = useState({});
-  
+
   // SLIDER
   const sliderInstance = useRef(null);
   const settingSlider = {
@@ -89,20 +89,20 @@ const IntroUpgrade = (props) => {
       },
     ],
   };
-  
-  
+
+
   useEffect(() => {
     if (CompaniesData[activeSingleCompany.stub]) setActiveCompanyData(CompaniesData[activeSingleCompany.stub].footer);
     else setActiveCompanyData(CompaniesData.default.footer);
   }, [activeSingleCompany.id]);
-  
+
   const bookNow = () => {
     if (activeSingleProperty.id) {
       localStorage.setItem('backUrl', history.location.pathname);
       history.push(`/${activeSingleProperty.id}/trialRequest`);
     }
   };
-  
+
   const scrollTo = (id) => {
     document.body.classList.add('scrollSmooth');
     setTimeout(() => {
@@ -113,20 +113,20 @@ const IntroUpgrade = (props) => {
       }
     }, 100);
   };
-  
+
   useEffect(() => {
     if (propID === 'company' && loggedInUser.id) {
       const company = get(loggedInUser, 'company.id',  loggedInUser.company) || loggedInUser.companies[0];
       handleGetActiveSingleCompany({ id: company});
     }
   }, [propID, loggedInUser.id]);
-  
+
   useEffect(() => {
     if (get(activeSingleProperty, 'id', null)) {
       handleGetActiveCompanyPackages({ id: get(activeSingleProperty, 'company.id', activeSingleProperty.company) , smallLoader: 'getPackages' });
     }
   }, [activeSingleProperty.id]);
-  
+
   useEffect(() => {
     const basicPackage = activeSingleCompanyPackages.find((pkg) => pkg.type === 'basic');
     if (activeSinglePropertyPackage && packages.length > 0) {
@@ -150,7 +150,7 @@ const IntroUpgrade = (props) => {
       if (scrollHash) scrollTo(scrollHash.replace('#', ''));
     }
   }, [activeSinglePropertyPackage, packages]);
-  
+
   useEffect(() => {
     let filtPkg = packages.filter((pkg) => pkg.availableToCustomer);
     // eslint-disable-next-line no-return-assign
@@ -158,12 +158,12 @@ const IntroUpgrade = (props) => {
     filtPkg = orderBy(filtPkg, ['price.total'], ['asc']);
     setFilteredPackages(filtPkg);
   }, [packages]);
-  
+
   const openNewFlow = (url) => {
     localStorage.setItem('backUrlBis', `/${activeSingleProperty.id}/upgrade`);
     history.push(url);
   };
-  
+
   const getCompanyStub = () => {
     // TODO: Company management for "Add new" property flow
     if (ownerProperties.total === 0) return get(loggedInUser, 'company.stub', '')
@@ -172,7 +172,7 @@ const IntroUpgrade = (props) => {
       return company.stub;
     }
   };
-  
+
   useEffect(() => {
     document.body.classList.add('packageBody');
     return () => {
@@ -180,21 +180,21 @@ const IntroUpgrade = (props) => {
       document.body.classList.remove('packageBody');
     };
   }, []);
-  
+
   const partners = get(activeSingleCompany, 'stub') === "ubs" || get(activeSingleCompany, 'stub') === "baloise";
-  
+
   return (
     <main id="rewards" className="introScanFlow pt-2 pt-sm-4 pb-2 pb-sm-4 h-perc-100 txtDark700">
-      
+
       <section className="max-w-fix-1200 intro container">
-        
+
         <h2 className="mb-3 mb-lg-5 fsize-600 fsize-md-800 fweight-600">
           <span>{translateTo('Boost your private sale with an upgrade.', lang)}</span>
           <br/>
           <span>{translateTo('by Brixel.', lang)}</span>
         </h2>
       </section>
-      
+
       <section className="max-w-fix-1200 container packages py-6">
         {
           filteredPackages.length === 0 ? (
@@ -217,7 +217,7 @@ const IntroUpgrade = (props) => {
                         className={`packageBox bgWhite mb-2 mb-lg-0 w-perc-100 ${pkg.type} ${partners ? 'partners' : ''} ${ partners && i === 1 ? 'packageTwo' : ''} dis-fl-col jc-b pos-r`}
                         key={`fltPkg_${i.toString()}`}
                       >
-                        
+
                         <div className="p-4 pb-4 pb-sm-5">
                           <div className="dis-f jc-b a-c">
                             <h5 className={`fweight-600 fSizePx18 ${i === 1  ? 'txtGreen400' : ''}`}>{pkg.name}</h5>
@@ -230,7 +230,7 @@ const IntroUpgrade = (props) => {
                           <p className="mt-4 txtDark700 min-h-fix-md-80">
                             {translateTo(pkg.description, lang)}
                           </p>
-                          
+
                           {
                             get(pkg, 'price.total', 0) > 0 ? (
                               <>
@@ -281,7 +281,7 @@ const IntroUpgrade = (props) => {
                               </h3>
                             )
                           }
-                          
+
                           <ul className="checked mt-4 txtDark700">
                             {
                               pkg.details && get(pkg, 'details', []).map((detail, f) => (
@@ -315,12 +315,12 @@ const IntroUpgrade = (props) => {
                                     </span>
                                     <ul className="checked mt-2 txtDark700">
                                       <li>{translateTo('Support in terminating or transferring the mortgage', lang)}</li>
-                                      <li>{translateTo('Pension and investment and pension advice', lang)}</li>
+                                      <li>{translateTo('Pension and investment advice', lang)}</li>
                                       <li>{translateTo('Advice on the tax implications of selling real estate', lang)}</li>
                                       <li>{translateTo('Information on inheritance and estate planning', lang)}</li>
                                       <li>{translateTo('Checking the selling price', lang)}</li>
                                     </ul>
-                                    
+
                                     <div>
                                       <span className="dis-b ml-4 mt-4 txtAltGrey400 fsize-300 mb-1">
                                         {translateTo('Your partner for financial questions', lang)}
@@ -372,10 +372,10 @@ const IntroUpgrade = (props) => {
                       </div>
                     ))
                   }
-                
+
                 </>
               </div>
-              
+
               {
                 get(activeSingleCompany, 'stub') === "ubs" && get(activeSingleCompany, 'stub') === "baloise" && (
                   <>
@@ -387,7 +387,7 @@ const IntroUpgrade = (props) => {
                               className={`packageBox bgWhite mb-2 mb-lg-0 w-perc-100 ${pkg.type} ${ i === 1 ? 'packageTwo' : ''} dis-fl-col jc-b pos-r`}
                               key={`fltPkg_${i.toString()}`}
                             >
-                              
+
                               <div className="p-4 pb-4 pb-sm-5">
                                 <div className="dis-f jc-b a-c">
                                   <h5 className={`fweight-600 fSizePx18 ${i === 1  ? 'txtGreen400' : ''}`}>{pkg.name}</h5>
@@ -395,7 +395,7 @@ const IntroUpgrade = (props) => {
                                 <p className="mt-4 txtDark700 min-h-fix-md-80">
                                   {translateTo(pkg.description, lang)}
                                 </p>
-                                
+
                                 {
                                   get(pkg, 'price.total', 0) > 0 ? (
                                     <>
@@ -429,7 +429,7 @@ const IntroUpgrade = (props) => {
                                           <sup className="fsize-300 pl-1">{translateTo('incl. VAT', lang)}</sup>
                                         </h3>
                                       </div>
-                                      
+
                                       <BrixelButtonPrimary
                                         rounded
                                         fullWidth
@@ -453,7 +453,7 @@ const IntroUpgrade = (props) => {
                                     </>
                                   )
                                 }
-                                
+
                                 <ul className="checked mt-4 txtDark700">
                                   {
                                     pkg.details && get(pkg, 'details', []).map((detail, f) => (
@@ -487,7 +487,7 @@ const IntroUpgrade = (props) => {
                                           </span>
                                           <ul className="checked mt-2 txtDark700">
                                             <li>{translateTo('Support in terminating or transferring the mortgage', lang)}</li>
-                                            <li>{translateTo('Pension and investment and pension advice', lang)}</li>
+                                            <li>{translateTo('Pension and investment advice', lang)}</li>
                                             <li>{translateTo('Advice on the tax implications of selling real estate', lang)}</li>
                                             <li>{translateTo('Information on inheritance and estate planning', lang)}</li>
                                             <li>{translateTo('Checking the selling price', lang)}</li>
@@ -525,7 +525,7 @@ const IntroUpgrade = (props) => {
               }
             </>
           )}
-        
+
         {
           !partners && (
             <div className="dis-f jc-c mt-5">
@@ -539,12 +539,12 @@ const IntroUpgrade = (props) => {
             </div>
           )
         }
-      
+
       </section>
-      
+
       <section className="max-w-fix-1200 container contact-section py-3 py-md-6">
         <h3 className="ta-c fweight-600 fsize-600 fsize-sm-700">{translateTo('Do you want to upgrade or change plans?', lang)}</h3>
-        
+
         <div className="dis-fl-col dis-fl-row-md a-fs jc-b mt-8 max-w-fix-928 m-a">
           {
             propID !== 'company' && (
@@ -565,7 +565,7 @@ const IntroUpgrade = (props) => {
           <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0 ta-c-md">
             <img loading="lazy" className="w-fix-56 w-fix-lg-104" src={CallUsImg} alt="Call Us" />
             <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0 mt-3">
-              
+
               <h6>{translateTo('Call Us', lang)}</h6>
               <BrixelButtonText
                 bgTransparent
@@ -578,7 +578,7 @@ const IntroUpgrade = (props) => {
           <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0 ta-c-md">
             <img loading="lazy" className="w-fix-56 w-fix-lg-104" src={WrireUsImg} alt="Call Us" />
             <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0 mt-3">
-              
+
               <h6>{translateTo('Write Us', lang)}</h6>
               <BrixelButtonText
                 bgTransparent
@@ -593,7 +593,7 @@ const IntroUpgrade = (props) => {
               <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0 ta-c-md">
                 <img loading="lazy" className="w-fix-56 w-fix-lg-104" src={NotNowImg} alt="Call Us" />
                 <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0 mt-3">
-                  
+
                   <h6>{translateTo('Not Sure', lang)}</h6>
                   <BrixelButtonText
                     bgTransparent
@@ -607,37 +607,37 @@ const IntroUpgrade = (props) => {
           }
         </div>
       </section>
-      
+
       <hr className="lighter my-2 my-ms-5" />
-      
+
       <section className="max-w-fix-1200 container testimonial py-3 py-md-6 pb-8">
         <h3 className="ta-c fweight-600 mb-3 mb-md-8 fsize-600 fsize-sm-700">{translateTo('You’re in good company', lang)}</h3>
-        
+
         <div className="w-perc-100 ml-a mr-a testimonialsSlide">
-          
+
           {
             get(activeSingleProperty, 'location.countryCode', '') === 'CH' ? (
               <Slider ref={sliderInstance} {...settingSlider}>
                 <div className="ta-c ml-a mr-a mb-2 max-w-fix-304">
                   <img loading="lazy" src={Testimonial1CH} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
                   <h2 className="ta-c mb-2 fweight-600 fsize-600 fsize-sm-700"> <i>{translateTo('"Absolutely perfect and uncomplicated"', lang)}</i></h2>
-                  
+
                   <h5 className="ta-c txtPrimary400 fweight-600">{translateTo('M. Hardegger', lang)}</h5>
                   <p className="ta-c txtPrimary400 fsize-500">{translateTo('House sold', lang)}</p>
                 </div>
-                
+
                 <div className="ta-c ml-a mr-a mb-2 max-w-fix-304">
                   <img loading="lazy" src={Testimonial2CH} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
                   <h2 className="ta-c mb-2 fweight-600 fsize-600 fsize-sm-700"> <i>{translateTo('"We would sell with Brixel again anytime."', lang)}</i></h2>
-                  
+
                   <h5 className="ta-c txtPrimary400 fweight-600">{translateTo('F. Pfiffner', lang)}</h5>
                   <p className="ta-c txtPrimary400 fsize-500">{translateTo('Saved CHF 30\'700', lang)}</p>
                 </div>
-                
+
                 <div className="ta-c ml-a mr-a mb-2 max-w-fix-304">
                   <img loading="lazy" src={Testimonial3CH} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
                   <h2 className="ta-c mb-2 fweight-600 fsize-600 fsize-sm-700"> <i>{translateTo('"Excellent service with flexible fees."', lang)}</i></h2>
-                  
+
                   <h5 className="ta-c txtPrimary400 fweight-600">{translateTo('M. Callaghan', lang)}</h5>
                   <p className="ta-c txtPrimary400 fsize-500">{translateTo('Saved CHF 44\'050', lang)}</p>
                 </div>
@@ -647,34 +647,34 @@ const IntroUpgrade = (props) => {
                 <div className="ta-c ml-a mr-a mb-2 max-w-fix-304">
                   <img loading="lazy" src={Testimonial1PT} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
                   <h2 className="ta-c mb-2 fweight-600 fsize-600 fsize-sm-700"> <i>{translateTo('"Always quick in responding, friendly, professional."', lang)}</i></h2>
-                  
+
                   <h5 className="ta-c txtPrimary400 fweight-600">{translateTo('Katrien Willems', lang)}</h5>
                   <p className="ta-c txtPrimary400 fsize-500" />
                 </div>
-                
+
                 <div className="ta-c ml-a mr-a mb-2 max-w-fix-304">
                   <img loading="lazy" src={Testimonial2PT} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
                   <h2 className="ta-c mb-2 fweight-600 fsize-600 fsize-sm-700"> <i>{translateTo('"Everything went incredibly well, it doesn\'t even seem real!"', lang)}</i></h2>
-                  
+
                   <h5 className="ta-c txtPrimary400 fweight-600">{translateTo('Luca Benussi', lang)}</h5>
                   <p className="ta-c txtPrimary400 fsize-500">{translateTo('Saved 18.400€', lang)}</p>
                 </div>
-                
+
                 <div className="ta-c ml-a mr-a mb-2 max-w-fix-304">
                   <img loading="lazy" src={Testimonial3PT} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
                   <h2 className="ta-c mb-2 fweight-600 fsize-600 fsize-sm-700"> <i>{translateTo('"The sale was done even faster than expected."', lang)}</i></h2>
-                  
+
                   <h5 className="ta-c txtPrimary400 fweight-600">{translateTo('Márcia Traça', lang)}</h5>
                   <p className="ta-c txtPrimary400 fsize-500">{translateTo('Saved 13.000€', lang)}</p>
                 </div>
               </Slider>
             )
           }
-        
+
         </div>
-      
+
       </section>
-      
+
       {
         get(activeSingleCompany, 'stub') === "ubs" || get(activeSingleCompany, 'stub') === "baloise" ? (
           <>
@@ -689,14 +689,14 @@ const IntroUpgrade = (props) => {
                   packages={filteredPackages}
                 />
               </div>
-            
+
             </section>
           </>
         )
       }
-      
+
       <section className="testdrive-teaser dis-f jc-c bgWhite pb-2">
-        
+
         {
           propID === 'company' ? (
             <div className="px-2 px-md-0 mt-5 mt-sm-3">
@@ -716,9 +716,9 @@ const IntroUpgrade = (props) => {
             <BoxTrialTestDirve lang={lang} isLarge />
           )
         }
-      
+
       </section>
-    
+
     </main>
   );
 };

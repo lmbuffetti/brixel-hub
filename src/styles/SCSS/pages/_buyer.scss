@@ -74,37 +74,6 @@ $responsive-desktop: map-get($grid-breakpoints, xl );
   }
 }
 
-.bgSvg {
-  position: relative;
-  z-index: 1;
-  @media (min-width: $responsive-medium) {
-    background-color: map-get($blueColor, 100 );
-  }
-
-  &::after {
-    top: 0;
-    z-index: -1;
-    content: '';
-    width: 100%;
-    position: absolute;
-    height: 100%;
-    background-repeat: no-repeat;
-    background-size: contain;
-
-    max-width: 1440px;
-    left: 50%;
-    transform: translateX(-50%);
-
-    @media (max-width: $responsive-medium) {
-      background-size: cover;
-      background-position: right;
-      content: none;
-    }
-    background-image: url('../../../images/Market/networkAnimation.svg?url');
-  }
-}
-
-
 .slideOpen {
   overflow: hidden;
   transition: all $default-time-long $default-easing;
@@ -162,5 +131,12 @@ $responsive-desktop: map-get($grid-breakpoints, xl );
     @media (max-width: 320px) {
       max-height: 120px;
     }
+  }
+}
+
+.detailList {
+  > div {
+    margin-right: $step * 3;
+    margin-bottom: $step * 3;
   }
 }

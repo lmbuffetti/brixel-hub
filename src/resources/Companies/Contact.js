@@ -79,7 +79,7 @@ export const QuestionsList = (lang, company, isBuyer) => {
     },
   ];
   let privacy;
-
+  
   if (isBuyer) {
     contact[0].textsCard = [
       {
@@ -194,7 +194,7 @@ export const QuestionsList = (lang, company, isBuyer) => {
       };
     }
   }
-
+  
   contact.push(
     {
       title: translateTo('On what topics do you like to be advised?', lang),
@@ -364,7 +364,7 @@ export const QuestionsList = (lang, company, isBuyer) => {
       vCentered: true,
       toSave: true,
     },
-
+  
   )
   return contact;
 }

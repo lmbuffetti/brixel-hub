@@ -7,7 +7,6 @@ import PropTypes from 'prop-types';
 /* eslint-disable dot-notation */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
-import 'react-input-range/lib/css/index.css';
 import { connect } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
@@ -31,13 +30,13 @@ const AddContactBuyer = (props) => {
   } = props;
   const [currentStep, setCurrentStep] = useState('message');
   const [action, setAction] = useState(null);
-
+  
   useEffect(() => {
     if (isSmallLoading.sendMessage === 'savedBooking' || isSmallLoading.sendMessage === 'sentMessage') {
       setCurrentStep('sentMessage');
     }
   }, [isSmallLoading]);
-
+  
   const buttonActions = () => {
     let btn = null;
     if (currentStep === 'message') {
@@ -56,7 +55,7 @@ const AddContactBuyer = (props) => {
     }
     return btn;
   };
-
+  
   return (
     <BrixelModal
       multiActions={buttonActions()}
@@ -99,7 +98,7 @@ const AddContactBuyer = (props) => {
               className="bodySection mx-2-neg px-2 bgWhite shadow-1dp brdRadiusTop pt-2 pb-4 mx-sm-5-neg px-sm-5 mb-1-neg"
             >
               <p className="mb-2"><b>{translateTo('Here are 3 tips for a smooth process', lang)}</b></p>
-
+              
               <ul>
                 <li>
                   <BrixelIcon icon="tour" color="green" background="green" saturation={200} saturationTxt={700} />

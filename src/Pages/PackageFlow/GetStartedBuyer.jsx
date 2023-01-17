@@ -24,6 +24,7 @@ import { createUserSearchProfile } from '../../actions/SearchProfileActions';
 import { doLogin, validateUser } from '../../actions/UserActions';
 import { QuestionsList } from '../../resources/Flows/onBoardingBuyer';
 import { checkBrowser, setCookie } from '../../utils/helpers';
+import { titleSearchProfile } from '../../utils/titleCreationSearchProfile';
 import translateTo from '../../utils/translation';
 
 const cookie = new Cookies();
@@ -59,12 +60,12 @@ const GetStartedBuyer = (props) => {
   } = props;
   // STATE
   // SET THE QUESTIONS IN BASE OF THE COUNTRY
-  const [questions, setQuestions] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')));
+  const [questions, setQuestions] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue));
   const [progressBar, setProgressBar] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [oldIndex, setOldIndex] = useState(0);
   // SET QUEST TO FIRST QUESTION OF QuestionsList()
-  const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0]);
+  const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue)[0]);
   const [isEnter, setIsEnter] = useState(true);
   const [showError, setShowError] = useState(false);
   const [loadingRequest, setLoadingRequest] = useState(false);
@@ -101,6 +102,7 @@ const GetStartedBuyer = (props) => {
     for (const key in navigator) {
       metaUserData[key] = navigator[key];
     }
+    
     const dataSearchProfile = {
       characteristics: get(dataFormAnswer, 'characteristics', {}),
       location: get(dataFormAnswer, 'locations', {}),
@@ -216,7 +218,7 @@ const GetStartedBuyer = (props) => {
         } else if (input.validation) {
           // const getRegField = get(registeredFields
           let field;
-          if (input.name === 'profileUaer') {
+          if (input.name === 'profileUser') {
             const page = get(formValue, 'signupScreen', null);
             field = ['register.email', 'register.firstName', 'register.lastName', 'register.password', 'register.privacy'];
             if (page === 'login') {
@@ -363,13 +365,13 @@ const GetStartedBuyer = (props) => {
 
   // ON CHANGE LANGUAGE RELOAD THE QUESTIONS TRANSLATED
   useEffect(() => {
-    const currentQuest = QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex];
+    const currentQuest = QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue)[currentIndex];
     if (currentQuest.effect === 'slideUp') {
-      setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')));
-      setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex - 1]);
+      setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue));
+      setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue)[currentIndex - 1]);
     } else {
-      setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')));
-      setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex]);
+      setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue));
+      setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue)[currentIndex]);
     }
   }, [lang, translations]);
 
@@ -399,20 +401,9 @@ const GetStartedBuyer = (props) => {
     }
   }, [currentIndex]);
 
-  // FUNCTION to MULTIPLY ROOMS IN BACKGROUND
-  /* useEffect(() => {
-    let roomValue = get(formValue, 'properties.typology.bedrooms', 2);
-    let bgSize = 500
-    bgSize = bgSize / roomValue;
-
-    setRoomValue(bgSize+ 'vw');
-
-  }, [get(formValue, 'properties.typology.bedrooms', 2)]); */
-
   // FUNCTION TO CLOSE
   const closeWindow = () => {
     handleReset('Property');
-    // history.push('/buy');
     history.push('/buy');
   };
 
@@ -421,7 +412,7 @@ const GetStartedBuyer = (props) => {
     setOldIndex(currentIndex);
     const newQuest = [];
     if (formValue) {
-      QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')).map((quest) => {
+      QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue).map((quest) => {
         if (quest.condition) {
           let isValid = true;
           quest.condition.map((item) => {
@@ -430,16 +421,24 @@ const GetStartedBuyer = (props) => {
             }
             return null;
           });
-          if (isValid) newQuest.push(quest);
+          if (isValid && !quest.hideSearchProfileFlow) newQuest.push(quest);
         } else {
-          newQuest.push(quest);
+          if (!quest.hideSearchProfileFlow) newQuest.push(quest);
         }
         return null;
       });
       setQuestions(newQuest);
+      if (currentIndex === 0) setQuest(newQuest[0])
     }
     if (newQuest[currentIndex].inputs && newQuest[currentIndex].inputs.length === 1 && get(newQuest[currentIndex], 'inputs[0].options', []).length > 0 && get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), null) && !isArray(get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), [])) && oldIndex <= currentIndex) {
       changeStep('next', null, 1, true);
+    }
+    const rooms = get(formValue, 'characteristics.bedrooms', {});
+    const propertyType = get(formValue, 'characteristics.propertyType', []);
+    const locations = get(formValue, 'locations', []);
+    const searchProfileName = get(formValue, 'name', null);
+    if (propertyType.length > 0 && locations.length > 0 && rooms.max && !searchProfileName) {
+      changeFieldValue('name', titleSearchProfile(formValue, lang))
     }
   }, [formValue]);
 
@@ -453,8 +452,8 @@ const GetStartedBuyer = (props) => {
       changeFieldValue('company', company.stub);
       changeFieldValue('finance.currency', get(company, 'country.currency', 'CHF'));
       changeFieldValue('price.currency', get(company, 'country.currency', 'CHF'));
-      setQuestions(QuestionsList(getLang, companyCountry));
-      setQuest(QuestionsList(getLang, companyCountry)[currentIndex]);
+      setQuestions(QuestionsList(getLang, companyCountry, changeFieldValue));
+      setQuest(QuestionsList(getLang, companyCountry, changeFieldValue)[currentIndex]);
       const companyCountryCode = get(company, 'country.code', 'CH');
       const countryPhoneCode = phonecode.find((code) => code.code === companyCountryCode);
       changeFieldValue('register.phone.prefix', countryPhoneCode.dial_code);
@@ -828,8 +827,10 @@ const mapStateToProps = (state, ownProps) => {
       locations: get(state, 'brixelForm.GetStarted.values.locations', []),
       characteristics: {
         livingArea: {
-          unit: 'm2',
+          min: 0,
+          max: 300,
         },
+        bedrooms: {min: 0, max: 9}
       },
       owner: get(state, 'user.loggedInUser.user.id', null),
       user: get(state, 'user.loggedInUser.user.id', null),
