@@ -4,9 +4,8 @@
     border-bottom: 1px solid map_get($lightColor, 300);
   }
 
-  .name div:nth-child(2) {
-    min-height: 50px;
-    width: calc(100% - 50px);
+  .name .docDetails {
+    max-width: calc(100% - 60px);
   }
 
 
@@ -44,9 +43,9 @@
     }
 
     .document-title {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      overflow-wrap: break-word;
+      word-wrap: break-word;
+      word-break: break-word;
     }
   }
 

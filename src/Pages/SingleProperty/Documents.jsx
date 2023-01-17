@@ -506,12 +506,12 @@ const Documents = (props) => {
                                             className="single-document-folder dis-fl-row a-c jc-b p-1"
                                           >
 
-                                            <div className="name w-perc-100 dis-fl-row a-c pr-1 pr-sm-0">
+                                            <div className="name dis-fl-row a-c pr-1 pr-sm-0">
                                               <div className="icon-container brdRadius dis-f w-fix-24 h-fix-40 jc-c a-c ml-1 mr-1">
                                                 <img width={18} className='cur-grab docsHandle' src={dragIcon} />
                                               </div>
-                                              <div className="dis-fl-col cur-poi" onClick={(e) => openDocument(e, doc.id)}>
-                                                <span className="document-title fweight-500 fsize-400 txtDark700 dont-break-out">{doc.name}</span>
+                                              <div className="dis-fl-col docDetails cur-poi" onClick={(e) => openDocument(e, doc.id)}>
+                                                <span className="document-title fweight-500 fsize-400 txtDark700">{doc.name}</span>
                                                 <span className="body2 txtGreen400 dont-break-out">{translateTo(doc.type, lang)}</span>
                                                 {
                                                   get(doc, 'createdAt', null) ? (
@@ -682,7 +682,7 @@ const Documents = (props) => {
                                                       <div className="icon-container brdRadius dis-f w-fix-24 h-fix-40 jc-c a-c mr-1">
                                                         <img width={18} className='cur-grab docsHandle' src={dragIcon} />
                                                       </div>
-                                                      <div className="dis-fl-col cur-poi" onClick={(e) => openDocument(e, doc.id)}>
+                                                      <div className="dis-fl-col docDetails cur-poi" onClick={(e) => openDocument(e, doc.id)}>
                                                         <span className="document-title max-w-fix-168 max-w-perc-lg-100 fweight-500 dont-break-out">{doc.name}</span>
                                                         <span className="body2 txtGreen400 dont-break-out">{doc.type}</span>
                                                         {
@@ -704,11 +704,12 @@ const Documents = (props) => {
                                                     </div>
 
                                                     <div className="pos-r dis-fl-row a-c">
-                                                      <BrixelIcon
+
+                                                      <BrixelTooltip
                                                         className="mr-1"
-                                                        label={`${translateTo('This document is set to', lang)} ${translateTo(`${(doc.isPrivate === true || doc.isPrivate === 'Private') ? 'private' : 'public'}`, lang)}. ${translateTo('Edit to change.', lang)}`}
-                                                        tooltipWidth="208"
-                                                        color={`${(doc.isPrivate === true || doc.isPrivate === 'Private') ? 'red' : 'green'}`}
+                                                        description={`${translateTo('This document is set to', lang)} ${translateTo(`${(doc.isPrivate === true || doc.isPrivate === 'Private') ? 'private' : 'public'}`, lang)}. ${translateTo('Edit to change.', lang)}`}
+                                                        width="200"
+                                                        iconColor={`${(doc.isPrivate === true || doc.isPrivate === 'Private') ? 'red' : 'green'}`}
                                                         icon={`${(doc.isPrivate === true || doc.isPrivate === 'Private') ? 'locked' : 'eye'}`}
                                                       />
 
