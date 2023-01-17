@@ -229,6 +229,7 @@ const MarketCard = (props) => {
       act: action,
       id: item.id,
       property: item,
+      reloadProperties: true,
       data: {
         email: get(loggedInUser, 'email', ''),
         language: loggedInUser.lang,
