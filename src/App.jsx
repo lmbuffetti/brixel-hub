@@ -830,7 +830,7 @@ const App = (props) => {
               element={<SingleDocument />}
             />
             <Route
-              path="/:propID/docubox/:docID/editFolder"
+              path="/:propID/docubox/:docID/addToFolder"
               element={<SingleFolder />}
             />
             <Route path="/:propID/prospects/newDeal" element={<CreateDeal />} />

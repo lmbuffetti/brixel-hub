@@ -1,11 +1,5 @@
 /* eslint-disable array-callback-return */
-import {
-  BrixelButtonIcon,
-  BrixelButtonPrimary,
-  BrixelButtonSecondary,
-  BrixelButtonText,
-} from '@brixel/brixel-components';
-import documentConfig from '@brixel/brixel-components/dist/configuration/DocumentsConfig';
+import { BrixelButtonIcon, BrixelButtonPrimary, BrixelButtonSecondary } from '@brixel/brixel-components';
 import {
   BrixelInputText,
   BrixelRadioButton,
@@ -55,8 +49,7 @@ const SingleDocument = (props) => {
 
   const [activeDocument, setActiveDocument] = useState({});
   const [documentFolders, setDocumentFolders] = useState([]);
-  const [newFolder, setNewFolder] = useState(false);
-  const [docuementsType, setDocumentsType] = useState([]);
+  const [folderAction, setFolderAction] = useState('newFolder');
   
   const docID = get(match, 'docID', null);
 
@@ -65,27 +58,10 @@ const SingleDocument = (props) => {
   useEffect(() => {
     if (activeSingleProperty.id) {
       const currentDoc = activeSingleProperty.documents.find((doc) => doc.id === docID);
+      if (folderAction === 'newFolder') currentDoc.folder = '';
       initForm(currentDoc);
     }
-  }, [activeSingleProperty.id]);
-  
-
-  useEffect(() => {
-    if (has(activeSingleProperty, 'location.countryCode')) {
-      const docsConfig = documentConfig.mandatoryDocuments[get(activeSingleProperty, 'location.countryCode')][get(activeSingleProperty, 'properties.propertyType')];
-      const docsOptions = [{
-        label: 'Generic',
-        value: 'Generic',
-      }];
-      docsConfig.forEach((doc) => {
-        docsOptions.push({
-          label: doc,
-          value: doc,
-        });
-      });
-      setDocumentsType(docsOptions);
-    }
-  }, [formValue]);
+  }, [activeSingleProperty.id, folderAction]);
 
   useEffect(() => {
     const folderArrayAux = [];
@@ -115,14 +91,6 @@ const SingleDocument = (props) => {
   }, [activeSingleProperty.updatedAt, formValue]);
 
   useEffect(() => {
-    if (has(activeDocument, 'id')) {
-      if (activeDocument.isPrivate === true) set(activeDocument, 'isPrivate', 'Private');
-      else if (activeDocument.isPrivate === false) set(activeDocument, 'isPrivate', 'Public');
-      changeFieldValue(`documents.isPrivate`, get(activeDocument, 'isPrivate', null));
-    }
-  }, [activeDocument]);
-
-  useEffect(() => {
     if (isSmallLoading.saveData === false && isRequestDone) {
       history.push(`/${activeSingleProperty.id}/docubox`);
     }
@@ -149,29 +117,9 @@ const SingleDocument = (props) => {
   };
 
   const checkDisabled = () => {
-    const isDocEdit = find(diff(initialValues, formValue), (el) => {
-      if (history.location.pathname.includes('docubox') &&
-          (has(el, 'isPrivate') || has(el, 'name') || has(el, 'type') || has(el, 'folder')) &&
-          !has(el, 'id') && newFolder === false) {
-        return true;
-      }
-      return false;
-    });
-
-    if (has(isDocEdit, 'name') || has(isDocEdit, 'isPrivate') || has(isDocEdit, 'type') || has(isDocEdit, 'folder')) return false;
+    const diffDoc = diff(initialValues, formValue);
+    if (Object.keys(diffDoc).length > 0) return false;
     return true;
-  };
-
-  const createNewFolder = (event) => {
-    event.preventDefault();
-    const folder = {
-      label: formValue.folder,
-      value: formValue.folder,
-      id: formValue.folder.toLowerCase(),
-    };
-    documentFolders.push(folder);
-    setDocumentFolders(documentFolders);
-    setNewFolder(false);
   };
 
   return (
@@ -183,7 +131,7 @@ const SingleDocument = (props) => {
               {/* top panel */}
               <div className="top dis-fl-row a-c jc-b mb-5">
                 <span className="name dis-b fsize-500 fweight-500 txtDark700">
-                  {translateTo('Edit document', lang)}
+                  {translateTo('Add to folder', lang)}
                 </span>
                 <BrixelButtonIcon
                   icon="close-small"
@@ -198,62 +146,24 @@ const SingleDocument = (props) => {
 
               {/* middle panel */}
               <div className="mid dis-fl-col mb-6">
-                <ReduxField
-                  form="SingleDoc"
-                  design={{
-                    className: 'mb-3 zIndex1',
-                  }}
+                
+                <BrixelRadioButton
                   input={{
-                    name: `name`,
-                    placeholder: 'Name this document',
+                    onChange: (val) => setFolderAction(val),
+                    value: folderAction,
+                    name: 'folderAction',
                   }}
-                  labels={{
-                    label: translateTo('Name', lang),
-                  }}
-                  component={BrixelInputText}
+                  options={[{
+                    label: 'Create new folder',
+                    value: 'newFolder',
+                  }, {
+                    label: 'Add to existing folder',
+                    value: 'addToFolder',
+                  }]}
                 />
-                <ReduxField
-                  form="SingleDoc"
-                  design={{
-                    className: 'zIndex3 mb-3',
-                    borderColor: 'light',
-                    color: 'light',
-                  }}
-                  input={{
-                    name: `type`,
-                    options: docuementsType,
-                  }}
-                  labels={{
-                    label: translateTo('Type of document', lang),
-                  }}
-                  component={BrixelSelect}
-                />
-                <ReduxField
-                  form="SingleDoc"
-                  design={{
-                    className: 'zIndex2 w-fix-248',
-                    borderColor: 'light',
-                    color: 'light',
-                  }}
-                  input={{
-                    name: `isPrivate`,
-                    options: [{
-                      label: translateTo('Private', lang),
-                      value: 'Private',
-                    },
-                    {
-                      label: translateTo('Public', lang),
-                      value: 'Public',
-                    }],
-                  }}
-                  labels={{
-                    label: 'Visibility',
-                  }}
-                  component={BrixelSelect}
-                />
-                {
-                  newFolder ? (
-                    <div className="dis-fl-row mt-3">
+                <div className="dis-fl-row mt-3">
+                  {
+                    folderAction === 'newFolder' ? (
                       <ReduxField
                         form="SingleDoc"
                         design={{
@@ -268,57 +178,26 @@ const SingleDocument = (props) => {
                         }}
                         component={BrixelInputText}
                       />
-                      <BrixelButtonIcon
-                        icon="check-small"
-                        ghost
-                        theme="green"
-                        className="add-button as-fe"
-                        label="Save"
-                        onClick={(e) => createNewFolder(e)}
-                      />
-                      <BrixelButtonIcon
-                        icon="close-circle"
-                        ghost
-                        className="add-button as-fe"
-                        theme="red"
-                        label="Cancel"
-                        onClick={() => {
-                          changeFieldValue(`folder`, get(initialValues, 'folder', ''));
-                          setNewFolder(false);
-                        }}
-                      />
-                    </div>
-                  ) : (
-                    <>
-                      {
-                        documentFolders.length > 0 && (
-                          <ReduxField
-                            form="SingleDoc"
-                            design={{
-                              className: 'mt-3',
-                            }}
-                            input={{
-                              name: 'folder',
-                              options: documentFolders,
-                            }}
-                            labels={{
-                              label: 'Folder',
-                            }}
-                            component={BrixelRadioButton}
-                          />
-                        )
-                      }
-                      <BrixelButtonText
-                        className={`edit as-fs ${documentFolders.length > 0 ? 'mt-1' : 'mt-3'}`}
-                        label={translateTo('New folder', lang)}
-                        onClick={() => {
-                          changeFieldValue('folder', '');
-                          setNewFolder(true);
-                        }}
-                      />
-                    </>
-                  )
-                }
+                    ) : (
+                      documentFolders.length > 0 && (
+                        <ReduxField
+                          form="SingleDoc"
+                          design={{
+                            className: 'mr-2 zIndex1 w-fix-248',
+                          }}
+                          input={{
+                            name: 'folder',
+                            options: documentFolders,
+                          }}
+                          labels={{
+                            label: 'Choose a folder',
+                          }}
+                          component={BrixelSelect}
+                        />
+                      )
+                    )
+                  }
+                </div>
               </div>
               {/* bottom panel */}
               <div className="bottom dis-fl-row jc-fe w-perc-100 h-perc-100">

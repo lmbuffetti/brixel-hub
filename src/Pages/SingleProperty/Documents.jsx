@@ -102,14 +102,18 @@ const Documents = (props) => {
     if (documents && documents.length === 0) setProcessedDocuments([]);
   }, [documents && documents.length, documents]);
 
-  const manageDocument = (e, id) => {
+  const manageDocument = (e, id, type = 'docs') => {
     if (e) e.preventDefault();
     setDocumentOptionsOpen({
       id: null,
       active: false,
     });
     const path = get(history, 'location.pathname', '').replace(/\/$/, '');
-    history.push(`${path}/${id}/editDocument`);
+    if (type === 'folder') {
+      history.push(`${path}/${id}/addToFolder`);
+    } else {
+      history.push(`${path}/${id}/editDocument`);
+    }
   };
 
   const openDocument = (e, id) => {
@@ -573,6 +577,12 @@ const Documents = (props) => {
                                                                 },
                                                               },
                                                               {
+                                                                label: translateTo('Add to folder', lang),
+                                                                clickFunc: (e) => {
+                                                                  manageDocument(e, doc.id, 'folder');
+                                                                },
+                                                              },
+                                                              {
                                                                 label: translateTo('Remove', lang),
                                                                 className: 'txtRed400',
                                                                 clickFunc: (e) => deleteDocs(e, doc.id),
@@ -732,6 +742,12 @@ const Documents = (props) => {
                                                                     label: translateTo('Edit', lang),
                                                                     clickFunc: (e) => {
                                                                       manageDocument(e, doc.id);
+                                                                    },
+                                                                  },
+                                                                  userType !== 'buyer' && {
+                                                                    label: translateTo('Add to folder', lang),
+                                                                    clickFunc: (e) => {
+                                                                      manageDocument(e, doc.id, 'folder');
                                                                     },
                                                                   },
                                                                   userType !== 'buyer' && {
