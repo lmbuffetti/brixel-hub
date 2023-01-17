@@ -15,16 +15,23 @@
     width: calc(100% - 16px);
     height: 1px;
     border-top: 1px solid map_get($primaryColor, 400) !important;
+    + .single-document-folder,
     + .single-document {
       border-top: 1px solid transparent !important;
     }
   }
   .sortable-chosen {
+    + .single-document-folder,
     + .single-document {
       border-top: 1px solid transparent !important;
     }
   }
-
+  .noFolderWrapper div.single-document-folder {
+    &:first-child {
+      border-top-color: transparent;
+    }
+  }
+  .single-document-folder,
   .single-document {
     &:not(.sortable-chosen) {
       border: 1px solid transparent;
@@ -62,8 +69,7 @@
   background: map_get($primaryColor, 400);
   transition: all $default-time;
 }
-
-
+.noFolderWrapper,
 .document-folder {
   border: 1px solid transparent;
   &:has(.sortable-chosen) {

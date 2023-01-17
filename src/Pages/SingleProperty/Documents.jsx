@@ -472,7 +472,7 @@ const Documents = (props) => {
                           >
                             {
                               filterDocsByFodler(processedDocuments, 'NoFolder').map((docList, i) => (
-                                <div key={`noFolderDoc${i.toString()}`}>
+                                <div className='noFolderWrapper shadow-1dp dis-fl-col p-1 mb-2 brdRadius' key={`noFolderDoc${i.toString()}`}>
                                   <ReactSortable
                                     key={`prcDcc_${i.toString()}`}
                                     handle=".docsHandle"
@@ -491,7 +491,7 @@ const Documents = (props) => {
                                           Empty state
                                         </div>
                                       ) : (
-                                        <div className='shadow-1dp brdRadius'>
+                                        <>
                                           {
                                             docList.map((doc, k) => (
                                               <div
@@ -594,7 +594,7 @@ const Documents = (props) => {
                                               </div>
                                             ))
                                           }
-                                        </div>
+                                        </>
                                       )
                                     }
                                   </ReactSortable>
