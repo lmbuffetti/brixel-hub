@@ -51,7 +51,7 @@ const Contact = (props) => {
     loggedInUser,
   } = props;
   // STATE
-  const isBuyer = get(formValue, 'userType', '') === 'buyer';
+  const isBuyer = get(formValue, 'userType', '') === 'buyer' && activeSingleProperty.owner !== loggedInUser.id && get(activeSingleProperty, 'owner.id', null) !== loggedInUser.id;
   const [questions, setQuestions] = useState(QuestionsList(lang, activeSingleCompany, isBuyer));
   // const [position, setPosition] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(formValue.analysis === 'remote' || urlParams.action === 'on-site' ? 3 : 0);
@@ -88,7 +88,7 @@ const Contact = (props) => {
   useEffect(() => {
     setIsEnter(true);
     if (get(questions, `[${currentIndex}].history`, null) && activeSingleCompany.stub) {
-      history.push(`${BASEURL}/${questions[currentIndex].history}`);
+      // history.push(`${BASEURL}/${questions[currentIndex].history}`);
     }
     setQuest(questions[currentIndex])
   }, [currentIndex]);
@@ -251,7 +251,7 @@ const Contact = (props) => {
     const defId = checkCondition(currentIndex);
     if (defId !== currentIndex) changeStep();
     if (activeSingleProperty.owner && loggedInUser.id) {
-      if (activeSingleProperty.owner !== loggedInUser.id) history.push(`/buyer/${propID}/contactFlow`);
+      if (activeSingleProperty.owner !== loggedInUser.id && get(activeSingleProperty, 'owner.id', null) !== loggedInUser.id) history.push(`/buyer/${propID}/contactFlow`);
     }
   }, [activeSingleProperty.id, activeSingleCompany.id, loggedInUser.id, isBuyer]);
 
@@ -264,7 +264,7 @@ const Contact = (props) => {
         changeFieldValue('type', urlData.type);
         changeStep();
       }
-      history.push(`${BASEURL}/${questions[currentIndex].history}`);
+      // history.push(`${BASEURL}/${questions[currentIndex].history}`);
     }
   }, [currentIndex, initValues]);
 
