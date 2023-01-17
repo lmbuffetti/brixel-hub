@@ -315,7 +315,7 @@ const IntroUpgrade = (props) => {
                                     </span>
                                     <ul className="checked mt-2 txtDark700">
                                       <li>{translateTo('Support in terminating or transferring the mortgage', lang)}</li>
-                                      <li>{translateTo('Investment and pension advice', lang)}</li>
+                                      <li>{translateTo('Pension and investment advice', lang)}</li>
                                       <li>{translateTo('Advice on the tax implications of selling real estate', lang)}</li>
                                       <li>{translateTo('Information on inheritance and estate planning', lang)}</li>
                                       <li>{translateTo('Checking the selling price', lang)}</li>
@@ -487,7 +487,7 @@ const IntroUpgrade = (props) => {
                                           </span>
                                           <ul className="checked mt-2 txtDark700">
                                             <li>{translateTo('Support in terminating or transferring the mortgage', lang)}</li>
-                                            <li>{translateTo('Investment and pension advice', lang)}</li>
+                                            <li>{translateTo('Pension and investment advice', lang)}</li>
                                             <li>{translateTo('Advice on the tax implications of selling real estate', lang)}</li>
                                             <li>{translateTo('Information on inheritance and estate planning', lang)}</li>
                                             <li>{translateTo('Checking the selling price', lang)}</li>
