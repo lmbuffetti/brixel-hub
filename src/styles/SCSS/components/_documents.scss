@@ -26,7 +26,7 @@
       border-top: 1px solid transparent !important;
     }
   }
-  .noFolderWrapper div.single-document-folder {
+  .noFolderWrapper div.single-document-folder:not(.sortable-chosen) {
     &:first-child {
       border-top-color: transparent;
     }
@@ -75,7 +75,7 @@
   &:has(.sortable-chosen) {
     border-color: map_get($primaryColor, 400);
     .single-document {
-      &:first-child {
+      &:first-child:not(.sortable-chosen) {
         border-top-color: map_get($primaryColor, 400);
       }
     }

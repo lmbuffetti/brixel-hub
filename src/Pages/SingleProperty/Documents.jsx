@@ -3,6 +3,7 @@ import {
   BrixelButtonSecondary,
   BrixelDropdownMini,
   BrixelIcon,
+  BrixelTooltip,
   useOutsideAlerter,
 } from '@brixel/brixel-components';
 import documentConfig from '@brixel/brixel-components/dist/configuration/DocumentsConfig';
@@ -476,8 +477,8 @@ const Documents = (props) => {
                           >
                             {
                               filterDocsByFodler(processedDocuments, 'NoFolder').length === 0 ? (
-                                <div className="shadow-1dp dis-fl-col p-1 mb-2 brdRadius">
-                                  Empty state
+                                <div className="shadow-1dp dis-fl-col py-3 a-c mb-2 brdRadius txtAltGrey400">
+                                  Drag and drop single files here
                                 </div>
                               ) : (
                                 filterDocsByFodler(processedDocuments, 'NoFolder').map((docList, i) => (
@@ -502,9 +503,9 @@ const Documents = (props) => {
                                           <div
                                             id={`nofolderDocs${doc.id}`}
                                             key={`prcDocs_${k.toString()}`}
-                                            className="single-document-folder dis-fl-row a-c jc-b p-1 mb-1"
+                                            className="single-document-folder dis-fl-row a-c jc-b p-1"
                                           >
-              
+
                                             <div className="name w-perc-100 dis-fl-row a-c pr-1 pr-sm-0">
                                               <div className="icon-container brdRadius dis-f w-fix-24 h-fix-40 jc-c a-c ml-1 mr-1">
                                                 <img width={18} className='cur-grab docsHandle' src={dragIcon} />
@@ -514,7 +515,7 @@ const Documents = (props) => {
                                                 <span className="body2 txtGreen400 dont-break-out">{translateTo(doc.type, lang)}</span>
                                                 {
                                                   get(doc, 'createdAt', null) ? (
-                                                    <span className="date fsize-200 txtLight400">
+                                                    <span className="date fsize-200 txtLight400 pt-small-4">
                                                       {
                                                         !isNaN(+doc.createdAt) ? (
                                                           <>{DateTime.fromMillis(doc.createdAt, { locale: lang }).toFormat('dd LLL yyyy, H:mm')}</>
@@ -529,17 +530,19 @@ const Documents = (props) => {
                                                 }
                                               </div>
                                             </div>
-              
+
                                             <div className="pos-r dis-fl-row a-c">
                                               {
                                                 userType !== 'buyer' && (
-                                                  <BrixelIcon
-                                                    className="mr-1"
-                                                    label={`${translateTo('This document is set to', lang)} ${translateTo(`${(doc.isPrivate === true || doc.isPrivate === 'Private') ? 'private' : 'public'}`, lang)}. ${translateTo('Edit to change.', lang)}`}
-                                                    tooltipWidth="208"
-                                                    color={`${(doc.isPrivate === true || doc.isPrivate === 'Private') ? 'red' : 'green'}`}
-                                                    icon={`${(doc.isPrivate === true || doc.isPrivate === 'Private') ? 'locked' : 'eye'}`}
-                                                  />
+                                                  <>
+                                                    <BrixelTooltip
+                                                      description={`${translateTo('This document is set to', lang)} ${translateTo(`${(doc.isPrivate === true || doc.isPrivate === 'Private') ? 'private' : 'public'}`, lang)}. ${translateTo('Edit to change.', lang)}`}
+                                                      width="200"
+                                                      iconColor={`${(doc.isPrivate === true || doc.isPrivate === 'Private') ? 'red' : 'green'}`}
+                                                      icon={`${(doc.isPrivate === true || doc.isPrivate === 'Private') ? 'locked' : 'eye'}`}
+                                                      className="mr-1"
+                                                    />
+                                                  </>
                                                 )
                                               }
                                               <BrixelButtonIcon
@@ -680,11 +683,11 @@ const Documents = (props) => {
                                                         <img width={18} className='cur-grab docsHandle' src={dragIcon} />
                                                       </div>
                                                       <div className="dis-fl-col cur-poi" onClick={(e) => openDocument(e, doc.id)}>
-                                                        <span className="document-title max-w-fix-168 max-w-perc-lg-100 txtDark700 dont-break-out">{doc.name}</span>
+                                                        <span className="document-title max-w-fix-168 max-w-perc-lg-100 fweight-500 dont-break-out">{doc.name}</span>
                                                         <span className="body2 txtGreen400 dont-break-out">{doc.type}</span>
                                                         {
                                                           get(doc, 'createdAt', null) ? (
-                                                            <span className="date body2 txtDark200">
+                                                            <span className="date fsize-200 txtLight400 pt-small-4">
                                                               {
                                                                 !isNaN(+doc.createdAt) ? (
                                                                   <>{DateTime.fromMillis(doc.createdAt, { locale: lang }).toFormat('dd LLL yyyy, H:mm')}</>
@@ -694,7 +697,7 @@ const Documents = (props) => {
                                                               }
                                                             </span>
                                                           ) : (
-                                                            <span className="date body2 txtDark200">-</span>
+                                                            <span className="date fsize-200 txtLight400 pt-small-4">-</span>
                                                           )
                                                         }
                                                       </div>
@@ -791,7 +794,7 @@ const Documents = (props) => {
                                       onStart={() => setIsMovingFolder(true)}
                                       onEnd={() => setIsMovingFolder(false)}
                                     >
-                                      <div>
+                                      <div className='dis-fl-col py-3 a-c brdRadius txtAltGrey400'>
                                         To keep things organized, drag and drop file to create a folder.
                                       </div>
                                     </ReactSortable>

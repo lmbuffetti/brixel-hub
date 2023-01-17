@@ -14,7 +14,7 @@ import { connect } from 'react-redux';
 import {
   BrixelButtonIcon,
   BrixelButtonPrimary,
-  BrixelButtonSecondary,
+  BrixelButtonText,
 } from '@brixel/brixel-components';
 import translateTo from '../../utils/translation';
 import {
@@ -54,18 +54,18 @@ const SingleDocument = (props) => {
 
   const [activeDocument, setActiveDocument] = useState({});
   const [docuementsType, setDocumentsType] = useState([]);
-  
+
   const docID = get(match, 'docID', null);
 
   useEffect(() => () => setRequestDone(false), []);
-  
+
   useEffect(() => {
     if (activeSingleProperty.id) {
       const currentDoc = activeSingleProperty.documents.find((doc) => doc.id === docID);
       initForm(currentDoc);
     }
   }, [activeSingleProperty.id]);
-  
+
 
   useEffect(() => {
     if (has(activeSingleProperty, 'location.countryCode')) {
@@ -148,15 +148,16 @@ const SingleDocument = (props) => {
       {
         activeDocument.id && (
           <SplashScreen closeOutside={false} className="edit-document">
-            <div className="single-document dis-fl-col">
+            <div className="single-document dis-fl-col h-perc-100">
               {/* top panel */}
-              <div className="top dis-fl-row a-c jc-b mb-5">
-                <span className="name dis-b fsize-500 fweight-500 txtDark700">
+              <div className="top dis-fl-row a-c jc-b py-3 max-h-fix-80 px-3 brdSmallBottom brdLight400 mb-3 pos-r">
+                <h4 className="name dis-b fweight-600 ml-a mr-a">
                   {translateTo('Edit document', lang)}
-                </span>
+                </h4>
                 <BrixelButtonIcon
-                  icon="close-small"
+                  icon="close"
                   ghost
+                  className='pos-a-fix x-r-2'
                   theme="dark"
                   onClick={() => {
                     changeFieldValue('documents', initialValues.documents);
@@ -166,7 +167,7 @@ const SingleDocument = (props) => {
               </div>
 
               {/* middle panel */}
-              <div className="mid dis-fl-col mb-6">
+              <div className="mid dis-fl-col mb-10 px-3">
                 <ReduxField
                   form="SingleDoc"
                   design={{
@@ -222,12 +223,11 @@ const SingleDocument = (props) => {
                 />
               </div>
               {/* bottom panel */}
-              <div className="bottom dis-fl-row jc-fe w-perc-100 h-perc-100">
-                <BrixelButtonSecondary
+              <div className="bottom dis-fl-row jc-b brdSmallTop brdLight400 w-perc-100 a-c px-3 py-3 h-fix-80 mt-a">
+                <BrixelButtonText
                   className="edit mr-2"
                   theme="dark"
                   rounded
-                  small
                   label={translateTo('Cancel', lang)}
                   onClick={() => {
                     changeFieldValue('documents', initialValues);
@@ -238,7 +238,7 @@ const SingleDocument = (props) => {
                   className="edit"
                   label={translateTo('Save', lang)}
                   rounded
-                  small
+                  ghost
                   disabled={checkDisabled()}
                   isLoading={isSmallLoading.saveData}
                   onClick={(e) => {
