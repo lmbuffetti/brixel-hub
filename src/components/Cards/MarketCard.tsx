@@ -221,6 +221,7 @@ const MarketCard = (props: MarketCardProps) => {
         act: action,
         id: get(item,  'id', ''),
         property: item,
+        reloadProperties: true,
         data: {
           email: get(loggedInUser, 'email', ''),
           language: loggedInUser.language,

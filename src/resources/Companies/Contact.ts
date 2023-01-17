@@ -73,7 +73,7 @@ export const QuestionsList = (lang, company, isBuyer) => {
           title: translateTo('Information on inheritance or estate planning', lang),
           image: houseHandSvg,
         }, {
-          title: translateTo('Investing and pension planning', lang),
+          title: translateTo('Pension planning and investing', lang),
           image: threeDotsHandSvg,
         },
       ],
@@ -97,7 +97,7 @@ export const QuestionsList = (lang, company, isBuyer) => {
   }
   let sellerTopics: object[] = [];
   if (company.stub === 'baloise') {
-    privacy = translateTo('I agree that my data (surname, first name, address, telephone number, e-mail) will be transmitted to Basler Versicherung AG and Baloise Bank AG for the purpose of providing the consulting service.', lang);
+    privacy = translateTo('I agree that my data (surname, first name, address, telephone number, e-mail) will be transmitted to Basler Versicherung AG and Baloise Bank SoBa AG for the purpose of providing the consulting service.', lang);
     if (!isBuyer) {
       contact[0].textsCard = [
         {
@@ -113,7 +113,7 @@ export const QuestionsList = (lang, company, isBuyer) => {
           title: translateTo('Information on inheritance or estate planning', lang),
           image: houseHandSvg,
         }, {
-          title: translateTo('Investing and pension planning', lang),
+          title: translateTo('Pension planning and investing', lang),
           image: threeDotsHandSvg,
         },
       ];
@@ -131,9 +131,9 @@ export const QuestionsList = (lang, company, isBuyer) => {
           value: 'Tax implications, inheritance, and estate planning',
         },
         {
-          label: translateTo('Investment options or retirement planning', lang),
-          value: 'Investment options or retirement planning',
-        },
+          label: translateTo('Retirement planning or investment options', lang),
+          value: 'Retirement planning or investment options',
+        }
       ];
     }
   }
@@ -158,7 +158,7 @@ export const QuestionsList = (lang, company, isBuyer) => {
           title: translateTo('Inheritance and estate planning', lang),
           image: inheritanceContactSvg,
         }, {
-          title: translateTo('Investing and pension planning', lang),
+          title: translateTo('Pension planning and investing', lang),
           image: threeDotsHandSvg,
         },
       ];
@@ -180,9 +180,9 @@ export const QuestionsList = (lang, company, isBuyer) => {
           value: 'Tax implications, inheritance, and estate planning',
         },
         {
-          label: translateTo('Investment options or retirement planning', lang),
-          value: 'Investment options or retirement planning',
-        },
+          label: translateTo('Retirement planning or investment options', lang),
+          value: 'Retirement planning or investment options',
+        }
       ]
     } else {
       contact[0] = {
