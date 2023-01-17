@@ -5,7 +5,7 @@ import has from 'lodash/has';
 import {configureStore} from '../store';
 import {InputSheets} from '../resources/SingleProperty/inputSheets';
 import {BestimateQuestions} from '../resources/Flows/Bestimate';
-import type {calcPercentageProEstimationType} from '../@types/utils/helpers';
+import {QuestionInputType, QuestionsListType} from '@brixel/brixel-components/dist/@types/Model';
 
 const cookies = new Cookies();
 
@@ -13,33 +13,37 @@ export const calcPercentageFacts = (form = 'Property', value = {}) => {
   let countTotal = 0;
   let countDone = 0;
   const formValue = get(configureStore.getState(), `brixelForm[${form}].values`, value);
-  const Questions = InputSheets(formValue);
+  const lang = get(configureStore.getState(), 'user.loggedInUser.user.language', 'en');
+  const Questions: QuestionsListType[] = InputSheets(formValue, lang, () => '');
   Questions.map((val) => {
-    val.inputs.map((item) => {
-      const name = get(item, 'condition.name', '');
-      const valA = get(formValue, name, 'a');
-      if (item.conditions) {
-        item.conditions.map((cond) => {
-          const valB = get(formValue, cond.name, 'a');
-          if (valB === cond.value && (get(formValue, item.name, 'ayc') !== 'ayc' || get(formValue, item.name, 'ayc') !== null)) {
+    if (val.inputs) {
+      val.inputs.map((item) => {
+        const name = get(item, 'condition.name', '');
+        const valA = get(formValue, name, 'a');
+        if (item.conditions) {
+          item.conditions.map((cond) => {
+            let valB;
+            if (cond.name) valB = get(formValue, cond.name, 'a');
+            if (item.name && valB === cond.value && (get(formValue, item.name, 'ayc') !== 'ayc' || get(formValue, item.name, 'ayc') !== null)) {
+              countTotal += 1;
+              countDone += 1;
+            }
+            return null;
+          });
+        } else if (!item.condition || (item.condition && valA === get(item, 'condition.value', null))) {
+          if (get(formValue, `inputSheet.skipSection[${item.name}]`, false)) {
             countTotal += 1;
             countDone += 1;
+          } else if (item.name && get(formValue, item.name, 'ayc') !== 'ayc' && get(formValue, item.name, 'ayc') !== null) {
+            countTotal += 1;
+            countDone += 1;
+          } else {
+            countTotal += 1;
           }
-          return null;
-        });
-      } else if (!item.condition || (item.condition && valA === item.condition.value)) {
-        if (get(formValue, `inputSheet.skipSection[${item.name}]`, false)) {
-          countTotal += 1;
-          countDone += 1;
-        } else if (get(formValue, item.name, 'ayc') !== 'ayc' && get(formValue, item.name, 'ayc') !== null) {
-          countTotal += 1;
-          countDone += 1;
-        } else {
-          countTotal += 1;
         }
-      }
-      return null;
-    });
+        return null;
+      });
+    }
     return null;
   });
   // const inputSheet = cloneDeep(get(formValue, 'inputSheet', {}) || {});
@@ -57,37 +61,43 @@ export const calcPercentageFacts = (form = 'Property', value = {}) => {
 export const calcPercentageProEstimation = (form = 'Property', value = {}) => {
   let countTotal = 0;
   let countDone = 0;
-  const questList: calcPercentageProEstimationType['inputs'] = [];
+  const questList: QuestionsListType['inputs'] = [];
   const formValue = get(configureStore.getState(), `brixelForm[${form}].values`, value);
-  InputSheets('proEstimation').forEach((singleQuest: calcPercentageProEstimationType) => {
-    singleQuest.inputs.forEach((input) => {
-      if (input.isProEstimation) {
-        let mergeCondition: calcPercentageProEstimationType['inputs'][0]['condition'][] | calcPercentageProEstimationType['inputs'][0]['condition'] = [];
-        if (input.condition && input.condition.name && input.condition.value) {
-          mergeCondition = [{ name: input.condition.name, value: input.condition.value }];
-        } else if (input.condition && input.condition.name && input.condition.noValue) {
-          mergeCondition = [{ name: input.condition.name, noValue: input.condition.noValue }];
-        } else if (input.condition) {
-          mergeCondition = [input.condition];
-        }
-        if (input.proEstimationConditions) {
-          mergeCondition = mergeCondition.concat(input.proEstimationConditions);
-        }
-        let isValid = true;
-        if (mergeCondition.length > 0) {
-          mergeCondition.forEach((item) => {
-            if (isValid) {
-              if (item.value && item.value !== get(formValue, item.name, null)) {
-                isValid = false;
-              } else if (item.noValue && item.noValue === get(formValue, item.name, null)) {
-                isValid = false;
+  const lang = get(configureStore.getState(), 'user.loggedInUser.user.language', 'en');
+  const QuestionsData: QuestionsListType[] = InputSheets('proEstimation', lang, () => '');
+  QuestionsData.forEach((singleQuest) => {
+    if (singleQuest.inputs) {
+      singleQuest.inputs.forEach((input) => {
+        if (input.isProEstimation) {
+          let mergeCondition: QuestionInputType['condition'] = [];
+          if (input.condition && get(input, 'condition.name', null) && get(input, 'condition.value', null)) {
+            mergeCondition = [{name: get(input, 'condition.name', ''), value: get(input, 'condition.value', '')}];
+          } else if (input.condition && get(input, 'condition.name', null) && get(input, 'condition.noValue', '')) {
+            mergeCondition = [{name: get(input, 'condition.name', ''), noValue: get(input, 'condition.noValue', '')}];
+          } else if (input.condition) {
+            mergeCondition = [...input.condition];
+          }
+          if (input.proEstimationConditions) {
+            mergeCondition = mergeCondition.concat(input.proEstimationConditions);
+          }
+          let isValid = true;
+          if (mergeCondition.length > 0) {
+            mergeCondition.forEach((item) => {
+              if (isValid) {
+                if (item.name && item.value && item.value !== get(formValue, item.name, null)) {
+                  isValid = false;
+                } else if (item.name && item.noValue && item.noValue === get(formValue, item.name, null)) {
+                  isValid = false;
+                }
               }
-            }
-          });
+            });
+          }
+          if (isValid && input) {
+            questList.push(input);
+          }
         }
-        if (isValid) questList.push(input);
-      }
-    });
+      });
+    }
   });
   const Questions = questList;
   Questions.forEach((val) => {
@@ -302,7 +312,8 @@ export const arrayMove = (arr, oldIndex, newIndex) => {
 export const completedBestimate = (formValue) => {
   const location = get(formValue, 'location.countryCode', '');
   const propertyType = get(formValue, 'properties.propertyType', '');
-  const BestimateQuest = BestimateQuestions(null, location, propertyType);
+  const lang = get(configureStore.getState(), 'user.loggedInUser.user.language', 'en');
+  const BestimateQuest = BestimateQuestions('', location, propertyType, lang);
   let isValid = true;
   BestimateQuest.forEach((inputs) => {
     if (inputs.inputs) {
@@ -312,13 +323,13 @@ export const completedBestimate = (formValue) => {
             if (validation.name === 'required') {
               if (input.condition) {
                 input.condition.forEach((cond) => {
-                  if (get(formValue, cond.name, null) === cond.value) {
-                    if (get(formValue, input.name, null) === null) isValid = false;
-                  } else if (get(formValue, cond.name, null) !== cond.noValue) {
-                    if (get(formValue, input.name, null) === null) isValid = false;
+                  if (cond.name && get(formValue, cond.name, null) === cond.value) {
+                    if (input.name && get(formValue, input.name, null) === null) isValid = false;
+                  } else if (cond.name && get(formValue, cond.name, null) !== cond.noValue) {
+                    if (input.name && get(formValue, input.name, null) === null) isValid = false;
                   }
                 });
-              } else if (get(formValue, input.name, null) === null) {
+              } else if (input.name && get(formValue, input.name, null) === null) {
                 isValid = false;
               }
             }
