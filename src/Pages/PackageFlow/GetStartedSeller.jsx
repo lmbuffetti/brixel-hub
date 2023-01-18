@@ -17,6 +17,7 @@ import { connect } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
 import Cookies from 'universal-cookie';
+import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import { spinnerOff, spinnerOn } from '../../actions/CommonActions';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import { createActiveSingleProperty, saveActiveSingleProperty } from '../../actions/PropertyActions';
@@ -598,6 +599,7 @@ const GetStartedSeller = (props) => {
                             <p className="mb-5 ta-c txtDark200 w-perc-100 px-3 px-sm-2" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
                         }
                         <MultiFileldsReduxForm
+                          baseByData={baseByData}
                           form="GetStarted"
                           className="w-perc-100"
                           disableNextBtn={false}
