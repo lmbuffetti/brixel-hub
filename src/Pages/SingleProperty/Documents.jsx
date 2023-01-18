@@ -247,9 +247,16 @@ const Documents = (props) => {
           const updateDoc = doc.map((dc) => ({ ...dc, folder: list }));
           delete updateDoc.chosen;
           delete updateDoc.selected;
-          newDoc[folderID] = [
-            ...updateDoc,
-          ];
+          if (folderID >= 0) {
+            newDoc[folderID] = [
+              ...updateDoc,
+            ];
+          }
+          if (list === 'NoFolder' && folderID === -1 && doc.length > 0) {
+            newDoc[0] = [
+              ...updateDoc,
+            ];
+          }
           return [
             ...newDoc,
           ]
@@ -257,7 +264,7 @@ const Documents = (props) => {
       }
     }
   };
-
+  
   useEffect(() => {
     if (Object.keys(processedDocuments).length > 0) {
       const docsToSave = [];
@@ -477,9 +484,21 @@ const Documents = (props) => {
                           >
                             {
                               filterDocsByFodler(processedDocuments, 'NoFolder').length === 0 ? (
-                                <div className="shadow-1dp dis-fl-col py-3 a-c mb-2 brdRadius txtAltGrey400">
-                                  Drag and drop single files here
-                                </div>
+                                <ReactSortable
+                                  handle=".docsHandle"
+                                  delayOnTouchStart={true}
+                                  delay={2}
+                                  group="groupName"
+                                  list={[]}
+                                  className=""
+                                  setList={(order) => dragDocuments(order, 0, 'NoFolder')}
+                                  onStart={() => setIsMovingFolder(true)}
+                                  onEnd={() => setIsMovingFolder(false)}
+                                >
+                                  <div className="shadow-1dp dis-fl-col py-3 a-c mb-2 brdRadius txtAltGrey400">
+                                    Drag and drop single files here
+                                  </div>
+                                </ReactSortable>
                               ) : (
                                 filterDocsByFodler(processedDocuments, 'NoFolder').map((docList, i) => (
                                   <div
