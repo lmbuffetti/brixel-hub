@@ -1,3 +1,4 @@
+import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import { change, initializeForm, MultiFileldsReduxForm } from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
 import set from 'lodash/set';
@@ -73,6 +74,7 @@ const SearchProfileForm = (props) => {
       <div className="packageFlow">
         <div id="multiStepForm">
           <MultiFileldsReduxForm
+            baseByData={baseByData}
             form="SearchProfile"
             disableNextBtn={false}
             formValue={formValue}
