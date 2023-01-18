@@ -158,9 +158,8 @@ export const QuestionsList = (lang, type, changeField, formName = 'GetStarted') 
           blockScroll: type === 'searchProfile',
           label: translateTo('Country', lang),
           labelType: 'onlyFlag',
-          name: type === 'searchProfile' ? 'location.countryCode' : 'location.countryCode',
+          name: 'location.countryCode',
           options: countryList,
-          validation: [Validation.required],
           large: true,
         },
         {
