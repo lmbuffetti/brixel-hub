@@ -269,7 +269,6 @@ const clientConfig = (env) => {
         },
         transifexKey: baseByData(getEnvBuild).transifexIdHub,
         googleAnalyticsId: baseByData(getEnvBuild).googleAnalyticsIdHub,
-        facebookPixelId: baseByData(getEnvBuild).facebookPixel,
       }),
     )
   }

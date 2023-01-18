@@ -1,25 +1,26 @@
 /* eslint-disable max-len */
 import { FactsOptions } from '@brixel/brixel-components';
-import translateTo from '../../utils/translation';
 import {
-  BrixelRadioButton,
   BrixelInputStepNumber,
   BrixelInputText,
+  BrixelRadioButton,
   Validation,
 } from '@brixel/brixel-components/dist/form';
+import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
+import { BrixelAutocomplete } from '@brixel/brixel-components/dist/map';
 import get from 'lodash/get';
 import LoginSignup from '../../components/LoginSignup';
-// import ResumeCard from '../components/ResumeCard';
+import MapsWithModalManual from '../../components/Map/MapsWithModalManual';
 import { configureStore } from '../../store';
+import translateTo from '../../utils/translation';
 import { svgIcons } from '../Utilities/svgIcons';
 
 import { BestimateQuestions } from './Bestimate';
-import MapsWithModalManual from '../../components/Map/MapsWithModalManual';
 
 const { factsOptions } = FactsOptions;
 
 // QUESTION LISTS
-export const QuestionsList = (lang, country = 'CH') => {
+export const QuestionsList = (lang, country = 'CH', changeValue) => {
 
   // VALIDATION OF FIELDS
   const maxLengthNum = (val, name) => (value) => {
@@ -210,31 +211,33 @@ export const QuestionsList = (lang, country = 'CH') => {
       successMessage: translateTo( 'A good year for real estate.', lang),
     },
     {
-      title: translateTo( 'What is the location?', lang),
+      title: translateTo('What is the location?', lang),
       history: 'locationInput',
       cardType: 'locationInput',
       footerWidth: 'max-w-fix-600',
-      className: 'fieldHolder bgWhite brdRadius max-w-fix-600 w-perc-100 m-a px-2 px-sm-5 py-5 dis-f flex-wrap',
       inputs: [
         {
-          component: MapsWithModalManual,
+          component: BrixelAutocomplete,
           showMap: false,
-          name: 'location.latitude',
+          name: 'location.searchAddress',
           type: 'Map',
-          classBoxWrapper: 'w-perc-100 flex- searchMapFields',
+          classNameBox: 'brdRadius max-w-fix-600 w-perc-100 px-2 px-sm-5 py-5 brdRadius fieldHolder bgWhite m-a',
+          classBoxWrapper: 'mt-0 searchMapFields',
+          onSelectAddress: (val) => changeValue('location', val),
+          validation: [Validation.required],
           mapOptions: {
-            showMap: false,
-            hideSearch: false,
-            showSelectCountry: true,
-            multipleFieldSearch: true,
-            draggable: true,
+            baseByData: baseByData,
+            country: country,
+            lang: lang,
+            input: {
+              onSelectAddress: (val) => changeValue('location', val),
+            },
           },
         },
       ],
-      successMessage: translateTo( 'That is an interesting location.', lang),
     },
     {
-      title: translateTo( 'Is this your correct location?', lang),
+      title: translateTo('Is this your correct location?', lang),
       history: 'locationInputResume',
       cardType: 'locationInputResume',
       footerWidth: 'max-w-fix-600',
@@ -257,15 +260,6 @@ export const QuestionsList = (lang, country = 'CH') => {
         },
       ],
     },
-    /* {
-      hideProgress: true,
-      title: `${translateTo( 'Great, Your property was created!')} 🎉`,
-      history: 'resume',
-      cardType: 'loadComponent',
-      component: ResumeCard,
-      background: 'bgCardGreenDark',
-      btnLabel: 'Continue',
-    }, */
     ...BestimateQuestions('getStarted', countryCode, propertyType),
     {
       condition: [{

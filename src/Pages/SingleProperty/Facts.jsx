@@ -33,7 +33,7 @@ const Facts = (props) => {
   } = props;
 
   // STATE
-  const [Questions, setQuestions] = useState(InputSheets('facts', lang));
+  const [Questions, setQuestions] = useState(InputSheets('facts', lang, changeFieldValue));
   const [selectedQuest, setSelectedQuest] = useState(null);
   const [isReady, setIsReady] = useState(false);
   // PARAMS URL
@@ -78,8 +78,8 @@ const Facts = (props) => {
     }
     if (selectedQuest) {
       const findCurrentId = Questions.findIndex((quest) => quest.history === selectedQuest.history);
-      const quest = InputSheets('facts', lang)[findCurrentId];
-      setQuestions(InputSheets('facts', lang));
+      const quest = InputSheets('facts', lang, changeFieldValue)[findCurrentId];
+      setQuestions(InputSheets('facts', lang, changeFieldValue));
       setSelectedQuest(quest);
     }
   }, [formValue, lang]);

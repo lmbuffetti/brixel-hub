@@ -33,7 +33,6 @@ const Dashboard = (props) => {
   const match = useParams();
   // PROPS
   const {
-    activeSingleCompany,
     activeSingleProperty,
     activeSingleDeal,
     handleGetFavoritesProperties,
@@ -73,13 +72,11 @@ const Dashboard = (props) => {
 
   useEffect(() => {
     if (activeSingleProperty.id) {
-      const activeLeads = get(activeSingleProperty.company, 'pageLeads[0]', {});
-      if (activeLeads && activeLeads.company && activeLeads.company !== activeSingleCompany.id) {
-        handleGetActiveSingleCompany({ id: activeLeads.company });
-      } else if (activeSingleProperty.id) {
+      if (activeSingleProperty.id) {
         handleGetActiveSingleCompany({ id: activeSingleProperty.company });
       } else {
-        handleGetActiveSingleCompany({ id: get(loggedInUser, 'user.company.id', null) });
+        let companies = get(loggedInUser, 'user.companies', []);
+        handleGetActiveSingleCompany({ id: companies[companies.length - 1] });
       }
       if (dealID !== activeSingleDeal.id || !dealID) {
         let actionStub;
@@ -140,7 +137,6 @@ const Dashboard = (props) => {
 };
 
 Dashboard.propTypes = {
-  activeSingleCompany: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
   activeSingleDeal: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
@@ -159,7 +155,6 @@ const mapStateToProps = (state) => ({
   activeSingleDeal: get(state, 'deal.activeSingleDeal', {}),
   activeSingleCompany: get(state, 'companies.activeSingleCompany.id', { }),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
-  favoritesProperties: get(state, 'market.favoritesProperties', []),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
 });
 const mapDispatchToProps = (dispatch) => ({

@@ -78,6 +78,8 @@ const SingleDeal = (props) => {
     factsOptions,
   } = FactsOptions;
 
+  const propID = get(match, 'propID', null);
+
   const optionsRef = useRef(null);
 
   useEffect(() => () => {
@@ -111,7 +113,7 @@ const SingleDeal = (props) => {
         actionStubs: ActionStubs.Deal,
         smallLoader: 'getDealHistory',
       };
-      getActiveDeal({ id: dealID, prop: activeSingleProperty.id, smallLoader: 'getDeal' });
+      getActiveDeal({ id: dealID, property: propID, smallLoader: 'getDeal' });
       getDealNotes(payloadNote);
       getHistoryList(payloadDealHistory);
     }

@@ -68,6 +68,16 @@ html {
   }
 }
 
+img {
+  display: block;
+}
+
+.brdRadius {
+  .slick-slider {
+    margin-top: -1px;
+  }
+}
+
 .scrollSmooth {
   .flowScrollWrap {
     --scroll-behavior: smooth;
@@ -127,6 +137,10 @@ a {
 img {
   max-width: 100%;
   height: auto;
+}
+
+.ta-c > img {
+  display: inline;
 }
 
 .hr,
@@ -1112,4 +1126,29 @@ input::-webkit-date-and-time-value {
 
 .skeltonWrap.hide {
   display: none;
+}
+
+.brixel-modal .modal-body p {
+  margin-bottom: auto !important;
+}
+.brdRadius50 {
+  border-radius: 50px;
+}
+.filterBorder {
+  border-color: white;
+  @media (max-width: $responsive-medium) {
+    border-color: map-get($lightColor, 200);
+  }
+}
+.modalTitleClass {
+  .modal-title {
+    margin-left: auto;
+    span {
+      padding-left: $step * 2;
+    }
+  }
+}
+
+.w-100-vw {
+  width: 100vw;
 }

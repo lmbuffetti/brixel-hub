@@ -51,7 +51,7 @@ const Contact = (props) => {
     loggedInUser,
   } = props;
   // STATE
-  const isBuyer = get(formValue, 'userType', '') === 'buyer';
+  const isBuyer = get(formValue, 'userType', '') === 'buyer' && activeSingleProperty.owner !== loggedInUser.id && get(activeSingleProperty, 'owner.id', null) !== loggedInUser.id;
   const [questions, setQuestions] = useState(QuestionsList(lang, activeSingleCompany, isBuyer));
   // const [position, setPosition] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(formValue.analysis === 'remote' || urlParams.action === 'on-site' ? 3 : 0);
@@ -62,15 +62,15 @@ const Contact = (props) => {
   // GET URL PARAMS
   const propID = get(match, 'propID', null);
   const BASEURL = isBuyer ? `/buyer/${propID}/contactFlow` : `/${propID}/contactFlow`;
-  
+
   // REF
   const singleStepRef = useRef(null);
   const multiStepSlidesRef = useRef(null);
-  
+
   useEffect(() => {
     return () => destroyForm();
   }, []);
-  
+
   useEffect(() => {
     let fullVersion = false;
     if (isBuyer) {
@@ -79,20 +79,20 @@ const Contact = (props) => {
     }
     handleGetActiveSingleProperty({ fullVersion, id: propID, multiLoader: !formValue.id });
   }, [propID, isBuyer]);
-  
+
   useEffect(() => {
     if (activeSingleProperty.company) handleGetActiveSingleCompany({ id: activeSingleProperty.company });
   }, [activeSingleProperty.company]);
-  
+
   // ON CHANGE STEP LOAD THE ENTER EFFECT
   useEffect(() => {
     setIsEnter(true);
     if (get(questions, `[${currentIndex}].history`, null) && activeSingleCompany.stub) {
-      history.push(`${BASEURL}/${questions[currentIndex].history}`);
+      // history.push(`${BASEURL}/${questions[currentIndex].history}`);
     }
     setQuest(questions[currentIndex])
   }, [currentIndex]);
-  
+
   useEffect(() => {
     if (isSmallLoading.sendData === true && (get(questions, `[${currentIndex + 1}].history`, null) === 'success')) {
       const newIndex = currentIndex + 1;
@@ -100,7 +100,7 @@ const Contact = (props) => {
       setQuest(questions[newIndex]);
     }
   }, [isSmallLoading]);
-  
+
   // ON CLOSE WINDOW GO BACK TO ORIGIN URL
   const closeWindow = () => {
     handleReset('contactFlow');
@@ -109,12 +109,12 @@ const Contact = (props) => {
     const BASEURL = isBuyer ? '/buyer' : '';
     history.push(`${BASEURL}/${propID}/home`);
   };
-  
+
   // FUNCTION TO SAVE DATA
   const saveData = () => {
     handleSendMessageContact(formValue);
   };
-  
+
   // FUNCTION TO SHOW/HIDE BLOCK IN BASE OF JSON CONDITION
   const checkCondition = (id, act) => {
     let newIndex = id;
@@ -137,7 +137,7 @@ const Contact = (props) => {
     }
     return newIndex;
   };
-  
+
   // CHECK IF FIELDS IS VALID TO ENABLE NEXT BUTTON
   const checkValidateField = (act) => {
     let isValid = true;
@@ -178,7 +178,7 @@ const Contact = (props) => {
     if (act === 'value') return isValid && isNotEmpty;
     return isValid;
   };
-  
+
   const singleStepEl = singleStepRef.current;
   const multiStepSlidesEl = multiStepSlidesRef.current;
   // FUNCTION TO GO TO NEXT STEP
@@ -237,7 +237,7 @@ const Contact = (props) => {
           if (singleStepEl && singleStepEl.scrollTop) singleStepEl.scrollTop = 0;
           if (multiStepSlidesEl && multiStepSlidesEl.scrollTop) multiStepSlidesEl.scrollTop = 0;
         } else {
-          
+
           if (singleStepEl && typeof singleStepEl.scrollTo === 'function') singleStepEl.scrollTo({ top: 0, behavior: 'smooth' });
           if (multiStepSlidesEl && typeof multiStepSlidesEl.scrollTo === 'function') multiStepSlidesEl.scrollTo({ top: 0, behavior: 'smooth' });
         }
@@ -245,16 +245,16 @@ const Contact = (props) => {
     }
     return null;
   };
-  
+
   useEffect(() => {
     if (loggedInUser.id && activeSingleCompany.id && activeSingleProperty.id) initForm(initialValues);
     const defId = checkCondition(currentIndex);
     if (defId !== currentIndex) changeStep();
     if (activeSingleProperty.owner && loggedInUser.id) {
-      if (activeSingleProperty.owner !== loggedInUser.id) history.push(`/buyer/${propID}/contactFlow`);
+      if (activeSingleProperty.owner !== loggedInUser.id && get(activeSingleProperty, 'owner.id', null) !== loggedInUser.id) history.push(`/buyer/${propID}/contactFlow`);
     }
   }, [activeSingleProperty.id, activeSingleCompany.id, loggedInUser.id, isBuyer]);
-  
+
   // ON CHANGE STEP LOAD THE ENTER EFFECT
   useEffect(() => {
     setIsEnter(true);
@@ -264,10 +264,10 @@ const Contact = (props) => {
         changeFieldValue('type', urlData.type);
         changeStep();
       }
-      history.push(`${BASEURL}/${questions[currentIndex].history}`);
+      // history.push(`${BASEURL}/${questions[currentIndex].history}`);
     }
   }, [currentIndex, initValues]);
-  
+
   // ON CHANGE FORM VALUE CALC THE CONDITION TO SHOW/HIDE QUESTIONS AND STEP
   useEffect(() => {
     setOldIndex(currentIndex);
@@ -288,7 +288,7 @@ const Contact = (props) => {
         }
         return null;
       });
-      
+
       setQuest(newQuest[currentIndex]);
       setQuestions(newQuest);
     }
@@ -297,15 +297,15 @@ const Contact = (props) => {
     }
     if (currentIndex === 0 && formValue.analysis === 'remote') changeStep();
   }, [formValue, activeSingleCompany.id]);
-  
+
   useEffect(() => {
     if (get(formValue, 'time.timestamp', null)) {
       const isToday = DateTime.fromMillis(get(formValue, 'time.timestamp', null)).hasSame(DateTime.local(), "day");
       if (isToday) delete formValue.time.hour;
     }
   }, [get(formValue, 'time.timestamp', null)]);
-  
-  
+
+
   useEffect(() => {
     if (get(formValue, 'time.date', null) && get(formValue, 'time.hour', null)) {
       const timeDate = get(formValue, 'time.date', null);
@@ -318,7 +318,7 @@ const Contact = (props) => {
       if (fullDate !== get(formValue, 'time.timestamp', '')) changeFieldValue('time.timestamp', fullDate);
     }
   }, [get(formValue, 'time.date', null), get(formValue, 'time.hour', null)]);
-  
+
   // FUNCTION TO LOAD DIFFERENT BUTTON LABEL BY STEP
   const buttonLabel = () => {
     let label = 'Continue';
@@ -326,9 +326,9 @@ const Contact = (props) => {
     if (currentIndex === questions.length - 1) label = 'Close';
     return label;
   };
-  
+
   if (!formValue.page) return (<div />);
-  
+
   return (
     <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'background', '')} ${get(quest, 'classWrapper', '')}  `}>
       {
@@ -370,7 +370,7 @@ const Contact = (props) => {
                               disableDelay
                             />
                           </div>
-                        
+
                         </div>
                       )
                     }
@@ -405,7 +405,7 @@ const Contact = (props) => {
                               get(quest, 'textsCard', []).map((txtCard, i) => (
                                 <div key={`card${i.toString()}`} className="ta-c col-12 col-sm-4 p-2 p-md-5">
                                   <div className="h-fix-80 mb-2 mb-sm-3">
-                                    <img loading="lazy" height={'100px'} src={txtCard.image} alt={txtCard.title} />
+                                    <img className="ml-a mr-a"  src={txtCard.image} alt={txtCard.title} />
                                   </div>
                                   <h5 className="fsize-400 fsize-md-500 max-w-fix-280 max-w-fix-sm-320 ml-a mr-a">{txtCard.title}</h5>
                                 </div>

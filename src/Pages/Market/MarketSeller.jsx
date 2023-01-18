@@ -1,23 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, Suspense } from 'react';
-import PropTypes from 'prop-types';
-import {
-  Navigate,
-  Route, Routes, useLocation, useNavigate,
-} from 'react-router-dom';
-import get from 'lodash/get';
-import { bindActionCreators, compose } from 'redux';
-import { connect } from 'react-redux';
 import { destroy } from '@brixel/brixel-components/dist/form';
-import {
-  getFavoritesProperties,
-  getOwnedProperties,
-  getPremiumProperties,
-} from '../../actions/MarketActions';
-import '../../styles/SCSS/pages/market.scss';
+import get from 'lodash/get';
+import PropTypes from 'prop-types';
+import React, { Suspense, useEffect } from 'react';
+import { connect } from 'react-redux';
+import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import { bindActionCreators, compose } from 'redux';
 import { setSplashType, spinnerOff } from '../../actions/CommonActions';
+import { getFavoritesProperties, getOwnedProperties, getPremiumProperties } from '../../actions/MarketActions';
 import { updateFavorite } from '../../actions/UserActions';
 import lazyWithRetry from '../../components/LazyWithRetry';
+import '../../styles/SCSS/pages/market.scss';
 
 const MarketCategoryListSeller = lazyWithRetry(() => import('./MarketCategoryListSeller'));
 
@@ -85,7 +78,6 @@ MarketSeller.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  favoritesProperties: get(state, 'market.favoritesProperties', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
   loggedInUser: get(state, 'user.loggedInUser.user', { }),
   splashScreenType: get(state, 'common.splashScreenType', ''),

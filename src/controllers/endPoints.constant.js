@@ -43,6 +43,7 @@ export default {
   },
   market: {
     allProperties: (paginationLimit, paginationSkip, data) => `/market/list/all/${paginationLimit}/${paginationSkip}${data}`,
+    buyer: (paginationLimit, paginationSkip, data) => `/market/buyer/list/${paginationLimit}/${paginationSkip}${data}`,
     deal: (paginationLimit, paginationSkip, data) => `/market/list/deals/${paginationLimit}/${paginationSkip}${data}`,
     favorites: (paginationLimit, paginationSkip, data) => `/market/list/favorites/${paginationLimit}/${paginationSkip}${data}`,
     lastViewed: () => '/market/list/lastViewed/',
@@ -52,6 +53,7 @@ export default {
     preMarket: (paginationLimit, paginationSkip, data) => `/market/list/preMarket/${paginationLimit}/${paginationSkip}${data}`,
     preMarketStats: (query) => `/market/list/preMarketStats${query}`,
     premium: (paginationLimit, paginationSkip, data) => `/market/list/premium/${paginationLimit}/${paginationSkip}${data}`,
+    wishlists: (paginationLimit, paginationSkip, data) => `/market/list/wishlist/${paginationLimit}/${paginationSkip}${data}`,
   },
   note: {
     createSingleNote: (type) => `/note/${type}`,
@@ -99,6 +101,7 @@ export default {
     recoverPassword: (email) => `/user/recoverPassword/${email}`,
     removeAsNotInterested: (pageId) => `/user/notInterested/page/${pageId}/remove`,
     removeFavorite: (id) => `/user/favorite/page/${id}/remove`,
+    removeWishlist: (id) => `/user/wishlist/page/${id}/remove`,
     scanTrial: () => '/user/scanTrial',
     userById: (userId) => `/user/${userId}`,
     userByToken: () => '/user/',

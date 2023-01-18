@@ -128,14 +128,24 @@ export default handleActions(
       ...state,
       formError: action.payload,
     }),
-    [SKELETON_ON]: (state, action) => ({
-      ...state,
-      skeleton: action.payload,
-    }),
-    [SKELETON_OFF]: (state, action) => ({
-      ...state,
-      skeleton: action.payload,
-    }),
+    [SKELETON_ON]: (state, action) => {
+      return ({
+        ...state,
+        skeleton: {
+          ...state.skeleton,
+          ...action.payload,
+        },
+      })
+    },
+    [SKELETON_OFF]: (state, action) => {
+      return ({
+        ...state,
+        skeleton: {
+          ...state.skeleton,
+          ...action.payload,
+        },
+      })
+    },
     [SET_SPLASH_TYPE]: (state, action) => ({
       ...state,
       splashScreenType: action.payload,
