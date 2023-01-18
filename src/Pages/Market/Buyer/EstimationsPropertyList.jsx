@@ -34,7 +34,7 @@ const FavoritesPropertyList = (props) => {
               <img width="200" src={emptyEst} alt="" />
               <div className=" ta-c mt-3">
                 <h3 className="fweight-600 mb-2">You haven’t created any Estimation</h3>
-                <p className="txtAltGrey400 max-w-fix-320 ml-a mr-a">Short description about how estimation works (wait for confirmation etc.) </p>
+                <p className="txtAltGrey400 max-w-fix-320 ml-a mr-a">Create an estimation of value for a property you own or you are interested in buying.</p>
         
                 <BrixelButtonPrimary
                   rounded
