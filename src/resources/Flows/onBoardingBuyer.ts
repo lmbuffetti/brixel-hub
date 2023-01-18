@@ -234,10 +234,10 @@ export const QuestionsList: (lang: string, type: string, changeField: (field: st
           name: 'isDefault',
           pdClass: type === 'searchProfile' ? 'pt-sm-2 pb-sm-3' : 'py-sm-5',
           classBoxWrapper: 'mt-2',
-          options: {
+          options: [{
             label: 'Set as default search profile',
-            value: true,
-          },
+            value: 'true',
+          }],
         },
       ],
       hideSearchProfileFlow: true,
