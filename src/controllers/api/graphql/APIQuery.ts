@@ -32,6 +32,10 @@ class ApiClient {
       default:
         query = articlesQuery;
     }
+    const head: any = {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    };
     let body = JSON.stringify( {
       query,
       variables: {
@@ -53,10 +57,7 @@ class ApiClient {
       method,
       baseURL: baseUrl,
       params : {},
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
+      headers: head,
       data: body,
     };
     return axios(config)
