@@ -62,7 +62,7 @@ const SearchProfileField = (props: SearchProfileFieldType) => {
       const unit = field.includes('bedrooms') ? 'rooms' : 'm2';
       return (
         <>
-          {get(searchProfile, `${field}.min`, '')} - {get(searchProfile, `${field}.max`, maxValue[field]) || maxValue[field]} {unit}
+          <span>{get(searchProfile, `${field}.min`, '')} - {get(searchProfile, `${field}.max`, maxValue[field]) || maxValue[field]}</span><span className="ml-small-4">{unit}</span>
         </>
       )
     } else if (field.includes('extraFeatures')) {

@@ -32,7 +32,6 @@ const Dashboard = (props: DashboardType) => {
   const match = useParams();
   // PROPS
   const {
-    activeSingleCompany,
     activeSingleProperty,
     activeSingleDeal,
     handleGetFavoritesProperties,
@@ -73,7 +72,9 @@ const Dashboard = (props: DashboardType) => {
   useEffect(() => {
     if (activeSingleProperty.id) {
       const companiesListUser: string[] = get(activeSingleProperty, 'companies', []);
-      if (companiesListUser.length > 0) {
+      if (activeSingleProperty.id) {
+        handleGetActiveSingleCompany({ id: activeSingleProperty.company });
+      } else if (companiesListUser.length > 0) {
         handleGetActiveSingleCompany({ id: companiesListUser[companiesListUser.length - 1] });
       }
       if (dealID !== activeSingleDeal.id || !dealID) {
