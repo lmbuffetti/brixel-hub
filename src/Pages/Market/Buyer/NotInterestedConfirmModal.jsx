@@ -1,7 +1,8 @@
 import { BrixelButtonPrimary, BrixelButtonSecondary, translateTo } from '@brixel/brixel-components';
 import { BrixelCheckboxSingle } from '@brixel/brixel-components/dist/form';
+import get from 'lodash/get';
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
 import { setModal } from '../../../actions/CommonActions';
@@ -11,11 +12,20 @@ import { setCookie } from '../../../utils/helpers';
 const LearnMoreListingsProperty = (props) => {
   const {
     handleSetModal,
+    isSmallLoading,
+    id,
     lang,
     onClick,
   } = props;
   // STATE
   const [isHideModal, seiIsHideModal] = useState(false);
+  
+  useEffect(() => {
+    if (isSmallLoading[`notInterested-${id}`] === false) {
+      handleSetModal({state: false})
+    }
+  }, [isSmallLoading[`notInterested-${id}`]]);
+  
   
   const onSaveData = () => {
     if (isHideModal) setCookie('brixelHideNotInterested', 'true');
@@ -25,11 +35,11 @@ const LearnMoreListingsProperty = (props) => {
   return (
     <div>
       <div className="dis-f a-t jc-b">
-        <img className="mr-5" src={ConfirmIconImg} alt="Pre Image Published" />
+        <img className="mr-5 pl-2" src={ConfirmIconImg} alt="Pre Image Published" />
         <div>
-          <h4 className="mb-2">{translateTo('Are you sure you want to hide this property?', lang)}</h4>
+          <h5 className="mb-2 fweight-600">{translateTo('Are you sure you want to hide this property?', lang)}</h5>
           <p>{translateTo('If you are not interested in this property, you can hide it not to see it in the list anymore.', lang)}</p>
-          
+
           <BrixelCheckboxSingle
             className="mt-2"
             input={{
@@ -38,7 +48,7 @@ const LearnMoreListingsProperty = (props) => {
             }}
             options={{value: true, label: 'Don’t ask me again.'}}
           />
-          
+
         </div>
       </div>
       <div className="dis-f a-c jc-fe mt-2 pt-2">
@@ -52,23 +62,30 @@ const LearnMoreListingsProperty = (props) => {
           rounded
           label="Yes, hide it"
           onClick={() => onSaveData()}
+          isLoading={isSmallLoading[`notInterested-${id}`]}
         />
       </div>
-      
+
     </div>
   )
 }
 
 LearnMoreListingsProperty.propTypes = {
   handleSetModal: PropTypes.func.isRequired,
+  id: PropTypes.string.isRequired,
+  isSmallLoading: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
 }
+
+const mapStateToProps = (state) => ({
+  isSmallLoading: get(state, 'common.isSmallLoading', {}),
+});
 
 const mapDispatchToProps = (dispatch) => ({
   handleSetModal: bindActionCreators(setModal, dispatch),
 })
 
 export default compose(
-  connect(null, mapDispatchToProps),
+  connect(mapStateToProps, mapDispatchToProps),
 )(LearnMoreListingsProperty);
