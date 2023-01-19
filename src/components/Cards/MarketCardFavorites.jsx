@@ -109,7 +109,7 @@ const MarketCardFavorites = (props) => {
       history.push(`/buyer/${activeSingleProperty.id}/home`);
     }
   }
-  
+
   const onChangeFavorite = () => {
     setIsUnFavorite(!isUnFavorite);
     let data = {
@@ -133,7 +133,7 @@ const MarketCardFavorites = (props) => {
   return (
     <div className="mb-3 marketCardFavorite">
       <div className="dis-fl-col dis-fl-row-md dis-f brdRadius brdSmall brdAltGrey200 ov-h h-perc-100">
-        <div className="w-fix-md-320 pos-r h-perc-100 ov-h">
+        <div className="w-fix-md-304 pos-r h-perc-100 ov-h">
           {
             isPreMarket() && (
               <div className="pos-a-fix x-t-1 x-l-1 zIndex5">
@@ -180,7 +180,7 @@ const MarketCardFavorites = (props) => {
                     className="slick-dots pos-a x-c ta-c zIndex2 bt mb-1"
                   >
                     {
-                      activeSingleProperty.photos.map((photo, i) => (
+                      activeSingleProperty.photos.slice(0, 5).map((photo, i) => (
                         <li
                           key={`dots${i.toString()}`}
                           className={activeSlide === i ? 'slick-active' : ''}
@@ -197,10 +197,10 @@ const MarketCardFavorites = (props) => {
                   {...settingSlider}
                 >
                   {
-                    activeSingleProperty.photos.map((photo, index) => (
+                    activeSingleProperty.photos.slice(0, 5).map((photo, index) => (
                       <div
                         key={`itm_${index.toString()}`}
-                        className={`${isPreMarket() ? 'pre-market' : ''} ${get(activeSingleProperty, 'tags', []).join(' ')} cover pos-r h-perc-100`}
+                        className={`${isPreMarket() ? 'pre-market' : ''} ${get(activeSingleProperty, 'tags', []).join(' ')} cover h-fix-208 h-fix-sm-304 h-fix-lg-208 pos-r`}
                       >
                         <img
                           className="cover h-perc-100"
@@ -215,7 +215,7 @@ const MarketCardFavorites = (props) => {
               </div>
             ) : (
               <CoverPropertyImage
-                className={`${isPreMarket() ? 'pre-market' : ''} ${get(activeSingleProperty, 'tags', []).join(' ')} cover w-perc-100 h-perc-100 h-fix-208 pos-r cur-poi`}
+                className={`${isPreMarket() ? 'pre-market' : ''} ${get(activeSingleProperty, 'tags', []).join(' ')} cover w-perc-100 h-fix-208 h-fix-sm-304 h-fix-lg-208 pos-r cur-poi`}
                 coverPhoto={get(activeSingleProperty, 'coverPhoto.galleryThumbnailPath', undefined)}
                 propertyType={get(activeSingleProperty, 'properties.propertyType', undefined)}
                 onClick={() => onOpenCard()}
@@ -248,7 +248,13 @@ const MarketCardFavorites = (props) => {
                 rightIcon={get(activeSingleProperty, 'tags', []).includes('pre-market') ? "" : "link-open"}
                 bgTransparent
                 labelClass="fsize-300"
-                onClick={() => window.open(`${baseByData.pageUrl}${activeSingleProperty.stub}`, '_blank')}
+                onClick={() => {
+                  if (get(activeSingleProperty, 'tags', []).includes('pre-market')) {
+                    onOpenCard();
+                  } else {
+                    window.open(`${baseByData.pageUrl}${activeSingleProperty.stub}`, '_blank')
+                  }
+                }}
               />
             </div>
             <div>

@@ -31,8 +31,8 @@ export const BestimatePT = (type = null, propertyType, lang) => {
     ...item,
     label: translateTo(item.label, lang)
   }));
-  
-  
+
+
   const bestimate = [
     {
       title: translateTo(type === 'getStarted' ? 'Please tell us some more details' : 'Step 1', lang),

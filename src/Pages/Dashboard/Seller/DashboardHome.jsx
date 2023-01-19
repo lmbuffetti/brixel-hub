@@ -376,7 +376,7 @@ const DashboardHome = (props) => {
                         theme="blue"
                         themeSat={700}
                         rightIcon="arrow-simple-right"
-                        label="Review"
+                        label={translateTo('Review', lang)}
                       />
                     </div>
                     <div className="w-perc-100 max-w-fix-136 dis-f a-c">
