@@ -71,15 +71,10 @@ const MarketBuyer = (props) => {
     handleGetUserSearchProfiles,
     handleGetWishlistProperties,
     handleSpinnerOff,
-    isSmallLoading,
     lang,
     loggedInUser,
   } = props;
-  const [activeTab, setActiveTab] = useState(filterPropType[0].value);
   const [activeTopTab, setActiveTopTab] = useState('searchProfile');
-
-  // URL PARAMS
-  const [page, setPage] = useState(1);
 
   useEffect(() => { destroyForm(); }, [history.location.pathname]);
 
@@ -106,7 +101,7 @@ const MarketBuyer = (props) => {
     }
   }, [loggedInUser.id]);
 
-  const getPropertiesPage = (pageNumber = page) => {
+  const getPropertiesPage = () => {
     const url = get(history, 'location.pathname', '').split("/");
     const type = url[url.length - 2];
     const curPage = url[url.length - 1];
@@ -120,11 +115,11 @@ const MarketBuyer = (props) => {
         multiLoader: true,
         overlayCard: true,
         resultType: 'buyer',
-        searchProfileId: get(activeSearchProfile, '.id', null),
+        searchProfileId: get(activeSearchProfile, 'id', null),
       };
       switch (type) {
         case 'all':
-          data.type = '';
+          data.type = 'all';
           handleGetBuyerProperties(data);
           break;
         case 'pre-market':
@@ -138,10 +133,6 @@ const MarketBuyer = (props) => {
         default:
           return null;
       }
-      if (type) {
-        setActiveTab(type);
-        setPage({... page, [type]: pageNumber });
-      }
     }
   }
 
@@ -153,10 +144,6 @@ const MarketBuyer = (props) => {
       handleSpinnerOff();
     }
   }, [activeSearchProfile, get(history, 'location.pathname', null)]);
-
-  useEffect(() => {
-    getPropertiesPage(activeTab);
-  }, [isSmallLoading]);
 
   useEffect(() => {
     const activeListMap = topTab.map((tb) => {
@@ -196,7 +183,6 @@ const MarketBuyer = (props) => {
                   <MarketCategoryListBuyer
                     filterPropType={filterPropType}
                     onPageChange={(resultsPerPage, pageNumber, type) => getPropertiesPage(type, pageNumber)}
-                    page={page}
                   />
                 }
               />
@@ -220,7 +206,6 @@ MarketBuyer.propTypes = {
   handleGetUserSearchProfiles: PropTypes.func.isRequired,
   handleGetWishlistProperties: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
-  isSmallLoading: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
 };
