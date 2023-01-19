@@ -24,7 +24,6 @@
     }
 
     .page-item {
-      color: map_get($darkColor, 400);
       cursor: pointer;
       transition: all $default-time-long;
       width: 40px;

@@ -35,11 +35,11 @@ const LearnMoreListingsProperty = (props) => {
   return (
     <div>
       <div className="dis-f a-t jc-b">
-        <img className="mr-5" src={ConfirmIconImg} alt="Pre Image Published" />
+        <img className="mr-5 pl-2" src={ConfirmIconImg} alt="Pre Image Published" />
         <div>
-          <h4 className="mb-2">{translateTo('Are you sure you want to hide this property?', lang)}</h4>
+          <h5 className="mb-2 fweight-600">{translateTo('Are you sure you want to hide this property?', lang)}</h5>
           <p>{translateTo('If you are not interested in this property, you can hide it not to see it in the list anymore.', lang)}</p>
-          
+
           <BrixelCheckboxSingle
             className="mt-2"
             input={{
@@ -48,7 +48,7 @@ const LearnMoreListingsProperty = (props) => {
             }}
             options={{value: true, label: 'Don’t ask me again.'}}
           />
-          
+
         </div>
       </div>
       <div className="dis-f a-c jc-fe mt-2 pt-2">
@@ -65,7 +65,7 @@ const LearnMoreListingsProperty = (props) => {
           isLoading={isSmallLoading[`notInterested-${id}`]}
         />
       </div>
-      
+
     </div>
   )
 }
