@@ -266,7 +266,7 @@ const MarketCategoryListBuyer = (props) => {
                             </div>
                           )
                         }
-                        <div className="max-w-fix-312 w-perc-100 pb-8 pb-md-0 ta-c ta-l-md m-a m-md-0">
+                        <div className="max-w-fix-344 w-perc-100 pb-8 pb-md-0 ta-c ta-l-md m-a m-md-0">
                           <h3 className="txtGreen700 fweight-600 mt-4 mt-md-0 mb-1">
                             {translateTo('Create your personalized Search')}
                           </h3>
