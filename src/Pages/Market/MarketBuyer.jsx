@@ -9,7 +9,11 @@ import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-
 import { bindActionCreators, compose } from 'redux';
 import { spinnerOff } from '../../actions/CommonActions';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
-import { getAllProperties, getOwnedEstimations, getWishlistProperties } from '../../actions/MarketActions';
+import {
+  getBuyerProperties,
+  getOwnedEstimations,
+  getWishlistProperties,
+} from '../../actions/MarketActions';
 import { getUserSearchProfiles } from '../../actions/SearchProfileActions';
 import lazyWithRetry from '../../components/LazyWithRetry';
 import '../../styles/SCSS/pages/market.scss';
@@ -62,7 +66,7 @@ const MarketBuyer = (props) => {
     activeSearchProfile,
     destroyForm,
     handleGetActiveSingleCompany,
-    handleGetAllProperties,
+    handleGetBuyerProperties,
     handleGetOwnedEstimations,
     handleGetUserSearchProfiles,
     handleGetWishlistProperties,
@@ -108,7 +112,7 @@ const MarketBuyer = (props) => {
     const curPage = url[url.length - 1];
     if (activeSearchProfile !== null) {
       const data = {
-        resultsPerPage: 9,
+        limit: 9,
         offset: (curPage - 1) * 9,
         order: 'updatedAt',
         direction: 'DESC',
@@ -120,13 +124,16 @@ const MarketBuyer = (props) => {
       };
       switch (type) {
         case 'all':
-          handleGetAllProperties(data);
+          data.type = '';
+          handleGetBuyerProperties(data);
           break;
-        case 'preMarket':
-          handleGetAllProperties(data);
+        case 'pre-market':
+          data.type = 'premarket';
+          handleGetBuyerProperties(data);
           break;
         case 'published':
-          handleGetAllProperties(data);
+          data.type = 'published';
+          handleGetBuyerProperties(data);
           break;
         default:
           return null;
@@ -208,7 +215,7 @@ MarketBuyer.propTypes = {
   activeSearchProfile: PropTypes.object,
   destroyForm: PropTypes.func.isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
-  handleGetAllProperties: PropTypes.func.isRequired,
+  handleGetBuyerProperties: PropTypes.func.isRequired,
   handleGetOwnedEstimations: PropTypes.func.isRequired,
   handleGetUserSearchProfiles: PropTypes.func.isRequired,
   handleGetWishlistProperties: PropTypes.func.isRequired,
@@ -239,7 +246,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(destroy('Property'));
   },
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
-  handleGetAllProperties: bindActionCreators(getAllProperties, dispatch),
+  handleGetBuyerProperties: bindActionCreators(getBuyerProperties, dispatch),
   handleGetOwnedEstimations: bindActionCreators(getOwnedEstimations, dispatch),
   handleGetUserSearchProfiles: bindActionCreators(getUserSearchProfiles, dispatch),
   handleGetWishlistProperties: bindActionCreators(getWishlistProperties, dispatch),

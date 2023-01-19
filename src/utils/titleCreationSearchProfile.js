@@ -24,10 +24,12 @@ export const titleSearchProfile = (formValue, lang) => {
   const rooms = get(formValue, 'characteristics.bedrooms', dafualtValRooms);
   const propertyType = get(formValue, 'characteristics.propertyType', []);
   const locations = get(formValue, 'locations', get(formValue, 'location', []));
-  propertyType.forEach((property, index) => {
-    const separator = index < propertyType.length -1 ? ', ' : '';
-    translatedPropertyType += `${translateTo(property, lang)}${separator}`;
-  });
+  if (propertyType) {
+    propertyType.forEach((property, index) => {
+      const separator = index < propertyType.length - 1 ? ', ' : '';
+      translatedPropertyType += `${translateTo(property, lang)}${separator}`;
+    });
+  }
   let roomsText = ''
   if (rooms.min > -1 && rooms.min !== rooms.max) roomsText = `${rooms.min || dafualtValRooms.min} - ${rooms.max || dafualtValRooms.max} rooms`;
   else if (rooms.min > -1 && rooms.min === rooms.max) roomsText = `${rooms.min} rooms`;
