@@ -247,7 +247,7 @@ const MarketCard = (props) => {
     } else {
       handleSetModal({
         state: true,
-        component: React.createElement(NotInterestedConfirmModal, {lang, onClick: handleMarkNotInterested(item.id)}),
+        component: React.createElement(NotInterestedConfirmModal, {lang, id: item.id, onClick: () => handleMarkNotInterested(item.id)}),
         small: true,
         layout: 'large',
         bodyClassColor: 'white',

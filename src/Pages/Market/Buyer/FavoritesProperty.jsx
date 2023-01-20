@@ -41,12 +41,13 @@ const FavoritesProperty = (props) => {
           <div className='dis-fl-col a-c py-8'>
             <img width="440" src={emptyFav} alt="" />
             <div className="max-w-fix-320 ta-c mt-3">
-              <h3 className="fweight-600 mb-2">No Properties yet here</h3>
-              <p className="txtAltGrey400">Add properties by clicking the heart icon of a property card from the listing.</p>
-        
+              <h3 className="fweight-600 mb-2">{translateTo('No Properties yet here', lang)}</h3>
+              <p className="txtAltGrey400">{translateTo('Add properties by clicking the heart icon of a property card from the listing.', lang)}</p>
+              <p className="txtAltGrey400"></p>
+
               <BrixelButtonPrimary
                 rounded
-                label="Go to listing"
+                label={translateTo('Go to listing', lang)}
                 rightIcon="arrow-right-small"
                 className="ml-a mr-a mt-3"
                 onClick={() => history.push(`/buy/searchProfile/all/1`)}
@@ -59,7 +60,7 @@ const FavoritesProperty = (props) => {
               <span>{translateTo('Saved properties', lang)}</span>
               <span className="ml-1">({wishlistProperties.total || '-'})</span>
             </h4>
-    
+
             <div>
               <BrixelButtonSecondary
                 rounded

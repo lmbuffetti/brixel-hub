@@ -133,7 +133,7 @@ const MarketCardFavorites = (props) => {
   return (
     <div className="mb-3 marketCardFavorite">
       <div className="dis-fl-col dis-fl-row-md dis-f brdRadius brdSmall brdAltGrey200 ov-h h-perc-100">
-        <div className="w-fix-md-320 pos-r h-perc-100 ov-h">
+        <div className="w-fix-md-304 pos-r h-perc-100 ov-h">
           {
             isPreMarket() && (
               <div className="pos-a-fix x-t-1 x-l-1 zIndex5">
@@ -248,7 +248,13 @@ const MarketCardFavorites = (props) => {
                 rightIcon={get(activeSingleProperty, 'tags', []).includes('pre-market') ? "" : "link-open"}
                 bgTransparent
                 labelClass="fsize-300"
-                onClick={() => window.open(`${baseByData.pageUrl}${activeSingleProperty.stub}`, '_blank')}
+                onClick={() => {
+                  if (get(activeSingleProperty, 'tags', []).includes('pre-market')) {
+                    onOpenCard();
+                  } else {
+                    window.open(`${baseByData.pageUrl}${activeSingleProperty.stub}`, '_blank')
+                  }
+                }}
               />
             </div>
             <div>
