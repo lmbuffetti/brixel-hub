@@ -81,7 +81,7 @@ const GetStartedBuyer = (props) => {
     handleSpinnerOff();
     return () => destroyForm();
   }, []);
-  
+
   useEffect(() => {
     if (!isLoading) setLoadingRequest(false);
   }, [isLoading]);
@@ -103,7 +103,7 @@ const GetStartedBuyer = (props) => {
     for (const key in navigator) {
       metaUserData[key] = navigator[key];
     }
-    
+
     const dataSearchProfile = {
       characteristics: get(dataFormAnswer, 'characteristics', {}),
       location: get(dataFormAnswer, 'locations', {}),
@@ -592,7 +592,7 @@ const GetStartedBuyer = (props) => {
                           className={`mt-3 m-a noWrap ${quest.history}`}
                           rounded
                           theme="green"
-                          label={buttonLabel()}
+                          label={translateTo(buttonLabel(), lang)}
                           disabled={!checkValidateField()}
                           rightIcon="arrow-right-small"
                           onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
