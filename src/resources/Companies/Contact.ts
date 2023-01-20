@@ -133,7 +133,7 @@ export const QuestionsList = (lang, company, isBuyer) => {
         {
           label: translateTo('Retirement planning or investment options', lang),
           value: 'Retirement planning or investment options',
-        }
+        },
       ];
     }
   }
@@ -182,7 +182,7 @@ export const QuestionsList = (lang, company, isBuyer) => {
         {
           label: translateTo('Retirement planning or investment options', lang),
           value: 'Retirement planning or investment options',
-        }
+        },
       ]
     } else {
       contact[0] = {

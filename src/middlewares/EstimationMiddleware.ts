@@ -3,7 +3,7 @@ import get from 'lodash/get';
 import has from 'lodash/has';
 import set from 'lodash/set';
 
-import { SET_SCREEN_NOTIFICATION, SPINNER_OFF, SPINNER_ON, SPINNER_SMALL } from '../actions/types/CommonTypes';
+import { SET_SCREEN_NOTIFICATION, SPINNER_OFF, SPINNER_ON, SPINNER_SMALL ,SET_SCREEN_NOTIFICATION, SPINNER_OFF, SPINNER_ON, SPINNER_SMALL} from '../actions/types/CommonTypes';
 import {
   CREATE_ESTIMATION,
   DELETE_ESTIMATION,
@@ -17,7 +17,6 @@ import {SAVE_ACTIVE_SINGLE_USER} from '../actions/types/UserTypes';
 
 import {GET_OWNED_ESTIMATIONS, SET_OWNED_PROPERTIES} from '../actions/types/MarketTypes';
 
-import {SET_SCREEN_NOTIFICATION, SPINNER_OFF, SPINNER_ON, SPINNER_SMALL} from '../actions/types/CommonTypes';
 
 import api from '../controllers/api/config';
 

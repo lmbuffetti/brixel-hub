@@ -20,11 +20,3 @@ export interface DealsCardProps {
   stage?: string;
   visit?: number;
 }
-
-export interface HistoryType {
-  actionStub?: string;
-  meta?: {
-    message: string;
-    portal: string;
-  }
-}
