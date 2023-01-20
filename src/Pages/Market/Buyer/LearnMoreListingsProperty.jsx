@@ -3,7 +3,6 @@ import {
   BrixelButtonSecondary,
   BrixelButtonText,
   BrixelProgressBar,
-  translateTo,
 } from '@brixel/brixel-components';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
@@ -15,6 +14,7 @@ import learMoreImg2 from '../../../images/Market/learMoreImg2.svg';
 import learMoreImg3 from '../../../images/Market/learMoreImg3.svg';
 import learMoreImg4 from '../../../images/Market/learMoreImg4.svg';
 import learMoreImg5 from '../../../images/Market/learMoreImg5.svg';
+import translateTo from '../../../utils/translation';
 
 const LearnMoreListingsProperty = (props) => {
   const stepsNumber = 5;
