@@ -33,7 +33,6 @@ export const BestimatePT = (type = null, propertyType, lang) => {
     label: translateTo(item.label, lang),
   }));
 
-
   const bestimate: QuestionsListType[] = [
     {
       title: translateTo(type === 'getStarted' ? 'Please tell us some more details' : 'Step 1', lang),

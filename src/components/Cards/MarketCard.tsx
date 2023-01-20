@@ -236,12 +236,16 @@ const MarketCard = (props: MarketCardProps) => {
     if (item) {
       const isHideModal = getCookie('brixelHideNotInterested');
       if (isHideModal === true || isHideModal === 'true') {
-        handleMarkNotInterested(get(item,  'id', ''));
+        handleMarkNotInterested(item.id);
         handleSetModal({state: false});
       } else {
         handleSetModal({
           state: true,
-          component: React.createElement(NotInterestedConfirmModal, {lang, onClick: handleMarkNotInterested(get(item,  'id', ''))}),
+          component: React.createElement(NotInterestedConfirmModal, {
+            lang,
+            id: item.id,
+            onClick: () => handleMarkNotInterested(item.id)
+          }),
           small: true,
           layout: 'large',
           bodyClassColor: 'white',
@@ -677,7 +681,7 @@ const MarketCard = (props: MarketCardProps) => {
                               className="slick-dots pos-a x-c ta-c zIndex2 bt mb-1"
                             >
                               {
-                                item && item.photos.map((photo, i) => (
+                                item && item.photos.slice(0, 5).map((photo, i) => (
                                   <li
                                     key={`dots${i.toString()}`}
                                     className={activeSlide === i ? 'slick-active' : ''}
@@ -693,7 +697,7 @@ const MarketCard = (props: MarketCardProps) => {
                               {...settingSlider}
                             >
                               {
-                                item && item.photos.map((photo, i) => (
+                                item && item.photos.slice(0, 5).map((photo, i) => (
                                   <div
                                     key={`itm_${i.toString()}`}
                                     className={`${isPreMarket() ? 'pre-market' : ''} ${get(item, 'tags', []).join(' ')} cover w-perc-100 h-fix-216 h-perc-100 pos-r`}

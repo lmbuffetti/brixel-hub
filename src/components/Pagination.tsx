@@ -54,15 +54,15 @@ const Pagination = (props: PaginationType) => {
 
   return (
     <div className={`dis-f a-c jc-b w-perc-100 pb-5 ${className}`}>
-      <p className="w-perc-50">
-        <span>{processResults()}</span>
-        <span className="mx-small-4">{translateTo('of', lang)}</span>
-        <strong className="notranslate">{totalItems}</strong>
-        <span className="ml-small-4">{translateTo('total results', lang)}</span>
-      </p>
+      <div className="flex-1">
+        <span className="txtDark400">{processResults()}</span>
+        <span className="mx-small-4 txtDark400">{translateTo('of', lang)}</span>
+        <strong className="notranslate txtDark400">{totalItems}</strong>
+        <span className="ml-small-4 txtDark400">{translateTo('total results', lang)}</span>
+      </div>
       {
         totalItems > 10 && (
-          <nav className="pagination w-perc-50 dis-f jc-fe">
+          <nav className="pagination dis-f flex-1 jc-c">
             <ul className="page-number dis-f a-c">
               {
                 activePage !== 0 && (
@@ -108,7 +108,7 @@ const Pagination = (props: PaginationType) => {
                         key={number}
                         className={pageNumbers[(activePage / itemsPerPage)] === number ? 'page-item mr-1 active' : 'page-item mr-1'}
                       >
-                        <span onClick={() => processPagination(number, 'page')} className="page-link">
+                        <span onClick={() => processPagination(number, 'page')} className="page-link ff-mono">
                           {number}
                         </span>
                       </li>
@@ -118,7 +118,7 @@ const Pagination = (props: PaginationType) => {
                             key={(number + 1)}
                             className={pageNumbers[(activePage / itemsPerPage)] === (number + 1) ? 'page-item mr-1 active' : 'page-item mr-1'}
                           >
-                            <span onClick={() => processPagination((number + 1), 'page')} className="page-link">
+                            <span onClick={() => processPagination((number + 1), 'page')} className="page-link ff-mono">
                               {(number + 1)}
                             </span>
                           </li>
@@ -130,7 +130,7 @@ const Pagination = (props: PaginationType) => {
                             key={(number + 2)}
                             className={pageNumbers[(activePage / itemsPerPage)] === (number + 2) ? 'page-item mr-1 active' : 'page-item mr-1'}
                           >
-                            <span onClick={() => processPagination((number + 2), 'page')} className="page-link">
+                            <span onClick={() => processPagination((number + 2), 'page')} className="page-link ff-mono">
                               {(number + 2)}
                             </span>
                           </li>
@@ -157,6 +157,9 @@ const Pagination = (props: PaginationType) => {
           </nav>
         )
       }
+      <div className="flex-1">
+
+      </div>
     </div>
   );
 };

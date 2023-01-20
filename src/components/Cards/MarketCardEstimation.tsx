@@ -3,7 +3,9 @@ import { BrixelButtonText, FormatValue, Helpers } from '@brixel/brixel-component
 import get from 'lodash/get';
 import { connect } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { compose } from 'redux';
+import { bindActionCreators, compose } from 'redux';
+import { setModal } from '../../actions/CommonActions';
+import { deleteEstimation } from '../../actions/EstimationActions';
 import CoverEstimationGreenImg from '../../images/Market/icnEstimationGreen.svg';
 import CoverEstimationYellowImg from '../../images/Market/icnEstimationYellow.svg';
 import translateTo from '../../utils/translation';
@@ -17,12 +19,52 @@ const MarketCardFavorites = (props: MarketCardEstimationType) => {
   };
   const {
     activeSingleProperty,
+    handleDeleteEstimation,
+    handleSetModal,
     lang,
   } = props;
+  // STATE
+  const [actionDetailsOpen, setActionDetailsOpen] = useState({
+    id: null,
+    active: false,
+  });
+
+  const actionRef = useRef(null);
 
   const openProperty = () => {
     history.push(`/buy/estimations/${activeSingleProperty.id}`)
   }
+
+  const onConfirmDelete = () => {
+    handleDeleteEstimation({id: activeSingleProperty.id, reloadBuyerEstimations: true})
+    handleSetModal({ state: false })
+  }
+
+  const onDeleteEstimation = () => {
+    handleSetModal({
+      state: true,
+      component: React.createElement(BrixelModalConfirm, {
+        title: translateTo('Are you sure?', lang),
+        message: translateTo('You can confirm to delete this estimation.'),
+        confirm: () => onConfirmDelete(),
+        cancel: () => handleSetModal({ state: false }),
+      }),
+      small: true,
+      layout: 'large',
+      bodyClassColor: 'white',
+    });
+  }
+
+  // Function to close the small menus when we click outside
+  useOutsideAlerter(actionRef, {
+    action: 'function',
+    func: () => {
+      setActionDetailsOpen({
+        id: null,
+        active: false,
+      });
+    },
+  });
 
   return (
     <div className="mb-3">
@@ -63,7 +105,7 @@ const MarketCardFavorites = (props: MarketCardEstimationType) => {
                 onClick={() => openProperty()}
               />
             </div>
-            <div>
+            <div className="dis-f">
               <div className="dis-f a-c">
                 <Tags
                   lang={lang}
@@ -74,6 +116,37 @@ const MarketCardFavorites = (props: MarketCardEstimationType) => {
                     pending: 'Pending',
                   }}
                 />
+              </div>
+              <div className="ml-1">
+                <div className="dis-fl-row a-c pos-r">
+                  <BrixelButtonIcon
+                    ghost
+                    theme="dark"
+                    icon="options-vertical"
+                    onClick={() => setActionDetailsOpen({
+                      id: actionDetailsOpen.id === activeSingleProperty.id ? null : activeSingleProperty.id,
+                      active: !actionDetailsOpen.active,
+                    })}
+                  />
+                  {
+                    (actionDetailsOpen.id === activeSingleProperty.id && actionDetailsOpen.active) && (
+                      <BrixelDropdownMini
+                        topOffset={50}
+                        rightAligned
+                        ref={actionRef}
+                        links={
+                          [
+                            {
+                              label: 'Delete',
+                              className: 'txtRed400',
+                              clickFunc: () => onDeleteEstimation(),
+                            },
+                          ]
+                        }
+                      />
+                    )
+                  }
+                </div>
               </div>
             </div>
           </div>
@@ -140,6 +213,11 @@ const mapStateToProps = (state) => ({
   wishlistProperties: get(state, 'market.wishlistProperties.data', []),
 });
 
+const mapDispatchToProps = (dispatch) => ({
+  handleSetModal: bindActionCreators(setModal, dispatch),
+  handleDeleteEstimation: bindActionCreators(deleteEstimation, dispatch),
+})
+
 export default compose(
-  connect(mapStateToProps, null),
+  connect(mapStateToProps, mapDispatchToProps),
 )(MarketCardFavorites);

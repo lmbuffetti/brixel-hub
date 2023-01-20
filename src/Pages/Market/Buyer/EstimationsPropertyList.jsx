@@ -33,12 +33,11 @@ const FavoritesPropertyList = (props) => {
             <div className='dis-fl-col a-c py-8'>
               <img width="200" src={emptyEst} alt="" />
               <div className=" ta-c mt-3">
-                <h3 className="fweight-600 mb-2">You haven’t created any Estimation</h3>
-                <p className="txtAltGrey400 max-w-fix-320 ml-a mr-a">Create an estimation of value for a property you own or you are interested in buying.</p>
-        
+                <h3 className="fweight-600 mb-2">{translateTo('You haven’t created any Estimation', lang)}</h3>
+                <p className="txtAltGrey400 max-w-fix-320 ml-a mr-a">{translateTo('Create an estimation of value for a property you own or you are interested in buying.', lang)}</p>
                 <BrixelButtonPrimary
                   rounded
-                  label="Create Estimation"
+                  label={translateTo('Create Estimation', lang)}
                   leftIcon="plus"
                   className="ml-a mr-a mt-3"
                   onClick={() => {
@@ -55,7 +54,7 @@ const FavoritesPropertyList = (props) => {
                   <span>{translateTo('Your Estimations', lang)}</span>
                   <span className="ml-1">({ownerEstimations.total || '-'})</span>
                 </h4>
-      
+
                 <BrixelButtonPrimary
                   rounded
                   leftIcon="plus"
@@ -65,7 +64,7 @@ const FavoritesPropertyList = (props) => {
                     history.push(`/packageFlow/getStartedEstimation/${activeSingleCompany.stub}/estimationType`);
                   }}
                 />
-    
+
               </div>
             </div>
           )

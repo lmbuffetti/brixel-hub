@@ -40,6 +40,7 @@ const checkSearchProfile = (store) => (next) => (action) => {
             else store.dispatch({ type: SET_USER_ACTIVE_SEARCH_PROFILE, payload: searchProfiles[0] });
           } else {
             store.dispatch({ type: SET_USER_SEARCH_PROFILES, payload: [{}] });
+            store.dispatch({ type: SET_USER_ACTIVE_SEARCH_PROFILE, payload: {} });
             store.dispatch({
               type: SPINNER_OFF,
             });
@@ -47,6 +48,7 @@ const checkSearchProfile = (store) => (next) => (action) => {
         })
         .catch(() => {
           store.dispatch({ type: SET_USER_SEARCH_PROFILES, payload: [{}] });
+          store.dispatch({ type: SET_USER_ACTIVE_SEARCH_PROFILE, payload: {} });
           store.dispatch({
             type: SPINNER_OFF,
           });

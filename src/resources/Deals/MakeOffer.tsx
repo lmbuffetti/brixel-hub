@@ -122,8 +122,8 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal, lang)
                   formValue.company === 'ubs' && (
                     <div className="dis-f a-c mt-3">
                       <p className="txtAltGrey400 mr-2">In partnership with</p>
-                      <img loading="lazy" src={UBSLogoImg} alt="Logo UBS" />
-                      <img loading="lazy" className="ml-2" src={Key4LogoImg} alt="Logo Key 4" />
+                      <img loading="lazy" className="h-fix-24" src={UBSLogoImg} alt="Logo UBS" />
+                      <img  loading="lazy" className="h-fix-24 ml-2" src={Key4LogoImg} alt="Logo Key 4" />
                     </div>
                   )
                 }
@@ -456,7 +456,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal, lang)
       title: translateTo('Do you have a recent proof of financing?', lang),
       subtitle: translateTo('Do you have a recent proof of financing?', lang),
       history: 'financingProofPartner',
-      className: 'max-w-fix-600 ml-a mr-a dis-f flex-wrap',
+      className: 'max-w-fix-600 ml-a mr-a dis-f flex-wrap ',
       footerWidth: 'max-w-fix-600',
       buttonText: 'Request now',
       inputs: [
@@ -465,7 +465,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal, lang)
           component: BrixelMultiUploadFile,
           topLabel: translateTo('Yes. Then upload it here directly.', lang),
           topLabelClass: 'mb-3 fweight-600',
-          classNameBox: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-5',
+          classNameBox: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-5 mt-3 mt-sm-6',
           classBoxWrapper: '',
           ReduxFieldClass: '',
           label: translateTo(`Add a proof of financing from a ${countryName} financial institution`, lang),

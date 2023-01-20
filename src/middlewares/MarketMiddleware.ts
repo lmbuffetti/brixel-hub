@@ -274,7 +274,7 @@ const checkLead = (store) => (next) => (action) => {
         type, // all|published|premarket
       } = action.payload;
       store.dispatch({ type: SKELETON_ON, payload: { buyerProperties: 'CardImageTextVertical' } });
-      let query = `?type=${type}&order=${order}&direction=${direction}`;
+      let query = `?resultType=${type}&order=${order}&direction=${direction}`;
       if (searchProfileId) query += `&searchprofileid=${searchProfileId}`;
       api.market.getBuyerProperties(limit, offset, query)
         .then((res) => {
