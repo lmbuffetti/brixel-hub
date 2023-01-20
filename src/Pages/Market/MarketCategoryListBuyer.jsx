@@ -329,7 +329,7 @@ const MarketCategoryListBuyer = (props) => {
                                   className="ml-1 txtGreen400 td-u fweight-600"
                                   onClick={() => onLearnMore()}
                                 >
-                                  Learn more.
+                                  {translateTo('Learn more.', lang)}
                                 </button>
                               </span>
                             </p>
