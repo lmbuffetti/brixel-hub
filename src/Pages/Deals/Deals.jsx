@@ -1,19 +1,18 @@
 /* eslint-disable react/jsx-no-bind */
 import { BrixelButtonIcon, BrixelButtonPrimary, BrixelTabs, Helpers } from '@brixel/brixel-components';
-import translateTo from '../../utils/translation';
-import has from 'lodash/has';
 import cloneDeep from 'lodash/cloneDeep';
 import find from 'lodash/find';
 // import orderBy from 'lodash/orderBy';
 import forEach from 'lodash/forEach';
 import get from 'lodash/get';
+import has from 'lodash/has';
 import set from 'lodash/set';
 import { DateTime } from 'luxon';
 import PropTypes from 'prop-types';
-import React, { Fragment, useEffect, useState } from 'react';
-import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { ReactSortable } from 'react-sortablejs';
 import { bindActionCreators, compose } from 'redux';
 import { preventExitFromScreen } from '../../actions/CommonActions';
 import { saveActiveSingleDeal, setActiveSingleDeal, updateDealsOrder } from '../../actions/DealActions';
@@ -21,9 +20,8 @@ import { getPageDeals, setPageDeals } from '../../actions/PropertyActions';
 import DealsCard from '../../components/Cards/DealsCard';
 import DealsTitle from '../../components/DealsTitle';
 import FilterBar from '../../components/FilterBar';
-import DealSkeltonAnim from '../../images/deals-skelton-anim.svg';
-import DealSkelton from '../../images/deals-skelton.svg';
 import { getCookie, setCookie } from '../../utils/helpers';
+import translateTo from '../../utils/translation';
 
 const Deals = (props) => {
   const history = {
@@ -90,7 +88,7 @@ const Deals = (props) => {
         visits: get(list, 'visit.data', []),
         offers: get(list, 'offer.data', []),
       };
-      if (!get(list, 'right', null)) {
+      if (list) {
         forEach(list, (deal) => {
           if (deal.stage === 'Interested') {
             deals.interested.push(deal);
@@ -108,19 +106,18 @@ const Deals = (props) => {
       // deals.offers = orderBy(deals.offers, ['active', 'updatedAt'], ['desc', 'desc']);
       // TODO remove right object
       const listsDeal = {
-        right: {
-          interested: deals.interested,
-          visits: deals.visits,
-          offers: deals.offers,
-        },
+        interested: deals.interested,
+        visits: deals.visits,
+        offers: deals.offers,
       };
-      if (listsDeal.right.interested.length === 0 &&
-        listsDeal.right.visits.length === 0 &&
-        listsDeal.right.offers.length === 0) {
+      if (listsDeal.interested.length === 0 &&
+        listsDeal.visits.length === 0 &&
+        listsDeal.offers.length === 0) {
         setEmptyDeals(true);
       } else {
         setEmptyDeals(false);
       }
+      console.log(listsDeal);
       setProcessedDeals(listsDeal);
       setFilteredDeals(listsDeal);
     }
@@ -184,65 +181,29 @@ const Deals = (props) => {
     });
   };
 
-  function onDragEnd(result) {
+  function dragDocuments(order, key) {
     const activeDealsCopy = cloneDeep(processedDeals);
-    setActiveDestColumn(null);
-    setActiveIndexDeal(-1);
-    // dropped outside the list
-    if (!get(result, 'destination.droppableId', null)) {
-      return false;
+    activeDealsCopy[key] = order;
+    activeDealsCopy[key].map((deal) => ({...deal, stage: key}));
+    setFilteredDeals((prevState) => ({
+      ...prevState,
+      [key]: activeDealsCopy[key],
+    }));
+  }
+  
+  const saveData = () => {
+    const convertKey = {
+      interested: 'Interested',
+      offers: 'Offer',
+      visits: 'Visit',
     }
-    const source = get(result, 'source.droppableId', '');
-    const sourceIndex = get(result, 'source.index', '');
-    const destination = get(result, 'destination.droppableId', '');
-    const destinationIndex = get(result, 'destination.index', '');
-    const sourceElement = get(activeDealsCopy, source, null);
-    const originalElement = get(sourceElement, sourceIndex, null);
-
-    if (source === destination) return false;
-    if (get(activeDealsCopy, `${source}[${sourceIndex}].active`, null) !== true) return false;
-    activeDealsCopy[source.split('.')[0]][source.split('.')[1]].splice(sourceIndex, 1);
-    activeDealsCopy[destination.split('.')[0]][destination.split('.')[1]].splice(destinationIndex, 0, originalElement);
-    activeDealsCopy[destination.split('.')[0]][destination.split('.')[1]][destinationIndex].orderInGroup = destinationIndex;
-
-    processDeals(activeDealsCopy);
-
-    if (source !== destination) {
-      let stage;
-      if (destination.split('.')[1] === 'newSeller') {
-        stage = 'New';
-      }
-      if (destination.split('.')[1] === 'interested') {
-        stage = 'Interested';
-      }
-      if (destination.split('.')[1] === 'visits') {
-        stage = 'Visit';
-      }
-      if (destination.split('.')[1] === 'offers') {
-        stage = 'Offer';
-      }
-      if (activeDealsCopy[destination.split('.')[0]][destination.split('.')[1]][destinationIndex].newSeller === true) {
-        activeDealsCopy[destination.split('.')[0]][destination.split('.')[1]][destinationIndex].newSeller = false;
-      }
-      activeDealsCopy[destination.split('.')[0]][destination.split('.')[1]][destinationIndex].stage = stage;
-    }
-
-    const resultArray = [];
-
-    activeDealsCopy[destination.split('.')[0]][destination.split('.')[1]].forEach((el) => {
-      const singleDeal = {
-        id: el.id,
-        stage: el.stage,
-        newSeller: el.newSeller,
-      };
-      resultArray.push(singleDeal);
-    });
-    setEmptyDeals(true);
-    // Adding again parent scroll due to library constaints
-    const body = document.getElementById('bodyScroll');
-    body.classList.remove('ov-h');
-
-    return saveMultipleDeals({ data: resultArray, smallLoader: 'loadDeal' });
+    const activeDealsCopy = cloneDeep(processedDeals);
+    Object.keys(activeDealsCopy).map((key) => {
+      let dealToSave = [...activeDealsCopy[key]];
+      dealToSave = dealToSave.map((deal) => ({id: deal.id, stage: convertKey[key]}));
+      console.log(dealToSave);
+      saveMultipleDeals({ data: dealToSave, smallLoader: 'loadDeal' });
+    })
   }
 
   const calcHeightCard = (id) => {
@@ -254,41 +215,13 @@ const Deals = (props) => {
     return 0;
   };
 
-  function onDragStart(result) {
-    // Remove parent scroll due to library constaints
-    const body = document.getElementById('bodyScroll');
-    body.classList.add('ov-h');
-
-    const source = get(result, 'source.droppableId', '');
-    const sourceIndex = get(result, 'source.index', '');
-    const originCol = source.replace('right.', '');
-    setActiveOrgColumn(originCol);
-    setActiveIndexDeal(sourceIndex);
-
-    // Adding again parent scroll due to library constaints
-    const body2 = document.getElementById('bodyScroll');
-    body2.classList.remove('ov-h');
-  }
-
-  function onDragUpdate(result) {
-    const source = get(result, 'source.droppableId', '');
-    const destination = get(result, 'destination.droppableId', '');
-    if (activeIndexDeal > -1) calcHeightCard(`${activeOrgColumn}-${activeIndexDeal}`);
-    if (source !== destination) {
-      const destinationCol = destination.replace('right.', '');
-      const originCol = source.replace('right.', '');
-      setActiveDestColumn(destinationCol);
-      setActiveOrgColumn(originCol);
-    }
-  }
-
   useEffect(() => {
     if (activeIndexDeal > -1) calcHeightCard(`${activeOrgColumn}-${activeIndexDeal}`);
   }, [activeIndexDeal, activeOrgColumn]);
 
   const applyFilter = (text, type, direction, company, filterModal) => {
     if (processedDeals) {
-      const filterDeals = get(processedDeals, 'right', {});
+      const filterDeals = processedDeals || {};
       const selected = {};
       Object.keys(filterDeals).forEach((key) => {
         const isNew = has(filterModal, 'status') && filterModal.status === 'newSeller';
@@ -303,9 +236,7 @@ const Deals = (props) => {
         if (isNew) filteredDealsByStatus = filteredDealsByStatus.filter((deal) => deal.newSeller === true);
         selected[key] = filteredDealsByStatus;
       });
-      setFilteredDeals({
-        right: selected,
-      });
+      setFilteredDeals(selected);
       setFilterStatus(filterModal);
       setCookie('brixelFilterDeal', get(filterModal, 'status', 'all'));
     }
@@ -375,36 +306,130 @@ const Deals = (props) => {
 
                   <div
                     key={`fltDls_${i.toString()}`}
-                    className={key === 'right' ? 'rightCol' : 'leftCol'}
+                    className="rightCol"
                   >
-                    {
-                      filteredDeals[key] && Object.keys(filteredDeals[key]).map((subkey, f) => (
-                        <React.Fragment key={`fltDls_${f.toString()}`}>
-                          {
-                            (!activeTab || activeTab === subkey) && (
-                              <div className="pr-2">
-                                <DealsTitle
-                                  lang={lang}
-                                  title={translateTo(subkey, lang)}
-                                  total={get(filteredDeals, `${key}.${subkey}`, []).length}
-                                />
-                              </div>
-                            )
-                          }
-                        </React.Fragment>
-                      ))
-                    }
+                    <div className="pr-2">
+                      <DealsTitle
+                        lang={lang}
+                        title={translateTo(key, lang)}
+                        total={get(filteredDeals, `${key}`, []).length}
+                      />
+                    </div>
                   </div>
                 ))
               }
             </div>
             <div className="dealsContainer">
-              <DragDropContext
-                onDragEnd={onDragEnd}
-                onDragStart={onDragStart}
-                onDragUpdate={onDragUpdate}
-              >
-                {
+              <div className="topParent bgWhite">
+                <div className="rightCol parentScroll">
+                  <div className="scrollContent">
+                    {
+                      filteredDeals && Object.keys(filteredDeals).map((key, o) => (
+                        <React.Fragment key={`fltDls_${o.toString()}`}>
+                          {
+                            activeSinglePropertyDeals && emptyDeals && smallLoader.loadDeal === false && (
+                              <>
+                                <div className="emptyMessage min-h-fix-224 dis-f w-perc-100 jc-c">
+                                  <div className="max-w-fix-544 ta-c p-3 dis-fl-col a-c">
+                                    <h5>{translateTo('No deals yet?', lang)}</h5>
+                                    <p className="p-3 txtDark700">
+                                      {translateTo('Your deals will appear as soon as any interested buyer interacts with your property. Make sure to publish your Brixel Page and your listings to receive deals.', lang)}
+                                    </p>
+                                    <BrixelButtonPrimary
+                                      label={translateTo('Manage listings', lang)}
+                                      rounded
+                                      onClick={() => history.push(`/${activeSingleProperty.id}/marketing/page`)}
+                                    />
+                                  </div>
+                                </div>
+                  
+                              </>
+                            )
+                          }
+                          <div
+                            className={`singleCol ${activeDestColumn === key ? 'active' : ''} ${activeOrgColumn !== key ? 'blockAnimation' : ''} ${key}`}
+                          >
+                            <ReactSortable
+                              group="groupName"
+                              list={filteredDeals[key]}
+                              setList={(order) => dragDocuments(order, key)}
+                              onEnd={() => saveData()}
+                            >
+                              {
+                                filteredDeals[key].filter((dl) => dl.active).map((singleDeal, k) => (
+                                  <div
+                                    key={`SingleDeal${k.toString()}`}
+                                  >
+                                 
+                                    <div
+                                      id={singleDeal.id}
+                                      className={`list-item pos-r ${!singleDeal.active ? 'archived' : ''} ${activeIndexDeal === k && activeOrgColumn === key ? 'enabled' : ''}`}
+                                    >
+                                      <DealsCard
+                                        archOnClick={() => archiveDeal(singleDeal.id, singleDeal.stage, key)}
+                                        archived={!singleDeal.active}
+                                        avatarImg={get(singleDeal, 'user.avatar[0]') ? get(singleDeal, 'user.avatar[0].thumbnailPath', '') : null}
+                                        className={`${!singleDeal.active ? 'bgLight100' : 'bgWhite'} dealCard`}
+                                        date={DateTime.fromMillis(singleDeal.updatedAt, { locale: lang }).toFormat('dd LLL yy, H:mm')}
+                                        feedback={get(singleDeal, 'visitFeedback')}
+                                        hasMessage={singleDeal.actionStub}
+                                        isNew={get(singleDeal, 'newSeller')}
+                                        isWinner={get(singleDeal, 'winner')}
+                                        lang={lang}
+                                        lastAction={has(singleDeal, 'lastAction') ? singleDeal.lastAction : {}}
+                                        name={Helpers.userNameVal(singleDeal.user.firstName, singleDeal.user.lastName, singleDeal.user.name) === 'No Name' ? get(singleDeal.user, 'email', '') : Helpers.userNameVal(singleDeal.user.firstName, singleDeal.user.lastName, singleDeal.user.name)}
+                                        offer={has(singleDeal, 'closing.stageOffer') ? singleDeal.closing.stageOffer : {}}
+                                        parentOnClick={() => openDeal(singleDeal.id)}
+                                        profileId={get(singleDeal, 'user.id', '')}
+                                        stage={singleDeal.stage}
+                                        visit={singleDeal.visit}
+                                      />
+                                    </div>
+                                  </div>
+                                ))
+                              }
+                            </ReactSortable>
+                            {
+                              filteredDeals[key].filter((dl) => !dl.active).map((singleDeal, k) => (
+                                <div
+                                  key={`SingleDeal${k.toString()}`}
+                                >
+    
+                                  <div
+                                    id={singleDeal.id}
+                                    className={`list-item pos-r ${!singleDeal.active ? 'archived' : ''} ${activeIndexDeal === k && activeOrgColumn === key ? 'enabled' : ''}`}
+                                  >
+                                    <DealsCard
+                                      archOnClick={() => archiveDeal(singleDeal.id, singleDeal.stage, key)}
+                                      archived={!singleDeal.active}
+                                      avatarImg={get(singleDeal, 'user.avatar[0]') ? get(singleDeal, 'user.avatar[0].thumbnailPath', '') : null}
+                                      className={`${!singleDeal.active ? 'bgLight100' : 'bgWhite'} dealCard`}
+                                      date={DateTime.fromMillis(singleDeal.updatedAt, { locale: lang }).toFormat('dd LLL yy, H:mm')}
+                                      feedback={get(singleDeal, 'visitFeedback')}
+                                      hasMessage={singleDeal.actionStub}
+                                      isNew={get(singleDeal, 'newSeller')}
+                                      isWinner={get(singleDeal, 'winner')}
+                                      lang={lang}
+                                      lastAction={has(singleDeal, 'lastAction') ? singleDeal.lastAction : {}}
+                                      name={Helpers.userNameVal(singleDeal.user.firstName, singleDeal.user.lastName, singleDeal.user.name) === 'No Name' ? get(singleDeal.user, 'email', '') : Helpers.userNameVal(singleDeal.user.firstName, singleDeal.user.lastName, singleDeal.user.name)}
+                                      offer={has(singleDeal, 'closing.stageOffer') ? singleDeal.closing.stageOffer : {}}
+                                      parentOnClick={() => openDeal(singleDeal.id)}
+                                      profileId={get(singleDeal, 'user.id', '')}
+                                      stage={singleDeal.stage}
+                                      visit={singleDeal.visit}
+                                    />
+                                  </div>
+                                </div>
+                              ))
+                            }
+                          </div>
+                        </React.Fragment>
+                      ))
+                    }
+                  </div>
+                </div>
+              </div>
+              {/*
                   filteredDeals && Object.keys(filteredDeals).map((key, o) => (
                     <React.Fragment key={`fltDls_${o.toString()}`}>
                       <div className={key === 'right' ? 'topParent bgWhite' : 'leftCol'}>
@@ -430,19 +455,16 @@ const Deals = (props) => {
                                 </>
                               )
                             }
+                            {console.log(filteredDeals[key])}
                             {
-                              filteredDeals[key] && Object.keys(filteredDeals[key]).map((subkey, m) => (
+                              filteredDeals[key] && Object.keys(filteredDeals[key]).map((stageDeals, m) => (
                                 <React.Fragment key={`subFltDls_${m.toString()}`}>
                                   {
-                                    (!activeTab || activeTab === subkey) && (
+                                    (!activeTab || activeTab === key) && (
                                       <div
-                                        className={`singleCol ${activeDestColumn === subkey ? 'active' : ''} ${activeOrgColumn !== subkey ? 'blockAnimation' : ''} ${subkey}`}
-                                        style={{
-                                          /* flex: `0 0 calc(${100 / Object.keys(processedDeals[key]).length}% + 32px)`, */
-                                          /* left: `${20 * (-f - 1)}px`, */
-                                        }}
+                                        className={`singleCol ${activeDestColumn === key ? 'active' : ''} ${activeOrgColumn !== key ? 'blockAnimation' : ''} ${key}`}
                                       >
-                                        <Droppable droppableId={`${key}.${subkey}`}>
+                                        <Droppable droppableId={`${key}.${key}`}>
                                           {
                                             (provided) => (
                                               <div
@@ -453,49 +475,49 @@ const Deals = (props) => {
                                                 {
                                                   emptyDeals && smallLoader.loadDeal && (
                                                     <>
-                                                      <span className="fweight-500 fsize-500 txtLight400 mb-3 tt-c dis-b">{translateTo(subkey, lang)}</span>
+                                                      <span className="fweight-500 fsize-500 txtLight400 mb-3 tt-c dis-b">{translateTo(key, lang)}</span>
                                                       <img loading="lazy" src={DealSkeltonAnim} alt="skelton deals" />
-                                                      { subkey === 'interested' && (<img loading="lazy" className="mt-3 mb-2" src={DealSkeltonAnim} alt="skelton deals" />)}
+                                                      { key === 'interested' && (<img loading="lazy" className="mt-3 mb-2" src={DealSkeltonAnim} alt="skelton deals" />)}
                                                     </>
                                                   )
                                                 }
                                                 {
                                                   activeSinglePropertyDeals && emptyDeals && smallLoader.loadDeal === false && (
                                                     <>
-                                                      <span className="fweight-500 fsize-500 txtLight400 mb-3 tt-c dis-b">{translateTo(subkey, lang)}</span>
+                                                      <span className="fweight-500 fsize-500 txtLight400 mb-3 tt-c dis-b">{translateTo(key, lang)}</span>
                                                       <img loading="lazy" src={DealSkelton} alt="skelton deals" />
-                                                      { subkey === 'interested' && (<img loading="lazy" className="mt-3 mb-2" src={DealSkelton} alt="skelton deals" />)}
+                                                      { key === 'interested' && (<img loading="lazy" className="mt-3 mb-2" src={DealSkelton} alt="skelton deals" />)}
                                                     </>
                                                   )
                                                 }
                                                 {
-                                                  get(filteredDeals[key], subkey, []).filter((deal) => deal.active).map((item, k) => (
+                                                  get(filteredDeals[key], key, []).filter((deal) => deal.active).map((item, k) => (
                                                     <Fragment key={`cldFltDls_${k.toString()}`}>
                                                       {
-                                                        activeIndexDeal === k && activeOrgColumn === subkey && (
+                                                        activeIndexDeal === k && activeOrgColumn === key && (
                                                           <div className={`list-item pos-r ${!item.active ? 'archived' : ''}`}>
                                                             <div
-                                                              id={`emptyCard_${subkey}-${k}`}
+                                                              id={`emptyCard_${key}-${k}`}
                                                               className="emptyCard mb-2"
                                                               style={{
-                                                                height: calcHeightCard(`${subkey}-${k}`),
+                                                                height: calcHeightCard(`${key}-${k}`),
                                                               }}
                                                             />
                                                           </div>
                                                         )
                                                       }
                                                       <Draggable
-                                                        draggableId={`${subkey}-${k}`}
+                                                        draggableId={`${key}-${k}`}
                                                         index={k}
                                                       >
                                                         {
                                                           (provided2) => (
                                                             <div
-                                                              id={`${subkey}-${k}`}
+                                                              id={`${key}-${k}`}
                                                               ref={provided2.innerRef}
                                                               {...provided2.draggableProps}
                                                               {...provided2.dragHandleProps}
-                                                              className={`list-item pos-r ${!item.active ? 'archived' : ''} ${activeIndexDeal === k && activeOrgColumn === subkey ? 'enabled' : ''}`}
+                                                              className={`list-item pos-r ${!item.active ? 'archived' : ''} ${activeIndexDeal === k && activeOrgColumn === key ? 'enabled' : ''}`}
                                                             >
                                                               <DealsCard
                                                                 archOnClick={() => archiveDeal(item.id, item.stage, key)}
@@ -525,7 +547,7 @@ const Deals = (props) => {
                                                 }
                                                 {provided.placeholder}
                                                 {
-                                                  get(filteredDeals[key], subkey, []).filter((deal) => !deal.active).map((item, j) => (
+                                                  get(filteredDeals[key], keyv, []).filter((deal) => !deal.active).map((item, j) => (
                                                     <React.Fragment key={`cldsFltDls_${j.toString()}`}>
                                                       {
                                                         j === 0 && (
@@ -577,8 +599,7 @@ const Deals = (props) => {
                       </div>
                     </React.Fragment>
                   ))
-                }
-              </DragDropContext>
+                */}
             </div>
           </div>
         </div>
