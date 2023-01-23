@@ -326,6 +326,7 @@ export const QuestionsList = (lang, country = 'CH', changeValue) => {
           classBoxWrapper: 'mt-0 searchMapFields',
           onSelectAddress: (val) => changeValue('location', val),
           validation: [Validation.required],
+          country: country,
           mapOptions: {
             baseByData: baseByData,
             country: country,
