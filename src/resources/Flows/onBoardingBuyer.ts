@@ -167,7 +167,7 @@ export const QuestionsList: (lang: string, type: string, changeField: (field: st
           className: type === 'searchProfile' ? 'max-w-fix-400' : '',
           showMap: false,
           blockScroll: type === 'searchProfile',
-          label: 'latitude',
+          label: translateTo('latitude', lang),
           // name: 'location.searchAddress',
           name: 'locations',
           classNameBox: 'max-w-perc-100',
