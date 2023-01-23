@@ -1,4 +1,4 @@
-import { BrixelButtonIcon, BrixelModal, translateTo } from '@brixel/brixel-components';
+import { BrixelButtonIcon, BrixelModal } from '@brixel/brixel-components';
 import { diff } from 'deep-object-diff';
 import get from 'lodash/get';
 import set from 'lodash/set';
@@ -13,6 +13,7 @@ import {
   updateUserSearchProfile,
 } from '../../../actions/SearchProfileActions';
 import { QuestionsList } from '../../../resources/Flows/onBoardingBuyer';
+import translateTo from '../../../utils/translation';
 import SearchProfileForm from './SearchProfileForm';
 import SearchProfileList from './SearchProfileList';
 
@@ -105,11 +106,11 @@ const SearchProfileModal = (props) => {
   const modalTitle = () => {
     switch(history.location.pathname) {
       case '/buy/searchProfile/list':
-        return 'Manage Search Profiles';
+        return translateTo('Manage Search Profiles', lang);
       case '/buy/searchProfile/list/create':
-        return 'Create Search Profiles';
+        return translateTo('Create Search Profiles', lang);
       default:
-        return 'Edit Search Profile';
+        return translateTo('Edit Search Profile', lang);
     }
   }
 
@@ -193,6 +194,7 @@ const SearchProfileModal = (props) => {
 
   return (
     <BrixelModal
+      lang={lang}
       clickOutsideToClose={false}
       title={translateTo(modalTitle(), lang)}
       onClose={() => onClose()}
