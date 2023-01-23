@@ -425,7 +425,7 @@ const DashboardHome = (props: DashboardHomeType) => {
                         bgTransparent
                         theme="red"
                         rightIcon="arrow-simple-right"
-                        label="Upload"
+                        label={translateTo('Upload', lang)}
                       />
                     </div>
                     <div className="w-perc-100 max-w-fix-136 ta-r">
