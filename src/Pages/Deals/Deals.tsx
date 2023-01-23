@@ -1,29 +1,27 @@
-/* eslint-disable react/jsx-no-bind */
-import { BrixelButtonIcon, BrixelButtonPrimary, BrixelTabs, Helpers } from '@brixel/brixel-components';
+import React, {useEffect, useState} from 'react';
+import {BrixelButtonIcon, BrixelButtonPrimary, BrixelTabs, Helpers} from '@brixel/brixel-components';
 import cloneDeep from 'lodash/cloneDeep';
 import find from 'lodash/find';
-// import orderBy from 'lodash/orderBy';
 import forEach from 'lodash/forEach';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import set from 'lodash/set';
-import { DateTime } from 'luxon';
-import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { ReactSortable } from 'react-sortablejs';
-import { bindActionCreators, compose } from 'redux';
-import { preventExitFromScreen } from '../../actions/CommonActions';
-import { saveActiveSingleDeal, setActiveSingleDeal, updateDealsOrder } from '../../actions/DealActions';
-import { getPageDeals, setPageDeals } from '../../actions/PropertyActions';
+import {DateTime} from 'luxon';
+import {connect} from 'react-redux';
+import {useLocation, useNavigate, useParams} from 'react-router-dom';
+import {ReactSortable} from 'react-sortablejs';
+import {bindActionCreators, compose} from 'redux';
+import {preventExitFromScreen} from '../../actions/CommonActions';
+import {saveActiveSingleDeal, setActiveSingleDeal, updateDealsOrder} from '../../actions/DealActions';
+import {getPageDeals, setPageDeals} from '../../actions/PropertyActions';
 import DealsCard from '../../components/Cards/DealsCard';
 import DealsTitle from '../../components/DealsTitle';
 import FilterBar from '../../components/FilterBar';
-import { getCookie, setCookie } from '../../utils/helpers';
+import {getCookie, setCookie} from '../../utils/helpers';
 import translateTo from '../../utils/translation';
+import type {DealsType} from '../../@types/Pages/Deals/Deals';
 
-const Deals = (props) => {
+const Deals = (props: DealsType) => {
   const history = {
     push: useNavigate(),
     location: useLocation(),
@@ -45,10 +43,10 @@ const Deals = (props) => {
     windowDimensions,
   } = props;
   const [movedList, setMovedList] = useState();
-  const [processedDeals, setProcessedDeals] = useState(null);
-  const [filteredDeals, setFilteredDeals] = useState(null);
+  const [processedDeals, setProcessedDeals] = useState<DealsType['activeSinglePropertyDeals']>();
+  const [filteredDeals, setFilteredDeals] = useState<DealsType['activeSinglePropertyDeals'] | object>();
   const [emptyDeals, setEmptyDeals] = useState(false);
-  const [activeTab, setActiveTab] = useState(null);
+  const [activeTab, setActiveTab] = useState<string>();
   const [filterStatus, setFilterStatus] = useState({
     status: getCookie('brixelFilterDeal') || 'all',
   });
@@ -59,7 +57,7 @@ const Deals = (props) => {
     if (windowDimensions.width <= 1024 && !activeTab) {
       setActiveTab('interested');
     } else {
-      setActiveTab(null);
+      setActiveTab(undefined);
     }
   }, [windowDimensions]);
 
@@ -161,29 +159,32 @@ const Deals = (props) => {
     if (stage === 'Offer') {
       section = 'offers';
     }
+    if (processedDeals) {
+      const deals = cloneDeep(processedDeals[parent][section]);
 
-    const deals = cloneDeep(processedDeals[parent][section]);
-
-    find(deals, (element, key) => {
-      if (element.id === id) {
-        set(deals[key], 'active', !processedDeals[parent][section][key].active);
-        set(deals[key], 'newSeller', false);
-        saveDeal(deals[key], 'archive');
-      }
-    });
+      find(deals, (element, key) => {
+        if (element.id === id) {
+          set(deals[key], 'active', !processedDeals[parent][section][key].active);
+          set(deals[key], 'newSeller', false);
+          saveDeal(deals[key], 'archive');
+        }
+      });
+    }
   };
 
   function dragDocuments(order, key) {
-    const activeDealsCopy = cloneDeep(processedDeals);
-    if (activeDealsCopy[key].length > order.length) setMovedList(key);
-    activeDealsCopy[key] = order;
-    activeDealsCopy[key].map((deal) => ({...deal, stage: key}));
-    setFilteredDeals((prevState) => ({
-      ...prevState,
-      [key]: activeDealsCopy[key],
-    }));
+    if (processedDeals && filteredDeals) {
+      const activeDealsCopy = cloneDeep(processedDeals);
+      if (activeDealsCopy[key].length > order.length) setMovedList(key);
+      activeDealsCopy[key] = order;
+      activeDealsCopy[key].map((deal) => ({...deal, stage: key}));
+      setFilteredDeals((prevState) => ({
+        ...prevState,
+        [key]: activeDealsCopy[key],
+      }));
+    }
   }
-  
+
   useEffect(() => {
     if (filteredDeals) {
       const convertKey = {
@@ -248,10 +249,8 @@ const Deals = (props) => {
                       !emptyDeals && (
                         <FilterBar
                           lang={lang}
-                          sortBarType="deals"
                           activeSortDirection=""
                           activeSortOrderType=""
-                          activeSearchText=""
                           filterDeals={filterStatus}
                           applyFilter={(text, type, direction, company, filterModal) => applyFilter(text, type, direction, company, filterModal)}
                           dealsFilter
@@ -325,7 +324,7 @@ const Deals = (props) => {
                                     />
                                   </div>
                                 </div>
-                  
+
                               </>
                             )
                           }
@@ -342,7 +341,7 @@ const Deals = (props) => {
                                   <div
                                     key={`SingleDeal${k.toString()}`}
                                   >
-                                 
+
                                     <div
                                       id={singleDeal.id}
                                       className="list-item pos-r"
@@ -350,15 +349,12 @@ const Deals = (props) => {
                                       <DealsCard
                                         archOnClick={() => archiveDeal(singleDeal.id, singleDeal.stage, key)}
                                         archived={!singleDeal.active}
-                                        avatarImg={get(singleDeal, 'user.avatar[0]') ? get(singleDeal, 'user.avatar[0].thumbnailPath', '') : null}
                                         className={`${!singleDeal.active ? 'bgLight100' : 'bgWhite'} dealCard`}
                                         date={DateTime.fromMillis(singleDeal.updatedAt, { locale: lang }).toFormat('dd LLL yy, H:mm')}
                                         feedback={get(singleDeal, 'visitFeedback')}
-                                        hasMessage={singleDeal.actionStub}
                                         isNew={get(singleDeal, 'newSeller')}
                                         isWinner={get(singleDeal, 'winner')}
                                         lang={lang}
-                                        lastAction={has(singleDeal, 'lastAction') ? singleDeal.lastAction : {}}
                                         name={Helpers.userNameVal(singleDeal.user.firstName, singleDeal.user.lastName, singleDeal.user.name) === 'No Name' ? get(singleDeal.user, 'email', '') : Helpers.userNameVal(singleDeal.user.firstName, singleDeal.user.lastName, singleDeal.user.name)}
                                         offer={has(singleDeal, 'closing.stageOffer') ? singleDeal.closing.stageOffer : {}}
                                         parentOnClick={() => openDeal(singleDeal.id)}
@@ -387,22 +383,19 @@ const Deals = (props) => {
                                       </div>
                                     )
                                   }
-  
+
                                   <div
                                     className="list-item pos-r archived"
                                   >
                                     <DealsCard
                                       archOnClick={() => archiveDeal(singleDeal.id, singleDeal.stage, key)}
                                       archived={!singleDeal.active}
-                                      avatarImg={get(singleDeal, 'user.avatar[0]') ? get(singleDeal, 'user.avatar[0].thumbnailPath', '') : null}
                                       className={`${!singleDeal.active ? 'bgLight100' : 'bgWhite'} dealCard`}
                                       date={DateTime.fromMillis(singleDeal.updatedAt, { locale: lang }).toFormat('dd LLL yy, H:mm')}
                                       feedback={get(singleDeal, 'visitFeedback')}
-                                      hasMessage={singleDeal.actionStub}
                                       isNew={get(singleDeal, 'newSeller')}
                                       isWinner={get(singleDeal, 'winner')}
                                       lang={lang}
-                                      lastAction={has(singleDeal, 'lastAction') ? singleDeal.lastAction : {}}
                                       name={Helpers.userNameVal(singleDeal.user.firstName, singleDeal.user.lastName, singleDeal.user.name) === 'No Name' ? get(singleDeal.user, 'email', '') : Helpers.userNameVal(singleDeal.user.firstName, singleDeal.user.lastName, singleDeal.user.name)}
                                       offer={has(singleDeal, 'closing.stageOffer') ? singleDeal.closing.stageOffer : {}}
                                       parentOnClick={() => openDeal(singleDeal.id)}
@@ -427,25 +420,6 @@ const Deals = (props) => {
       </div>
     </div>
   );
-};
-
-Deals.propTypes = {
-  activeSingleProperty: PropTypes.object.isRequired,
-  activeSinglePropertyDeals: PropTypes.object,
-  handleGetPageDeals: PropTypes.func.isRequired,
-  handleSaveDeal: PropTypes.func.isRequired,
-  lang: PropTypes.string.isRequired,
-  notification: PropTypes.arrayOf(PropTypes.object).isRequired,
-  resetSingleDeal: PropTypes.func.isRequired,
-  saveMultipleDeals: PropTypes.func.isRequired,
-  setActiveSinglePropertyDeals: PropTypes.func.isRequired,
-  setPreventExit: PropTypes.func.isRequired,
-  smallLoader: PropTypes.object.isRequired,
-  windowDimensions: PropTypes.object.isRequired,
-};
-
-Deals.defaultProps = {
-  activeSinglePropertyDeals: null,
 };
 
 const mapStateToProps = (state) => ({

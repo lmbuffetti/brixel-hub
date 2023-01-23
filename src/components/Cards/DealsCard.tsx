@@ -6,9 +6,10 @@ import {BrixelAvatar, BrixelButtonIcon, BrixelIcon, BrixelStatus, Helpers} from 
 import translateTo from '../../utils/translation';
 import {useParams} from 'react-router-dom';
 import {DateTime} from 'luxon';
-import {TimelineActionStubs} from '../../resources/Utilities/timelineActionStubs';
+import TimelineActionStubs from '../../resources/Utilities/timelineActionStubs';
 import api from '../../controllers/api/config';
-import type {DealsCardProps, HistoryType} from '../../@types/components/Cards/DealsCard';
+import type {DealsCardProps} from '../../@types/components/Cards/DealsCard';
+import {HistoryType} from '@brixel/brixel-components/dist/@types/Model';
 
 const DealsCard = (props: DealsCardProps) => {
   const match = useParams();
