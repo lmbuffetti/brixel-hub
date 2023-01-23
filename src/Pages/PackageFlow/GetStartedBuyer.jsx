@@ -761,6 +761,7 @@ const GetStartedBuyer = (props) => {
                         <p className="mb-5 txtDark200 w-perc-100" dangerouslySetInnerHTML={{ __html: questions[currentIndex].subtitle }} />)
                     }
                     <MultiFileldsReduxForm
+                      baseByData={baseByData}
                       form="GetStarted"
                       disableNextBtn={false}
                       formValue={formValue}
