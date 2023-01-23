@@ -3,7 +3,6 @@ import {
   BrixelButtonSecondary,
   BrixelButtonText,
   BrixelProgressBar,
-  translateTo,
 } from '@brixel/brixel-components';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
@@ -15,6 +14,7 @@ import learMoreImg2 from '../../../images/Market/learMoreImg2.svg';
 import learMoreImg3 from '../../../images/Market/learMoreImg3.svg';
 import learMoreImg4 from '../../../images/Market/learMoreImg4.svg';
 import learMoreImg5 from '../../../images/Market/learMoreImg5.svg';
+import translateTo from '../../../utils/translation';
 
 const LearnMoreListingsProperty = (props) => {
   const stepsNumber = 5;
@@ -105,13 +105,13 @@ const LearnMoreListingsProperty = (props) => {
       <div className="dis-f a-c jc-b mt-10 pt-2">
         <BrixelButtonText
           bgTransparent
-          label="Skip"
+          label={translateTo('Skip', lang)}
           onClick={() => handleSetModal({state: false})}
         />
         <div className="dis-f jc-fe">
           <BrixelButtonSecondary
             rounded
-            label="Back"
+            label={translateTo('Back', lang)}
             disabled={step === 1}
             onClick={() => setStep(step - 1)}
           />
@@ -121,7 +121,7 @@ const LearnMoreListingsProperty = (props) => {
                 rightIcon="arrow-right"
                 className="ml-1"
                 rounded
-                label="Next"
+                label={translateTo('Next', lang)}
                 onClick={() => setStep(step + 1)}
               />
             ) : (
@@ -129,7 +129,7 @@ const LearnMoreListingsProperty = (props) => {
                 rightIcon="check"
                 className="ml-1"
                 rounded
-                label="Done"
+                label={translateTo('Done', lang)}
                 onClick={() => handleSetModal({state: false})}
               />
             )

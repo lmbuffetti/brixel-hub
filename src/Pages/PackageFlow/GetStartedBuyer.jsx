@@ -1,6 +1,7 @@
 /* eslint-disable no-nested-ternary */
 import { BrixelButtonIcon, BrixelButtonPrimary, BrixelButtonText, BrixelProgressBar } from '@brixel/brixel-components';
 import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/BrixelButtonSecondary';
+import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
 import { change, destroy, initializeForm, MultiFileldsReduxForm, reset } from '@brixel/brixel-components/dist/form';
 import cloneDeep from 'lodash/cloneDeep';
@@ -17,7 +18,6 @@ import { connect } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
 import Cookies from 'universal-cookie';
-import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import { spinnerOff, spinnerOn } from '../../actions/CommonActions';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import { createActiveSingleProperty, saveActiveSingleProperty } from '../../actions/PropertyActions';
@@ -81,7 +81,7 @@ const GetStartedBuyer = (props) => {
     handleSpinnerOff();
     return () => destroyForm();
   }, []);
-  
+
   useEffect(() => {
     if (!isLoading) setLoadingRequest(false);
   }, [isLoading]);
@@ -103,7 +103,7 @@ const GetStartedBuyer = (props) => {
     for (const key in navigator) {
       metaUserData[key] = navigator[key];
     }
-    
+
     const dataSearchProfile = {
       characteristics: get(dataFormAnswer, 'characteristics', {}),
       location: get(dataFormAnswer, 'locations', {}),
@@ -429,7 +429,7 @@ const GetStartedBuyer = (props) => {
         return null;
       });
       setQuestions(newQuest);
-      if (currentIndex === 0) setQuest(newQuest[0])
+      setQuest(newQuest[currentIndex]);
     }
     if (newQuest[currentIndex].inputs && newQuest[currentIndex].inputs.length === 1 && get(newQuest[currentIndex], 'inputs[0].options', []).length > 0 && get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), null) && !isArray(get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), [])) && oldIndex <= currentIndex) {
       changeStep('next', null, 1, true);
@@ -592,7 +592,7 @@ const GetStartedBuyer = (props) => {
                           className={`mt-3 m-a noWrap ${quest.history}`}
                           rounded
                           theme="green"
-                          label={buttonLabel()}
+                          label={translateTo(buttonLabel(), lang)}
                           disabled={!checkValidateField()}
                           rightIcon="arrow-right-small"
                           onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
@@ -761,6 +761,7 @@ const GetStartedBuyer = (props) => {
                         <p className="mb-5 txtDark200 w-perc-100" dangerouslySetInnerHTML={{ __html: questions[currentIndex].subtitle }} />)
                     }
                     <MultiFileldsReduxForm
+                      baseByData={baseByData}
                       form="GetStarted"
                       disableNextBtn={false}
                       formValue={formValue}
