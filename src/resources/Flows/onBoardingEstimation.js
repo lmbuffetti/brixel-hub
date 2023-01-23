@@ -1,12 +1,12 @@
 /* eslint-disable max-len */
 import { FactsOptions } from '@brixel/brixel-components';
+import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import {
   BrixelInputStepNumber,
   BrixelInputText,
   BrixelRadioButton,
   Validation,
 } from '@brixel/brixel-components/dist/form';
-import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import { BrixelAutocomplete } from '@brixel/brixel-components/dist/map';
 import get from 'lodash/get';
 import LoginSignup from '../../components/LoginSignup';
@@ -261,7 +261,7 @@ export const QuestionsList = (lang, country = 'CH', changeValue) => {
         },
       ],
     },
-    ...BestimateQuestions('getStarted', countryCode, propertyType),
+    ...BestimateQuestions('getStarted', countryCode, propertyType, lang),
     {
       condition: [{
         name: 'owner',

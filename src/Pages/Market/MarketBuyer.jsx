@@ -9,11 +9,7 @@ import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-
 import { bindActionCreators, compose } from 'redux';
 import { spinnerOff } from '../../actions/CommonActions';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
-import {
-  getBuyerProperties,
-  getOwnedEstimations,
-  getWishlistProperties,
-} from '../../actions/MarketActions';
+import { getBuyerProperties, getOwnedEstimations, getWishlistProperties } from '../../actions/MarketActions';
 import { getUserSearchProfiles } from '../../actions/SearchProfileActions';
 import lazyWithRetry from '../../components/LazyWithRetry';
 import '../../styles/SCSS/pages/market.scss';
@@ -23,37 +19,6 @@ import SearchProfileModal from './SearchProfile/SearchProfileModal';
 const MarketCategoryListBuyer = lazyWithRetry(() => import('./MarketCategoryListBuyer'));
 const FavoritesProperty = lazyWithRetry(() => import('./Buyer/FavoritesProperty'));
 const EstimationsPropertyList = lazyWithRetry(() => import('./Buyer/EstimationsPropertyList'));
-
-// MAIN NAVIGATION
-const topTab = [
-  {
-    label: 'Search',
-    value: 'searchProfile',
-  },
-  {
-    label: 'Saved properties',
-    value: 'favorites',
-  },
-  {
-    label: 'Estimations',
-    value: 'estimations',
-  },
-];
-
-// FILTER BY PROP TYPE
-const filterPropType = [
-  {
-    label: 'All',
-    value: 'all',
-  },
-  {
-    label: 'Published',
-    value: 'published',
-  },
-  {
-    label: 'Pre-Market',
-    value: 'pre-market',
-  }]
 
 
 const MarketBuyer = (props) => {
@@ -74,7 +39,40 @@ const MarketBuyer = (props) => {
     lang,
     loggedInUser,
   } = props;
+  // STATE
   const [activeTopTab, setActiveTopTab] = useState('searchProfile');
+  // FILTER DATA
+  // MAIN NAVIGATION
+  const topTab = [
+    {
+      label: 'Search',
+      value: 'searchProfile',
+    },
+    {
+      label: 'Saved properties',
+      value: 'favorites',
+    },
+    {
+      label: 'Estimations',
+      value: 'estimations',
+    },
+  ];
+
+  // FILTER BY PROP TYPE
+  const filterPropType = [
+    {
+      label: translateTo('All', lang),
+      value: 'all',
+    },
+    {
+      label: translateTo('Published', lang),
+      value: 'published',
+    },
+    {
+      label: translateTo('Pre-Market', lang),
+      value: 'pre-market',
+    }
+  ]
 
   useEffect(() => { destroyForm(); }, [history.location.pathname]);
 
@@ -166,6 +164,7 @@ const MarketBuyer = (props) => {
       {/* premarket overlay */}
       <Suspense fallback="">
         <BrixelTabs
+          lang={lang}
           className="mb-2 mx-a ta-c"
           clicksList={topTab.map((item) => item.value)}
           labels={topTab.map((item) => translateTo(item.label, lang))}

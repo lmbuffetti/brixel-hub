@@ -64,7 +64,7 @@ const FavoritesProperty = (props) => {
             <div>
               <BrixelButtonSecondary
                 rounded
-                label={view === 'map' ? 'List view' : 'Map view'}
+                label={view === 'map' ? translateTo('List view', lang) : translateTo('Map view', lang)}
                 leftIcon={view === 'map' ? 'lists' : 'roadmap'}
                 theme="dark"
                 themeSat={700}

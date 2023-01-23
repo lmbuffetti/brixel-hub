@@ -31,8 +31,8 @@ export const titleSearchProfile = (formValue, lang) => {
     });
   }
   let roomsText = ''
-  if (rooms.min > -1 && rooms.min !== rooms.max) roomsText = `${rooms.min || dafualtValRooms.min} - ${rooms.max || dafualtValRooms.max} rooms`;
-  else if (rooms.min > -1 && rooms.min === rooms.max) roomsText = `${rooms.min} rooms`;
+  if (rooms.min > -1 && rooms.min !== rooms.max) roomsText = `${rooms.min || dafualtValRooms.min} - ${rooms.max || dafualtValRooms.max} ${translateTo('rooms', lang)}`;
+  else if (rooms.min > -1 && rooms.min === rooms.max) roomsText = `${rooms.min} ${translateTo('rooms', lang)}`;
   
   let locationText = '';
   if (locations) {
