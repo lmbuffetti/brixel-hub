@@ -168,7 +168,7 @@ export const QuestionsList = (lang, type, changeField, formName = 'GetStarted') 
           className: type === 'searchProfile' ? 'max-w-fix-400' : '',
           showMap: false,
           blockScroll: type === 'searchProfile',
-          label: get(formValue, 'location.countryCode', 'ch'),
+          label: translateTo('latitude', lang),
           // name: 'location.searchAddress',
           name: 'locations',
           classNameBox: 'max-w-perc-100',
