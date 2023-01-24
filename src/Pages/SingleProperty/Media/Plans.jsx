@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {
-  useCallback, useEffect, useRef, useState,
+  useEffect, useRef, useState,
 } from 'react';
 import {
   Routes, Route, useLocation, useNavigate, useParams,
@@ -13,7 +13,6 @@ import { useDropzone } from 'react-dropzone';
 import get from 'lodash/get';
 import {
   BrixelButtonIcon,
-  BrixelButtonPrimary,
   BrixelButtonSecondary,
 } from '@brixel/brixel-components';
 import translateTo from '../../../utils/translation';
@@ -87,7 +86,7 @@ const Photos = (props) => {
   };
 
   // MULTIUPLOADING FUNCTION
-  const onDrop = useCallback(async (acceptedFiles) => {
+  const onDrop = acceptedFiles => {
     const reader = new FileReader();
     // const imgType = imageType.find((val) => val.name === 'Gallery');
     // eslint-disable-next-line no-console
@@ -96,7 +95,7 @@ const Photos = (props) => {
     reader.onerror = () => console.log('file reading has failed');
     setBtnActive('uploading');
     const imgType = imageType.find((val) => val.name === 'Gallery');
-    const imgList = tobase64Handler(acceptedFiles, loggedInUser.user.id, 'floorPlans', formValue.id, imgType.id);
+    const imgList = tobase64Handler(acceptedFiles, get(loggedInUser, 'user.id', ''), 'floorPlans', formValue.id, imgType.id);
     imgList.then((res) => {
       handleMultiUploadImg({
         allImgs: res,
@@ -105,7 +104,7 @@ const Photos = (props) => {
         smallLoader: 'uploadMedia',
       });
     });
-  }, []);
+  };
 
   // DROPZONE SETTINGS - SUPPORTED EXTENSIONS AND MAX SIZE AND OTHER SETTINGS
   const { getRootProps, getInputProps } = useDropzone({
@@ -166,9 +165,58 @@ const Photos = (props) => {
                     {translateTo('Floor Plans', lang)}
                   </h5>
                 </div>
+                {(!fixPhotos || (fixPhotos && fixPhotos.length === 0)) && (
+                  <span className='mb-3 mb-md-5 txtRed400'>{translateTo('You have uploaded 0 plans.', lang)}</span>
+                )}
                 <div className={`boxCard mb-5 ${(!fixPhotos || (fixPhotos && fixPhotos.length === 0)) ? 'emptyMedia' : ''}`}>
 
                   <div className={`${fixPhotos && fixPhotos.length > 0 ? 'uploadPanel dis-fl-col' : 'empty-state dis-fl-col a-c'}`}>
+                    <>
+                      {
+                        (!fixPhotos || (fixPhotos && fixPhotos.length === 0)) ? ('') : (
+                          <>
+                            <p className='fweight-600'>{translateTo('Drag to move and reorder photos', lang)} </p>
+                            <p className='fsize-300 txtAltGrey400 mb-2'>{translateTo('Drag to move and reorder photos', lang)} </p>
+                          </>
+                        )
+                      }
+                      <div
+                        className={`${(!fixPhotos || (fixPhotos && fixPhotos.length === 0)) ? 'emptyState' : 'hasImages bgGreen100 mb-3 py-2'} upload-container dis-fl-col a-c ta-c`}
+                        {...getRootProps()}
+                      >
+                        <input {...getInputProps()} />
+                        <div className={`dis-fl-col ${(!fixPhotos || (fixPhotos && fixPhotos.length === 0)) ? 'max-w-fix-304' : ''}`}>
+                          {
+                            isSmallLoading.uploadMedia ? (
+                              <>
+                                <div className={`${!fixPhotos || (fixPhotos && fixPhotos.length === 0) ? 'h-fix-128' : 'h-fix-64'} dis-f a-c`}>
+                                  <div className='loaderX ml-a mr-a'>
+                                    <div className='loader-wheel'></div>
+                                  </div>
+                                </div>
+                              </>
+                            ) : (
+                              <>
+                                <img loading="lazy" className={!fixPhotos || (fixPhotos && fixPhotos.length === 0) ? 'h-fix-128' : 'h-fix-64'} src={uploadFloorPlansEmpty} alt="Empty State" />
+                              </>
+                            )
+                          }
+
+
+                          <p className="mt-2 txtGreen400">
+                            <span className='td-u fweight-500'>{translateTo('Click to upload', lang)} </span>
+                            {(!fixPhotos || (fixPhotos && fixPhotos.length === 0)) && (<span>{translateTo('your first photos ', lang)}</span>)}
+                            <span>{translateTo('or drag and drop.', lang)}</span>
+                          </p>
+                          {(!fixPhotos || (fixPhotos && fixPhotos.length === 0)) && (<span className='brdSmallTop brdAltGrey200 w-fix-104 my-2 ml-a mr-a'></span>)}
+
+                          <span className="fsize-300 txtAltGrey400 max-width-304">{translateTo('Choose .jpeg .png with max. 10 MB size', lang)}</span>
+                        </div>
+                        {
+                          isSmallLoading.uploadMedia && (<span>loading</span>)
+                        }
+                      </div>
+                    </>
                     {
                       (fixPhotos && fixPhotos.length > 0) && (
                         <>
@@ -264,30 +312,7 @@ const Photos = (props) => {
                         </>
                       )
                     }
-                    <>
-                      <div
-                        className={`${(!fixPhotos || (fixPhotos && fixPhotos.length === 0)) ? 'emptyState mb-5' : 'hasImages py-2 py-lg-3'} upload-container dis-fl-col a-c mt-2 ta-c`}
-                        {...getRootProps()}
-                      >
-                        <input {...getInputProps()} />
-                        {
-                          (!fixPhotos || (fixPhotos && fixPhotos.length === 0)) && (
-                            <div>
-                              <img loading="lazy" className="w-perc-100 h-fix-120" src={uploadFloorPlansEmpty} alt="Empty State" />
-                              <h5 className="mt-3 mb-2">{translateTo('Upload your floor Plans', lang)}</h5>
-                            </div>
-                          )
-                        }
-                        <span className="body2 txtDark200 max-width-220">{translateTo('Choose .jpeg .png .pdf with max. 10 MB size', lang)}</span>
-                        <BrixelButtonPrimary
-                          rounded
-                          label={translateTo('upload', lang)}
-                          rightIcon="upload"
-                          className="mt-3"
-                          isLoading={isSmallLoading.uploadMedia}
-                        />
-                      </div>
-                    </>
+
                   </div>
                 </div>
 

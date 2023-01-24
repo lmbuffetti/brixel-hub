@@ -180,21 +180,48 @@ const Photos = (props) => {
                     {translateTo('Photos', lang)}
                   </h5>
                 </div>
+                {(!fixPhotos || (isArray(fixPhotos) && fixPhotos.length === 0)) && (
+                  <span className='mb-3 mb-md-5 txtRed400'>{translateTo('You have uploaded 0 photos.', lang)} </span>
+                )}
                 <div className={`boxCard mb-5 ${(!fixPhotos || (isArray(fixPhotos) && fixPhotos.length === 0)) ? 'emptyMedia' : ''}`}>
                   <div className={`${fixPhotos && fixPhotos.length > 0 ? 'uploadPanel dis-fl-col' : 'empty-state dis-fl-col a-c'}`}>
-
+                    {
+                      (!fixPhotos || (isArray(fixPhotos) && fixPhotos.length === 0)) ? ('') : (
+                        <>
+                          <p className='fweight-600'>{translateTo('Drag to move and reorder photos', lang)} </p>
+                          <p className='fsize-300 txtAltGrey400 mb-2'>{translateTo('Drag to move and reorder photos', lang)} </p>
+                        </>
+                      )
+                    }
 
                     <div
                       className={`${(!fixPhotos || (isArray(fixPhotos) && fixPhotos.length === 0)) ? 'emptyState' : 'hasImages bgGreen100 mb-3 py-2'} upload-container dis-fl-col a-c ta-c`}
                       {...getRootProps()}
                     >
                       <input {...getInputProps()} />
+
                       <div className={`dis-fl-col ${(!fixPhotos || (isArray(fixPhotos) && fixPhotos.length === 0)) ? 'max-w-fix-304' : ''}`}>
 
-                        <img loading="lazy" className={!fixPhotos || (isArray(fixPhotos) && fixPhotos.length === 0) ? 'h-fix-128' : 'h-fix-64'} src={uploadPhotosEmpty} alt="Empty State" />
+                        {
+                          isSmallLoading.uploadMedia ? (
+                            <>
+                              <div className={`${!fixPhotos || (isArray(fixPhotos) && fixPhotos.length === 0) ? 'h-fix-128' : 'h-fix-64'} dis-f a-c`}>
+                                <div className='loaderX ml-a mr-a'>
+                                  <div className='loader-wheel'></div>
+                                </div>
+                              </div>
+                            </>
+                          ) : (
+                            <>
+                              <img loading="lazy" className={!fixPhotos || (isArray(fixPhotos) && fixPhotos.length === 0) ? 'h-fix-128' : 'h-fix-64'} src={uploadPhotosEmpty} alt="Empty State" />
+                            </>
+                          )
+                        }
+
+
                         <p className="mt-2 txtGreen400">
                           <span className='td-u fweight-500'>{translateTo('Click to upload', lang)} </span>
-                          {(!fixPhotos || (isArray(fixPhotos) && fixPhotos.length === 0)) && (<span>{translateTo('your first photos', lang)}</span>)}
+                          {(!fixPhotos || (isArray(fixPhotos) && fixPhotos.length === 0)) && (<span>{translateTo('your first photos ', lang)}</span>)}
                           <span>{translateTo('or drag and drop.', lang)}</span>
                         </p>
                         {(!fixPhotos || (isArray(fixPhotos) && fixPhotos.length === 0)) && (<span className='brdSmallTop brdAltGrey200 w-fix-104 my-2 ml-a mr-a'></span>)}

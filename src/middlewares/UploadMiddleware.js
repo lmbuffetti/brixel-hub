@@ -143,7 +143,7 @@ const checkCommon = (store) => (next) => (action) => {
             }
           }
         });
-        if (!coverImg.id) {
+        if (!get(coverImg, 'id', null)) {
           data.coverPhoto = filesArray[0];
         }
         set(data, actions, filesArray);

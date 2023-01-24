@@ -51,14 +51,14 @@ const BrixelUpgradeMessage = (props) => {
     else onUpgrade();
   };
 
-  const bgColor = showUnlockMessage ? 'bgPrimary100' : 'bgGreen100';
+  const bgColor = showUnlockMessage ? 'bgBlue100' : 'bgBlue100';
 
   if (!isEligible(activeSingleProperty) && trialRequest) {
     return <span />;
   }
 
   return (
-    <div className={`brixel-upgrade-message shadow-1dp p-2 p-md-3 ta-c brdRadius ${className} ${bgColor}`}>
+    <div className={`brixel-upgrade-message p-2 p-md-3 ta-c brdRadius ${className} ${bgColor}`}>
       {
         // CONDITION TO SHOW/HIDE THE CLOSE ICON
         showClose && (
@@ -74,9 +74,9 @@ const BrixelUpgradeMessage = (props) => {
       {
         // CONDITION TO SHOW THE MESSAGE TO UNLOCK OR THE CONFIRMATION MESSAGE
         showUnlockMessage ? (
-          <div className="bgPrimary100">
-            <h5 className="txtPrimary700 mb-3">{titleConfirm}</h5>
-            <p className="max-w-fix-360 m-a txtDark700" dangerouslySetInnerHTML={{ __html: descriptionConfirm }} />
+          <div className="">
+            <h5 className="txtBlue700 fweight-600 mb-3">{titleConfirm}</h5>
+            <p className="max-w-fix-360 m-a txtDark400" dangerouslySetInnerHTML={{ __html: descriptionConfirm }} />
             <div className="dis-f jc-c mt-3">
               <BrixelButtonPrimary
                 rounded
@@ -95,10 +95,10 @@ const BrixelUpgradeMessage = (props) => {
             </div>
           </div>
         ) : (
-          <div className="bgGreen100 pb-3">
-            <h5 className="txtGreen700">{title}</h5>
+          <div>
+            <h5 className="txtBlue700 fweight-600">{title}</h5>
             <p
-              className="mt-3 mb-3 max-w-fix-360 m-a txtDark700"
+              className="mt-1 mb-3 max-w-fix-504 m-a txtDark400"
               dangerouslySetInnerHTML={{ __html: description }}
             />
             {
@@ -130,7 +130,8 @@ const BrixelUpgradeMessage = (props) => {
               rounded
               className="m-a"
               label={unlockFunction ? btnLabel || 'Unlock now' : btnLabel}
-              theme="red"
+              theme="blue"
+              themeSat={600}
               onClick={() => onClickBtn()}
             />
           </div>
