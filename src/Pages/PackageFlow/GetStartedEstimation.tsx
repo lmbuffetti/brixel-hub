@@ -32,7 +32,7 @@ import translateTo from '../../utils/translation';
 import type {
   FormToSaveData,
   FormValueType,
-  GetStartedEstimationType
+  GetStartedEstimationType,
 } from '../../@types/Pages/PackageFlow/GetStartedEstimation';
 
 const cookie = new Cookies();
@@ -383,7 +383,7 @@ const GetStartedEstimation = (props: GetStartedEstimationType) => {
       newIndex += step;
     }
     if (newIndex === -1) {
-      history.push(`/packageFlow${company.stub}`);
+      history.push(`/packageFlow/${company.stub}`);
     } else {
       let defId = checkCondition(newIndex, act);
       if (defId !== newIndex) defId = checkCondition(defId, act);
