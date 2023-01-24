@@ -264,7 +264,7 @@ const Documents = (props) => {
       }
     }
   };
-  
+
   useEffect(() => {
     if (Object.keys(processedDocuments).length > 0) {
       const docsToSave = [];
@@ -446,11 +446,11 @@ const Documents = (props) => {
                             {
                               (!processedDocuments || (processedDocuments.length === 0)) ? (
                                 <>
-                                  <span className='td-u fweight-500'>{translateTo('Click to upload', lang)}</span> {translateTo('your first document or drag and drop.', lang)}
+                                  <span className='td-u fweight-500'>{translateTo('Click to upload', lang)}</span> <span>{translateTo('your first document or drag and drop.', lang)}</span>
                                 </>
                               ) : (
                                 <>
-                                  <span className='td-u fweight-600'>{translateTo('Click to upload files', lang)}</span> {translateTo('or drag and drop.', lang)}
+                                  <span className='td-u fweight-600'>{translateTo('Click to upload files', lang)}</span> <span>{translateTo('or drag and drop.', lang)}</span>
                                 </>
                               )
                             }
