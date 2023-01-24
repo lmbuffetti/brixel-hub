@@ -38,7 +38,7 @@ const SearchProfileField = (props) => {
         <>
           {get(searchProfile, field, []).map((data, i) => (
             <React.Fragment key={`arraySearch${i.toString()}`}>
-              <span key={`field${i.toString()}`}>{data}</span>
+              <span key={`field${i.toString()}`}>{translateTo(data, lang)}</span>
               {get(searchProfile, field, []).length - 1 !== i && (<span className="mr-1">,</span>)}
             </React.Fragment>
           ))}
@@ -63,7 +63,7 @@ const SearchProfileField = (props) => {
       const unit = field.includes('bedrooms') ? 'rooms' : 'm2';
       return (
         <>
-          <span>{get(searchProfile, `${field}.min`, '')} - {get(searchProfile, `${field}.max`, maxValue[field]) || maxValue[field]}</span><span className="ml-small-4">{unit}</span>
+          <span>{get(searchProfile, `${field}.min`, '')} - {get(searchProfile, `${field}.max`, maxValue[field]) || maxValue[field]}</span><span className="ml-small-4">{translateTo(unit, lang)}</span>
         </>
       )
     } else if (field.includes('extraFeatures')) {
@@ -71,7 +71,7 @@ const SearchProfileField = (props) => {
       if (numExtraFeatures > 0) {
         return (
           <>
-            {numExtraFeatures && <><span>{numExtraFeatures}</span><span className="ml-1">Amenities</span></>}
+            {numExtraFeatures && <><span>{numExtraFeatures}</span><span className="ml-1">{translateTo('Amenities', lang)}</span></>}
           </>
         )
       }

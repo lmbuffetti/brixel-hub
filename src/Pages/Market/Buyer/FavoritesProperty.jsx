@@ -1,4 +1,3 @@
-import { translateTo } from '@brixel/brixel-components';
 import BrixelButtonPrimary from '@brixel/brixel-components/dist/components/BrixelButtonPrimary';
 import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/BrixelButtonSecondary';
 import get from 'lodash/get';
@@ -8,6 +7,7 @@ import { connect } from 'react-redux';
 import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { compose } from 'redux';
 import emptyFav from '../../../images/empty-fav.svg';
+import translateTo from '../../../utils/translation';
 import FavoritesPropertyList from './FavoritesPropertyList';
 import FavoritesPropertyMap from './FavoritesPropertyMap';
 
@@ -64,7 +64,7 @@ const FavoritesProperty = (props) => {
             <div>
               <BrixelButtonSecondary
                 rounded
-                label={view === 'map' ? 'List view' : 'Map view'}
+                label={view === 'map' ? translateTo('List view', lang) : translateTo('Map view', lang)}
                 leftIcon={view === 'map' ? 'lists' : 'roadmap'}
                 theme="dark"
                 themeSat={700}

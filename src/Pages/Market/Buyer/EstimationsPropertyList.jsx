@@ -1,4 +1,4 @@
-import { BrixelButtonPrimary, translateTo } from '@brixel/brixel-components';
+import { BrixelButtonPrimary } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -7,6 +7,7 @@ import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { compose } from 'redux';
 import MarketCardEstimation from '../../../components/Cards/MarketCardEstimation';
 import emptyEst from '../../../images/empty-est.svg';
+import translateTo from '../../../utils/translation';
 import ModalPropertyEstimation from './ModalPropertyEstimation';
 
 const FavoritesPropertyList = (props) => {

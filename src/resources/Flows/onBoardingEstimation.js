@@ -1,12 +1,12 @@
 /* eslint-disable max-len */
 import { FactsOptions } from '@brixel/brixel-components';
+import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import {
   BrixelInputStepNumber,
   BrixelInputText,
   BrixelRadioButton,
   Validation,
 } from '@brixel/brixel-components/dist/form';
-import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import { BrixelAutocomplete } from '@brixel/brixel-components/dist/map';
 import get from 'lodash/get';
 import LoginSignup from '../../components/LoginSignup';
@@ -225,6 +225,7 @@ export const QuestionsList = (lang, country = 'CH', changeValue) => {
           classBoxWrapper: 'mt-0 searchMapFields',
           onSelectAddress: (val) => changeValue('location', val),
           validation: [Validation.required],
+          country: country,
           mapOptions: {
             baseByData: baseByData,
             country: country,
@@ -260,7 +261,7 @@ export const QuestionsList = (lang, country = 'CH', changeValue) => {
         },
       ],
     },
-    ...BestimateQuestions('getStarted', countryCode, propertyType),
+    ...BestimateQuestions('getStarted', countryCode, propertyType, lang),
     {
       condition: [{
         name: 'owner',

@@ -147,7 +147,7 @@ const SearchProfileList = (props) => {
         </div>
         <div className="ml-a mb-2 md-md-0">
           <BrixelButtonText
-            label="New Search Profile"
+            label={translateTo('New Search Profile', lang)}
             leftIcon="plus"
             onClick={() => history.push('/buy/searchProfile/list/create')}
           />
@@ -184,7 +184,7 @@ const SearchProfileList = (props) => {
                       {
                         searchProfile.isDefault && (
                           <div className="mr-md-2 brdFullRadius bgBlue200 txtBlue700 fsize-300 py-small-4 px-1">
-                            Default
+                            {translateTo('Default', lang)}
                           </div>
                         )
                       }
@@ -235,8 +235,8 @@ const SearchProfileList = (props) => {
 
                   <div className={userActiveSearchProfileId === searchProfile.id ? '' : 'hide-md'}>
                     <div className="hide dis-b-md">
-                      <h6>Filters applied</h6>
-                      <p className="txtAltGrey400 fsize-300">Summary of all the filters applied </p>
+                      <h6>{translateTo('Filters applied', lang)}</h6>
+                      <p className="txtAltGrey400 fsize-300">{translateTo('Summary of all the filters applied', lang)}</p>
                     </div>
 
                     <div className="dis-f flex-wrap a-t mt-2">
@@ -265,8 +265,8 @@ const SearchProfileList = (props) => {
                       <BrixelButtonText
                         theme="Red"
                         rounded
-                        label= {translateTo('Delete', lang)}
-                        onClick = {() => onDeleteSearchProfile(searchProfile)}
+                        label={translateTo('Delete', lang)}
+                        onClick={() => onDeleteSearchProfile(searchProfile)}
                       />
                       <BrixelButtonSecondary
                         rounded

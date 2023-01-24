@@ -268,10 +268,10 @@ const MarketCategoryListBuyer = (props) => {
                         }
                         <div className="max-w-fix-344 w-perc-100 pb-8 pb-md-0 ta-c ta-l-md m-a m-md-0">
                           <h3 className="txtGreen700 fweight-600 mt-4 mt-md-0 mb-1">
-                            {translateTo('Create your personalized Search')}
+                            {translateTo('Create your personalized Search', lang)}
                           </h3>
                           <p className="fsize-300 txtAltGrey700">
-                            {translateTo('You can create multiple Search Profiles to apply different filters and find the properties that best match your needs. ', lang)}
+                            {translateTo('You can create multiple Search Profiles to apply different filters and find the properties that best match your needs.', lang)}
                           </p>
                           <BrixelButtonPrimary
                             onClick={() => history.push('/buy/searchProfile/list/create')}
@@ -329,7 +329,7 @@ const MarketCategoryListBuyer = (props) => {
                                   className="ml-1 txtGreen400 td-u fweight-600"
                                   onClick={() => onLearnMore()}
                                 >
-                                  Learn more.
+                                  {translateTo('Learn more.', lang)}
                                 </button>
                               </span>
                             </p>
@@ -342,8 +342,9 @@ const MarketCategoryListBuyer = (props) => {
               </div>
               <div>
                 <BrixelDropdown
-                  selected={activeTab.label}
+                  selected={translateTo(activeTab.label, lang)}
                   onSelect={(e, val) => onChangeFilter(val)}
+                  lang={lang}
                   options={filterPropType}
                 />
               </div>
