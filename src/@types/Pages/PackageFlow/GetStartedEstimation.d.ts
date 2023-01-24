@@ -1,4 +1,10 @@
-import {CompanyType, LoginType, PropertyType, RegistrationType,} from '@brixel/brixel-components/dist/@types/Model';
+import {
+  CompanyType,
+  LoggedUserType,
+  LoginType,
+  PropertyType,
+  RegistrationType,
+} from '@brixel/brixel-components/dist/@types/Model';
 
 export interface FormValueType {
   baloiseInfo?: string;
@@ -54,7 +60,7 @@ export interface GetStartedEstimationType {
   isLoading: boolean;
   isTest: boolean;
   lang?: string;
-  loggedInUser: object;
+  loggedInUser: LoggedUserType;
   translations: object;
 }
 
