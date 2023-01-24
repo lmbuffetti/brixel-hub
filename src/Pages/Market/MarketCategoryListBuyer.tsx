@@ -1,27 +1,27 @@
-import { BrixelButtonIcon, BrixelButtonPrimary, BrixelDropdown, BrixelIcon } from '@brixel/brixel-components';
+import {BrixelButtonIcon, BrixelButtonPrimary, BrixelDropdown, BrixelIcon} from '@brixel/brixel-components';
 import get from 'lodash/get';
-import PropTypes from 'prop-types';
-import React, { Suspense, useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
-import { bindActionCreators, compose } from 'redux';
-import { setHistory, setModal, setSplashType } from '../../actions/CommonActions';
-import { getActiveSingleCompany } from '../../actions/CompanyActions';
-import { getBuyerProperties } from '../../actions/MarketActions';
-import { setActiveMarketOverlayProperty, setEstimation } from '../../actions/PropertyActions';
+import React, {Suspense, useEffect, useState} from 'react';
+import {connect} from 'react-redux';
+import {Link, useLocation, useNavigate, useParams} from 'react-router-dom';
+import {bindActionCreators, compose} from 'redux';
+import {setHistory, setModal, setSplashType} from '../../actions/CommonActions';
+import {getActiveSingleCompany} from '../../actions/CompanyActions';
+import {getBuyerProperties} from '../../actions/MarketActions';
+import {setActiveMarketOverlayProperty, setEstimation} from '../../actions/PropertyActions';
 import MarketCard from '../../components/Cards/MarketCard';
 import Pagination from '../../components/Pagination';
 import SearchProfileField from '../../components/SearchProfileField';
 import SplashScreen from '../../components/SplashScreen';
 import searchProfileDeskImg from '../../images/Market/searchProfileDesk.svg';
 import searchProfileMobileImg from '../../images/Market/searchProfileMobile.svg';
-import { QuestionsList } from '../../resources/Flows/onBoardingBuyer';
-import { getCookie, setCookie } from '../../utils/helpers';
-import { titleSearchProfile } from '../../utils/titleCreationSearchProfile';
+import {QuestionsList} from '../../resources/Flows/onBoardingBuyer';
+import {getCookie, setCookie} from '../../utils/helpers';
+import {titleSearchProfile} from '../../utils/titleCreationSearchProfile';
 import translateTo from '../../utils/translation';
 import LearnMoreListingsProperty from './Buyer/LearnMoreListingsProperty';
+import type {MarketCategoryListBuyerType} from '../../@types/Pages/Market/MarketCategoryListBuyer';
 
-const MarketCategoryListBuyer = (props) => {
+const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
   const history = {
     push: useNavigate(),
     location: useLocation(),
@@ -31,7 +31,7 @@ const MarketCategoryListBuyer = (props) => {
   const {
     buyerProperties,
     activeSearchProfile,
-    filterPropType,
+    filterPropType = [],
     handleGetActiveBuyerProperties,
     handleGetActiveSingleCompany,
     handleSetModal,
@@ -44,15 +44,15 @@ const MarketCategoryListBuyer = (props) => {
     windowDimensions,
   } = props;
   // STATE
-  const [fieldsSearchProfile, setFieldsSearchProfile] = useState([]);
+  const [fieldsSearchProfile, setFieldsSearchProfile] = useState<string[]>([]);
   const [activeTab, setActiveTab] = useState(filterPropType[0]);
   // URL PARAMS
   const cat = get(match, 'cat', null);
-  const page = get(match, 'page', null);
+  const page = get(match, 'page', 0);
 
   useEffect(() => {
-    const fields = [...fieldsSearchProfile];
-    QuestionsList('en', 'searchProfile').forEach((inputs) => {
+    const fields: string[] = [...fieldsSearchProfile];
+    QuestionsList(lang, 'searchProfile', () => '', 'SearchProfile').forEach((inputs) => {
       if (inputs.inputs) {
         inputs.inputs.forEach((field) => {
           if (field.name !== 'location.countryCode') {
@@ -66,7 +66,7 @@ const MarketCategoryListBuyer = (props) => {
   }, []);
 
   useEffect(() => {
-    if (page && cat) {
+    if (page && cat && activeSearchProfile) {
       const data = {
         limit: 9,
         offset: 0,
@@ -82,7 +82,7 @@ const MarketCategoryListBuyer = (props) => {
   useEffect(() => {
     if (get(loggedInUser, 'id', null)) {
       let cmpID;
-      if (loggedInUser.company) cmpID = loggedInUser.company.id;
+      if (get(loggedInUser, 'company.id', null)) cmpID = get(loggedInUser, 'company.id', '');
       else if (loggedInUser.companies) cmpID = loggedInUser.companies[0];
       handleGetActiveSingleCompany({id: cmpID});
     }
@@ -212,9 +212,9 @@ const MarketCategoryListBuyer = (props) => {
                   </div>
                 </div>
               ) : (
-                <div className={windowDimensions.width <= 768 && !activeSearchProfile.id ? '' : 'container'}>
+                <div className={windowDimensions.width <= 768 && !activeSearchProfile?.id ? '' : 'container'}>
                   {
-                    activeSearchProfile.id ? (
+                    activeSearchProfile?.id ? (
                       <div className="dis-f jc-b-lg a-c py-10">
                         <div className="w-perc-100 max-w-fix-880 ml-a mr-a ta-c">
                           <Link
@@ -342,9 +342,8 @@ const MarketCategoryListBuyer = (props) => {
               </div>
               <div>
                 <BrixelDropdown
-                  selected={translateTo(activeTab.label, lang)}
+                  selected={translateTo(activeTab.label || '', lang)}
                   onSelect={(e, val) => onChangeFilter(val)}
-                  lang={lang}
                   options={filterPropType}
                 />
               </div>
@@ -391,9 +390,8 @@ const MarketCategoryListBuyer = (props) => {
                 className="mt-5 pb-10"
                 totalItems={buyerProperties.total || 0}
                 itemsPerPage={9}
-                activePage={(page - 1) * 9}
+                activePage={(+page - 1) * 9}
                 paginate={(resultsPerPage, skip, pageNumber) => history.push(`/buy/searchProfile/${cat}/${pageNumber}`)}
-                showResultsPerPage={false}
                 lang={lang}
               />
             </div>
@@ -402,28 +400,6 @@ const MarketCategoryListBuyer = (props) => {
       </Suspense>
     </>
   );
-};
-
-MarketCategoryListBuyer.propTypes = {
-  activeSearchProfile: PropTypes.object,
-  buyerProperties: PropTypes.object.isRequired,
-  filterPropType: PropTypes.arrayOf(PropTypes.object),
-  handleGetActiveBuyerProperties: PropTypes.func.isRequired,
-  handleGetActiveSingleCompany: PropTypes.func.isRequired,
-  handleSetModal: PropTypes.func.isRequired,
-  lang: PropTypes.string.isRequired,
-  loggedInUser: PropTypes.object.isRequired,
-  setSplashScreen: PropTypes.func.isRequired,
-  skeleton: PropTypes.object.isRequired,
-  splashScreenType: PropTypes.string.isRequired,
-  userSearchProfiles: PropTypes.arrayOf(PropTypes.object),
-  windowDimensions: PropTypes.object.isRequired,
-};
-
-MarketCategoryListBuyer.defaultProps = {
-  activeSearchProfile: null,
-  filterPropType: [],
-  userSearchProfiles: null,
 };
 
 const mapStateToProps = (state) => ({

@@ -16,7 +16,7 @@ declare let module : {
   };
 }
 
-module.exports = {
+const Articles = {
   default: [
     {
       img: 'https://brixel.ch/content/uploads/2019/07/Schmid_Blog_Foto-1-950x550.png?x54730',
@@ -46,3 +46,5 @@ module.exports = {
     },
   ],
 };
+
+export default Articles;

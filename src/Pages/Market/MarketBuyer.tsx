@@ -1,27 +1,26 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { BrixelTabs } from '@brixel/brixel-components';
-import { destroy } from '@brixel/brixel-components/dist/form';
+import React, {Suspense, useEffect, useState} from 'react';
+import {BrixelTabs} from '@brixel/brixel-components';
+import {destroy} from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
-import PropTypes from 'prop-types';
-import React, { Suspense, useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
-import { bindActionCreators, compose } from 'redux';
-import { spinnerOff } from '../../actions/CommonActions';
-import { getActiveSingleCompany } from '../../actions/CompanyActions';
-import { getBuyerProperties, getOwnedEstimations, getWishlistProperties } from '../../actions/MarketActions';
-import { getUserSearchProfiles } from '../../actions/SearchProfileActions';
+import {connect} from 'react-redux';
+import {Navigate, Route, Routes, useLocation, useNavigate} from 'react-router-dom';
+import {bindActionCreators, compose} from 'redux';
+import {spinnerOff} from '../../actions/CommonActions';
+import {getActiveSingleCompany} from '../../actions/CompanyActions';
+import {getBuyerProperties, getOwnedEstimations, getWishlistProperties} from '../../actions/MarketActions';
+import {getUserSearchProfiles} from '../../actions/SearchProfileActions';
 import lazyWithRetry from '../../components/LazyWithRetry';
 import '../../styles/SCSS/pages/market.scss';
 import translateTo from '../../utils/translation';
 import SearchProfileModal from './SearchProfile/SearchProfileModal';
+import type {MarketBuyerType} from '../../@types/Pages/Market/MarketBuyer';
 
 const MarketCategoryListBuyer = lazyWithRetry(() => import('./MarketCategoryListBuyer'));
 const FavoritesProperty = lazyWithRetry(() => import('./Buyer/FavoritesProperty'));
 const EstimationsPropertyList = lazyWithRetry(() => import('./Buyer/EstimationsPropertyList'));
 
 
-const MarketBuyer = (props) => {
+const MarketBuyer = (props: MarketBuyerType) => {
   const history = {
     push: useNavigate(),
     location: useLocation(),
@@ -45,14 +44,17 @@ const MarketBuyer = (props) => {
   // MAIN NAVIGATION
   const topTab = [
     {
+      active: false,
       label: 'Search',
       value: 'searchProfile',
     },
     {
+      active: false,
       label: 'Saved properties',
       value: 'favorites',
     },
     {
+      active: false,
       label: 'Estimations',
       value: 'estimations',
     },
@@ -71,7 +73,7 @@ const MarketBuyer = (props) => {
     {
       label: translateTo('Pre-Market', lang),
       value: 'pre-market',
-    }
+    },
   ]
 
   useEffect(() => { destroyForm(); }, [history.location.pathname]);
@@ -100,13 +102,13 @@ const MarketBuyer = (props) => {
   }, [loggedInUser.id]);
 
   const getPropertiesPage = () => {
-    const url = get(history, 'location.pathname', '').split("/");
+    const url = get(history, 'location.pathname', '').split('/');
     const type = url[url.length - 2];
     const curPage = url[url.length - 1];
     if (activeSearchProfile !== null) {
       const data = {
         limit: 9,
-        offset: (curPage - 1) * 9,
+        offset: (+curPage - 1) * 9,
         order: 'updatedAt',
         direction: 'DESC',
         setAsSingle: true,
@@ -114,6 +116,7 @@ const MarketBuyer = (props) => {
         overlayCard: true,
         resultType: 'buyer',
         searchProfileId: get(activeSearchProfile, 'id', null),
+        type: '',
       };
       switch (type) {
         case 'all':
@@ -136,9 +139,7 @@ const MarketBuyer = (props) => {
 
   useEffect(() => {
     if (activeSearchProfile !== null) {
-      const url = get(history, 'location.pathname', '').split("/");
-      const actPage = url[url.length - 1];
-      getPropertiesPage(actPage);
+      getPropertiesPage();
       handleSpinnerOff();
     }
   }, [activeSearchProfile, get(history, 'location.pathname', null)]);
@@ -177,11 +178,11 @@ const MarketBuyer = (props) => {
             filterPropType.map((nav, i) => (
               <Route
                 key={`route${i.toString()}`}
-                path={`/searchProfile/:cat/:page`}
+                path={'/searchProfile/:cat/:page'}
                 element={
                   <MarketCategoryListBuyer
                     filterPropType={filterPropType}
-                    onPageChange={(resultsPerPage, pageNumber, type) => getPropertiesPage(type, pageNumber)}
+                    onPageChange={(resultsPerPage, pageNumber, type) => getPropertiesPage()}
                   />
                 }
               />
@@ -194,24 +195,6 @@ const MarketBuyer = (props) => {
       </Suspense>
     </div>
   );
-};
-
-MarketBuyer.propTypes = {
-  activeSearchProfile: PropTypes.object,
-  destroyForm: PropTypes.func.isRequired,
-  handleGetActiveSingleCompany: PropTypes.func.isRequired,
-  handleGetBuyerProperties: PropTypes.func.isRequired,
-  handleGetOwnedEstimations: PropTypes.func.isRequired,
-  handleGetUserSearchProfiles: PropTypes.func.isRequired,
-  handleGetWishlistProperties: PropTypes.func.isRequired,
-  handleSpinnerOff: PropTypes.func.isRequired,
-  lang: PropTypes.string.isRequired,
-  loggedInUser: PropTypes.object.isRequired,
-};
-
-MarketBuyer.defaultProps = {
-  activeSearchProfile: null,
-  userSearchProfiles: null,
 };
 
 const mapStateToProps = (state) => ({

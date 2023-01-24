@@ -1,7 +1,7 @@
-import React, {useEffect,} from 'react';
+import React, {useEffect} from 'react';
 import {useLocation, useNavigate} from 'react-router-dom';
 import get from 'lodash/get';
-import {BrixelButtonIcon, BrixelButtonPrimary, FactsOptions,} from '@brixel/brixel-components';
+import {BrixelButtonIcon, BrixelButtonPrimary, FactsOptions} from '@brixel/brixel-components';
 import translateTo from '../../utils/translation';
 import {
   BrixelInputText,
@@ -11,9 +11,9 @@ import {
   ReduxField,
   reset,
 } from '@brixel/brixel-components/dist/form';
-import {bindActionCreators, compose,} from 'redux';
-import {connect,} from 'react-redux';
-import {createDeal,} from '../../actions/DealActions';
+import {bindActionCreators, compose} from 'redux';
+import {connect} from 'react-redux';
+import {createDeal} from '../../actions/DealActions';
 
 // COMPONENTS
 import SplashScreen from '../../components/SplashScreen';

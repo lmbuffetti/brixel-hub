@@ -1,4 +1,4 @@
-import {CompanyType, LocationType, SearchProfileType,} from '@brixel/brixel-components/dist/@types/Model';
+import {CompanyType, LocationType, SearchProfileType} from '@brixel/brixel-components/dist/@types/Model';
 
 export interface FromValueType extends SearchProfileType {
   changeCountry?: string;

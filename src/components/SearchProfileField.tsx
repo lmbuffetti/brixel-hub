@@ -9,7 +9,6 @@ import {QuestionInputType, QuestionsListType} from '@brixel/brixel-components/di
 
 const SearchProfileField = (props: SearchProfileFieldType) => {
   const {
-    changeFieldValue,
     field = '',
     lang,
     onClick,
@@ -47,7 +46,7 @@ const SearchProfileField = (props: SearchProfileFieldType) => {
       )
     } else if (get(searchProfile, `${field}.min`, -1) > -1) {
       const inputs: QuestionInputType[] = [];
-      QuestionsList(lang, 'searchProfile', changeFieldValue, 'SearchProfile').forEach((input: QuestionsListType) => {
+      QuestionsList(lang, 'searchProfile', () => '', 'SearchProfile').forEach((input: QuestionsListType) => {
         if (input.inputs) {
           input.inputs.forEach(inp => {
             inputs.push(inp);

@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {BrixelButtonPrimary, BrixelIcon, Helpers,} from '@brixel/brixel-components';
+import {BrixelButtonPrimary, BrixelIcon, Helpers} from '@brixel/brixel-components';
 import translateTo from '../../utils/translation';
 import {
   BrixelCheckbox,
