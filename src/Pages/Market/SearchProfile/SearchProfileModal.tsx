@@ -1,23 +1,25 @@
-import { BrixelButtonIcon, BrixelModal } from '@brixel/brixel-components';
-import { diff } from 'deep-object-diff';
+import React, {useEffect, useState} from 'react';
+import {BrixelButtonIcon, BrixelModal} from '@brixel/brixel-components';
+import {diff} from 'deep-object-diff';
 import get from 'lodash/get';
 import set from 'lodash/set';
-import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
-import { bindActionCreators, compose } from 'redux';
+import {connect} from 'react-redux';
+import {Route, Routes, useLocation, useNavigate} from 'react-router-dom';
+import {bindActionCreators, compose} from 'redux';
 import {
   createUserSearchProfile,
   setUserActiveSearchProfile,
   updateUserSearchProfile,
 } from '../../../actions/SearchProfileActions';
-import { QuestionsList } from '../../../resources/Flows/onBoardingBuyer';
+import {QuestionsList} from '../../../resources/Flows/onBoardingBuyer';
 import translateTo from '../../../utils/translation';
 import SearchProfileForm from './SearchProfileForm';
 import SearchProfileList from './SearchProfileList';
+import type {SearchProfileModalType} from '../../../@types/Pages/Market/SearchProfile/SearchProfileModal';
+import {QuestionInputType} from '@brixel/brixel-components/dist/@types/Model';
+import type {FromValueType} from '../../../@types/Pages/Market/SearchProfile/SearchProfileForm';
 
-const SearchProfileModal = (props) => {
+const SearchProfileModal = (props: SearchProfileModalType) => {
   const history = {
     push: useNavigate(),
     location: useLocation(),
@@ -32,7 +34,7 @@ const SearchProfileModal = (props) => {
     isSmallLoading,
     lang,
     loggedInUser,
-    userSearchProfiles,
+    userSearchProfiles = [],
   } = props;
   // STATE
   const [userActiveSearchProfileId, setUserActiveSearchProfileId] = useState(activeSearchProfile.id);
@@ -47,9 +49,9 @@ const SearchProfileModal = (props) => {
     delete formData.id;
     formData.location = locations;
     delete formValue.locations;
-    let inputs = [];
+    const inputs: QuestionInputType[] = [];
     const url = get(history, 'location.state.url', null);
-    QuestionsList(lang).forEach((input) => {
+    QuestionsList(lang, 'searchProfile', () => '', 'SearchProfile').forEach((input) => {
       if(input.inputs) {
         input.inputs.forEach(inp => {
           inputs.push(inp);
@@ -117,14 +119,14 @@ const SearchProfileModal = (props) => {
   const saveChangeSearchProfile = () => {
     const newSearchProfile = userSearchProfiles.find((src) => src.id === userActiveSearchProfileId);
     if (newSearchProfile) {
-      window.sessionStorage.setItem('profileID', newSearchProfile.id);
+      window.sessionStorage.setItem('profileID', newSearchProfile.id || '');
       handleSetUserActiveSearchProfile(newSearchProfile);
       onClose();
     }
   }
 
   const multiActions = () => {
-    const diffForm = diff(initialValues, formValue) || {};
+    const diffForm: FromValueType = diff(initialValues, formValue) || {};
     switch(history.location.pathname) {
       case '/buy/searchProfile/list':
         return ([
@@ -143,7 +145,7 @@ const SearchProfileModal = (props) => {
             disabled: activeSearchProfile.id === userActiveSearchProfileId,
             func: () => saveChangeSearchProfile(),
             isLoading: isSmallLoading.saveData,
-          }
+          },
         ])
       case '/buy/searchProfile/list/create':
         delete diffForm.changeCountry;
@@ -164,7 +166,7 @@ const SearchProfileModal = (props) => {
             disabled: Object.keys(diffForm).length === 0,
             func: () => saveData('new'),
             isLoading: isSmallLoading.saveData,
-          }
+          },
         ])
       default:
         delete diffForm.changeCountry;
@@ -185,7 +187,7 @@ const SearchProfileModal = (props) => {
             disabled: Object.keys(diffForm).length === 0,
             func: () => saveData('update'),
             isLoading: isSmallLoading.saveData,
-          }
+          },
         ])
     }
   }
@@ -194,7 +196,6 @@ const SearchProfileModal = (props) => {
 
   return (
     <BrixelModal
-      lang={lang}
       clickOutsideToClose={false}
       title={translateTo(modalTitle(), lang)}
       onClose={() => onClose()}
@@ -230,19 +231,6 @@ const SearchProfileModal = (props) => {
       </Routes>
     </BrixelModal>
   );
-};
-
-SearchProfileModal.propTypes = {
-  activeSearchProfile: PropTypes.object.isRequired,
-  formValue: PropTypes.object.isRequired,
-  handleCreateUserSearchProfile: PropTypes.func.isRequired,
-  handleSetUserActiveSearchProfile: PropTypes.func.isRequired,
-  handleUpdateSearchProfile: PropTypes.func.isRequired,
-  initialValues: PropTypes.object.isRequired,
-  isSmallLoading: PropTypes.object.isRequired,
-  lang: PropTypes.string.isRequired,
-  loggedInUser: PropTypes.object.isRequired,
-  userSearchProfiles: PropTypes.arrayOf(PropTypes.object),
 };
 
 const mapStateToProps = (state) => ({

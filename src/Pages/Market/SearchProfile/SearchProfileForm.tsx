@@ -1,15 +1,16 @@
 import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
-import { change, initializeForm, MultiFileldsReduxForm } from '@brixel/brixel-components/dist/form';
+import {change, initializeForm, MultiFileldsReduxForm} from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
 import set from 'lodash/set';
-import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import { compose } from 'redux';
-import { QuestionsList } from '../../../resources/Flows/onBoardingBuyer';
+import React, {useEffect, useState} from 'react';
+import {connect} from 'react-redux';
+import {useParams} from 'react-router-dom';
+import {compose} from 'redux';
+import {QuestionsList} from '../../../resources/Flows/onBoardingBuyer';
+import type {SearchProfileFormType} from '../../../@types/Pages/Market/SearchProfile/SearchProfileForm';
+import {QuestionsListType} from '@brixel/brixel-components/dist/@types/Model';
 
-const SearchProfileForm = (props) => {
+const SearchProfileForm = (props: SearchProfileFormType) => {
   const match = useParams();
   const idSearchProfile = get(match, 'id', null);
   const {
@@ -18,14 +19,14 @@ const SearchProfileForm = (props) => {
     formValue,
     initForm,
     lang,
-    userSearchProfiles,
+    userSearchProfiles = [],
   } = props;
   // STATE
-  const [fullForm, setFullForm] = useState([]);
-  
+  const [fullForm, setFullForm] = useState<QuestionsListType[]>([]);
+
   useEffect(() => {
-    const inputform = [];
-    const fields = [];
+    const inputform: QuestionsListType[] = [];
+    const fields: string[] = [];
     QuestionsList(lang, 'searchProfile', changeFieldValue, 'SearchProfile').forEach((form) => {
       if (!form.hideSearchProfile) inputform.push(form);
       form.inputs && form.inputs.forEach((field) => {
@@ -38,13 +39,12 @@ const SearchProfileForm = (props) => {
     setFullForm(inputform);
     if (userSearchProfiles) {
       const getCurrentSearchProfile = userSearchProfiles.find((itm) => itm.id === idSearchProfile);
-      let initialValue = {};
+      const initialValue: SearchProfileFormType['formValue'] = {};
       fields.forEach((field) => {
         set(initialValue, field, get(getCurrentSearchProfile, field, ''));
       })
       initialValue.locations = get(getCurrentSearchProfile, 'location', []);
       initialValue.location = get(getCurrentSearchProfile, 'location[0]', []);
-      delete initialValue.location.searchAddress;
       const companyCountryCode = get(activeSingleCompany, 'country.code', '');
       set(initialValue, 'location.countryCode', get(getCurrentSearchProfile, 'location[0].countryCode', companyCountryCode));
       if (idSearchProfile) initialValue.id = idSearchProfile;
@@ -52,10 +52,10 @@ const SearchProfileForm = (props) => {
       initForm(initialValue);
     }
   }, [userSearchProfiles]);
-  
+
   useEffect(() => {
-    const inputform = [];
-    const fields = [];
+    const inputform: QuestionsListType[] = [];
+    const fields: string[] = [];
     QuestionsList(lang, 'searchProfile', changeFieldValue, 'SearchProfile').forEach((form) => {
       if (!form.hideSearchProfile) inputform.push(form);
       form.inputs && form.inputs.forEach((field) => {
@@ -67,8 +67,8 @@ const SearchProfileForm = (props) => {
     });
     setFullForm(inputform);
   }, [formValue]);
-  
-  
+
+
   return (
     <div className="flowWrapper">
       <div className="packageFlow">
@@ -87,19 +87,6 @@ const SearchProfileForm = (props) => {
       </div>
     </div>
   );
-};
-
-SearchProfileForm.propTypes = {
-  activeSingleCompany: PropTypes.object.isRequired,
-  changeFieldValue: PropTypes.func.isRequired,
-  formValue: PropTypes.object.isRequired,
-  initForm: PropTypes.func.isRequired,
-  lang: PropTypes.string.isRequired,
-  userSearchProfiles: PropTypes.arrayOf(PropTypes.object),
-};
-
-SearchProfileForm.defaultProps = {
-  userSearchProfiles: [],
 };
 
 const mapStateToProps = (state) => ({

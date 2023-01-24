@@ -1,3 +1,4 @@
+import React, {useEffect, useRef, useState} from 'react';
 import {
   BrixelButtonIcon,
   BrixelButtonSecondary,
@@ -5,23 +6,23 @@ import {
   BrixelDropdownMini,
   useOutsideAlerter,
 } from '@brixel/brixel-components';
-import { BrixelRadioButton, change, initializeForm } from '@brixel/brixel-components/dist/form';
+import {BrixelRadioButton, change, initializeForm} from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
 import set from 'lodash/set';
-import PropTypes from 'prop-types';
-import React, { useEffect, useRef, useState } from 'react';
-import { connect } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { bindActionCreators, compose } from 'redux';
-import { setModal } from '../../../actions/CommonActions';
-import { deleteUserSearchProfile, updateUserSearchProfile } from '../../../actions/SearchProfileActions';
+import {connect} from 'react-redux';
+import {useLocation, useNavigate} from 'react-router-dom';
+import {bindActionCreators, compose} from 'redux';
+import {setModal} from '../../../actions/CommonActions';
+import {deleteUserSearchProfile, updateUserSearchProfile} from '../../../actions/SearchProfileActions';
 import SearchProfileField from '../../../components/SearchProfileField';
 import exclamationIcon from '../../../images/searchProfile/exclamation-icon.svg';
-import { QuestionsList } from '../../../resources/Flows/onBoardingBuyer';
-import { titleSearchProfile } from '../../../utils/titleCreationSearchProfile';
+import {QuestionsList} from '../../../resources/Flows/onBoardingBuyer';
+import {titleSearchProfile} from '../../../utils/titleCreationSearchProfile';
 import translateTo from '../../../utils/translation';
+import type {SearchProfileListType} from '../../../@types/Pages/Market/SearchProfile/SearchProfileList';
+import {SearchProfileType} from '@brixel/brixel-components/dist/@types/Model';
 
-const SearchProfileList = (props) => {
+const SearchProfileList = (props: SearchProfileListType) => {
   const history = {
     push: useNavigate(),
     location: useLocation(),
@@ -30,25 +31,25 @@ const SearchProfileList = (props) => {
     changeFieldValue,
     handleDeleteUserSearchProfile,
     handleSetModal,
+    handleUpdateSearchProfile,
     initForm,
     isSmallLoading,
     lang,
-    userSearchProfiles,
     onChangeProfile,
     userActiveSearchProfileId,
-    handleUpdateSearchProfile,
+    userSearchProfiles = [],
   } = props;
   // REF
   const optionsRef = useRef(null);
   // STATE
-  const [isOptionsOpen, setIsOptionsOpen] = useState({
-    id: null,
+  const [isOptionsOpen, setIsOptionsOpen] = useState<{id?: string; active: boolean}>({
+    id: undefined,
     active: false,
   });
-  const [fieldsSearchProfile, setFieldsSearchProfile] = useState([]);
+  const [fieldsSearchProfile, setFieldsSearchProfile] = useState<string[]>([]);
 
   useEffect(() => {
-    const fields = [...fieldsSearchProfile];
+    const fields: string[] = [...fieldsSearchProfile];
     QuestionsList(lang, 'searchProfile', changeFieldValue, 'SearchProfile').forEach((inputs) => {
       if (inputs.inputs) {
         inputs.inputs.forEach((field) => {
@@ -63,7 +64,7 @@ const SearchProfileList = (props) => {
   }, []);
 
   const editSearchProfile = (searchProfile) => {
-    let initialValue = {};
+    const initialValue: SearchProfileType = {};
     fieldsSearchProfile.forEach((field) => {
       set(initialValue, field, get(searchProfile, field, ''));
     })
@@ -106,8 +107,8 @@ const SearchProfileList = (props) => {
           round: true,
           className: 'ml-1',
           func: () => deleteSearchProfile(profile),
-        }
-      ]
+        },
+      ],
     })
   }
 
@@ -116,11 +117,11 @@ const SearchProfileList = (props) => {
       id: searchProfile.id,
       smallLoader: `saveData${searchProfile.id}`,
       dataSearchProfile: {
-        isDefault: true
+        isDefault: true,
       },
     })
     setIsOptionsOpen({
-      id: null,
+      id: undefined,
       active: false,
     });
   }
@@ -129,7 +130,7 @@ const SearchProfileList = (props) => {
   useOutsideAlerter(optionsRef, {
     action: 'function',
     func: () => setIsOptionsOpen({
-      id: null,
+      id: undefined,
       active: false,
     }),
   });
@@ -168,16 +169,14 @@ const SearchProfileList = (props) => {
                         disableDelay={true}
                         input={{
                           value: userActiveSearchProfileId,
-                          name: `saerchProfileSelected`,
-                          onChange: () => onChangeProfile(searchProfile.id),
+                          name: 'saerchProfileSelected',
+                          onChange: () => onChangeProfile(searchProfile.id || ''),
                           checkmarkColor: 'blue',
                         }}
                         options={[{
-                          index: i,
                           value: searchProfile.id,
                           label: searchProfile.name || titleSearchProfile(searchProfile, lang),
-                        }
-                        ]}
+                        }]}
                       />
                     </div>
                     <div className="dis-f a-c jc-fe w-perc-20">
@@ -197,7 +196,7 @@ const SearchProfileList = (props) => {
                           ghost
                           bgTransparent
                           onClick={() => setIsOptionsOpen({
-                            id: isOptionsOpen.id === searchProfile.id ? null : searchProfile.id,
+                            id: isOptionsOpen.id === searchProfile.id ? undefined : searchProfile.id,
                             active: !isOptionsOpen.active,
                           })}
                         />
@@ -285,23 +284,6 @@ const SearchProfileList = (props) => {
       }
     </div>
   );
-};
-
-SearchProfileList.propTypes = {
-  changeFieldValue: PropTypes.func.isRequired,
-  handleDeleteUserSearchProfile: PropTypes.func.isRequired,
-  handleSetModal: PropTypes.func.isRequired,
-  handleUpdateSearchProfile: PropTypes.func.isRequired,
-  initForm: PropTypes.func.isRequired,
-  isSmallLoading: PropTypes.object.isRequired,
-  lang: PropTypes.string.isRequired,
-  onChangeProfile: PropTypes.func.isRequired,
-  userActiveSearchProfileId: PropTypes.string,
-  userSearchProfiles: PropTypes.arrayOf(PropTypes.object),
-};
-
-SearchProfileList.defaultProps = {
-  userSearchProfiles: [],
 };
 
 const mapStateToProps = (state) => ({
