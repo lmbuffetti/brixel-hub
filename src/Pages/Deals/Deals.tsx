@@ -306,28 +306,28 @@ const Deals = (props: DealsType) => {
                 <div className="rightCol parentScroll">
                   <div className="scrollContent">
                     {
+                      activeSinglePropertyDeals && emptyDeals && smallLoader.loadDeal === false && (
+                        <>
+                          <div className="emptyMessage min-h-fix-224 dis-f w-perc-100 jc-c">
+                            <div className="max-w-fix-544 ta-c p-3 dis-fl-col a-c">
+                              <h5>{translateTo('No deals yet?', lang)}</h5>
+                              <p className="p-3 txtDark700">
+                                {translateTo('Your deals will appear as soon as any interested buyer interacts with your property. Make sure to publish your Brixel Page and your listings to receive deals.', lang)}
+                              </p>
+                              <BrixelButtonPrimary
+                                label={translateTo('Manage listings', lang)}
+                                rounded
+                                onClick={() => history.push(`/${activeSingleProperty.id}/marketing/page`)}
+                              />
+                            </div>
+                          </div>
+
+                        </>
+                      )
+                    }
+                    {
                       filteredDeals && Object.keys(filteredDeals).map((key, o) => (
                         <React.Fragment key={`fltDls_${o.toString()}`}>
-                          {
-                            activeSinglePropertyDeals && emptyDeals && smallLoader.loadDeal === false && (
-                              <>
-                                <div className="emptyMessage min-h-fix-224 dis-f w-perc-100 jc-c">
-                                  <div className="max-w-fix-544 ta-c p-3 dis-fl-col a-c">
-                                    <h5>{translateTo('No deals yet?', lang)}</h5>
-                                    <p className="p-3 txtDark700">
-                                      {translateTo('Your deals will appear as soon as any interested buyer interacts with your property. Make sure to publish your Brixel Page and your listings to receive deals.', lang)}
-                                    </p>
-                                    <BrixelButtonPrimary
-                                      label={translateTo('Manage listings', lang)}
-                                      rounded
-                                      onClick={() => history.push(`/${activeSingleProperty.id}/marketing/page`)}
-                                    />
-                                  </div>
-                                </div>
-
-                              </>
-                            )
-                          }
                           <div
                             className={`singleCol ${key}`}
                           >
