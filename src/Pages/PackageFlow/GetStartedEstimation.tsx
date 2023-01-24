@@ -1,4 +1,4 @@
-/* eslint-disable no-nested-ternary */
+import React, {useEffect, useRef, useState} from 'react';
 import {
   BrixelButtonIcon,
   BrixelButtonPrimary,
@@ -6,37 +6,38 @@ import {
   BrixelProgressBar,
   DataByCountry,
 } from '@brixel/brixel-components';
-import { languagesList } from '@brixel/brixel-components/dist/configuration/Constants';
-import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
-import { change, destroy, initializeForm, MultiFileldsReduxForm, reset } from '@brixel/brixel-components/dist/form';
+import {languagesList} from '@brixel/brixel-components/dist/configuration/Constants';
+import {phonecode} from '@brixel/brixel-components/dist/constants/CountryCodePhone';
+import {change, destroy, initializeForm, MultiFileldsReduxForm, reset} from '@brixel/brixel-components/dist/form';
 import cloneDeep from 'lodash/cloneDeep';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import isArray from 'lodash/isArray';
 import set from 'lodash/set';
-import PropTypes from 'prop-types';
 import queryString from 'query-string';
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-shadow */
-import React, { useEffect, useRef, useState } from 'react';
-import { connect } from 'react-redux';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { bindActionCreators, compose } from 'redux';
+import {connect} from 'react-redux';
+import {useLocation, useNavigate, useParams} from 'react-router-dom';
+import {bindActionCreators, compose} from 'redux';
 import Cookies from 'universal-cookie';
 import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
-import { spinnerOff, spinnerOn } from '../../actions/CommonActions';
-import { getActiveSingleCompany } from '../../actions/CompanyActions';
-import { createEstimation } from '../../actions/EstimationActions';
-import { createActiveSingleProperty, saveActiveSingleProperty } from '../../actions/PropertyActions';
-import { doLogin, saveActiveSingleUser, validateUser } from '../../actions/UserActions';
-import { QuestionsList } from '../../resources/Flows/onBoardingEstimation';
-import { calcPercentageFacts, checkBrowser, setCookie } from '../../utils/helpers';
-import { titleProperty } from '../../utils/titleCreation';
+import {spinnerOff, spinnerOn} from '../../actions/CommonActions';
+import {getActiveSingleCompany} from '../../actions/CompanyActions';
+import {createEstimation} from '../../actions/EstimationActions';
+import {createActiveSingleProperty, saveActiveSingleProperty} from '../../actions/PropertyActions';
+import {doLogin, saveActiveSingleUser, validateUser} from '../../actions/UserActions';
+import {QuestionsList} from '../../resources/Flows/onBoardingEstimation';
+import {calcPercentageFacts, checkBrowser, setCookie} from '../../utils/helpers';
+import {titleProperty} from '../../utils/titleCreation';
 import translateTo from '../../utils/translation';
+import type {
+  FormToSaveData,
+  FormValueType,
+  GetStartedEstimationType
+} from '../../@types/Pages/PackageFlow/GetStartedEstimation';
 
 const cookie = new Cookies();
 
-const GetStartedEstimation = (props) => {
+const GetStartedEstimation = (props: GetStartedEstimationType) => {
   const isOpenTransifex = cookie.get('transifex_sidebar');
   const history = {
     push: useNavigate(),
@@ -52,21 +53,19 @@ const GetStartedEstimation = (props) => {
     errorValue,
     formValue,
     handleCreateActiveSingleProperty,
+    handleCreateEstimation,
     handleDoLogin,
     handleGetActiveSingleCompany,
-    handleCreateEstimation,
-    // handleSaveActiveSingleProperty,s
-    // handleSaveActiveSingleUser,
-    handleSpinnerOn,
+    handleReset,
     handleSpinnerOff,
+    handleSpinnerOn,
     handleValidateUser,
     initForm,
     initialValues,
     isLoading,
-    isTest,
-    lang,
+    isTest = false,
+    lang = 'en',
     loggedInUser,
-    handleReset,
     translations,
   } = props;
   // STATE
@@ -90,49 +89,50 @@ const GetStartedEstimation = (props) => {
     handleSpinnerOff();
     return () => destroyForm();
   }, []);
-  
+
   useEffect(() => {
     if (!isLoading) setLoadingRequest(false);
   }, [isLoading]);
 
   useEffect(() => {
     if (get(formValue, 'properties.extraFeaturesBestimatePT', null)) {
-      changeFieldValue('properties.extraFeatures.equippedKitchen', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('equippedKitchen'));
-      changeFieldValue('properties.building.blinds.blindsElectric', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('electricBlinds'));
-      let windowsMaterials = [];
-      if (get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('doubleGlazedWindows')) {
+      const extraFeatPT = get(formValue, 'properties.extraFeaturesBestimatePT', '') || '';
+      changeFieldValue('properties.extraFeatures.equippedKitchen', extraFeatPT.includes('equippedKitchen'));
+      changeFieldValue('properties.building.blinds.blindsElectric', extraFeatPT.includes('electricBlinds'));
+      let windowsMaterials: string[] = [];
+      if (extraFeatPT.includes('doubleGlazedWindows')) {
         windowsMaterials = ['doubleGlazed'];
       }
       if (windowsMaterials[0] !== get(formValue, 'properties.building.windows.materials', [])[0]) changeFieldValue('properties.building.windows.materials', windowsMaterials);
-      changeFieldValue('properties.extraFeatures.suite', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('masterBedroom'));
-      changeFieldValue('properties.extraFeatures.wardrobe', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('wardrobe'));
-      changeFieldValue('properties.energy.ac', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('airConditioning'));
-      let centralHeating = [];
-      if (get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('heatingSystem')) {
+      changeFieldValue('properties.extraFeatures.suite', extraFeatPT.includes('masterBedroom'));
+      changeFieldValue('properties.extraFeatures.wardrobe', extraFeatPT.includes('wardrobe'));
+      changeFieldValue('properties.energy.ac', extraFeatPT.includes('airConditioning'));
+      let centralHeating: string[] = [];
+      if (extraFeatPT.includes('heatingSystem')) {
         centralHeating = ['centralHeating'];
       }
       if (centralHeating[0] !== get(formValue, 'properties.energy.heatingSystem', [])[0]) changeFieldValue('properties.energy.heatingSystem', centralHeating);
-      changeFieldValue('properties.extraFeatures.fireplace', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('fireplace'));
-      changeFieldValue('properties.extraFeatures.swimmingPool', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('pool'));
-      changeFieldValue('properties.extraFeatures.gym', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('gym'));
-      changeFieldValue('properties.extraFeatures.elevator', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('elevator'));
-      changeFieldValue('properties.typology.storeroom', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('storageRoom'));
-      changeFieldValue('properties.typology.basement', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('basement'));
-      changeFieldValue('properties.extraFeatures.seaView', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('seaView'));
-      changeFieldValue('properties.extraFeatures.cityView', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('cityView'));
-      changeFieldValue('properties.typology.pantry', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('pantry'));
-      changeFieldValue('properties.extraFeatures.videoSecurity', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('dorbellVideo'));
-      changeFieldValue('properties.extraFeatures.alarm', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('alarm'));
+      changeFieldValue('properties.extraFeatures.fireplace', extraFeatPT.includes('fireplace'));
+      changeFieldValue('properties.extraFeatures.swimmingPool', extraFeatPT.includes('pool'));
+      changeFieldValue('properties.extraFeatures.gym', extraFeatPT.includes('gym'));
+      changeFieldValue('properties.extraFeatures.elevator', extraFeatPT.includes('elevator'));
+      changeFieldValue('properties.typology.storeroom', extraFeatPT.includes('storageRoom'));
+      changeFieldValue('properties.typology.basement', extraFeatPT.includes('basement'));
+      changeFieldValue('properties.extraFeatures.seaView', extraFeatPT.includes('seaView'));
+      changeFieldValue('properties.extraFeatures.cityView', extraFeatPT.includes('cityView'));
+      changeFieldValue('properties.typology.pantry', extraFeatPT.includes('pantry'));
+      changeFieldValue('properties.extraFeatures.videoSecurity', extraFeatPT.includes('dorbellVideo'));
+      changeFieldValue('properties.extraFeatures.alarm', extraFeatPT.includes('alarm'));
       const efficiencyCertified = get(formValue, 'properties.energy.efficiency', null) !== null ? 'yes' : null;
       changeFieldValue('properties.energy.efficiencyCertified', efficiencyCertified);
     }
   }, [get(formValue, 'properties.extraFeaturesBestimatePT', null)]);
 
   const getCurrency = () => {
-    const result = {};
+    const result = {currency: 'EUR'};
     if (get(formValue, 'location.countryCode', '')) {
       const currency = DataByCountry(get(formValue, 'location.countryCode', ''));
-      result.currency = currency || 'CHF';
+      result.currency = (currency || 'CHF').toString();
       changeFieldValue('price.currency', result.currency);
     }
     return result;
@@ -157,25 +157,25 @@ const GetStartedEstimation = (props) => {
     }
     // PROPERTY DATA
     delete dataFormAnswer.login;
-    if (get(dataFormAnswer, 'estimationType', '') === 'seller' && action === 'skip') delete dataFormAnswer.baloiseInfo;
-    if (!dataFormAnswer.properties.typology.bathrooms) dataFormAnswer.properties.typology.bathrooms = 0;
-    dataFormAnswer.properties.parking = {
-      garage: dataFormAnswer.properties.parking.garage || 0,
-      outside: dataFormAnswer.properties.parking.outside || 0,
-      underground: dataFormAnswer.properties.parking.underground || 0,
-    };
+    if (get(dataFormAnswer, 'estimationType', null) === 'seller' && action === 'skip') delete dataFormAnswer.baloiseInfo;
+    if (!dataFormAnswer?.properties?.typology?.bathrooms) set(dataFormAnswer, 'properties.typology.bathrooms', 0);
+    set(dataFormAnswer, 'properties.parking', {
+      garage: dataFormAnswer?.properties?.parking?.garage || 0,
+      outside: dataFormAnswer?.properties?.parking?.outside || 0,
+      underground: dataFormAnswer?.properties?.parking?.underground || 0,
+    });
     let saveLangUser = 'en';
     const checkValidLang = languagesList.find((lng) => lng.code === lang);
     if (checkValidLang) saveLangUser = lang;
-    let data = {
+    let data: FormToSaveData = {
       ...dataFormAnswer,
       packageFlowProcess: {
         answers: dataFormAnswer,
         rewardScreenData: {},
         metaUser: metaUserData,
       },
-      preMarketVisible: get(dataFormAnswer, 'estimationType', '') === 'seller',
-      ownerType: get(dataFormAnswer, 'estimationType', '') === 'buyer' ? 'buyer' : 'seller',
+      preMarketVisible: get(dataFormAnswer, 'estimationType', null) === 'seller',
+      ownerType: get(dataFormAnswer, 'estimationType', null) === 'buyer' ? 'buyer' : 'seller',
       language: saveLangUser,
       title: formValue.pageTitle,
       purpose: get(dataFormAnswer, 'estimationType', ''),
@@ -183,7 +183,7 @@ const GetStartedEstimation = (props) => {
       listed: false,
       active: true,
       published: false,
-      addProperty: get(dataFormAnswer, 'estimationType', '') !== 'buyer',
+      addProperty: get(dataFormAnswer, 'estimationType', null) !== 'buyer',
       price: get(formValue, 'price', getCurrency()),
       redirectToUserFlow: false,
       createEstimation: true,
@@ -191,7 +191,7 @@ const GetStartedEstimation = (props) => {
       redirectToUrl: '/sell',
       extraLoading: true,
     };
-    if (get(dataFormAnswer, 'estimationType', '') === 'buyer') {
+    if (get(dataFormAnswer, 'estimationType', null) === 'buyer') {
       data = {
         data,
         createEstimation: data.createEstimation,
@@ -202,7 +202,7 @@ const GetStartedEstimation = (props) => {
       };
     }
     if (formValue.pageID) data.id = formValue.pageID;
-    if (get(dataFormAnswer, 'estimationType', '') !== 'buyer') data.packageFlowProcess.answers.userType = get(dataFormAnswer, 'estimationType', '');
+    if (get(dataFormAnswer, 'estimationType', null) !== 'buyer') set(data, 'packageFlowProcess.answers.userType', get(dataFormAnswer, 'estimationType', ''));
     else {
       data.data = {
         ...data.data,
@@ -216,7 +216,7 @@ const GetStartedEstimation = (props) => {
       data.owner = get(loggedInUser, 'user.id', '');
       // DISPATCH TO SAVE THE PROPERTY
       data.redirectToRewards = true;
-      if (get(dataFormAnswer, 'estimationType', '') !== 'buyer') {
+      if (get(dataFormAnswer, 'estimationType', null) !== 'buyer') {
         await handleCreateActiveSingleProperty(data);}
       else {
         if (action === 'accept' && company === 'baloise') {
@@ -229,24 +229,24 @@ const GetStartedEstimation = (props) => {
         handleCreateEstimation(data);
       }
     } else if (page === 'login') {
-      changeFieldValue('register.email', login.email);
+      changeFieldValue('register.email', login?.email || '');
       // IF USER DO THE LOG IN, DO THE LOGIN AND THEN SAVE DIRECTLY THE PAGE
       // USER DATA
-      data.user = {
-        username: login.email.toLowerCase(),
-        password: login.password,
-      };
+      set(data, 'user', {
+        username: (login?.email || '').toLowerCase(),
+        password: login?.password || '',
+      });
       // DISPATCH TO DO LOGIN
-      data.redirectToHome = true;
+      set(data, 'redirectToHome', true);
       await handleDoLogin(data);
     } else {
-      changeFieldValue('login.email', register.email);
+      changeFieldValue('login.email', register?.email || '');
       // IF USER DO THE SIGN UP, DO THE REGISTRATION AND THEN SAVE DIRECTLY THE PAGE
       // USER DATA
       data.redirectToRewards = true;
-      data.user = {
+      set(data, 'user', {
         ...register,
-        email: register.email.toLowerCase(),
+        email: (register?.email || '').toLowerCase(),
         acceptTerms: get(register, 'privacy[0]', true),
         acceptMarketing: get(register, 'acceptMarketing[0]', false),
         name: get(formValue, 'register.name', ''),
@@ -263,7 +263,7 @@ const GetStartedEstimation = (props) => {
           pathname: '/packageFlow/getStartedEstimation/success',
           state: { hideClose: true },
         },
-      };
+      });
       const sellerType = [
         'seller',
         'inheritance',
@@ -274,15 +274,15 @@ const GetStartedEstimation = (props) => {
         'buyer',
       ];
       if (sellerType.includes(get(dataForm, 'estimationType', ''))) {
-        data.user.seller = true;
-        data.user.buyer = false;
+        set(data, 'user.seller', true);
+        set(data, 'user.buyer', false);
       }
       if (buyerType.includes(get(dataForm, 'estimationType', ''))) {
-        data.user.buyer = true;
-        data.user.seller = false;
+        set(data, 'user.seller', false);
+        set(data, 'user.buyer', true);
       }
       if (activeSingleCompany.stub === 'baloise' || activeSingleCompany.stub === 'ubs') {
-        const userType = data.user.buyer === true ? 'buyer' : 'seller';
+        const userType = get(data, 'user.buyer', null) === true ? 'buyer' : 'seller';
         set(data, 'redirectToUrl', `/termsConditionFlow/${activeSingleCompany.stub}/${userType}?url=/:pageID/home`);
       }
       // DISPATCH TO DO REGISTRATION USER
@@ -298,27 +298,32 @@ const GetStartedEstimation = (props) => {
 
   // FUNCTION TO SHOW/HIDE BLOCK IN BASE OF JSON CONDITION
   const checkCondition = (id, act) => {
-    let newIndex = id;
-    if (get(questions, `[${newIndex}].conditions`, null)) {
+    let newIndex: number = id;
+    if (questions[newIndex] && questions[newIndex].conditions) {
       let checkCond = true;
-      questions[newIndex].conditions.map((cond) => {
-        const val = get(formValue, cond.name, null);
-        if (has(cond, 'value') && val !== cond.value && checkCond) {
-          if (act === 'back') newIndex -= 1;
-          else newIndex += 1;
-          checkCond = false;
-        }
-        return null;
-      });
+      const {conditions} = questions[newIndex];
+      if (conditions) {
+        conditions.map((cond) => {
+          if (cond.name) {
+            const val = get(formValue, cond.name, null);
+            if (has(cond, 'value') && val !== cond.value && checkCond) {
+              if (act === 'back') newIndex -= 1;
+              else newIndex += 1;
+              checkCond = false;
+            }
+          }
+          return null;
+        });
+      }
     }
     return newIndex;
   };
 
   // CHECK IF FIELDS IS VALID TO ENABLE NEXT BUTTON
-  const checkValidateField = (act) => {
+  const checkValidateField = (act = '') => {
     let isValid = true;
     let isNotEmpty = false;
-    if (get(quest, 'inputs', null)) {
+    if (quest?.inputs) {
       quest.inputs.forEach((input) => {
         const err = get(errorValue, input.name, null);
         const noEmpty = get(formValue, input.name, 'ayc');
@@ -363,7 +368,7 @@ const GetStartedEstimation = (props) => {
   const multiStepSlidesEl = multiStepSlidesRef.current;
 
   // FUNCTION TO GO TO NEXT STEP
-  const changeStep = (act, e, step = 1, skipValidation) => {
+  const changeStep = (act = 'next', e: null | React.FormEvent = null, step = 1, skipValidation = false) => {
     if (e) e.preventDefault();
     let newIndex = currentIndex;
     setOldIndex(currentIndex);
@@ -384,31 +389,21 @@ const GetStartedEstimation = (props) => {
       if (defId !== newIndex) defId = checkCondition(defId, act);
       if (questions[defId]) {
         // setPosition(newIndex);
-        if (questions[defId].toSave) saveData(get(questions[defId], 'action', null));
+        if (questions[defId].toSave) saveData(get(questions[defId], 'action', ''));
         else {
-          let newQuest = {
+          const newQuest = {
             ...questions[defId],
           };
-          if (questions[defId].effect === 'slideUp') {
-            newQuest = {
-              ...questions[defId - 1],
-            };
-          }
-          if (act === 'back' && questions[defId + 1].effect === 'slideUp') {
-            setQuest(newQuest);
-            setCurrentIndex(defId);
-          } else {
-            setQuest(newQuest);
-            setCurrentIndex(defId);
-          }
+          setQuest(newQuest);
+          setCurrentIndex(defId);
           if (newQuest.history !== 'createProfile') {
             if (newQuest.inputs && !newQuest.inputs[0].options && !newQuest.inputs[0].startFrom) {
               const fakeInput = document.createElement('input');
               fakeInput.setAttribute('type', 'text');
               fakeInput.setAttribute('id', 'fakeInput');
               fakeInput.style.position = 'absolute';
-              fakeInput.style.opacity = 0;
-              fakeInput.style.height = 0;
+              fakeInput.style.opacity = '0';
+              fakeInput.style.height = '0';
               fakeInput.style.fontSize = '16px'; // disable auto zoom
               // zoom/scroll behavior
               document.body.prepend(fakeInput);
@@ -419,27 +414,31 @@ const GetStartedEstimation = (props) => {
               const fakeInput = document.getElementById('fakeInput');
               const getCurStep = document.getElementById(`step-${defId}`);
               if (getCurStep && getCurStep.querySelector('input[type="number"]')) {
-                getCurStep.querySelector('input[type="number"]').focus();
+                const inputNumber = getCurStep.querySelector('input[type="number"]') as HTMLInputElement;
+                if (inputNumber) inputNumber.focus();
               } else if (getCurStep && getCurStep.querySelector('input[type="text"]')) {
-                getCurStep.querySelector('input[type="text"]').focus();
+                const inputText = getCurStep.querySelector('input[type="text"]') as HTMLInputElement;
+                if (inputText) inputText.focus();
               } else if (getCurStep && getCurStep.querySelector('input[type="search"]')) {
-                getCurStep.querySelector('input[type="search"]').focus();
+                const inputSearch = getCurStep.querySelector('input[type="search"]') as HTMLInputElement;
+                if (inputSearch) inputSearch.focus();
               }
               // cleanup
               if (fakeInput) fakeInput.remove();
             }, 500);
           }
           if (questions[defId].history) {
-            history.push({
-              pathname: `/packageFlow/getStartedEstimation/${company.stub}/${questions[defId].history}`,
-              state: get(history, 'location.state', {}),
-            });
+            history.push(`/packageFlow/getStartedEstimation/${company.stub}/${questions[defId].history}`, { state: get(history, 'location.state', {})});
           }
           if (checkBrowser() > 0) {
+            // @ts-ignore
             if (singleStepEl && singleStepEl.scrollTop) singleStepEl.scrollTop = 0;
+            // @ts-ignore
             if (multiStepSlidesEl && multiStepSlidesEl.scrollTop) multiStepSlidesEl.scrollTop = 0;
           } else {
+            // @ts-ignore
             if (singleStepEl && typeof singleStepEl.scrollTo === 'function') singleStepEl.scrollTo({ top: 0, behavior: 'smooth' });
+            // @ts-ignore
             if (multiStepSlidesEl && typeof multiStepSlidesEl.scrollTo === 'function') multiStepSlidesEl.scrollTo({ top: 0, behavior: 'smooth' });
           }
         }
@@ -455,13 +454,13 @@ const GetStartedEstimation = (props) => {
   // ON CHANGE VALUE RE-CALC THE PERCENTAGE OF FACTS
   useEffect(() => {
     setOldIndex(currentIndex);
-    const inputSheet = cloneDeep(get(formValue, 'inputSheet', {}) || {});
+    const inputSheet: FormValueType['inputSheet'] = cloneDeep(get(formValue, 'inputSheet', {}) || {});
     if (calcPercentageFacts('GetStarted').calcPerc !== calcPercentageFacts('GetStarted').savedPerc && inputSheet.totalComplete !== calcPercentageFacts('GetStarted').calcPerc) {
       inputSheet.totalComplete = calcPercentageFacts('GetStarted').calcPerc;
       changeFieldValue('inputSheet', inputSheet);
     }
     const newQuest = QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue);
-    if (newQuest[currentIndex].inputs && newQuest[currentIndex].inputs.length === 1 && get(newQuest[currentIndex], 'inputs[0].options', []).length > 0 && get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), null) && !isArray(get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), [])) && oldIndex <= currentIndex) {
+    if (newQuest[currentIndex].inputs && newQuest[currentIndex] && (newQuest[currentIndex].inputs || []).length === 1 && get(newQuest[currentIndex], 'inputs[0].options', []).length > 0 && get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), null) && !isArray(get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), [])) && oldIndex <= currentIndex) {
       changeStep('next', null, 1, true);
     }
   }, [formValue]);
@@ -504,14 +503,8 @@ const GetStartedEstimation = (props) => {
 
   // ON CHANGE LANGUAGE RELOAD THE QUESTIONS TRANSLATED
   useEffect(() => {
-    const currentQuest = QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue)[currentIndex];
-    if (currentQuest.effect === 'slideUp') {
-      setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue));
-      setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue)[currentIndex - 1]);
-    } else {
-      setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue));
-      setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue)[currentIndex]);
-    }
+    setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue));
+    setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue)[currentIndex]);
   }, [lang, translations]);
 
   // ON CHANGE STEP (currentIndex is different for each step) CHANGE THE isEnter (used for enter effect) AND LOAD COMPANY DATA IF countryCode CHANGE
@@ -547,19 +540,19 @@ const GetStartedEstimation = (props) => {
 
   // FUNCTION TO CLOSE
   const closeWindow = () => {
-    handleReset('Property');
+    handleReset(initialValues);
     history.push(`/${propID}/home`);
   };
 
   // GET THE NEXT DATA IN BASE OF CURRENT ANSWER
   useEffect(() => {
     if (formValue) {
-      const newQuest = [];
+      const newQuest: object[] = [];
       QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue).map((quest) => {
         if (quest.condition) {
           let isValid = true;
           quest.condition.map((item) => {
-            if (get(formValue, item.name, null) !== item.value) {
+            if (item.name && get(formValue, item.name, null) !== item.value) {
               isValid = false;
             }
             return null;
@@ -601,7 +594,7 @@ const GetStartedEstimation = (props) => {
     const inputName = get(quest, 'inputs[0].name', null);
     if (get(questions, `[${currentIndex + 2}].toSave`, null)) label = 'Save';
     else if (get(quest, 'history', '') === 'baloiseInfo') label = 'Continue';
-    else if (get(quest, 'inputs[0].validation', null) === null && get(formValue, inputName, null) === null) label = 'Next';
+    else if (inputName && get(quest, 'inputs[0].validation', null) === null && get(formValue, inputName, null) === null) label = 'Next';
     else label = 'Next';
     return label;
   };
@@ -612,11 +605,13 @@ const GetStartedEstimation = (props) => {
       if (get(item, 'hideProgress', false) !== true) {
         if (item.conditions) {
           item.conditions.forEach((cond) => {
-            const val = get(formValue, cond.name, null);
-            if (cond.value && val === cond.value) {
-              num += 1;
-            } else if (cond.noValue && val !== cond.noValue) {
-              num += 1;
+            if (cond.name) {
+              const val = get(formValue, cond.name, null);
+              if (cond.value && val === cond.value) {
+                num += 1;
+              } else if (cond.noValue && val !== cond.noValue) {
+                num += 1;
+              }
             }
           });
         } else {
@@ -656,13 +651,13 @@ const GetStartedEstimation = (props) => {
         }
 
         <div
-          className={`bodyModal container ${questions[currentIndex].effect === 'slideUp' ? 'ov-v signUpScreen' : ''} ${get(quest, 'history', '')}`}
+          className={`bodyModal container ${get(quest, 'history', '')}`}
         >
           <form
             id="multiStepForm"
             autoComplete="off"
-            className={`interactive dis-fl-col jc-b ${get(quest, 'background', null) || ''} ${questions[currentIndex].effect === 'slideUp' ? 'ov-v signUp' : ''}`}
-            onSubmit={(e) => changeStep(null, e)}
+            className={`interactive dis-fl-col jc-b ${get(quest, 'background', null) || ''}`}
+            onSubmit={(e) => changeStep()}
           >
             <div ref={multiStepSlidesRef} className="multiStepSlides">
               <div ref={singleStepRef} className="singleStep pt-5 jc-c">
@@ -722,10 +717,14 @@ const GetStartedEstimation = (props) => {
                     (get(quest, 'cardType', null) === 'card') && (
                       <div className="scaleAnim ta-c">
                         <img loading="lazy" src={quest.img} alt={quest.title} className="max-w-fix-232 mb-5" />
-                        <h5
-                          className="fadeAnim mt-2 ta-c"
-                          dangerouslySetInnerHTML={{ __html: quest.title }}
-                        />
+                        {
+                          quest.title && (
+                            <h5
+                              className="fadeAnim mt-2 ta-c"
+                              dangerouslySetInnerHTML={{ __html: quest.title }}
+                            />
+                          )
+                        }
                         {
                           quest.subtitle && (
                             <h6
@@ -803,7 +802,7 @@ const GetStartedEstimation = (props) => {
                           className={`brdRadius bgWhite ml-a mr-a px-2 px-sm-6 ${quest.bulletPoints ? 'dis-fl-col dis-fl-row-lg bulletPointsStep jc-b py-2 py-lg-0 max-w-fix-912' : 'max-w-fix-752 pt-3 pb-6'}`}
                         >
                           {
-                            quest.text.map((text, i) => (
+                            get(quest, 'text', []).map((text, i) => (
                               <div
                                 className={quest.bulletPoints ? 'w-perc-lg-55 py-lg-3 pr-lg-4' : ''}
                                 key={i.toString()}
@@ -824,7 +823,7 @@ const GetStartedEstimation = (props) => {
                                 <span className="my-3 dis-b">{quest.bulletPoints.title}</span>
                                 <ul className="">
                                   {
-                                    quest.bulletPoints.description.map((bullet,k) => (
+                                    get(quest, 'bulletPoints.description', []).map((bullet,k) => (
                                       <li
                                         className="mb-2"
                                         key={k.toString()}
@@ -884,37 +883,6 @@ const GetStartedEstimation = (props) => {
   );
 };
 
-GetStartedEstimation.propTypes = {
-  // handleSaveActiveSingleProperty: PropTypes.func.isRequired,
-  // handleSaveActiveSingleUser: PropTypes.func.isRequired,
-  activeSingleCompany: PropTypes.object.isRequired,
-  changeFieldValue: PropTypes.func.isRequired,
-  company: PropTypes.object.isRequired,
-  destroyForm: PropTypes.func.isRequired,
-  errorValue: PropTypes.object.isRequired,
-  formValue: PropTypes.object.isRequired,
-  handleCreateActiveSingleProperty: PropTypes.func.isRequired,
-  handleCreateEstimation: PropTypes.func.isRequired,
-  handleDoLogin: PropTypes.func.isRequired,
-  handleGetActiveSingleCompany: PropTypes.func.isRequired,
-  handleSpinnerOff: PropTypes.func.isRequired,
-  handleSpinnerOn: PropTypes.func.isRequired,
-  handleValidateUser: PropTypes.func.isRequired,
-  initForm: PropTypes.func.isRequired,
-  initialValues: PropTypes.object.isRequired,
-  isLoading: PropTypes.bool.isRequired,
-  isTest: PropTypes.bool,
-  lang: PropTypes.string,
-  loggedInUser: PropTypes.object.isRequired,
-  translations: PropTypes.object.isRequired,
-  handleReset: PropTypes.func.isRequired,
-};
-
-GetStartedEstimation.defaultProps = {
-  isTest: false,
-  lang: 'en',
-};
-
 const mapStateToProps = (state, ownProps) => {
   const urlSearch = queryString.parse(get(ownProps.history, 'location.search', ''));
   const channelCookie = cookie.get('brixelChannelSignup') || null;
@@ -965,7 +933,7 @@ const mapStateToProps = (state, ownProps) => {
       },
       register: {
         phone: {
-          prefix: countryPhoneCode.dial_code,
+          prefix: countryPhoneCode?.dial_code,
           number: '',
         },
       },
@@ -990,8 +958,8 @@ const mapDispatchToProps = (dispatch) => ({
   initForm(value) {
     dispatch(initializeForm('GetStarted', value));
   },
-  handleReset(form) {
-    (dispatch(reset(form)));
+  handleReset(initialValue) {
+    (dispatch(reset('GetStarted', initialValue)));
   },
   handleCreateActiveSingleProperty: bindActionCreators(createActiveSingleProperty, dispatch),
   handleCreateEstimation: bindActionCreators(createEstimation, dispatch),

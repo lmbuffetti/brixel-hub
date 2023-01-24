@@ -10,7 +10,7 @@ import {
   FormatValue,
 } from '@brixel/brixel-components';
 import translateTo from '../../utils/translation';
-import {BrixelSwitchButton, change, reset,} from '@brixel/brixel-components/dist/form';
+import {BrixelSwitchButton, change, reset} from '@brixel/brixel-components/dist/form';
 import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import {useParams} from 'react-router-dom';
 import {setModal} from '../../actions/CommonActions';

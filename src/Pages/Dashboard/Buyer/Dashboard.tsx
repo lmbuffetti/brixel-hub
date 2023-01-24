@@ -1,6 +1,6 @@
 import {change, initializeForm, reset} from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
-import React, {Suspense, useEffect, useState} from 'react';
+import React, {lazy, Suspense, useEffect, useState} from 'react';
 import {connect} from 'react-redux';
 import {Navigate, Route, Routes, useLocation, useNavigate, useParams} from 'react-router-dom';
 import {bindActionCreators, compose} from 'redux';
@@ -16,13 +16,13 @@ import type {DashboardType} from '../../../@types/Pages/Dashboard/Buyer/Dashboar
 
 const DashboardHome = lazyWithRetry(() => import('./DashboardHome'));
 
-const PropertyBuyerDashboard = lazyWithRetry(() => import('./PropertyBuyerDashboard'));
+const PropertyBuyerDashboard = lazy(() => import('./PropertyBuyerDashboard'));
 
-const DealsDashboardBuyer = lazyWithRetry(() => import('./DealsDashboardBuyer'));
+const DealsDashboardBuyer = lazy(() => import('./DealsDashboardBuyer'));
 
-const Documents = lazyWithRetry(() => import('../../SingleProperty/Documents'));
+const Documents = lazy(() => import('../../SingleProperty/Documents'));
 
-const Financing = lazyWithRetry(() => import('./Financing'));
+const Financing = lazy(() => import('./Financing'));
 
 const Dashboard = (props: DashboardType) => {
   const history = {

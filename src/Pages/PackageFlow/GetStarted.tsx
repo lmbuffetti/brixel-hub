@@ -1,35 +1,32 @@
-/* eslint-disable no-nested-ternary */
-import { change, destroy, initializeForm, MultiFileldsReduxForm, reset } from '@brixel/brixel-components/dist/form';
+import React, {useEffect, useRef, useState} from 'react';
+import {change, destroy, MultiFileldsReduxForm} from '@brixel/brixel-components/dist/form';
 import cloneDeep from 'lodash/cloneDeep';
 import get from 'lodash/get';
-import PropTypes from 'prop-types';
 import queryString from 'query-string';
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-shadow */
-import React, { useEffect, useRef, useState } from 'react';
-import { connect } from 'react-redux';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { bindActionCreators, compose } from 'redux';
+import {connect} from 'react-redux';
+import {useLocation, useNavigate, useParams} from 'react-router-dom';
+import {bindActionCreators, compose} from 'redux';
 import Cookies from 'universal-cookie';
 import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
-import { spinnerOff } from '../../actions/CommonActions';
-import { getActiveSingleCompany } from '../../actions/CompanyActions';
-import { createActiveSingleProperty, saveActiveSingleProperty } from '../../actions/PropertyActions';
-import { createUserSearchProfile } from '../../actions/SearchProfileActions';
-import { doLogin, validateUser } from '../../actions/UserActions';
-import { QuestionsList } from '../../resources/Flows/onBoarding';
-import { setCookie } from '../../utils/helpers';
+import {spinnerOff} from '../../actions/CommonActions';
+import {getActiveSingleCompany} from '../../actions/CompanyActions';
+import {createActiveSingleProperty, saveActiveSingleProperty} from '../../actions/PropertyActions';
+import {createUserSearchProfile} from '../../actions/SearchProfileActions';
+import {doLogin, validateUser} from '../../actions/UserActions';
+import {QuestionsList} from '../../resources/Flows/onBoarding';
+import {setCookie} from '../../utils/helpers';
+import type {GetStartedType} from '../../@types/Pages/PackageFlow/GetStarted';
 
 const cookie = new Cookies();
 
-const GetStarted = (props) => {
+const GetStarted = (props: GetStartedType) => {
   const isOpenTransifex = cookie.get('transifex_sidebar');
   const history = {
     push: useNavigate(),
     location: useLocation(),
   };
   const match = useParams();
-  
+
   // PROPS
   const {
     changeFieldValue,
@@ -37,7 +34,7 @@ const GetStarted = (props) => {
     formValue,
     handleGetActiveSingleCompany,
     handleSpinnerOff,
-    lang,
+    lang = 'en',
     loggedInUser,
     translations,
   } = props;
@@ -45,45 +42,43 @@ const GetStarted = (props) => {
   // SET THE QUESTIONS IN BASE OF THE COUNTRY
   const [companyURL, setCompanyURL] = useState('');
   // SET QUEST TO FIRST QUESTION OF QuestionsList()
-  const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0]);
+  const [quest, setQuest] = useState(QuestionsList(lang)[0]);
   // const [roomValue, setRoomValue] = useState('');
   const companyStub = get(match, 'companyStub', null);
-  
+
   const singleStepRef = useRef(null);
   const multiStepSlidesRef = useRef(null);
-  
+
   // DESTROY FORM ON EXIT
   useEffect(() => {
     handleSpinnerOff();
     return () => destroyForm();
   }, []);
-  
+
   useEffect(() => {
-    setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0])
+    setQuest(QuestionsList(lang)[0]);
   }, [lang, translations]);
-  
-  
+
+
   // FUNCTION TO SAVE DATA
   useEffect(() => {
     const dataForm = cloneDeep(formValue);
     const userType = get(dataForm, 'userType', null);
-    switch (userType) {
-      case 'buyer':
-        history.push(`/packageFlow/getStartedBuyer?company=${companyURL}`);
-        break;
-      case 'estimation':
-        history.push(`/packageFlow/getStartedEstimation?company=${companyURL}`);
-        break;
-      case 'seller':
-        history.push(`/packageFlow/getStarted?company=${companyURL}`);
-        break;
+    if (userType === 'buyer') {
+      history.push(`/packageFlow/getStartedBuyer?company=${companyURL}`);
+    }
+    if (userType === 'estimation') {
+      history.push(`/packageFlow/getStartedEstimation?company=${companyURL}`);
+    }
+    if (userType === 'seller') {
+      history.push(`/packageFlow/getStarted?company=${companyURL}`);
     }
   }, [formValue]);
-  
+
   useEffect(() => {
     if (get(loggedInUser, 'user.id', null)) changeFieldValue('owner', get(loggedInUser, 'user.id', null));
   }, [get(loggedInUser, 'user.id', null)]);
-  
+
   // ON DID MOUNT I GET THE COMPANY DATA
   useEffect(() => {
     // GET THE COMPANY BY URL OR COOKIE
@@ -109,7 +104,7 @@ const GetStarted = (props) => {
     }
     setCompanyURL(defComp);
   }, []);
-  
+
   // REMOVE FADEIN CLASS TO INITIATE ANIMATION FOR EVERY STEP
   const getStartedEl = document.querySelector('.getStarted');
   useEffect(() => {
@@ -117,7 +112,7 @@ const GetStarted = (props) => {
       if (getStartedEl) getStartedEl.classList.remove('slideUpTrans');
     }, 350);
   }, [quest]);
-  
+
   return (
     <div id="bodyModalWrapper" className={`withHeader getStarted slideUpTrans buyerHub  ${isOpenTransifex ? '' : 'notranslate'}`}>
       <div
@@ -149,7 +144,7 @@ const GetStarted = (props) => {
                         quest.subtitle && (
                           <p className="mb-5 txtDark700" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
                       }
-                      
+
                       <MultiFileldsReduxForm
                         baseByData={baseByData}
                         form="GetStarted"
@@ -164,7 +159,7 @@ const GetStarted = (props) => {
                         disableDelay
                       />
                     </div>
-                  
+
                   )
                 }
               </div>
@@ -174,21 +169,6 @@ const GetStarted = (props) => {
       </div>
     </div>
   );
-};
-
-GetStarted.propTypes = {
-  changeFieldValue: PropTypes.func.isRequired,
-  destroyForm: PropTypes.func.isRequired,
-  formValue: PropTypes.object.isRequired,
-  handleGetActiveSingleCompany: PropTypes.func.isRequired,
-  handleSpinnerOff: PropTypes.func.isRequired,
-  lang: PropTypes.string,
-  loggedInUser: PropTypes.object.isRequired,
-  translations: PropTypes.object.isRequired,
-};
-
-GetStarted.defaultProps = {
-  lang: 'en',
 };
 
 const mapStateToProps = (state, ownProps) => {
@@ -219,12 +199,6 @@ const mapDispatchToProps = (dispatch) => ({
   },
   destroyForm() {
     dispatch(destroy('GetStarted'));
-  },
-  initForm(value) {
-    dispatch(initializeForm('GetStarted', value));
-  },
-  handleReset(form) {
-    (dispatch(reset(form)));
   },
   handleCreateActiveSingleProperty: bindActionCreators(createActiveSingleProperty, dispatch),
   handleDoLogin: bindActionCreators(doLogin, dispatch),

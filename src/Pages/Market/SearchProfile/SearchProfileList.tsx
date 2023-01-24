@@ -20,7 +20,6 @@ import {QuestionsList} from '../../../resources/Flows/onBoardingBuyer';
 import {titleSearchProfile} from '../../../utils/titleCreationSearchProfile';
 import translateTo from '../../../utils/translation';
 import type {SearchProfileListType} from '../../../@types/Pages/Market/SearchProfile/SearchProfileList';
-import {SearchProfileType} from '@brixel/brixel-components/dist/@types/Model';
 
 const SearchProfileList = (props: SearchProfileListType) => {
   const history = {
@@ -64,7 +63,7 @@ const SearchProfileList = (props: SearchProfileListType) => {
   }, []);
 
   const editSearchProfile = (searchProfile) => {
-    const initialValue: SearchProfileType = {};
+    const initialValue: object = {};
     fieldsSearchProfile.forEach((field) => {
       set(initialValue, field, get(searchProfile, field, ''));
     })
@@ -246,7 +245,6 @@ const SearchProfileList = (props: SearchProfileListType) => {
                               field !== 'isDefault' && field !== 'name' && (
                                 <>
                                   <SearchProfileField
-                                    changeFieldValue={(fld, val) => changeFieldValue(fld, val)}
                                     searchProfile={searchProfile}
                                     field={field}
                                     lang={lang}

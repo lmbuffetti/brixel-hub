@@ -1,36 +1,34 @@
-/* eslint-disable no-nested-ternary */
-import { BrixelButtonIcon, BrixelButtonPrimary, BrixelButtonText, BrixelProgressBar } from '@brixel/brixel-components';
+import React, {useEffect, useRef, useState} from 'react';
+import {BrixelButtonIcon, BrixelButtonPrimary, BrixelButtonText, BrixelProgressBar} from '@brixel/brixel-components';
 import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/BrixelButtonSecondary';
 import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
-import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
-import { change, destroy, initializeForm, MultiFileldsReduxForm, reset } from '@brixel/brixel-components/dist/form';
+import {phonecode} from '@brixel/brixel-components/dist/constants/CountryCodePhone';
+import {change, destroy, initializeForm, MultiFileldsReduxForm, reset} from '@brixel/brixel-components/dist/form';
 import cloneDeep from 'lodash/cloneDeep';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import isArray from 'lodash/isArray';
 import set from 'lodash/set';
-import PropTypes from 'prop-types';
 import queryString from 'query-string';
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-shadow */
-import React, { useEffect, useRef, useState } from 'react';
-import { connect } from 'react-redux';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { bindActionCreators, compose } from 'redux';
+import {connect} from 'react-redux';
+import {useLocation, useNavigate, useParams} from 'react-router-dom';
+import {bindActionCreators, compose} from 'redux';
 import Cookies from 'universal-cookie';
-import { spinnerOff, spinnerOn } from '../../actions/CommonActions';
-import { getActiveSingleCompany } from '../../actions/CompanyActions';
-import { createActiveSingleProperty, saveActiveSingleProperty } from '../../actions/PropertyActions';
-import { createUserSearchProfile } from '../../actions/SearchProfileActions';
-import { doLogin, validateUser } from '../../actions/UserActions';
-import { QuestionsList } from '../../resources/Flows/onBoardingBuyer';
-import { checkBrowser, setCookie } from '../../utils/helpers';
-import { titleSearchProfile } from '../../utils/titleCreationSearchProfile';
+import {spinnerOff, spinnerOn} from '../../actions/CommonActions';
+import {getActiveSingleCompany} from '../../actions/CompanyActions';
+import {createActiveSingleProperty, saveActiveSingleProperty} from '../../actions/PropertyActions';
+import {createUserSearchProfile} from '../../actions/SearchProfileActions';
+import {doLogin, validateUser} from '../../actions/UserActions';
+import {QuestionsList} from '../../resources/Flows/onBoardingBuyer';
+import {checkBrowser, setCookie} from '../../utils/helpers';
+import {titleSearchProfile} from '../../utils/titleCreationSearchProfile';
 import translateTo from '../../utils/translation';
+import type {GetStartedType} from '../../@types/Pages/PackageFlow/GetStartedBuyer';
+import {QuestionsListType, SearchProfileType} from '@brixel/brixel-components/dist/@types/Model';
 
 const cookie = new Cookies();
 
-const GetStartedBuyer = (props) => {
+const GetStartedBuyer = (props: GetStartedType) => {
   const isOpenTransifex = cookie.get('transifex_sidebar');
   const history = {
     push: useNavigate(),
@@ -54,19 +52,19 @@ const GetStartedBuyer = (props) => {
     initForm,
     initialValues,
     isLoading,
-    lang,
+    lang = 'en',
     loggedInUser,
     handleReset,
     translations,
   } = props;
   // STATE
   // SET THE QUESTIONS IN BASE OF THE COUNTRY
-  const [questions, setQuestions] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue));
+  const [questions, setQuestions] = useState<QuestionsListType[]>(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue, 'GetStarted'));
   const [progressBar, setProgressBar] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [oldIndex, setOldIndex] = useState(0);
   // SET QUEST TO FIRST QUESTION OF QuestionsList()
-  const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue)[0]);
+  const [quest, setQuest] = useState<QuestionsListType>(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue, 'GetStarted')[0]);
   const [isEnter, setIsEnter] = useState(true);
   const [showError, setShowError] = useState(false);
   const [loadingRequest, setLoadingRequest] = useState(false);
@@ -117,6 +115,7 @@ const GetStartedBuyer = (props) => {
       redirectToUserFlow: false,
       redirectToUrl: '/buy',
       extraLoading: true,
+      owner: '',
       company,
     };
     if (action === 'accept' && company === 'baloise') {
@@ -132,25 +131,26 @@ const GetStartedBuyer = (props) => {
     if (formValue.owner) {
       data.owner = get(loggedInUser, 'user.id', '');
       // DISPATCH TO SAVE THE PROPERTY
-      data.dataSearchProfile.user = get(loggedInUser, 'user.id', '');
+      set(data.dataSearchProfile, 'user', get(loggedInUser, 'user.id', ''))
       await handleCreateSearchProfile(data);
     } else if (page === 'login') {
-      changeFieldValue('register.email', login.email);
+      changeFieldValue('register.email', login?.email || '');
       // IF USER DO THE LOG IN, DO THE LOGIN AND THEN SAVE DIRECTLY THE PAGE
       // USER DATA
-      data.user = {
-        username: login.email.toLowerCase(),
+      const userData = {
+        username: (login?.email || '').toLowerCase(),
         password: login.password,
       };
+      set(data, 'user', userData);
       // DISPATCH TO DO LOGIN
       await handleDoLogin(data);
     } else {
-      changeFieldValue('login.email', register.email);
+      changeFieldValue('login.email', register.email || '');
       // IF USER DO THE SIGN UP, DO THE REGISTRATION AND THEN SAVE DIRECTLY THE PAGE
       // USER DATA
-      data.user = {
+      const userData = {
         ...register,
-        email: register.email.toLowerCase(),
+        email: (login?.email || '').toLowerCase(),
         acceptTerms: get(register, 'privacy[0]', true),
         acceptMarketing: get(register, 'acceptMarketing[0]', false),
         name: `${register.firstName} ${get(register, 'lastName', '')}`,
@@ -168,6 +168,7 @@ const GetStartedBuyer = (props) => {
           state: { hideClose: true },
         },
       };
+      set(data, 'user', userData);
       if (activeSingleCompany.stub === 'baloise' || activeSingleCompany.stub === 'ubs') {
         const userType = 'buyer';
         set(data, 'redirectToUrl', `/termsConditionFlow/${activeSingleCompany.stub}/${userType}?url=/buy`);
@@ -185,27 +186,32 @@ const GetStartedBuyer = (props) => {
 
   // FUNCTION TO SHOW/HIDE BLOCK IN BASE OF JSON CONDITION
   const checkCondition = (id, act) => {
-    let newIndex = id;
-    if (get(questions, `[${newIndex}].conditions`, null)) {
+    let newIndex: number = id;
+    if (questions[newIndex] && questions[newIndex].conditions) {
       let checkCond = true;
-      questions[newIndex].conditions.map((cond) => {
-        const val = get(formValue, cond.name, null);
-        if (has(cond, 'value') && val !== cond.value && checkCond) {
-          if (act === 'back') newIndex -= 1;
-          else newIndex += 1;
-          checkCond = false;
-        }
-        return null;
-      });
+      const {conditions} = questions[newIndex];
+      if (conditions) {
+        conditions.map((cond) => {
+          if (cond.name) {
+            const val = get(formValue, cond.name, null);
+            if (has(cond, 'value') && val !== cond.value && checkCond) {
+              if (act === 'back') newIndex -= 1;
+              else newIndex += 1;
+              checkCond = false;
+            }
+          }
+          return null;
+        });
+      }
     }
     return newIndex;
   };
 
   // CHECK IF FIELDS IS VALID TO ENABLE NEXT BUTTON
-  const checkValidateField = (act) => {
+  const checkValidateField = (act = '') => {
     let isValid = true;
     let isNotEmpty = false;
-    if (get(quest, 'inputs', null)) {
+    if (quest?.inputs) {
       quest.inputs.forEach((input) => {
         const err = get(errorValue, input.name, null);
         const noEmpty = get(formValue, input.name, 'ayc');
@@ -241,7 +247,7 @@ const GetStartedBuyer = (props) => {
   const multiStepSlidesEl = multiStepSlidesRef.current;
 
   // FUNCTION TO GO TO NEXT STEP
-  const changeStep = (act, e, step = 1, skipValidation) => {
+  const changeStep = (act = 'next', e: null | React.FormEvent = null, step = 1, skipValidation = false) => {
     if (e) e.preventDefault();
     if (isLoading || loadingRequest) return false;
     let newIndex = currentIndex;
@@ -264,23 +270,13 @@ const GetStartedBuyer = (props) => {
 
       // setPosition(newIndex);
       if (questions[defId].toSave) {
-        saveData(get(questions[defId], 'action', null));
+        saveData(get(questions[defId], 'action', ''));
       } else {
-        let newQuest = {
+        const newQuest = {
           ...questions[defId],
         };
-        if (questions[defId].effect === 'slideUp') {
-          newQuest = {
-            ...questions[defId - 1],
-          };
-        }
-        if (act === 'back' && questions[defId + 1].effect === 'slideUp') {
-          setQuest(newQuest);
-          setCurrentIndex(defId);
-        } else {
-          setQuest(newQuest);
-          setCurrentIndex(defId);
-        }
+        setQuest(newQuest);
+        setCurrentIndex(defId);
 
         if (newQuest.history !== 'createProfile') {
           if (newQuest.inputs && !newQuest.inputs[0].options && !newQuest.inputs[0].startFrom) {
@@ -288,8 +284,8 @@ const GetStartedBuyer = (props) => {
             fakeInput.setAttribute('type', 'text');
             fakeInput.setAttribute('id', 'fakeInput');
             fakeInput.style.position = 'absolute';
-            fakeInput.style.opacity = 0;
-            fakeInput.style.height = 0;
+            fakeInput.style.opacity = '0';
+            fakeInput.style.height = '0';
             fakeInput.style.fontSize = '16px'; // disable auto zoom
             // zoom/scroll behavior
             document.body.prepend(fakeInput);
@@ -300,29 +296,33 @@ const GetStartedBuyer = (props) => {
             const fakeInput = document.getElementById('fakeInput');
             const getCurStep = document.getElementById(`step-${defId}`);
             if (getCurStep && getCurStep.querySelector('input[type="number"]')) {
-              getCurStep.querySelector('input[type="number"]').focus();
+              const inputNumber = getCurStep.querySelector('input[type="number"]') as HTMLInputElement;
+              if (inputNumber) inputNumber.focus();
             } else if (getCurStep && getCurStep.querySelector('input[type="text"]')) {
-              getCurStep.querySelector('input[type="text"]').focus();
+              const inputText = getCurStep.querySelector('input[type="text"]') as HTMLInputElement;
+              if (inputText) inputText.focus();
             } else if (getCurStep && getCurStep.querySelector('input[type="search"]')) {
-              getCurStep.querySelector('input[type="search"]').focus();
+              const inputSearch = getCurStep.querySelector('input[type="search"]') as HTMLInputElement;
+              if (inputSearch) inputSearch.focus();
             }
             // cleanup
             if (fakeInput) fakeInput.remove();
           }, 500);
         }
         if (questions[defId].history) {
-          history.push({
-            pathname: `/packageFlow/getStartedBuyer/${company.stub}/${questions[defId].history}`,
-            state: get(history, 'location.state', {}),
-          });
+          history.push(`/packageFlow/getStartedBuyer/${company.stub}/${questions[defId].history}`, {state: get(history, 'location.state', {})});
         }
         const getOnlyQuest = questions.filter((item) => item.inputs);
         setProgressBar((defId * 100) / getOnlyQuest.length);
         if (checkBrowser() > 0) {
+          // @ts-ignore
           if (singleStepEl && singleStepEl.scrollTop) singleStepEl.scrollTop = 0;
+          // @ts-ignore
           if (multiStepSlidesEl && multiStepSlidesEl.scrollTop) multiStepSlidesEl.scrollTop = 0;
         } else {
+          // @ts-ignore
           if (singleStepEl && typeof singleStepEl.scrollTo === 'function') singleStepEl.scrollTo({ top: 0, behavior: 'smooth' });
+          // @ts-ignore
           if (multiStepSlidesEl && typeof multiStepSlidesEl.scrollTo === 'function') multiStepSlidesEl.scrollTo({ top: 0, behavior: 'smooth' });
         }
       }
@@ -366,14 +366,9 @@ const GetStartedBuyer = (props) => {
 
   // ON CHANGE LANGUAGE RELOAD THE QUESTIONS TRANSLATED
   useEffect(() => {
-    const currentQuest = QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue)[currentIndex];
-    if (currentQuest.effect === 'slideUp') {
-      setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue));
-      setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue)[currentIndex - 1]);
-    } else {
-      setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue));
-      setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue)[currentIndex]);
-    }
+    const currentQuest = QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue, 'GetStarted')[currentIndex];
+    setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue, 'GetStarted'));
+    setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue, 'GetStarted')[currentIndex]);
   }, [lang, translations]);
 
   // SKIP FIRST STEP IF PROPERTY TYPE EXISTS - by url param
@@ -404,20 +399,20 @@ const GetStartedBuyer = (props) => {
 
   // FUNCTION TO CLOSE
   const closeWindow = () => {
-    handleReset('Property');
+    handleReset(initialValues);
     history.push('/buy');
   };
 
   // GET THE NEXT DATA IN BASE OF CURRENT ANSWER
   useEffect(() => {
     setOldIndex(currentIndex);
-    const newQuest = [];
+    const newQuest: QuestionsListType[] = [];
     if (formValue) {
-      QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue).map((quest) => {
+      QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue, 'GetStarted').map((quest) => {
         if (quest.condition) {
           let isValid = true;
           quest.condition.map((item) => {
-            if (get(formValue, item.name, null) !== item.value) {
+            if (item.name && get(formValue, item.name, null) !== item.value) {
               isValid = false;
             }
             return null;
@@ -431,10 +426,10 @@ const GetStartedBuyer = (props) => {
       setQuestions(newQuest);
       setQuest(newQuest[currentIndex]);
     }
-    if (newQuest[currentIndex].inputs && newQuest[currentIndex].inputs.length === 1 && get(newQuest[currentIndex], 'inputs[0].options', []).length > 0 && get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), null) && !isArray(get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), [])) && oldIndex <= currentIndex) {
+    if (newQuest[currentIndex].inputs && newQuest[currentIndex] && (newQuest[currentIndex].inputs || []).length === 1 && get(newQuest[currentIndex], 'inputs[0].options', []).length > 0 && get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), null) && !isArray(get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), [])) && oldIndex <= currentIndex) {
       changeStep('next', null, 1, true);
     }
-    const rooms = get(formValue, 'characteristics.bedrooms', {});
+    const rooms: SearchProfileType['characteristics']['bedrooms'] = get(formValue, 'characteristics.bedrooms', {});
     const propertyType = get(formValue, 'characteristics.propertyType', []);
     const locations = get(formValue, 'locations', []);
     const searchProfileName = get(formValue, 'name', null);
@@ -453,11 +448,11 @@ const GetStartedBuyer = (props) => {
       changeFieldValue('company', company.stub);
       changeFieldValue('finance.currency', get(company, 'country.currency', 'CHF'));
       changeFieldValue('price.currency', get(company, 'country.currency', 'CHF'));
-      setQuestions(QuestionsList(getLang, companyCountry, changeFieldValue));
-      setQuest(QuestionsList(getLang, companyCountry, changeFieldValue)[currentIndex]);
+      setQuestions(QuestionsList(getLang, companyCountry, changeFieldValue, 'GetStarted'));
+      setQuest(QuestionsList(getLang, companyCountry, changeFieldValue, 'GetStarted')[currentIndex]);
       const companyCountryCode = get(company, 'country.code', 'CH');
       const countryPhoneCode = phonecode.find((code) => code.code === companyCountryCode);
-      changeFieldValue('register.phone.prefix', countryPhoneCode.dial_code);
+      changeFieldValue('register.phone.prefix', countryPhoneCode?.dial_code || null);
     }
     if (get(formValue, 'locations', []).length === 0) initForm(initialValues);
   }, [get(company, 'id', null)]);
@@ -469,7 +464,7 @@ const GetStartedBuyer = (props) => {
     if (get(questions, `[${currentIndex + 1}].toSave`, null)) label = 'Save';
     else if (get(quest, 'history', '') === 'baloiseInfo') label = 'Continue';
     else if (currentIndex === 0) label = 'Next';
-    else if (get(quest, 'inputs[0].validation', null) === null && get(formValue, inputName, null) === null) label = 'Skip';
+    else if (inputName && get(quest, 'inputs[0].validation', null) === null && get(formValue, inputName, null) === null) label = 'Skip';
     else label = 'Next';
     return label;
   };
@@ -509,15 +504,15 @@ const GetStartedBuyer = (props) => {
           <form
             id="multiStepForm"
             autoComplete="off"
-            className={`interactive dis-fl-col jc-b`}
-            onSubmit={(e) => changeStep(null, e)}
+            className="interactive dis-fl-col jc-b"
+            onSubmit={(e) => changeStep()}
           >
             <div ref={multiStepSlidesRef} className="multiStepSlides">
-              <div ref={singleStepRef} className={`singleStep pt-5 jc-c`}>
+              <div ref={singleStepRef} className="singleStep pt-5 jc-c">
                 <div className="subcontainer m-a">
                   {
                     get(quest, 'inputs', null) && (
-                      <div id={`step-${currentIndex}`} className={`dis-fl-col flex-wrap ${questions[currentIndex].effect} ${questions[currentIndex].effect === 'slideUp' ? 'activeQuestBack' : ''}`}>
+                      <div id={`step-${currentIndex}`} className="dis-fl-col flex-wrap">
                         {
                           quest.titleGreen && (
                             <h3 className="txtGreen400 w-perc-100">{quest.titleGreen}</h3>
@@ -570,10 +565,14 @@ const GetStartedBuyer = (props) => {
                     (get(quest, 'cardType', null) === 'card') && (
                       <div className="scaleAnim ta-c">
                         <img loading="lazy" src={quest.img} alt={quest.title} className="max-w-fix-232 mb-5" />
-                        <h5
-                          className="fadeAnim mt-2 ta-c"
-                          dangerouslySetInnerHTML={{ __html: quest.title }}
-                        />
+                        {
+                          quest.title && (
+                            <h5
+                              className="fadeAnim mt-2 ta-c"
+                              dangerouslySetInnerHTML={{ __html: quest.title }}
+                            />
+                          )
+                        }
                         {
                           quest.subtitle && (
                             <h6
@@ -630,7 +629,6 @@ const GetStartedBuyer = (props) => {
                                   type="submit"
                                   className={`noWrap mr-a ml-5-neg ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
                                   disabled={!checkValidateField()}
-                                  saturation={400}
                                   theme="green"
                                   rounded
                                   label={translateTo(buttonLabel(), lang)}
@@ -671,7 +669,7 @@ const GetStartedBuyer = (props) => {
                     className={`brdRadius bgWhite ml-a mr-a px-2 px-sm-6 ${quest.bulletPoints ? 'dis-fl-col dis-fl-row-lg bulletPointsStep jc-b py-2 py-lg-0 max-w-fix-912' : 'max-w-fix-752 pt-3 pb-6'}`}
                   >
                     {
-                      quest.text.map((text, i) => (
+                      quest.text && quest.text.map((text, i) => (
                         <div
                           className={quest.bulletPoints ? 'w-perc-lg-55 py-lg-3 pr-lg-4' : ''}
                           key={i.toString()}
@@ -682,7 +680,7 @@ const GetStartedBuyer = (props) => {
                               <p className="fsize-300 fweight-500 mb-1 dis-b">{text.subtitle}</p>
                             )
                           }
-                          <p className="fsize-300 mb-2 dis-b" dangerouslySetInnerHTML={{ __html: text.description }} />
+                          <p className="fsize-300 mb-2 dis-b" dangerouslySetInnerHTML={{ __html: text.description || '' }} />
                         </div>
                       ))
                     }
@@ -692,7 +690,7 @@ const GetStartedBuyer = (props) => {
                           <span className="my-3 dis-b">{quest.bulletPoints.title}</span>
                           <ul className="">
                             {
-                              quest.bulletPoints.description.map((bullet,k) => (
+                              get(quest, 'bulletPoints.description', []).map((bullet,k) => (
                                 <li
                                   className="mb-2"
                                   key={k.toString()}
@@ -739,74 +737,9 @@ const GetStartedBuyer = (props) => {
 
           </form>
         </div>
-        {/* signup flow */}
-        {
-          questions[currentIndex].effect === 'slideUp' && (
-            <div className="signUpContainer">
-              {
-                questions[currentIndex] && questions[currentIndex].inputs && (
-                  <div id={`step-${currentIndex}slideUp`} className={`dis-f flex-wrap slideUp ${isEnter ? 'slide-enter-down' : ''}`}>
-                    {
-                      questions[currentIndex].titleGreen && (
-                        <h3 className="txtGreen400 w-perc-100">{questions[currentIndex].titleGreen}</h3>
-                      )
-                    }
-                    {
-                      questions[currentIndex].title && (
-                        <h3 className={`${questions[currentIndex].subtitle ? 'mb-1' : 'mb-5'} w-perc-100`}>{questions[currentIndex].title}</h3>
-                      )
-                    }
-                    {
-                      questions[currentIndex].subtitle && (
-                        <p className="mb-5 txtDark200 w-perc-100" dangerouslySetInnerHTML={{ __html: questions[currentIndex].subtitle }} />)
-                    }
-                    <MultiFileldsReduxForm
-                      baseByData={baseByData}
-                      form="GetStarted"
-                      disableNextBtn={false}
-                      formValue={formValue}
-                      inputs={questions[currentIndex].inputs}
-                      onSubmit={() => changeStep()}
-                      onCloseGoBack={() => changeStep('back')}
-                      onClickDisabled={!checkValidateField()}
-                      showSendButton
-                      showErrors={showError}
-                    />
-                  </div>
-                )
-              }
-            </div>
-          )
-        }
       </div>
     </>
   );
-};
-
-GetStartedBuyer.propTypes = {
-  activeSingleCompany: PropTypes.object.isRequired,
-  changeFieldValue: PropTypes.func.isRequired,
-  company: PropTypes.object.isRequired,
-  destroyForm: PropTypes.func.isRequired,
-  errorValue: PropTypes.object.isRequired,
-  formValue: PropTypes.object.isRequired,
-  handleCreateSearchProfile: PropTypes.func.isRequired,
-  handleDoLogin: PropTypes.func.isRequired,
-  handleGetActiveSingleCompany: PropTypes.func.isRequired,
-  handleSpinnerOff: PropTypes.func.isRequired,
-  handleSpinnerOn: PropTypes.func.isRequired,
-  handleValidateUser: PropTypes.func.isRequired,
-  initForm: PropTypes.func.isRequired,
-  initialValues: PropTypes.object.isRequired,
-  isLoading: PropTypes.bool.isRequired,
-  lang: PropTypes.string,
-  loggedInUser: PropTypes.object.isRequired,
-  translations: PropTypes.object.isRequired,
-  handleReset: PropTypes.func.isRequired,
-};
-
-GetStartedBuyer.defaultProps = {
-  lang: 'en',
 };
 
 const mapStateToProps = (state, ownProps) => {
@@ -833,7 +766,7 @@ const mapStateToProps = (state, ownProps) => {
           min: 0,
           max: 300,
         },
-        bedrooms: {min: 0, max: 9}
+        bedrooms: {min: 0, max: 9},
       },
       owner: get(state, 'user.loggedInUser.user.id', null),
       user: get(state, 'user.loggedInUser.user.id', null),
@@ -847,7 +780,7 @@ const mapStateToProps = (state, ownProps) => {
       profile: {},
       register: {
         phone: {
-          prefix: countryPhoneCode.dial_code,
+          prefix: countryPhoneCode?.dial_code,
           number: '',
         },
       },
@@ -872,8 +805,8 @@ const mapDispatchToProps = (dispatch) => ({
   initForm(value) {
     dispatch(initializeForm('GetStarted', value));
   },
-  handleReset(form) {
-    (dispatch(reset(form)));
+  handleReset(initialValue) {
+    (dispatch(reset('GetStarted', initialValue)));
   },
   handleCreateActiveSingleProperty: bindActionCreators(createActiveSingleProperty, dispatch),
   handleDoLogin: bindActionCreators(doLogin, dispatch),

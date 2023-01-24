@@ -21,7 +21,7 @@ import {QuestionsListType} from '@brixel/brixel-components/dist/@types/Model';
 const { factsOptions } = FactsOptions;
 
 // QUESTION LISTS
-export const QuestionsList: (lang: string, country: string, changeValue: (field: string, val: any) => void) => void = (lang, country, changeValue) => {
+export const QuestionsList: (lang: string, country: string, changeValue: (field: string, val: any) => void) => QuestionsListType[] = (lang, country, changeValue) => {
   // VALIDATION OF FIELDS
   const maxLengthNum = (val, name) => (value) => {
     let error: string | null = null;
