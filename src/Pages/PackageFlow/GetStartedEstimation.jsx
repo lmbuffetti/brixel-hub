@@ -7,6 +7,7 @@ import {
   DataByCountry,
 } from '@brixel/brixel-components';
 import { languagesList } from '@brixel/brixel-components/dist/configuration/Constants';
+import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
 import { change, destroy, initializeForm, MultiFileldsReduxForm, reset } from '@brixel/brixel-components/dist/form';
 import cloneDeep from 'lodash/cloneDeep';
@@ -23,7 +24,6 @@ import { connect } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
 import Cookies from 'universal-cookie';
-import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import { spinnerOff, spinnerOn } from '../../actions/CommonActions';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import { createEstimation } from '../../actions/EstimationActions';
@@ -378,7 +378,7 @@ const GetStartedEstimation = (props) => {
       newIndex += step;
     }
     if (newIndex === -1) {
-      history.push(`/packageFlow${company.stub}`);
+      history.push(`/packageFlow/${company.stub}`);
     } else {
       let defId = checkCondition(newIndex, act);
       if (defId !== newIndex) defId = checkCondition(defId, act);
