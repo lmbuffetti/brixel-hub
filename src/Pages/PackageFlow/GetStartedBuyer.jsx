@@ -257,7 +257,7 @@ const GetStartedBuyer = (props) => {
       newIndex += step;
     }
     if (newIndex === -1) {
-      history.push(`/packageFlow${company.stub}`);
+      history.push(`/packageFlow/${company.stub}`);
     } else {
       let defId = checkCondition(newIndex, act);
       if (defId !== newIndex) defId = checkCondition(defId, act);
