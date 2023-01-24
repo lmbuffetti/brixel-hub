@@ -1,21 +1,21 @@
 import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
-import { BrixelMap } from '@brixel/brixel-components/dist/map';
+import {BrixelMap} from '@brixel/brixel-components/dist/map';
 import get from 'lodash/get';
-import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
+import React, {useEffect, useState} from 'react';
+import {connect} from 'react-redux';
+import {compose} from 'redux';
 import api from '../../../controllers/api/config';
+import type {FavoritesPropertyMapType, TagListMapType} from '../../../@types/Pages/Market/Buyer/FavoritesPropertyMap';
 
-const FavoritesPropertyMap = (props) => {
+const FavoritesPropertyMap = (props: FavoritesPropertyMapType) => {
   const {
     lang,
     wishlistProperties,
   } = props;
   // STATE
-  const [tagsList, setTagsList] = useState();
-  
-  
+  const [tagsList, setTagsList] = useState<TagListMapType>();
+
+
   useEffect(() => {
     wishlistProperties.forEach((prop) => {
       api.deal.getBuyerDeal(prop.id)
@@ -26,7 +26,7 @@ const FavoritesPropertyMap = (props) => {
             const tagMessage = {
               accepted: 'Offer accepted',
               pending: 'Offer sent',
-              rejected: 'Offer rejected'
+              rejected: 'Offer rejected',
             };
             const status = get(offerData, 'offer.status', null);
             setTagsList((prevState) => ({
@@ -43,7 +43,7 @@ const FavoritesPropertyMap = (props) => {
         })
     })
   }, [wishlistProperties]);
-  
+
   // STATE
   return (
     <>
@@ -62,11 +62,6 @@ const FavoritesPropertyMap = (props) => {
       />
     </>
   )
-}
-
-FavoritesPropertyMap.propTypes = {
-  lang: PropTypes.string.isRequired,
-  wishlistProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
 }
 
 const mapStateToProps = (state) => ({

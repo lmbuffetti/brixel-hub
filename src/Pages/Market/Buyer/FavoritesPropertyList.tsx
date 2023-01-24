@@ -1,11 +1,11 @@
 import get from 'lodash/get';
-import PropTypes from 'prop-types';
 import React from 'react';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
+import {connect} from 'react-redux';
+import {compose} from 'redux';
 import MarketCardFavorites from '../../../components/Cards/MarketCardFavorites';
+import type {FavoritesPropertyListType} from '../../../@types/Pages/Market/Buyer/FavoritesPropertyList';
 
-const FavoritesPropertyList = (props) => {
+const FavoritesPropertyList = (props: FavoritesPropertyListType) => {
   const {
     lang,
     skeleton,
@@ -52,12 +52,6 @@ const FavoritesPropertyList = (props) => {
       }
     </>
   )
-}
-
-FavoritesPropertyList.propTypes = {
-  lang: PropTypes.string.isRequired,
-  skeleton: PropTypes.object.isRequired,
-  wishlistProperties: PropTypes.object.isRequired,
 }
 
 const mapStateToProps = (state) => ({

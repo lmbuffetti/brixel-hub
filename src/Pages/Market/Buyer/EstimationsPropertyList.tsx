@@ -1,16 +1,16 @@
-import { BrixelButtonPrimary } from '@brixel/brixel-components';
+import {BrixelButtonPrimary} from '@brixel/brixel-components';
 import get from 'lodash/get';
-import PropTypes from 'prop-types';
 import React from 'react';
-import { connect } from 'react-redux';
-import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
-import { compose } from 'redux';
+import {connect} from 'react-redux';
+import {Route, Routes, useLocation, useNavigate} from 'react-router-dom';
+import {compose} from 'redux';
 import MarketCardEstimation from '../../../components/Cards/MarketCardEstimation';
 import emptyEst from '../../../images/empty-est.svg';
 import translateTo from '../../../utils/translation';
 import ModalPropertyEstimation from './ModalPropertyEstimation';
+import type {FavoritesPropertyListType} from '../../../@types/Pages/Market/Buyer/EstimationPropertyList';
 
-const FavoritesPropertyList = (props) => {
+const EstimationPropertyList = (props: FavoritesPropertyListType) => {
   const history = {
     push: useNavigate(),
     location: useLocation(),
@@ -42,7 +42,7 @@ const FavoritesPropertyList = (props) => {
                   leftIcon="plus"
                   className="ml-a mr-a mt-3"
                   onClick={() => {
-                    localStorage.setItem('backUrlBuyerEstimations', `/buy/estimations`);
+                    localStorage.setItem('backUrlBuyerEstimations', '/buy/estimations');
                     history.push(`/packageFlow/getStartedEstimation/${activeSingleCompany.stub}/estimationType`);
                   }}
                 />
@@ -61,7 +61,7 @@ const FavoritesPropertyList = (props) => {
                   leftIcon="plus"
                   label="New estimation"
                   onClick={() => {
-                    localStorage.setItem('backUrlBuyerEstimations', `/buy/estimations`);
+                    localStorage.setItem('backUrlBuyerEstimations', '/buy/estimations');
                     history.push(`/packageFlow/getStartedEstimation/${activeSingleCompany.stub}/estimationType`);
                   }}
                 />
@@ -112,13 +112,6 @@ const FavoritesPropertyList = (props) => {
   )
 }
 
-FavoritesPropertyList.propTypes = {
-  activeSingleCompany: PropTypes.object.isRequired,
-  lang: PropTypes.string.isRequired,
-  ownerEstimations: PropTypes.object.isRequired,
-  skeleton: PropTypes.object.isRequired,
-}
-
 const mapStateToProps = (state) => ({
   activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   lang: get(state, 'common.language', 'en'),
@@ -128,4 +121,4 @@ const mapStateToProps = (state) => ({
 
 export default compose(
   connect(mapStateToProps, null),
-)(FavoritesPropertyList);
+)(EstimationPropertyList);

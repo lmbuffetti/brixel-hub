@@ -1,3 +1,4 @@
+import React, {useEffect, useState} from 'react';
 import {
   BrixelButtonText,
   BrixelIcon,
@@ -8,17 +9,17 @@ import {
   translateTo,
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
-import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { compose } from 'redux';
+import {connect} from 'react-redux';
+import {useLocation, useNavigate, useParams} from 'react-router-dom';
+import {compose} from 'redux';
 import CoverEstimationGreenImg from '../../../images/Market/icnEstimationGreen.svg';
 import CoverEstimationYellowImg from '../../../images/Market/icnEstimationYellow.svg';
+import type {ModalPropertyEstimationType} from '../../../@types/Pages/Market/Buyer/ModalPropertyEstimation';
+import {ExtraFeatureTypeList} from '@brixel/brixel-components/dist/@types/components/Form/BrixelExtraFeature';
 
 const { factsOptions } = FactsOptions;
 
-const ModalPropertyEstimation = (props) => {
+const ModalPropertyEstimation = (props: ModalPropertyEstimationType) => {
   const history = {
     push: useNavigate(),
     location: useLocation(),
@@ -31,12 +32,12 @@ const ModalPropertyEstimation = (props) => {
   // STATE
   const [activeEstimation, setActiveEstimation] = useState({})
   const [showDetail, setShowDetail] = useState(false)
-  const [activeExtraFeatures, setActiveExtraFeatures] = useState([]);
+  const [activeExtraFeatures, setActiveExtraFeatures] = useState<ExtraFeatureTypeList[]>([]);
   // URL PARAMS
   const propID = get(match, 'propID', null);
 
   // CONSTANTS VALUE
-  const currency = get(activeEstimation, 'result.currency', 0);
+  const currency = get(activeEstimation, 'result.currency', '');
   const value = Math.round(get(activeEstimation, 'result.value', 0));
   const lowerValue = Math.round(get(activeEstimation, 'result.lowerValue', 0));
   const higherValue = Math.round(get(activeEstimation, 'result.higherValue', 0));
@@ -53,7 +54,7 @@ const ModalPropertyEstimation = (props) => {
     if (localActiveExtraFeatures) {
       Object.keys(localActiveExtraFeatures).forEach((key) => {
         if (localActiveExtraFeatures[key]) {
-          const updateExtraFeature = activeExtraFeatures || [];
+          const updateExtraFeature: ExtraFeatureTypeList[] = activeExtraFeatures || [];
           const filterExtraFeatures = factsOptions.extraFeature.find((feat) => feat.value === key);
           if (filterExtraFeatures) {
             updateExtraFeature.push(filterExtraFeatures);
@@ -146,7 +147,7 @@ const ModalPropertyEstimation = (props) => {
                 {translateTo('Property Type', lang)}
               </span>
               <span className="ff-mono fsize-500 txtBlack">
-                {translateTo(get(activeEstimation, 'data.properties.propertyType', 0), lang)}
+                {translateTo(get(activeEstimation, 'data.properties.propertyType', ''), lang)}
               </span>
             </div>
             <div>
@@ -210,7 +211,7 @@ const ModalPropertyEstimation = (props) => {
                           {translateTo('Condition', lang)}
                         </span>
                         <span className="ff-mono fsize-500 txtBlack">
-                          {translateTo(get(activeEstimation, 'data.properties.building.conditionStatus', 0), lang)}
+                          {translateTo(get(activeEstimation, 'data.properties.building.conditionStatus', ''), lang)}
                         </span>
                       </div>
                     )
@@ -222,7 +223,7 @@ const ModalPropertyEstimation = (props) => {
                           {translateTo('Bathrooms', lang)}
                         </span>
                         <span className="ff-mono fsize-500 txtBlack">
-                          {translateTo(get(activeEstimation, 'data.properties.typology.bathrooms', 0), lang)}
+                          {translateTo(get(activeEstimation, 'data.properties.typology.bathrooms', ''), lang)}
                         </span>
                       </div>
                     )
@@ -243,7 +244,7 @@ const ModalPropertyEstimation = (props) => {
                                 key={`solar${i.toString()}`}
                                 className="ff-mono fsize-500 txtBlack"
                               >
-                                {translateTo(get(activeEstimation, `data.properties.building.solarOrientarion[${key}]`, {} ), lang)}
+                                {translateTo(get(activeEstimation, `data.properties.building.solarOrientarion[${key}]`, ''), lang)}
                               </span>
                             </>
                           ))
@@ -259,7 +260,7 @@ const ModalPropertyEstimation = (props) => {
                           {translateTo('Garage', lang)}
                         </span>
                         <span className="ff-mono fsize-500 txtBlack">
-                          {translateTo(get(activeEstimation, 'data.properties.parking.garage', 0), lang)}
+                          {translateTo(get(activeEstimation, 'data.properties.parking.garage', ''), lang)}
                         </span>
                       </div>
                     )
@@ -272,7 +273,7 @@ const ModalPropertyEstimation = (props) => {
                           {translateTo('Parking outside', lang)}
                         </span>
                         <span className="ff-mono fsize-500 txtBlack">
-                          {translateTo(get(activeEstimation, 'data.properties.parking.outside', 0), lang)}
+                          {translateTo(get(activeEstimation, 'data.properties.parking.outside', ''), lang)}
                         </span>
                       </div>
                     )
@@ -285,7 +286,7 @@ const ModalPropertyEstimation = (props) => {
                           {translateTo('Parking underground', lang)}
                         </span>
                         <span className="ff-mono fsize-500 txtBlack">
-                          {translateTo(get(activeEstimation, 'data.properties.parking.underground', 0), lang)}
+                          {translateTo(get(activeEstimation, 'data.properties.parking.underground', ''), lang)}
                         </span>
                       </div>
                     )
@@ -356,21 +357,11 @@ const ModalPropertyEstimation = (props) => {
             label="Close"
             onClick={() => onClose()}
           />
-
-          {/*<BrixelButtonSecondary*/}
-          {/*  rounded*/}
-          {/*  label="Contact support"*/}
-          {/*/>*/}
         </div>
 
       </div>
     </BrixelModal>
   )
-}
-
-ModalPropertyEstimation.propTypes = {
-  lang: PropTypes.string.isRequired,
-  ownerEstimations: PropTypes.arrayOf(PropTypes.object).isRequired,
 }
 
 const mapStateToProps = (state) => ({

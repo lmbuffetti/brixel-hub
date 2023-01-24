@@ -1,17 +1,17 @@
 import BrixelButtonPrimary from '@brixel/brixel-components/dist/components/BrixelButtonPrimary';
 import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/BrixelButtonSecondary';
 import get from 'lodash/get';
-import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
-import { compose } from 'redux';
+import React, {useEffect, useState} from 'react';
+import {connect} from 'react-redux';
+import {Navigate, Route, Routes, useLocation, useNavigate} from 'react-router-dom';
+import {compose} from 'redux';
 import emptyFav from '../../../images/empty-fav.svg';
 import translateTo from '../../../utils/translation';
 import FavoritesPropertyList from './FavoritesPropertyList';
 import FavoritesPropertyMap from './FavoritesPropertyMap';
+import type {FavoritesPropertyType} from '../../../@types/Pages/Market/Buyer/FavoritesProperty';
 
-const FavoritesProperty = (props) => {
+const FavoritesProperty = (props: FavoritesPropertyType) => {
   const history = {
     push: useNavigate(),
     location: useLocation(),
@@ -30,8 +30,8 @@ const FavoritesProperty = (props) => {
   }, [get(history, 'location.pathname', null)]);
 
   const onClickMapNav = () => {
-    if (view === 'map') history.push(`/buy/favorites/list`)
-    else history.push(`/buy/favorites/map`);
+    if (view === 'map') history.push('/buy/favorites/list')
+    else history.push('/buy/favorites/map');
   }
 
   return (
@@ -50,7 +50,7 @@ const FavoritesProperty = (props) => {
                 label={translateTo('Go to listing', lang)}
                 rightIcon="arrow-right-small"
                 className="ml-a mr-a mt-3"
-                onClick={() => history.push(`/buy/searchProfile/all/1`)}
+                onClick={() => history.push('/buy/searchProfile/all/1')}
               />
             </div>
           </div>
@@ -83,11 +83,6 @@ const FavoritesProperty = (props) => {
 
     </div>
   )
-}
-
-FavoritesProperty.propTypes = {
-  lang: PropTypes.string.isRequired,
-  wishlistProperties: PropTypes.object.isRequired,
 }
 
 const mapStateToProps = (state) => ({

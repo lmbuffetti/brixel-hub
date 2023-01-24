@@ -1,22 +1,22 @@
+import React, {useState} from 'react';
 import {
   BrixelButtonPrimary,
   BrixelButtonSecondary,
   BrixelButtonText,
   BrixelProgressBar,
 } from '@brixel/brixel-components';
-import PropTypes from 'prop-types';
-import React, { useState } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators, compose } from 'redux';
-import { setModal } from '../../../actions/CommonActions';
+import {connect} from 'react-redux';
+import {bindActionCreators, compose} from 'redux';
+import {setModal} from '../../../actions/CommonActions';
 import learMoreImg1 from '../../../images/Market/learMoreImg1.svg';
 import learMoreImg2 from '../../../images/Market/learMoreImg2.svg';
 import learMoreImg3 from '../../../images/Market/learMoreImg3.svg';
 import learMoreImg4 from '../../../images/Market/learMoreImg4.svg';
 import learMoreImg5 from '../../../images/Market/learMoreImg5.svg';
 import translateTo from '../../../utils/translation';
+import type {LearnMoreListingsPropertyType} from '../../../@types/Pages/Market/Buyer/LearnMoreListingProperty';
 
-const LearnMoreListingsProperty = (props) => {
+const LearnMoreListingsProperty = (props: LearnMoreListingsPropertyType) => {
   const stepsNumber = 5;
   const {
     handleSetModal,
@@ -139,11 +139,6 @@ const LearnMoreListingsProperty = (props) => {
 
     </div>
   )
-}
-
-LearnMoreListingsProperty.propTypes = {
-  handleSetModal: PropTypes.func.isRequired,
-  lang: PropTypes.string.isRequired,
 }
 
 const mapDispatchToProps = (dispatch) => ({

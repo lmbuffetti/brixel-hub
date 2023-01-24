@@ -1,12 +1,12 @@
-import { BrixelButtonText, BrixelIcon, FormatValue } from '@brixel/brixel-components';
+import React, {useState} from 'react';
+import {BrixelButtonText, BrixelIcon, FormatValue} from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
-import { BrixelMap } from '@brixel/brixel-components/dist/map';
+import {BrixelMap} from '@brixel/brixel-components/dist/map';
 import get from 'lodash/get';
-import PropTypes from 'prop-types';
-import React, { useState } from 'react';
 import translateTo from '../../../utils/translation';
+import type {ModalPropertyCardType} from '../../../@types/Pages/Market/Buyer/ModalPropertyCard';
 
-const ModalPropertyCard = (props) => {
+const ModalPropertyCard = (props: ModalPropertyCardType) => {
   const {
     isFavorite,
     lang,
@@ -32,7 +32,6 @@ const ModalPropertyCard = (props) => {
         baseByData={baseByData}
         gestureHandling="auto"
         lang={lang}
-        hideExternalZoom
         externalControls
         hideLocation={true}
         className="w-perc-100 h-fix-400"
@@ -81,7 +80,7 @@ const ModalPropertyCard = (props) => {
             {translateTo('Property Type', lang)}
           </span>
           <span className="ff-mono fszie-400 txtBlack">
-            {translateTo(get(property, 'properties.propertyType', 0), lang)}
+            {translateTo(get(property, 'properties.propertyType', ''), lang)}
           </span>
         </div>
         <div>
@@ -162,14 +161,5 @@ const ModalPropertyCard = (props) => {
     </div>
   )
 };
-
-ModalPropertyCard.propTypes = {
-  isFavorite: PropTypes.bool.isRequired,
-  lang: PropTypes.string.isRequired,
-  onClose: PropTypes.func.isRequired,
-  onRemoveProperty: PropTypes.func.isRequired,
-  property: PropTypes.object.isRequired,
-  saveFavorite: PropTypes.func.isRequired,
-}
 
 export default ModalPropertyCard;
