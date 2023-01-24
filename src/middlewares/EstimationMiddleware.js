@@ -1,31 +1,21 @@
-import set from 'lodash/set';
-import has from 'lodash/has';
 import cloneDeep from 'lodash/cloneDeep';
 import get from 'lodash/get';
+import has from 'lodash/has';
+import set from 'lodash/set';
+
+import { SET_SCREEN_NOTIFICATION, SPINNER_OFF, SPINNER_ON, SPINNER_SMALL } from '../actions/types/CommonTypes';
 import {
   CREATE_ESTIMATION,
+  DELETE_ESTIMATION,
   GENERATE_ESTIMATION,
   SEND_PROESTIMATION_NOTIFICATION,
 } from '../actions/types/EstimationTypes';
 
-import {
-  SET_ESTIMATION,
-} from '../actions/types/PropertyTypes';
+import { GET_OWNED_ESTIMATIONS, SET_OWNED_PROPERTIES } from '../actions/types/MarketTypes';
 
-import {
-  SAVE_ACTIVE_SINGLE_USER,
-} from '../actions/types/UserTypes';
+import { SET_ESTIMATION } from '../actions/types/PropertyTypes';
 
-import {
-  SET_OWNED_PROPERTIES,
-} from '../actions/types/MarketTypes';
-
-import {
-  SPINNER_ON,
-  SPINNER_OFF,
-  SET_SCREEN_NOTIFICATION,
-  SPINNER_SMALL,
-} from '../actions/types/CommonTypes';
+import { SAVE_ACTIVE_SINGLE_USER } from '../actions/types/UserTypes';
 
 import api from '../controllers/api/config';
 
@@ -212,6 +202,27 @@ const checkEstimation = (store) => (next) => (action) => {
             });
           }
         });
+      break;
+    }
+    case DELETE_ESTIMATION: {
+      const {
+        id,
+        reloadBuyerEstimations,
+      } = action.payload
+      api.estimation.deleteEstimation(id)
+        .then(() => {
+          if (reloadBuyerEstimations) {
+            const data = {
+              direction: 'DESC',
+              offset: 0,
+              isBuyer: true,
+              order: 'updatedAt',
+              ownerId: get(store.getState(), 'user.loggedInUser.user.id', ''),
+              resultsPerPage: 50,
+            }
+            store.dispatch({ type: GET_OWNED_ESTIMATIONS, payload: data })
+          }
+        })
       break;
     }
     case SEND_PROESTIMATION_NOTIFICATION: {

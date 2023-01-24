@@ -1,7 +1,8 @@
 import { BrixelButtonPrimary, BrixelButtonSecondary, translateTo } from '@brixel/brixel-components';
 import { BrixelCheckboxSingle } from '@brixel/brixel-components/dist/form';
+import get from 'lodash/get';
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
 import { setModal } from '../../../actions/CommonActions';
@@ -11,11 +12,20 @@ import { setCookie } from '../../../utils/helpers';
 const LearnMoreListingsProperty = (props) => {
   const {
     handleSetModal,
+    isSmallLoading,
+    id,
     lang,
     onClick,
   } = props;
   // STATE
   const [isHideModal, seiIsHideModal] = useState(false);
+
+  useEffect(() => {
+    if (isSmallLoading[`notInterested-${id}`] === false) {
+      handleSetModal({state: false})
+    }
+  }, [isSmallLoading[`notInterested-${id}`]]);
+
 
   const onSaveData = () => {
     if (isHideModal) setCookie('brixelHideNotInterested', 'true');
@@ -52,6 +62,7 @@ const LearnMoreListingsProperty = (props) => {
           rounded
           label="Yes, hide it"
           onClick={() => onSaveData()}
+          isLoading={isSmallLoading[`notInterested-${id}`]}
         />
       </div>
 
@@ -61,14 +72,20 @@ const LearnMoreListingsProperty = (props) => {
 
 LearnMoreListingsProperty.propTypes = {
   handleSetModal: PropTypes.func.isRequired,
+  id: PropTypes.string.isRequired,
+  isSmallLoading: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
 }
+
+const mapStateToProps = (state) => ({
+  isSmallLoading: get(state, 'common.isSmallLoading', {}),
+});
 
 const mapDispatchToProps = (dispatch) => ({
   handleSetModal: bindActionCreators(setModal, dispatch),
 })
 
 export default compose(
-  connect(null, mapDispatchToProps),
+  connect(mapStateToProps, mapDispatchToProps),
 )(LearnMoreListingsProperty);

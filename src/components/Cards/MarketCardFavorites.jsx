@@ -248,7 +248,13 @@ const MarketCardFavorites = (props) => {
                 rightIcon={get(activeSingleProperty, 'tags', []).includes('pre-market') ? "" : "link-open"}
                 bgTransparent
                 labelClass="fsize-300"
-                onClick={() => window.open(`${baseByData.pageUrl}${activeSingleProperty.stub}`, '_blank')}
+                onClick={() => {
+                  if (get(activeSingleProperty, 'tags', []).includes('pre-market')) {
+                    onOpenCard();
+                  } else {
+                    window.open(`${baseByData.pageUrl}${activeSingleProperty.stub}`, '_blank')
+                  }
+                }}
               />
             </div>
             <div>
