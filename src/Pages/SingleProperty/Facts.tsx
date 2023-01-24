@@ -213,7 +213,13 @@ const Facts = (props: FactsType) => {
                     <div className="thirdLevel inputSheet dis-fl-col w-perc-100 ml-lg-2" id="factsQuestion">
                       <div className="boxCard">
                         <div className="">
-                          <FactsQuestion quest={selectedQuest} />
+                          {
+                            selectedQuest && (
+                              <FactsQuestion
+                                quest={selectedQuest}
+                              />
+                            )
+                          }
                           <div className="dis-f jc-fe mb-1">
                             {
                               onNextSection('label') && (

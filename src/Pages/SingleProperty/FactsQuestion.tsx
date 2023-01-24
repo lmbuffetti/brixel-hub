@@ -86,13 +86,13 @@ const FactsQuestion = (props: FactsQuestionType) => {
 
       <MultiFileldsReduxForm
         autofocus={false}
-        classNameBox={quest.classNameBox}
+        classNameBox={quest?.classNameBox}
         className="singleInput"
         form="Property"
         hintMessage
         disableNextBtn={false}
         formValue={formValue}
-        inputs={quest.inputs}
+        inputs={quest?.inputs}
         onClick={() => ''}
       />
     </div>

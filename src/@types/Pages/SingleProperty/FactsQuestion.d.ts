@@ -9,9 +9,7 @@ export interface QuestionsListFactsInputs extends QuestionInputType {
 }
 
 export interface QuestionsListFacts extends QuestionsListType {
-  inputs: QuestionsListFactsInputs;
-  title: string;
-  classNameBox: string;
+  inputs?: QuestionsListFactsInputs;
 }
 
 export interface FactsQuestionType {
