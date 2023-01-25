@@ -23,7 +23,7 @@ import {
   ReduxField,
 } from '@brixel/brixel-components/dist/form';
 import documentConfig from '@brixel/brixel-components/dist/configuration/DocumentsConfig';
-import {updateDocument,} from '../../actions/UploadActions';
+import {updateDocument} from '../../actions/UploadActions';
 
 // COMPONENTS
 import SplashScreen from '../../components/SplashScreen';
