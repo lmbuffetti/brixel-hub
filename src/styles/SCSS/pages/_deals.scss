@@ -300,3 +300,13 @@ body .dashboardContainer.prospects {
     }
   }
 }
+
+.dealsContainer {
+  .sortable-ghost {
+    display: none !important;
+  }
+}
+
+.singleCol > div:has(div.sortable-ghost) {
+  border: 1px solid map-get($primaryColor, 400);
+}
