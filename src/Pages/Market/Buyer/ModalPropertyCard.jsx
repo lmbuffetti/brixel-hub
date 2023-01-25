@@ -1,9 +1,10 @@
-import { BrixelButtonText, BrixelIcon, FormatValue, translateTo } from '@brixel/brixel-components';
+import { BrixelButtonText, BrixelIcon, FormatValue } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import { BrixelMap } from '@brixel/brixel-components/dist/map';
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
+import translateTo from '../../../utils/translation';
 
 const ModalPropertyCard = (props) => {
   const {
@@ -49,7 +50,7 @@ const ModalPropertyCard = (props) => {
         </div>
 
         <h6 className="fsize-300 dis-f">
-          <span>This is a Pre-Market property.</span>
+          <span>{translateTo('This is a Pre-Market property.', lang)}</span>
           <button
             className="ml-1 txtGreen400 td-u fweight-600"
             onClick={() => setIsShowMoreInfo(!isShowMoreInfo)}

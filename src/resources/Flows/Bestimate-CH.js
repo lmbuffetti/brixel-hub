@@ -1,11 +1,7 @@
 /* eslint-disable max-len */
-import translateTo from '../../utils/translation';
-import {
-  BrixelInputStepNumber,
-  BrixelInputText,
-  Validation,
-} from '@brixel/brixel-components/dist/form';
+import { BrixelInputStepNumber, BrixelInputText, Validation } from '@brixel/brixel-components/dist/form';
 import ResumeBestimate from '../../Pages/Bestimate/ResumeBestimate';
+import translateTo from '../../utils/translation';
 
 // eslint-disable-next-line default-param-last
 export const BestimateCH = (type = null, propertyType, lang) => {
@@ -39,7 +35,7 @@ export const BestimateCH = (type = null, propertyType, lang) => {
         {
           component: BrixelInputStepNumber,
           className: 'two-cols',
-          label: translateTo(type === 'getStarted' ? null : 'How many bathrooms does the property have?', lang),
+          label: translateTo(type === 'getStarted' ? '' : 'How many bathrooms does the property have?', lang),
           name: 'properties.typology.bathrooms',
           labelLeft: translateTo(`${type === 'getStarted' ? `${propertyType !== 'Apartment' ? 'Bathrooms' : ''}` : 'Bathrooms'}`, lang),
           step: 1,
