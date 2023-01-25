@@ -82,12 +82,8 @@ const Dashboard = (props: DashboardType) => {
     loggedInUser,
     notification,
     handleReset,
-    userTypes,
   } = props;
-  const [userType, setUserType] = useState<string | null>(null);
   const [loadedProp, setLoadedProp] = useState(false);
-  const [progressStep, setProgressStep] = useState({});
-  // const [showMessage, setShowMessage] = useState(false);
 
   // GET URL PARAMS
   const propID = get(match, 'propID', null);
@@ -154,7 +150,6 @@ const Dashboard = (props: DashboardType) => {
         }
         if (imageType.length === 0) handleGetImageType();
       } else {
-        setUserType('emptyState');
         history.push('/sell');
       }
     }
@@ -311,7 +306,7 @@ const Dashboard = (props: DashboardType) => {
             {/* teaserScreens && isEligible(activeSingleProperty) && () */}
             { /* SECTION: ROUTES FOR ONLY LOGGED USER - MAIN HUB PAGES  */ }
             <Routes>
-              <Route path="/home" element={<DashboardHome onProgressStep={(step) => setProgressStep(step)} />} />
+              <Route path="/home" element={<DashboardHome />} />
               <Route path="/property/*" element={<PropertyDashboard />} />
               <Route path="/docubox/*" element={<Documents />} />
               <Route path="/marketing" element={<MarketingDashboard />} />

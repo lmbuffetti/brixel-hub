@@ -24,7 +24,6 @@ export interface DashboardHomeType {
   handleSetModal: (data: object) => void;
   lang: string;
   loggedInUser: LoggedUserType;
-  onProgressStep: (data: object) => void;
   splashScreenType: string;
   windowDimensions: {
     width: number;

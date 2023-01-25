@@ -69,7 +69,6 @@ const DashboardHome = (props: DashboardHomeType) => {
     handleSetModal,
     lang,
     loggedInUser,
-    onProgressStep = () => '',
     splashScreenType,
     windowDimensions,
   } = props;
@@ -139,10 +138,6 @@ const DashboardHome = (props: DashboardHomeType) => {
       }
     }
   }, [activeSingleProperty.id]);
-
-  useEffect(() => {
-    onProgressStep(progressState)
-  }, [progressState]);
 
   useEffect(() => {
     if (activeSinglePropertyHistory.length > 0) {

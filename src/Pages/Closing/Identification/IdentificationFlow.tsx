@@ -266,7 +266,6 @@ const IdentificationFlow = (props: IdentificationFlowType) => {
 
   // ON CHANGE LANGUAGE RELOAD THE QUESTIONS TRANSLATED
   useEffect(() => {
-    const currentQuest = IdentificationQuestions(false, userType, lang)[currentIndex];
     setQuestions(IdentificationQuestions(false, userType, lang));
     setQuest(IdentificationQuestions(false, userType, lang)[currentIndex]);
   }, [lang]);
@@ -282,18 +281,18 @@ const IdentificationFlow = (props: IdentificationFlowType) => {
   useEffect(() => {
     if (formValue) {
       const newQuest: object[] = [];
-      IdentificationQuestions(false, userType, lang).map((quest: QuestionsListType) => {
-        if (quest.condition) {
+      IdentificationQuestions(false, userType, lang).map((questData: QuestionsListType) => {
+        if (questData.condition) {
           let isValid = true;
-          quest.condition.map((item) => {
+          questData.condition.map((item) => {
             if (item.name && get(formValue, item.name, null) !== item.value) {
               isValid = false;
             }
             return null;
           });
-          if (isValid) newQuest.push(quest);
+          if (isValid) newQuest.push(questData);
         } else {
-          newQuest.push(quest);
+          newQuest.push(questData);
         }
         return null;
       });

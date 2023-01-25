@@ -11,7 +11,6 @@ const MarketMap = (props: MarketMapType) => {
   // PROPS
   const {
     activeProperty,
-    onActiveProperty,
     properties,
     lang,
     subMinHeight = '',
@@ -20,11 +19,6 @@ const MarketMap = (props: MarketMapType) => {
   } = props;
   const mapRef = useRef(null);
   const [mapHeight, setMapHeight] = useState(0);
-
-  // FUNCTION FORM MARKERS MAP
-  const onSelProperty = (id) => {
-    onActiveProperty(id);
-  };
 
   useEffect(() => {
     if (windowDimensions.width <= 1024) {

@@ -130,8 +130,8 @@ const TermsCondition = (props: TermsConditionType) => {
                 field = ['login.email', 'login.password'];
               }
               field.forEach((item) => {
-                const err = get(errorValue, item, true);
-                if (err !== true && err !== false && isValid) isValid = false;
+                const errCur = get(errorValue, item, true);
+                if (errCur !== true && errCur !== false && isValid) isValid = false;
               });
             }
             if (input.name === 'register.ownerType') {

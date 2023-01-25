@@ -143,7 +143,7 @@ const GetStartedEstimation = (props: GetStartedEstimationType) => {
     if (isLoading || loadingRequest) return false;
     const dataForm = cloneDeep(formValue);
     const dataFormAnswer = cloneDeep(formValue);
-    const { login, register, company } = dataForm;
+    const { login, register } = dataForm;
     setCookie('brixelSplashHome', 'bestimateResult');
     // delete dataForm.login;
     // changeFieldValue('register.password', '');
@@ -187,7 +187,7 @@ const GetStartedEstimation = (props: GetStartedEstimationType) => {
       price: get(formValue, 'price', getCurrency()),
       redirectToUserFlow: false,
       createEstimation: true,
-      company,
+      company: company.stub,
       redirectToUrl: '/sell',
       extraLoading: true,
     };
@@ -219,11 +219,11 @@ const GetStartedEstimation = (props: GetStartedEstimationType) => {
       if (get(dataFormAnswer, 'estimationType', null) !== 'buyer') {
         await handleCreateActiveSingleProperty(data);}
       else {
-        if (action === 'accept' && company === 'baloise') {
+        if (action === 'accept' && company.stub === 'baloise') {
           set(data, 'termsBaloiseBank', true);
           set(data, 'termsBaloiseInsurance', true);
         }
-        if (action === 'accept' && company === 'ubs') {
+        if (action === 'accept' && company.stub === 'ubs') {
           set(data, 'termsUBS', true)
         }
         handleCreateEstimation(data);
@@ -256,7 +256,7 @@ const GetStartedEstimation = (props: GetStartedEstimationType) => {
         signupProduct: null,
         language: saveLangUser,
         createUser: true,
-        company,
+        company: company.stub,
         ignoreEmail: false,
         seller: true,
         redirectTo: {
@@ -348,8 +348,8 @@ const GetStartedEstimation = (props: GetStartedEstimationType) => {
                 field = ['login.email', 'login.password'];
               }
               field.forEach((item) => {
-                const err = get(errorValue, item, true);
-                if (err !== true && err !== false && isValid) isValid = false;
+                const errCur = get(errorValue, item, true);
+                if (errCur !== true && errCur !== false && isValid) isValid = false;
               });
             }
             if (input.name === 'register.ownerType') {
@@ -550,18 +550,18 @@ const GetStartedEstimation = (props: GetStartedEstimationType) => {
   useEffect(() => {
     if (formValue) {
       const newQuest: object[] = [];
-      QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue).map((quest) => {
-        if (quest.condition) {
+      QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue).map((questData) => {
+        if (questData.condition) {
           let isValid = true;
-          quest.condition.map((item) => {
+          questData.condition.map((item) => {
             if (item.name && get(formValue, item.name, null) !== item.value) {
               isValid = false;
             }
             return null;
           });
-          if (isValid) newQuest.push(quest);
+          if (isValid) newQuest.push(questData);
         } else {
-          newQuest.push(quest);
+          newQuest.push(questData);
         }
         return null;
       });
@@ -659,7 +659,7 @@ const GetStartedEstimation = (props: GetStartedEstimationType) => {
             id="multiStepForm"
             autoComplete="off"
             className={`interactive dis-fl-col jc-b ${get(quest, 'background', null) || ''}`}
-            onSubmit={(e) => changeStep()}
+            onSubmit={() => changeStep()}
           >
             <div ref={multiStepSlidesRef} className="multiStepSlides">
               <div ref={singleStepRef} className="singleStep pt-5 jc-c">

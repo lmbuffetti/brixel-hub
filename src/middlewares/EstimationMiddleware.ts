@@ -3,7 +3,7 @@ import get from 'lodash/get';
 import has from 'lodash/has';
 import set from 'lodash/set';
 
-import {SET_SCREEN_NOTIFICATION, SPINNER_OFF, SPINNER_ON, SPINNER_SMALL,} from '../actions/types/CommonTypes';
+import {SET_SCREEN_NOTIFICATION, SPINNER_OFF, SPINNER_ON, SPINNER_SMALL} from '../actions/types/CommonTypes';
 import {
   CREATE_ESTIMATION,
   DELETE_ESTIMATION,

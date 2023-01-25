@@ -36,5 +36,4 @@ export interface DashboardType {
   };
   loggedInUser: LoggedUserType;
   notification: NotificationDataType[];
-  userTypes?: string;
 }

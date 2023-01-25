@@ -103,17 +103,15 @@ const MakeOffer = (props: MakeOfferType) => {
       income: get(formValue, 'financeBuyer.income', undefined),
       fixedCost: 0,
     };
-    let lowCountry = get(formValue, 'propertyLocation.countryCode', '');
-    lowCountry = lowCountry ? lowCountry.toLowerCase() : '';
+    let lowCountryData = get(formValue, 'propertyLocation.countryCode', '');
+    lowCountryData = lowCountryData ? lowCountryData.toLowerCase() : '';
     const price = get(formValue, 'propertyPrice', 0);
-    const financeCalc = FinancialCalculator(lowCountry, price, cost, '');
+    const financeCalc = FinancialCalculator(lowCountryData, price, cost, '');
     if (financeCalc) {
-      const {
-        affordability,
-        loanToValueRatio,
-      } = financeCalc;
-      changeFieldValue('affordability', affordability);
-      changeFieldValue('loanToValueRatio', loanToValueRatio);
+      const affordabilityData = get(financeCalc, 'affordability', 0);
+      const loanToValueRatioData = get(financeCalc, 'loanToValueRatio', 0);
+      changeFieldValue('affordability', affordabilityData);
+      changeFieldValue('loanToValueRatio', loanToValueRatioData);
     }
   }, [get(formValue, 'financeBuyer.equity', null), get(formValue, 'financeBuyer.income', null)]);
 

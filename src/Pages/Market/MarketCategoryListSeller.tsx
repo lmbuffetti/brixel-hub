@@ -5,7 +5,6 @@ import {
   BrixelButtonText,
   Helpers,
 } from '@brixel/brixel-components';
-import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import {SkeletonPackages} from '@brixel/brixel-components/dist/skeleton';
 import get from 'lodash/get';
 import set from 'lodash/set';
@@ -229,14 +228,6 @@ const MarketCategoryListSeller = (props: MarketCategoryListSellerType) => {
       handleGetActiveCompanyPackages(dataCompany);
     }
   }, [activeCompanyId]);
-
-
-  const bookNow = () => {
-    if (propertyId) {
-      localStorage.setItem('backUrl', '/sell');
-      history.push(`/${propertyId}/trialRequest?url${baseByData.hubUrl}sell`);
-    }
-  };
 
   const getCompanyStub = () => {
     // TODO: Company management for "Add new" property flow

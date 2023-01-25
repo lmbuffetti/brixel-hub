@@ -24,14 +24,12 @@ import {
   CHECK_TOKEN,
   CREATE_USER,
   DO_LOGIN,
-  GET_USER_PAGES_DEALS,
   GET_USER_PROPERTIES,
   RECOVER_PASSWORD,
   REMOVE_NOT_INTERESTED,
   SAVE_ACTIVE_SINGLE_USER,
   SEND_USER_SCAN_TRIAL,
   SET_LOGGED_IN_USER,
-  SET_USER_PAGES_DEALS,
   SET_USER_PROPERTIES,
   UPDATE_FAVORITE,
   VALIDATE_USER,
@@ -39,7 +37,7 @@ import {
 
 import api from '../controllers/api/config';
 
-import { removeCookie, setCookie } from '../utils/helpers';
+import {removeCookie, setCookie} from '../utils/helpers';
 import translateTo from '../utils/translation';
 
 const checkUser = (store) => (next) => (action) => {

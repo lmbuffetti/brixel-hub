@@ -182,7 +182,7 @@ const MarketBuyer = (props: MarketBuyerType) => {
                 element={
                   <MarketCategoryListBuyer
                     filterPropType={filterPropType}
-                    onPageChange={(resultsPerPage, pageNumber, type) => getPropertiesPage()}
+                    onPageChange={() => getPropertiesPage()}
                   />
                 }
               />

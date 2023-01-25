@@ -32,9 +32,11 @@ const AccountDropdown = (props: AccountDropdownType) => {
   // GET LANGUAGE LISTS
   useEffect(() => {
     const langHeader: OptionsType[] = [];
-    languages.map((lng, i) => {
-      langHeader[i].value = lng.code;
-      langHeader[i].label = lng.name;
+    languages.map((lng) => {
+      langHeader.push({
+        value: lng.code,
+        label: lng.name,
+      });
       return null;
     });
     setLangMenu(langHeader);

@@ -234,7 +234,7 @@ const clientConfig = (env) => {
   if (!testMode) {
     config.plugins.push(
       new ESLintPlugin({
-        extensions: ['js', 'jsx'],
+        extensions: ['js', 'jsx', 'ts', 'tsx'],
         failOnError: !devMode,
         failOnWarning: !devMode,
         emitWarning: true,

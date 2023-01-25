@@ -65,7 +65,6 @@ const GetStartedBuyer = (props: GetStartedType) => {
   const [oldIndex, setOldIndex] = useState(0);
   // SET QUEST TO FIRST QUESTION OF QuestionsList()
   const [quest, setQuest] = useState<QuestionsListType>(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue, 'GetStarted')[0]);
-  const [isEnter, setIsEnter] = useState(true);
   const [showError, setShowError] = useState(false);
   const [loadingRequest, setLoadingRequest] = useState(false);
   // const [roomValue, setRoomValue] = useState('');
@@ -90,7 +89,7 @@ const GetStartedBuyer = (props: GetStartedType) => {
     const dataForm = cloneDeep(formValue);
     const dataFormAnswer = cloneDeep(formValue);
     setCookie('brixelSplashHome', 'buyerWelcome');
-    const { login, register, company } = dataForm;
+    const { login, register } = dataForm;
     // delete dataForm.login;
     changeFieldValue('register.password', '');
     delete dataFormAnswer.register.password;
@@ -116,13 +115,13 @@ const GetStartedBuyer = (props: GetStartedType) => {
       redirectToUrl: '/buy',
       extraLoading: true,
       owner: '',
-      company,
+      company: company.stub,
     };
-    if (action === 'accept' && company === 'baloise') {
+    if (action === 'accept' && company.stub === 'baloise') {
       set(data, 'termsBaloiseBank', true);
       set(data, 'termsBaloiseInsurance', true);
     }
-    if (action === 'accept' && company === 'ubs') {
+    if (action === 'accept' && company.stub === 'ubs') {
       set(data, 'termsUBS', true)
     }
     const page = get(formValue, 'signupScreen', null);
@@ -161,7 +160,7 @@ const GetStartedBuyer = (props: GetStartedType) => {
         signupProduct: null,
         language: lang || 'en',
         createUser: true,
-        company,
+        company: company.stub,
         ignoreEmail: false,
         redirectTo: {
           pathname: '/packageFlow/getstartedBuyer/success',
@@ -224,7 +223,6 @@ const GetStartedBuyer = (props: GetStartedType) => {
               }
             });
           } else if (input.validation) {
-            // const getRegField = get(registeredFields
             let field;
             if (input.name === 'profileUser') {
               const page = get(formValue, 'signupScreen', null);
@@ -233,8 +231,8 @@ const GetStartedBuyer = (props: GetStartedType) => {
                 field = ['login.email', 'login.password'];
               }
               field.forEach((item) => {
-                const err = get(errorValue, item, true);
-                if (err !== true && err !== false && isValid) isValid = false;
+                const errCur = get(errorValue, item, true);
+                if (errCur !== true && errCur !== false && isValid) isValid = false;
               });
             } else if (err !== true && err !== false && err !== null && isValid) isValid = false;
           }
@@ -368,7 +366,6 @@ const GetStartedBuyer = (props: GetStartedType) => {
 
   // ON CHANGE LANGUAGE RELOAD THE QUESTIONS TRANSLATED
   useEffect(() => {
-    const currentQuest = QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue, 'GetStarted')[currentIndex];
     setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue, 'GetStarted'));
     setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue, 'GetStarted')[currentIndex]);
   }, [lang, translations]);
@@ -382,7 +379,6 @@ const GetStartedBuyer = (props: GetStartedType) => {
 
   // ON CHANGE STEP (currentIndex is different for each step) CHANGE THE isEnter (used for enter effect) AND LOAD COMPANY DATA IF countryCode CHANGE
   useEffect(() => {
-    setIsEnter(true);
     if (get(questions, `[${currentIndex - 1}].history`, null) === 'locationInput') {
       const countryCodeLocation = get(formValue, 'locations[0].countryCode', '');
       const countryCodeCompany = get(company, 'country.code', '');
@@ -410,18 +406,18 @@ const GetStartedBuyer = (props: GetStartedType) => {
     setOldIndex(currentIndex);
     const newQuest: QuestionsListType[] = [];
     if (formValue) {
-      QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue, 'GetStarted').map((quest) => {
-        if (quest.condition) {
+      QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue, 'GetStarted').map((questData) => {
+        if (questData.condition) {
           let isValid = true;
-          quest.condition.map((item) => {
+          questData.condition.map((item) => {
             if (item.name && get(formValue, item.name, null) !== item.value) {
               isValid = false;
             }
             return null;
           });
-          if (isValid && !quest.hideSearchProfileFlow) newQuest.push(quest);
+          if (isValid && !questData.hideSearchProfileFlow) newQuest.push(questData);
         } else {
-          if (!quest.hideSearchProfileFlow) newQuest.push(quest);
+          if (!questData.hideSearchProfileFlow) newQuest.push(questData);
         }
         return null;
       });
@@ -507,7 +503,7 @@ const GetStartedBuyer = (props: GetStartedType) => {
             id="multiStepForm"
             autoComplete="off"
             className="interactive dis-fl-col jc-b"
-            onSubmit={(e) => changeStep()}
+            onSubmit={() => changeStep()}
           >
             <div ref={multiStepSlidesRef} className="multiStepSlides">
               <div ref={singleStepRef} className="singleStep pt-5 jc-c">
