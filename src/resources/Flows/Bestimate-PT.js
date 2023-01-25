@@ -1,16 +1,16 @@
 /* eslint-disable max-len */
 import { FactsOptions } from '@brixel/brixel-components';
-import translateTo from '../../utils/translation';
 import {
   BrixelCheckbox,
+  BrixelInputQuality,
   BrixelInputStepNumber,
   BrixelInputText,
-  BrixelInputQuality,
-  Validation,
   BrixelSelect,
+  Validation,
 } from '@brixel/brixel-components/dist/form';
-import ResumeBestimate from '../../Pages/Bestimate/ResumeBestimate';
 import homesSvg from '../../images/getstarted/svgs/homes.svg';
+import ResumeBestimate from '../../Pages/Bestimate/ResumeBestimate';
+import translateTo from '../../utils/translation';
 
 const { factsOptions } = FactsOptions;
 
@@ -55,7 +55,7 @@ export const BestimatePT = (type = null, propertyType, lang) => {
           component: BrixelInputText,
           className: '',
           classBoxWrapper: 'two-cols mt-5',
-          label: translateTo(type === 'getStarted' ? null : 'What\'s the gross area of the property?', lang),
+          label: translateTo(type === 'getStarted' ? '' : 'What\'s the gross area of the property?', lang),
           labelLeft: translateTo('Gross area', lang),
           placeholder: '120',
           unit: 'm2',
@@ -72,7 +72,7 @@ export const BestimatePT = (type = null, propertyType, lang) => {
             noValue: 'Apartment',
           }],
           classBoxWrapper: 'two-cols mt-5',
-          label: translateTo(type === 'getStarted' ? null : 'What\'s the lot size?', lang),
+          label: translateTo(type === 'getStarted' ? '' : 'What\'s the lot size?', lang),
           name: 'properties.typology.lotArea.value',
           type: 'number',
           unit: 'm2',
@@ -93,7 +93,7 @@ export const BestimatePT = (type = null, propertyType, lang) => {
         {
           component: BrixelInputStepNumber,
           className: 'two-cols',
-          label: translateTo(type === 'getStarted' ? null : 'How many bathrooms does the property have?', lang),
+          label: translateTo(type === 'getStarted' ? '' : 'How many bathrooms does the property have?', lang),
           name: 'properties.typology.bathrooms',
           labelLeft: translateTo('Bathrooms', lang),
           step: 1,
@@ -105,7 +105,7 @@ export const BestimatePT = (type = null, propertyType, lang) => {
         {
           component: BrixelInputText,
           classBoxWrapper: 'two-cols mt-5',
-          label: translateTo(type === 'getStarted' ? null : 'What\'s the surface of the balcony?', lang),
+          label: translateTo(type === 'getStarted' ? '' : 'What\'s the surface of the balcony?', lang),
           name: 'properties.typology.balconyArea.value',
           type: 'number',
           unit: 'm2',
@@ -118,7 +118,7 @@ export const BestimatePT = (type = null, propertyType, lang) => {
           component: BrixelInputText,
           className: '',
           classBoxWrapper: 'two-cols mt-5',
-          label: translateTo(type === 'getStarted' ? null : 'What\'s the surface of the terrace?', lang),
+          label: translateTo(type === 'getStarted' ? '' : 'What\'s the surface of the terrace?', lang),
           name: 'properties.typology.terraceArea.value',
           type: 'number',
           unit: 'm2',
@@ -131,7 +131,7 @@ export const BestimatePT = (type = null, propertyType, lang) => {
           component: BrixelInputText,
           className: '',
           classBoxWrapper: 'two-cols mt-5',
-          label: translateTo(type === 'getStarted' ? null : 'What\'s the size of the garden?', lang),
+          label: translateTo(type === 'getStarted' ? '' : 'What\'s the size of the garden?', lang),
           name: 'properties.typology.gardenArea.value',
           type: 'number',
           unit: 'm2',
@@ -154,7 +154,7 @@ export const BestimatePT = (type = null, propertyType, lang) => {
         {
           component: BrixelInputStepNumber,
           className: 'two-cols',
-          label: translateTo(type === 'getStarted' ? null : 'How many garage parking lots belong to the property?', lang),
+          label: translateTo(type === 'getStarted' ? '' : 'How many garage parking lots belong to the property?', lang),
           name: 'properties.parking.garage',
           labelLeft: translateTo('Garage parking', lang),
           step: 1,
@@ -167,7 +167,7 @@ export const BestimatePT = (type = null, propertyType, lang) => {
         {
           component: BrixelInputStepNumber,
           className: 'two-cols',
-          label: translateTo(type === 'getStarted' ? null : 'How many external parking lots belong to the property?', lang),
+          label: translateTo(type === 'getStarted' ? '' : 'How many external parking lots belong to the property?', lang),
           name: 'properties.parking.outside',
           labelLeft: 'External parking',
           step: 1,
@@ -193,7 +193,7 @@ export const BestimatePT = (type = null, propertyType, lang) => {
       ],
     },
     {
-      title: translateTo('Which extra features do you have?'),
+      title: translateTo('Which extra features do you have?', lang),
       vCentered: true,
       history: 'step4',
       className: type === 'getStarted' ? 'bgWhite max-w-fix-544 m-a brdRadius px-2 px-sm-5 py-5' : '',
@@ -205,7 +205,7 @@ export const BestimatePT = (type = null, propertyType, lang) => {
           className: 'extraFeature',
           component: BrixelCheckbox,
           icons: false,
-          label: translateTo(type === 'getStarted' ? null : '', lang),
+          label: translateTo(type === 'getStarted' ? '' : '', lang),
           name: 'properties.extraFeaturesBestimatePT',
           pdClass: 'p-1',
           iconClass: 'p-small-17 fSizePx22 bgPrimary400 txtWhite brdRadius mr-1',
