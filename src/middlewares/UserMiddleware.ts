@@ -24,12 +24,14 @@ import {
   CHECK_TOKEN,
   CREATE_USER,
   DO_LOGIN,
+  GET_USER_PAGES_DEALS,
   GET_USER_PROPERTIES,
   RECOVER_PASSWORD,
   REMOVE_NOT_INTERESTED,
   SAVE_ACTIVE_SINGLE_USER,
   SEND_USER_SCAN_TRIAL,
   SET_LOGGED_IN_USER,
+  SET_USER_PAGES_DEALS,
   SET_USER_PROPERTIES,
   UPDATE_FAVORITE,
   VALIDATE_USER,
@@ -37,7 +39,8 @@ import {
 
 import api from '../controllers/api/config';
 
-import {removeCookie, setCookie} from '../utils/helpers';
+import { removeCookie, setCookie } from '../utils/helpers';
+import translateTo from '../utils/translation';
 
 const checkUser = (store) => (next) => (action) => {
   switch (action.type) {
@@ -307,6 +310,7 @@ const checkUser = (store) => (next) => (action) => {
       store.dispatch({ type: SPINNER_SMALL, payload: { [`favorite-${id}`]: true } });
       const favoritesData = cloneDeep(get(store.getState(), 'market.wishlistProperties', {}));
       const favoritesList = favoritesData.data;
+      const lang = get(store.getState(), 'common.language', 'en');
       if (act === 'add') {
         api.user.addFavorite(id, data)
           .then(() => {
@@ -324,7 +328,7 @@ const checkUser = (store) => (next) => (action) => {
               payload: {
                 icon: 'favorite-fill',
                 state: true,
-                label: 'Added to saved properties',
+                label: translateTo('Added to saved properties', lang),
                 type: 'done',
               },
             })
@@ -346,7 +350,7 @@ const checkUser = (store) => (next) => (action) => {
               payload: {
                 icon: 'favorite-fill',
                 state: true,
-                label: 'Removed from saved properties',
+                label: translateTo('Removed from saved properties', lang),
                 type: 'done',
               },
             })

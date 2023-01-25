@@ -59,7 +59,7 @@ const EstimationPropertyList = (props: FavoritesPropertyListType) => {
                 <BrixelButtonPrimary
                   rounded
                   leftIcon="plus"
-                  label="New estimation"
+                  label={translateTo('New estimation', lang)}
                   onClick={() => {
                     localStorage.setItem('backUrlBuyerEstimations', '/buy/estimations');
                     history.push(`/packageFlow/getStartedEstimation/${activeSingleCompany.stub}/estimationType`);

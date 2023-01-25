@@ -6,7 +6,6 @@ import {
   FactsOptions,
   FormatValue,
   Helpers,
-  translateTo,
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import {connect} from 'react-redux';
@@ -16,6 +15,7 @@ import CoverEstimationGreenImg from '../../../images/Market/icnEstimationGreen.s
 import CoverEstimationYellowImg from '../../../images/Market/icnEstimationYellow.svg';
 import type {ModalPropertyEstimationType} from '../../../@types/Pages/Market/Buyer/ModalPropertyEstimation';
 import {ExtraFeatureTypeList} from '@brixel/brixel-components/dist/@types/components/Form/BrixelExtraFeature';
+import translateTo from '../../../utils/translation';
 
 const { factsOptions } = FactsOptions;
 
@@ -194,7 +194,7 @@ const ModalPropertyEstimation = (props: ModalPropertyEstimationType) => {
           <hr className="my-4 lighter" />
 
           <BrixelButtonText
-            label="Show details"
+            label={translateTo('Show details', lang)}
             rightIcon={showDetail ? 'arrow-simple-up' : 'arrow-simple-down'}
             bgTransparent
             onClick={() => setShowDetail(!showDetail)}
@@ -354,7 +354,7 @@ const ModalPropertyEstimation = (props: ModalPropertyEstimationType) => {
           <BrixelButtonText
             theme="altGrey"
             bgTransparent
-            label="Close"
+            label={translateTo('Close', lang)}
             onClick={() => onClose()}
           />
         </div>
