@@ -1,5 +1,5 @@
 import React, {Suspense, useEffect} from 'react';
-import {Route, Routes, useLocation, useNavigate, useParams,} from 'react-router-dom';
+import {Route, Routes, useLocation, useNavigate, useParams} from 'react-router-dom';
 import {compose} from 'redux';
 import {connect} from 'react-redux';
 import get from 'lodash/get';

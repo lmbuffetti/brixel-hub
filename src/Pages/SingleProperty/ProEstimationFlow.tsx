@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import {BrixelButtonIcon, BrixelButtonPrimary, BrixelButtonSecondary, ProgressRing,} from '@brixel/brixel-components';
+import {BrixelButtonIcon, BrixelButtonPrimary, BrixelButtonSecondary, ProgressRing} from '@brixel/brixel-components';
 import translateTo from '../../utils/translation';
-import {destroy, initializeForm, MultiFileldsReduxForm, reset,} from '@brixel/brixel-components/dist/form';
+import {destroy, initializeForm, MultiFileldsReduxForm, reset} from '@brixel/brixel-components/dist/form';
 import {diff} from 'deep-object-diff';
 import {bindActionCreators, compose} from 'redux';
 import {useLocation, useNavigate} from 'react-router-dom';
@@ -11,10 +11,10 @@ import set from 'lodash/set';
 import unset from 'lodash/unset';
 import omit from 'lodash/omit';
 import cloneDeep from 'lodash/cloneDeep';
-import {calcPercentageFacts, calcPercentageProEstimation, keyify,} from '../../utils/helpers';
+import {calcPercentageFacts, calcPercentageProEstimation, keyify} from '../../utils/helpers';
 import {InputSheets} from '../../resources/SingleProperty/inputSheets';
 import {getEstimation, saveActiveSingleProperty} from '../../actions/PropertyActions';
-import {preventExitFromScreen, setModal, setSplashType, setUnsavedChangesModal,} from '../../actions/CommonActions';
+import {preventExitFromScreen, setModal, setSplashType, setUnsavedChangesModal} from '../../actions/CommonActions';
 import type {ProEstimationFlowType} from '../../@types/Pages/SingleProperty/ProEstimationFlow';
 import {QuestionsListType} from '@brixel/brixel-components/dist/@types/Model';
 

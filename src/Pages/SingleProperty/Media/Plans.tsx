@@ -1,10 +1,10 @@
-import React, {useEffect, useRef, useState,} from 'react';
-import {Route, Routes, useLocation, useNavigate, useParams,} from 'react-router-dom';
+import React, {useEffect, useRef, useState} from 'react';
+import {Route, Routes, useLocation, useNavigate, useParams} from 'react-router-dom';
 import {bindActionCreators, compose} from 'redux';
 import {connect} from 'react-redux';
 import {useDropzone} from 'react-dropzone';
 import get from 'lodash/get';
-import {BrixelButtonIcon, BrixelButtonSecondary, useOutsideAlerter,} from '@brixel/brixel-components';
+import {BrixelButtonIcon, BrixelButtonSecondary, useOutsideAlerter} from '@brixel/brixel-components';
 import translateTo from '../../../utils/translation';
 import {change} from '@brixel/brixel-components/dist/form';
 import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
