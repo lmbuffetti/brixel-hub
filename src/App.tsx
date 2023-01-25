@@ -183,7 +183,6 @@ const App = (props: AppType) => {
     }
   }, [languages]);
 
-
   // FUNCTION TO LOAD THE USER TYPE BUYER OR SELLER
   useEffect(() => {
     if (((get(activeSingleProperty, 'owner', null) === get(loggedInUser, 'user.id', 'b') || get(activeSingleProperty, 'owner', null) === get(loggedInUser, 'user.id', 'b')) && !get(history, 'location.pathname', '').includes('buyer')) || get(history, 'location.pathname', '').includes('seller')) {
