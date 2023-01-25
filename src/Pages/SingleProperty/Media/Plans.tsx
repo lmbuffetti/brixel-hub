@@ -104,7 +104,6 @@ const Plans = (props: FloorPlansPageType) => {
     onDrop,
     accept: {
       'image/png': ['.png'],
-      'text/html': ['.html', '.htm'],
       'image/jpg': ['.jpg', '.jpeg'],
       'application/pdf': ['.pdf'],
     },

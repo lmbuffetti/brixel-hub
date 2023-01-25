@@ -114,7 +114,6 @@ const Photos = (props: PhotosPageType) => {
     multiple: true,
     accept: {
       'image/png': ['.png'],
-      'text/html': ['.html', '.htm'],
       'image/jpg': ['.jpg', '.jpeg'],
     },
     minSize: 0,
