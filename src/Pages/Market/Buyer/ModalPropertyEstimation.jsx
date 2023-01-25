@@ -5,7 +5,6 @@ import {
   FactsOptions,
   FormatValue,
   Helpers,
-  translateTo,
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
@@ -15,6 +14,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { compose } from 'redux';
 import CoverEstimationGreenImg from '../../../images/Market/icnEstimationGreen.svg';
 import CoverEstimationYellowImg from '../../../images/Market/icnEstimationYellow.svg';
+import translateTo from '../../../utils/translation';
 
 const { factsOptions } = FactsOptions;
 
@@ -193,7 +193,7 @@ const ModalPropertyEstimation = (props) => {
           <hr className="my-4 lighter" />
 
           <BrixelButtonText
-            label="Show details"
+            label={translateTo('Show details', lang)}
             rightIcon={showDetail ? 'arrow-simple-up' : 'arrow-simple-down'}
             bgTransparent
             onClick={() => setShowDetail(!showDetail)}
@@ -353,14 +353,9 @@ const ModalPropertyEstimation = (props) => {
           <BrixelButtonText
             theme="altGrey"
             bgTransparent
-            label="Close"
+            label={translateTo('Close', lang)}
             onClick={() => onClose()}
           />
-
-          {/*<BrixelButtonSecondary*/}
-          {/*  rounded*/}
-          {/*  label="Contact support"*/}
-          {/*/>*/}
         </div>
 
       </div>
