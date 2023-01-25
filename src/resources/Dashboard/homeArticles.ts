@@ -1,21 +1,3 @@
-// @ts-ignore
-declare let module : {
-  exports: {
-    default: {
-      img: string;
-      url: string;
-      title: string;
-      desc: string;
-    }[],
-    pt: {
-      img: string;
-      url: string;
-      title: string;
-      desc: string;
-    }[]
-  };
-}
-
 const Articles = {
   default: [
     {

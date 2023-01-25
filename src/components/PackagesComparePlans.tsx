@@ -1,6 +1,7 @@
 /* eslint-disable max-len */
 import React, {useEffect} from 'react';
-import {Helpers} from '@brixel/brixel-components';
+import get from 'lodash/get';
+import {BrixelIcon, Helpers} from '@brixel/brixel-components';
 import translateTo from '../utils/translation';
 import {PackagesComparePlansTable} from '../resources/Dashboard/PackagesComparePlans';
 import type {PackagesComparePlansType} from '../@types/components/PackageComparePlans';
@@ -124,12 +125,12 @@ export const PackagesComparePlans = (props: PackagesComparePlansType) => {
             {
               extractTable('basic').map((pkg, i) => (
                 <th key={`xtrTbl_${i.toString()}`}>
-                  <span className="txGreen400">{translateTo(pkg.name, lang)}</span>
+                  <span className="txGreen400">{translateTo(pkg.name || '', lang)}</span>
                   {
-                    pkg.price.total > 0 ? (
+                    get(pkg, 'price.total', 0) > 0 ? (
                       <span className="fsize-500 dis-f a-b fweight-400">
                         <span>
-                          {pkg.price.currency} {Helpers.formatNumberValue(pkg.price.total, pkg.price.currency)}
+                          {pkg?.price?.currency} {Helpers.formatNumberValue(pkg?.price?.total || 0, pkg?.price?.currency || '')}
                         </span>
                         <span className="fsize-300 ml-1">{translateTo('incl. VAT', lang)}</span>
                       </span>
@@ -147,10 +148,10 @@ export const PackagesComparePlans = (props: PackagesComparePlansType) => {
                 <th key={`tblPrv_${i.toString()}`}>
                   <span className="txtBlue400">{pkg.name}</span>
                   {
-                    pkg.price.total > 0 ? (
+                    get(pkg, 'price.total', 0) > 0 ? (
                       <span className="fsize-500 dis-f a-b fweight-400">
                         <span>
-                          {pkg.price.currency} {Helpers.formatNumberValue(pkg.price.total, pkg.price.currency)}
+                          {get(pkg, 'price.currency', '')} {Helpers.formatNumberValue(get(pkg, 'price.total', 0), get(pkg, 'price.currency', ''))}
                         </span>
                         <span className="fsize-300 ml-1">{translateTo('incl. VAT', lang)}</span>
                       </span>
@@ -168,10 +169,10 @@ export const PackagesComparePlans = (props: PackagesComparePlansType) => {
                 <th key={`tblPrm_${i.toString()}`}>
                   <span className="txtRed400">{pkg.name}</span>
                   {
-                    pkg.price.total > 0 ? (
+                    get(pkg, 'price.total', 0) > 0 ? (
                       <span className="fsize-500 dis-f a-b fweight-400">
                         <span>
-                          {pkg.price.currency} {Helpers.formatNumberValue(pkg.price.total, pkg.price.currency)}
+                          {get(pkg, 'price.currency', '')} {Helpers.formatNumberValue(get(pkg, 'price.total', 0), get(pkg, 'price.currency', ''))}
                         </span>
                         <span className="fsize-300 ml-1">{translateTo('incl. VAT', lang)}</span>
                       </span>
@@ -189,10 +190,10 @@ export const PackagesComparePlans = (props: PackagesComparePlansType) => {
                 <th key={`one_${i.toString()}`}>
                   <span className="txtDark700">{pkg.name}</span>
                   {
-                    pkg.price.total > 0 ? (
+                    get(pkg, 'price.total', 0) > 0 ? (
                       <span className="fsize-500 dis-f a-b fweight-400">
                         <span>
-                          {pkg.price.currency} {Helpers.formatNumberValue(pkg.price.total, pkg.price.currency)}
+                          {get(pkg, 'price.currency', '')} {Helpers.formatNumberValue(get(pkg, 'price.total', 0), get(pkg, 'price.currency', ''))}
                         </span>
                         <span className="fsize-300 ml-1">{translateTo('incl. VAT', lang)}</span>
                       </span>

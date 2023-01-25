@@ -1,16 +1,24 @@
-import React from 'react';
-import { BrixelButtonText, FormatValue, Helpers } from '@brixel/brixel-components';
+import React, {useRef, useState} from 'react';
+import {
+  BrixelButtonIcon,
+  BrixelButtonText,
+  BrixelDropdownMini,
+  BrixelModalConfirm,
+  FormatValue,
+  Helpers,
+  useOutsideAlerter,
+} from '@brixel/brixel-components';
 import get from 'lodash/get';
-import { connect } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { bindActionCreators, compose } from 'redux';
-import { setModal } from '../../actions/CommonActions';
-import { deleteEstimation } from '../../actions/EstimationActions';
+import {connect} from 'react-redux';
+import {useLocation, useNavigate} from 'react-router-dom';
+import {bindActionCreators, compose} from 'redux';
+import {setModal} from '../../actions/CommonActions';
+import {deleteEstimation} from '../../actions/EstimationActions';
 import CoverEstimationGreenImg from '../../images/Market/icnEstimationGreen.svg';
 import CoverEstimationYellowImg from '../../images/Market/icnEstimationYellow.svg';
 import translateTo from '../../utils/translation';
 import Tags from '../Tags';
-import type { MarketCardEstimationType } from '../../@types/components/Cards/MarketCardEstimation';
+import type {ActionDetailType, MarketCardEstimationType} from '../../@types/components/Cards/MarketCardEstimation';
 
 const MarketCardFavorites = (props: MarketCardEstimationType) => {
   const history = {
@@ -24,7 +32,7 @@ const MarketCardFavorites = (props: MarketCardEstimationType) => {
     lang,
   } = props;
   // STATE
-  const [actionDetailsOpen, setActionDetailsOpen] = useState({
+  const [actionDetailsOpen, setActionDetailsOpen] = useState<ActionDetailType>({
     id: null,
     active: false,
   });
@@ -45,7 +53,7 @@ const MarketCardFavorites = (props: MarketCardEstimationType) => {
       state: true,
       component: React.createElement(BrixelModalConfirm, {
         title: translateTo('Are you sure?', lang),
-        message: translateTo('You can confirm to delete this estimation.'),
+        message: translateTo('You can confirm to delete this estimation.', lang),
         confirm: () => onConfirmDelete(),
         cancel: () => handleSetModal({ state: false }),
       }),

@@ -102,7 +102,8 @@ const GetStartedSeller = (props: GetStartedSellerType) => {
     const dataForm = cloneDeep(formValue);
     const dataFormAnswer = cloneDeep(formValue);
     setCookie('brixelSplashHome', 'sellerWelcome');
-    const { login, register, company } = dataForm;
+    const { login, register } = dataForm;
+    const formCompany = dataForm.company;
     // delete dataForm.login;
     // changeFieldValue('register.password', '');
     if (dataFormAnswer.register) delete dataFormAnswer.register.password;
@@ -147,10 +148,10 @@ const GetStartedSeller = (props: GetStartedSellerType) => {
       published: false,
       addProperty: true,
       // redirectToUrl: '/sell',
-      company,
+      company: formCompany,
       extraLoading: true,
     };
-    if (company !== 'baloise' && company !== 'ubs') set(data, 'redirectToUrl', '/packageFlow/:pageID/welcomeSeller');
+    if (formCompany !== 'baloise' && formCompany !== 'ubs') set(data, 'redirectToUrl', '/packageFlow/:pageID/welcomeSeller');
     else set(data, 'redirectToUrl', '/:pageID/home');
     if (formValue.pageID) data.id = formValue.pageID;
     const page = get(formValue, 'signupScreen', null);
@@ -187,7 +188,7 @@ const GetStartedSeller = (props: GetStartedSellerType) => {
         signupProduct: null,
         language: saveLangUser,
         createUser: true,
-        company,
+        company: formCompany,
         ignoreEmail: false,
         seller: true,
         redirectTo: {
@@ -257,8 +258,8 @@ const GetStartedSeller = (props: GetStartedSellerType) => {
               field = ['login.email', 'login.password'];
             }
             field.forEach((item) => {
-              const err = get(errorValue, item, true);
-              if (err !== true && err !== false && isValid) isValid = false;
+              const errCurr = get(errorValue, item, true);
+              if (errCurr !== true && errCurr !== false && isValid) isValid = false;
             });
           }
           if (input.name === 'register.ownerType') {
@@ -459,18 +460,18 @@ const GetStartedSeller = (props: GetStartedSellerType) => {
   useEffect(() => {
     if (formValue && company.stub) {
       const newQuest: QuestionsListType[] = [];
-      QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue).map((quest) => {
-        if (quest.condition) {
+      QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue).map((qst) => {
+        if (qst.condition) {
           let isValid = true;
-          quest.condition.map((item) => {
+          qst.condition.map((item) => {
             if (item.name && get(formValue, item.name, null) !== item.value) {
               isValid = false;
             }
             return null;
           });
-          if (isValid) newQuest.push(quest);
+          if (isValid) newQuest.push(qst);
         } else {
-          newQuest.push(quest);
+          newQuest.push(qst);
         }
         return null;
       });
@@ -571,7 +572,7 @@ const GetStartedSeller = (props: GetStartedSellerType) => {
             id="multiStepForm"
             autoComplete="off"
             className="dis-fl-col jc-b"
-            onSubmit={(e) => changeStep()}
+            onSubmit={() => changeStep()}
           >
             <div ref={multiStepSlidesRef} className="multiStepSlides">
               <div ref={singleStepRef} className="singleStep pt-5 jc-c ">

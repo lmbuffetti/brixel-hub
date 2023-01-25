@@ -194,18 +194,18 @@ const TermsCondition = (props: TermsConditionType) => {
   useEffect(() => {
     if (formValue && company.stub) {
       const newQuest: QuestionsListType[] = [];
-      QuestionsList(lang, activeSingleCompany, isBuyer).map((quest) => {
-        if (quest.condition) {
+      QuestionsList(lang, activeSingleCompany, isBuyer).map((qst) => {
+        if (qst.condition) {
           let isValid = true;
-          quest.condition.map((item) => {
+          qst.condition.map((item) => {
             if (item.name && get(formValue, item.name, null) !== item.value) {
               isValid = false;
             }
             return null;
           });
-          if (isValid) newQuest.push(quest);
+          if (isValid) newQuest.push(qst);
         } else {
-          newQuest.push(quest);
+          newQuest.push(qst);
         }
         return null;
       });
@@ -305,7 +305,7 @@ const TermsCondition = (props: TermsConditionType) => {
             id="multiStepForm"
             autoComplete="off"
             className="interactive dis-fl-col jc-b"
-            onSubmit={(e) => changeStep()}
+            onSubmit={() => changeStep()}
           >
             <div ref={multiStepSlidesRef} className="multiStepSlides">
               <div ref={singleStepRef} className="singleStep pt-5 jc-c ">

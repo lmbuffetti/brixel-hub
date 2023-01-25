@@ -49,7 +49,7 @@ const Plans = (props: FloorPlansPageType) => {
   const propID = get(match, 'propID', null);
   // REF
   // eslint-disable-next-line no-unused-vars
-  const arrayImg = [...Array(floorPlans ? floorPlans.length : 0)].map((_, index) => React.createRef());
+  const arrayImg = [...Array(floorPlans ? floorPlans.length : 0)].map(() => React.createRef());
   const wrappImg = useRef(arrayImg) as any;
 
   // COMPARE FLOOR PLANS AND fixPhotos TO ADD THE PREVIEW FLOOR PLANS ON UPLOADING

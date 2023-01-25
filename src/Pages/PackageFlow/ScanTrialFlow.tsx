@@ -241,8 +241,8 @@ const ScanTrialFlow = (props: ScanTrialFlowType) => {
               field = ['login.email', 'login.password'];
             }
             field.forEach((item) => {
-              const err = get(errorValue, item, true);
-              if (err !== true && err !== false && isValid) isValid = false;
+              const errCur = get(errorValue, item, true);
+              if (errCur !== true && errCur !== false && isValid) isValid = false;
             });
           }
           if (input.name === 'register.ownerType') {
@@ -398,7 +398,7 @@ const ScanTrialFlow = (props: ScanTrialFlowType) => {
           id="multiStepForm"
           autoComplete="off"
           className={`interactive dis-fl-col jc-b ${get(quest, 'background', null) || ''}`}
-          onSubmit={(e) => changeStep()}
+          onSubmit={() => changeStep()}
         >
           <div ref={multiStepSlidesRef} className="multiStepSlides">
             <div ref={singleStepRef} className={`singleStep zIndex1 pt-5 jc-c ${currentIndex < 5 ? isEnter ? 'fade-enter-active' : 'fade-enter' : ''}`}>
