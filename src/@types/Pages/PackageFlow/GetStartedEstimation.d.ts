@@ -58,7 +58,7 @@ export interface GetStartedEstimationType {
   initForm: (data: object) => void;
   initialValues: object;
   isLoading: boolean;
-  isTest: boolean;
+  isTest?: boolean;
   lang?: string;
   loggedInUser: LoggedUserType;
   translations: object;

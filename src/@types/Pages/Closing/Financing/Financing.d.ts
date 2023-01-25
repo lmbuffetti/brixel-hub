@@ -31,7 +31,6 @@ export interface FinancingType {
   destroyForm: () => void;
   errorValue: object;
   formValue: FormValueType;
-  handleCreateEstimation: (data: object) => void;
   handleGetActiveSingleCompany: (data: object) => void;
   handleGetActiveSingleProperty: (data: object) => void;
   handleGetBuyerDeal: (data: object) => void;

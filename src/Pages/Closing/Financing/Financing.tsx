@@ -411,8 +411,6 @@ const Financing = (props: FinancingType) => {
     else closeWindow();
   };
 
-  if (!formValue.id && !activeSingleCompany.id) return '<div />'
-
   return (
     <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'background', '')} ${get(quest, 'classWrapper', '')} trialRequest`}>
       <div className="pos-r">

@@ -1,7 +1,7 @@
 export interface ProtectedRouteType {
   allowAccess?: boolean | string;
   children: any;
-  isTest: boolean;
+  isTest?: boolean;
   loggedInUser: {
     token: string;
     user: LoggedInUser;
