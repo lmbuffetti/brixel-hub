@@ -1,34 +1,26 @@
-/* eslint-disable max-len */
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, {
-  useEffect, useRef, useState,
-} from 'react';
-import {
-  Routes, Route, useLocation, useNavigate, useParams,
-} from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { bindActionCreators, compose } from 'redux';
-import { connect } from 'react-redux';
-import { useDropzone } from 'react-dropzone';
+import React, {useEffect, useRef, useState,} from 'react';
+import {Route, Routes, useLocation, useNavigate, useParams,} from 'react-router-dom';
+import {bindActionCreators, compose} from 'redux';
+import {connect} from 'react-redux';
+import {useDropzone} from 'react-dropzone';
+import {diff} from 'deep-object-diff';
 import get from 'lodash/get';
-import {
-  BrixelButtonIcon,
-  BrixelButtonSecondary,
-} from '@brixel/brixel-components';
-import translateTo from '../../../utils/translation';
-import { change } from '@brixel/brixel-components/dist/form';
-import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
-import { ReactSortable } from 'react-sortablejs';
 import cloneDeep from 'lodash/cloneDeep';
-import { diff } from 'deep-object-diff';
-import { deleteImg, multiUploadImg, uploadImg } from '../../../actions/UploadActions';
+import isArray from 'lodash/isArray';
+import {BrixelButtonIcon, BrixelButtonSecondary, BrixelIcon, useOutsideAlerter,} from '@brixel/brixel-components';
+import translateTo from '../../../utils/translation';
+import {change} from '@brixel/brixel-components/dist/form';
+import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
+import {ReactSortable} from 'react-sortablejs';
+import {deleteImg, multiUploadImg, uploadImg} from '../../../actions/UploadActions';
 import DetailMedia from './DetailMedia';
-import uploadFloorPlansEmpty from '../../../images/Upload/upload_floorPlans_empty.svg';
-import OutsideElement from '../../../components/OutsideElement';
-import { tobase64Handler, Truncate, checkBrowser } from '../../../utils/helpers';
+import {tobase64Handler, Truncate} from '../../../utils/helpers';
+import uploadPhotosEmpty from '../../../images/Upload/upload_photos_empty.svg';
 import BrixelUpgradeMessage from '../../../components/BrixelUpgradeMessage';
+import {PhotosType} from '@brixel/brixel-components/dist/@types/Model';
+import type {PhotosPageType} from '../../../@types/Pages/SingleProperty/Media/Photos';
 
-const Photos = (props) => {
+const Photos = (props: PhotosPageType) => {
   const history = {
     push: useNavigate(),
     location: useLocation(),
@@ -47,46 +39,48 @@ const Photos = (props) => {
     loggedInUser,
     windowDimensions,
   } = props;
-  const { floorPlans } = formValue;
+  const { photos } = formValue;
   // STATE
-  const [fixPhotos, setFixPhotos] = useState([]);
+  const [fixPhotos, setFixPhotos] = useState<PhotosType[]>([]);
   const [confirmDelete, setConfirmDelete] = useState(null);
-  const [btnActive, setBtnActive] = useState(null);
-  const [newImages, setNewImages] = useState([]);
+  const [btnActive, setBtnActive] = useState<string>();
+  const [newImages, setNewImages] = useState<PhotosType[]>([]);
   const [isReady, setIsReady] = useState(false);
   // GET URL PARAMS
   const propID = get(match, 'propID', null);
   // REF
   // eslint-disable-next-line no-unused-vars
-  const arrayImg = [...Array(floorPlans ? floorPlans.length : 0)].map((_, index) => React.createRef());
-  const wrappImg = useRef(arrayImg);
+  const arrayImg = [...Array(photos ? photos.length : 0)].map(() => React.createRef());
+  const wrappImg = useRef(arrayImg) as any;
 
-  // COMPARE FLOOR PLANS AND fixPhotos TO ADD THE PREVIEW FLOOR PLANS ON UPLOADING
+  useEffect(() => () => document.body.classList.remove('scrollSmooth'));
+
+  // COMPARE IMAGES AND fixPhotos TO ADD THE PREVIEW IMAGES ON UPLOADING
   useEffect(() => {
-    if (Object.keys(diff(floorPlans, fixPhotos)).length > 0 && !isSmallLoading.uploadMedia) {
+    // setNewImages([]);
+    if (photos && Object.keys(diff(photos, fixPhotos)).length > 0 && !isSmallLoading.uploadMedia) {
       setNewImages([]);
       setConfirmDelete(null);
-      setBtnActive(null);
-      setFixPhotos(floorPlans ? cloneDeep(floorPlans) : []);
+      setBtnActive(undefined);
+      setFixPhotos(photos);
     }
-  }, [floorPlans, isSmallLoading]);
+  }, [photos, isSmallLoading]);
 
-  // FUNCTION TO DELETE FLOOR PLAN
+  // FUNCTION TO DELETE IMAGE
   const deleteImage = (id) => {
     const mediaID = id;
     const data = {
       id: mediaID,
       pageID: propID,
-      type: 'floorPlans',
+      type: 'photos',
       smallLoader: 'deleteMedia',
     };
-    // eslint-disable-next-line no-alert
     handleDeleteImg(data);
-    history.push(`/${propID}/property/floorPlans`);
+    history.push(`/${propID}/property/photos`);
   };
 
   // MULTIUPLOADING FUNCTION
-  const onDrop = acceptedFiles => {
+  const onDrop = (acceptedFiles) => {
     const reader = new FileReader();
     // const imgType = imageType.find((val) => val.name === 'Gallery');
     // eslint-disable-next-line no-console
@@ -95,28 +89,41 @@ const Photos = (props) => {
     reader.onerror = () => console.log('file reading has failed');
     setBtnActive('uploading');
     const imgType = imageType.find((val) => val.name === 'Gallery');
-    const imgList = tobase64Handler(acceptedFiles, get(loggedInUser, 'user.id', ''), 'floorPlans', formValue.id, imgType.id);
-    imgList.then((res) => {
-      handleMultiUploadImg({
-        allImgs: res,
-        actions: 'floorPlans',
-        pageID: formValue.id || propID,
-        smallLoader: 'uploadMedia',
+    if (imgType) {
+      const imgList = tobase64Handler(
+        acceptedFiles,
+        get(loggedInUser, 'user.id', ''),
+        'photos',
+        formValue.id,
+        imgType.id,
+      );
+      imgList.then((res) => {
+        handleMultiUploadImg({
+          allImgs: res,
+          actions: 'photos',
+          pageID: activeSingleProperty.id || propID,
+          smallLoader: 'uploadMedia',
+        });
       });
-    });
+    }
   };
 
   // DROPZONE SETTINGS - SUPPORTED EXTENSIONS AND MAX SIZE AND OTHER SETTINGS
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
-    accept: 'image/png,image/jpg,image/jpeg,application/pdf',
+    multiple: true,
+    accept: {
+      'image/png': ['.png'],
+      'text/html': ['.html', '.htm'],
+      'image/jpg': ['.jpg', '.jpeg'],
+    },
     minSize: 0,
     maxSize: 1e+7,
   });
 
-  // ORDER FLOOR PLANS SETTINGS
+  // ORDER IMAGE SETTINGS
   const changeOrder = (order) => {
-    const imgArray = [];
+    const imgArray: object[] = [];
     order.map((item) => {
       if (item.createdAt) {
         delete item.chosen;
@@ -125,7 +132,11 @@ const Photos = (props) => {
       }
       return null;
     });
-    changeFieldValue('floorPlans', imgArray);
+    const changeObj = diff(fixPhotos, imgArray);
+    if (Object.keys(changeObj).length > 0) {
+      changeFieldValue('photos', imgArray);
+      changeFieldValue('coverPhoto', imgArray[0]);
+    }
   };
 
   // FUCNTION FOR REAL DELETE
@@ -135,7 +146,7 @@ const Photos = (props) => {
   };
 
   // CLICK OUTSIDE OF IMAGES
-  OutsideElement(wrappImg, {
+  useOutsideAlerter(wrappImg, {
     id: confirmDelete || 0,
     action: 'function',
     func: () => { setConfirmDelete(null); },
@@ -143,10 +154,11 @@ const Photos = (props) => {
 
   const scrollToTopEdit = () => {
     const scrollEl = document.getElementsByClassName('hubDasContent')[0];
-    if (checkBrowser() > 0 && scrollEl) {
-      scrollEl.scrollTop = 0;
-    } else if (scrollEl) {
-      scrollEl.scrollTo({ top: 10, behavior: 'smooth' });
+    if (scrollEl) {
+      document.body.classList.add('scrollSmooth');
+      setTimeout(() => {
+        scrollEl.scrollTop = 10;
+      }, 100);
     }
   };
 
@@ -157,66 +169,65 @@ const Photos = (props) => {
       {
         isReady ? (
           <>
-            <h3 className="mb-3 hide dis-b-lg">{translateTo('Floor Plans', lang)}</h3>
-            <div className="plansWrapper dis-f">
+            <h3 className="mb-3 hide dis-b-lg">{translateTo('Photos', lang)}</h3>
+            <div className="photosWrapper dis-f">
               <div className="secondLevel dis-fl-col">
                 <div className="dis-f backPanel hide-lg">
                   <h5 className="sectionTitle">
-                    {translateTo('Floor Plans', lang)}
+                    {translateTo('Photos', lang)}
                   </h5>
                 </div>
-                {(!fixPhotos || (fixPhotos && fixPhotos.length === 0)) && (
-                  <span className='mb-3 mb-md-5 txtRed400'>{translateTo('You have uploaded 0 plans.', lang)}</span>
+                {(!fixPhotos || (isArray(fixPhotos) && fixPhotos.length === 0)) && (
+                  <span className='mb-3 mb-md-5 txtRed400'>{translateTo('You have uploaded 0 photos.', lang)} </span>
                 )}
-                <div className={`boxCard mb-5 ${(!fixPhotos || (fixPhotos && fixPhotos.length === 0)) ? 'emptyMedia' : ''}`}>
-
+                <div className={`boxCard mb-5 ${(!fixPhotos || (isArray(fixPhotos) && fixPhotos.length === 0)) ? 'emptyMedia' : ''}`}>
                   <div className={`${fixPhotos && fixPhotos.length > 0 ? 'uploadPanel dis-fl-col' : 'empty-state dis-fl-col a-c'}`}>
-                    <>
-                      {
-                        (!fixPhotos || (fixPhotos && fixPhotos.length === 0)) ? ('') : (
-                          <>
-                            <p className='fweight-600'>{translateTo('Drag to move and reorder photos', lang)} </p>
-                            <p className='fsize-300 txtAltGrey400 mb-2'>{translateTo('Drag to move and reorder photos', lang)} </p>
-                          </>
-                        )
-                      }
-                      <div
-                        className={`${(!fixPhotos || (fixPhotos && fixPhotos.length === 0)) ? 'emptyState' : 'hasImages bgGreen100 mb-3 py-2'} upload-container dis-fl-col a-c ta-c`}
-                        {...getRootProps()}
-                      >
-                        <input {...getInputProps()} />
-                        <div className={`dis-fl-col ${(!fixPhotos || (fixPhotos && fixPhotos.length === 0)) ? 'max-w-fix-304' : ''}`}>
-                          {
-                            isSmallLoading.uploadMedia ? (
-                              <>
-                                <div className={`${!fixPhotos || (fixPhotos && fixPhotos.length === 0) ? 'h-fix-128' : 'h-fix-64'} dis-f a-c`}>
-                                  <div className='loaderX ml-a mr-a'>
-                                    <div className='loader-wheel'></div>
-                                  </div>
-                                </div>
-                              </>
-                            ) : (
-                              <>
-                                <img loading="lazy" className={!fixPhotos || (fixPhotos && fixPhotos.length === 0) ? 'h-fix-128' : 'h-fix-64'} src={uploadFloorPlansEmpty} alt="Empty State" />
-                              </>
-                            )
-                          }
+                    {
+                      (!fixPhotos || (isArray(fixPhotos) && fixPhotos.length === 0)) ? ('') : (
+                        <>
+                          <p className='fweight-600'>{translateTo('Drag to move and reorder photos', lang)} </p>
+                          <p className='fsize-300 txtAltGrey400 mb-2'>{translateTo('Drag to move and reorder photos', lang)} </p>
+                        </>
+                      )
+                    }
 
+                    <div
+                      className={`${(!fixPhotos || (isArray(fixPhotos) && fixPhotos.length === 0)) ? 'emptyState' : 'hasImages bgGreen100 mb-3 py-2'} upload-container dis-fl-col a-c ta-c`}
+                      {...getRootProps()}
+                    >
+                      <input {...getInputProps()} />
 
-                          <p className="mt-2 txtGreen400">
-                            <span className='td-u fweight-500'>{translateTo('Click to upload', lang)} </span>
-                            {(!fixPhotos || (fixPhotos && fixPhotos.length === 0)) && (<span>{translateTo('your first photos ', lang)}</span>)}
-                            <span>{translateTo('or drag and drop.', lang)}</span>
-                          </p>
-                          {(!fixPhotos || (fixPhotos && fixPhotos.length === 0)) && (<span className='brdSmallTop brdAltGrey200 w-fix-104 my-2 ml-a mr-a'></span>)}
+                      <div className={`dis-fl-col ${(!fixPhotos || (isArray(fixPhotos) && fixPhotos.length === 0)) ? 'max-w-fix-304' : ''}`}>
 
-                          <span className="fsize-300 txtAltGrey400 max-width-304">{translateTo('Choose .jpeg .png with max. 10 MB size', lang)}</span>
-                        </div>
                         {
-                          isSmallLoading.uploadMedia && (<span>loading</span>)
+                          isSmallLoading.uploadMedia ? (
+                            <>
+                              <div className={`${!fixPhotos || (isArray(fixPhotos) && fixPhotos.length === 0) ? 'h-fix-128' : 'h-fix-64'} dis-f a-c`}>
+                                <div className='loaderX ml-a mr-a'>
+                                  <div className='loader-wheel'></div>
+                                </div>
+                              </div>
+                            </>
+                          ) : (
+                            <>
+                              <img loading="lazy" className={!fixPhotos || (isArray(fixPhotos) && fixPhotos.length === 0) ? 'h-fix-128' : 'h-fix-64'} src={uploadPhotosEmpty} alt="Empty State" />
+                            </>
+                          )
                         }
+
+
+                        <p className="mt-2 txtGreen400">
+                          <span className='td-u fweight-500'>{translateTo('Click to upload', lang)} </span>
+                          {(!fixPhotos || (isArray(fixPhotos) && fixPhotos.length === 0)) && (<span>{translateTo('your first photos ', lang)}</span>)}
+                          <span>{translateTo('or drag and drop.', lang)}</span>
+                        </p>
+                        {(!fixPhotos || (isArray(fixPhotos) && fixPhotos.length === 0)) && (<span className='brdSmallTop brdAltGrey200 w-fix-104 my-2 ml-a mr-a'></span>)}
+
+                        <span className="fsize-300 txtAltGrey400 max-width-304">{translateTo('Choose .jpeg .png with max. 10 MB size', lang)}</span>
                       </div>
-                    </>
+
+                    </div>
+
                     {
                       (fixPhotos && fixPhotos.length > 0) && (
                         <>
@@ -234,17 +245,14 @@ const Photos = (props) => {
                               fixPhotos.map((item, i) => (
                                 <li
                                   className="cur-poi pos-r"
-                                  key={`fixPht_${i.toString()}`}
+                                  key={`pht_${i.toString()}`}
                                   data-id={JSON.stringify(item)}
                                 >
                                   <div
                                     className="square media-image-container dis-fl-row a-c jc-b w-perc-100 shadow-2dp brdRadius ov-h"
-                                    onClick={() => (windowDimensions.width < 1025 ? history.push(`/${propID}/property/floorPlans/${item.id}/edit/floorPlans`) : '')}
+                                    onClick={() => (windowDimensions.width < 1025 ? history.push(`/${propID}/property/photos/${item.id}/edit/photos`) : '')}
                                   >
-                                    <div
-                                      className="w-perc-100 square dis-fl-row imgConver"
-                                      style={{ backgroundImage: `url(${item.tmpPath ? item.tmpPath : `${baseByData.shortPath}${item.galleryThumbnailPath}?${item.updatedAt}`})` }}
-                                    >
+                                    <div className="w-perc-100 square dis-fl-row imgConver" style={{ backgroundImage: `url(${item.tmpPath ? item.tmpPath : `${baseByData.shortPath}${item.galleryThumbnailPath}?${item.updatedAt}`})` }}>
                                       <div
                                         className={`photo-action a-c hide dis-f-md ${confirmDelete === i ? 'show' : 'hoverShow'}`}
                                         ref={wrappImg.current[i]}
@@ -271,12 +279,24 @@ const Photos = (props) => {
                                           className={`ml-1 ${confirmDelete === i ? 'hide' : ''}`}
                                           onClick={
                                             () => {
-                                              history.push(`/${propID}/property/floorPlans/${item.id}/edit/floorPlans`);
+                                              history.push(`/${propID}/property/photos/${item.id}/edit/photos`);
                                               scrollToTopEdit();
                                             }
                                           }
                                         />
                                       </div>
+                                      {
+                                        i === 0 && (
+                                          <div className="fixedActionsBtmRight">
+                                            <BrixelIcon
+                                              icon="star-fill"
+                                              color="primary"
+                                              saturationTxt={400}
+                                              className="fSizePx24"
+                                            />
+                                          </div>
+                                        )
+                                      }
                                     </div>
                                   </div>
                                   {
@@ -312,23 +332,19 @@ const Photos = (props) => {
                         </>
                       )
                     }
-
                   </div>
                 </div>
 
-                {
-                  get(activeSingleProperty, 'servicePackages', []).length === 0 && (
-                    <BrixelUpgradeMessage
-                      lang={lang}
-                      unlockFunction={false}
-                      title={translateTo('You don\'t have a plan?', lang)}
-                      description={translateTo('Accurate floor plans are important for your potential buyers. Request a free photo shooting by one of our experts to get your own plan.', lang)}
-                      btnLabel={translateTo('Request photo shoot', lang)}
-                      redirectUrl={`/${activeSingleProperty.id}/trialRequest`}
-                      trialRequest
-                    />
-                  )
-                }
+                <BrixelUpgradeMessage
+                  lang={lang}
+                  unlockFunction={false}
+                  title={translateTo('Do you want to capture your property in its best possible light?', lang)}
+                  description={translateTo('High-quality photos help you to stand out in the market. Request a free on-site appointment by one of our experts to get a free photo shooting.', lang)}
+                  btnLabel={translateTo('Request photo shoot', lang)}
+                  redirectUrl={`/${activeSingleProperty.id}/trialRequest`}
+                  trialRequest
+                />
+
               </div>
               <Routes>
                 <Route
@@ -351,19 +367,6 @@ const Photos = (props) => {
       }
     </>
   );
-};
-
-Photos.propTypes = {
-  activeSingleProperty: PropTypes.object.isRequired,
-  changeFieldValue: PropTypes.func.isRequired,
-  formValue: PropTypes.object.isRequired,
-  handleDeleteImg: PropTypes.func.isRequired,
-  handleMultiUploadImg: PropTypes.func.isRequired,
-  imageType: PropTypes.arrayOf(PropTypes.object).isRequired,
-  isSmallLoading: PropTypes.object.isRequired,
-  lang: PropTypes.string.isRequired,
-  loggedInUser: PropTypes.object.isRequired,
-  windowDimensions: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
