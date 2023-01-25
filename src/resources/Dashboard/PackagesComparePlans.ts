@@ -1,99 +1,94 @@
-import checkGreen from '../../images/Upgrade/check-green.svg';
-import checkBlue from '../../images/Upgrade/check-blue.svg';
-import checkRed from '../../images/Upgrade/check-red.svg';
-import checkBlack from '../../images/Upgrade/check-black.svg';
-
 export const PackagesComparePlansTable = [
   {
     title: 'Brixel Hub',
     td: {
-      basic: { img: checkGreen },
-      private: { img: checkBlue },
-      premium: { img: checkRed },
-      one: { img: checkBlack },
+      basic: { color: 'green' },
+      private: { color: 'blue' },
+      premium: { color: 'red' },
+      one: { color: 'dark' },
     },
   },
   {
     title: 'Pre-market',
     td: {
-      basic: { img: checkGreen },
-      private: { img: checkBlue },
-      premium: { img: checkRed },
-      one: { img: checkBlack },
+      basic: { color: 'green' },
+      private: { color: 'blue' },
+      premium: { color: 'red' },
+      one: { color: 'dark' },
     },
   },
   {
     title: 'Brixel Page',
     td: {
-      basic: { img: checkGreen },
-      private: { img: checkBlue },
-      premium: { img: checkRed },
-      one: { img: checkBlack },
+      basic: { color: 'green' },
+      private: { color: 'blue' },
+      premium: { color: 'red' },
+      one: { color: 'dark' },
     },
   },
   {
     title: 'Support',
     td: {
-      basic: { img: checkGreen, desc: 'Online' },
-      private: { img: checkBlue, desc: 'Online' },
-      premium: { img: checkRed, desc: 'Backoffice' },
-      one: { img: checkBlack, desc: 'Expert' },
+      basic: { color: 'green', desc: 'Online' },
+      private: { color: 'blue', desc: 'Online' },
+      premium: { color: 'red', desc: 'Backoffice' },
+      one: { color: 'dark', desc: 'Expert' },
     },
   },
   {
     title: 'Listings',
     td: {
-      private: { img: checkBlue, desc: '3 months listings' },
-      premium: { img: checkRed, desc: '6 months listings' },
-      one: { img: checkBlack, desc: '12 months listings' },
+      private: { color: 'blue', desc: '3 months listings' },
+      premium: { color: 'red', desc: '6 months listings' },
+      one: { color: 'dark', desc: '12 months listings' },
     },
   },
   {
     title: 'Full estimation',
     td: {
       private: null,
-      premium: { img: checkRed },
-      one: { img: checkBlack },
+      premium: { color: 'red' },
+      one: { color: 'dark' },
     },
   },
   {
     title: 'Photos',
     td: {
       private: null,
-      premium: { img: checkRed },
-      one: { img: checkBlack },
+      premium: { color: 'red' },
+      one: { color: 'dark' },
     },
   },
   {
     title: 'Floorplans',
     td: {
       private: null,
-      premium: { img: checkRed },
-      one: { img: checkBlack },
+      premium: { color: 'red' },
+      one: { color: 'dark' },
     },
   },
   {
     title: '3D tour',
     td: {
       private: null,
-      premium: { img: checkRed },
-      one: { img: checkBlack },
+      premium: { color: 'red' },
+      one: { color: 'dark' },
     },
   },
   {
     title: 'PDF factsheet',
     td: {
       private: null,
-      premium: { img: checkRed },
-      one: { img: checkBlack },
+      premium: { color: 'red' },
+      one: { color: 'dark' },
     },
   },
   {
     title: 'Prospects management',
     td: {
       private: null,
-      premium: { img: checkRed },
-      one: { img: checkBlack },
+      premium: { color: 'red' },
+      one: { color: 'dark' },
     },
   },
   {
@@ -101,7 +96,7 @@ export const PackagesComparePlansTable = [
     td: {
       private: null,
       premium: null,
-      one: { img: checkBlack },
+      one: { color: 'dark' },
     },
   },
   {
@@ -109,7 +104,7 @@ export const PackagesComparePlansTable = [
     td: {
       private: null,
       premium: null,
-      one: { img: checkBlack },
+      one: { color: 'dark' },
     },
   },
   {
@@ -117,7 +112,7 @@ export const PackagesComparePlansTable = [
     td: {
       private: null,
       premium: null,
-      one: { img: checkBlack },
+      one: { color: 'dark' },
     },
   },
   {
@@ -125,7 +120,7 @@ export const PackagesComparePlansTable = [
     td: {
       private: null,
       premium: null,
-      one: { img: checkBlack, desc: 'Paid add-on' },
+      one: { color: 'dark', desc: 'Paid add-on' },
     },
   },
 ];

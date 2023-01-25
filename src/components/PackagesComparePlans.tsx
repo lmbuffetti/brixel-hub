@@ -217,12 +217,13 @@ export const PackagesComparePlans = (props: PackagesComparePlansType) => {
                     <td key={`bsc_${f.toString()}`}>
                       {
                         table.td.basic && (
-                          <>
-                            <img loading="lazy" className="pt-small-6" src={table.td.basic.img} alt="" />
+                          <div className='dis-f'>
+
+                            <BrixelIcon icon='check' color={table.td.basic.color} />
                             {table.td.basic.desc && (
                               <span className="pl-1">{translateTo(table.td.basic.desc, lang)}</span>
                             )}
-                          </>
+                          </div>
                         )
                       }
                     </td>
@@ -233,12 +234,12 @@ export const PackagesComparePlans = (props: PackagesComparePlansType) => {
                     <td key={`prv_${f.toString()}`}>
                       {
                         table.td.private && (
-                          <>
-                            <img loading="lazy" className="pt-small-6" src={table.td.private.img} alt="" />
+                          <div className='dis-f'>
+                            <BrixelIcon icon='check' color={table.td.private.color} />
                             {table.td.private.desc && (
                               <span className="pl-1">{translateTo(table.td.private.desc, lang)}</span>
                             )}
-                          </>
+                          </div>
                         )
                       }
                     </td>
@@ -249,12 +250,12 @@ export const PackagesComparePlans = (props: PackagesComparePlansType) => {
                     <td key={`prm_${f.toString()}`}>
                       {
                         table.td.premium && (
-                          <>
-                            <img loading="lazy" className="pt-small-6" src={table.td.premium.img} alt="" />
+                          <div className='dis-f'>
+                            <BrixelIcon icon='check' color={table.td.premium.color} />
                             {table.td.premium.desc && (
                               <span className="pl-1">{translateTo(table.td.premium.desc, lang)}</span>
                             )}
-                          </>
+                          </div>
                         )
                       }
                     </td>
@@ -265,12 +266,12 @@ export const PackagesComparePlans = (props: PackagesComparePlansType) => {
                     <td key={`one_${f.toString()}`}>
                       {
                         table.td.one && (
-                          <>
-                            <img loading="lazy" className="pt-small-6" src={table.td.one.img} alt="" />
+                          <div className='dis-f'>
+                            <BrixelIcon icon='check' color={table.td.one.color} />
                             {table.td.one.desc && (
                               <span className="pl-1">{translateTo(table.td.one.desc, lang)}</span>
                             )}
-                          </>
+                          </div>
                         )
                       }
                     </td>

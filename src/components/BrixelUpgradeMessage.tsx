@@ -52,14 +52,14 @@ const BrixelUpgradeMessage = (props: BrixelUpgradeMessageType) => {
     else onUpgrade();
   };
 
-  const bgColor = showUnlockMessage ? 'bgPrimary100' : 'bgGreen100';
+  const bgColor = showUnlockMessage ? 'bgBlue100' : 'bgBlue100';
 
   if (!isEligible(activeSingleProperty) && trialRequest) {
     return <span />;
   }
 
   return (
-    <div className={`brixel-upgrade-message shadow-1dp p-2 p-md-3 ta-c brdRadius ${className} ${bgColor}`}>
+    <div className={`brixel-upgrade-message p-2 p-md-3 ta-c brdRadius ${className} ${bgColor}`}>
       {
         // CONDITION TO SHOW/HIDE THE CLOSE ICON
         showClose && (
@@ -85,6 +85,9 @@ const BrixelUpgradeMessage = (props: BrixelUpgradeMessageType) => {
                 />
               )
             }
+          <div className="">
+            <h5 className="txtBlue700 fweight-600 mb-3">{titleConfirm}</h5>
+            <p className="max-w-fix-360 m-a txtDark400" dangerouslySetInnerHTML={{ __html: descriptionConfirm }} />
             <div className="dis-f jc-c mt-3">
               <BrixelButtonPrimary
                 rounded
@@ -113,6 +116,12 @@ const BrixelUpgradeMessage = (props: BrixelUpgradeMessageType) => {
                 />
               )
             }
+          <div>
+            <h5 className="txtBlue700 fweight-600">{title}</h5>
+            <p
+              className="mt-1 mb-3 max-w-fix-504 m-a txtDark400"
+              dangerouslySetInnerHTML={{ __html: description }}
+            />
             {
               // CONDITION TO SHOW MESSAGE OR DEFAULT DEFAULT TOUR IF TOUR 3D
               virtualTour && (
@@ -142,7 +151,8 @@ const BrixelUpgradeMessage = (props: BrixelUpgradeMessageType) => {
               rounded
               className="m-a"
               label={unlockFunction ? btnLabel || 'Unlock now' : btnLabel}
-              theme="red"
+              theme="blue"
+              themeSat={600}
               onClick={() => onClickBtn()}
             />
           </div>

@@ -51,7 +51,7 @@
 
 .upload-container {
   &.hasImages {
-    border: 1px dashed map_get($lightColor, 200);
+    border: 1px dashed map_get($greenColor, 400);
     border-radius: $brd-radius-small;
   }
 }
@@ -69,5 +69,39 @@
   > div,
   .image-ratio img {
     animation: fadeInSec 500ms $default-easing;
+  }
+}
+
+
+.loaderX {
+  width: 60px;
+
+  .loader-wheel {
+    animation: spin 1s infinite linear;
+    border: 4px solid map-get($darkColor, 400);
+    border-left: 4px solid transparent;
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+  }
+
+  .loader-text {
+    color: transparent;
+    font-family: arial, sans-serif;
+  }
+
+  .loader-text:after {
+    content: 'Loading';
+    animation: load 2s linear infinite;
+  }
+}
+
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }
