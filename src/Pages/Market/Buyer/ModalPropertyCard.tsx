@@ -137,25 +137,33 @@ const ModalPropertyCard = (props: ModalPropertyCardType) => {
           />
         </div>
         <div className="dis-f jc-c a-c">
-          <BrixelIcon
-            className="mx-1 brdSmall brdBlue700"
-            color="blue"
-            saturationTxt={700}
-            rounded
-            background="white"
-            saturation={0}
-            icon="eye-hidden"
-            onClick={() => onRemoveProperty()}
-          />
-          <BrixelIcon
-            className="brdSmall brdRed400"
-            rounded
-            background="white"
-            saturation={0}
-            icon={isFavorite ? 'favorite-fill' : 'favorite'}
-            color="red"
-            onClick={() => saveFavorite(isFavorite ? 'remove' : 'add')}
-          />
+          {
+            onRemoveProperty && (
+              <BrixelIcon
+                className="mx-1 brdSmall brdBlue700"
+                color="blue"
+                saturationTxt={700}
+                rounded
+                background="white"
+                saturation={0}
+                icon="eye-hidden"
+                onClick={() => onRemoveProperty()}
+              />
+            )
+          }
+          {
+            saveFavorite && (
+              <BrixelIcon
+                className="brdSmall brdRed400"
+                rounded
+                background="white"
+                saturation={0}
+                icon={isFavorite ? 'favorite-fill' : 'favorite'}
+                color="red"
+                onClick={() => saveFavorite(isFavorite ? 'remove' : 'add')}
+              />
+            )
+          }
         </div>
       </div>
     </div>

@@ -116,7 +116,7 @@ const clientConfig = (env) => {
           ],
         },
         {
-          test: /\.(js)x$/,
+          test: /\.(ts|js)x$/,
           exclude: /node_modules/,
           use: [
             {
@@ -132,7 +132,7 @@ const clientConfig = (env) => {
           ],
         },
         {
-          test: /\.(ts)x$/,
+          test: /\.(ts|tsx)$/,
           exclude: /node_modules/,
           use: 'ts-loader',
         },

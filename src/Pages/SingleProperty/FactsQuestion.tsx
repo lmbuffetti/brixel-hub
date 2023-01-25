@@ -47,14 +47,14 @@ const FactsQuestion = (props: FactsQuestionType) => {
             if (input.condition) {
               if (get(input, 'condition.name', null)) {
                 if (get(input, 'condition.name', null) === item) {
-                  if (get(input, 'condition.value', null) !== get(formValue, item, null)) {
+                  if (input.name && get(input, 'condition.value', null) !== get(formValue, item, null)) {
                     unset(formValue, input.name);
                   }
                 }
               } else {
                 input.condition.forEach((condition) => {
                   if (condition.name === item) {
-                    if (condition.value !== get(formValue, item, null)) {
+                    if (input.name && condition.value !== get(formValue, item, null)) {
                       unset(formValue, input.name);
                     }
                   }

@@ -8,6 +8,7 @@ import {
 import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import {SkeletonPackages} from '@brixel/brixel-components/dist/skeleton';
 import get from 'lodash/get';
+import set from 'lodash/set';
 import has from 'lodash/has';
 import orderBy from 'lodash/orderBy';
 import React, {Suspense, useEffect, useState} from 'react';
@@ -104,7 +105,7 @@ const MarketCategoryListSeller = (props: MarketCategoryListSellerType) => {
       if (propertyId) {
         const indexOwn = ownerProperties.data.findIndex((page) => page.id === propertyId);
         handleSetActiveSingleProperty({ customID: propertyId, setID: indexOwn });
-        const singleCmp = companyListings.find((cmp) => cmp.id === ownerProperties.data[indexOwn].company);
+        const singleCmp = companyListings.find((cmp) => get(cmp, 'id', null) === get(ownerProperties, `data[${indexOwn}].company`, null));
         handleSetActiveSingleCompany(singleCmp || {});
         handleGetPackageProperty({ id: propertyId, smallLoader: 'package' });
       } else handleSetActiveSingleProperty({});
@@ -118,7 +119,7 @@ const MarketCategoryListSeller = (props: MarketCategoryListSellerType) => {
       if (packages) {
         filtPkg = packages.filter((pkg) => pkg.availableToCustomer);
       }
-      filtPkg.map((pkg) => pkg.price.total = +pkg.price.total);
+      filtPkg.map((pkg) => set(pkg, 'price.total', +get(pkg, 'price.total', 0)));
       filtPkg = orderBy(filtPkg, ['price.total'], ['asc']);
       setFilteredPackages(filtPkg);
     }
@@ -534,7 +535,7 @@ const MarketCategoryListSeller = (props: MarketCategoryListSellerType) => {
                         className={`${pkg.type} bgWhite txtDark700 mb-2 mb-sm-0 mx-0 mx-sm-2 w-perc-100 brdSmall brdRadius py-3 px-4 min-h-fix-248 cur-poi max-w-fix-400 w-perc-100`}
                       >
                         <div className="dis-f jc-b a-c">
-                          <h4 className="fweight-500 txtDark700">{translateTo(pkg.name, lang)}</h4>
+                          <h4 className="fweight-500 txtDark700">{translateTo(pkg.name || '', lang)}</h4>
                           {
                             (activeSinglePropertyActivePackage.stub === pkg.stub || (!activeSinglePropertyActivePackage.stub && pkg.type === 'basic')) && (
                               <div className="bgDark500 py-small-4 px-1 brdRadius txtWhite">Your plan</div>
@@ -542,7 +543,7 @@ const MarketCategoryListSeller = (props: MarketCategoryListSellerType) => {
                           }
                         </div>
                         {
-                          pkg.price.total > 0 ? (
+                          get(pkg, 'price.total', 0) > 0 ? (
                             <div className="mt-1 mb-3 fsize-500 txtDark700 dis-fl-col">
                               {
                                 get(pkg, 'price.discountTotal', 0) > 0 && (
@@ -558,13 +559,12 @@ const MarketCategoryListSeller = (props: MarketCategoryListSellerType) => {
                                   </>
                                 )
                               }
-                              {/* <span>{pkg.price.currency} {Helpers.formatNumberValue(pkg.price.total, pkg.price.currency)}</span> */}
                               <div className="dis-f">
                                 {
                                   get(pkg, 'price.discountTotal', 0) > 0 ? (
-                                    <span>{pkg.price.currency} {Helpers.formatNumberValue(pkg.price.discountTotal, get(pkg, 'price.currency', ''))}</span>
+                                    <span>{get(pkg, 'price.currency', '')} {Helpers.formatNumberValue(get(pkg, 'price.discountTotal', 0), get(pkg, 'price.currency', ''))}</span>
                                   ) : (
-                                    <span>{pkg.price.currency} {Helpers.formatNumberValue(pkg.price.total, get(pkg, 'price.currency', ''))}</span>
+                                    <span>{get(pkg, 'price.currency', '')} {Helpers.formatNumberValue(get(pkg, 'price.total', 0), get(pkg, 'price.currency', ''))}</span>
                                   )
                                 }
                                 <span className="ml-1 fsize-300 txtDark700 dis-f as-fe">
@@ -578,7 +578,7 @@ const MarketCategoryListSeller = (props: MarketCategoryListSellerType) => {
                             </p>
                           )
                         }
-                        <p className="txtDark700">{translateTo(pkg.description, lang)}</p>
+                        <p className="txtDark700">{translateTo(pkg.description || '', lang)}</p>
                       </div>
                     ))
                   }

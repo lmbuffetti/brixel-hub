@@ -9,7 +9,7 @@ import {getActiveSingleCompany} from '../../../actions/CompanyActions';
 import {getBuyerDeal} from '../../../actions/DealActions';
 import {getFavoritesProperties} from '../../../actions/MarketActions';
 import {getActiveSingleProperty} from '../../../actions/PropertyActions';
-import {getUserPagesDeals, setUserTypes} from '../../../actions/UserActions';
+import {setUserTypes} from '../../../actions/UserActions';
 import lazyWithRetry from '../../../components/LazyWithRetry';
 import SidebarBuyer from './SidebarBuyer';
 import type {DashboardType} from '../../../@types/Pages/Dashboard/Buyer/Dashboard';
@@ -155,7 +155,6 @@ const mapDispatchToProps = (dispatch) => ({
   handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
   handleGetBuyerDeal: bindActionCreators(getBuyerDeal, dispatch),
   handleGetFavoritesProperties: bindActionCreators(getFavoritesProperties, dispatch),
-  handleGetUserPagesDeals: bindActionCreators(getUserPagesDeals, dispatch),
   handleSetUserTypes: bindActionCreators(setUserTypes, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
 });

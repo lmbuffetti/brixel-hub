@@ -2,12 +2,25 @@ import {
   CompanyType,
   DealType,
   DocumentType,
+  LocationType,
   LoggedUserType,
   PropertyType,
 } from '@brixel/brixel-components/dist/@types/Model';
 
 export interface FormValueType extends PropertyType {
+  affordability: any
   document?: DocumentType[];
+  loanToValueRatio: any
+  amount: number
+  mortgageAmount: any
+  company: string
+  affordabilityCheck: any
+  loanValueCheck: any
+  id: string
+  propertyLocation: LocationType
+  propertyPrice: number
+  propertyPriceCurrency: string
+  subtype: any
 }
 
 export interface FinancingType {

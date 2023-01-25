@@ -36,7 +36,7 @@ function ResumeBestimate(props: ResumeBestimateType) {
             get(activeSingleProperty, 'location.countryCode', null) !== 'PT' &&
             !get(estimation, 'result.value', null)) {
       const data = {
-        owner: activeSingleProperty?.owner?.id,
+        owner: get(activeSingleProperty, 'owner.id', activeSingleProperty.owner),
         page: activeSingleProperty.id,
         generate: false,
       };

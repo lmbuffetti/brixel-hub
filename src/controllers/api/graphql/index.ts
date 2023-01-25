@@ -1,6 +1,6 @@
 import getConfigEnv from '@brixel/brixel-components/dist/configuration/Settings';
 import CraftCMS from '../actions/CraftCMS';
-import ApiClient from './APIQuery.js';
+import ApiClient from './APIQuery';
 import getConfigEnvWeb from '@brixel/brixel-components/dist/configuration/SettingsWebpack';
 
 declare let process : {

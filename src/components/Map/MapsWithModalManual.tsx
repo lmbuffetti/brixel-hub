@@ -105,6 +105,7 @@ const MapsWithModalManual = (props: MapsWithModalManualType) => {
         baseByData && get(formValue, 'location.countryCode', null) && (
           <>
             <BrixelAutocomplete
+              label="Address"
               input={{
                 value: get(formValue, 'location.searchAddress', ''),
                 name: 'autocomplete',

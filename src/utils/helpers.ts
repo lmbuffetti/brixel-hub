@@ -104,9 +104,9 @@ export const calcPercentageProEstimation = (form = 'Property', value = {}) => {
     if (get(formValue, `inputSheet.skipSection[${val.name}]`, false)) {
       countTotal += 1;
       countDone += 1;
-    } else if (get(formValue, val.name, 'ayc') !== 'ayc' && get(formValue, val.name, 'ayc') !== null) {
-      if (isArray(get(formValue, val.name, 'ayc'))) {
-        if (get(formValue, val.name, []).length > 0) {
+    } else if (val.name && get(formValue, val.name, 'ayc') !== 'ayc' && get(formValue, val.name, 'ayc') !== null) {
+      if (val.name && isArray(get(formValue, val.name, 'ayc'))) {
+        if (val.name && get(formValue, val.name, []).length > 0) {
           countTotal += 1;
           countDone += 1;
         } else {

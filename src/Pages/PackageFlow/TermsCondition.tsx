@@ -107,38 +107,40 @@ const TermsCondition = (props: TermsConditionType) => {
     let isNotEmpty = false;
     if (quest?.inputs) {
       quest.inputs.forEach((input) => {
-        const err = get(errorValue, input.name, null);
-        const noEmpty = get(formValue, input.name, 'ayc');
-        if (noEmpty !== 'ayc') isNotEmpty = true;
-        if (input.condition) {
-          input.condition.forEach((item) => {
-            if (item.value && get(formValue, item.name, null) === item.value) {
-              if (err !== true && err !== false && isValid) isValid = false;
-            }
-            if (item.noValue && get(formValue, item.name, null) !== item.noValue) {
-              if (err !== true && err !== false && isValid) isValid = false;
-            }
-          });
-        } else if (input.validation) {
-          // const getRegField = get(registeredFields
-          let field;
-          if (input.name === 'profile') {
-            const page = get(formValue, 'signupScreen', null);
-            field = ['register.email', 'register.firstName', 'register.lastName', 'register.password', 'register.privacy'];
-            if (page === 'login') {
-              field = ['login.email', 'login.password'];
-            }
-            field.forEach((item) => {
-              const err = get(errorValue, item, true);
-              if (err !== true && err !== false && isValid) isValid = false;
+        if (input.name) {
+          const err = get(errorValue, input.name, null);
+          const noEmpty = get(formValue, input.name, 'ayc');
+          if (noEmpty !== 'ayc') isNotEmpty = true;
+          if (input.condition) {
+            input.condition.forEach((item) => {
+              if (item.value && get(formValue, item.name, null) === item.value) {
+                if (err !== true && err !== false && isValid) isValid = false;
+              }
+              if (item.noValue && get(formValue, item.name, null) !== item.noValue) {
+                if (err !== true && err !== false && isValid) isValid = false;
+              }
             });
+          } else if (input.validation) {
+            // const getRegField = get(registeredFields
+            let field;
+            if (input.name === 'profile') {
+              const page = get(formValue, 'signupScreen', null);
+              field = ['register.email', 'register.firstName', 'register.lastName', 'register.password', 'register.privacy'];
+              if (page === 'login') {
+                field = ['login.email', 'login.password'];
+              }
+              field.forEach((item) => {
+                const err = get(errorValue, item, true);
+                if (err !== true && err !== false && isValid) isValid = false;
+              });
+            }
+            if (input.name === 'register.ownerType') {
+              if (!has(formValue, 'register.ownerType') || get(formValue, 'register.ownerType', '') === null) isValid = false;
+            }
+            if (input.name === 'register.whenToSell') {
+              if (!has(formValue, 'register.whenToSell') || get(formValue, 'register.whenToSell', '') === null) isValid = false;
+            } else if (err !== true && err !== false && err !== null && isValid) isValid = false;
           }
-          if (input.name === 'register.ownerType') {
-            if (!has(formValue, 'register.ownerType') || get(formValue, 'register.ownerType', '') === null) isValid = false;
-          }
-          if (input.name === 'register.whenToSell') {
-            if (!has(formValue, 'register.whenToSell') || get(formValue, 'register.whenToSell', '') === null) isValid = false;
-          } else if (err !== true && err !== false && err !== null && isValid) isValid = false;
         }
       });
     }
@@ -478,22 +480,21 @@ const TermsCondition = (props: TermsConditionType) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return ({
-    activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
-    activeSingleProperty: get(state, 'property.activeSingleProperty', null),
-    company: get(state, 'companies.activeSingleCompany', {}),
-    errorValue: get(state, 'brixelForm.GetStarted.syncErrors', {}),
-    formValue: get(state, 'brixelForm.GetStarted.values', {}),
-    isSmallLoading: get(state, 'common.isSmallLoading', {}),
-    isLoading: get(state, 'common.isLoading', 0) > 0,
-    lang: get(state, 'common.language', 'en'),
-    loggedInUser: get(state, 'user.loggedInUser.user', {}),
-    packagesProperty: get(state, 'property.packagesProperty', []),
-    startForm: get(state, 'brixelForm.GetStarted', null),
-    translations: get(state, 'translations', null),
-  });
-};
+const mapStateToProps = (state) => ({
+  activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
+  activeSingleProperty: get(state, 'property.activeSingleProperty', null),
+  company: get(state, 'companies.activeSingleCompany', {}),
+  errorValue: get(state, 'brixelForm.GetStarted.syncErrors', {}),
+  formValue: get(state, 'brixelForm.GetStarted.values', {}),
+  initialValues: get(state, 'brixelForm.GetStarted.initialValues', {}),
+  isSmallLoading: get(state, 'common.isSmallLoading', {}),
+  isLoading: get(state, 'common.isLoading', 0) > 0,
+  lang: get(state, 'common.language', 'en'),
+  loggedInUser: get(state, 'user.loggedInUser.user', {}),
+  packagesProperty: get(state, 'property.packagesProperty', []),
+  startForm: get(state, 'brixelForm.GetStarted', null),
+  translations: get(state, 'translations', null),
+});
 
 const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {

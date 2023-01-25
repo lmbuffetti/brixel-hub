@@ -41,7 +41,7 @@ const checkLead = (store) => (next) => (action) => {
       api.market.getOwnedProperties(action.payload.resultsPerPage, action.payload.offset, queryParams)
         .then((res) => {
           if (res.meta.status === 200) {
-            const calls = [];
+            const calls: Promise<{ data: any; meta: any; }>[] = [];
             // Means it is the category list page, we need to get the bestimate
             if (action.payload.resultsPerPage === 10) {
               res.data.data.forEach((prop) => {

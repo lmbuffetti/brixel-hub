@@ -17,7 +17,6 @@ import SearchProfileForm from './SearchProfileForm';
 import SearchProfileList from './SearchProfileList';
 import type {SearchProfileModalType} from '../../../@types/Pages/Market/SearchProfile/SearchProfileModal';
 import {QuestionInputType} from '@brixel/brixel-components/dist/@types/Model';
-import type {FromValueType} from '../../../@types/Pages/Market/SearchProfile/SearchProfileForm';
 
 const SearchProfileModal = (props: SearchProfileModalType) => {
   const history = {
@@ -126,7 +125,7 @@ const SearchProfileModal = (props: SearchProfileModalType) => {
   }
 
   const multiActions = () => {
-    const diffForm: FromValueType = diff(initialValues, formValue) || {};
+    const diffForm: { changeCountry?: string, location?: object } = diff(initialValues, formValue);
     switch(history.location.pathname) {
       case '/buy/searchProfile/list':
         return ([

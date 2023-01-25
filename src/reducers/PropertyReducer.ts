@@ -32,7 +32,7 @@ export const defaultState = {
   propertyListings: [],
 };
 
-export default handleActions(
+export default handleActions<any>(
   {
     [SET_ESTIMATION]: (state, action) => ({
       ...state,

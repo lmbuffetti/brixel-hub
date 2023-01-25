@@ -236,38 +236,40 @@ const GetStartedSeller = (props: GetStartedSellerType) => {
     let isNotEmpty = false;
     if (quest?.inputs) {
       quest.inputs.forEach((input) => {
-        const err = get(errorValue, input.name, null);
-        const noEmpty = get(formValue, input.name, 'ayc');
-        if (noEmpty !== 'ayc') isNotEmpty = true;
-        if (input.condition) {
-          input.condition.forEach((item) => {
-            if (item.value && get(formValue, item.name, null) === item.value) {
-              if (err !== true && err !== false && isValid) isValid = false;
-            }
-            if (item.noValue && get(formValue, item.name, null) !== item.noValue) {
-              if (err !== true && err !== false && isValid) isValid = false;
-            }
-          });
-        } else if (input.validation) {
-          // const getRegField = get(registeredFields
-          let field;
-          if (input.name === 'profile') {
-            const page = get(formValue, 'signupScreen', null);
-            field = ['register.email', 'register.firstName', 'register.lastName', 'register.password', 'register.privacy'];
-            if (page === 'login') {
-              field = ['login.email', 'login.password'];
-            }
-            field.forEach((item) => {
-              const errCurr = get(errorValue, item, true);
-              if (errCurr !== true && errCurr !== false && isValid) isValid = false;
+        if (input.name) {
+          const err = get(errorValue, input.name, null);
+          const noEmpty = get(formValue, input.name, 'ayc');
+          if (noEmpty !== 'ayc') isNotEmpty = true;
+          if (input.condition) {
+            input.condition.forEach((item) => {
+              if (item.value && get(formValue, item.name, null) === item.value) {
+                if (err !== true && err !== false && isValid) isValid = false;
+              }
+              if (item.noValue && get(formValue, item.name, null) !== item.noValue) {
+                if (err !== true && err !== false && isValid) isValid = false;
+              }
             });
+          } else if (input.validation) {
+            // const getRegField = get(registeredFields
+            let field;
+            if (input.name === 'profile') {
+              const page = get(formValue, 'signupScreen', null);
+              field = ['register.email', 'register.firstName', 'register.lastName', 'register.password', 'register.privacy'];
+              if (page === 'login') {
+                field = ['login.email', 'login.password'];
+              }
+              field.forEach((item) => {
+                const errCurr = get(errorValue, item, true);
+                if (errCurr !== true && errCurr !== false && isValid) isValid = false;
+              });
+            }
+            if (input.name === 'register.ownerType') {
+              if (!has(formValue, 'register.ownerType') || get(formValue, 'register.ownerType', '') === null) isValid = false;
+            }
+            if (input.name === 'register.whenToSell') {
+              if (!has(formValue, 'register.whenToSell') || get(formValue, 'register.whenToSell', '') === null) isValid = false;
+            } else if (err !== true && err !== false && err !== null && isValid) isValid = false;
           }
-          if (input.name === 'register.ownerType') {
-            if (!has(formValue, 'register.ownerType') || get(formValue, 'register.ownerType', '') === null) isValid = false;
-          }
-          if (input.name === 'register.whenToSell') {
-            if (!has(formValue, 'register.whenToSell') || get(formValue, 'register.whenToSell', '') === null) isValid = false;
-          } else if (err !== true && err !== false && err !== null && isValid) isValid = false;
         }
       });
     }

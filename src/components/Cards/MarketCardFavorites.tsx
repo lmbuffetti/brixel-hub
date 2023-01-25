@@ -180,7 +180,7 @@ const MarketCardFavorites = (props: MarketCardFavoritesType) => {
                     className="slick-dots pos-a x-c ta-c zIndex2 bt mb-1"
                   >
                     {
-                      activeSingleProperty.photos.slice(0, 5).map((photo, i) => (
+                      get(activeSingleProperty, 'photos', []).slice(0, 5).map((photo, i) => (
                         <li
                           key={`dots${i.toString()}`}
                           className={activeSlide === i ? 'slick-active' : ''}
@@ -197,7 +197,7 @@ const MarketCardFavorites = (props: MarketCardFavoritesType) => {
                   {...settingSlider}
                 >
                   {
-                    activeSingleProperty.photos.slice(0, 5).map((photo, index) => (
+                    get(activeSingleProperty, 'photos', []).slice(0, 5).map((photo, index) => (
                       <div
                         key={`itm_${index.toString()}`}
                         className={`${isPreMarket() ? 'pre-market' : ''} ${get(activeSingleProperty, 'tags', []).join(' ')} cover h-fix-208 h-fix-sm-304 h-fix-lg-208 pos-r`}
@@ -249,6 +249,7 @@ const MarketCardFavorites = (props: MarketCardFavoritesType) => {
                 bgTransparent
                 labelClass="fsize-300"
                 onClick={() => {
+                  // @ts-ignore
                   if (get(activeSingleProperty, 'tags', []).includes('pre-market')) {
                     onOpenCard();
                   } else {

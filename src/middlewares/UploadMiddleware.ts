@@ -25,6 +25,7 @@ import api from '../controllers/api/config';
 import {SAVE_ACTIVE_SINGLE_USER} from '../actions/types/UserTypes';
 import {REQUEST_DONE, SPINNER_OFF, SPINNER_ON, SPINNER_SMALL} from '../actions/types/CommonTypes';
 import {SAVE_CLOSING_IDENTIFICATION, SAVE_FINANCING_REQUEST, SAVE_MAKE_OFFER} from '../actions/types/DealTypes';
+import {PropertyType} from '@brixel/brixel-components/dist/@types/Model';
 
 const checkCommon = (store) => (next) => (action) => {
   switch (action.type) {
@@ -88,9 +89,9 @@ const checkCommon = (store) => (next) => (action) => {
       delete action.payload.actions;
       delete action.payload.pageID;
       delete action.payload.smallLoader;
-      const calls = [];
+      const calls: Promise<{ data: any; meta: any; }>[] = [];
       allImgs.forEach((img) => {
-        calls.push(api.image.addImage(img));
+        calls.push(api.image.addImage(img, ''));
       });
       if (smallLoader) {
         store.dispatch({
@@ -106,7 +107,7 @@ const checkCommon = (store) => (next) => (action) => {
       }
       Promise.all(calls).then((res) => {
         const coverImg = get(store.getState(), 'brixelForm.Property.values.coverPhoto', {});
-        const data = {};
+        const data: PropertyType | object = {};
         const filesArray = get(store.getState(), `brixelForm.Property.values[${actions}]`, []);
         res.forEach((resImg) => {
           if (resImg.meta.normalizedStatus === 200) {
@@ -137,11 +138,11 @@ const checkCommon = (store) => (next) => (action) => {
           }
         });
         if (!get(coverImg, 'id', null)) {
-          data.coverPhoto = filesArray[0];
+          set(data, 'coverPhoto', filesArray[0]);
         }
         set(data, actions, filesArray);
-        data.id = pageID;
-        data.smallLoader = smallLoader;
+        set(data, 'id', pageID);
+        set(data, 'smallLoader', smallLoader);
         store.dispatch({
           type: SAVE_ACTIVE_SINGLE_PROPERTY,
           payload: data,
@@ -187,7 +188,7 @@ const checkCommon = (store) => (next) => (action) => {
           type: SPINNER_ON,
         });
       }
-      api.image.addImage(action.payload)
+      api.image.addImage(action.payload, '')
         .then(async (res) => {
           if (uploadAction === 'photos' ||
             uploadAction === 'floorPlans' ||
@@ -296,9 +297,9 @@ const checkCommon = (store) => (next) => (action) => {
             smallLoader: true,
           };
           if (action.payload.type === 'photos') {
-            data.coverPhoto = arrayImg[0] || {};
+            set(data, 'coverPhoto', arrayImg[0] || {});
           }
-          if (action.payload.type === 'photos' && arrayImg.length === 0) data.coverPhoto = null;
+          if (action.payload.type === 'photos' && arrayImg.length === 0)  set(data, 'coverPhoto', null);
           store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: data });
           if (smallLoader) {
             store.dispatch({
@@ -332,7 +333,7 @@ const checkCommon = (store) => (next) => (action) => {
       delete action.payload.smallLoader;
       delete action.payload.saveAction;
       delete action.payload.docs;
-      const calls = [];
+      const calls: Promise<{ data: any; meta: any; }>[] = [];
       allImgs.forEach((img) => {
         calls.push(api.image.uploadDocument(img, null, get(img, 'idBuyer', null)));
       });
@@ -352,7 +353,7 @@ const checkCommon = (store) => (next) => (action) => {
         if (saveAction === 'makeOffer') {
           const dataOffer = action.payload;
           delete dataOffer.document;
-          const document = [];
+          const document: object[] = [];
           res.forEach((doc) => {
             document.push(doc.data);
           });
@@ -365,7 +366,7 @@ const checkCommon = (store) => (next) => (action) => {
         } else if (saveAction === 'financing') {
           const dataOffer = action.payload;
           delete dataOffer.document;
-          const document = [];
+          const document: object[] = [];
           res.forEach((doc) => {
             document.push(doc.data);
           });
@@ -381,7 +382,7 @@ const checkCommon = (store) => (next) => (action) => {
             if (!person.document) dataIdentification.persons[id].document = [];
           });
           res.forEach((doc) => {
-            const { id } = doc;
+            const id = get(doc, 'id', '');
             const idPerson = id.split(':')[0];
             const idDoc = id.split(':')[1];
             dataIdentification.persons[idPerson].document[idDoc] = doc.data;
@@ -392,7 +393,7 @@ const checkCommon = (store) => (next) => (action) => {
           };
           store.dispatch({ type: SAVE_CLOSING_IDENTIFICATION, payload: data });
         } else {
-          const data = {};
+          const data: any = {};
           let filesArray = get(store.getState(), 'brixelForm.Property.values.documents', []);
           filesArray = docs || filesArray;
           res.forEach((resImg) => {
@@ -458,7 +459,7 @@ const checkCommon = (store) => (next) => (action) => {
       api.image.uploadDocument(docData, null, null)
         .then((res) => {
           if (saveAction === 'makeOffer') {
-            const document = [];
+            const document: object[] = [];
             document.push(res.data);
             const data = {
               ...action.payload,
@@ -480,7 +481,7 @@ const checkCommon = (store) => (next) => (action) => {
               documents: docList,
               smallLoader: true,
             };
-            if (index > -1) data.index = index;
+            if (index > -1) set(data, 'index', index);
             store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: data, setSuccessNotification: true });
             if (smallLoader) {
               store.dispatch({
@@ -588,7 +589,7 @@ const checkCommon = (store) => (next) => (action) => {
           type: SPINNER_ON,
         });
       }
-      api.image.updateDocument(action.payload.id, action.payload.body)
+      api.image.updateDocument(action.payload.id, action.payload.body, '')
         .then((res) => {
           if (saveAction === 'closingIdentification') {
             const data = cloneDeep(formValue);

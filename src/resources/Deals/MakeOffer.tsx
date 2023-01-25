@@ -20,10 +20,11 @@ import FinanceCertificate from '../../Pages/Closing/Offers/Flow/FinanceCertifica
 import Key4Registration from '../../Pages/Closing/Offers/Flow/Key4Registration';
 import {configureStore} from '../../store';
 import translateTo from '../../utils/translation';
+import {QuestionsListType} from '@brixel/brixel-components/dist/@types/Model';
 
 const { factsOptions } = FactsOptions;
 
-export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal, lang) => {
+export const MakeOfferQuestions: (changeValue: (field: string, val: any) => void, changeIndex:(val: number) => void, handleSetModal: (data: object) => void, lang: string) => QuestionsListType[] = (changeVal, changeIndex, handleSetModal, lang) => {
   let formValue: {
     company?: string;
   } = {};
@@ -136,7 +137,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal, lang)
     );
   };
 
-  return [
+  const quest: QuestionsListType[] = [
     {
       title: translateTo('Set your price', lang),
       history: 'priceInfo',
@@ -496,4 +497,5 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal, lang)
       toSave: true,
     },
   ];
+  return quest;
 };

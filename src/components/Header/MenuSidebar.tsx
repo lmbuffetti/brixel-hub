@@ -25,7 +25,7 @@ const MenuSidebar = (props: MenuSidebarType) => {
     windowDimensions,
   } = props;
   // STATE
-  const [navigationMenu, setNavigationMenu] = useState<NavigationType[]>([]);
+  const [navigationMenu, setNavigationMenu] = useState<NavigationType[]>();
   // URL PARAMS
   const propID = userType === 'seller' ? history.location.pathname.split('/')[1] : history.location.pathname.split('/')[2];
   const levelUrl = history.location.pathname.split('/');

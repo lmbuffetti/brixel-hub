@@ -107,7 +107,6 @@ const AccountDropdown = (props: AccountDropdownType) => {
               noBorder
               color="dark"
               saturationTxt={400}
-              lang={lang}
               closeDropDown={closeDropDown}
               selectedComponent={{
                 // @ts-ignore
@@ -115,7 +114,7 @@ const AccountDropdown = (props: AccountDropdownType) => {
                 props: {
                   // @ts-ignore
                   baseURL: (baseByData.shortPath).toString(),
-                  profileId: get(loggedInUser, 'user.id', null),
+                  profileId: get(loggedInUser, 'user.id', ''),
                   name: get(loggedInUser, 'user.firstName', ''),
                   isIcon: true,
                 },

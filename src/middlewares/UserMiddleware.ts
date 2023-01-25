@@ -24,14 +24,12 @@ import {
   CHECK_TOKEN,
   CREATE_USER,
   DO_LOGIN,
-  GET_USER_PAGES_DEALS,
   GET_USER_PROPERTIES,
   RECOVER_PASSWORD,
   REMOVE_NOT_INTERESTED,
   SAVE_ACTIVE_SINGLE_USER,
   SEND_USER_SCAN_TRIAL,
   SET_LOGGED_IN_USER,
-  SET_USER_PAGES_DEALS,
   SET_USER_PROPERTIES,
   UPDATE_FAVORITE,
   VALIDATE_USER,
@@ -255,7 +253,7 @@ const checkUser = (store) => (next) => (action) => {
     case GET_USER_PROPERTIES: {
       next(action);
       store.dispatch({ type: SPINNER_SMALL, payload: { usrProperties: true } });
-      api.user.getPropertiesOfUser(action.payload)
+      api.user.getPropertiesOfUser(action.payload, 50)
         .then((res) => {
           if (res.meta.status === 200) {
             store.dispatch({ type: SET_USER_PROPERTIES, payload: res.data });
@@ -265,27 +263,6 @@ const checkUser = (store) => (next) => (action) => {
         })
         .catch(() => {
           store.dispatch({ type: SPINNER_SMALL, payload: { usrProperties: false } });
-        });
-      break;
-    }
-    // GET USER PAGES BY DEALS
-    case GET_USER_PAGES_DEALS: {
-      next(action);
-      store.dispatch({ type: SPINNER_ON });
-      api.user.getPagesByDealByUser(action.payload)
-        .then((res) => {
-          const pageList = [];
-          // eslint-disable-next-line no-return-assign
-          res.data.forEach((item) => {
-            pageList.push({ ...item.page, dealID: item.id, archivedByBuyer: item.archivedByBuyer || false });
-          });
-          store.dispatch({ type: SET_USER_PAGES_DEALS, payload: pageList });
-          store.dispatch({ type: SPINNER_OFF });
-          store.dispatch({ type: SPINNER_OFF });
-        })
-        .catch(() => {
-          store.dispatch({ type: SPINNER_OFF });
-          store.dispatch({ type: SPINNER_OFF });
         });
       break;
     }

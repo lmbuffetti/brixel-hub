@@ -63,17 +63,15 @@ const checkHistory = (store) => (next) => (action) => {
                 // If the action is a schedule or favorite,
                 // we need to call the api to know who the user is
                 // since it will not be the active property owner
-                if (entry.actionStub === 'page-schedule') {
-                  if (has(entry, 'child')) calls.push(api.user.getCompleteUser(entry.child));
-                } else if (has(entry, 'parent')) {
+                if (has(entry, 'parent')) {
                   set(entry, 'parent', store.getState().property.activeSingleProperty);
                 }
               });
 
               if (calls.length > 0) {
                 Promise.all(calls).then((res) => {
-                  res.forEach((populateObj) => {
-                    const childIndex = findIndex(history.data, (h) => h.child === get(populateObj.data, 'id', ''));
+                  res.forEach((populateObj: {data: object}) => {
+                    const childIndex = findIndex(history.data, (h) => get(h, 'child', null) === get(populateObj.data, 'id', ''));
                     set(history.data[childIndex], 'child', populateObj.data);
                   });
                   store.dispatch({

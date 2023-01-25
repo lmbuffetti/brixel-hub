@@ -36,7 +36,7 @@ import {exampleDeal} from '../resources/Deals/exampleDeal';
 
 import api from '../controllers/api/config';
 
-import {TimelineActionStubs} from '../resources/Utilities/timelineActionStubs';
+import TimelineActionStubs from '../resources/Utilities/timelineActionStubs';
 
 const checkCommon = (store) => (next) => (action) => {
   switch (action.type) {
@@ -505,7 +505,7 @@ const checkCommon = (store) => (next) => (action) => {
         });
       }
       const arrDeals = cloneDeep(deals);
-      const multiCall: string[] = [];
+      const multiCall: Promise<number>[] = [];
       const resDeals: object[] = [];
       arrDeals.forEach((deal) => {
         const obj = cloneDeep(deal.data);

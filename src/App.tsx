@@ -35,6 +35,7 @@ import AppleTouch180 from './images/apple-touch-icon-180x180.png';
 import AppleTouch76 from './images/apple-touch-icon-76x76.png';
 import translateTo from './utils/translation';
 import type {AppType} from './@types/App';
+import Financing from './Pages/Closing/Financing/Financing';
 
 const SplashScreen = lazy(() => import('./components/SplashScreen'));
 const RemoveTrailingSlash = lazy(() => import('./components/RemoveTrailingSlash'));
@@ -49,7 +50,6 @@ const TermsCondition = lazy(() => import('./Pages/PackageFlow/TermsCondition'));
 const WelcomeSeller = lazy(() => import('./Pages/WelcomeSellerModal/WelcomeSeller'));
 const ScanTrialFlow = lazy(() => import('./Pages/PackageFlow/ScanTrialFlow'));
 const MakeOffer = lazy(() => import('./Pages/Closing/Offers/Flow/MakeOffer'));
-const Financing = lazy(() => import('./Pages/Closing/Financing/Financing'));
 const IdentificationFlow = lazy(() => import('./Pages/Closing/Identification/IdentificationFlow'));
 
 // GENERAL COMPONENTS
@@ -171,7 +171,7 @@ const App = (props: AppType) => {
       userLang = cookies.get('brixelLang') || langURL || activeSingleCompany.language.code || 'en';
       if (userLang) handleSetLanguage(userLang);
     }
-  }, [loggedInUser, activeSingleCompany.id]);
+  }, [loggedInUser.id, activeSingleCompany.id]);
 
   useEffect(() => {
     if (languages.length > 0) {
@@ -192,7 +192,7 @@ const App = (props: AppType) => {
       handleSetUserTypes('buyer');
     }
     if (!activeSingleProperty.documents) handleSetActiveSingleDeal({});
-  }, [activeSingleProperty.id, loggedInUser]);
+  }, [activeSingleProperty.id, loggedInUser.id]);
 
   const bodyModal = document.getElementById('bodyModalWrapper') as HTMLElement;
   useEffect(() => {
@@ -816,7 +816,7 @@ const mapStateToProps = (state) => ({
   isSmallLoading: get(state, 'common.isSmallLoading', { }),
   lang: get(state, 'common.language', 'en'),
   languages: get(state, 'common.languages', '[]'),
-  loggedInUser: get(state, 'user.loggedInUser.user', null),
+  loggedInUser: get(state, 'user.loggedInUser.user', {}),
   modal: get(state, 'common.modal', {}),
   notification: get(state, 'common.notification', []),
   pageError: get(state, 'common.setPageData.pageError', false),

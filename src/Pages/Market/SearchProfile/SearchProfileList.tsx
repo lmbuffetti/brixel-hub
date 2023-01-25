@@ -52,7 +52,7 @@ const SearchProfileList = (props: SearchProfileListType) => {
     QuestionsList(lang, 'searchProfile', changeFieldValue, 'SearchProfile').forEach((inputs) => {
       if (inputs.inputs) {
         inputs.inputs.forEach((field) => {
-          if (field.name !== 'location.countryCode') {
+          if (field.name && field.name !== 'location.countryCode') {
             if (field.name.includes('location')) fields.push('location');
             else if (!field.name.includes('register')) fields.push(field.name);
           }

@@ -4,6 +4,7 @@ import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/Bri
 import {change, destroy, initializeForm, MultiFileldsReduxForm, reset} from '@brixel/brixel-components/dist/form';
 import {FinancialCalculator} from '@brixel/brixel-components/dist/utils/FinancialFormulas';
 import get from 'lodash/get';
+import set from 'lodash/set';
 import has from 'lodash/has';
 import isArray from 'lodash/isArray';
 import {connect} from 'react-redux';
@@ -169,7 +170,7 @@ const MakeOffer = (props: MakeOfferType) => {
     const doc = get(formValue, 'document', []);
     const docs = get(formValue, 'documents', doc);
     // eslint-disable-next-line no-return-assign
-    docs.forEach((item, i) => docs[i].user = get(loggedInUser, 'id', undefined));
+    docs.forEach((item, i) => set(docs[i], 'user', get(loggedInUser, 'id', undefined)));
     const dataDocuments = {
       allImgs: docs,
       actions: 'documents',
@@ -368,7 +369,7 @@ const MakeOffer = (props: MakeOfferType) => {
         if (quests.condition) {
           let isValid = true;
           quests.condition.map((item) => {
-            if (get(formValue, item.name, null) !== item.value) {
+            if (item.name && get(formValue, item.name, null) !== item.value) {
               isValid = false;
             }
             return null;

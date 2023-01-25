@@ -62,7 +62,7 @@ const ReviewOffer = (props: ReviewOfferType) => {
         dataForm.smallLoader = 'saveOffer';
         dataForm.status = success;
         newDealData.closing.stageOffer.offer.noteBySeller = dataForm.note;
-        newDealData.closing.stageOffer.offer.status = success;
+        newDealData.closing.stageOffer.offer.status = (success || '').toString();
         handleSetActiveSingleDeal(newDealData);
         if (dataForm.id === 'sample') {
           setSuccess(false);
@@ -305,7 +305,7 @@ const ReviewOffer = (props: ReviewOfferType) => {
 
                 <p className={`txtDark700 fweight-400 ${get(activeSingleOffer, 'offer.status', null) === 'accepted' ? 'txtGreen400' : 'txtRed400'}`}>
                   <span className="mr-small-4">{get(activeSingleOffer, 'offer.currency', '')}</span>
-                  <span className="ff-mono fSizePx20">{Helpers.formatNumberValue(get(activeSingleOffer, 'offer.amount', 0), get(activeSingleOffer, 'offer.amount', ''))}</span>
+                  <span className="ff-mono fSizePx20">{Helpers.formatNumberValue(get(activeSingleOffer, 'offer.amount', 0), get(activeSingleOffer, 'offer.currency', ''))}</span>
                 </p>
 
                 {

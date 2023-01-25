@@ -4,7 +4,7 @@ export interface NavigationType {
   path: string;
   icon: string;
   name: string;
-  submenu: {
+  submenu?: {
     name: string;
     path: string;
     title: string;

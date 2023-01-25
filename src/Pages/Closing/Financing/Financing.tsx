@@ -6,18 +6,17 @@ import {bindActionCreators} from 'redux';
 import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import {connect} from 'react-redux';
 import get from 'lodash/get';
+import set from 'lodash/set';
 import has from 'lodash/has';
 import queryString from 'query-string';
 import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/BrixelButtonSecondary';
 import {FinancialCalculator} from '@brixel/brixel-components/dist/utils/FinancialFormulas';
 import isArray from 'lodash/isArray';
 import {QuestionsList} from '../../../resources/Deals/Financing';
-import {sendUserScanTrial} from '../../../actions/UserActions';
-import {spinnerOff} from '../../../actions/CommonActions';
 import {getCookie, setCookie} from '../../../utils/helpers';
 import {getActiveSingleCompany} from '../../../actions/CompanyActions';
 import {getActiveSingleProperty} from '../../../actions/PropertyActions';
-import {getActiveSingleDeal, getBuyerDeal, saveFinancingRequest} from '../../../actions/DealActions';
+import {getBuyerDeal, saveFinancingRequest} from '../../../actions/DealActions';
 import {multiUploadDocument} from '../../../actions/UploadActions';
 import type {FinancingType} from '../../../@types/Pages/Closing/Financing/Financing';
 import {DocumentType, QuestionsListType} from '@brixel/brixel-components/dist/@types/Model';
@@ -30,25 +29,25 @@ const Financing = (props: FinancingType) => {
   const match = useParams();
   // PROPS
   const {
-    activeSingleProperty,
-    activeSingleDeal,
     activeSingleCompany,
+    activeSingleDeal,
+    activeSingleProperty,
     changeFieldValue,
     destroyForm,
     errorValue,
     formValue,
-    initValues,
     handleGetActiveSingleCompany,
     handleGetActiveSingleProperty,
+    handleGetBuyerDeal,
     handleMultiUploadDocument,
+    handleReset,
     handleSaveFinancingRequest,
     initForm,
+    initValues,
     initialValues,
     isSmallLoading,
-    handleGetBuyerDeal,
     lang,
     loggedInUser,
-    handleReset,
   } = props;
   let lowCountry = get(formValue, 'propertyLocation.countryCode', '');
   lowCountry = lowCountry ? lowCountry.toLowerCase() : '';
@@ -170,8 +169,7 @@ const Financing = (props: FinancingType) => {
   const saveData = () => {
     const doc: DocumentType[] = get(formValue, 'document', []);
     const docs: DocumentType[] = get(formValue, 'documents', doc);
-    // eslint-disable-next-line no-return-assign
-    docs.forEach((item, i) => docs[i].user = get(loggedInUser, 'id', undefined));
+    docs.forEach((item, i) => set(docs[i], 'user', get(loggedInUser, 'id', undefined)));
     const dataDocuments = {
       allImgs: docs,
       actions: 'documents',
@@ -600,8 +598,8 @@ const Financing = (props: FinancingType) => {
 };
 
 const mapStateToProps = (state) => ({
-  activeSingleDeal: get(state, 'deal.activeSingleDeal', { }),
   activeSingleCompany: get(state, 'companies.activeSingleCompany', { }),
+  activeSingleDeal: get(state, 'deal.activeSingleDeal', { }),
   activeSingleProperty: get(state, 'property.activeSingleProperty', null),
   errorValue: get(state, 'brixelForm.offerFlow.syncErrors', {}),
   formValue: get(state, 'brixelForm.offerFlow.values', {}),
@@ -611,15 +609,15 @@ const mapStateToProps = (state) => ({
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
   initialValues: {
     ...get(state, 'brixelForm.offerFlow.values', {}),
-    affordabilityCheck: null,
-    loanValueCheck: null,
-    company: get(state, 'companies.activeSingleCompany.stub', null),
-    id: get(state, 'property.activeSingleProperty.id', null),
+    affordabilityCheck: 0,
+    loanValueCheck: 0,
+    company: get(state, 'companies.activeSingleCompany.stub', ''),
+    id: get(state, 'property.activeSingleProperty.id', ''),
     propertyLocation: get(state, 'property.activeSingleProperty.location', {}),
     amount: get(state, 'brixelForm.offerFlow.values.amount', get(state, 'property.activeSingleProperty.price.total', 0)) || 0,
     propertyPrice: get(state, 'property.activeSingleProperty.price.total', 0) || 0,
     propertyPriceCurrency: get(state, 'property.activeSingleProperty.price.currency', ''),
-    subtype: get(state, 'brixelForm.offerFlow.values.subtype', null),
+    subtype: get(state, 'brixelForm.offerFlow.values.subtype', ''),
   },
 });
 
@@ -636,14 +634,11 @@ const mapDispatchToProps = (dispatch) => ({
   handleReset(data) {
     (dispatch(reset('offerFlow', data)));
   },
-  handleGetActiveDeal: bindActionCreators(getActiveSingleDeal, dispatch),
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
   handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
   handleGetBuyerDeal: bindActionCreators(getBuyerDeal, dispatch),
   handleMultiUploadDocument: bindActionCreators(multiUploadDocument, dispatch),
   handleSaveFinancingRequest: bindActionCreators(saveFinancingRequest, dispatch),
-  handleSendScanTrial: bindActionCreators(sendUserScanTrial, dispatch),
-  handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
 });
 
 // @ts-ignore

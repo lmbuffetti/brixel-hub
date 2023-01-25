@@ -30,7 +30,7 @@ const SearchProfileForm = (props: SearchProfileFormType) => {
     QuestionsList(lang, 'searchProfile', changeFieldValue, 'SearchProfile').forEach((form) => {
       if (!form.hideSearchProfile) inputform.push(form);
       form.inputs && form.inputs.forEach((field) => {
-        if (field.name !== 'location.countryCode') {
+        if (field.name && field.name !== 'location.countryCode') {
           if (field.name.includes('location')) fields.push('location');
           else if (!field.name.includes('register')) fields.push(field.name);
         }
@@ -59,7 +59,7 @@ const SearchProfileForm = (props: SearchProfileFormType) => {
     QuestionsList(lang, 'searchProfile', changeFieldValue, 'SearchProfile').forEach((form) => {
       if (!form.hideSearchProfile) inputform.push(form);
       form.inputs && form.inputs.forEach((field) => {
-        if (field.name !== 'location.countryCode') {
+        if (field.name && field.name !== 'location.countryCode') {
           if (field.name.includes('location')) fields.push('location');
           else if (!field.name.includes('register')) fields.push(field.name);
         }

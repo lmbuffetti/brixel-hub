@@ -24,7 +24,7 @@ import {checkBrowser, setCookie} from '../../utils/helpers';
 import {titleSearchProfile} from '../../utils/titleCreationSearchProfile';
 import translateTo from '../../utils/translation';
 import type {GetStartedType} from '../../@types/Pages/PackageFlow/GetStartedBuyer';
-import {QuestionsListType, SearchProfileType} from '@brixel/brixel-components/dist/@types/Model';
+import {QuestionsListType} from '@brixel/brixel-components/dist/@types/Model';
 
 const cookie = new Cookies();
 
@@ -213,29 +213,31 @@ const GetStartedBuyer = (props: GetStartedType) => {
     let isNotEmpty = false;
     if (quest?.inputs) {
       quest.inputs.forEach((input) => {
-        const err = get(errorValue, input.name, null);
-        const noEmpty = get(formValue, input.name, 'ayc');
-        if (noEmpty !== 'ayc') isNotEmpty = true;
-        if (input.condition) {
-          input.condition.forEach((item) => {
-            if (get(formValue, item.name, null) === item.value) {
-              if (err !== true && err !== false && isValid) isValid = false;
-            }
-          });
-        } else if (input.validation) {
-          // const getRegField = get(registeredFields
-          let field;
-          if (input.name === 'profileUser') {
-            const page = get(formValue, 'signupScreen', null);
-            field = ['register.email', 'register.firstName', 'register.lastName', 'register.password', 'register.privacy'];
-            if (page === 'login') {
-              field = ['login.email', 'login.password'];
-            }
-            field.forEach((item) => {
-              const err = get(errorValue, item, true);
-              if (err !== true && err !== false && isValid) isValid = false;
+        if (input.name) {
+          const err = get(errorValue, input.name, null);
+          const noEmpty = get(formValue, input.name, 'ayc');
+          if (noEmpty !== 'ayc') isNotEmpty = true;
+          if (input.condition) {
+            input.condition.forEach((item) => {
+              if (get(formValue, item.name, null) === item.value) {
+                if (err !== true && err !== false && isValid) isValid = false;
+              }
             });
-          } else if (err !== true && err !== false && err !== null && isValid) isValid = false;
+          } else if (input.validation) {
+            // const getRegField = get(registeredFields
+            let field;
+            if (input.name === 'profileUser') {
+              const page = get(formValue, 'signupScreen', null);
+              field = ['register.email', 'register.firstName', 'register.lastName', 'register.password', 'register.privacy'];
+              if (page === 'login') {
+                field = ['login.email', 'login.password'];
+              }
+              field.forEach((item) => {
+                const err = get(errorValue, item, true);
+                if (err !== true && err !== false && isValid) isValid = false;
+              });
+            } else if (err !== true && err !== false && err !== null && isValid) isValid = false;
+          }
         }
       });
     }
@@ -429,7 +431,7 @@ const GetStartedBuyer = (props: GetStartedType) => {
     if (newQuest[currentIndex].inputs && newQuest[currentIndex] && (newQuest[currentIndex].inputs || []).length === 1 && get(newQuest[currentIndex], 'inputs[0].options', []).length > 0 && get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), null) && !isArray(get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), [])) && oldIndex <= currentIndex) {
       changeStep('next', null, 1, true);
     }
-    const rooms: SearchProfileType['characteristics']['bedrooms'] = get(formValue, 'characteristics.bedrooms', {});
+    const rooms: {max?: number; min?: number} = get(formValue, 'characteristics.bedrooms', {});
     const propertyType = get(formValue, 'characteristics.propertyType', []);
     const locations = get(formValue, 'locations', []);
     const searchProfileName = get(formValue, 'name', null);

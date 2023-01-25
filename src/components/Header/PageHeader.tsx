@@ -107,10 +107,10 @@ function PageHeader(props: PageHeaderType) {
       const getActivePackage = sortedPackage.find((pkg) => pkg.started);
       if (getActivePackage && get(getActivePackage, 'servicePackage', null)) {
         handleSetActiveSinglePropertyActivePackage(getActivePackage.servicePackage);
-        setPackageName(getActivePackage.servicePackage.name);
+        setPackageName(getActivePackage?.servicePackage?.name || '');
       } else if (get(sortedPackage[0], 'servicePackage', null)) {
         handleSetActiveSinglePropertyActivePackage(sortedPackage[0].servicePackage);
-        setPackageName(sortedPackage[0].servicePackage.name);
+        setPackageName(sortedPackage[0]?.servicePackage?.name || '');
       }
     }
   }, [packagesProperty.length]);
@@ -118,10 +118,12 @@ function PageHeader(props: PageHeaderType) {
   // GET LANGUAGE LISTS
   useEffect(() => {
     const langHeader: OptionsType[] = [];
-    languages.map((lng: LanguagesType, i: number) => {
-      langHeader[i].value = lng.code;
-      langHeader[i].shortLabel = lng.code;
-      langHeader[i].label = lng.name;
+    languages.map((lng: LanguagesType) => {
+      langHeader.push({
+        value: lng.code,
+        shortLabel: lng.code,
+        label: lng.name,
+      })
       return null;
     });
     setLangMenu(langHeader);
@@ -202,7 +204,7 @@ function PageHeader(props: PageHeaderType) {
   const getCurrentRoute = () => {
     const path = history.location.pathname;
     const currentPath = sidebarNavigationSeller.concat(sidebarNavigationBuyer).find((item) => path.includes(item.name) && item.name !== 'Prospects');
-    return currentPath || {};
+    return currentPath || {name: '', path: '', title: ''};
   };
 
   useEffect(() => {
