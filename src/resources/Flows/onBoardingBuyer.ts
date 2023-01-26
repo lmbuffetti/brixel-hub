@@ -168,7 +168,6 @@ export const QuestionsList: (lang: string, type: string, changeField: (field: st
           showMap: false,
           blockScroll: type === 'searchProfile',
           label: translateTo('latitude', lang),
-          // name: 'location.searchAddress',
           name: 'locations',
           classNameBox: 'max-w-perc-100',
           searchType: 'cities',
