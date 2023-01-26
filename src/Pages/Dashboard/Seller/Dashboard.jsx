@@ -108,7 +108,7 @@ const Dashboard = (props) => {
     } else {
       handleSetUserTypes('seller');
     }
-  }, [loggedInUser, activeSingleProperty]);
+  }, [loggedInUser?.id, activeSingleProperty?.id]);
 
   // FUNCTION TO RESET FORM ON CHANGE SECTIONS - EXCEPT FOR FACTS AND ACHIEVEMENT FLOW
   useEffect(() => {
