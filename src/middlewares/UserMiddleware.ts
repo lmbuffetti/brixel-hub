@@ -277,6 +277,7 @@ const checkUser = (store) => (next) => (action) => {
       store.dispatch({ type: SPINNER_ON });
       api.user.validateUser(action.payload.user.email)
         .then((res) => {
+          console.log(newUser, res);
           if (newUser && res.meta.status === 200) {
             const alertProps = {
               message: 'You already have a profile, please do a login',
@@ -284,19 +285,30 @@ const checkUser = (store) => (next) => (action) => {
             };
             store.dispatch({ type: SET_FORM_ERROR, payload: alertProps });
             store.dispatch({ type: SPINNER_OFF });
-          } else if (res.meta.status === 400) {
+          } else if (newUser && res.meta.status === 404) {
+            store.dispatch({ type: CREATE_USER, payload: action.payload });
+          } else {
             const alertProps = {
               message: 'Please insert a valid email address',
               state: true,
             };
             store.dispatch({ type: SET_FORM_ERROR, payload: alertProps });
             store.dispatch({ type: SPINNER_OFF });
-          } else if (newUser) {
-            store.dispatch({ type: CREATE_USER, payload: action.payload });
           }
           store.dispatch({ type: SPINNER_OFF });
         })
-        .catch(() => {
+        .catch((err) => {
+          const statusCode = get(err, 'meta.statusText.response.data.statusCode', null);
+          if (statusCode === 404) {
+            store.dispatch({ type: CREATE_USER, payload: action.payload });
+          } else {
+            const alertProps = {
+              message: 'Please insert a valid email address',
+              state: true,
+            };
+            store.dispatch({ type: SET_FORM_ERROR, payload: alertProps });
+            store.dispatch({ type: SPINNER_OFF });
+          }
           store.dispatch({ type: SPINNER_OFF });
           if (extraLoading) store.dispatch({ type: SPINNER_OFF });
         });
