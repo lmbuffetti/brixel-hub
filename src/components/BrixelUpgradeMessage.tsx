@@ -103,7 +103,7 @@ const BrixelUpgradeMessage = (props: BrixelUpgradeMessageType) => {
             </div>
           </div>
         ) : (
-          <div className="bgGreen100 pb-3">
+          <div>
             <h5 className="txtBlue700 fweight-600">{title}</h5>
             {
               description && (
