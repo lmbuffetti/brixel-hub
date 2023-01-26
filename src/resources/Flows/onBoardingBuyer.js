@@ -168,7 +168,7 @@ export const QuestionsList = (lang, type, changeField, formName = 'GetStarted') 
           className: type === 'searchProfile' ? 'max-w-fix-400' : '',
           showMap: false,
           blockScroll: type === 'searchProfile',
-          label: translateTo('latitude', lang),
+          label: translateTo('Zip / City', lang),
           // name: 'location.searchAddress',
           name: 'locations',
           classNameBox: 'max-w-perc-100',
