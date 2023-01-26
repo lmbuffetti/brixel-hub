@@ -651,7 +651,7 @@ const MarketCard = (props) => {
                   ) : (
                     <>
                       {
-                        get(item, 'photos', []).length > 1 ? (
+                        !isPreMarket() && get(item, 'photos', []).length > 1 ? (
                           <div className="h-fix-216 pos-r">
                             <div className={`sliderControl ${showSlideData ? 'show' : ''}`}>
                               <BrixelIcon
@@ -815,7 +815,7 @@ const MarketCard = (props) => {
                       {translateTo('Price', lang)}
                     </span>
                     {
-                      item && get(item, 'price.total', 0) !== 0 && get(item, 'status', null) === 'on-sale' ? (
+                      !isPreMarket() && item && get(item, 'price.total', 0) !== 0 && get(item, 'status', null) === 'on-sale' ? (
                         <div className="txtGreen400 dis-f a-b">
                           <span className="fsize-300 ff-mono notranslate">
                             {get(item, 'price.currency', '')}
