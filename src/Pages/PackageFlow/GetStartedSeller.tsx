@@ -536,8 +536,8 @@ const GetStartedSeller = (props: GetStartedSellerType) => {
 
   // REMOVE FADEIN CLASS TO INITIATE ANIMATION FOR EVERY STEP
   useEffect(() => {
+    const getStartedEl = document.querySelector('.getStarted');
     setTimeout(() => {
-      const getStartedEl = document.querySelector('.getStarted');
       if (getStartedEl && getStartedEl.classList) getStartedEl.classList.remove('slideUpTrans');
     }, 350);
   }, [quest]);
@@ -573,7 +573,7 @@ const GetStartedSeller = (props: GetStartedSellerType) => {
             noValidate
             id="multiStepForm"
             autoComplete="off"
-            className="dis-fl-col jc-b"
+            className="dis-fl-col jc-b interactive"
             onSubmit={() => changeStep()}
           >
             <div ref={multiStepSlidesRef} className="multiStepSlides">

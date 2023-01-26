@@ -167,7 +167,8 @@ export const QuestionsList: (lang: string, type: string, changeField: (field: st
           className: type === 'searchProfile' ? 'max-w-fix-400' : '',
           showMap: false,
           blockScroll: type === 'searchProfile',
-          label: translateTo('latitude', lang),
+          label: translateTo('Zip / City', lang),
+          // name: 'location.searchAddress',
           name: 'locations',
           classNameBox: 'max-w-perc-100',
           searchType: 'cities',
@@ -234,7 +235,7 @@ export const QuestionsList: (lang: string, type: string, changeField: (field: st
           pdClass: type === 'searchProfile' ? 'pt-sm-2 pb-sm-3' : 'py-sm-5',
           classBoxWrapper: 'mt-2',
           options: [{
-            label: 'Set as default search profile',
+            label: translateTo('Set as default search profile', lang),
             value: 'true',
           }],
         },
