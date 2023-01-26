@@ -277,7 +277,6 @@ const checkUser = (store) => (next) => (action) => {
       store.dispatch({ type: SPINNER_ON });
       api.user.validateUser(action.payload.user.email)
         .then((res) => {
-          console.log(newUser, res);
           if (newUser && res.meta.status === 200) {
             const alertProps = {
               message: 'You already have a profile, please do a login',
