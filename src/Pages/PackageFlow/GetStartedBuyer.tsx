@@ -79,10 +79,6 @@ const GetStartedBuyer = (props: GetStartedType) => {
     return () => destroyForm();
   }, []);
 
-  useEffect(() => {
-    if (!isLoading) setLoadingRequest(false);
-  }, [isLoading]);
-
   // FUNCTION TO SAVE DATA
   const saveData = async (action = '') => {
     if (isLoading || loadingRequest) return false;
@@ -248,6 +244,7 @@ const GetStartedBuyer = (props: GetStartedType) => {
 
   // FUNCTION TO GO TO NEXT STEP
   const changeStep = (act = 'next', e: null | React.FormEvent = null, step = 1, skipValidation = false) => {
+    setLoadingRequest(false);
     if (e) e.preventDefault();
     if (isLoading || loadingRequest) return false;
     let newIndex = currentIndex;
