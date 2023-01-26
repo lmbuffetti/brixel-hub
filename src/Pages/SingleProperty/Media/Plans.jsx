@@ -205,7 +205,7 @@ const Photos = (props) => {
 
                           <p className="mt-2 txtGreen400">
                             <span className='td-u fweight-500'>{translateTo('Click to upload', lang)} </span>
-                            {(!fixPhotos || (fixPhotos && fixPhotos.length === 0)) && (<span>{translateTo('your first photos ', lang)}</span>)}
+                            {(!fixPhotos || (fixPhotos && fixPhotos.length === 0)) && (<span>{translateTo('your first plans ', lang)}</span>)}
                             <span>{translateTo('or drag and drop.', lang)}</span>
                           </p>
                           {(!fixPhotos || (fixPhotos && fixPhotos.length === 0)) && (<span className='brdSmallTop brdAltGrey200 w-fix-104 my-2 ml-a mr-a'></span>)}
