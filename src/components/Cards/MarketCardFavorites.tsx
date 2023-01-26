@@ -150,7 +150,7 @@ const MarketCardFavorites = (props: MarketCardFavoritesType) => {
           }
 
           {
-            get(activeSingleProperty, 'photos', []).length > 1 && dealDetail ? (
+            !isPreMarket() && get(activeSingleProperty, 'photos', []).length > 1 && dealDetail ? (
               <div
                 className="h-perc-100 scaleFix"
                 /* onClick={() => onOpenCard()} */
@@ -267,9 +267,9 @@ const MarketCardFavorites = (props: MarketCardFavoritesType) => {
                       status={get(offerDetail, 'offer.status', '')}
                       text="Offer"
                       message={{
-                        accepted: 'Offer accepted',
-                        pending: 'Offer sent',
-                        rejected: 'Offer rejected',
+                        accepted: translateTo('Offer accepted', lang),
+                        pending: translateTo('Offer sent', lang),
+                        rejected: translateTo('Offer rejected', lang),
                       }}
                     />
                   )
@@ -294,7 +294,7 @@ const MarketCardFavorites = (props: MarketCardFavoritesType) => {
                     {translateTo('Price', lang)}
                   </span>
                   {
-                    activeSingleProperty && get(activeSingleProperty, 'price.total', 0) !== 0 && get(activeSingleProperty, 'status', null) === 'on-sale' ? (
+                    !isPreMarket() && activeSingleProperty && get(activeSingleProperty, 'price.total', 0) !== 0 && get(activeSingleProperty, 'status', null) === 'on-sale' ? (
                       <div className="txtGreen400 dis-f a-b">
                         <span className="fsize-300 ff-mono notranslate">
                           {get(activeSingleProperty, 'price.currency', '')}
