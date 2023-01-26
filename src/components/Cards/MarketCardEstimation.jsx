@@ -120,8 +120,8 @@ const MarketCardFavorites = (props) => {
                   status={get(activeSingleProperty, 'result.available', false) ? 'completed' : 'pending'}
                   text="Offer"
                   message={{
-                    completed: 'Calculated',
-                    pending: 'Pending',
+                    completed: translateTo('Calculated', lang),
+                    pending: translateTo('Pending', lang),
                   }}
                 />
               </div>
@@ -145,7 +145,7 @@ const MarketCardFavorites = (props) => {
                         links={
                           [
                             {
-                              label: 'Delete',
+                              label: translateTo('Delete', lang),
                               className: 'txtRed400',
                               clickFunc: () => onDeleteEstimation(),
                             },
