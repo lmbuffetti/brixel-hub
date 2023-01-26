@@ -212,9 +212,6 @@ const Photos = (props) => {
 
                           <span className="fsize-300 txtAltGrey400 max-width-304">{translateTo('Choose .jpeg .png with max. 10 MB size', lang)}</span>
                         </div>
-                        {
-                          isSmallLoading.uploadMedia && (<span>loading</span>)
-                        }
                       </div>
                     </>
                     {
