@@ -290,6 +290,7 @@ const checkUser = (store) => (next) => (action) => {
           } else {
             const alertProps = {
               message: 'Please insert a valid email address',
+              noRedirect: true,
               state: true,
             };
             store.dispatch({ type: SET_FORM_ERROR, payload: alertProps });
