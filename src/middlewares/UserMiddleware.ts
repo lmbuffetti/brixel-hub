@@ -284,6 +284,13 @@ const checkUser = (store) => (next) => (action) => {
             };
             store.dispatch({ type: SET_FORM_ERROR, payload: alertProps });
             store.dispatch({ type: SPINNER_OFF });
+          } else if (res.meta.status === 400) {
+            const alertProps = {
+              message: 'Please insert a valid email address',
+              state: true,
+            };
+            store.dispatch({ type: SET_FORM_ERROR, payload: alertProps });
+            store.dispatch({ type: SPINNER_OFF });
           } else if (newUser) {
             store.dispatch({ type: CREATE_USER, payload: action.payload });
           }
