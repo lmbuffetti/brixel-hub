@@ -1,8 +1,7 @@
 import get from 'lodash/get';
-import {applyMiddleware, createStore, Middleware} from 'redux';
+import {applyMiddleware, compose, createStore, Middleware} from 'redux';
 import {createLogger} from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
-import {composeWithDevTools} from 'redux-devtools-extension';
 // MIDDLEWARES
 import CommonMiddleware from '../middlewares/CommonMiddleware';
 import CompanyMiddleware from '../middlewares/CompanyMiddleware';
@@ -41,9 +40,7 @@ if (typeof window !== 'undefined' && (process.env.NODE_ENV === 'development' || 
   }));
 }
 
-const composeEnhancers = composeWithDevTools({});
-
-const composedEnhancers = composeEnhancers(
+const composedEnhancers = compose(
   applyMiddleware(
     ...middlewares,
     CraftCMS,

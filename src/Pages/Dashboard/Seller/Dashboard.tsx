@@ -96,7 +96,7 @@ const Dashboard = (props: DashboardType) => {
     } else {
       handleSetUserTypes('seller');
     }
-  }, [loggedInUser, activeSingleProperty]);
+  }, [loggedInUser?.id, activeSingleProperty?.id]);
 
   // FUNCTION TO RESET FORM ON CHANGE SECTIONS - EXCEPT FOR FACTS AND ACHIEVEMENT FLOW
   useEffect(() => {
@@ -129,14 +129,14 @@ const Dashboard = (props: DashboardType) => {
 
   // INITIALIZE FORM
   useEffect(() => {
-    if (propID !== 'seller' && propID !== 'buyer' && propID && activeSingleProperty.id === propID) {
+    if (propID !== 'seller' && propID !== 'buyer' && propID && activeSingleProperty?.id === propID) {
       initForm(cloneDeep(initialValues));
     }
   }, [activeSingleProperty, propID]);
 
   // FUNCTION TO REDIRECT TO REWARDS PAGE OR LOAD EMPTY STATE (IF USER NO HAS PROPERTY) - LOAD COMPANY FRO SELECTED PROPERTY
   useEffect(() => {
-    if (loadedProp && propID !== 'sell' && activeSingleProperty.id) {
+    if (loadedProp && propID !== 'sell' && activeSingleProperty?.id) {
       if ((typeof activeSingleProperty !== 'undefined' && get(activeSingleProperty, 'id', null)) || propID === 'no-property') {
         if ((!propID || propID === 'no-property') && get(activeSingleProperty, 'id', null)) {
           const isSellerUser = get(loggedInUser, 'user.seller', false);
@@ -157,7 +157,7 @@ const Dashboard = (props: DashboardType) => {
     if (activeLeads && activeLeads !== activeSingleCompany.id && activeSingleProperty.id) {
       handleGetActiveSingleCompany({ id: activeLeads, smallLoader: 'singleCompany' });
     }
-  }, [activeSingleProperty.id]);
+  }, [activeSingleProperty?.id]);
 
   // FUNCTION TO GLOBAL SAVE - BUTTON SAVE ON NOTIFICATION BAR
   const saveData = () => {

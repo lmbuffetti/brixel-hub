@@ -356,7 +356,7 @@ export const MakeOfferQuestions: (changeValue: (field: string, val: any) => void
           validation: [Validation.required],
         },
         {
-          customComponent: isPT ? null : TextForm,
+          customComponent: isPT ? undefined : TextForm,
           classNameBox: 'max-w-fix-600 ml-a mr-a',
           classBoxWrapper: 'py-5 ',
           ReduxFieldClass: '',
@@ -388,6 +388,7 @@ export const MakeOfferQuestions: (changeValue: (field: string, val: any) => void
       footerWidth: 'max-w-fix-600',
       inputs: [
         {
+          name: '',
           customHTML: `<p class="fsize-300 txtDark700">${translateTo('These data are needed to apply for your financing certificate. Brixel is not saving any of your financial data.', lang)}</p>`,
         },
         {

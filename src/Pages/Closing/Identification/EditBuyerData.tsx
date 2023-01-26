@@ -28,7 +28,7 @@ const EditBuyerData = (props: EditBuyerDataType) => {
     userType,
   } = props;
   // STATE
-  const [formData, setFormData] = useState<object[]>([]);
+  const [formData, setFormData] = useState<QuestionInputType[]>([]);
   const [filteredForm, setFilteredForm] = useState<QuestionInputType[]>([]);
 
   const propID = get(match, 'propID', null);
@@ -90,8 +90,8 @@ const EditBuyerData = (props: EditBuyerDataType) => {
 
   // GET THE NEXT DATA IN BASE OF CURRENT ANSWER
   useEffect(() => {
-    const newQuest: object[] = [];
-    formData.map((quest: QuestionInputType) => {
+    const newQuest: QuestionInputType[] = [];
+    formData.map((quest) => {
       let isValid = true;
       if (quest.condition) {
         quest.condition.map((item) => {

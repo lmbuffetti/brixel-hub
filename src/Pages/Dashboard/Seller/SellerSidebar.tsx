@@ -168,7 +168,7 @@ const SellerSidebar = (props: SellerSidebarType) => {
                             </>
                           )
                         }
-                        {history.createdAt && DateTime.fromMillis(history.createdAt, {
+                        {lang && history.createdAt && DateTime.fromMillis(history.createdAt, {
                           locale: lang,
                         }).toFormat('d LLL yyyy, H:mm')}
                       </p>
