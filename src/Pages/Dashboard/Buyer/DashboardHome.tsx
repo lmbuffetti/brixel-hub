@@ -55,7 +55,7 @@ const DashboardHome = (props: ContactType) => {
   }, []);
 
   useEffect(() => {
-    if (!isNaN(+get(activeSingleDeal, 'visit', 0))) {
+    if (activeSingleDeal?.visit && !isNaN(+get(activeSingleDeal, 'visit', 0))) {
       setVisitAccepted(get(activeSingleDeal, 'visit', 0).toString());
     }
   }, [activeSingleDeal]);
