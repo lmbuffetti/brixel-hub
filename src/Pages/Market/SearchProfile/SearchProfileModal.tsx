@@ -45,6 +45,7 @@ const SearchProfileModal = (props: SearchProfileModalType) => {
   const saveData = (type) => {
     const formData = {...formValue};
     const { id, locations } = formData;
+    set(formData, 'characteristics.propertyType', formData.characteristics?.propertyType || []);
     delete formData.id;
     formData.location = locations;
     delete formValue.locations;
