@@ -102,6 +102,7 @@ const MarketBuyer = (props: MarketBuyerType) => {
   }, [loggedInUser.id]);
 
   const getPropertiesPage = () => {
+    console.log('loaded');
     const url = get(history, 'location.pathname', '').split('/');
     const type = url[url.length - 2];
     const curPage = url[url.length - 1];

@@ -236,7 +236,7 @@ const MarketCard = (props: MarketCardProps) => {
     if (item) {
       const isHideModal = getCookie('brixelHideNotInterested');
       if (isHideModal === true || isHideModal === 'true') {
-        handleMarkNotInterested(item.id);
+        handleMarkNotInterested({id: item.id, reloadBuyerProperties: true} );
         handleSetModal({state: false});
       } else {
         handleSetModal({

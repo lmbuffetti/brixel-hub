@@ -1,8 +1,8 @@
 export interface UserReducerType {
-  userTypes: string,
+  activeSearchProfile: object | null,
   loggedInUser: object,
-  userSearchProfiles: null | object[],
-  activeSearchProfile: object,
-  userProperties: object[],
   userBuyerProperties: object[],
+  userProperties: object[],
+  userSearchProfiles: null | object[],
+  userTypes: string,
 }

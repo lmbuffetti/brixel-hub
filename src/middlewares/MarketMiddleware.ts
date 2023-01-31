@@ -7,7 +7,6 @@ import {
   GET_ALL_PROPERTIES,
   GET_BUYER_PROPERTIES,
   GET_FAVORITES_PROPERTIES,
-  GET_LAST_VIEWED_PROPERTIES,
   GET_NEW_PROPERTIES,
   GET_OWNED_ESTIMATIONS,
   GET_OWNED_PROPERTIES,
@@ -148,32 +147,6 @@ const checkLead = (store) => (next) => (action) => {
         });
       break;
     }
-    case GET_LAST_VIEWED_PROPERTIES: {
-      next(action);
-      const loadSkeleton = cloneDeep(get(store.getState(), 'common.skeleton', {}));
-      loadSkeleton.favorite = 'CardImageTextVertical';
-      /*
-      store.dispatch({
-        type: SKELETON_ON,
-        payload: {
-          ...loadSkeleton,
-        },
-      });
-      api.market.getLastViewed()
-        .then((res) => {
-          if (res.meta.status === 200) {
-            store.dispatch({ type: SET_LAST_VIEWED_PROPERTIES, payload: res.data });
-          }
-          loadSkeleton = cloneDeep(get(store.getState(), 'common.skeleton', {}));
-          loadSkeleton.favorite = false;
-          store.dispatch({ type: SKELETON_OFF, payload: loadSkeleton });
-        })
-        .catch(() => {
-          store.dispatch({ type: SKELETON_OFF });
-        });
-       */
-      break;
-    }
     case GET_PREMARKET_PROPERTIES: {
       next(action);
       const {
@@ -268,8 +241,8 @@ const checkLead = (store) => (next) => (action) => {
       const {
         limit,
         offset,
-        order,
-        direction,
+        order = 'updatedAt',
+        direction = 'DESC',
         searchProfileId,
         type, // all|published|premarket
       } = action.payload;

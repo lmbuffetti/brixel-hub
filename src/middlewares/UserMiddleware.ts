@@ -14,7 +14,7 @@ import {
 } from '../actions/types/CommonTypes';
 
 import {CREATE_ESTIMATION} from '../actions/types/EstimationTypes';
-import {GET_WISHLIST_PROPERTIES, SET_FAVORITES_PROPERTIES} from '../actions/types/MarketTypes';
+import {GET_BUYER_PROPERTIES, GET_WISHLIST_PROPERTIES, SET_FAVORITES_PROPERTIES} from '../actions/types/MarketTypes';
 
 import {CREATE_ACTIVE_SINGLE_PROPERTY} from '../actions/types/PropertyTypes';
 
@@ -377,10 +377,28 @@ const checkUser = (store) => (next) => (action) => {
     }
     case ADD_NOT_INTERESTED: {
       next(action);
-      const id = action.payload;
+      const {
+        id,
+        reloadBuyerProperties,
+      } = action.payload;
       store.dispatch({ type: SPINNER_SMALL, payload: { [`notInterested-${id}`]: true } });
       api.user.addAsNotInterested(id)
         .then(() => {
+          if (reloadBuyerProperties) {
+            const splitURL = get(window, 'location.href', '').split('/') || [];
+            if (splitURL.length > 0) {
+              const page = splitURL[splitURL.length - 1];
+              const cat = splitURL[splitURL.length - 2];
+              const searchProfileID = get(store.getState(), 'user.activeSearchProfile.id', null);
+              const data = {
+                offset: (+page - 1) * 9,
+                limit: 9,
+                searchProfileId: searchProfileID,
+                type: cat,
+              }
+              store.dispatch({ type: GET_BUYER_PROPERTIES, payload: data });
+            }
+          }
           store.dispatch({ type: SPINNER_SMALL, payload: { [`notInterested-${id}`]: false } });
         });
       break;

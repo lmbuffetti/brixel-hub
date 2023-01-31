@@ -10,12 +10,12 @@ import {
 import type {UserReducerType} from '../@types/reducer/UserReducer';
 
 export const defaultState: UserReducerType = {
-  userTypes: '',
+  activeSearchProfile: null,
   loggedInUser: {},
-  userSearchProfiles: null,
-  activeSearchProfile: {},
-  userProperties: [],
   userBuyerProperties: [],
+  userProperties: [],
+  userSearchProfiles: null,
+  userTypes: '',
 };
 
 export default handleActions<any>(
