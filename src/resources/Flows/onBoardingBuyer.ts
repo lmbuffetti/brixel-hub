@@ -225,7 +225,7 @@ export const QuestionsList: (lang: string, type: string, changeField: (field: st
           component: BrixelInputText,
           pdClass: 'py-2 py-lg-3 px-2',
           classNameBox: `brdRadius fieldHolder bgWhite ${type === 'searchProfile' ? 'max-w-fix-344' : 'max-w-fix-600 px-2 px-sm-5 py-5 m-a'}`,
-          placeholder: 'Search Profile Name',
+          placeholder: translateTo('Search Profile Name', lang),
           name: 'name',
           large: true,
         },
