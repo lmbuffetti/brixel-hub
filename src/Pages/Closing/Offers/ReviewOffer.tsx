@@ -88,7 +88,7 @@ const ReviewOffer = (props: ReviewOfferType) => {
         <div className={`dis-f p-3 pb-2 ${activeSingleDeal.id === 'sample' ? 'jc-b a-c' : 'jc-fe'}`}>
           {
             activeSingleDeal.id === 'sample' && (
-              <div className="ml-2 brdRadiusSmall brdSmall bgPrimary200 txtPrimary400 p-small-4 fsize-200 ex-tag">
+              <div className="ml-2 brdRadiusSmall brdSmall bgPrimary100 txtPrimary400 p-small-4 fsize-200 ex-tag">
                 {translateTo('Example only', lang)}
               </div>
             )

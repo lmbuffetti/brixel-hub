@@ -92,7 +92,7 @@ const OfferListings = (props: OfferListingsType) => {
                                     {get(offer, 'user.name', 'No Name')}
                                     {
                                       offer.deal === 'sample' && (
-                                        <div className="tagLabel brdRadiusSmall brdSmall bgPrimary200 txtPrimary400 p-small-4 fsize-200">
+                                        <div className="tagLabel brdRadiusSmall brdSmall bgPrimary100 txtPrimary400 p-small-4 fsize-200">
                                           Example only
                                         </div>
                                       )

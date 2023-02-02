@@ -198,7 +198,7 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
           }
 
           { /* SEARCH PROFILE */}
-          <div className="bgGreen100 mt-3 min-h-fix-320">
+          <div className="bgGreen50 mt-3 min-h-fix-320">
             {
               !userSearchProfiles ? (
                 <div className="container px-0 py-10">

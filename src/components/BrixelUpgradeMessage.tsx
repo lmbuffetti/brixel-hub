@@ -52,7 +52,7 @@ const BrixelUpgradeMessage = (props: BrixelUpgradeMessageType) => {
     else onUpgrade();
   };
 
-  const bgColor = showUnlockMessage ? 'bgBlue100' : 'bgBlue100';
+  const bgColor = showUnlockMessage ? 'bgBlue50' : 'bgBlue50';
 
   if (!isEligible(activeSingleProperty) && trialRequest) {
     return <span />;
@@ -75,7 +75,7 @@ const BrixelUpgradeMessage = (props: BrixelUpgradeMessageType) => {
       {
         // CONDITION TO SHOW THE MESSAGE TO UNLOCK OR THE CONFIRMATION MESSAGE
         showUnlockMessage ? (
-          <div className="bgPrimary100">
+          <div className="bgPrimary50">
             <h5 className="txtBlue700 fweight-600 mb-3">{titleConfirm}</h5>
             {
               descriptionConfirm && (

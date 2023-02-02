@@ -51,7 +51,7 @@ const WelcomeSeller = (props: WelcomeSellerType) => {
   return (
     <div id="bodyModalWrapper" className="withHeader getStarted ">
       <div
-        className={`bodyModal welcomeSellerBody ${currentScreen === 'step1' ? 'bgPrimary100' : ''}`}
+        className={`bodyModal welcomeSellerBody ${currentScreen === 'step1' ? 'bgPrimary50' : ''}`}
       >
         {}
         <form

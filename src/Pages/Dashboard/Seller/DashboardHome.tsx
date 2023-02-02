@@ -197,7 +197,7 @@ const DashboardHome = (props: DashboardHomeType) => {
         activeScantrial ? (
           <div className="pr-md-1 w-perc-100 w-perc-md-50 min-h-perc-100">
             <div
-              className="dis-f jc-b brdRadius bgGreen200 shadow-2dp py-3 pl-3 ov-h h-perc-100"
+              className="dis-f jc-b brdRadius bgGreen100 shadow-2dp py-3 pl-3 ov-h h-perc-100"
               onClick={() => history.push(`/${activeSingleProperty.id}/trialRequest/on-site?url=/${activeSingleProperty.id}/home`)}
             >
               <div className="w-perc-100 max-w-fix-232">
@@ -362,7 +362,7 @@ const DashboardHome = (props: DashboardHomeType) => {
                 {/* PRO ESTIMATION BOX */}
                 <div className="pr-md-1 mb-3 mb-sm-0 w-perc-100 w-perc-md-50 min-h-perc-100">
                   <div
-                    className="dis-f jc-b brdRadius bgBlue200 shadow-2dp py-3 pl-3 ov-h h-perc-100"
+                    className="dis-f jc-b brdRadius bgBlue100 shadow-2dp py-3 pl-3 ov-h h-perc-100"
                     onClick={() => history.push(`/${activeSingleProperty.id}/property/price/proEstimation`)}
                   >
                     <div className="w-perc-100 max-w-fix-232">
@@ -493,7 +493,7 @@ const DashboardHome = (props: DashboardHomeType) => {
 
                 {/* DESCRIPTION */}
                 <div
-                  className="shadow-2dp bgPrimary100 brdRadius dis-f jc-b pt-2 px-2 px-sm-3 ml-sm-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi"
+                  className="shadow-2dp bgPrimary50 brdRadius dis-f jc-b pt-2 px-2 px-sm-3 ml-sm-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi"
                 >
                   <div className="dis-fl-col">
                     <span className="fsize-400 txtPrimary400">
@@ -613,7 +613,7 @@ const DashboardHome = (props: DashboardHomeType) => {
                 </div>
 
                 <div
-                  className="pos-r w-perc-100 ov-h w-perc-sm-65 mt-3 mt-sm-0 brdRadius shadow-2dp dis-fl-col jc-b pt-2 cur-poi shadowHover-4dp bgBlue100 px-2"
+                  className="pos-r w-perc-100 ov-h w-perc-sm-65 mt-3 mt-sm-0 brdRadius shadow-2dp dis-fl-col jc-b pt-2 cur-poi shadowHover-4dp bgBlue50 px-2"
                   onClick={() => openBrixelPage()}
                 >
                   <div className="dis-f-md a-b h-perc-100">
@@ -981,7 +981,7 @@ const DashboardHome = (props: DashboardHomeType) => {
               </div>
 
               <div
-                className="shadow-2dp brdRadius dis-f jc-b pt-2 px-2 px-sm-3 pb-3 w-perc-100 cur-poi ov-h mt-3 bgBlue100 min-h-fix-200 a-c"
+                className="shadow-2dp brdRadius dis-f jc-b pt-2 px-2 px-sm-3 pb-3 w-perc-100 cur-poi ov-h mt-3 bgBlue50 min-h-fix-200 a-c"
                 style={{backgroundImage: `url(${marketNewHomeSvg})`, backgroundSize: 'auto 100%', backgroundPosition: 'right', backgroundRepeat: 'no-repeat'}}
               >
                 <div className="dis-fl-col max-w-perc-100">
