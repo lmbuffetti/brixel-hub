@@ -27,6 +27,7 @@ const SellerSidebar = (props: SellerSidebarType) => {
     activeSingleUserHistory,
     handleGetHistoryFeed,
     handleGetNoteListings,
+    isSmallLoading,
     lang,
     loggedInUser,
   } = props;
@@ -112,8 +113,7 @@ const SellerSidebar = (props: SellerSidebarType) => {
       const expMatch = /(\b(https?|):\/\/[-A-Z0-9+&@#\\/%?=~_|!:,.;]*[-A-Z0-9+&@#\\/%=~_|])/ig;
       const elementContent = textConverted.replace(expMatch, '<a target="_blank" href="$1">$1</a>');
       const newExpMatch = /(^|[^\\/])(www\.[\S]+(\b|$))/gim;
-      const newContent = elementContent.replace(newExpMatch, '$1<a target="_blank" href="http://$2">$2</a>');
-      return newContent;
+      return elementContent.replace(newExpMatch, '$1<a target="_blank" href="http://$2">$2</a>');
     }
     return text;
   };
@@ -127,7 +127,7 @@ const SellerSidebar = (props: SellerSidebarType) => {
           </p>
 
           {
-            fullUpdates && (
+            (isSmallLoading.getPageHistory || isSmallLoading.pageNotes) && (
               <div className="">
                 <div className="h-fix-96 mb-2 w-perc-100 skeletonBg brdRadius" />
                 <div className="h-fix-96 mb-3 w-perc-100 skeletonBg brdRadius" />
@@ -191,6 +191,7 @@ const mapStateToProps = (state) => ({
   activeSinglePropertyHistory: get(state, 'history.activeSinglePropertyHistory.data', []),
   activeSinglePropertyNotes: get(state, 'notes.activeSinglePropertyNotes', []),
   activeSingleUserHistory: get(state, 'history.activeSingleUserHistory.data', []),
+  isSmallLoading: get(state, 'common.isSmallLoading', {}),
   lang: get(state, 'common.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser.user', { }),
 });
