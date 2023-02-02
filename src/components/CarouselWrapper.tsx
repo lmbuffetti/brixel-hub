@@ -197,14 +197,16 @@ const CarouselWrapper = (props: CarouselWrapperType) => {
                       onClick={() => moveSlide('prev')}
                       className={`txtText400 icnText400 brdText400 slick-arrow secondary small pos-a y-c ml-7-neg ${activeSlide < 1 ? 'slick-disabled' : ''}`}
                       icon="arrow-simple-left"
-                      theme="light"
+                      theme="text"
+                      themeSat={300}
                       secondary
                     />
                     <BrixelButtonIcon
                       onClick={() => moveSlide('next')}
                       className={`mr-1 txtText400 icnText400 brdText400 slick-arrow secondary small pos-a y-c mr-7-neg x-r ${items && activeSlide >= items.length - 1 ? 'slick-disabled' : ''}`}
                       icon="arrow-simple-right"
-                      theme="light"
+                      theme="text"
+                      themeSat={300}
                       secondary
                     />
                   </>
@@ -238,7 +240,8 @@ const CarouselWrapper = (props: CarouselWrapperType) => {
                     onClick={() => moveSlide('prev')}
                     className={`txtText400 icnText400 brdText400 slick-arrow secondary small ${activeSlide < 1 ? 'slick-disabled' : ''}`}
                     icon="arrow-simple-left"
-                    theme="light"
+                    theme="text"
+                    themeSat={300}
                     secondary
                   />
                   <div className="fsize-300 txtPrimary400 ml-3 mr-3">
@@ -250,7 +253,8 @@ const CarouselWrapper = (props: CarouselWrapperType) => {
                     onClick={() => moveSlide('next')}
                     className={`mr-1 txtText400 icnText400 brdText400 slick-arrow secondary small ${activeSlide >= items.length - 1 ? 'slick-disabled' : ''}`}
                     icon="arrow-simple-right"
-                    theme="light"
+                    theme="text"
+                    themeSat={300}
                     secondary
                   />
                 </div>
@@ -287,14 +291,16 @@ const CarouselWrapper = (props: CarouselWrapperType) => {
                     onClick={() => moveSlide('prev')}
                     className={`mr-1 txtText400 icnText400 brdText400 slick-arrow secondary small ${activeSlide < 1 ? 'slick-disabled' : ''}`}
                     icon="arrow-simple-left"
-                    theme="light"
+                    theme="text"
+                    themeSat={300}
                     secondary
                   />
                   <BrixelButtonIcon
                     onClick={() => moveSlide('next')}
                     className={`mr-1 txtText400 icnText400 brdText400 slick-arrow secondary small ${activeSlide >= items.length - 1 ? 'slick-disabled' : ''}`}
                     icon="arrow-simple-right"
-                    theme="light"
+                    theme="text"
+                    themeSat={300}
                     secondary
                   />
                 </>

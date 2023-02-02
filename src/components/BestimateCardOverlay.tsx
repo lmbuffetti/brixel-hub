@@ -53,7 +53,7 @@ const BestimateCardOverlay = (props: BestimateCardOverlayType) => {
         <div className="dis-f jc-fe">
           <BrixelButtonIcon
             ghost
-            theme="dark"
+            theme="text"
             icon="close-small"
             onClick={() => onCloseBestimateResult()}
           />

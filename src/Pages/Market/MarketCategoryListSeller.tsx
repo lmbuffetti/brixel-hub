@@ -265,7 +265,7 @@ const MarketCategoryListSeller = (props: MarketCategoryListSellerType) => {
                   <div className="dis-f jc-fe mb-2">
                     <BrixelButtonIcon
                       ghost
-                      theme="dark"
+                      theme="text"
                       icon="close-small"
                       onClick={() => onCloseBestimateTeaser()}
                     />
@@ -298,7 +298,7 @@ const MarketCategoryListSeller = (props: MarketCategoryListSellerType) => {
                   <div className="dis-f jc-fe mb-2 mb-sm-1 my-1">
                     <BrixelButtonIcon
                       ghost
-                      theme="dark"
+                      theme="text"
                       icon="close-small"
                       onClick={() => onCloseBestimateTeaser()}
                     />
@@ -348,7 +348,7 @@ const MarketCategoryListSeller = (props: MarketCategoryListSellerType) => {
             <div className="dis-f jc-fe mb-2">
               <BrixelButtonIcon
                 ghost
-                theme="dark"
+                theme="text"
                 icon="close-small"
                 onClick={() => onCloseBestimateResult()}
               />
@@ -413,9 +413,9 @@ const MarketCategoryListSeller = (props: MarketCategoryListSellerType) => {
               </h1>
               <BrixelButtonText
                 label={translateTo('+ Add new', lang)}
-                theme="dark"
+                theme="text"
                 labelClass="ws-nw"
-                themeSat={700}
+                themeSat={900}
                 onClick={() => history.push(`/packageFlow/getStarted?company=${getCompanyStub()}`)}
               />
             </div>
@@ -590,8 +590,7 @@ const MarketCategoryListSeller = (props: MarketCategoryListSellerType) => {
               rounded
               label={translateTo('compare all plans', lang)}
               onClick={() => window.location.assign(`/${get(ownerProperties, 'data[0].id', 'company')}/upgrade#comparePlan`)}
-              theme="AltGrey"
-              themeSat={700}
+              theme="text"
             />
 
           </div>

@@ -105,7 +105,8 @@ const Key4Registration = (props: Key4RegistrationType) => {
                   className="backBtn pos-a-fix x-l-0 x-t-0"
                   icon="arrow-left-small"
                   onClick={() => onCloseGoBack()}
-                  theme="light"
+                  theme="text"
+                  themeSat={300}
                   secondary
                 />
 

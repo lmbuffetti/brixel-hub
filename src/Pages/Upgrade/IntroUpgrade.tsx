@@ -448,8 +448,8 @@ const IntroUpgrade = (props: IntroUpgradeType) => {
                                       </h3>
                                       <BrixelButtonSecondary
                                         rounded
-                                        theme="dark"
-                                        themeSat={700}
+                                        theme="text"
+                                        themeSat={900}
                                         fullWidth
                                         label={translateTo('Try now for free', lang)}
                                         onClick={() => scrollTo('#')}
@@ -535,7 +535,7 @@ const IntroUpgrade = (props: IntroUpgradeType) => {
             <div className="dis-f jc-c mt-5">
               <BrixelButtonSecondary
                 rounded
-                theme="dark"
+                theme="text"
                 label={translateTo('Compare all details', lang)}
                 onClick={() => scrollTo('comparePlan')}
               />

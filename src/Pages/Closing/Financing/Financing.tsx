@@ -536,7 +536,8 @@ const Financing = (props: FinancingType) => {
                           className="backBtn pos-a-fix x-l-0 x-t-0"
                           icon="arrow-left-small"
                           onClick={() => changeStep('back')}
-                          theme="light"
+                          theme="text"
+                          themeSat={300}
                           secondary
                         />
                       )

@@ -216,7 +216,7 @@ const DealsCard = (props: DealsCardProps) => {
         </div>
       </div>
       <BrixelButtonIcon
-        theme="dark"
+        theme="text"
         ghost
         icon="archive"
         className="archiveBtn pos-a bt x-r mr-1 mb-1"

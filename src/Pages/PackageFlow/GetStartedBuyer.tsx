@@ -610,7 +610,8 @@ const GetStartedBuyer = (props: GetStartedType) => {
                             className="backBtn ml-0 mr-a"
                             icon="arrow-left-small"
                             onClick={() => changeStep('back')}
-                            theme="light"
+                            theme="text"
+                            themeSat={300}
                             secondary
                           />
                         )
@@ -718,7 +719,8 @@ const GetStartedBuyer = (props: GetStartedType) => {
                           )
                         }
                         <BrixelButtonText
-                          theme="light"
+                          theme="text"
+                          themeSat={300}
                           className="pos-sm-a x-r"
                           label={translateTo('Skip', lang)}
                           onClick={() => saveData('skip')}

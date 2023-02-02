@@ -113,7 +113,8 @@ const IdentificationBuyerResume = (props: IdentificationBuyerResumeType) => {
                       className="backBtn ml-0"
                       icon="arrow-left-small"
                       onClick={stepForm === 1 ? () => setStepForm(0) : () => setStepResume('resume')}
-                      theme="light"
+                      theme="text"
+                      themeSat={300}
                       secondary
                     />
                     <BrixelButtonPrimary
@@ -243,7 +244,8 @@ const IdentificationBuyerResume = (props: IdentificationBuyerResumeType) => {
                       className="backBtn ml-0"
                       icon="arrow-left-small"
                       onClick={() => onBack()}
-                      theme="light"
+                      theme="text"
+                      themeSat={300}
                       secondary
                     />
                     <BrixelButtonPrimary
@@ -392,7 +394,8 @@ const IdentificationBuyerResume = (props: IdentificationBuyerResumeType) => {
                       className="backBtn ml-0"
                       icon="arrow-left-small"
                       onClick={() => setStepResume('resume')}
-                      theme="light"
+                      theme="text"
+                      themeSat={300}
                       secondary
                     />
                     <BrixelButtonPrimary

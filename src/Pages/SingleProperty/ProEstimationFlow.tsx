@@ -214,7 +214,7 @@ const ProEstimationFlow = (props: ProEstimationFlowType) => {
                   <BrixelButtonIcon
                     icon="close-small"
                     ghost
-                    theme="dark"
+                    theme="text"
                     onClick={() => closeWindow()}
                   />
                 </div>

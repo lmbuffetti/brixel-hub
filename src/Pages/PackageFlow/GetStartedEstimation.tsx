@@ -757,7 +757,8 @@ const GetStartedEstimation = (props: GetStartedEstimationType) => {
                                   className="backBtn pos-a-fix x-l-0 x-t-0"
                                   icon="arrow-left-small"
                                   onClick={() => changeStep('back')}
-                                  theme="light"
+                                  theme="text"
+                                  themeSat={300}
                                   secondary
                                 />
                               )
@@ -848,7 +849,8 @@ const GetStartedEstimation = (props: GetStartedEstimationType) => {
                                     className="backBtn pos-a x-l"
                                     icon="arrow-left-small"
                                     onClick={() => changeStep('back')}
-                                    theme="light"
+                                    theme="text"
+                                    themeSat={300}
                                     secondary
                                   />
                                 )
@@ -863,7 +865,8 @@ const GetStartedEstimation = (props: GetStartedEstimationType) => {
                                 onShowError={() => setShowError(true)}
                               />
                               <BrixelButtonText
-                                theme="light"
+                                theme="text"
+                                themeSat={300}
                                 className="pos-a x-r"
                                 label={translateTo('Skip', lang)}
                                 onClick={() => saveData('skip')}

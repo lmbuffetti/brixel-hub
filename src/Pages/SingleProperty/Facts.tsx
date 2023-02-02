@@ -207,7 +207,7 @@ const Facts = (props: FactsType) => {
                       className="hide dis-b-md"
                       icon="arrow-left-small"
                       ghost
-                      theme="dark"
+                      theme="text"
                       onClick={() => history.push(`/${propID}/property/facts`)}
                     />
                     <div className="thirdLevel inputSheet dis-fl-col w-perc-100 ml-lg-2" id="factsQuestion">

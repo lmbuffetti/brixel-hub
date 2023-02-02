@@ -452,7 +452,8 @@ const Contact = (props: ContactType) => {
                                 className="backBtn ml-0"
                                 icon="arrow-left-small"
                                 onClick={() => changeStep('back')}
-                                theme="light"
+                                theme="text"
+                                themeSat={300}
                                 secondary
                               />
                             )
@@ -505,7 +506,7 @@ const Contact = (props: ContactType) => {
                           <div className="w-perc-100 a-c dis-fl-row m-a jc-c mt-2">
                             <BrixelButtonText
                               label={translateTo('Not now', lang)}
-                              theme="dark"
+                              theme="text"
                               themeSat={200}
                               onClick={() => closeWindow()}
                             />

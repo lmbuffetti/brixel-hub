@@ -95,7 +95,7 @@ const ReviewOffer = (props: ReviewOfferType) => {
           }
           <BrixelButtonIcon
             ghost
-            theme="dark"
+            theme="text"
             icon="close-small"
             onClick={() => closeOverlay()}
           />
@@ -192,7 +192,7 @@ const ReviewOffer = (props: ReviewOfferType) => {
                     <div className="dis-f jc-b a-c mt-5">
                       <BrixelButtonIcon
                         icon="arrow-left-small"
-                        theme="dark"
+                        theme="text"
                         onClick={() => setSuccess(null)}
                         ghost
                       />

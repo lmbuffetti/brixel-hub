@@ -396,7 +396,7 @@ const Timeline = (props: TimelineType) => {
                           <BrixelButtonIcon
                             className="as-fe"
                             ghost
-                            theme="dark"
+                            theme="text"
                             icon={`${showFullNote.id === i && showFullNote.active ? 'arrow-simple-up' : 'arrow-simple-down'}`}
                             onClick={(e) => {
                               if (showFullNote.id !== i && !showFullNote.active) {
@@ -468,7 +468,7 @@ const Timeline = (props: TimelineType) => {
                                   !isDeal && (
                                     <BrixelButtonIcon
                                       small
-                                      theme="dark"
+                                      theme="text"
                                       ghost
                                       icon="options-vertical"
                                       onClick={() => {

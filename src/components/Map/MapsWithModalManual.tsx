@@ -148,7 +148,7 @@ const MapsWithModalManual = (props: MapsWithModalManualType) => {
                 className="pos-a-fix x-r-1 x-t-1 zIndex2"
                 ghost
                 icon="close"
-                theme="dark"
+                theme="text"
                 onClick={() => closeModal()}
               />
               <div className="w-perc-100 px-2 px-sm-5 m-a pt-5 h-perc-100 ov-y-a pb-5 pb-sm-0">

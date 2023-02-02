@@ -448,7 +448,8 @@ const TermsCondition = (props: TermsConditionType) => {
                         className="backBtn pos-a-sm x-l"
                         icon="arrow-left-small"
                         onClick={() => changeStep('back')}
-                        theme="light"
+                        theme="text"
+                        themeSat={300}
                         secondary
                       />
                     )
@@ -465,7 +466,8 @@ const TermsCondition = (props: TermsConditionType) => {
                   />
 
                   <BrixelButtonText
-                    theme="light"
+                    theme="text"
+                    themeSat={300}
                     className="pos-a-sm x-r"
                     label={translateTo('Skip', lang)}
                     onClick={() => saveData('skip')}

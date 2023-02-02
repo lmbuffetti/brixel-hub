@@ -64,7 +64,7 @@ const ContactBuyer = (props: ContactBuyerType) => {
               <div className="hide-lg">
                 <BrixelButtonIcon
                   icon="close"
-                  theme="dark"
+                  theme="text"
                   ghost
                   bgTransparent
                   className="as-c"

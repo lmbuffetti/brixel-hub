@@ -441,7 +441,7 @@ const Documents = (props: DocumentsPageType) => {
                                     <BrixelButtonIcon
                                       className={`${(index(i) !== -1) ? 'as-fs' : ''}`}
                                       ghost
-                                      theme="dark"
+                                      theme="text"
                                       icon={`${(index(i) !== -1) ? 'arrow-simple-up' : 'arrow-simple-down'}`}
                                       onClick={(e) => {
                                         e.preventDefault();
@@ -501,7 +501,7 @@ const Documents = (props: DocumentsPageType) => {
 
                                           <BrixelButtonIcon
                                             ghost
-                                            theme="dark"
+                                            theme="text"
                                             icon="options-vertical"
                                             onClick={() => {
                                               setDocumentOptionsOpen({
@@ -578,7 +578,7 @@ const Documents = (props: DocumentsPageType) => {
                                       <BrixelButtonIcon
                                         bgTransparent
                                         ghost
-                                        theme="dark"
+                                        theme="text"
                                         icon="options-vertical"
                                         onClick={() => {
                                           setDocumentOptionsOpen({

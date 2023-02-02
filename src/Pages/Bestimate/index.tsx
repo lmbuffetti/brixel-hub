@@ -298,7 +298,8 @@ const Bestimate = (props: BestimateType) => {
                     <BrixelButtonText
                       className={`noWrap ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''} ${currentIndex === 0 ? 'ml-a' : ''}`}
                       disabled={!checkValidateField()}
-                      theme="light"
+                      theme="text"
+                      themeSat={300}
                       label={translateTo(buttonLabel(), lang)}
                       rightIcon="arrow-right-small"
                       onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}

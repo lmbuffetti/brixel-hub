@@ -48,7 +48,7 @@ const OfferDetail = (props: OfferDetailType) => {
                 <BrixelButtonIcon
                   className="hide dis-b-md mb-2"
                   icon="arrow-left-small"
-                  theme="dark"
+                  theme="text"
                   ghost
                   onClick={() => history.push(`/${propID}/closing`)}
                 />

@@ -66,8 +66,8 @@ const FavoritesProperty = (props: FavoritesPropertyType) => {
                 rounded
                 label={view === 'map' ? translateTo('List view', lang) : translateTo('Map view', lang)}
                 leftIcon={view === 'map' ? 'lists' : 'roadmap'}
-                theme="dark"
-                themeSat={700}
+                theme="text"
+                themeSat={900}
                 onClick={() => onClickMapNav()}
               />
             </div>

@@ -347,7 +347,7 @@ function PageHeader(props: PageHeaderType) {
                   <BrixelButtonIcon
                     className="dis-b hide-lg"
                     icon="arrow-left-small"
-                    theme="dark"
+                    theme="text"
                     ghost
                     onClick={() => urlBackAction()}
                   />

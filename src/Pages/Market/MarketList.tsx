@@ -291,7 +291,7 @@ const MarketList = (props: MarketListType) => {
           <BrixelButtonPrimary
             label={translateTo('Map View', lang)}
             rounded
-            theme="dark"
+            theme="text"
             leftIcon="roadmap"
             className={openMap ? 'slideOut' : ''}
             onClick={() => { setOpenMap(true); }}
@@ -304,7 +304,8 @@ const MarketList = (props: MarketListType) => {
                 <BrixelButtonIcon
                   secondary
                   small
-                  theme="light"
+                  theme="text"
+                  themeSat={300}
                   onClick={() => handleMapClose()}
                   icon="arrow-simple-left"
                   className="pos-r"
@@ -366,7 +367,7 @@ const MarketList = (props: MarketListType) => {
               windowDimensions.width <= 1024 && !activeProperty && (
                 <BrixelButtonIcon
                   ghost
-                  theme="dark"
+                  theme="text"
                   onClick={() => handleMapClose()}
                   icon="close-small"
                   className="pos-a-fix x-r-0 zIndex1 mt-10 mr-2"

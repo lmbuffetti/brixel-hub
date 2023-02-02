@@ -525,7 +525,7 @@ const ScanTrialFlow = (props: ScanTrialFlowType) => {
                       <div className="w-perc-100 a-c dis-fl-row m-a jc-c mt-2">
                         <BrixelButtonText
                           label={translateTo('Not now', lang)}
-                          theme="dark"
+                          theme="text"
                           themeSat={200}
                           onClick={() => closeWindow()}
                         />

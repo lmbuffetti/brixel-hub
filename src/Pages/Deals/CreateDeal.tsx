@@ -95,7 +95,7 @@ const CreateDeal = (props: CreateDealType) => {
           <div>
             <BrixelButtonIcon
               ghost
-              theme="dark"
+              theme="text"
               icon="close-small"
               onClick={() => history.push(`/${activeSingleProperty.id}/prospects`)}
             />

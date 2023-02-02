@@ -601,7 +601,8 @@ const AddShowingsBuyer = (props: AddShowingsBuyerType) => {
                             setShowResizer(false);
                             setChooseDatesOpen(true);
                           }}
-                          theme="light"
+                          theme="text"
+                          themeSat={300}
                           secondary
                         />
                       )

@@ -183,7 +183,7 @@ const SingleDocument = (props: SingleDocumentType) => {
                 <BrixelButtonIcon
                   icon="close-small"
                   ghost
-                  theme="dark"
+                  theme="text"
                   onClick={() => {
                     changeFieldValue('documents', initialValues.documents || []);
                     history.push(`/${activeSingleProperty.id}/docubox`);
@@ -319,7 +319,7 @@ const SingleDocument = (props: SingleDocumentType) => {
               <div className="bottom dis-fl-row jc-fe w-perc-100 h-perc-100">
                 <BrixelButtonSecondary
                   className="edit mr-2"
-                  theme="dark"
+                  theme="text"
                   rounded
                   small
                   label={translateTo('Cancel', lang)}

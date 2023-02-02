@@ -129,7 +129,7 @@ const MarketCardFavorites = (props: MarketCardEstimationType) => {
                 <div className="dis-fl-row a-c pos-r">
                   <BrixelButtonIcon
                     ghost
-                    theme="dark"
+                    theme="text"
                     icon="options-vertical"
                     onClick={() => setActionDetailsOpen({
                       id: actionDetailsOpen.id === activeSingleProperty.id ? null : activeSingleProperty.id,

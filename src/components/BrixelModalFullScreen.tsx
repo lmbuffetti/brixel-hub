@@ -22,7 +22,7 @@ const BrixelModalFullScreen = (props: BrixelModalFullScreenType) => {
             <div className="dis-f a-c">
               <BrixelButtonIcon
                 icon="close-small"
-                theme="dark"
+                theme="text"
                 ghost
                 className="as-c"
                 onClick={() => onClose()}

@@ -191,7 +191,7 @@ const SearchProfileList = (props: SearchProfileListType) => {
                           isLoading={isSmallLoading[`saveData${searchProfile.id}`]}
                           icon="options-vertical"
                           className="ml-a"
-                          theme="dark"
+                          theme="text"
                           ghost
                           bgTransparent
                           onClick={() => setIsOptionsOpen({

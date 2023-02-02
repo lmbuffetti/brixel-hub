@@ -70,7 +70,7 @@ const Pagination = (props: PaginationType) => {
                     <BrixelButtonIcon
                       ghost
                       small
-                      theme="dark"
+                      theme="text"
                       icon="arrow-simple-left"
                     />
                   </span>
@@ -151,7 +151,7 @@ const Pagination = (props: PaginationType) => {
                     <BrixelButtonIcon
                       small
                       ghost
-                      theme="dark"
+                      theme="text"
                       icon="arrow-simple-right"
                       bgTransparent
                     />

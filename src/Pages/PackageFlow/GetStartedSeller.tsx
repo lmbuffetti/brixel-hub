@@ -668,7 +668,8 @@ const GetStartedSeller = (props: GetStartedSellerType) => {
                             className="backBtn pos-a x-l"
                             icon="arrow-left-small"
                             onClick={() => changeStep('back')}
-                            theme="light"
+                            theme="text"
+                            themeSat={300}
                             secondary
                           />
                         )
