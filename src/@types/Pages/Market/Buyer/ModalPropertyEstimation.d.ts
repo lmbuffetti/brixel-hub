@@ -1,6 +1,10 @@
-import {PropertyType} from '@brixel/brixel-components/dist/@types/Model';
+import {EstimationType} from '@brixel/brixel-components/dist/@types/Model';
 
 export interface ModalPropertyEstimationType {
+  handleGenerateEstimation: (data: object) => void;
+  isSmallLoading: {
+    generateEstimation: boolean;
+  };
   lang: string;
-  ownerEstimations: PropertyType[];
+  ownerEstimations: EstimationType[];
 }

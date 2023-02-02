@@ -10,12 +10,15 @@ import {
 import get from 'lodash/get';
 import {connect} from 'react-redux';
 import {useLocation, useNavigate, useParams} from 'react-router-dom';
-import {compose} from 'redux';
+import {bindActionCreators, compose} from 'redux';
 import CoverEstimationGreenImg from '../../../images/Market/icnEstimationGreen.svg';
 import CoverEstimationYellowImg from '../../../images/Market/icnEstimationYellow.svg';
 import type {ModalPropertyEstimationType} from '../../../@types/Pages/Market/Buyer/ModalPropertyEstimation';
 import {ExtraFeatureTypeList} from '@brixel/brixel-components/dist/@types/components/Form/BrixelExtraFeature';
 import translateTo from '../../../utils/translation';
+import BrixelButtonPrimary from '@brixel/brixel-components/dist/components/BrixelButtonPrimary';
+import {generateEstimation} from '../../../actions/EstimationActions';
+import {EstimationType} from '@brixel/brixel-components/dist/@types/Model';
 
 const { factsOptions } = FactsOptions;
 
@@ -26,11 +29,13 @@ const ModalPropertyEstimation = (props: ModalPropertyEstimationType) => {
   };
   const match = useParams();
   const {
+    handleGenerateEstimation,
+    isSmallLoading,
     lang,
     ownerEstimations,
   } = props;
   // STATE
-  const [activeEstimation, setActiveEstimation] = useState({})
+  const [activeEstimation, setActiveEstimation] = useState<EstimationType>()
   const [showDetail, setShowDetail] = useState(false)
   const [activeExtraFeatures, setActiveExtraFeatures] = useState<ExtraFeatureTypeList[]>([]);
   // URL PARAMS
@@ -68,6 +73,16 @@ const ModalPropertyEstimation = (props: ModalPropertyEstimationType) => {
 
   const onClose = () => {
     history.push('/buy/estimations');
+  }
+
+  const onUpdateEstimation = () => {
+    if (activeEstimation) {
+      const data = {
+        id: activeEstimation.id,
+        smallLoader: 'generateEstimation',
+      };
+      handleGenerateEstimation(data)
+    }
   }
 
   return (
@@ -357,6 +372,16 @@ const ModalPropertyEstimation = (props: ModalPropertyEstimationType) => {
             label={translateTo('Close', lang)}
             onClick={() => onClose()}
           />
+          {
+            activeEstimation && !get(activeEstimation, 'result.available', false) && (
+              <BrixelButtonPrimary
+                rounded
+                isLoading={isSmallLoading.generateEstimation}
+                label={translateTo('Update Estimation', lang)}
+                onClick={() => onUpdateEstimation()}
+              />
+            )
+          }
         </div>
 
       </div>
@@ -365,10 +390,15 @@ const ModalPropertyEstimation = (props: ModalPropertyEstimationType) => {
 }
 
 const mapStateToProps = (state) => ({
+  isSmallLoading: get(state, 'common.isSmallLoading', {}),
   lang: get(state, 'common.language', 'en'),
   ownerEstimations: get(state, 'market.ownerEstimations.data', []),
 })
 
+const mapDispatchToProps = (dispatch) => ({
+  handleGenerateEstimation: bindActionCreators(generateEstimation, dispatch),
+})
+
 export default compose(
-  connect(mapStateToProps, null),
+  connect(mapStateToProps, mapDispatchToProps),
 )(ModalPropertyEstimation);
