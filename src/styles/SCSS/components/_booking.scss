@@ -7,10 +7,10 @@
     border-width: 1px;
     border-style: solid;
     opacity: 0.4;
-    border-color: map-get($lightColor, 300);
-    color: map-get($darkColor, 700);
+    border-color: map-get($textColor, 200);
+    color: map-get($textColor, 900);
     p, b {
-      color: map-get($darkColor, 700);
+      color: map-get($textColor, 900);
     }
     &.valid {
       opacity: 1;
@@ -81,9 +81,9 @@
   text-align: center;
   border-radius: $brd-radius-small;
   &.selected {
-    border-color: map-get($lightColor, 300);
+    border-color: map-get($textColor, 200);
     p, b, span {
-      color: map-get($darkColor, 700);
+      color: map-get($textColor, 900);
     }
     p {
       letter-spacing: 1.44px;

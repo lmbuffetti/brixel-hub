@@ -7,7 +7,7 @@
       }
       > a {
         display: block;
-        color: map-get($darkColor, 700);
+        color: map-get($textColor, 900);
         margin: 0;
         padding-left: calc($step * 3);
         padding-right: calc($step * 2);
@@ -46,7 +46,7 @@
         }
         padding: 4px 12px;
         a {
-          color: map-get($darkColor, 700);
+          color: map-get($textColor, 900);
           .dot {
             line-height: inherit;
             display: inline-block;

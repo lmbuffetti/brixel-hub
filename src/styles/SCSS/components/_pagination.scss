@@ -1,5 +1,5 @@
 .pagination {
-  color: map-get($darkColor, 700);
+  color: map-get($textColor, 900);
 
   ul {
     list-style-type: none;
@@ -13,7 +13,7 @@
     }
 
     i {
-      color: map-get($lightColor, 400);
+      color: map-get($textColor, 300);
     }
   }
 

@@ -54,23 +54,23 @@
       border: none;
     }
     .react-datepicker__day-names {
-      border-top: 1px solid map-get($lightColor, 300);
-      border-bottom: 1px solid map-get($lightColor, 300);
+      border-top: 1px solid map-get($textColor, 200);
+      border-bottom: 1px solid map-get($textColor, 200);
       margin-top: 8px;
     }
     .react-datepicker__current-month {
-      color: map-get($darkColor, 700);
+      color: map-get($textColor, 900);
     }
     .react-datepicker-time__header, .react-datepicker-year-header {
       color: map-get($primaryColor, 400);
     }
     .react-datepicker__day-name {
-      color: map-get($lightColor, 700);
+      color: map-get($textColor, 500);
     }
     .react-datepicker__day, .react-datepicker__time-name {
-      color: map-get($darkColor, 700);
+      color: map-get($textColor, 900);
       &.react-datepicker__day--disabled {
-        color: map-get($darkColor, 100);
+        color: map-get($textColor, 500);
       }
     }
     .react-datepicker__day--selected, .react-datepicker__day--in-selecting-range, .react-datepicker__day--in-range, .react-datepicker__month-text--selected, .react-datepicker__month-text--in-selecting-range, .react-datepicker__month-text--in-range {

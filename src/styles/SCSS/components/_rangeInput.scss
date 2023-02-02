@@ -55,12 +55,12 @@
 
     &.input-range--disabled {
       .input-range__track--active {
-        background: map-get($darkColor, 100) !important;
+        background: map-get($textColor, 500) !important;
       }
 
       .input-range__slider {
-        border-color: map-get($darkColor, 100) !important;
-        background: map-get($darkColor, 100) !important;
+        border-color: map-get($textColor, 500) !important;
+        background: map-get($textColor, 500) !important;
       }
     }
   }

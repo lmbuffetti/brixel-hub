@@ -29,7 +29,7 @@
         .header {
           @include fontStyle(400,'medium',left);
           letter-spacing: 1px;
-          color: map-get($lightColor, 700);
+          color: map-get($textColor, 500);
         }
       }
     }
@@ -108,7 +108,7 @@
               .name {
                 @include fontStyle(300,'regular',left);
                 @include line-break;
-                color: map-get($darkColor, 700);
+                color: map-get($textColor, 900);
               }
 
               .id,

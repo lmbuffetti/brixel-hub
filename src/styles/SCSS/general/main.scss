@@ -148,10 +148,10 @@ hr {
   border: none;
   display: block;
   width: 100%;
-  border-top: 1px solid map-get($lightColor, 400);
+  border-top: 1px solid map-get($textColor, 300);
 
   &.lighter {
-    border-color: map-get($lightColor, 200);
+    border-color: map-get($textColor, 100);
   }
 
   &.white {
@@ -247,19 +247,19 @@ header {
 
   span {
     @include fontStyle(300);
-    color: map-get($darkColor, 700);
+    color: map-get($textColor, 900);
   }
 }
 
 .langMenu {
-  background-color: map-get($lightColor, 200) !important;
+  background-color: map-get($textColor, 100) !important;
   border-radius: 50px !important;
   padding-left: $step;
   padding-right: $step;
   transition: background-color 0.4s ease;
 
   &:hover {
-    background-color: map-get($lightColor, 300) !important;
+    background-color: map-get($textColor, 200) !important;
   }
 
   .title {
@@ -1039,7 +1039,7 @@ input::-webkit-date-and-time-value {
       mask-image: url('#{$imgRootpath}images/Icons/svg/check.svg?url');
       mask-size: contain;
       mask-position: center;
-      background: map-get($darkColor, 400);
+      background: map-get($textColor, 700);
       display: block;
       width: 20px;
       height: 20px;

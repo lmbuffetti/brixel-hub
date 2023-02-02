@@ -183,7 +183,7 @@
         background-position: center;
         position: absolute;
         left: 0;
-        background-color: map-get($darkColor, 700);
+        background-color: map-get($textColor, 900);
       }
 
       list-style: none;
@@ -207,7 +207,7 @@
 .packageWrap.regularPackage {
 
   .packageBox {
-    border: 1px solid map-get($lightColor, 200);
+    border: 1px solid map-get($textColor, 100);
     border-radius: $brd-radius-small;
     max-width: 400px;
 
@@ -298,18 +298,18 @@
   }
 
   .one {
-    border-color: map-get($darkColor, 700);
+    border-color: map-get($textColor, 900);
     h4 {
-      color: map-get($darkColor, 700);
+      color: map-get($textColor, 900);
     }
     h6:not([class*=bg]) {
-      background-color: map-get($darkColor, 700);
+      background-color: map-get($textColor, 900);
     }
 
     ul.checked {
       li {
         &:before {
-          background-color: map-get($darkColor, 700);
+          background-color: map-get($textColor, 900);
         }
       }
     }
@@ -326,7 +326,7 @@
       color: map-get($redColor, 400);
     }
     &.one {
-      color: map-get($darkColor, 700);
+      color: map-get($textColor, 900);
     }
   }
 

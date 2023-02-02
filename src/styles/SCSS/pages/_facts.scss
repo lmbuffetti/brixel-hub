@@ -1,11 +1,11 @@
 .accordWrap {
   &:first-child {
     .accordControl {
-      border-top: 1px solid map-get($lightColor, 200);
+      border-top: 1px solid map-get($textColor, 100);
     }
   }
   .accordControl {
-    border-bottom: 1px solid map-get($lightColor, 200);
+    border-bottom: 1px solid map-get($textColor, 100);
     transition: $default-time ease-in-out;
   }
   &:last-child {
@@ -24,7 +24,7 @@
     .accordControl {
       background: map-get($blueColor, 100);
       .onHover {
-        color: map-get($darkColor, 400);;
+        color: map-get($textColor, 700);;
       }
     }
   }
