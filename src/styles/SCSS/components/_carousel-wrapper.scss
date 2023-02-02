@@ -2,7 +2,7 @@ $trans_func: cubic-bezier(0.39, 0.575, 0.565, 1);
  .darkCheckList {
    li {
      list-style: none;
-     margin-bottom: $step * 2;
+     margin-bottom: calc($step * 2);
       position: relative;
       padding-left: 26px;
       line-height: 18px;
@@ -25,7 +25,7 @@ $trans_func: cubic-bezier(0.39, 0.575, 0.565, 1);
    &.dis-in {
      li {
        display: inline-block;
-       margin-right: $step * 2;
+       margin-right: calc($step * 2);
        @media (max-width: $responsive-small) {
         display: block;
       }

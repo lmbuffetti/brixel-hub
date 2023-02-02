@@ -2,7 +2,7 @@
   .step-item {
     position: relative;
     z-index: 1;
-    padding-right: $step * 2;
+    padding-right: calc($step * 2);
     @media (max-width: $responsive-small) {
       padding-right: $step;
     }
@@ -39,7 +39,7 @@
       }
       > span {
         padding-left: $step;
-        padding-right: $step * 2;
+        padding-right: calc($step * 2);
         @media (max-width: $responsive-medium) {
           padding-right: $step;
         }
