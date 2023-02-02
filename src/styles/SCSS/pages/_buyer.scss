@@ -85,7 +85,7 @@ $responsive-desktop: map-get($grid-breakpoints, xl );
   justify-content: flex-start;
 
   .closePanel {
-    border-bottom: 1px solid map-get($lightColor, 200);
+    border-bottom: 1px solid map-get($textColor, 100);
   }
 
   &.open {

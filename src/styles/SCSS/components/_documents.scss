@@ -1,7 +1,7 @@
 .docubox {
 
   .docubox-header {
-    border-bottom: 1px solid map_get($lightColor, 300);
+    border-bottom: 1px solid map-get($lightColor, 300);
   }
 
   .name div:nth-child(2) {
@@ -10,7 +10,7 @@
   }
 
   .single-document {
-    border-bottom: 1px solid map_get($lightColor, 200);
+    border-bottom: 1px solid map-get($lightColor, 200);
     cursor: grab;
 
     &:last-child {
@@ -46,6 +46,6 @@
   height: 5px;
   position: absolute;
   bottom: 0;
-  background: map_get($primaryColor, 400);
+  background: map-get($primaryColor, 400);
   transition: all $default-time;
 }

@@ -1,8 +1,8 @@
 .bgCardGreenDark {
-  background-color: map_get($primaryColor, 300);
+  background-color: map-get($primaryColor, 300);
 }
 .bgCardGreen {
-  background-color: map_get($primaryColor, 200);
+  background-color: map-get($primaryColor, 200);
 }
 
 .flowBody {
@@ -154,7 +154,7 @@
               border-radius: 8px;
 
               path, use {
-                // fill: map_get($greenColor, 700);
+                // fill: map-get($greenColor, 700);
               }
             }
           }
@@ -499,11 +499,11 @@ body:not(.overlayOpen).locationInputResume {
 .onBoardingSignUp {
   .required-state {
     .checkmark {
-      border-color: map_get($redColor, 400);
+      border-color: map-get($redColor, 400);
     }
     .policyText *,
     .policyText {
-      color: map_get($redColor, 400);
+      color: map-get($redColor, 400);
     }
   }
 }
@@ -540,7 +540,7 @@ body:not(.overlayOpen).locationInputResume {
     }
   }
   .supportBtn {
-    background-color: map_get($primaryColor, 200);
+    background-color: map-get($primaryColor, 200);
     @media (min-width: $responsive-medium) {
       background-color: transparent;
     }
@@ -586,7 +586,7 @@ body:not(.overlayOpen).locationInputResume {
       span {
         margin-bottom: calc($step * 2);
         font-weight: 600;
-        color: map-get($darkColor, 700);
+        color: map-get($textColor, 900);
       }
     }
   }

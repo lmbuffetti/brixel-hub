@@ -21,14 +21,14 @@
     button {
       transition: color $default-time $default-easing;
       &:hover:not(.active) {
-        color: map_get($primaryColor, 400);
+        color: map-get($primaryColor, 400);
       }
       &.noRadius {
         border-radius: 0;
       }
       &.active {
         i {
-          color: map_get($primaryColor, 400);
+          color: map-get($primaryColor, 400);
         }
       }
     }
@@ -89,7 +89,7 @@
   display: flex;
   align-content: center;
   justify-content: center;
-  background: map_get($redColor, 500);
+  background: map-get($redColor, 500);
   color: $brx-white !important;
   border-radius: 50%;
   @include fontStyle(100, 'medium');
@@ -194,7 +194,7 @@
   max-width: 180px;
   display: block;
   transform: translate(100%, -100%);
-  background: map-get($darkColor, 400);
+  background: map-get($textColor, 700);
   border-radius: $step;
   padding: calc($step / 2) $step;
   color: $brx-white;
@@ -212,7 +212,7 @@
     height: 0;
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
-    border-bottom: 5px solid map-get($darkColor, 400);
+    border-bottom: 5px solid map-get($textColor, 700);
     transform: translateY(-50%) translateX(-75%) rotate(-90deg);
   }
 }
@@ -228,15 +228,15 @@
     }
 
     &:hover {
-      background-color: map-get($lightColor, 100);
+      background-color: map-get($textColor, 25);
       color: map-get($primaryColor, 500);
     }
     &:active {
-      background-color: map-get($lightColor, 200);
+      background-color: map-get($textColor, 100);
       color: map-get($primaryColor, 600);
     }
     &.active {
-      background-color: map-get($lightColor, 200);
+      background-color: map-get($textColor, 100);
       color: map-get($primaryColor, 700);
     }
 

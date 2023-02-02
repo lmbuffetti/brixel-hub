@@ -1,5 +1,5 @@
 .pagination {
-  color: map_get($darkColor, 700);
+  color: map-get($darkColor, 700);
 
   ul {
     list-style-type: none;
@@ -13,7 +13,7 @@
     }
 
     i {
-      color: map_get($lightColor, 400);
+      color: map-get($lightColor, 400);
     }
   }
 
@@ -35,7 +35,7 @@
 
       &:hover,
       &.active {
-        background: map_get($greenColor, 400);
+        background: map-get($greenColor, 400);
         color: $brx-white
       }
 

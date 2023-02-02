@@ -19,7 +19,7 @@ $grid-breakpoints: (
   xl: 1425px,
   xxl: 1920px,
 );
-$responsive-medium: map_get($grid-breakpoints, md);
+$responsive-medium: map-get($grid-breakpoints, md);
 $responsive-desktop: map-get($grid-breakpoints, xl);
 
 @import '~@brixel/brixel-components/dist/styles/SCSS/general/variables';
@@ -29,7 +29,7 @@ $sidebarWidth: 176px;
 $sidebarWidthCollapsed: 70px;
 /* Color array to be used with randomizer for avatar background*/
 $avatarColors:  map-get($primaryColor, 300),
-                map-get($darkColor, 300),
+                map-get($textColor, 700),
                 map-get($redColor, 300),
                 map-get($greenColor, 300),
                 map-get($yellowColor, 300),
@@ -105,7 +105,7 @@ body {
       .mobile-menu {
 
         a:hover {
-          /*color: map-get($lightColor, 100);*/
+          /*color: map-get($textColor, 25);*/
         }
       }
 
@@ -126,10 +126,10 @@ a {
   text-decoration: none;
 
   &:not([class*="txt"]) {
-    color: map_get($primaryColor, 400);
+    color: map-get($primaryColor, 400);
 
     &:hover {
-      color: map_get($primaryColor, 600);
+      color: map-get($primaryColor, 600);
     }
   }
 }
@@ -148,10 +148,10 @@ hr {
   border: none;
   display: block;
   width: 100%;
-  border-top: 1px solid map_get($lightColor, 400);
+  border-top: 1px solid map-get($lightColor, 400);
 
   &.lighter {
-    border-color: map_get($lightColor, 200);
+    border-color: map-get($lightColor, 200);
   }
 
   &.white {
@@ -211,7 +211,7 @@ header {
 .brxNotification {
   z-index: 10;
   display: flex;
-  background: map_get($blueColor, 100);
+  background: map-get($blueColor, 100);
   padding: $step;
   border-radius: $brd-radius-small;
   align-items: center;
@@ -238,7 +238,7 @@ header {
   }
 
   i {
-    background: map_get($greenColor, 400);
+    background: map-get($greenColor, 400);
     border-radius: 50%;
     color: $brx-white;
     padding: 9px;
@@ -247,19 +247,19 @@ header {
 
   span {
     @include fontStyle(300);
-    color: map_get($darkColor, 700);
+    color: map-get($darkColor, 700);
   }
 }
 
 .langMenu {
-  background-color: map_get($lightColor, 200) !important;
+  background-color: map-get($lightColor, 200) !important;
   border-radius: 50px !important;
   padding-left: $step;
   padding-right: $step;
   transition: background-color 0.4s ease;
 
   &:hover {
-    background-color: map_get($lightColor, 300) !important;
+    background-color: map-get($lightColor, 300) !important;
   }
 
   .title {
@@ -317,7 +317,7 @@ header {
 
         &:after {
           content: '';
-          background-color: map_get($primaryColor, 400);
+          background-color: map-get($primaryColor, 400);
           -webkit-mask-image: url('#{$imgRootpath}images/Icons/svg/plus.svg?url');
           mask-image: url('#{$imgRootpath}images/Icons/svg/plus.svg?url');
           display: block;
@@ -329,11 +329,11 @@ header {
         }
 
         &:last-child {
-          border-top: 1px solid map_get($primaryColor, 100) !important;
+          border-top: 1px solid map-get($primaryColor, 100) !important;
 
           &:after {
             content: '';
-            background-color: map_get($primaryColor, 400);
+            background-color: map-get($primaryColor, 400);
             -webkit-mask-image: url('#{$imgRootpath}images/Icons/svg/minus.svg?url');
             mask-image: url('#{$imgRootpath}images/Icons/svg/minus.svg?url');
             display: block;
@@ -462,7 +462,7 @@ img {
         width: 100%;
         @include fontStyle(400);
         font-weight: 400;
-        color: map-get($darkColor, 700);
+        color: map-get($textColor, 900);
 
         +div {
           width: 100%;
@@ -502,7 +502,7 @@ img {
 .flowBody label.txtDark200,
 .singleInput label.txtDark200,
 .singleInput label.brixel-label {
-  // color: map-get($darkColor, 500) !important;
+  // color: map-get($textColor, 800) !important;
   // @include fontStyle(400);
   // font-weight: 500;
 } */
@@ -528,7 +528,7 @@ img {
   margin-bottom: calc($step * 3);
 
   &:not(:last-child) {
-    border-bottom: 1px solid map-get($lightColor, 200);
+    border-bottom: 1px solid map-get($textColor, 100);
   }
 }
 
@@ -540,7 +540,7 @@ img {
   &.brixel-switch-button {
 
     .labelText {
-      color: map-get($darkColor, 700);
+      color: map-get($textColor, 900);
       max-width: 400px;
       margin-left: 0;
       padding-right: calc($step * 2);
@@ -634,7 +634,7 @@ sub {
   font-size: 1rem;
 
   &:not([class*=txt]) {
-    color: map_get($primaryColor, 400);
+    color: map-get($primaryColor, 400);
   }
   &:focus,
   &:hover,
@@ -833,7 +833,7 @@ button.minimum-w-210 {
   border-radius: calc($step * 3);
 }
 .brdLeftLight {
-  border-left: 1px solid  map-get($lightColor, 400);;
+  border-left: 1px solid  map-get($textColor, 300);;
 }
 
 .linkWrap {
@@ -1039,7 +1039,7 @@ input::-webkit-date-and-time-value {
       mask-image: url('#{$imgRootpath}images/Icons/svg/check.svg?url');
       mask-size: contain;
       mask-position: center;
-      background: map_get($darkColor, 400);
+      background: map-get($darkColor, 400);
       display: block;
       width: 20px;
       height: 20px;
@@ -1050,7 +1050,7 @@ input::-webkit-date-and-time-value {
   &.green {
     li {
       &:before {
-        background: map_get($greenColor, 400);
+        background: map-get($greenColor, 400);
       }
     }
   }
@@ -1137,7 +1137,7 @@ input::-webkit-date-and-time-value {
 .filterBorder {
   border-color: white;
   @media (max-width: $responsive-medium) {
-    border-color: map-get($lightColor, 200);
+    border-color: map-get($textColor, 100);
   }
 }
 .modalTitleClass {

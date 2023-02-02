@@ -9,7 +9,7 @@
   .bars {
 
     .single-bar {
-      background-color: map-get($lightColor, 400);
+      background-color: map-get($textColor, 300);
 
       &.hover-active {
         &:hover {

@@ -4,7 +4,7 @@
   height: calc(100% - 80px);
   top: 38px;
   width: 1px;
-  background: map_get($lightColor, 200);
+  background: map-get($lightColor, 200);
 }
 
 .dotTimelineDone {
@@ -16,7 +16,7 @@
   height: 9px;
   display: block;
   border-radius: 50%;
-  background: map_get($lightColor, 300);
+  background: map-get($lightColor, 300);
   box-shadow: $shadow-3dp;
 }
 
@@ -29,7 +29,7 @@
   height: 9px;
   display: block;
   border-radius: 50%;
-  background: map_get($lightColor, 100);
-  border: 3px solid map_get($lightColor, 300);
+  background: map-get($lightColor, 100);
+  border: 3px solid map-get($lightColor, 300);
   box-shadow: $shadow-3dp;
 }

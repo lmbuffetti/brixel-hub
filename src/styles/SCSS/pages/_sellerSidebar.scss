@@ -20,7 +20,7 @@
     width: 0;
     left: 0;
     top: - 24px;
-    border-left: 1px solid map-get($lightColor, 300);
+    border-left: 1px solid map-get($textColor, 200);
   }
 }
 
@@ -59,7 +59,7 @@
         transform: translateY(-50%);
         width: 150%;
         height: 1px;
-        background-color: map-get($darkColor, 700);;
+        background-color: map-get($textColor, 900);;
       }
     }
     &.active {

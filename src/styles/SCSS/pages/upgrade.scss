@@ -25,7 +25,7 @@
       border: none;
       border-collapse: collapse;
       margin-bottom: 1em;
-      color: map-get($darkColor, 700);
+      color: map-get($textColor, 900);
       text-align: left;
       border-radius: 8px;
       background-color: white;
@@ -100,7 +100,7 @@
     max-width: 400px;
 
     &:nth-child(1) {
-      border-color: map-get($darkColor, 700);
+      border-color: map-get($textColor, 900);
       max-width: 400px;
 
       @media (min-width: $responsive-medium) {
@@ -183,7 +183,7 @@
         background-position: center;
         position: absolute;
         left: 0;
-        background-color: map_get($darkColor, 700);
+        background-color: map-get($darkColor, 700);
       }
 
       list-style: none;
@@ -207,7 +207,7 @@
 .packageWrap.regularPackage {
 
   .packageBox {
-    border: 1px solid map_get($lightColor, 200);
+    border: 1px solid map-get($lightColor, 200);
     border-radius: $brd-radius-small;
     max-width: 400px;
 
@@ -244,72 +244,72 @@
   }
 /*
   .basic {
-    border-color: map_get($greenColor, 700);
+    border-color: map-get($greenColor, 700);
     h4 {
-      color: map_get($greenColor, 700);
+      color: map-get($greenColor, 700);
     }
     h6:not([class*=bg]) {
-      background-color: map_get($greenColor, 700);
+      background-color: map-get($greenColor, 700);
     }
 
     ul.checked {
       li {
         &:before {
-          background-color: map_get($greenColor, 700);
+          background-color: map-get($greenColor, 700);
         }
       }
     }
   }
 
   .private {
-    border-color: map_get($blueColor, 400);
+    border-color: map-get($blueColor, 400);
     h4 {
-      color: map_get($blueColor, 400);
+      color: map-get($blueColor, 400);
     }
     h6:not([class*=bg]) {
-      background-color: map_get($blueColor, 400);
+      background-color: map-get($blueColor, 400);
     }
 
     ul.checked {
       li {
         &:before {
-          background-color: map_get($blueColor, 400);
+          background-color: map-get($blueColor, 400);
         }
       }
     }
   }
 
   .premium {
-    border-color: map_get($redColor, 400);
+    border-color: map-get($redColor, 400);
     h4 {
-      color: map_get($redColor, 400);
+      color: map-get($redColor, 400);
     }
     h6:not([class*=bg]) {
-      background-color: map_get($redColor, 400);
+      background-color: map-get($redColor, 400);
     }
 
     ul.checked {
       li {
         &:before {
-          background-color: map_get($redColor, 400);
+          background-color: map-get($redColor, 400);
         }
       }
     }
   }
 
   .one {
-    border-color: map_get($darkColor, 700);
+    border-color: map-get($darkColor, 700);
     h4 {
-      color: map_get($darkColor, 700);
+      color: map-get($darkColor, 700);
     }
     h6:not([class*=bg]) {
-      background-color: map_get($darkColor, 700);
+      background-color: map-get($darkColor, 700);
     }
 
     ul.checked {
       li {
         &:before {
-          background-color: map_get($darkColor, 700);
+          background-color: map-get($darkColor, 700);
         }
       }
     }
@@ -317,16 +317,16 @@
 
   span {
     &.basic {
-      color: map_get($primaryColor, 700);
+      color: map-get($primaryColor, 700);
     }
     &.private {
-      color: map_get($blueColor, 400);
+      color: map-get($blueColor, 400);
     }
     &.premium {
-      color: map_get($redColor, 400);
+      color: map-get($redColor, 400);
     }
     &.one {
-      color: map_get($darkColor, 700);
+      color: map-get($darkColor, 700);
     }
   }
 
@@ -350,7 +350,7 @@
         background-position: center;
         position: absolute;
         left: 0;
-        background-color: map_get($primaryColor, 400);
+        background-color: map-get($primaryColor, 400);
       }
 
       list-style: none;

@@ -32,7 +32,7 @@
     }
 
     .input-range__slider {
-      border-color: map_get($primaryColor, 400) !important;
+      border-color: map-get($primaryColor, 400) !important;
       width: 24px;
       height: 24px;
       margin-left: -12px;
@@ -44,23 +44,23 @@
     }
 
     .input-range__track--active {
-      // background: map_get($primaryColor, 600) !important;
+      // background: map-get($primaryColor, 600) !important;
     }
 
     &:not(.input-range--disabled) {
       .input-range__slider {
-        background: map_get($blueColor, 700) !important;
+        background: map-get($blueColor, 700) !important;
       }
     }
 
     &.input-range--disabled {
       .input-range__track--active {
-        background: map_get($darkColor, 100) !important;
+        background: map-get($darkColor, 100) !important;
       }
 
       .input-range__slider {
-        border-color: map_get($darkColor, 100) !important;
-        background: map_get($darkColor, 100) !important;
+        border-color: map-get($darkColor, 100) !important;
+        background: map-get($darkColor, 100) !important;
       }
     }
   }

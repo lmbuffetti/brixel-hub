@@ -1,6 +1,6 @@
 #bodyModalWrapper {
   &:not([class*="bg"]) {
-    background-color: map_get($lightColor, 100);
+    background-color: map-get($lightColor, 100);
   }
   width: 100%;
   flex: 1;
@@ -198,7 +198,7 @@
     }
     .boxMarketCheck {
       border-radius: $brd-radius-small;
-      border: 1px solid map_get($lightColor, 200);
+      border: 1px solid map-get($lightColor, 200);
       display: flex;
       justify-content: space-between;
       align-items: stretch;
@@ -213,7 +213,7 @@
         justify-content: center;
 
         &:not(:last-child) {
-          border-right: 1px solid map_get($lightColor, 200);
+          border-right: 1px solid map-get($lightColor, 200);
         }
 
         p {

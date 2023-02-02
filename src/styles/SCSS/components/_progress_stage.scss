@@ -22,7 +22,7 @@
       display: block;
       height: 1px;
       width: 100%;
-      background:map_get($altGreyColor, 300);
+      background:map-get($altGreyColor, 300);
       position: absolute;
       z-index: -1;
       left: 0;
@@ -35,7 +35,7 @@
       border-radius: $brd-radius-circle;
       background: $brx-white;
       &:not(.smallStep) {
-        border: 1px solid map_get($altGreyColor, 100);
+        border: 1px solid map-get($altGreyColor, 100);
       }
       > span {
         padding-left: $step;
@@ -52,48 +52,48 @@
         justify-content: center;
         align-items: center;
         background: $brx-white;
-        color: map_get($altGreyColor, 400);
-        border: 1px solid map_get($altGreyColor, 100);
+        color: map-get($altGreyColor, 400);
+        border: 1px solid map-get($altGreyColor, 100);
         position: relative;
         left: -1px;
       }
       .stepNumber {
-        color: map_get($altGreyColor, 400);
+        color: map-get($altGreyColor, 400);
         font-family: $font-family-secondary;
       }
       .stepLabel {
-        color: map_get($altGreyColor, 400);
+        color: map-get($altGreyColor, 400);
       }
     }
     &.active {
       &:before {
-        background: map_get($primaryColor, 400);
+        background: map-get($primaryColor, 400);
       }
       .wrap-step:not(.xsmallStep) {
-        border: 1px solid map_get($primaryColor, 400);
+        border: 1px solid map-get($primaryColor, 400);
       }
       .circle {
-        border: 1px solid map_get($primaryColor, 400);
+        border: 1px solid map-get($primaryColor, 400);
       }
       .stepNumber {
-        color: map_get($primaryColor, 400);
+        color: map-get($primaryColor, 400);
       }
       .stepLabel {
-        color: map_get($primaryColor, 400);
+        color: map-get($primaryColor, 400);
       }
     }
     &.done {
       &:before {
-        background: map_get($primaryColor, 400);
+        background: map-get($primaryColor, 400);
       }
       .circle {
-        border: 1px solid map_get($primaryColor, 400);
+        border: 1px solid map-get($primaryColor, 400);
       }
       .stepNumber {
-        color: map_get($primaryColor, 400);
+        color: map-get($primaryColor, 400);
       }
       .stepLabel {
-        color: map_get($primaryColor, 400);
+        color: map-get($primaryColor, 400);
       }
     }
 
