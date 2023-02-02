@@ -168,7 +168,7 @@
     background-color: #FFFFFF;
     pointer-events: none;
     white-space: nowrap;
-    border: 1px solid map-get($textColor, 300);
+    border: 1px solid map-get($textColor, 200);
     border-radius: $brd-radius-small;
 
     .num {

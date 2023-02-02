@@ -234,7 +234,7 @@ body .dashboardContainer.prospects {
     filter: grayscale(1);
 
     &.winner {
-      background-color: map-get($greenColor, 100);
+      background-color: map-get($greenColor, 50);
     }
   }
 
@@ -253,7 +253,7 @@ body .dashboardContainer.prospects {
 
 
 .cardTag {
-  background-color: map-get($textColor, 100);
+  background-color: map-get($textColor, 50);
   padding: calc($step / (2 * $step));
   @include fontStyle(100);
   color: map-get($textColor, 900);
@@ -263,7 +263,7 @@ body .dashboardContainer.prospects {
   line-height: 17px;
 
   &.winner {
-    background-color: map-get($greenColor, 200);
+    background-color: map-get($greenColor, 100);
   }
 }
 

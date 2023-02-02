@@ -195,7 +195,7 @@ $lightColorNew2: #F0F0F2;
   position: relative;
   margin-top: calc($step * 2);
   width: 100%;
-  background-color: map-get($textColor, 100);
+  background-color: map-get($textColor, 50);
   border-radius: $step;
 
   &::after {

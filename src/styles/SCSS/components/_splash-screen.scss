@@ -183,7 +183,7 @@
         }
 
         &.red {
-          background-color: map-get($redColor, 100);
+          background-color: map-get($redColor, 50);
 
           .title {
             @include fontStyle(500,'medium',left);
@@ -192,7 +192,7 @@
         }
 
         &.green {
-          background-color: map-get($greenColor, 100);
+          background-color: map-get($greenColor, 50);
 
           .title {
             @include fontStyle(500,'medium',left);
@@ -210,7 +210,7 @@
 }
 
 .noMatchProperty {
-  border: 2px dotted map-get($textColor, 100);
+  border: 2px dotted map-get($textColor, 50);
 }
 
 

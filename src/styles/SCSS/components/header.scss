@@ -116,7 +116,7 @@
   .brixel-select {
     @media (max-width: 767px) {
       padding-right: 8px;
-      border: 1px solid map-get($textColor, 200) !important;
+      border: 1px solid map-get($textColor, 100) !important;
       border-radius: calc($step / 2);
     }
   }

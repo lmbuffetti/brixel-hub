@@ -232,11 +232,11 @@
       color: map-get($primaryColor, 500);
     }
     &:active {
-      background-color: map-get($textColor, 100);
+      background-color: map-get($textColor, 50);
       color: map-get($primaryColor, 600);
     }
     &.active {
-      background-color: map-get($textColor, 100);
+      background-color: map-get($textColor, 50);
       color: map-get($primaryColor, 700);
     }
 

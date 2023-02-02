@@ -28,12 +28,12 @@ $responsive-desktop: map-get($grid-breakpoints, xl);
 $sidebarWidth: 176px;
 $sidebarWidthCollapsed: 70px;
 /* Color array to be used with randomizer for avatar background*/
-$avatarColors:  map-get($primaryColor, 300),
+$avatarColors:  map-get($primaryColor, 200),
                 map-get($textColor, 700),
-                map-get($redColor, 300),
-                map-get($greenColor, 300),
+                map-get($redColor, 200),
+                map-get($greenColor, 200),
                 map-get($yellowColor, 300),
-                map-get($blueColor, 300);
+                map-get($blueColor, 200);
 
 /* DASHBOARD STUFF */
 @import "./windows",
@@ -148,10 +148,10 @@ hr {
   border: none;
   display: block;
   width: 100%;
-  border-top: 1px solid map-get($textColor, 300);
+  border-top: 1px solid map-get($textColor, 200);
 
   &.lighter {
-    border-color: map-get($textColor, 100);
+    border-color: map-get($textColor, 50);
   }
 
   &.white {
@@ -211,7 +211,7 @@ header {
 .brxNotification {
   z-index: 10;
   display: flex;
-  background: map-get($blueColor, 100);
+  background: map-get($blueColor, 50);
   padding: $step;
   border-radius: $brd-radius-small;
   align-items: center;
@@ -252,14 +252,14 @@ header {
 }
 
 .langMenu {
-  background-color: map-get($textColor, 100) !important;
+  background-color: map-get($textColor, 50) !important;
   border-radius: 50px !important;
   padding-left: $step;
   padding-right: $step;
   transition: background-color 0.4s ease;
 
   &:hover {
-    background-color: map-get($textColor, 200) !important;
+    background-color: map-get($textColor, 100) !important;
   }
 
   .title {
@@ -329,7 +329,7 @@ header {
         }
 
         &:last-child {
-          border-top: 1px solid map-get($primaryColor, 100) !important;
+          border-top: 1px solid map-get($primaryColor, 50) !important;
 
           &:after {
             content: '';
@@ -528,7 +528,7 @@ img {
   margin-bottom: calc($step * 3);
 
   &:not(:last-child) {
-    border-bottom: 1px solid map-get($textColor, 100);
+    border-bottom: 1px solid map-get($textColor, 50);
   }
 }
 
@@ -789,7 +789,7 @@ button.minimum-w-210 {
 
 .tagBg {
   color: white;
-  background: map-get($blueColor, 100);
+  background: map-get($blueColor, 50);
   position: relative;
   float: left;
   height: 48px;
@@ -802,7 +802,7 @@ button.minimum-w-210 {
     height: 0;
     border-top: 24px solid transparent;
     border-bottom: 24px solid transparent;
-    border-right: 16px solid map-get($blueColor, 100);
+    border-right: 16px solid map-get($blueColor, 50);
     position: absolute;
     top: 50%;
     margin-top: -24px;
@@ -833,7 +833,7 @@ button.minimum-w-210 {
   border-radius: calc($step * 3);
 }
 .brdLeftLight {
-  border-left: 1px solid  map-get($textColor, 300);;
+  border-left: 1px solid  map-get($textColor, 200);;
 }
 
 .linkWrap {
@@ -1010,7 +1010,7 @@ button.minimum-w-210 {
 }
 // todo styleguide
 .bgBlue50x25 {
-  background-color: rgba(map-get($blueColor, 100), 0.25);
+  background-color: rgba(map-get($blueColor, 50), 0.25);
 }
 .filterGray {
   filter: grayscale(1);
@@ -1137,7 +1137,7 @@ input::-webkit-date-and-time-value {
 .filterBorder {
   border-color: white;
   @media (max-width: $responsive-medium) {
-    border-color: map-get($textColor, 100);
+    border-color: map-get($textColor, 50);
   }
 }
 .modalTitleClass {

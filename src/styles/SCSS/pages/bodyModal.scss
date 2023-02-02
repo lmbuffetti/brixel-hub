@@ -198,7 +198,7 @@
     }
     .boxMarketCheck {
       border-radius: $brd-radius-small;
-      border: 1px solid map-get($textColor, 100);
+      border: 1px solid map-get($textColor, 50);
       display: flex;
       justify-content: space-between;
       align-items: stretch;
@@ -213,7 +213,7 @@
         justify-content: center;
 
         &:not(:last-child) {
-          border-right: 1px solid map-get($textColor, 100);
+          border-right: 1px solid map-get($textColor, 50);
         }
 
         p {

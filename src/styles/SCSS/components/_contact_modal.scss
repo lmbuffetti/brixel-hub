@@ -4,7 +4,7 @@
     background: transparent;
   }
   .footerInfo {
-    border-top: 1px solid map-get($textColor, 100);
+    border-top: 1px solid map-get($textColor, 50);
     position: fixed;
     bottom: 0;
     left: 0;
@@ -38,7 +38,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid map-get($textColor, 100);
+    border-bottom: 1px solid map-get($textColor, 50);
     padding-bottom: $step;
     padding-top: $step;
 

@@ -7,7 +7,7 @@
     border-width: 1px;
     border-style: solid;
     opacity: 0.4;
-    border-color: map-get($textColor, 200);
+    border-color: map-get($textColor, 100);
     color: map-get($textColor, 900);
     p, b {
       color: map-get($textColor, 900);
@@ -19,8 +19,8 @@
     &.selected {
       opacity: 1;
       cursor: pointer;
-      background: map-get($greenColor, 100);
-      border-color: map-get($greenColor, 300);
+      background: map-get($greenColor, 50);
+      border-color: map-get($greenColor, 200);
       color: map-get($greenColor, 400);
       p, b {
         color: map-get($greenColor, 400);
@@ -81,7 +81,7 @@
   text-align: center;
   border-radius: $brd-radius-small;
   &.selected {
-    border-color: map-get($textColor, 200);
+    border-color: map-get($textColor, 100);
     p, b, span {
       color: map-get($textColor, 900);
     }

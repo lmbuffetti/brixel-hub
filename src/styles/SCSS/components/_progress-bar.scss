@@ -9,18 +9,18 @@
   .bars {
 
     .single-bar {
-      background-color: map-get($textColor, 300);
+      background-color: map-get($textColor, 200);
 
       &.hover-active {
         &:hover {
-          background-color: map-get($greenColor, 200);
+          background-color: map-get($greenColor, 100);
         }
 
         &.active {
           background-color: map-get($greenColor, 400);
 
           &:hover {
-            background-color: map-get($greenColor, 200);
+            background-color: map-get($greenColor, 100);
           }
         }
       }
@@ -55,14 +55,14 @@
       .single-bar {
         &.hover-active {
           &:hover {
-            background-color: map-get($greenColor, 200);
+            background-color: map-get($greenColor, 100);
           }
 
           &.active {
             background-color: map-get($primaryColor, 400);
 
             &:hover {
-              background-color: map-get($primaryColor, 200);
+              background-color: map-get($primaryColor, 100);
             }
           }
         }

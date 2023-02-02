@@ -22,7 +22,7 @@
       }
       &.active {
         > a {
-          background-color: map-get($blueColor, 100);
+          background-color: map-get($blueColor, 50);
           color:  map-get($blueColor, 700);
           border-left-color:  map-get($blueColor, 700);
         }

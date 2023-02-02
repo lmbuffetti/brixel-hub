@@ -64,7 +64,7 @@
       tbody tr {
         display: flex;
         &:not(:last-child) {
-          border-bottom: 1px solid map-get($textColor, 200);
+          border-bottom: 1px solid map-get($textColor, 100);
         }
         > th {
           width: 68%;
@@ -111,7 +111,7 @@
       border-color: map-get($greenColor, 400);
 
       .bgGreen50 {
-        background-color: rgba($color: map-get($greenColor, 100), $alpha: 0.5);
+        background-color: rgba($color: map-get($greenColor, 50), $alpha: 0.5);
       }
 
       @media (min-width: $responsive-medium) {
@@ -207,7 +207,7 @@
 .packageWrap.regularPackage {
 
   .packageBox {
-    border: 1px solid map-get($textColor, 100);
+    border: 1px solid map-get($textColor, 50);
     border-radius: $brd-radius-small;
     max-width: 400px;
 
