@@ -145,7 +145,7 @@ export const feedMessage = (user, history, packages, activeSingleProperty, lang)
       icon: 'money',
     },
     'deal-review-offer': {
-      className: get(history, 'meta.offer.status', '') === 'rejected' ? 'brdRed300' : 'brdGreen200',
+      className: get(history, 'meta.offer.status', '') === 'rejected' ? 'brdRed200' : 'brdGreen200',
       colorIcon: get(history, 'meta.offer.status', '') === 'rejected' ? 'Red' : 'Green',
       colorBgIcon: get(history, 'meta.offer.status', '') === 'rejected' ? 'Red' : 'Green',
       colorIconSat: 100,

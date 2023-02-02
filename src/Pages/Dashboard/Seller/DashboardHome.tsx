@@ -400,7 +400,7 @@ const DashboardHome = (props: DashboardHomeType) => {
                 {/* DOCUBOX BOX */}
                 <div className="pl-md-1 w-perc-100 w-perc-md-50 min-h-perc-100">
                   <div
-                    className="dis-f jc-b brdRadius bgRed200 shadow-2dp py-3 pl-3 ov-h h-perc-100"
+                    className="dis-f jc-b brdRadius bgRed100 shadow-2dp py-3 pl-3 ov-h h-perc-100"
                     onClick={() => history.push(`/${activeSingleProperty.id}/docubox`)}
                   >
                     <div className="w-perc-100 max-w-fix-232">
@@ -464,7 +464,7 @@ const DashboardHome = (props: DashboardHomeType) => {
                 {/* FACTS */}
                 <div
                   onClick={() => history.push(`/${activeSingleProperty.id}/property/facts`)}
-                  className="shadow-2dp bgRed100 brdRadius dis-f jc-b pt-2 px-2 px-sm-3 mr-sm-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi"
+                  className="shadow-2dp bgRed50 brdRadius dis-f jc-b pt-2 px-2 px-sm-3 mr-sm-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi"
                 >
                   <div className="dis-fl-col">
                     <span className="fsize-400 txtRed400">

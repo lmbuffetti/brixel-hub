@@ -90,7 +90,7 @@
         border-radius: $brd-radius-small;
       }
 
-      &.bgRed100 {
+      &.bgRed50 {
         background: none;
         &:before {
           background-color: map-get($redColor, 100 );
