@@ -168,7 +168,12 @@ const App = (props: AppType) => {
       userLang = loggedInUser.language === 'en_US' ? 'en' : loggedInUser.language;
       if (userLang) handleSetLanguage(userLang);
     } else if (activeSingleCompany.id && !loggedInUser.id) {
-      userLang = cookies.get('brixelLang') || langURL || activeSingleCompany.language.code || 'en';
+      if (cookies.get('brixelLang') && cookies.get('brixelLang') !== 'undefined') {
+        userLang = cookies.get('brixelLang');
+      } else {
+        userLang = langURL || activeSingleCompany.language.code || 'en';
+      }
+      cookies.set('brixelLang', userLang);
       if (userLang) handleSetLanguage(userLang);
     }
   }, [loggedInUser.id, activeSingleCompany.id]);
