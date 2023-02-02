@@ -158,7 +158,7 @@
 
     .header {
       &:nth-child(1) {
-        padding-left: $step * 2;
+        padding-left: calc($step * 2);
       }
       &:nth-child(2),
       &:nth-child(3) {

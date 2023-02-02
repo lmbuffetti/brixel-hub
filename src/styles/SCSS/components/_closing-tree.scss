@@ -34,8 +34,8 @@
     border: 0;
 
       li.listItem {
-        padding-top: $step * 3;
-        padding-bottom: $step * 3;
+        padding-top: calc($step * 3);
+        padding-bottom: calc($step * 3);
         color: map-get($altGreyColor, 400);
         transition: background-color $default-time-long;
 

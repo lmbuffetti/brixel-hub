@@ -185,7 +185,7 @@ p.cutRow {
 .brixel-modal {
   .modal-body {
     p {
-      margin-bottom: $step * 2;
+      margin-bottom: calc($step * 2);
     }
     .moreInfoSupport {
       p {
@@ -194,7 +194,7 @@ p.cutRow {
     }
   }
   ol {
-    margin-left: $step * 2;
+    margin-left: calc($step * 2);
     li {
       margin-bottom: $step;
     }
@@ -509,7 +509,7 @@ img {
 
 .singleInput label.txtDark200,
 .singleInput label.brixel-label {
-  margin-bottom: $step * 2 !important;
+  margin-bottom: calc($step * 2) !important;
 }
 
 /* todo*/
@@ -524,8 +524,8 @@ img {
 }
 
 .singleInput {
-  padding-bottom: $step * 3;
-  margin-bottom: $step * 3;
+  padding-bottom: calc($step * 3);
+  margin-bottom: calc($step * 3);
 
   &:not(:last-child) {
     border-bottom: 1px solid map-get($lightColor, 200);
@@ -543,7 +543,7 @@ img {
       color: map-get($darkColor, 700);
       max-width: 400px;
       margin-left: 0;
-      padding-right: $step * 2;
+      padding-right: calc($step * 2);
     }
   }
 }
@@ -570,7 +570,7 @@ main>div ::-webkit-scrollbar-thumb {
     margin-bottom: $step;
 
     &:nth-child(odd) {
-      margin-right: $step * 2;
+      margin-right: calc($step * 2);
     }
   }
 }
@@ -793,7 +793,7 @@ button.minimum-w-210 {
   position: relative;
   float: left;
   height: 48px;
-  margin-left: $step * 4;
+  margin-left: calc($step * 4);
 
   &:before {
     content: " ";
@@ -830,7 +830,7 @@ button.minimum-w-210 {
 }
 
 .brdRadiusLrg {
-  border-radius: $step * 3;
+  border-radius: calc($step * 3);
 }
 .brdLeftLight {
   border-left: 1px solid  map-get($lightColor, 400);;
@@ -926,7 +926,7 @@ button.minimum-w-210 {
 .two-col-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-row-gap: $step * 6;
+  grid-row-gap: calc($step * 6);
 }
 
 .centerSlider {
@@ -980,8 +980,8 @@ button.minimum-w-210 {
       .topBar,
       .innerBox {
         border-radius: 0 !important;
-        padding-left: $step * 3;
-        padding-right: $step * 3;
+        padding-left: calc($step * 3);
+        padding-right: calc($step * 3);
       }
     }
   }
@@ -1003,7 +1003,7 @@ button.minimum-w-210 {
       font-size: 16px !important;
     }
     .mobile-version select {
-      padding-left: $step * 2;
+      padding-left: calc($step * 2);
       padding-top: 2px;
     }
   }
@@ -1144,7 +1144,7 @@ input::-webkit-date-and-time-value {
   .modal-title {
     margin-left: auto;
     span {
-      padding-left: $step * 2;
+      padding-left: calc($step * 2);
     }
   }
 }

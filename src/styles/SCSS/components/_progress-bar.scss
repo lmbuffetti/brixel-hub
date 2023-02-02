@@ -77,9 +77,9 @@
         padding: 0 $step;
         padding-right: 0;
         background: map-get($primaryColor, 400);
-        margin-right: $step / 2;
-        margin-bottom: $step / 2;
-        border-radius: $step / 2;
+        margin-right: calc($step / 2);
+        margin-bottom: calc($step / 2);
+        border-radius: calc($step / 2);
         span {
           line-height: 28px;
           display: inline-block;

@@ -164,7 +164,7 @@
     font-weight: 600;
     font-size: 12px;
     z-index: 100;
-    padding: $step * 1 $step;
+    padding: calc($step * 1) $step;
     background-color: #FFFFFF;
     pointer-events: none;
     white-space: nowrap;
