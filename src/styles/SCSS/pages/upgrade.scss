@@ -64,7 +64,7 @@
       tbody tr {
         display: flex;
         &:not(:last-child) {
-          border-bottom: 1px solid map-get($altGreyColor, 200 );
+          border-bottom: 1px solid map-get($textColor, 200);
         }
         > th {
           width: 68%;
