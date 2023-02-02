@@ -32,7 +32,7 @@ const IntroBuyerUBS = (props: IntroBuyerUBSType) => {
   }
 
   return (
-    <main className="introScanFlow pt-2 pt-md-4 pb-2 pb-md-4 h-perc-100 txtDark700">
+    <main className="introScanFlow pt-2 pt-md-4 pb-2 pb-md-4 h-perc-100 txtText900">
       <div className="mb-5 mb-md-10">
         <h2 className={'fsize-600 fsize-md-700 fweight-600 max-w-fix-600 ta-c m-a  mb-1'}>
           {translateTo('Your financing with UBS.', lang)}
@@ -54,9 +54,9 @@ const IntroBuyerUBS = (props: IntroBuyerUBSType) => {
           </div>
           <div className="bulletPointsStep mb-4">
             <ul>
-              <li className="mb-2 txtDark400 fsize-300">{translateTo('Financing offer individually tailored to your needs and goals', lang)}</li>
-              <li className="mb-2 txtDark400 fsize-300">{translateTo('Free consultation at a branch office or via video call (including advice on tax implications of buying real estate)', lang)}</li>
-              <li className=" txtDark400 fsize-300">{translateTo('Attractive and flexible solutions, for example for construction financing or renovation projects', lang)}</li>
+              <li className="mb-2 txtText700 fsize-300">{translateTo('Financing offer individually tailored to your needs and goals', lang)}</li>
+              <li className="mb-2 txtText700 fsize-300">{translateTo('Free consultation at a branch office or via video call (including advice on tax implications of buying real estate)', lang)}</li>
+              <li className=" txtText700 fsize-300">{translateTo('Attractive and flexible solutions, for example for construction financing or renovation projects', lang)}</li>
             </ul>
           </div>
           <div className="mt-a">

@@ -612,7 +612,7 @@ const App = (props: AppType) => {
                                 ))
                               }
                             </div>
-                            <span className="ml-2 txtDark700 fweight-500">
+                            <span className="ml-2 txtText900 fweight-500">
                               {translateTo('Brixel Support', lang)}
                             </span>
                           </div>

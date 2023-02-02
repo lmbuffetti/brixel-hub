@@ -499,15 +499,15 @@ img {
 
 .flowBody label.brixel-label,
 .flowBody .labelLeft,
-.flowBody label.txtDark200,
-.singleInput label.txtDark200,
+.flowBody label.txtText600,
+.singleInput label.txtText600,
 .singleInput label.brixel-label {
   // color: map-get($textColor, 800) !important;
   // @include fontStyle(400);
   // font-weight: 500;
 } */
 
-.singleInput label.txtDark200,
+.singleInput label.txtText600,
 .singleInput label.brixel-label {
   margin-bottom: calc($step * 2) !important;
 }

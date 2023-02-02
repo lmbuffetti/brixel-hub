@@ -12,8 +12,8 @@ const DealsTitle = (props: DealsTitleType) => {
 
   return (
     <div className={`title dis-fl-row a-c jc-b pl-2 py-2 ${className}`}>
-      <span className="fweight-500 fsize-500 txtDark700 mr-1 tt-c">{translateTo(title, lang)}</span>
-      <span className="fweight-300 fsize-200 txtLight500"><span>{translateTo('Total', lang)}</span>&nbsp;<span className="notranslate">{total}</span></span>
+      <span className="fweight-500 fsize-500 txtText900 mr-1 tt-c">{translateTo(title, lang)}</span>
+      <span className="fweight-300 fsize-200 txtText400"><span>{translateTo('Total', lang)}</span>&nbsp;<span className="notranslate">{total}</span></span>
     </div>
   );
 };

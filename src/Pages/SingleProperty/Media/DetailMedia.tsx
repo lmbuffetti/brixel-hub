@@ -204,7 +204,7 @@ const DetailMedia = (props: DetailMediaType) => {
               }}
               component={BrixelTextArea}
               design={{
-                className: 'p-lg-0 mb-2 txtDark300 fweight-400',
+                className: 'p-lg-0 mb-2 txtText700 fweight-400',
               }}
             />
           </div>

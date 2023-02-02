@@ -334,7 +334,7 @@ const Contact = (props: ContactType) => {
                           }
                           {
                             quest.subtitle && (
-                              <p className="mb-5 ta-c txtDark200 w-perc-100 fsize-600 fsize-sm-700 fweight-400" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
+                              <p className="mb-5 ta-c txtText600 w-perc-100 fsize-600 fsize-sm-700 fweight-400" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
                           }
                           <div className={`${quest.className} w-perc-100`}>
                             <MultiFileldsReduxForm
@@ -379,7 +379,7 @@ const Contact = (props: ContactType) => {
                           }
                           {
                             quest.subtitle && (
-                              <p className="mb-5 fsize-600 fsize-sm-700 fweight-400 ta-c txtDark200 w-perc-100" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
+                              <p className="mb-5 fsize-600 fsize-sm-700 fweight-400 ta-c txtText600 w-perc-100" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
                           }
                           <div className="dis-f a-t flex-wrap jc-c">
                             {
@@ -494,7 +494,7 @@ const Contact = (props: ContactType) => {
                       {
                         quest.txtAfterNextButton && (
                           <div className="mx-a mt-4">
-                            <p className="fsize-300 txtLight700">
+                            <p className="fsize-300 txtText500">
                               {quest.txtAfterNextButton}
                             </p>
                           </div>

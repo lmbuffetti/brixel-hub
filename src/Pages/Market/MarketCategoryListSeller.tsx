@@ -272,7 +272,7 @@ const MarketCategoryListSeller = (props: MarketCategoryListSellerType) => {
                   </div>
                   <div className="dis-fl-col jc-c a-c pb-2">
                     <h3>{translateTo('Generating your estimation...', lang)}</h3>
-                    <span className="max-w-fix-448 ta-c txtDark700 py-2">
+                    <span className="max-w-fix-448 ta-c txtText900 py-2">
                       {translateTo('Our experts are validating the data and generating an estimation report just for you.', lang)}
                     </span>
 
@@ -306,7 +306,7 @@ const MarketCategoryListSeller = (props: MarketCategoryListSellerType) => {
                   <div className="dis-fl-col jc-c a-c pb-2">
                     <h3 className="ta-c">
                       {translateTo('Get a free price indication.', lang)}</h3>
-                    <span className="max-w-fix-448 ta-c txtDark700 py-2">
+                    <span className="max-w-fix-448 ta-c txtText900 py-2">
                       {translateTo('Compare your property to real transaction data to better define the pricing.', lang)}
                     </span>
 
@@ -355,7 +355,7 @@ const MarketCategoryListSeller = (props: MarketCategoryListSellerType) => {
             </div>
             <div className="dis-fl-col jc-c a-c pb-2">
               <h3>{translateTo('Bestimate® is missing 🙁', lang)}</h3>
-              <span className="max-w-fix-448 ta-c txtDark700 py-2">
+              <span className="max-w-fix-448 ta-c txtText900 py-2">
                 {translateTo('We could not calculate your Bestimate®. No problem. Our support team will do it for you manually.', lang)}
               </span>
 
@@ -386,7 +386,7 @@ const MarketCategoryListSeller = (props: MarketCategoryListSellerType) => {
       {
         ownerProperties.total === 0 ? (
           <div className="px-2 px-md-0 mb-5 mb-sm-3">
-            <div className="p-2 px-sm-3 brdRadius brdSmall brdLight200 bgWhite shadow-2dp min-h-fix-240 max-w-fix-800 ml-a mr-a pos-r mb-8 py-5 py-3">
+            <div className="p-2 px-sm-3 brdRadius brdSmall brdText100 bgWhite shadow-2dp min-h-fix-240 max-w-fix-800 ml-a mr-a pos-r mb-8 py-5 py-3">
               <img className="ml-a mr-a dis-b" width="80" src={EmptyHubImg} alt="Emtpy Hub" />
               <h4 className="ta-c mt-3 mb-2 fweight-700 mb-2">
                 {translateTo('Anybody home?', lang)}
@@ -502,7 +502,7 @@ const MarketCategoryListSeller = (props: MarketCategoryListSellerType) => {
         )
       }
 
-      <div className="bgLight100 pt-6 pt-sm-8 pb-4 pb-sm-7">
+      <div className="bgText25 pt-6 pt-sm-8 pb-4 pb-sm-7">
         <div className="container">
           <h3 className="ta-c mb-7 max-w-fix-416 fsize-600 fsize-sm-800 fweight-600 m-a">
             {translateTo('Boost your private sale with an upgrade.', lang)}
@@ -523,24 +523,24 @@ const MarketCategoryListSeller = (props: MarketCategoryListSellerType) => {
                       <div
                         onClick={() => window.location.assign(`/${propertyId || 'company'}/upgrade`)}
                         key={`fltPkg_${i.toString()}`}
-                        className={`${pkg.type} bgWhite txtDark700 mb-2 mb-sm-0 mx-0 mx-sm-2 w-perc-100 brdSmall brdRadius py-3 px-4 min-h-fix-248 cur-poi max-w-fix-400 w-perc-100`}
+                        className={`${pkg.type} bgWhite txtText900 mb-2 mb-sm-0 mx-0 mx-sm-2 w-perc-100 brdSmall brdRadius py-3 px-4 min-h-fix-248 cur-poi max-w-fix-400 w-perc-100`}
                       >
                         <div className="dis-f jc-b a-c">
-                          <h4 className="fweight-500 txtDark700">{translateTo(pkg.name || '', lang)}</h4>
+                          <h4 className="fweight-500 txtText900">{translateTo(pkg.name || '', lang)}</h4>
                           {
                             (activeSinglePropertyActivePackage.stub === pkg.stub || (!activeSinglePropertyActivePackage.stub && pkg.type === 'basic')) && (
-                              <div className="bgDark500 py-small-4 px-1 brdRadius txtWhite">Your plan</div>
+                              <div className="bgText800 py-small-4 px-1 brdRadius txtWhite">Your plan</div>
                             )
                           }
                         </div>
                         {
                           get(pkg, 'price.total', 0) > 0 ? (
-                            <div className="mt-1 mb-3 fsize-500 txtDark700 dis-fl-col">
+                            <div className="mt-1 mb-3 fsize-500 txtText900 dis-fl-col">
                               {
                                 get(pkg, 'price.discountTotal', 0) > 0 && (
                                   <>
                                     <span
-                                      className="dis-b txtAltGrey400 fsize-300 mt-2 mt-sm-0"
+                                      className="dis-b txtText400 fsize-300 mt-2 mt-sm-0"
                                     >
                                       <span className="">{translateTo('Original price', lang)}</span>
                                       <span className="td-lt lh-in ml-2 dis-ib pt-small-2">
@@ -558,18 +558,18 @@ const MarketCategoryListSeller = (props: MarketCategoryListSellerType) => {
                                     <span>{get(pkg, 'price.currency', '')} {Helpers.formatNumberValue(get(pkg, 'price.total', 0), get(pkg, 'price.currency', ''))}</span>
                                   )
                                 }
-                                <span className="ml-1 fsize-300 txtDark700 dis-f as-fe">
+                                <span className="ml-1 fsize-300 txtText900 dis-f as-fe">
                                   {translateTo('incl. VAT', lang)}
                                 </span>
                               </div>
                             </div>
                           ) : (
-                            <p className="mt-1 mb-3 fsize-500 dis-f a-b txtDark700">
+                            <p className="mt-1 mb-3 fsize-500 dis-f a-b txtText900">
                               {translateTo('Free', lang)}
                             </p>
                           )
                         }
-                        <p className="txtDark700">{translateTo(pkg.description || '', lang)}</p>
+                        <p className="txtText900">{translateTo(pkg.description || '', lang)}</p>
                       </div>
                     ))
                   }
@@ -600,7 +600,7 @@ const MarketCategoryListSeller = (props: MarketCategoryListSellerType) => {
 
       <div className="mt-6 mt-sm-10">
         <div className="container">
-          <h4 className="mb-4 fweight-600 txtDark700">{translateTo('This may interest you', lang)}</h4>
+          <h4 className="mb-4 fweight-600 txtText900">{translateTo('This may interest you', lang)}</h4>
 
           <div className="dis-fl-col dis-fl-row-sm a-t flex-wrap">
             {
@@ -609,12 +609,12 @@ const MarketCategoryListSeller = (props: MarketCategoryListSellerType) => {
                   key={`artCnt_${i.toString()}`}
                   className={`dis-fl-col jc-b a-t w-perc-100 w-perc-sm-50 mb-3 mb-sm-0 ${i % 2 === 0 ? 'pr-0 pr-sm-2' : 'pl-0 pl-sm-2'}`}
                 >
-                  <a className="txtDark700 td-u fsize-300 mb-3 dis-b" href={article.url} target="_blank" rel="noreferrer">
+                  <a className="txtText900 td-u fsize-300 mb-3 dis-b" href={article.url} target="_blank" rel="noreferrer">
                     <img src={article.img} alt={`Article ${i}`} />
                   </a>
                   {article.title && (<h5 className=" fweight-600 mb-1">{translateTo(article.title, lang)}</h5>)}
-                  <p className="mb-2 txtDark700">{translateTo(article.desc, lang)}</p>
-                  <a className="txtDark700 td-u fsize-300" href={article.url} target="_blank" rel="noreferrer">{translateTo('Read more', lang)}</a>
+                  <p className="mb-2 txtText900">{translateTo(article.desc, lang)}</p>
+                  <a className="txtText900 td-u fsize-300" href={article.url} target="_blank" rel="noreferrer">{translateTo('Read more', lang)}</a>
                 </div>
               ))
             }

@@ -378,7 +378,7 @@ const AddShowingsBuyer = (props: AddShowingsBuyerType) => {
                       }
                       {
                         quest.subtitle && (
-                          <p className="mb-5 ta-c txtDark200 w-perc-100 px-3 px-sm-2" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
+                          <p className="mb-5 ta-c txtText600 w-perc-100 px-3 px-sm-2" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
                       }
                       <div className="formWrapper bgWhite brdRadius w-perc-100 shadow-1dp p-6">
                         {
@@ -390,7 +390,7 @@ const AddShowingsBuyer = (props: AddShowingsBuyerType) => {
                                     {
                                       scheduleVisitFree.map((val, i) => (
                                         <div
-                                          className="date-schedule dis-fl-row bgAltGrey100 py-small-4 px-2 mb-1"
+                                          className="date-schedule dis-fl-row bgText100 py-small-4 px-2 mb-1"
                                           key={`vst_${i.toString()}`}
                                         >
                                           <div className="dis-fl-row a-c">
@@ -537,7 +537,7 @@ const AddShowingsBuyer = (props: AddShowingsBuyerType) => {
                             {
                               scheduleVisitFree.map((val, i) => (
                                 <div
-                                  className="date-schedule dis-fl-row bgAltGrey100 py-small-4 px-2 mb-1"
+                                  className="date-schedule dis-fl-row bgText100 py-small-4 px-2 mb-1"
                                   key={`vst_${i.toString()}`}
                                 >
                                   <div className="dis-fl-row a-c">

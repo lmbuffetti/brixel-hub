@@ -265,7 +265,7 @@ const SingleDeal = (props: SingleDealType) => {
   };
 
   const getTextColor = () => {
-    if (activeSingleDeal.visit < +new Date().setHours(0, 0, 0, 0)) return 'Dark700';
+    if (activeSingleDeal.visit < +new Date().setHours(0, 0, 0, 0)) return 'Text900';
     return 'Green400';
   };
 
@@ -292,7 +292,7 @@ const SingleDeal = (props: SingleDealType) => {
     if (get(activeSingleDeal, 'closing.stageOffer.offer.status') === 'accepted') return 'Green400';
     if (get(activeSingleDeal, 'closing.stageOffer.offer.status') === 'pending') return 'Yellow400';
     if (get(activeSingleDeal, 'closing.stageOffer.offer.status') === 'rejected') return 'Red400';
-    return 'Dark700';
+    return 'Text900';
   };
 
   const getOfferText = () => {
@@ -389,7 +389,7 @@ const SingleDeal = (props: SingleDealType) => {
                           />
                           <div className="title dis-fl-col ml-2">
                             <span
-                              className={`name dis-b fsize-500 fweight-500 ${get(activeSingleDeal, 'user.name') ? 'txtDark700' : 'txtDark100'}`}
+                              className={`name dis-b fsize-500 fweight-500 ${get(activeSingleDeal, 'user.name') ? 'txtText900' : 'txtText500'}`}
                             >
                               {Helpers.userNameVal(get(activeSingleDeal, 'user.firstName', ''), get(activeSingleDeal, 'user.lastName', ''), get(activeSingleDeal, 'user.name', ''))}
                             </span>
@@ -397,7 +397,7 @@ const SingleDeal = (props: SingleDealType) => {
                               {
                                 get(activeSingleDeal, 'user.email', null) && (
                                   <a
-                                    className="txtDark700 link mr-2"
+                                    className="txtText900 link mr-2"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     href={`mailto:${activeSingleDeal.user.email}?subject=From Brixel`}
@@ -429,12 +429,12 @@ const SingleDeal = (props: SingleDealType) => {
                           <div className="detail-part dis-fl-row">
                             <div className="dis-fl-col col-6 p-0">
                               <div className="dis-fl-col ta-l mb-2">
-                                <span className="subtitle fsize-200 txtDark200">{translateTo('Phone', lang)}</span>
+                                <span className="subtitle fsize-200 txtText600">{translateTo('Phone', lang)}</span>
                                 {
                                   get(activeSingleDeal, 'user.phone.number', null) ? (
-                                    <span className="value txtDark700">{Helpers.telephoneFormat(activeSingleDeal.user.phone)}</span>
+                                    <span className="value txtText900">{Helpers.telephoneFormat(activeSingleDeal.user.phone)}</span>
                                   ) : (
-                                    <span className="value txtDark700">-</span>
+                                    <span className="value txtText900">-</span>
                                   )
                                 }
                               </div>
@@ -515,21 +515,21 @@ const SingleDeal = (props: SingleDealType) => {
                                         <div className={`mt-1 dis-fl-row jc-b ${showFullFeedback === true ? 'mb-2' : ''}`}>
                                           {
                                             activeDealFeedback.meta.visitFeedback.isInterested === true ? (
-                                              <span className="txtDark700 fsize-300">{translateTo('Still interested 👍', lang)}</span>
+                                              <span className="txtText900 fsize-300">{translateTo('Still interested 👍', lang)}</span>
                                             ) : (
-                                              <span className="txtDark700 fsize-300">{translateTo('Not interested anymore 👎', lang)}</span>
+                                              <span className="txtText900 fsize-300">{translateTo('Not interested anymore 👎', lang)}</span>
                                             )
                                           }
                                           <BrixelIcon
                                             icon={`${showFullFeedback === true ? 'arrow-simple-up' : 'dropdown'}`}
-                                            className="txtDark700 cur-poi"
+                                            className="txtText900 cur-poi"
                                             onClick={() => setShowFullFeedback(!showFullFeedback)}
                                           />
                                         </div>
                                         {
                                           showFullFeedback && (
                                             <div
-                                              className="txtDark700 fsize-300"
+                                              className="txtText900 fsize-300"
                                               dangerouslySetInnerHTML={{
                                                 __html: getCompleteFeedback(),
                                               }}
@@ -563,17 +563,17 @@ const SingleDeal = (props: SingleDealType) => {
                               has(activeSingleDeal, 'closing.stageOffer.offer.status') && (
                                 <div className="dis-fl-col">
                                   <div className={`mt-1 dis-fl-row jc-b ${showFullOffer === true ? 'mb-2' : ''}`}>
-                                    <span className="txtDark700 fsize-300">{translateTo('Offer details:', lang)}</span>
+                                    <span className="txtText900 fsize-300">{translateTo('Offer details:', lang)}</span>
                                     <BrixelIcon
                                       icon={`${showFullOffer === true ? 'arrow-simple-up' : 'dropdown'}`}
-                                      className="txtDark700 cur-poi pr-1"
+                                      className="txtText900 cur-poi pr-1"
                                       onClick={() => setShowFullOffer(!showFullOffer)}
                                     />
                                   </div>
                                   {
                                     showFullOffer && (
                                       <div
-                                        className="txtDark700 fsize-300"
+                                        className="txtText900 fsize-300"
                                         dangerouslySetInnerHTML={{
                                           __html: getCompleteOffer(),
                                         }}

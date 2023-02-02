@@ -133,7 +133,7 @@ const PropertiesDashboard = (props: PropertiesDashboardType) => {
                     <div className="row-section name p-1 notranslate w-perc-100 max-w-fix-304">
                       <div className="wrapper dis-fl-col a-bl">
                         <Link
-                          className="link fsize-300 fweight-500 txtDark700 body2"
+                          className="link fsize-300 fweight-500 txtText900 body2"
                           to={{
                             pathname: `/buyer/${property.id}/property`,
                           }}
@@ -145,29 +145,29 @@ const PropertiesDashboard = (props: PropertiesDashboardType) => {
 
                     <div className="dis-f w-perc-100 min-w-fix-360 max-w-fix-600 mt-1 mt-sm-0 px-2 jc-b ml-a">
                       <div className="px-1">
-                        <h6 className="fsize-100 txtDark200">{translateTo('Price', lang)}</h6>
+                        <h6 className="fsize-100 txtText600">{translateTo('Price', lang)}</h6>
                         <div className="txtGreen400 ff-mono">{showPrice(property)}</div>
                       </div>
 
                       <div className="px-1">
-                        <h6 className="fsize-100 txtDark200 ws-nw">{translateTo('Rooms', lang)}</h6>
-                        <span className="ff-mono txtDark700">
+                        <h6 className="fsize-100 txtText600 ws-nw">{translateTo('Rooms', lang)}</h6>
+                        <span className="ff-mono txtText900">
                           {FormatValue.formatRooms(get(property, 'properties.typology.bedrooms', 0), get(property, 'location.countryCode', 'CH'))}
                         </span>
                       </div>
                       <div className="px-1">
-                        <h6 className="fsize-100 txtDark200 ws-nw">{translateTo('Living space', lang)}</h6>
+                        <h6 className="fsize-100 txtText600 ws-nw">{translateTo('Living space', lang)}</h6>
                         {
                           get(property, 'location.countryCode', '') === 'PT' && get(property, 'properties.typology.grossArea.value', 0) > 0 ? (
-                            <span className="ff-mono txtDark700">{get(property, 'properties.typology.grossArea.value', '0')} m</span>
+                            <span className="ff-mono txtText900">{get(property, 'properties.typology.grossArea.value', '0')} m</span>
                           ) : (
-                            <span className="ff-mono txtDark700">{get(property, 'properties.typology.livingArea.value', '0')} m</span>
+                            <span className="ff-mono txtText900">{get(property, 'properties.typology.livingArea.value', '0')} m</span>
                           )
                         }
                       </div>
                       <div className="px-1">
-                        <h6 className="fsize-100 txtDark200 ws-nw">{translateTo('Year', lang)}</h6>
-                        <span className="ff-mono txtDark700">
+                        <h6 className="fsize-100 txtText600 ws-nw">{translateTo('Year', lang)}</h6>
+                        <span className="ff-mono txtText900">
                           {get(property, 'properties.building.built', '0000')}
                         </span>
                       </div>

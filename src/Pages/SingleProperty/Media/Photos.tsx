@@ -185,7 +185,7 @@ const Photos = (props: PhotosPageType) => {
                       (!fixPhotos || (isArray(fixPhotos) && fixPhotos.length === 0)) ? ('') : (
                         <>
                           <p className='fweight-600'>{translateTo('Drag to move and reorder photos', lang)} </p>
-                          <p className='fsize-300 txtAltGrey400 mb-2'>{translateTo('Drag to move and reorder photos', lang)} </p>
+                          <p className='fsize-300 txtText400 mb-2'>{translateTo('Drag to move and reorder photos', lang)} </p>
                         </>
                       )
                     }
@@ -220,9 +220,9 @@ const Photos = (props: PhotosPageType) => {
                           {(!fixPhotos || (isArray(fixPhotos) && fixPhotos.length === 0)) && (<span>{translateTo('your first photos ', lang)}</span>)}
                           <span>{translateTo('or drag and drop.', lang)}</span>
                         </p>
-                        {(!fixPhotos || (isArray(fixPhotos) && fixPhotos.length === 0)) && (<span className='brdSmallTop brdAltGrey200 w-fix-104 my-2 ml-a mr-a'></span>)}
+                        {(!fixPhotos || (isArray(fixPhotos) && fixPhotos.length === 0)) && (<span className='brdSmallTop brdText200 w-fix-104 my-2 ml-a mr-a'></span>)}
 
-                        <span className="fsize-300 txtAltGrey400 max-width-304">{translateTo('Choose .jpeg .png with max. 10 MB size', lang)}</span>
+                        <span className="fsize-300 txtText400 max-width-304">{translateTo('Choose .jpeg .png with max. 10 MB size', lang)}</span>
                       </div>
 
                     </div>
@@ -300,7 +300,7 @@ const Photos = (props: PhotosPageType) => {
                                   </div>
                                   {
                                     item.description && (
-                                      <p className="ta-l mt-1 fsize-200 txtDark700 w-prec-100">
+                                      <p className="ta-l mt-1 fsize-200 txtText900 w-prec-100">
                                         {translateTo(Truncate(item.description, 60), lang)}
                                       </p>
                                     )

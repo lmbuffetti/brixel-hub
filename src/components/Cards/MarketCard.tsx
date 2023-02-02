@@ -401,7 +401,7 @@ const MarketCard = (props: MarketCardProps) => {
                             }
                           </h5>
                           <div>
-                            <ul className="checked markerDot mt-1 mt-md-4 txtDark700 dis-fl-row-sm fsize-400 mb-2 hide">
+                            <ul className="checked markerDot mt-1 mt-md-4 txtText900 dis-fl-row-sm fsize-400 mb-2 hide">
                               <li>
                                 {translateTo('Personal consultation', lang)}
                               </li>
@@ -474,12 +474,12 @@ const MarketCard = (props: MarketCardProps) => {
                       onClick={(e) => openCard(e)}
                     >
                       <h6
-                        className="fweight-600 fsize-500 fsize-sm-600 mb-small-4 txtDark700 ellipsis two w-perc-100 ta-l mb-2 notranslate"
+                        className="fweight-600 fsize-500 fsize-sm-600 mb-small-4 txtText900 ellipsis two w-perc-100 ta-l mb-2 notranslate"
                       >
                         {translateTo(get(item, 'title', ''), lang)}
                       </h6>
                       <div>
-                        <span className="fsize-300 txtAltGrey700 mb-1 ta-l brdSmallRight brdLight400 mr-2 pr-2 dis-ib notranslate">
+                        <span className="fsize-300 txtText700 mb-1 ta-l brdSmallRight brdText300 mr-2 pr-2 dis-ib notranslate">
                           {get(item, 'location.zip', '')} {get(item, 'location.city', '')}
                           {
                             get(item, 'location.countryCode', 'CH') === 'CH' && (
@@ -489,19 +489,19 @@ const MarketCard = (props: MarketCardProps) => {
                             )
                           }
                         </span>
-                        <span className="fsize-300 txtAltGrey700 mb-1 ta-l brdSmallRight mr-2 pr-2 brdLight400 dis-ib">
+                        <span className="fsize-300 txtText700 mb-1 ta-l brdSmallRight mr-2 pr-2 brdText300 dis-ib">
                           {translateTo(get(item, 'properties.propertyType', ''), lang)}
                         </span>
-                        <span className="fsize-300 txtAltGrey700 mb-1 ta-l brdSmallRight mr-2 pr-2  brdLight400 dis-ib notranslate">
+                        <span className="fsize-300 txtText700 mb-1 ta-l brdSmallRight mr-2 pr-2  brdText300 dis-ib notranslate">
                           {FormatValue.formatRooms(get(item, 'properties.typology.bedrooms', 0), get(item, 'location.countryCode', 'CH'))}
                         </span>
                         {
                           get(item, 'properties.typology.livingArea.value', 0) > 0 && (
                             <span className="dis-ib notranslate">
-                              <span className="fsize-300 txtAltGrey700">
+                              <span className="fsize-300 txtText700">
                                 {get(item, 'properties.typology.livingArea.value', 0)}
                               </span>
-                              <span className="fsize-300 txtAltGrey700"> m2</span>
+                              <span className="fsize-300 txtText700"> m2</span>
                             </span>
                           )
                         }
@@ -525,7 +525,7 @@ const MarketCard = (props: MarketCardProps) => {
                               iconSize="large"
                             />
                             <div className="ml-2 dis-fl-col">
-                              <span className="txtLight600 fsize-300">
+                              <span className="txtText400 fsize-300">
                                 {translateTo('Your Price', lang)}</span>
                               <Link to={`/${get(item,  'id', '')}/property/price`} className="txtBlue700 fweight-600">
                                 <span>{get(item, 'price.currency', 0)}</span>
@@ -548,7 +548,7 @@ const MarketCard = (props: MarketCardProps) => {
                             iconSize="large"
                           />
                           <div className="dis-fl-col">
-                            <span className="txtLight600 fsize-300">{translateTo('Your Bestimate', lang)}</span>
+                            <span className="txtText400 fsize-300">{translateTo('Your Bestimate', lang)}</span>
                             {
                               ((get(item, 'estimation.status', null) === 'pending' && completedBestimate(item)) || (get(item, 'properties.propertyType', null) === 'Commercial' || get(item, 'properties.propertyType', null) === 'Building land')) ? (
                                 <span className="txtBlue700 fweight-600">
@@ -584,7 +584,7 @@ const MarketCard = (props: MarketCardProps) => {
                             (get(item, 'properties.propertyType', null) === 'House' || get(item, 'properties.propertyType', null) === 'Apartment') && (
                               <div
                                 onClick={() => window.location.assign(`/${get(item,  'id', '')}/property/price/proEstimation`)}
-                                className="dis-fl-row a-c ml-4 brdSmallLeft brdLight400 pl-4"
+                                className="dis-fl-row a-c ml-4 brdSmallLeft brdText300 pl-4"
                               >
                                 <div className="hide dis-fl-row-sm">
                                   <div className="pos-r h-fix-48 w-fix-48">
@@ -605,7 +605,7 @@ const MarketCard = (props: MarketCardProps) => {
                                   </div>
                                 </div>
                                 <div className="pl-2">
-                                  <span className="txtLight600 fsize-300 dis-b">{translateTo('Pro estimation', lang)}</span>
+                                  <span className="txtText400 fsize-300 dis-b">{translateTo('Pro estimation', lang)}</span>
                                   <span className="txtBlue700 fweight-600 dis-b">
                                     <span>{calcPercentageProEstimation('', item).realPerc}% </span>
                                     <span>{translateTo('complete', lang)}</span>
@@ -622,7 +622,7 @@ const MarketCard = (props: MarketCardProps) => {
               </>
             ) : (
               <div
-                className="brdSmall brdLight200 brdRadius ov-h bgWhite"
+                className="brdSmall brdText100 brdRadius ov-h bgWhite"
                 // onClick={() => openCard()}
                 onMouseEnter={() => setShowSlideData(true)}
                 onMouseLeave={() => setShowSlideData(false)}
@@ -790,7 +790,7 @@ const MarketCard = (props: MarketCardProps) => {
                 <div className="info dis-fl-col jc-b">
                   <div className="top dis-fl-col notranslate px-3 pt-3">
                     <span
-                      className="fsize-400 txtAltGrey600 notranslate cur-poi"
+                      className="fsize-400 txtText600 notranslate cur-poi"
                       onClick={() => onOpenCard()}
                     >
                       {get(item, 'location.zip', '')} {get(item, 'location.city', '')}
@@ -803,14 +803,14 @@ const MarketCard = (props: MarketCardProps) => {
                       }
                     </span>
                     <span
-                      className="fweight-600 fsize-500 txtDark700 ellipsis one notranslate cur-poi"
+                      className="fweight-600 fsize-500 txtText900 ellipsis one notranslate cur-poi"
                       onClick={() => onOpenCard()}
                     >
                       {get(item, 'title', '')}
                     </span>
                   </div>
-                  <div className="bottom a-c txtDark700 px-3 mt-2 mb-2">
-                    <span className="fsize-300 dis-b txtAltGrey400">
+                  <div className="bottom a-c txtText900 px-3 mt-2 mb-2">
+                    <span className="fsize-300 dis-b txtText400">
                       {translateTo('Price', lang)}
                     </span>
                     {
@@ -834,10 +834,10 @@ const MarketCard = (props: MarketCardProps) => {
                   <div className="mx-3">
                     <span className="hr lighter" />
                   </div>
-                  <div className="mid dis-fl-row a-c fsize-300 px-3 pt-2 txtDark400 pb-2">
+                  <div className="mid dis-fl-row a-c fsize-300 px-3 pt-2 txtText700 pb-2">
                     <div className="dis-f a-c jc-b flex-wrap w-perc-100">
                       <div>
-                        <span className="fsize-300 dis-b txtAltGrey400">
+                        <span className="fsize-300 dis-b txtText400">
                           {translateTo('Rooms', lang)}
                         </span>
                         <span className="ff-mono fsize-400 txtBlack">
@@ -845,7 +845,7 @@ const MarketCard = (props: MarketCardProps) => {
                         </span>
                       </div>
                       <div>
-                        <span className="fsize-300 dis-b txtAltGrey400">
+                        <span className="fsize-300 dis-b txtText400">
                           {translateTo('Size', lang)}
                         </span>
                         <span className="ff-mono fsize-400 txtBlack">
@@ -853,7 +853,7 @@ const MarketCard = (props: MarketCardProps) => {
                         </span>
                       </div>
                       <div>
-                        <span className="fsize-300 dis-b txtAltGrey400">
+                        <span className="fsize-300 dis-b txtText400">
                           {translateTo('Year built', lang)}
                         </span>
                         <span className="ff-mono fsize-400 txtBlack">
@@ -887,11 +887,11 @@ const MarketCard = (props: MarketCardProps) => {
                         {
                           item && get(item, 'tags', []).length > 0 && item.tags.includes('pre-market') ? (
                             <>
-                              <p className="pl-1 fsize-300 txtLight600" dangerouslySetInnerHTML={{ __html: `<span>${translateTo('Your property is visible on our pre-market.', lang)}</span> <a href="/${get(item,  'id', '')}/marketing" class="fsize-300 fweight-500 txtBlue700 cur-poi ml-1 td-u lh-in btnInline">${translateTo('Learn more.', lang)}</a>` }} />
+                              <p className="pl-1 fsize-300 txtText400" dangerouslySetInnerHTML={{ __html: `<span>${translateTo('Your property is visible on our pre-market.', lang)}</span> <a href="/${get(item,  'id', '')}/marketing" class="fsize-300 fweight-500 txtBlue700 cur-poi ml-1 td-u lh-in btnInline">${translateTo('Learn more.', lang)}</a>` }} />
                             </>
                           ) : (
                             <>
-                              <p className="pl-1 fsize-300 txtLight600" dangerouslySetInnerHTML={{ __html: `<span>${translateTo('Your property is <strong class="lh-in fweight-600">not</strong> visible to any buyers.', lang)}</span>` }} />
+                              <p className="pl-1 fsize-300 txtText400" dangerouslySetInnerHTML={{ __html: `<span>${translateTo('Your property is <strong class="lh-in fweight-600">not</strong> visible to any buyers.', lang)}</span>` }} />
                               <a
                                 href={`/${get(item,  'id', '')}/marketing`}
                                 className="fsize-300 fweight-500 txtBlue700 cur-poi ml-1 td-u p-0 btnInline"
@@ -909,7 +909,7 @@ const MarketCard = (props: MarketCardProps) => {
                       className="dis-fl-col dis-fl-row-sm ta-l"
                     >
                       <div className="dis-fl-row-sm">
-                        <p className="pl-1 fsize-300 txtLight600">
+                        <p className="pl-1 fsize-300 txtText400">
                           <span>{translateTo('Your property is visible on our market.', lang)}</span>
                         </p>
                       </div>

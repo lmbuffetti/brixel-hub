@@ -64,7 +64,7 @@ const ModalPropertyCard = (props: ModalPropertyCardType) => {
       </div>
       {
         isShowMoreInfo && (
-          <p className="fsize-300 px-2 px-sm-3 txtAltGrey700">
+          <p className="fsize-300 px-2 px-sm-3 txtText700">
             {translateTo('This property is not for sale yet and all personal data are hidden until it gets on the market. You can like the property and be informed about any important updates.', lang)}
           </p>
         )
@@ -76,7 +76,7 @@ const ModalPropertyCard = (props: ModalPropertyCardType) => {
 
       <div className="dis-f a-t jc-b flext-wrap p-2 p-sm-3">
         <div>
-          <span className="fsize-300 dis-b txtAltGrey400">
+          <span className="fsize-300 dis-b txtText400">
             {translateTo('Property Type', lang)}
           </span>
           <span className="ff-mono fszie-400 txtBlack">
@@ -84,7 +84,7 @@ const ModalPropertyCard = (props: ModalPropertyCardType) => {
           </span>
         </div>
         <div>
-          <span className="fsize-300 dis-b txtAltGrey400">
+          <span className="fsize-300 dis-b txtText400">
             {translateTo('Rooms', lang)}
           </span>
           <span className="ff-mono fszie-400 txtBlack">
@@ -92,7 +92,7 @@ const ModalPropertyCard = (props: ModalPropertyCardType) => {
           </span>
         </div>
         <div>
-          <span className="fsize-300 dis-b txtAltGrey400">
+          <span className="fsize-300 dis-b txtText400">
             {translateTo('Size', lang)}
           </span>
           <span className="ff-mono fszie-400 txtBlack">
@@ -100,7 +100,7 @@ const ModalPropertyCard = (props: ModalPropertyCardType) => {
           </span>
         </div>
         <div>
-          <span className="fsize-300 dis-b txtAltGrey400">
+          <span className="fsize-300 dis-b txtText400">
             {translateTo('Year built', lang)}
           </span>
           <span className="ff-mono fszie-400 txtBlack">
@@ -108,10 +108,10 @@ const ModalPropertyCard = (props: ModalPropertyCardType) => {
           </span>
         </div>
         <div>
-          <span className="fsize-300 dis-b txtAltGrey400">
+          <span className="fsize-300 dis-b txtText400">
             {translateTo('Location', lang)}
           </span>
-          <span className="fsize-300 txtDark700 mt-1 notranslate">
+          <span className="fsize-300 txtText900 mt-1 notranslate">
             {get(property, 'location.zip', '')} {get(property, 'location.city', '')}
             {
               get(property, 'location.countryCode', 'CH') === 'CH' && (

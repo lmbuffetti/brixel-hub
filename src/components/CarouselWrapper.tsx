@@ -160,7 +160,7 @@ const CarouselWrapper = (props: CarouselWrapperType) => {
         <div className={`${className} carousel-wrapper pos-r`}>
 
           <div className="carouselContainer pos-r max-w-fix-768 ml-a mr-a px-2 px-md-0">
-            <div className="py-2 px-0 pt-sm-3 pb-sm-1 px-sm-3 brdRadius brdSmall brdLight200 bgWhite shadow-2dp min-h-fix-240 pos-r">
+            <div className="py-2 px-0 pt-sm-3 pb-sm-1 px-sm-3 brdRadius brdSmall brdText100 bgWhite shadow-2dp min-h-fix-240 pos-r">
               <Slider ref={sliderInstance} {...settingSlider()}>
                 {
                   !items && numCard.map((card, i) => (
@@ -195,14 +195,14 @@ const CarouselWrapper = (props: CarouselWrapperType) => {
                   <>
                     <BrixelButtonIcon
                       onClick={() => moveSlide('prev')}
-                      className={`txtLight500 icnLight500 brdLight500 slick-arrow secondary small pos-a y-c ml-7-neg ${activeSlide < 1 ? 'slick-disabled' : ''}`}
+                      className={`txtText400 icnText400 brdText400 slick-arrow secondary small pos-a y-c ml-7-neg ${activeSlide < 1 ? 'slick-disabled' : ''}`}
                       icon="arrow-simple-left"
                       theme="light"
                       secondary
                     />
                     <BrixelButtonIcon
                       onClick={() => moveSlide('next')}
-                      className={`mr-1 txtLight500 icnLight500 brdLight500 slick-arrow secondary small pos-a y-c mr-7-neg x-r ${items && activeSlide >= items.length - 1 ? 'slick-disabled' : ''}`}
+                      className={`mr-1 txtText400 icnText400 brdText400 slick-arrow secondary small pos-a y-c mr-7-neg x-r ${items && activeSlide >= items.length - 1 ? 'slick-disabled' : ''}`}
                       icon="arrow-simple-right"
                       theme="light"
                       secondary
@@ -236,7 +236,7 @@ const CarouselWrapper = (props: CarouselWrapperType) => {
                 <div className="dis-f a-c jc-c mt-2 hide-sm w-perc-100">
                   <BrixelButtonIcon
                     onClick={() => moveSlide('prev')}
-                    className={`txtLight500 icnLight500 brdLight500 slick-arrow secondary small ${activeSlide < 1 ? 'slick-disabled' : ''}`}
+                    className={`txtText400 icnText400 brdText400 slick-arrow secondary small ${activeSlide < 1 ? 'slick-disabled' : ''}`}
                     icon="arrow-simple-left"
                     theme="light"
                     secondary
@@ -248,7 +248,7 @@ const CarouselWrapper = (props: CarouselWrapperType) => {
                   </div>
                   <BrixelButtonIcon
                     onClick={() => moveSlide('next')}
-                    className={`mr-1 txtLight500 icnLight500 brdLight500 slick-arrow secondary small ${activeSlide >= items.length - 1 ? 'slick-disabled' : ''}`}
+                    className={`mr-1 txtText400 icnText400 brdText400 slick-arrow secondary small ${activeSlide >= items.length - 1 ? 'slick-disabled' : ''}`}
                     icon="arrow-simple-right"
                     theme="light"
                     secondary
@@ -285,14 +285,14 @@ const CarouselWrapper = (props: CarouselWrapperType) => {
                 <>
                   <BrixelButtonIcon
                     onClick={() => moveSlide('prev')}
-                    className={`mr-1 txtLight500 icnLight500 brdLight500 slick-arrow secondary small ${activeSlide < 1 ? 'slick-disabled' : ''}`}
+                    className={`mr-1 txtText400 icnText400 brdText400 slick-arrow secondary small ${activeSlide < 1 ? 'slick-disabled' : ''}`}
                     icon="arrow-simple-left"
                     theme="light"
                     secondary
                   />
                   <BrixelButtonIcon
                     onClick={() => moveSlide('next')}
-                    className={`mr-1 txtLight500 icnLight500 brdLight500 slick-arrow secondary small ${activeSlide >= items.length - 1 ? 'slick-disabled' : ''}`}
+                    className={`mr-1 txtText400 icnText400 brdText400 slick-arrow secondary small ${activeSlide >= items.length - 1 ? 'slick-disabled' : ''}`}
                     icon="arrow-simple-right"
                     theme="light"
                     secondary

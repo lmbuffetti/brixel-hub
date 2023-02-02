@@ -76,7 +76,7 @@ const MarketCardFavorites = (props: MarketCardEstimationType) => {
 
   return (
     <div className="mb-3">
-      <div className="dis-fl-col dis-fl-row-sm brdRadius brdSmall brdAltGrey200 ov-h">
+      <div className="dis-fl-col dis-fl-row-sm brdRadius brdSmall brdText200 ov-h">
         <div className={`w-perc-100 w-fix-sm-200 h-fix-200 dis-f jc-c a-c ${get(activeSingleProperty, 'result.available', false) ? 'bgGreen200' : 'bgYellow200'}`}>
           {
             get(activeSingleProperty, 'result.available', false) ? (
@@ -90,7 +90,7 @@ const MarketCardFavorites = (props: MarketCardEstimationType) => {
         <div className="w-perc-100 dis-fl-col p-2">
           <div className="dis-f a-t jc-b">
             <div>
-              <span className="fsize-300 txtAltGrey700 mb-1 ta-l">
+              <span className="fsize-300 txtText700 mb-1 ta-l">
                 {get(activeSingleProperty, 'data.location.zip', '')} {get(activeSingleProperty, 'data.location.city', '')}
                 {
                   get(activeSingleProperty, 'data.location.countryCode', 'CH') === 'CH' && (
@@ -160,11 +160,11 @@ const MarketCardFavorites = (props: MarketCardEstimationType) => {
           </div>
 
           <div className="dis-f jc-b a-b mt-a pt-2">
-            <div className="fsize-300 txtDark400">
+            <div className="fsize-300 txtText700">
               <div className="dis-f a-c jc-fs flex-wrap w-perc-100">
 
-                <div className="bottom a-c txtDark700 brdSmallRight-sm mb-1 mb-sm-0 brdAltGrey200 pr-6 mr-6">
-                  <span className="fsize-300 dis-b txtAltGrey400">
+                <div className="bottom a-c txtText900 brdSmallRight-sm mb-1 mb-sm-0 brdText200 pr-6 mr-6">
+                  <span className="fsize-300 dis-b txtText400">
                     {translateTo('Price', lang)}
                   </span>
                   {
@@ -184,7 +184,7 @@ const MarketCardFavorites = (props: MarketCardEstimationType) => {
 
                 <div className='dis-f'>
                   <div>
-                    <span className="fsize-300 dis-b txtAltGrey400">
+                    <span className="fsize-300 dis-b txtText400">
                       {translateTo('Rooms', lang)}
                     </span>
                     <span className="ff-mono fszie-400 txtBlack">
@@ -192,7 +192,7 @@ const MarketCardFavorites = (props: MarketCardEstimationType) => {
                     </span>
                   </div>
                   <div className="mx-4">
-                    <span className="fsize-300 dis-b txtAltGrey400">
+                    <span className="fsize-300 dis-b txtText400">
                       {translateTo('Size', lang)}
                     </span>
                     <span className="ff-mono fszie-400 txtBlack">
@@ -200,7 +200,7 @@ const MarketCardFavorites = (props: MarketCardEstimationType) => {
                     </span>
                   </div>
                   <div>
-                    <span className="fsize-300 dis-b txtAltGrey400">
+                    <span className="fsize-300 dis-b txtText400">
                       {translateTo('Year built', lang)}
                     </span>
                     <span className="ff-mono fszie-400 txtBlack">

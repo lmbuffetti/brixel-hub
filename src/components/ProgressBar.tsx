@@ -114,7 +114,7 @@ const ProgressBar = (props: ProgressBarType) => {
       }
       {
         readOnly && (
-          <span className="read-only-state fsize-300 txtDark700 mb-1">{translateTo(progressBarStateLabel || 'No progress', lang)}</span>
+          <span className="read-only-state fsize-300 txtText900 mb-1">{translateTo(progressBarStateLabel || 'No progress', lang)}</span>
         )
       }
       <div className={`bars dis-fl-row ${readOnly ? 'h-fix-8' : 'h-fix-16'}`}>
@@ -159,7 +159,7 @@ const ProgressBar = (props: ProgressBarType) => {
                   key={`prgBr_${i.toString()}`}
                   className="selectedProgressItem"
                 >
-                  <span className="fweight-600 txtLight100 fsize-200 mr-1">{translateTo(item, lang)}</span>
+                  <span className="fweight-600 txtText25 fsize-200 mr-1">{translateTo(item, lang)}</span>
                   <BrixelIcon
                     icon="close"
                     color="light"

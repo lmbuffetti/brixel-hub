@@ -35,7 +35,7 @@ const EstimationPropertyList = (props: FavoritesPropertyListType) => {
               <img width="200" src={emptyEst} alt="" />
               <div className=" ta-c mt-3">
                 <h3 className="fweight-600 mb-2">{translateTo('You haven’t created any Estimation', lang)}</h3>
-                <p className="txtAltGrey400 max-w-fix-320 ml-a mr-a">{translateTo('Create an estimation of value for a property you own or you are interested in buying.', lang)}</p>
+                <p className="txtText400 max-w-fix-320 ml-a mr-a">{translateTo('Create an estimation of value for a property you own or you are interested in buying.', lang)}</p>
                 <BrixelButtonPrimary
                   rounded
                   label={translateTo('Create Estimation', lang)}

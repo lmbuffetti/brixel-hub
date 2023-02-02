@@ -127,9 +127,9 @@ const Key4Registration = (props: Key4RegistrationType) => {
                   <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 fsize-600 fsize-sm-800 mb-sm-6">
                     {translateTo('Learn within 48 hours if you can afford your desired home.', lang)}
                   </h2>
-                  <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100">
+                  <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText100">
                     <div className="p-5">
-                      <p className="fsize-500 txtDark700">
+                      <p className="fsize-500 txtText900">
                         {translateTo('Please prepare the following documents to apply for your certificate:', lang)}
                       </p>
 
@@ -141,7 +141,7 @@ const Key4Registration = (props: Key4RegistrationType) => {
                             icon="page"
                             color="blue"
                           />
-                          <p className="txtDark700">
+                          <p className="txtText900">
                             {translateTo('Latest tax declaration', lang)}
                           </p>
                         </div>
@@ -152,7 +152,7 @@ const Key4Registration = (props: Key4RegistrationType) => {
                             icon="page"
                             color="blue"
                           />
-                          <p className="txtDark700">
+                          <p className="txtText900">
                             {translateTo('Latest proof of income, incl. proof of bonus if applicable', lang)}
                           </p>
                         </div>
@@ -163,7 +163,7 @@ const Key4Registration = (props: Key4RegistrationType) => {
                             icon="page"
                             color="blue"
                           />
-                          <p className="txtDark700">
+                          <p className="txtText900">
                             {translateTo('Pension fund statement', lang)}
                           </p>
                         </div>
@@ -175,14 +175,14 @@ const Key4Registration = (props: Key4RegistrationType) => {
                             icon="page"
                             color="blue"
                           />
-                          <p className="dis-f flex-wrap a-c txtDark700">
+                          <p className="dis-f flex-wrap a-c txtText900">
                             <span>
                               {translateTo('Property exposé', lang)}
                             </span>
                             {
                               getSellerBrochure()?.path && (
                                 <a
-                                  className="ml-small-4 txtDark700 td-u"
+                                  className="ml-small-4 txtText900 td-u"
                                   href={`${baseByData.shortPath}${getSellerBrochure()?.path}`}
                                   target="_blank"
                                   rel="noreferrer"
@@ -198,15 +198,15 @@ const Key4Registration = (props: Key4RegistrationType) => {
                     </div>
                   </div>
                   <div className="max-w-fix-600 mx-a mt-3">
-                    <p className="fsize-300 txtDark700">
+                    <p className="fsize-300 txtText900">
                       <span>{translateTo('By clicking the button you allow us to send the following data to key4: your offer price, property type, property address, type of residence (main type of residence), your equity capital, and your gross annual income. The Privacy Statement applicable to key4 can be found on the', lang)}</span>
                       <a
                         href={linkInfoKey4()}
                         target="_blank"
                         rel="noreferrer"
-                        className="ml-small-4 txtDark400 td-u mt-small-4-neg dis-ib"
+                        className="ml-small-4 txtText700 td-u mt-small-4-neg dis-ib"
                       >
-                        <p className="fsize-300 txtDark700">{translateTo('key4 website', lang)}</p>
+                        <p className="fsize-300 txtText900">{translateTo('key4 website', lang)}</p>
                       </a>
                     </p>
                     <BrixelButtonPrimary
@@ -219,7 +219,7 @@ const Key4Registration = (props: Key4RegistrationType) => {
 
                     {
                       get(formValue, 'company', null) !== 'ubs' && (
-                        <p className="mt-3 fs-i txtDark400 fsize-200">
+                        <p className="mt-3 fs-i txtText700 fsize-200">
                           {translateTo('Please note that Brixel will be compensated for your referral when you conclude a mortgage with key4.', lang)}
                         </p>
                       )
@@ -231,7 +231,7 @@ const Key4Registration = (props: Key4RegistrationType) => {
                   <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 fsize-600 fsize-sm-800 mb-sm-6">
                     {translateTo('Unfortunately, your budget is not sufficient', lang)}
                   </h2>
-                  <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100">
+                  <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText100">
                     <div className="p-5">
                       <h5>
                         {translateTo('Based on the details you have provided, financing your dream home is not quite possible yet.', lang)}

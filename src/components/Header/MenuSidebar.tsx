@@ -87,7 +87,7 @@ const MenuSidebar = (props: MenuSidebarType) => {
                                       >
                                         <Link
                                           to={linkMenu(submenu.path)}
-                                          className={`fsize-400 fweight-400  ${history.location.pathname.includes(submenu.name) ? 'txtBlue700' : 'txtDark700'}`}
+                                          className={`fsize-400 fweight-400  ${history.location.pathname.includes(submenu.name) ? 'txtBlue700' : 'txtText900'}`}
                                         >
                                           <span className="dot" />
                                           <span className="pl-4">{translateTo(submenu.title, lang)}</span>

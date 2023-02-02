@@ -311,7 +311,7 @@ const Deals = (props: DealsType) => {
                           <div className="emptyMessage min-h-fix-224 dis-f w-perc-100 jc-c">
                             <div className="max-w-fix-544 ta-c p-3 dis-fl-col a-c">
                               <h5>{translateTo('No deals yet?', lang)}</h5>
-                              <p className="p-3 txtDark700">
+                              <p className="p-3 txtText900">
                                 {translateTo('Your deals will appear as soon as any interested buyer interacts with your property. Make sure to publish your Brixel Page and your listings to receive deals.', lang)}
                               </p>
                               <BrixelButtonPrimary
@@ -349,7 +349,7 @@ const Deals = (props: DealsType) => {
                                       <DealsCard
                                         archOnClick={() => archiveDeal(singleDeal.id, singleDeal.stage, key)}
                                         archived={!singleDeal.active}
-                                        className={`${!singleDeal.active ? 'bgLight100' : 'bgWhite'} dealCard`}
+                                        className={`${!singleDeal.active ? 'bgText25' : 'bgWhite'} dealCard`}
                                         date={DateTime.fromMillis(singleDeal.updatedAt, { locale: lang }).toFormat('dd LLL yy, H:mm')}
                                         feedback={get(singleDeal, 'visitFeedback')}
                                         isNew={get(singleDeal, 'newSeller')}
@@ -377,7 +377,7 @@ const Deals = (props: DealsType) => {
                                       <div
                                         className="mb-3 dis-fl-row jc-c"
                                       >
-                                        <span className="fsize-200 txtLight400">
+                                        <span className="fsize-200 txtText300">
                                           {translateTo('Archived', lang)}
                                         </span>
                                       </div>
@@ -390,7 +390,7 @@ const Deals = (props: DealsType) => {
                                     <DealsCard
                                       archOnClick={() => archiveDeal(singleDeal.id, singleDeal.stage, key)}
                                       archived={!singleDeal.active}
-                                      className={`${!singleDeal.active ? 'bgLight100' : 'bgWhite'} dealCard`}
+                                      className={`${!singleDeal.active ? 'bgText25' : 'bgWhite'} dealCard`}
                                       date={DateTime.fromMillis(singleDeal.updatedAt, { locale: lang }).toFormat('dd LLL yy, H:mm')}
                                       feedback={get(singleDeal, 'visitFeedback')}
                                       isNew={get(singleDeal, 'newSeller')}

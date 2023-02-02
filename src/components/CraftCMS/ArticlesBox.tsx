@@ -81,7 +81,7 @@ const ArticlesBox = (props: ArticlesBoxPropsType) => {
               <div className="dis-f a-c flex-wrap mt-1 mt-lg-0">
                 {
                   placement.subtitle && (
-                    <span className="fsize-300 txtAltGrey400 mr-2">{placement.subtitle}</span>
+                    <span className="fsize-300 txtText400 mr-2">{placement.subtitle}</span>
                   )
                 }
                 <div className="div">

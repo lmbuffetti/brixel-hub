@@ -34,7 +34,7 @@ const FinanceCertificate = (props: FinanceCertificateType) => {
       <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 fsize-600 fsize-sm-800 mb-sm-6">
         {translateTo('Apply for a financing certificate', lang)}
       </h2>
-      <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100">
+      <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText100">
 
         {
           get(activeSingleProperty, 'location.countryCode', '') === 'CH' ? (
@@ -44,7 +44,7 @@ const FinanceCertificate = (props: FinanceCertificateType) => {
                   <div className="m-a w-fix-80 h-fix-80 brdCircle bgBlue200 dis-f a-c jc-c mb-1">
                     <img loading="lazy" src={FinancingQuestionImg} alt="Answer questions about financing" />
                   </div>
-                  <p className="txtDark700 fsize-300 fweight-600 ta-c">
+                  <p className="txtText900 fsize-300 fweight-600 ta-c">
                     {translateTo('Answer questions about financing', lang)}
                   </p>
                 </div>
@@ -52,7 +52,7 @@ const FinanceCertificate = (props: FinanceCertificateType) => {
                   <div className="m-a w-fix-80 h-fix-80 brdCircle bgBlue200 dis-f a-c jc-c mb-1">
                     <img loading="lazy" src={RegisterKey4Img} alt="Register on key4" />
                   </div>
-                  <p className="txtDark700 fsize-300 fweight-600 ta-c">
+                  <p className="txtText900 fsize-300 fweight-600 ta-c">
                     {translateTo('Register on key4', lang)}
                   </p>
                 </div>
@@ -60,17 +60,17 @@ const FinanceCertificate = (props: FinanceCertificateType) => {
                   <div className="m-a w-fix-80 h-fix-80 brdCircle bgBlue200 dis-f a-c jc-c mb-1">
                     <img loading="lazy" src={UploadKey4Img} alt="Upload documents on key4" />
                   </div>
-                  <p className="txtDark700 fsize-300 fweight-600 ta-c">
+                  <p className="txtText900 fsize-300 fweight-600 ta-c">
                     {translateTo('Upload documents on key4', lang)}
                   </p>
                 </div>
               </div>
 
               <div className="mt-4">
-                <p className="fsize-300 txtDark700 pb-2">
+                <p className="fsize-300 txtText900 pb-2">
                   {translateTo('The financing certificate is a quick, non-binding assessment of your financial situation and proof that you can afford the property you want provided by our partner key4 by UBS.', lang)}
                 </p>
-                <p className="fsize-300 txtDark700">
+                <p className="fsize-300 txtText900">
                   {translateTo('The non-binding certificate is issued by our partner key4 by UBS, the real estate financing platform of UBS.', lang)}
                 </p>
               </div>
@@ -85,15 +85,15 @@ const FinanceCertificate = (props: FinanceCertificateType) => {
               />
 
               <div className="mt-4 mx-a ta-c w-fix-md-504">
-                <p className="fsize-300 txtAltGrey500 fs-i">
+                <p className="fsize-300 txtText500 fs-i">
                   {translateTo('Please be aware that key4 offers are only valid for persons with residency in Switzerland.', lang)}
                 </p>
               </div>
             </div>
           ) : (
             <div className="p-5">
-              <p className="txtDark700" dangerouslySetInnerHTML={{ __html: translateTo('No problem.<br>We suggest checking your financing as soon as possible.', lang)}} />
-              <p className="txtDark700 pt-2">
+              <p className="txtText900" dangerouslySetInnerHTML={{ __html: translateTo('No problem.<br>We suggest checking your financing as soon as possible.', lang)}} />
+              <p className="txtText900 pt-2">
                 {translateTo('A pre-approved mortgage gets you ahead of unqualified buyers. That\'s how you can get one:', lang)}
               </p>
 
@@ -102,7 +102,7 @@ const FinanceCertificate = (props: FinanceCertificateType) => {
                   <div className="m-a w-fix-80 h-fix-80 brdCircle bgBlue200 dis-f a-c jc-c mb-1">
                     <img loading="lazy" src={FinancingQuestionImg} alt="Answer questions about financing" />
                   </div>
-                  <p className="txtDark700 fsize-300 fweight-600 ta-c">
+                  <p className="txtText900 fsize-300 fweight-600 ta-c">
                     {translateTo('Prepare your documents', lang)}
                   </p>
                 </div>
@@ -110,7 +110,7 @@ const FinanceCertificate = (props: FinanceCertificateType) => {
                   <div className="m-a w-fix-80 h-fix-80 brdCircle bgBlue200 dis-f a-c jc-c mb-1">
                     <img loading="lazy" src={RegisterKey4Img} alt="Register on key4" />
                   </div>
-                  <p className="txtDark700 fsize-300 fweight-600 ta-c">
+                  <p className="txtText900 fsize-300 fweight-600 ta-c">
                     {translateTo('Contact a financial provider', lang)}
                   </p>
                 </div>
@@ -118,14 +118,14 @@ const FinanceCertificate = (props: FinanceCertificateType) => {
                   <div className="m-a w-fix-80 h-fix-80 brdCircle bgBlue200 dis-f a-c jc-c mb-1">
                     <img loading="lazy" src={UploadKey4Img} alt="Upload documents on key4" />
                   </div>
-                  <p className="txtDark700 fsize-300 fweight-600 ta-c">
+                  <p className="txtText900 fsize-300 fweight-600 ta-c">
                     {translateTo('Attach the approval to your offer', lang)}
                   </p>
                 </div>
               </div>
 
               <div className="mt-3">
-                <p className="fsize-300 txtDark700">
+                <p className="fsize-300 txtText900">
                   {translateTo('Be aware Brixel is not in charge of the mortgage process.', lang)}
                 </p>
               </div>
@@ -133,10 +133,10 @@ const FinanceCertificate = (props: FinanceCertificateType) => {
           )
         }
 
-        <hr className="brdAltGrey100" />
+        <hr className="brdText100" />
 
         <div className="p-5">
-          <span className="dis-b pb-2 fsize-500 txtDark700">
+          <span className="dis-b pb-2 fsize-500 txtText900">
             {translateTo('Continue without financing certificate.', lang)}
           </span>
 

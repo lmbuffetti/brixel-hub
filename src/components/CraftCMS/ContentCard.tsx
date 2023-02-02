@@ -27,7 +27,7 @@ const ContentCard = (props: ContentCardType) => {
         )
       }
       <a href={hrefUrl} target="_blank" rel="noreferrer">
-        <h5 className="mt-2 mb-2 mb-sm-3 txtDark700 fSizePx18 fweight-600 tt-break-hy">{title}</h5>
+        <h5 className="mt-2 mb-2 mb-sm-3 txtText900 fSizePx18 fweight-600 tt-break-hy">{title}</h5>
       </a>
       <p className="fsize-300">{previewCopy}</p>
       <BrixelButtonText

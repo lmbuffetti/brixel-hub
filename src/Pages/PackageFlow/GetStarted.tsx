@@ -134,7 +134,7 @@ const GetStarted = (props: GetStartedType) => {
                         {
                           quest.title && (
                             <h3
-                              className={`${quest.subtitle ? 'mb-1' : 'mb-5'} fsize-600 fsize-sm-800 fweight-600 txtDark700 px-1 px-sm-0`}
+                              className={`${quest.subtitle ? 'mb-1' : 'mb-5'} fsize-600 fsize-sm-800 fweight-600 txtText900 px-1 px-sm-0`}
                               dangerouslySetInnerHTML={{ __html: quest.title }}
                             />
                           )
@@ -142,7 +142,7 @@ const GetStarted = (props: GetStartedType) => {
                       </div>
                       {
                         quest.subtitle && (
-                          <p className="mb-5 txtDark700" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
+                          <p className="mb-5 txtText900" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
                       }
 
                       <MultiFileldsReduxForm

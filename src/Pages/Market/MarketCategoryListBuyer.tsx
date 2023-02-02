@@ -151,7 +151,7 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
                 </div>
                 <div className="dis-fl-col jc-c a-c pb-2">
                   <h3>{translateTo('Welcome 🖐', lang)}</h3>
-                  <span className="txtDark200 pt-2 pb-5">
+                  <span className="txtText600 pt-2 pb-5">
                     {translateTo('This is our Brixel market. A place where you can do great things.', lang)}
                   </span>
                   <div className="mb-5">
@@ -162,7 +162,7 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
                           color="red"
                         />
                       </div>
-                      <span className="max-w-fix-424 txtDark700 pl-2">
+                      <span className="max-w-fix-424 txtText900 pl-2">
                         {translateTo('Manage your favorites and buy your new home directly on Brixel.', lang)}
                       </span>
                     </div>
@@ -172,7 +172,7 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
                           {translateTo('Pre', lang)}
                         </span>
                       </div>
-                      <span className="max-w-fix-424 txtDark700 pl-2">
+                      <span className="max-w-fix-424 txtText900 pl-2">
                         {translateTo('Discover exclusive properties which are not on the market yet, but waiting for your first move.', lang)}
                       </span>
                     </div>
@@ -182,7 +182,7 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
                           {translateTo('Premium', lang)}
                         </span>
                       </div>
-                      <span className="max-w-fix-424 txtDark700 pl-2">
+                      <span className="max-w-fix-424 txtText900 pl-2">
                         {translateTo('Explore our Premium properties with 3D tour, detailed documentation and verified informations.', lang)}
                       </span>
                     </div>
@@ -226,7 +226,7 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
                           <h3 className="txtBlue700 fweight-600 mt-4">
                             {get(activeSearchProfile, 'name', null) || titleSearchProfile(activeSearchProfile, lang)}
                           </h3>
-                          <p className="mt-1 fsize-300 txtAltGrey700">
+                          <p className="mt-1 fsize-300 txtText700">
                             {translateTo('Search profiles allow you to keep track of the properties that match your needs.', lang)}
                           </p>
                           <div className="dis-f flex-wrap a-t jc-c mt-4">
@@ -270,7 +270,7 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
                           <h3 className="txtGreen700 fweight-600 mt-4 mt-md-0 mb-1">
                             {translateTo('Create your personalized Search', lang)}
                           </h3>
-                          <p className="fsize-300 txtAltGrey700">
+                          <p className="fsize-300 txtText700">
                             {translateTo('You can create multiple Search Profiles to apply different filters and find the properties that best match your needs.', lang)}
                           </p>
                           <BrixelButtonPrimary
@@ -320,7 +320,7 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
                       {
                         buyerProperties.total === 0 && (
                           <div>
-                            <p className="txtAltGrey700 fSizePx14">
+                            <p className="txtText700 fSizePx14">
                               <span>
                                 {translateTo('Properties could already be for sale or still in the Pre-Market.', lang)}
                               </span>

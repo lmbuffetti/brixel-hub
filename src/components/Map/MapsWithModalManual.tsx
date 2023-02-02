@@ -294,14 +294,14 @@ const MapsWithModalManual = (props: MapsWithModalManualType) => {
         )
       }
       <div className="dis-f jc-b a-c mt-3 mt-sm-4 px-2">
-        <div className="fweight-500 txtDark700 pr-1 pr-sm-0">
+        <div className="fweight-500 txtText900 pr-1 pr-sm-0">
           <span>{get(formValue, 'location.name', '')}</span>
           {
             get(formValue, 'location.streetNumber', null) && (
               <span className="ml-1 dis-ib">{get(formValue, 'location.streetNumber', '')}</span>
             )
           }
-          <span className="fweight-400 txtDark200 fsize-200 dis-b">{get(formValue, 'location.cityZip', '')}</span>
+          <span className="fweight-400 txtText600 fsize-200 dis-b">{get(formValue, 'location.cityZip', '')}</span>
         </div>
         <BrixelButtonSecondary
           label={translateTo('Edit', lang)}

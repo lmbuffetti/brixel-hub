@@ -77,7 +77,7 @@ const DealsCard = (props: DealsCardProps) => {
   };
 
   const getTextColor = () => {
-    if (visit < +new Date().setHours(0, 0, 0, 0)) return 'Dark700';
+    if (visit < +new Date().setHours(0, 0, 0, 0)) return 'Text900';
     return 'Green400';
   };
 
@@ -115,11 +115,11 @@ const DealsCard = (props: DealsCardProps) => {
         </div>
         <div className="rightPanel dis-fl-col jc-b">
           <div className="topPart">
-            <span className={`name dis-b txtDark700 fsize-300 notranslate fweight-600 ${name === 'No name' ? 'txtDark100' : 'txtDark700'}`}> {name} </span>
+            <span className={`name dis-b txtText900 fsize-300 notranslate fweight-600 ${name === 'No name' ? 'txtText500' : 'txtText900'}`}> {name} </span>
             {
               stage === 'Interested' && (
                 <span
-                  className="metaMessage fsize-300 txtDark700 dis-b"
+                  className="metaMessage fsize-300 txtText900 dis-b"
                   dangerouslySetInnerHTML={{
                     __html: returnMessage(),
                   }}
@@ -137,11 +137,11 @@ const DealsCard = (props: DealsCardProps) => {
                       className="mr-1"
                       iconWidth="w-fix-16"
                     />
-                    <span className="fsize-300 txtDark700">{translateTo('No date', lang)}</span>
+                    <span className="fsize-300 txtText900">{translateTo('No date', lang)}</span>
                   </div>
                 ) : (
                   (get(feedback, 'isInterested') === true || get(feedback, 'isInterested') === false) ? (
-                    <span className="fsize-300 txtDark700">{getFeedback()}</span>
+                    <span className="fsize-300 txtText900">{getFeedback()}</span>
                   ) : (
                     <div className="dis-fl-row a-c">
                       <BrixelIcon
@@ -181,7 +181,7 @@ const DealsCard = (props: DealsCardProps) => {
                           className="mr-1"
                           iconWidth="w-fix-16"
                         />
-                        <span className="fsize-300 txtDark200">{translateTo('No offer', lang)}</span>
+                        <span className="fsize-300 txtText600">{translateTo('No offer', lang)}</span>
                       </>
                     )
                   }
@@ -197,12 +197,12 @@ const DealsCard = (props: DealsCardProps) => {
                     className="mr-1 zIndex0"
                     color="primary"
                   />
-                  <span className="date fsize-200 fweight-600 txtDark700">
+                  <span className="date fsize-200 fweight-600 txtText900">
                     {date}
                   </span>
                 </div>
               ) : (
-                <span className="date fsize-100 txtDark200">
+                <span className="date fsize-100 txtText600">
                   {date}
                 </span>
               )

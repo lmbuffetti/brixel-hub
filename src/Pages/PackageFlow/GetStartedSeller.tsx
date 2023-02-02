@@ -594,7 +594,7 @@ const GetStartedSeller = (props: GetStartedSellerType) => {
                         }
                         {
                           quest.subtitle && (
-                            <p className="mb-5 ta-c txtDark200 w-perc-100 px-3 px-sm-2" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
+                            <p className="mb-5 ta-c txtText600 w-perc-100 px-3 px-sm-2" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
                         }
                         <MultiFileldsReduxForm
                           baseByData={baseByData}

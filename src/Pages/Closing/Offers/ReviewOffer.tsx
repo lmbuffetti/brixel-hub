@@ -114,19 +114,19 @@ const ReviewOffer = (props: ReviewOfferType) => {
                       )
                     }
 
-                    {/*   <h5 className=" ta-c fsize-400 fweight-400 txtDark100 mt-1">{moment(new Date()).format('DD MMM YYYY HH:mm')}</h5>
+                    {/*   <h5 className=" ta-c fsize-400 fweight-400 txtText500 mt-1">{moment(new Date()).format('DD MMM YYYY HH:mm')}</h5>
 
                 <p className="mt-5">Your offer was transmitted to the owner. You will get feedback via e-mail.</p> */}
 
                     <h6 className="fsize-200 pb-1 mt-5">{translateTo('Asking Price', lang)}</h6>
                     {
                       get(activeSingleProperty, 'price.total', 0) > 0 ? (
-                        <p className="txtDark700 fweight-400">
+                        <p className="txtText900 fweight-400">
                           <span className="mr-small-4">{get(activeSingleProperty, 'price.currency', '')}</span>
                           <span className="ff-mono fSizePx20">{Helpers.formatNumberValue(get(activeSingleProperty, 'price.total', 0), get(activeSingleProperty, 'price.currency', ''))}</span>
                         </p>
                       ) : (
-                        <p className="txtDark700 fweight-400">{translateTo('On Request', lang)}</p>
+                        <p className="txtText900 fweight-400">{translateTo('On Request', lang)}</p>
                       )
                     }
 
@@ -134,7 +134,7 @@ const ReviewOffer = (props: ReviewOfferType) => {
 
                     {
                       success === 'accepted' ? (
-                        <p className="txtDark700 fweight-400 txtGreen400">
+                        <p className="txtText900 fweight-400 txtGreen400">
                           <span className="mr-small-4">
                             {get(activeSingleOffer, 'offer.currency', '')}
                           </span>
@@ -143,7 +143,7 @@ const ReviewOffer = (props: ReviewOfferType) => {
                           </span>
                         </p>
                       ) : (
-                        <p className="txtRed400 txtDark700 fweight-400">
+                        <p className="txtRed400 txtText900 fweight-400">
                           <span className="mr-small-4">{get(activeSingleOffer, 'offer.currency', '')}</span>
                           <span
                             className="ff-mono fSizePx20"
@@ -173,7 +173,7 @@ const ReviewOffer = (props: ReviewOfferType) => {
                         icon="info"
                       />
 
-                      <p className="fsize-300 txtDark200 ml-2">
+                      <p className="fsize-300 txtText600 ml-2">
                         {
                           success === 'accepted' ? (
                             <>
@@ -211,18 +211,18 @@ const ReviewOffer = (props: ReviewOfferType) => {
                       <h6 className="fsize-200 pb-1">{translateTo('Asking Price', lang)}</h6>
                       {
                         get(activeSingleProperty, 'price.total', 0) > 0 ? (
-                          <p className="txtDark700 fweight-400">
+                          <p className="txtText900 fweight-400">
                             <span className="mr-small-4">{get(activeSingleProperty, 'price.currency', '')}</span>
                             <span className="ff-mono fSizePx20">{Helpers.formatNumberValue(get(activeSingleProperty, 'price.total', 0), get(activeSingleProperty, 'price.currency', ''))}</span>
                           </p>
                         ) : (
-                          <p className="txtDark700 fweight-400">{translateTo('On Request', lang)}</p>
+                          <p className="txtText900 fweight-400">{translateTo('On Request', lang)}</p>
                         )
                       }
 
                       <h6 className="fsize-200 pb-1 pt-3">{translateTo('Offer Price', lang)}</h6>
 
-                      <p className="txtDark700 fweight-400 txtGreen400">
+                      <p className="txtText900 fweight-400 txtGreen400">
                         <span className="mr-small-4">{get(activeSingleOffer, 'offer.currency', '')}</span>
                         <span className="ff-mono fSizePx20">{Helpers.formatNumberValue(get(activeSingleOffer, 'offer.amount', 0), get(activeSingleOffer, 'offer.currency', ''))}</span>
                       </p>
@@ -243,14 +243,14 @@ const ReviewOffer = (props: ReviewOfferType) => {
                                 color="blue"
                                 saturationTxt={700}
                               />
-                              <p className="txtDark700 pl-small-4">{get(activeSingleOffer, 'offer.documents[0].name', '')}</p>
+                              <p className="txtText900 pl-small-4">{get(activeSingleOffer, 'offer.documents[0].name', '')}</p>
                             </div>
                           </div>
                         )
                       }
 
                       <h6 className="fsize-200 pb-1 pt-3">{translateTo('Message', lang)}</h6>
-                      <p className="txtDark700"><i>{get(activeSingleOffer, 'offer.noteByBuyer', '-') || '-'}</i></p>
+                      <p className="txtText900"><i>{get(activeSingleOffer, 'offer.noteByBuyer', '-') || '-'}</i></p>
 
                       <div className="dis-f mt-5">
                         <BrixelIcon
@@ -259,7 +259,7 @@ const ReviewOffer = (props: ReviewOfferType) => {
                           saturationTxt={700}
                         />
 
-                        <p className="txtLight700 ml-2">
+                        <p className="txtText500 ml-2">
                           {translateTo('This is a non-binding offer. The buyer will be notified about your decision.', lang)}
                         </p>
 
@@ -303,7 +303,7 @@ const ReviewOffer = (props: ReviewOfferType) => {
 
                 <h6 className="fsize-200 pb-1 pt-3">Offer Price</h6>
 
-                <p className={`txtDark700 fweight-400 ${get(activeSingleOffer, 'offer.status', null) === 'accepted' ? 'txtGreen400' : 'txtRed400'}`}>
+                <p className={`txtText900 fweight-400 ${get(activeSingleOffer, 'offer.status', null) === 'accepted' ? 'txtGreen400' : 'txtRed400'}`}>
                   <span className="mr-small-4">{get(activeSingleOffer, 'offer.currency', '')}</span>
                   <span className="ff-mono fSizePx20">{Helpers.formatNumberValue(get(activeSingleOffer, 'offer.amount', 0), get(activeSingleOffer, 'offer.currency', ''))}</span>
                 </p>
@@ -324,25 +324,25 @@ const ReviewOffer = (props: ReviewOfferType) => {
                           color="blue"
                           saturationTxt={700}
                         />
-                        <p className="txtDark700 pl-small-4">{get(activeSingleOffer, 'offer.documents[0].name', '')}</p>
+                        <p className="txtText900 pl-small-4">{get(activeSingleOffer, 'offer.documents[0].name', '')}</p>
                       </div>
                     </div>
                   )
                 }
 
                 <h6 className="fsize-200 pb-1 pt-3">Note</h6>
-                <p className="txtDark700"><i>{get(activeSingleOffer, 'offer.noteByBuyer', '-') || '-'}</i></p>
+                <p className="txtText900"><i>{get(activeSingleOffer, 'offer.noteByBuyer', '-') || '-'}</i></p>
 
                 <div className="ta-r">
                   <h6 className="fsize-200 pb-1 pt-3">Answer</h6>
-                  <p className="txtDark700"><i>{get(activeSingleOffer, 'offer.noteBySeller', '-') || '-'}</i></p>
+                  <p className="txtText900"><i>{get(activeSingleOffer, 'offer.noteBySeller', '-') || '-'}</i></p>
                 </div>
                 <div className="dis-f mt-5">
                   <BrixelIcon
                     className="mr-1"
                     icon="info"
                   />
-                  <p className="fsize-300 txtDark200 ml-2">
+                  <p className="fsize-300 txtText600 ml-2">
                     {
                       get(activeSingleOffer, 'offer.status', null) === 'accepted' ? (
                         <>

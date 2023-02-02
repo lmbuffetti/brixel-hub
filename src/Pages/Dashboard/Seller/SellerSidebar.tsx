@@ -122,7 +122,7 @@ const SellerSidebar = (props: SellerSidebarType) => {
     <div className="seller-sidebar w-perc-100 max-w-fix-384">
       <div className="updates dis-fl-col">
         <div className="p-3">
-          <p className="fweight-600 txtDark700 mb-2">
+          <p className="fweight-600 txtText900 mb-2">
             {translateTo('Feed', lang)}
           </p>
 
@@ -155,12 +155,12 @@ const SellerSidebar = (props: SellerSidebarType) => {
                 />
                 <div className="pl-2 desc">
                   <p
-                    className="fsize-300 txtDark600 dont-break-out"
+                    className="fsize-300 txtText800 dont-break-out"
                     dangerouslySetInnerHTML={{ __html: translateTo(parseNote(convertFeedMessage(history.actionStub, 'message', history), typeof history.actionStub === 'undefined'), lang) }}
                   />
                   {
                     !isNaN(get(history, 'createdAt', null)) && (
-                      <p className="fsize-200 pt-small-4 txtLight400">
+                      <p className="fsize-200 pt-small-4 txtText300">
                         {
                           get(history, 'history[0].author.name', null) && (
                             <>

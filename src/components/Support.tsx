@@ -31,7 +31,7 @@ const Support = (props: SupportType) => {
   const teamAvatars = get(activeSingleCompany, 'teamAvatars', []);
   const companyLegalName = get(activeSingleCompany, 'name', get(activeSingleCompany, 'name', null));
   // COLOR
-  const colorLinkTextInfo = layout === 'onboarding' ? 'txtDark700' : 'txtDark700';
+  const colorLinkTextInfo = layout === 'onboarding' ? 'txtText900' : 'txtText900';
 
   const [openDetail, setOpenDetail] = useState(expanded);
   const [supportMessage, setSupportMessage] = useState('');
@@ -75,8 +75,8 @@ const Support = (props: SupportType) => {
               {
                 layout !== 'floatable' ? (
                   <div>
-                    <p className="txtDark200 mb-2">{translateTo('Need support?', lang)}</p>
-                    <h5 className="txtDark700">{companyLegalName}</h5>
+                    <p className="txtText600 mb-2">{translateTo('Need support?', lang)}</p>
+                    <h5 className="txtText900">{companyLegalName}</h5>
                   </div>
                 ) : (
                   <div className="dis-f a-c">
@@ -99,7 +99,7 @@ const Support = (props: SupportType) => {
                     }
                     {
                       layout !== 'floatable' && (
-                        <span className="ml-2 txtLight400">{translateTo('Support', lang)}</span>
+                        <span className="ml-2 txtText300">{translateTo('Support', lang)}</span>
                       )
                     }
                   </div>

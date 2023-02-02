@@ -52,7 +52,7 @@ export const PackagesComparePlans = (props: PackagesComparePlansType) => {
 
       const createButtons = () => {
         nextButton.style.display = 'none';
-        nextButton.setAttribute('class', 'hide-md iconBtn txtLight400  icnLight400  brdLight400 brdSmall txtLight500 icnLight500 brdLight500 secondary small  secondary dis-f pos-a-fix x-r-2 mt-2 compare-btn-mobile');
+        nextButton.setAttribute('class', 'hide-md iconBtn txtText300  icnText300  brdText300 brdSmall txtText400 icnText400 brdText400 secondary small  secondary dis-f pos-a-fix x-r-2 mt-2 compare-btn-mobile');
 
         nextButton.innerHTML = `
             <span class="brixelIcon normal leftIcon  brdRadius  "><i class="icon-arrow-simple-right  "><svg viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="Icons/arrow-simple-right" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><path d="M6.30073008,21.3108287 C5.92317843,21.6737117 5.89767292,22.2888045 6.24376194,22.6846769 C6.58985095,23.0805494 7.17647762,23.1072925 7.55402928,22.7444095 L17.4954809,13.1892027 C17.8149636,12.8825699 18,12.4536403 18,12 C18,11.5463597 17.8149636,11.1174301 17.4949958,10.8103314 L7.55402928,1.25559052 C7.17647762,0.892707483 6.58985095,0.919450649 6.24376194,1.31532305 C5.89767292,1.71119545 5.92317843,2.32628827 6.30073008,2.6891713 L15.9879254,12 L6.30073008,21.3108287 Z" id="🎨-icon-color" fill="#32373C" transform="translate(12.000000, 12.000000) rotate(-360.000000) translate(-12.000000, -12.000000) "></path></g></svg></i></span>
@@ -188,7 +188,7 @@ export const PackagesComparePlans = (props: PackagesComparePlansType) => {
             {
               extractTable('one').map((pkg, i) => (
                 <th key={`one_${i.toString()}`}>
-                  <span className="txtDark700">{pkg.name}</span>
+                  <span className="txtText900">{pkg.name}</span>
                   {
                     get(pkg, 'price.total', 0) > 0 ? (
                       <span className="fsize-500 dis-f a-b fweight-400">

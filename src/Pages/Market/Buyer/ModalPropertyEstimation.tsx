@@ -124,8 +124,8 @@ const ModalPropertyEstimation = (props: ModalPropertyEstimationType) => {
 
           <div className="dis-fl-col dis-fl-row-sm jc-fs">
 
-            <div className="brdSmallRight-sm brdAltGrey100 mr-2 pr-2">
-              <h6 className="fsize-300 fweight-400 txtAltGrey400 pb-1">
+            <div className="brdSmallRight-sm brdText100 mr-2 pr-2">
+              <h6 className="fsize-300 fweight-400 txtText400 pb-1">
                 {translateTo('Property worth', lang)}
               </h6>
               <p className="ff-mono dis-f a-b txtGreen400">
@@ -136,7 +136,7 @@ const ModalPropertyEstimation = (props: ModalPropertyEstimationType) => {
 
 
             <div className="mt-1 mt-sm-0">
-              <h6 className="fsize-300 fweight-400 txtAltGrey400 pb-1">
+              <h6 className="fsize-300 fweight-400 txtText400 pb-1">
                 {translateTo('Similar properties are currently worth between', lang)}
               </h6>
               <p className="ff-mono dis-f a-b txtGreen400">
@@ -158,7 +158,7 @@ const ModalPropertyEstimation = (props: ModalPropertyEstimationType) => {
 
           <div className="dis-f a-t jc-b flex-wrap">
             <div>
-              <span className="fsize-300 dis-b txtAltGrey400 mb-1">
+              <span className="fsize-300 dis-b txtText400 mb-1">
                 {translateTo('Property Type', lang)}
               </span>
               <span className="ff-mono fsize-500 txtBlack">
@@ -166,7 +166,7 @@ const ModalPropertyEstimation = (props: ModalPropertyEstimationType) => {
               </span>
             </div>
             <div>
-              <span className="fsize-300 dis-b txtAltGrey400 mb-1">
+              <span className="fsize-300 dis-b txtText400 mb-1">
                 {translateTo('Rooms', lang)}
               </span>
               <span className="ff-mono fsize-500 txtBlack">
@@ -174,7 +174,7 @@ const ModalPropertyEstimation = (props: ModalPropertyEstimationType) => {
               </span>
             </div>
             <div>
-              <span className="fsize-300 dis-b txtAltGrey400 mb-1">
+              <span className="fsize-300 dis-b txtText400 mb-1">
                 {translateTo('Size', lang)}
               </span>
               <span className="ff-mono fsize-500 txtBlack">
@@ -182,7 +182,7 @@ const ModalPropertyEstimation = (props: ModalPropertyEstimationType) => {
               </span>
             </div>
             <div>
-              <span className="fsize-300 dis-b txtAltGrey400 mb-1">
+              <span className="fsize-300 dis-b txtText400 mb-1">
                 {translateTo('Year built', lang)}
               </span>
               <span className="ff-mono fsize-500 txtBlack">
@@ -190,10 +190,10 @@ const ModalPropertyEstimation = (props: ModalPropertyEstimationType) => {
               </span>
             </div>
             <div>
-              <span className="fsize-300 dis-b txtAltGrey400 mb-1">
+              <span className="fsize-300 dis-b txtText400 mb-1">
                 {translateTo('Location', lang)}
               </span>
-              <span className="fsize-500 txtDark700 mt-1 notranslate">
+              <span className="fsize-500 txtText900 mt-1 notranslate">
                 {get(activeEstimation, 'data.location.zip', '')} {get(activeEstimation, 'data.location.city', '')}
                 {
                   get(activeEstimation, 'data.location.countryCode', 'CH') === 'CH' && (
@@ -222,7 +222,7 @@ const ModalPropertyEstimation = (props: ModalPropertyEstimationType) => {
                   {
                     get(activeEstimation, 'data.properties.building.conditionStatus', null) && (
                       <div>
-                        <span className="fsize-300 dis-b txtAltGrey400 mb-1">
+                        <span className="fsize-300 dis-b txtText400 mb-1">
                           {translateTo('Condition', lang)}
                         </span>
                         <span className="ff-mono fsize-500 txtBlack">
@@ -234,7 +234,7 @@ const ModalPropertyEstimation = (props: ModalPropertyEstimationType) => {
                   {
                     get(activeEstimation, 'data.properties.typology.bathrooms', null) && (
                       <div>
-                        <span className="fsize-300 dis-b txtAltGrey400 mb-1">
+                        <span className="fsize-300 dis-b txtText400 mb-1">
                           {translateTo('Bathrooms', lang)}
                         </span>
                         <span className="ff-mono fsize-500 txtBlack">
@@ -247,7 +247,7 @@ const ModalPropertyEstimation = (props: ModalPropertyEstimationType) => {
                   {
                     Object.keys(get(activeEstimation, 'data.properties.building.solarOrientarion', {} )).length > 0 && (
                       <div>
-                        <span className="fsize-300 dis-b txtAltGrey400 mb-1">
+                        <span className="fsize-300 dis-b txtText400 mb-1">
                           {translateTo('Solar orientations', lang)}
                         </span>
 
@@ -271,7 +271,7 @@ const ModalPropertyEstimation = (props: ModalPropertyEstimationType) => {
                   {
                     get(activeEstimation, 'data.properties.parking.garage', 0) > 0 && (
                       <div>
-                        <span className="fsize-300 dis-b txtAltGrey400 mb-1">
+                        <span className="fsize-300 dis-b txtText400 mb-1">
                           {translateTo('Garage', lang)}
                         </span>
                         <span className="ff-mono fsize-500 txtBlack">
@@ -284,7 +284,7 @@ const ModalPropertyEstimation = (props: ModalPropertyEstimationType) => {
                   {
                     get(activeEstimation, 'data.properties.parking.outside', 0) > 0 && (
                       <div>
-                        <span className="fsize-300 dis-b txtAltGrey400 mb-1">
+                        <span className="fsize-300 dis-b txtText400 mb-1">
                           {translateTo('Parking outside', lang)}
                         </span>
                         <span className="ff-mono fsize-500 txtBlack">
@@ -297,7 +297,7 @@ const ModalPropertyEstimation = (props: ModalPropertyEstimationType) => {
                   {
                     get(activeEstimation, 'data.properties.parking.underground', 0) > 0 && (
                       <div>
-                        <span className="fsize-300 dis-b txtAltGrey400 mb-1">
+                        <span className="fsize-300 dis-b txtText400 mb-1">
                           {translateTo('Parking underground', lang)}
                         </span>
                         <span className="ff-mono fsize-500 txtBlack">
@@ -310,7 +310,7 @@ const ModalPropertyEstimation = (props: ModalPropertyEstimationType) => {
                   {
                     get(activeEstimation, 'data.properties.energy.efficiency', null) && (
                       <div>
-                        <span className="fsize-300 dis-b txtAltGrey400 mb-1">
+                        <span className="fsize-300 dis-b txtText400 mb-1">
                           {translateTo('Energy efficiency', lang)}
                         </span>
                         <span className="ff-mono fsize-500 txtBlack">
@@ -323,7 +323,7 @@ const ModalPropertyEstimation = (props: ModalPropertyEstimationType) => {
                   {
                     get(activeEstimation, 'data.properties.energy.efficiencyCertified', null) && (
                       <div>
-                        <span className="fsize-300 dis-b txtAltGrey400 mb-1">
+                        <span className="fsize-300 dis-b txtText400 mb-1">
                           {translateTo('Energy certified', lang)}
                         </span>
                         <span className="ff-mono fsize-500 txtBlack">
@@ -336,7 +336,7 @@ const ModalPropertyEstimation = (props: ModalPropertyEstimationType) => {
                   {
                     activeExtraFeatures.length > 0 && (
                       <div>
-                        <span className="fsize-300 dis-b txtAltGrey400 mb-1">
+                        <span className="fsize-300 dis-b txtText400 mb-1">
                           {translateTo('Extra Features', lang)}
                         </span>
                         {

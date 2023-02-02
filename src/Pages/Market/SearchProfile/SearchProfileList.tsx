@@ -141,7 +141,7 @@ const SearchProfileList = (props: SearchProfileListType) => {
           <h5 className="fweight-600">
             {translateTo('Your Search Profiles', lang)}
           </h5>
-          <p className="txtAltGrey400 fsize-300">
+          <p className="txtText400 fsize-300">
             {translateTo('Select the Search Profile you’d like to apply to filter properties.', lang)}
           </p>
         </div>
@@ -160,7 +160,7 @@ const SearchProfileList = (props: SearchProfileListType) => {
               searchProfile.id && (
                 <div
                   key={`searchProfile${i.toString()}`}
-                  className={`searchProfileList brdSmall brdRadius p-2 p-md-3 mb-2 ${i.toString() === '0' ? 'mt-4' : ''} ${userActiveSearchProfileId === searchProfile.id ? 'bgBlue100 brdBlue300' : 'brdLight200'}`}
+                  className={`searchProfileList brdSmall brdRadius p-2 p-md-3 mb-2 ${i.toString() === '0' ? 'mt-4' : ''} ${userActiveSearchProfileId === searchProfile.id ? 'bgBlue100 brdBlue300' : 'brdText100'}`}
                 >
                   <div className={`dis-f a-c jc-b ${userActiveSearchProfileId === searchProfile.id ? 'brdSmallBottom-md pb-md-3 mb-md-3 pb-2' : 'pb-2 pb-md-0'} brdBlue300`} >
                     <div className="dis-f a-t jc-fs w-perc-75">
@@ -234,7 +234,7 @@ const SearchProfileList = (props: SearchProfileListType) => {
                   <div className={userActiveSearchProfileId === searchProfile.id ? '' : 'hide-md'}>
                     <div className="hide dis-b-md">
                       <h6>{translateTo('Filters applied', lang)}</h6>
-                      <p className="txtAltGrey400 fsize-300">{translateTo('Summary of all the filters applied', lang)}</p>
+                      <p className="txtText400 fsize-300">{translateTo('Summary of all the filters applied', lang)}</p>
                     </div>
 
                     <div className="dis-f flex-wrap a-t mt-2">
@@ -258,7 +258,7 @@ const SearchProfileList = (props: SearchProfileListType) => {
                       }
                     </div>
 
-                    <div className={`hide-md dis-f jc-fe brdSmallTop ${userActiveSearchProfileId === searchProfile.id ? 'brdBlue300' : 'brdLight300'} mt-3 pt-2`}>
+                    <div className={`hide-md dis-f jc-fe brdSmallTop ${userActiveSearchProfileId === searchProfile.id ? 'brdBlue300' : 'brdText200'} mt-3 pt-2`}>
                       <BrixelButtonText
                         theme="Red"
                         rounded

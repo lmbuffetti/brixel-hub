@@ -520,7 +520,7 @@ const GetStartedBuyer = (props: GetStartedType) => {
                         }
                         {
                           quest.subtitle && (
-                            <p className="mb-5 ta-c txtDark200 w-perc-100 px-3 px-sm-2" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
+                            <p className="mb-5 ta-c txtText600 w-perc-100 px-3 px-sm-2" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
                         }
                         <div className={`${quest.className} w-perc-100`}>
                           <MultiFileldsReduxForm
@@ -681,7 +681,7 @@ const GetStartedBuyer = (props: GetStartedType) => {
                     }
                     {
                       quest.bulletPoints && (
-                        <div className="brdSmallLeft-lg brdAltGrey100 w-perc-lg-45 pl-lg-5 py-lg-3 max-w-fix-lg-352">
+                        <div className="brdSmallLeft-lg brdText100 w-perc-lg-45 pl-lg-5 py-lg-3 max-w-fix-lg-352">
                           <span className="my-3 dis-b">{quest.bulletPoints.title}</span>
                           <ul className="">
                             {

@@ -44,7 +44,7 @@ const IntroScanFlow = (props: IntroScanFlowType) => {
   });
 
   return (
-    <main id="rewards" className="introScanFlow pb-2 pb-sm-4 h-perc-100 txtDark700 mt-3">
+    <main id="rewards" className="introScanFlow pb-2 pb-sm-4 h-perc-100 txtText900 mt-3">
 
       <h2 className="mb-0 mb-lg-5 ta-c fweight-600">
         {translateTo('How it works', lang)}

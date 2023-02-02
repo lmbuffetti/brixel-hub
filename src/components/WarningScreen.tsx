@@ -42,7 +42,7 @@ const WarningScreen = (props: WarningScreenType) => {
 
   return (
     <div className="brixel-modal " id="">
-      <div className="w-perc-100 min-h-fix-sm-320 w-fix-sm-480 modal-container dis-fl-col jc-fs bgLight100">
+      <div className="w-perc-100 min-h-fix-sm-320 w-fix-sm-480 modal-container dis-fl-col jc-fs bgText25">
         <div className="modal-header dis-f jc-fe a-c">
           <BrixelButtonIcon
             icon="close-small"
@@ -60,7 +60,7 @@ const WarningScreen = (props: WarningScreenType) => {
             <span className="heading3 ml-3">{translateTo('Oops!', lang)}</span>
           </div>
         </div>
-        <div className="modal-body ta-l bgLight100">
+        <div className="modal-body ta-l bgText25">
           <div>{translateTo('You have unsaved changes', lang)}</div>
         </div>
         <div className="modal-footer dis-f jc-b jc-fe-md bgWhite jc-b">

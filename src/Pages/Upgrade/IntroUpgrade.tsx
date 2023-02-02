@@ -185,7 +185,7 @@ const IntroUpgrade = (props: IntroUpgradeType) => {
   const partners = get(activeSingleCompany, 'stub') === 'ubs' || get(activeSingleCompany, 'stub') === 'baloise';
 
   return (
-    <main id="rewards" className="introScanFlow pt-2 pt-sm-4 pb-2 pb-sm-4 h-perc-100 txtDark700">
+    <main id="rewards" className="introScanFlow pt-2 pt-sm-4 pb-2 pb-sm-4 h-perc-100 txtText900">
 
       <section className="max-w-fix-1200 intro container">
 
@@ -224,13 +224,13 @@ const IntroUpgrade = (props: IntroUpgradeType) => {
                             <h5 className={`fweight-600 fSizePx18 ${i === 1  ? 'txtGreen400' : ''}`}>{pkg.name}</h5>
                             {
                               !partners && get(pkg, 'stub', '') === get(packageName, 'stub', '') && (
-                                <div className="bgDark500 py-small-4 px-1 brdRadius txtWhite">{translateTo('Your plan', lang)}</div>
+                                <div className="bgText800 py-small-4 px-1 brdRadius txtWhite">{translateTo('Your plan', lang)}</div>
                               )
                             }
                           </div>
                           {
                             pkg.description && (
-                              <p className="mt-4 txtDark700 min-h-fix-md-80">
+                              <p className="mt-4 txtText900 min-h-fix-md-80">
                                 {translateTo(pkg.description, lang)}
                               </p>
                             )
@@ -243,7 +243,7 @@ const IntroUpgrade = (props: IntroUpgradeType) => {
                                     get(pkg, 'price.discountTotal', 0) > 0 && (
                                       <>
                                         <span
-                                          className="dis-b txtAltGrey400 fsize-300 mt-2 mt-sm-0"
+                                          className="dis-b txtText400 fsize-300 mt-2 mt-sm-0"
                                         >
                                           <span className="">{translateTo('Original price', lang)}</span>
                                           <span className="td-lt lh-in ml-2 dis-ib pt-small-2">
@@ -286,7 +286,7 @@ const IntroUpgrade = (props: IntroUpgradeType) => {
                             )
                           }
 
-                          <ul className="checked mt-4 txtDark700">
+                          <ul className="checked mt-4 txtText900">
                             {
                               pkg.details && get(pkg, 'details', []).map((detail, f) => (
                                 <li
@@ -317,7 +317,7 @@ const IntroUpgrade = (props: IntroUpgradeType) => {
                                     <span className="fweight-600 mt-1 dis-b p-2 bgBlue100">
                                       {translateTo('You only pay if the property is sold.', lang)}
                                     </span>
-                                    <ul className="checked mt-2 txtDark700">
+                                    <ul className="checked mt-2 txtText900">
                                       <li>{translateTo('Support in terminating or transferring the mortgage', lang)}</li>
                                       <li>{translateTo('Pension and investment advice', lang)}</li>
                                       <li>{translateTo('Advice on the tax implications of selling real estate', lang)}</li>
@@ -326,7 +326,7 @@ const IntroUpgrade = (props: IntroUpgradeType) => {
                                     </ul>
 
                                     <div>
-                                      <span className="dis-b ml-4 mt-4 txtAltGrey400 fsize-300 mb-1">
+                                      <span className="dis-b ml-4 mt-4 txtText400 fsize-300 mb-1">
                                         {translateTo('Your partner for financial questions', lang)}
                                       </span>
                                       {
@@ -341,7 +341,7 @@ const IntroUpgrade = (props: IntroUpgradeType) => {
                                                       key={`logo${x.toString()}`}
                                                       src={logo}
                                                       alt={`${activeSingleCompany.name} logo ${x}`}
-                                                      className={`${x > 0 ? 'ml-2 brdSmallLeft brdAltGrey300 pl-2' : ''} h-perc-100`}
+                                                      className={`${x > 0 ? 'ml-2 brdSmallLeft brdText300 pl-2' : ''} h-perc-100`}
                                                     />
                                                   </div>
                                                 </>
@@ -362,7 +362,7 @@ const IntroUpgrade = (props: IntroUpgradeType) => {
                                     </span>
                                     <span className="fweight-600 mt-1 dis-b p-2 bgBlue100">
                                       {translateTo('You only pay if the property is sold.', lang)}</span>
-                                    <ul className="checked mt-2 txtDark700">
+                                    <ul className="checked mt-2 txtText900">
                                       <li>{translateTo('Clarification of the existing mortgage', lang)}</li>
                                       <li>{translateTo('Baloise gives you as a customer CHF 1,000 as a gift', lang)}</li>
                                       <li>{translateTo('Information on inheritance and estate planning', lang)}</li>
@@ -396,7 +396,7 @@ const IntroUpgrade = (props: IntroUpgradeType) => {
                                 <div className="dis-f jc-b a-c">
                                   <h5 className={`fweight-600 fSizePx18 ${i === 1  ? 'txtGreen400' : ''}`}>{pkg.name}</h5>
                                 </div>
-                                <p className="mt-4 txtDark700 min-h-fix-md-80">
+                                <p className="mt-4 txtText900 min-h-fix-md-80">
                                   {translateTo(pkg.description || '', lang)}
                                 </p>
 
@@ -408,7 +408,7 @@ const IntroUpgrade = (props: IntroUpgradeType) => {
                                           get(pkg, 'price.discountTotal', 0) > 0 && (
                                             <>
                                               <span
-                                                className="dis-b txtAltGrey400 fsize-300 mt-2 mt-sm-0"
+                                                className="dis-b txtText400 fsize-300 mt-2 mt-sm-0"
                                               >
                                                 <span className="">{translateTo('Original price', lang)}</span>
                                                 <span className="td-lt lh-in ml-2 dis-ib pt-small-2">
@@ -458,7 +458,7 @@ const IntroUpgrade = (props: IntroUpgradeType) => {
                                   )
                                 }
 
-                                <ul className="checked mt-4 txtDark700">
+                                <ul className="checked mt-4 txtText900">
                                   {
                                     pkg.details && get(pkg, 'details', []).map((detail, f) => (
                                       <li
@@ -489,7 +489,7 @@ const IntroUpgrade = (props: IntroUpgradeType) => {
                                           <span className="fweight-600 mt-1 dis-b p-2 bgBlue100">
                                             {translateTo('You only pay if the property is sold.', lang)}
                                           </span>
-                                          <ul className="checked mt-2 txtDark700">
+                                          <ul className="checked mt-2 txtText900">
                                             <li>{translateTo('Support in terminating or transferring the mortgage', lang)}</li>
                                             <li>{translateTo('Pension and investment advice', lang)}</li>
                                             <li>{translateTo('Advice on the tax implications of selling real estate', lang)}</li>
@@ -508,7 +508,7 @@ const IntroUpgrade = (props: IntroUpgradeType) => {
                                           <span className="fweight-600 mt-1 dis-b p-2 bgBlue100">
                                             {translateTo('You only pay if the property is sold.', lang)}
                                           </span>
-                                          <ul className="checked mt-2 txtDark700">
+                                          <ul className="checked mt-2 txtText900">
                                             <li>{translateTo('Clarification of the existing mortgage', lang)}</li>
                                             <li>{translateTo('Baloise gives you as a customer CHF 1,000 as a gift', lang)}</li>
                                             <li>{translateTo('Information on inheritance and estate planning', lang)}</li>
@@ -684,7 +684,7 @@ const IntroUpgrade = (props: IntroUpgradeType) => {
           </>
         ) : (
           <>
-            <section className="compairePlans bgLight100 py-3 py-md-9" id="comparePlan">
+            <section className="compairePlans bgText25 py-3 py-md-9" id="comparePlan">
               <div className="container">
                 <h3 className="ta-c mb-3 mb-md-7 fweight-600 fsize-600 fsize-sm-700">{translateTo('Compare all plans', lang)}</h3>
                 <PackagesComparePlans

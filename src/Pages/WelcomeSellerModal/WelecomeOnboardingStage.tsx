@@ -87,7 +87,7 @@ const WelecomeOnboardingStage = (props: WelecomeOnboardingStageType) => {
                 )
               }
 
-              <p className="txtDark700 mt-4 mt-sm-7 fweight-600 fsize-600 fsize-sm-700 max-w-fix-424 mx-a">
+              <p className="txtText900 mt-4 mt-sm-7 fweight-600 fsize-600 fsize-sm-700 max-w-fix-424 mx-a">
                 <span>{translateTo('Great.', lang)}</span>
                 <span className="mx-small-4">&ldquo;{activeSingleProperty.title}&rdquo;</span>
                 <span>{translateTo('is ready.', lang)}</span>
@@ -113,7 +113,7 @@ const WelecomeOnboardingStage = (props: WelecomeOnboardingStageType) => {
       return (
         <div>
           <div className="ta-c mb-6">
-            <h3 className="fweight-600 txtDark700">{translateTo('Choose your next step', lang)}</h3>
+            <h3 className="fweight-600 txtText900">{translateTo('Choose your next step', lang)}</h3>
           </div>
           <BrixelRadioButton
             className="radioBtnImg"

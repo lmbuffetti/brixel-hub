@@ -43,7 +43,7 @@ const DashboardPropertyCard: (props: DashboardPropertyCardProps) => JSX.Element 
               type !== 'sold' && type !== 'buy' && (
                 <Link
                   to={`/${get(activeSingleProperty, 'id', '')}/property/photos`}
-                  className="pos-a-fix x-r-1 x-b-1 brdRadiusLrg px-2 bgWhite p-small-10 txtDark700 opacity-08"
+                  className="pos-a-fix x-r-1 x-b-1 brdRadiusLrg px-2 bgWhite p-small-10 txtText900 opacity-08"
                 >
                   {translateTo('Edit', lang)}
                 </Link>
@@ -53,8 +53,8 @@ const DashboardPropertyCard: (props: DashboardPropertyCardProps) => JSX.Element 
         </div>
         <div className="pl-sm-3 pl-2 pt-2 pt-sm-0 dis-fl-col jc-b w-perc-100">
           <div className="">
-            <h4 className="txtDark700 fweight-600 fsize-sm-600 fsize-500"> {get(activeSingleProperty, 'title', '')} </h4>
-            <span className="fsize-300 txtLight600"> {get(activeSingleProperty, 'location.city', '')}, {get(activeSingleProperty, 'location.state', '')}  </span>
+            <h4 className="txtText900 fweight-600 fsize-sm-600 fsize-500"> {get(activeSingleProperty, 'title', '')} </h4>
+            <span className="fsize-300 txtText400"> {get(activeSingleProperty, 'location.city', '')}, {get(activeSingleProperty, 'location.state', '')}  </span>
 
           </div>
           {
@@ -80,16 +80,16 @@ const DashboardPropertyCard: (props: DashboardPropertyCardProps) => JSX.Element 
                   type === 'buy' ? (
                     <div className="dis-fl-col dis-fl-row-sm a-c">
                       <div className="dis-f w-perc-100 jc-b">
-                        <div className="brdSmallRight brdAltGrey200 pr-2">
-                          <h6 className="ff-mono txtAltGrey400 fsize-300">
+                        <div className="brdSmallRight brdText200 pr-2">
+                          <h6 className="ff-mono txtText400 fsize-300">
                             {translateTo('Living area', lang)}
                           </h6>
                           <p className="fsize-500 fSizePx20">
                             {get(activeSingleProperty, 'properties.typology.livingArea.value', 0)}m2
                           </p>
                         </div>
-                        <div className="ml-2 brdSmallRight brdAltGrey200 pr-2">
-                          <h6 className="ff-mono txtAltGrey400 fsize-300">
+                        <div className="ml-2 brdSmallRight brdText200 pr-2">
+                          <h6 className="ff-mono txtText400 fsize-300">
                             {translateTo('Rooms', lang)}
                           </h6>
                           <p className="fsize-500 fSizePx20">
@@ -97,8 +97,8 @@ const DashboardPropertyCard: (props: DashboardPropertyCardProps) => JSX.Element 
                             }
                           </p>
                         </div>
-                        <div className="ml-2 brdSmallRight-sm brdAltGrey200 pr-2 mr-1">
-                          <h6 className="ff-mono txtAltGrey400 fsize-300">
+                        <div className="ml-2 brdSmallRight-sm brdText200 pr-2 mr-1">
+                          <h6 className="ff-mono txtText400 fsize-300">
                             {translateTo('Year built', lang)}
                           </h6>
                           <p className="fsize-500 fSizePx20">
@@ -193,7 +193,7 @@ const DashboardPropertyCard: (props: DashboardPropertyCardProps) => JSX.Element 
                           iconSize="large"
                         />
                         <div className="ml-2 dis-fl-col">
-                          <span className="txtLight600 fsize-300">
+                          <span className="txtText400 fsize-300">
                             {translateTo('Your Price', lang)}
                           </span>
                           <Link to={`/${get(activeSingleProperty, 'id', '')}/property/price`} className="txtBlue700 fweight-600">
@@ -226,7 +226,7 @@ const DashboardPropertyCard: (props: DashboardPropertyCardProps) => JSX.Element 
                                 iconSize="large"
                               />
                               <div className="ml-2 dis-fl-col">
-                                <span className="txtLight600 fsize-300">
+                                <span className="txtText400 fsize-300">
                                   {translateTo('Your Price', lang)}
                                 </span>
                                 <Link to={`/${get(activeSingleProperty, 'id', '')}/property/price`} className="txtBlue700 fweight-600">
@@ -252,7 +252,7 @@ const DashboardPropertyCard: (props: DashboardPropertyCardProps) => JSX.Element 
                                     iconSize="large"
                                   />
                                   <div className="dis-fl-col pl-2 mr-1">
-                                    <span className="txtLight600 fsize-300">
+                                    <span className="txtText400 fsize-300">
                                       {translateTo('Pro estimation', lang)}
                                     </span>
                                     <Link to={`/${get(activeSingleProperty, 'id', '')}/property/price`} className="txtBlue700 no-state fweight-600">
@@ -279,7 +279,7 @@ const DashboardPropertyCard: (props: DashboardPropertyCardProps) => JSX.Element 
                                     iconSize="large"
                                   />
                                   <div className="dis-fl-col pl-2 mr-1">
-                                    <span className="txtLight600 fsize-300">
+                                    <span className="txtText400 fsize-300">
                                       {translateTo('Your Bestimate', lang)}
                                     </span>
                                     {

@@ -155,7 +155,7 @@ const Portals = (props) => {
                 <p>
                   {translateTo('Reach a wide audience and publish your property on the biggest portals', lang)}
                 </p>
-                <ul className="checkList fsize-300 green mt-2 txtAltGrey700">
+                <ul className="checkList fsize-300 green mt-2 txtText700">
                   <li>{translateTo('Manage all your listings in one place', lang)}</li>
                   <li>{translateTo('Publish all your listings with one click', lang)}</li>
                   <li>
@@ -242,8 +242,8 @@ const Portals = (props) => {
           checkPortalsOnline() && !formValue.portalsReview && (
             <>
               <div>
-                <p className="fweight-500 txtDark700 mb-1 mt-5">{translateTo('Portals description', lang)}</p>
-                <span className="txtDark200">{translateTo('Add a description text which is shown on portals only.', lang)}</span>
+                <p className="fweight-500 txtText900 mb-1 mt-5">{translateTo('Portals description', lang)}</p>
+                <span className="txtText600">{translateTo('Add a description text which is shown on portals only.', lang)}</span>
               </div>
               <ReduxField
                 form="Property"
@@ -307,11 +307,11 @@ const Portals = (props) => {
             />
             {
               get(activeSingleProperty, 'preMarketVisible', false) === true ? (
-                <p className="txtDark700">
+                <p className="txtText900">
                   {translateTo('Your property is visible on our pre-market. Registered buyers can observe your property and will be informed if you want to go to market. We never share any exact address or personal data without your consent.', lang)}
                 </p>
               ) : (
-                <p className="txtDark700" dangerouslySetInnerHTML={{ __html: translateTo('Your property is <strong class="lh-in fweight-600">not</strong> visible on our pre-market. If you make it visible, registered buyers can observe your property and will be informed if you want to go to market. We never share any exact address or personal data without your consent.', lang) }} />
+                <p className="txtText900" dangerouslySetInnerHTML={{ __html: translateTo('Your property is <strong class="lh-in fweight-600">not</strong> visible on our pre-market. If you make it visible, registered buyers can observe your property and will be informed if you want to go to market. We never share any exact address or personal data without your consent.', lang) }} />
               )
             }
           </div>

@@ -216,11 +216,11 @@ const Price = (props: PriceType) => {
                         <div>
                           {
                             get(proEstimation, 'value', 0) <= 0 ? (
-                              <p className="txtDark700">
+                              <p className="txtText900">
                                 <span dangerouslySetInnerHTML={{ __html: translateTo(percComplete === 100 ? 'Your estimation is being calculated. You will receive an email with the result' : 'Complete your inputs to <span class="txtRed400 fweight-700">unlock</span> your professional estimation.', lang) }} />
                               </p>
                             ) : (
-                              <p className="txtDark700">{translateTo('This is your estimated value for your property.', lang)}</p>
+                              <p className="txtText900">{translateTo('This is your estimated value for your property.', lang)}</p>
                             )
                           }
                         </div>
@@ -274,14 +274,14 @@ const Price = (props: PriceType) => {
                                       />
                                       <div className="pl-small-4">
                                         <a
-                                          className="txtDark700 fweight-600 fsize-300 dis-b"
+                                          className="txtText900 fweight-600 fsize-300 dis-b"
                                           href={`${baseByData.shortPath}${selectDocument(proEstimation.document, 'path')}`}
                                           target="_blank"
                                           rel="noreferrer"
                                         >
                                           {selectDocument(proEstimation.document, 'name')}
                                         </a>
-                                        <small className="fsize-200 fweight-500 txtLight400">
+                                        <small className="fsize-200 fweight-500 txtText300">
                                           {selectDocument(proEstimation.document, 'date')}
                                         </small>
                                       </div>
@@ -315,7 +315,7 @@ const Price = (props: PriceType) => {
                                     showIconComplete={calcPercentageProEstimation().realPerc === 100}
                                   />
                                   <div className="ml-2">
-                                    <p className="fsize-300 txtDark700">{translateTo('Estimation inputs', lang)}</p>
+                                    <p className="fsize-300 txtText900">{translateTo('Estimation inputs', lang)}</p>
                                     <p className={`ff-mono fweight-700 ${calcPercentageProEstimation().realPerc === 100 ? 'txtGreen600' : 'txtPrimary700'}`}>
                                       <span className="mr-1 notranslate">{calcPercentageProEstimation().realPerc}%</span>
                                       <span>{translateTo('completed', lang)}</span>
@@ -353,7 +353,7 @@ const Price = (props: PriceType) => {
                       get(estimation, 'result.higherValue', 0) > 0 ? (
                         <>
                           <h5 className="mb-3">{translateTo('Bestimate®', lang)}</h5>
-                          <p className="txtDark700">{translateTo('Your property is worth up to', lang)}</p>
+                          <p className="txtText900">{translateTo('Your property is worth up to', lang)}</p>
 
                           <div className="dis-f a-c w-perc-100 mt-3 ">
                             <span className="ff-mono fsize-600 fweight-700 txtPrimary700">
@@ -375,7 +375,7 @@ const Price = (props: PriceType) => {
                             ((get(estimation, 'status', null) !== 'pending' || !bestimateflowCompleted) && ((get(activeSingleProperty, 'properties.propertyType', '') === 'House' || get(activeSingleProperty, 'properties.propertyType', '') === 'Apartment'))) ? (
                               <>
                                 <h5 className="mb-3">{translateTo('Get a free price indication.', lang)}</h5>
-                                <p className="txtDark700">{translateTo('Compare your property to real transaction data to better define the pricing.', lang)}</p>
+                                <p className="txtText900">{translateTo('Compare your property to real transaction data to better define the pricing.', lang)}</p>
                                 <BrixelButtonPrimary
                                   rounded
                                   label={translateTo('Get free Bestimate®', lang)}
@@ -387,7 +387,7 @@ const Price = (props: PriceType) => {
                             ) : (
                               <>
                                 <h5 className="mb-3">{translateTo('Bestimate® is missing 🙁', lang)}</h5>
-                                <p className="txtDark700">{translateTo('We could not calculate your Bestimate®. No problem. Our support team will do it for you manually.', lang)}</p>
+                                <p className="txtText900">{translateTo('We could not calculate your Bestimate®. No problem. Our support team will do it for you manually.', lang)}</p>
                                 <BrixelButtonSecondary
                                   rounded
                                   className="mt-3 w-fit"

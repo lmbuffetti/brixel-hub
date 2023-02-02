@@ -123,7 +123,7 @@ const BrixelClosingTree = (props: BrixelClosingTreeType) => {
       icon: 'check-small',
       label: translateTo('', lang),
       color: 'dark',
-      colorText: 'txtDark400',
+      colorText: 'txtText700',
     },
   };
 
@@ -277,7 +277,7 @@ const BrixelClosingTree = (props: BrixelClosingTreeType) => {
               </div>
             </div>
 
-            <div className="secDetails brdAltGrey100 closed">
+            <div className="secDetails brdText100 closed">
               <div className="p-2">
                 {
                   get(activeSingleOffer, 'offer.amount', 0) > 0 &&
@@ -285,7 +285,7 @@ const BrixelClosingTree = (props: BrixelClosingTreeType) => {
                     <>
                       {
                         get(activeSingleOffer, 'offer.createdAt', null) && (
-                          <p className="fsize-300 txtDark200">
+                          <p className="fsize-300 txtText600">
                             {DateTime.fromMillis(activeSingleOffer.offer.createdAt, { locale: lang }).toFormat('d LLL yyyy, H:mm')}
                           </p>
                         )
@@ -475,7 +475,7 @@ const BrixelClosingTree = (props: BrixelClosingTreeType) => {
                   <div className="secDetails">
                     {
                       get(activeSingleClosing, `${stage}.completedBySeller.completedAt`, null) ? (
-                        <span className="fsize-100 txtDark200">
+                        <span className="fsize-100 txtText600">
                           {DateTime.fromMillis(activeSingleClosing[stage].completedBySeller.completedAt, { locale: lang }).toFormat('d LLL yyyy, H:mm')}
                         </span>
                       ) : (
@@ -556,7 +556,7 @@ const BrixelClosingTree = (props: BrixelClosingTreeType) => {
 
               {
                 get(activeSingleClosing, 'stageOffer.active', null) !== false && (
-                  <div className="collExBtn p-2 dis-f a-c brdSmallLeft brdAltGrey100">
+                  <div className="collExBtn p-2 dis-f a-c brdSmallLeft brdText100">
                     <BrixelIcon
                       icon={collapsed['stageOffer'] ? 'dropdown-open' : 'dropdown-close'}
                       color="altGrey"
@@ -579,7 +579,7 @@ const BrixelClosingTree = (props: BrixelClosingTreeType) => {
                         <>
                           {
                             get(activeSingleOffer, 'offer.reviewedAt', null) && (
-                              <p className="fsize-300 txtDark200">
+                              <p className="fsize-300 txtText600">
                                 {DateTime.fromMillis(activeSingleOffer.offer.reviewedAt, { locale: lang }).toFormat('d LLL yyyy, H:mm')}
                               </p>
                             )
@@ -676,7 +676,7 @@ const BrixelClosingTree = (props: BrixelClosingTreeType) => {
                   )
                 }
               </div>
-              <div className="collExBtn p-2 dis-f a-c brdSmallLeft brdAltGrey100">
+              <div className="collExBtn p-2 dis-f a-c brdSmallLeft brdText100">
                 <BrixelIcon
                   icon={collapsed['stageIdentification'] ? 'dropdown-open' : 'dropdown-close'}
                   color="altGrey"
@@ -751,7 +751,7 @@ const BrixelClosingTree = (props: BrixelClosingTreeType) => {
                   }
                 </div>
               </div>
-              <div className="collExBtn p-2 dis-f a-c brdSmallLeft brdAltGrey100">
+              <div className="collExBtn p-2 dis-f a-c brdSmallLeft brdText100">
                 <BrixelIcon
                   icon={collapsed[stage] ? 'dropdown-open' : 'dropdown-close'}
                   color="altGrey"
@@ -804,7 +804,7 @@ const BrixelClosingTree = (props: BrixelClosingTreeType) => {
               </div>
               {
                 get(activeSingleClosing, 'stageOffer.active', null) !== false && (
-                  <div className="collExBtn p-2 dis-f a-c brdSmallLeft brdAltGrey100">
+                  <div className="collExBtn p-2 dis-f a-c brdSmallLeft brdText100">
                     <BrixelIcon
                       icon={collapsed[stage] ? 'dropdown-open' : 'dropdown-close'}
                       color="altGrey"
@@ -817,7 +817,7 @@ const BrixelClosingTree = (props: BrixelClosingTreeType) => {
             <div className="secDetails">
               {
                 get(activeSingleClosing, `${stage}.active`, null) && get(activeSingleClosing, `${stage}.completedBySeller.completedAt`, null) ? (
-                  <span className="fsize-100 txtDark200">
+                  <span className="fsize-100 txtText600">
                     {DateTime.fromMillis(activeSingleClosing[stage].completedBySeller.completedAt, { locale: lang }).toFormat('d LLL yyyy, H:mm')}
                   </span>
                 ) : (
@@ -834,7 +834,7 @@ const BrixelClosingTree = (props: BrixelClosingTreeType) => {
     <>
       <div className={`w-perc-100 max-w-fix-1200 ${className} closingTree`}>
         <div className="dis-fl-row">
-          <div className="phases dis-fl-col h-perc-100 w-perc-100 txtDark700">
+          <div className="phases dis-fl-col h-perc-100 w-perc-100 txtText900">
             {
               closingStage.map((stage, i) => (
                 <div

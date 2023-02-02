@@ -99,7 +99,7 @@ const FilterBar = (props: FilterBarType) => {
                 filterMenu && (
                   <div className="filterHolder w-fix-240 brdRadius bgWhite pos-a x-r zIndex3 shadow-3dp pb-2">
                     <div className="p-2">
-                      <div className="body2 fweight-500 txtDark700">{translateTo('Filter', lang)}</div>
+                      <div className="body2 fweight-500 txtText900">{translateTo('Filter', lang)}</div>
                       <BrixelIcon
                         className="pos-a x-r cur-poi mt-2 mr-2 fsize-400"
                         icon="close"
@@ -131,12 +131,12 @@ const FilterBar = (props: FilterBarType) => {
                             {
                               (item.value === activeData.status) && (
                                 <BrixelIcon
-                                  className="statusIcon txtDark700"
+                                  className="statusIcon txtText900"
                                   icon="check"
                                 />
                               )
                             }
-                            <span className="statusLabel txtDark700">{translateTo(item.label, lang)}</span>
+                            <span className="statusLabel txtText900">{translateTo(item.label, lang)}</span>
                           </div>
                         </div>
                       ))

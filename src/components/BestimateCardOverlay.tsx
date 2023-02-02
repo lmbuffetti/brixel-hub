@@ -70,7 +70,7 @@ const BestimateCardOverlay = (props: BestimateCardOverlayType) => {
             get(bestimate, 'higherValue', 0) === 0 ? (
               <>
                 <h3>{translateTo('Bestimate® is missing 🙁', lang)}</h3>
-                <span className="max-w-fix-448 ta-c txtDark700 py-2">
+                <span className="max-w-fix-448 ta-c txtText900 py-2">
                   {translateTo('We could not calculate your Bestimate®. No problem. Our support team will do it for you manually.', lang)}
                 </span>
 
@@ -98,12 +98,12 @@ const BestimateCardOverlay = (props: BestimateCardOverlayType) => {
               <>
                 <h3 dangerouslySetInnerHTML={{ __html: translateTo('This is your Bestimate<sup>®</sup>', lang) }} />
                 <>
-                  <p className="ta-c mt-2 txtDark700">
+                  <p className="ta-c mt-2 txtText900">
                     {translateTo('Your property is worth up to', lang)}
                   </p>
                   <p className="fsize-600 ff-mono txtPrimary700 fweight-600 mb-3 mt-2">{get(bestimate, 'currency', '')} {bestimate.higherValue ? Helpers.formatNumberValue(+get(bestimate, 'higherValue', 0).toFixed(0), get(bestimate, 'currency', '')) : '-'}</p>
                 </>
-                <span className="txtDark700">
+                <span className="txtText900">
                   {translateTo('Similar transactions were sold within this price range.', lang)}
                 </span>
                 <div className="pt-2 pb-3 max-w-fix-480 w-perc-100">
@@ -118,14 +118,14 @@ const BestimateCardOverlay = (props: BestimateCardOverlayType) => {
                   get(bestimate, 'alfredo', false) === true && (
                     <span
                       dangerouslySetInnerHTML={{ __html: translateTo('Bestimate<sup>®</sup> is a first price indication calculated with a few inputs. It is based on real property transactions, as well as an average of current market values. For a more accurate and complete estimation, we suggest booking an on-site appointment with one of our experts (limited to specific areas).', lang)}}
-                      className="txtDark200 max-w-fix-480 mb-5"
+                      className="txtText600 max-w-fix-480 mb-5"
                     />
                   )
                 }
                 {
                   get(bestimate, 'iazi', null) === true && (
                     <span
-                      className="txtDark200 max-w-fix-480 mb-5"
+                      className="txtText600 max-w-fix-480 mb-5"
                       dangerouslySetInnerHTML={{ __html:  translateTo('Bestimate<sup>®</sup> is calculated based on similar transactions. This is a first price indication calculated with few inputs. To have a more accurate estimation we suggest to book our free on-site estimation.', lang)}}
                     />
                   )

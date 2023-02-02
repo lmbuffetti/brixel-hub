@@ -285,9 +285,9 @@ function PageHeader(props: PageHeaderType) {
                   className={`header-section dis-fl-row a-c jc-b w-perc-100 w-perc-lg-80 ${showMobileMenu ? 'hide' : ''}`}
                 >
                   <div
-                    className={`dis-f a-c pl-0 pl-lg-3 logoWrapper ${isFlow ? '' : 'min-w-fix-lg-232'} w-fit min-w-fix-40 ${((!isFlow && get(activeSingleProperty, 'id', '') && propID && propID.length > 9) || (propID === 'sell' || propID === 'buy') || showProgressStage) ? 'brdSmallRight brdAltGrey200' : ''} w-fit`}
+                    className={`dis-f a-c pl-0 pl-lg-3 logoWrapper ${isFlow ? '' : 'min-w-fix-lg-232'} w-fit min-w-fix-40 ${((!isFlow && get(activeSingleProperty, 'id', '') && propID && propID.length > 9) || (propID === 'sell' || propID === 'buy') || showProgressStage) ? 'brdSmallRight brdText200' : ''} w-fit`}
                   >
-                    <div className={`${isFlow ? '' : 'brdSmallRight brdAltGrey200'} min-w-88 w-perc-100 h-fix-72 dis-f a-c pr-2`}>
+                    <div className={`${isFlow ? '' : 'brdSmallRight brdText200'} min-w-88 w-perc-100 h-fix-72 dis-f a-c pr-2`}>
                       <img
                         loading="lazy"
                         onClick={() => {
@@ -305,7 +305,7 @@ function PageHeader(props: PageHeaderType) {
                       ((get(activeSingleProperty, 'id', '') && propID && propID.length > 9) || (propID === 'sell' || propID === 'buy')) && !isFlow && (
 
                         <div className={`hubNavigation ${openMenu ? 'open' : 'close'}`} ref={menuHub}>
-                          <div className="dis-f titleSection txtDark700" onClick={() => setOpenMenu(!openMenu)}>
+                          <div className="dis-f titleSection txtText900" onClick={() => setOpenMenu(!openMenu)}>
                             <span>{translateTo(section, lang)}</span>
                             <BrixelIcon
                               icon={openMenu ? 'dropdown-open' : 'dropdown-close'}
@@ -366,7 +366,7 @@ function PageHeader(props: PageHeaderType) {
                     (
                       propID !== 'buy' && propID !== 'sell' && !get(history, 'location.pathname', '').includes('buyer/')
                     ) && (
-                      <div className="ws-nw flex-nowrap dis-f a-c txtDark700 pb-sm-1 pr-0 pr-sm-1 pr-lg-0 pb-lg-0 pr-lg-4">
+                      <div className="ws-nw flex-nowrap dis-f a-c txtText900 pb-sm-1 pr-0 pr-sm-1 pr-lg-0 pb-lg-0 pr-lg-4">
                         <span className="hide dis-b-md">
                           {translateTo('Your Plan:', lang)}
                         </span>
@@ -380,7 +380,7 @@ function PageHeader(props: PageHeaderType) {
                             </span>
                           ) : (
                             <span
-                              className="fweight-600 dis-f cur-poi txtLight400 bgLight400"
+                              className="fweight-600 dis-f cur-poi txtText300 bgText300"
                             >
                               {translateTo('Loading...', lang)}
                             </span>
@@ -475,19 +475,19 @@ function PageHeader(props: PageHeaderType) {
                                       />
                                     </div>
                                     <a
-                                      className="link txtDark700 fweight-500 fsize-300 mb-2"
+                                      className="link txtText900 fweight-500 fsize-300 mb-2"
                                       href={`${baseByData.loginBasePath}/account/account?url=${get(window, 'location.href', '')}`}
                                     >
                                       {translateTo('Password', lang)}
                                     </a>
                                     <a
-                                      className="link txtDark700 fweight-500 fsize-300 mb-2"
+                                      className="link txtText900 fweight-500 fsize-300 mb-2"
                                       href={`${baseByData.loginBasePath}/account/preferences?url=${get(window, 'location.href', '')}`}
                                     >
                                       {translateTo('Preferences', lang)}
                                     </a>
                                     <a
-                                      className="link txtDark700 fweight-500 fsize-300"
+                                      className="link txtText900 fweight-500 fsize-300"
                                       href={`${baseByData.loginBasePath}/logout?url=${get(window, 'location.href', '')}`}
                                     >
                                       {translateTo('Logout', lang)}
@@ -514,7 +514,7 @@ function PageHeader(props: PageHeaderType) {
                                       {
                                         propID && userType === 'seller' && (
                                           <div>
-                                            <div className="ws-nw flex-nowrap dis-f a-c txtDark700">
+                                            <div className="ws-nw flex-nowrap dis-f a-c txtText900">
                                               <span>{translateTo('Your Plan:', lang)}</span>
                                               <span
                                                 className="fweight-600 td-u-colored dis-f cur-poi"
@@ -557,19 +557,19 @@ function PageHeader(props: PageHeaderType) {
                                         />
                                       </div>
                                       <a
-                                        className="link txtDark700 fweight-500 fsize-300 mb-2"
+                                        className="link txtText900 fweight-500 fsize-300 mb-2"
                                         href={`${baseByData.loginBasePath}/account/account?url=${get(window, 'location.href', '')}`}
                                       >
                                         {translateTo('Password', lang)}
                                       </a>
                                       <a
-                                        className="link txtDark700 fweight-500 fsize-300 mb-2"
+                                        className="link txtText900 fweight-500 fsize-300 mb-2"
                                         href={`${baseByData.loginBasePath}/account/preferences?url=${get(window, 'location.href', '')}`}
                                       >
                                         {translateTo('Preferences', lang)}
                                       </a>
                                       <a
-                                        className="link txtDark700 fweight-500 fsize-300"
+                                        className="link txtText900 fweight-500 fsize-300"
                                         href={`${baseByData.loginBasePath}/logout?url=${get(window, 'location.href', '')}`}
                                       >
                                         {translateTo('Logout', lang)}

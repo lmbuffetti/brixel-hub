@@ -28,11 +28,11 @@ const OfferListings = (props: OfferListingsType) => {
 
   return (
     <>
-      <div className="w-perc-100 txtDark700 dealsListings">
+      <div className="w-perc-100 txtText900 dealsListings">
         <h3 className="mb-3 hide dis-b-lg">{translateTo('Closing', lang)}</h3>
         {
           get(data[0], 'deal', null) === 'sample' && (
-            <div className="ta-c txtDark700">
+            <div className="ta-c txtText900">
               <h5 className="ta-c">{translateTo('There are no offers yet.', lang)}</h5>
               <p
                 dangerouslySetInnerHTML={{ __html: translateTo('As soon as a buyer makes a first offer it will appear here. You can manage the whole closing process directly here. Until the notary. <b>Feel free to explore our example offer.</b>', lang) }}
@@ -102,15 +102,15 @@ const OfferListings = (props: OfferListingsType) => {
                               </div>
 
                               <div className="row-section pl-1 dis-f a-c amount">
-                                <span className="date txtDark700">{get(offer, 'offer.currency', 0)} {Helpers.formatNumberValue(get(offer, 'offer.amount', 0), get(offer, 'offer.currency', ''))}</span>
+                                <span className="date txtText900">{get(offer, 'offer.currency', 0)} {Helpers.formatNumberValue(get(offer, 'offer.amount', 0), get(offer, 'offer.currency', ''))}</span>
                               </div>
 
                               <div className="row-section pl-1 dis-f a-c date">
                                 {
                                   get(offer, 'offer.createdAt', null) ? (
-                                    <span className="date txtDark200">{DateTime.fromMillis(offer.offer.createdAt, { locale: lang }).toFormat('d LLL yyyy, H:mm')}</span>
+                                    <span className="date txtText600">{DateTime.fromMillis(offer.offer.createdAt, { locale: lang }).toFormat('d LLL yyyy, H:mm')}</span>
                                   ) : (
-                                    <span className="date txtDark200">-</span>
+                                    <span className="date txtText600">-</span>
                                   )
                                 }
                               </div>

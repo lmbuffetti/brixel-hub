@@ -199,13 +199,13 @@ const Page = (props: PageType) => {
             <div className="w-fix-80 bgPrimary400 opacity5 h-fix-8 mb-1" />
             <h6>{translateTo(formValue.title, lang)}</h6>
             <div className="dis-f jc-b a-c mt-2">
-              <div className="w-fix-40 bgLight400 opacity5 h-fix-8" />
-              <div className="w-fix-40 bgLight400 opacity5 h-fix-8" />
+              <div className="w-fix-40 bgText300 opacity5 h-fix-8" />
+              <div className="w-fix-40 bgText300 opacity5 h-fix-8" />
             </div>
             <div className="dis-f jc-b a-c mt-3">
-              <div className="w-fix-24 bgLight400 opacity5 h-fix-8" />
-              <div className="w-fix-24 bgLight400 opacity5 h-fix-8" />
-              <div className="w-fix-24 bgLight400 opacity5 h-fix-8" />
+              <div className="w-fix-24 bgText300 opacity5 h-fix-8" />
+              <div className="w-fix-24 bgText300 opacity5 h-fix-8" />
+              <div className="w-fix-24 bgText300 opacity5 h-fix-8" />
             </div>
             <div className="dis-f jc-b a-c pb-3">
               <h6 className="w-fix-24 ff-mono">{FormatValue.formatRooms(get(formValue, 'properties.typology.bedrooms', 0), get(formValue, 'location.countryCode', 'CH'))}</h6>

@@ -25,7 +25,7 @@ const LearnMoreListingsProperty = (props: LearnMoreListingsPropertyType) => {
   const [step, setStep] = useState(1);
   return (
     <div className="mt-7-neg ov-v">
-      <p className="fsize-300 txtDark400">
+      <p className="fsize-300 txtText700">
         <span>{translateTo('Step', lang)}</span>
         <span className="mx-small-4">{step}</span>
         <span>{translateTo('of', lang)}</span>

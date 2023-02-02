@@ -14,8 +14,8 @@ export const createTimelineEntry = (item, userLang) => {
     // ITEM IS HISTORY ENTRY
     if (has(item, 'actionStub')) {
       // PROPERTY HISTORY ENTRY
-      if (item.actionStub === 'page-create') return `<span>${translateTo('Created this page:', userLang)}</span> <a class='property txtDark700' href='#'>${item.parent.title}</a>`;
-      if (item.actionStub === 'page-published') return `<span>${translateTo('Page published:', userLang)}</span> <a class='txtDark700' rel='noreferrer noopener' target='_blank' href='${getConfigEnv.pageUrl}${item.parent.stub}'>${getConfigEnv.pageUrl}${item.parent.stub}</a>`;
+      if (item.actionStub === 'page-create') return `<span>${translateTo('Created this page:', userLang)}</span> <a class='property txtText900' href='#'>${item.parent.title}</a>`;
+      if (item.actionStub === 'page-published') return `<span>${translateTo('Page published:', userLang)}</span> <a class='txtText900' rel='noreferrer noopener' target='_blank' href='${getConfigEnv.pageUrl}${item.parent.stub}'>${getConfigEnv.pageUrl}${item.parent.stub}</a>`;
       if (item.actionStub === 'page-unpublished') return translateTo('Page unpublished', userLang);
       if (item.actionStub === 'page-message') return translateTo('Message sent', userLang);
       // if (item.actionStub === 'page-schedule') return `<span>${item.child.email} </span><span>scheduled a visit</span>`;
@@ -162,7 +162,7 @@ export const createTimelineEntry = (item, userLang) => {
   if (has(item, 'actionStub') && item.actionStub === 'user-register') {
     return [
       {
-        description: `<div><div><a class='txtDark700' rel='noreferrer noopener' target='_blank' href='/${item.parent.id}/user'>${item.parent.email}</a> <span> ${translateTo('signed up', userLang)}</span></div><div><span class="fweight-500">${translateTo('Signup Channel:', userLang)}</span><span class="ml-small-4">${item.parent.signupChannel}</span></div></div>`,
+        description: `<div><div><a class='txtText900' rel='noreferrer noopener' target='_blank' href='/${item.parent.id}/user'>${item.parent.email}</a> <span> ${translateTo('signed up', userLang)}</span></div><div><span class="fweight-500">${translateTo('Signup Channel:', userLang)}</span><span class="ml-small-4">${item.parent.signupChannel}</span></div></div>`,
         icon: 'account',
         formattedDate: !isNaN(+item.parent.createdAt) ? DateTime.fromMillis(item.parent.createdAt, { locale: userLang }).toFormat('d LLL yyyy, H:mm') : '',
         timestamp: item.parent.createdAt,

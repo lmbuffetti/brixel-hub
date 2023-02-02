@@ -362,12 +362,12 @@ const Documents = (props: DocumentsPageType) => {
                                   }
                                   {
                                     mandatoryDocumentExists(element) === true && (
-                                      <span className="txtDark700 dont-break-out">{translateTo(element, lang)}</span>
+                                      <span className="txtText900 dont-break-out">{translateTo(element, lang)}</span>
                                     )
                                   }
                                   {
                                     mandatoryDocumentExists(element) === false && (
-                                      <span className="txtDark700 dont-break-out">{translateTo(element, lang)}</span>
+                                      <span className="txtText900 dont-break-out">{translateTo(element, lang)}</span>
                                     )
                                   }
                                 </div>
@@ -397,7 +397,7 @@ const Documents = (props: DocumentsPageType) => {
                     <div>
                       <img loading="lazy" className="h-fix-120" src={buyerDocumentsEmpty} alt="Empty Documents" />
                       <h5 className="mt-3 mb-2 ta-c">{translateTo('No documents available.', lang)}</h5>
-                      <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300 mb-5">{translateTo('Please contact the seller for further documents about this property.', lang)}</p>
+                      <p className="max-w-fix-376 m-a ta-c txtText600 fsize-300 mb-5">{translateTo('Please contact the seller for further documents about this property.', lang)}</p>
                     </div>
                   )
                 }
@@ -472,11 +472,11 @@ const Documents = (props: DocumentsPageType) => {
                                             />
                                           </div>
                                           <div className="dis-fl-col cur-poi" onClick={(e) => openDocument(e, doc.id)}>
-                                            <span className="document-title max-w-fix-168 max-w-perc-lg-100 txtDark700 dont-break-out">{doc.name}</span>
-                                            <span className="body2 txtDark200 dont-break-out">{doc.type}</span>
+                                            <span className="document-title max-w-fix-168 max-w-perc-lg-100 txtText900 dont-break-out">{doc.name}</span>
+                                            <span className="body2 txtText600 dont-break-out">{doc.type}</span>
                                             {
                                               get(doc, 'createdAt', null) ? (
-                                                <span className="date body2 txtDark200">
+                                                <span className="date body2 txtText600">
                                                   {
                                                     !isNaN(+doc.createdAt) ? (
                                                       <>{DateTime.fromMillis(doc.createdAt, { locale: lang }).toFormat('dd LLL yyyy, H:mm')}</>
@@ -486,7 +486,7 @@ const Documents = (props: DocumentsPageType) => {
                                                   }
                                                 </span>
                                               ) : (
-                                                <span className="date body2 txtDark200">-</span>
+                                                <span className="date body2 txtText600">-</span>
                                               )
                                             }
                                           </div>
@@ -545,11 +545,11 @@ const Documents = (props: DocumentsPageType) => {
                                         />
                                       </div>
                                       <div className="dis-fl-col cur-poi" onClick={(e) => openDocument(e, doc.id)}>
-                                        <span className="document-title fsize-400 txtDark700 dont-break-out">{doc.name}</span>
-                                        <span className="body2 txtDark200 dont-break-out">{translateTo(doc.type, lang)}</span>
+                                        <span className="document-title fsize-400 txtText900 dont-break-out">{doc.name}</span>
+                                        <span className="body2 txtText600 dont-break-out">{translateTo(doc.type, lang)}</span>
                                         {
                                           get(doc, 'createdAt', null) ? (
-                                            <span className="date body2 txtDark200">
+                                            <span className="date body2 txtText600">
                                               {
                                                 !isNaN(+doc.createdAt) ? (
                                                   <>{DateTime.fromMillis(doc.createdAt, { locale: lang }).toFormat('dd LLL yyyy, H:mm')}</>
@@ -559,7 +559,7 @@ const Documents = (props: DocumentsPageType) => {
                                               }
                                             </span>
                                           ) : (
-                                            <span className="date body2 txtDark200">-</span>
+                                            <span className="date body2 txtText600">-</span>
                                           )
                                         }
                                       </div>
@@ -656,7 +656,7 @@ const Documents = (props: DocumentsPageType) => {
                             </div>
                           )
                         }
-                        <span className="body2 txtDark200 max-width-220">{translateTo('Choose .pdf .jpeg .png with max. 10 MB size', lang)}</span>
+                        <span className="body2 txtText600 max-width-220">{translateTo('Choose .pdf .jpeg .png with max. 10 MB size', lang)}</span>
                         <BrixelButtonPrimary
                           label={translateTo('upload', lang)}
                           rightIcon="upload"

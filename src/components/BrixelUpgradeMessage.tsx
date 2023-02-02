@@ -80,7 +80,7 @@ const BrixelUpgradeMessage = (props: BrixelUpgradeMessageType) => {
             {
               descriptionConfirm && (
                 <p
-                  className="max-w-fix-360 m-a txtDark400"
+                  className="max-w-fix-360 m-a txtText700"
                   dangerouslySetInnerHTML={{ __html: descriptionConfirm }}
                 />
               )
@@ -108,7 +108,7 @@ const BrixelUpgradeMessage = (props: BrixelUpgradeMessageType) => {
             {
               description && (
                 <p
-                  className="mt-1 mb-3 max-w-fix-504 m-a txtDark400"
+                  className="mt-1 mb-3 max-w-fix-504 m-a txtText700"
                   dangerouslySetInnerHTML={{ __html: description }}
                 />
               )

@@ -87,13 +87,13 @@ const BookTrialFlow = (props: BookTrialFlowType) => {
   });
 
   return (
-    <main id="rewards" className="BookTrialFlow pb-4 h-perc-100 txtDark700">
+    <main id="rewards" className="BookTrialFlow pb-4 h-perc-100 txtText900">
       {
         get(formValue, 'analysis', '') === 'on-site' ? (
           <>
             <h2 className="ta-c fweight-600 fsize-600 fsize-sm-800">{translateTo('We are ready 🚀.', lang)}</h2>
             <h2 className="mb-3 mb-sm-6 ta-c fweight-600 fsize-600 fsize-sm-800">{translateTo('When do you want us to visit?', lang)}</h2>
-            <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100">
+            <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText100">
               <Accordion
                 color="dark"
                 saturationTxt={400}
@@ -212,7 +212,7 @@ const BookTrialFlow = (props: BookTrialFlowType) => {
                   <span>{translateTo('Alternatively you can call us on', lang)}</span>
                   {
                     phone && (
-                      <a href={`tel:${Helpers.telephoneFormat(phone)}`} className="ml-1 txtDark400 cur-poi td-u">{Helpers.telephoneFormat(phone)}</a>
+                      <a href={`tel:${Helpers.telephoneFormat(phone)}`} className="ml-1 txtText700 cur-poi td-u">{Helpers.telephoneFormat(phone)}</a>
                     )
                   }
                 </p>
@@ -231,7 +231,7 @@ const BookTrialFlow = (props: BookTrialFlowType) => {
                   <h4 className="mb-1 mb-1 fsize-500 fsize-sm-600">Phone</h4>
                   <p>{translateTo('You can call us on', lang)}</p>
                   <p>
-                    <a className="txtDark700 td-u" href={`tel:${phone}`}>{Helpers.telephoneFormat(phone)}</a>
+                    <a className="txtText900 td-u" href={`tel:${phone}`}>{Helpers.telephoneFormat(phone)}</a>
                   </p>
                 </div>
                 <div className="w-perc-100 w-perc-sm-50 max-w-fix-sm-304 ta-c">

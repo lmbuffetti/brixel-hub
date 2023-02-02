@@ -181,7 +181,7 @@ const Facts = (props: FactsType) => {
                                   className={`${checkSectionDone(quest) ? 'opacity10' : 'opacity0'} mx-1 dis-b fsize-400`}
                                 />
                                 <h4
-                                  className={`body ml-1 fweight-400 ${checkSectionDone(quest) ? 'txtDark200 td-lt' : 'txtDark200'}`}
+                                  className={`body ml-1 fweight-400 ${checkSectionDone(quest) ? 'txtText600 td-lt' : 'txtText600'}`}
                                   dangerouslySetInnerHTML={{ __html: translateTo(quest.title || '', lang)}}
                                 />
                               </div>

@@ -70,8 +70,8 @@ export const MakeOfferQuestions: (changeValue: (field: string, val: any) => void
     };
     return (
       <>
-        <hr className="bgAltGrey200" />
-        <p className="txtDark700 fsize-500 p-5">
+        <hr className="bgText200" />
+        <p className="txtText900 fsize-500 p-5">
           <span>{translateTo('You don\'t have a proof of financing yet?', lang)}</span>
           <span className="cur-poi dis-b td-u" onClick={() => sendData()}>
             <span>{translateTo('Apply now on key4', lang)}</span>
@@ -101,8 +101,8 @@ export const MakeOfferQuestions: (changeValue: (field: string, val: any) => void
       <>
         {
           get(formValue, 'document', []).length === 0 && (
-            <div className="bgWhit w-perc-100 mt-3 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-5">
-              <div className="txtDark700">
+            <div className="bgWhit w-perc-100 mt-3 ml-a mr-a brdRadius bgWhite brdSmall brdText100 p-5">
+              <div className="txtText900">
                 <h6 className="mb-3 fweight-600">
                   {translateTo('No. Order a proof of financing here.', lang)}
                 </h6>
@@ -113,7 +113,7 @@ export const MakeOfferQuestions: (changeValue: (field: string, val: any) => void
                 {
                   formValue.company === 'baloise' && (
                     <div className="dis-f a-c mt-3">
-                      <p className="txtAltGrey400 mr-2">In partnership with</p>
+                      <p className="txtText400 mr-2">In partnership with</p>
                       <img loading="lazy" src={BaloiseLogoImg} alt="Logo Baloise" />
                     </div>
                   )
@@ -122,7 +122,7 @@ export const MakeOfferQuestions: (changeValue: (field: string, val: any) => void
                 {
                   formValue.company === 'ubs' && (
                     <div className="dis-f a-c mt-3">
-                      <p className="txtAltGrey400 mr-2">In partnership with</p>
+                      <p className="txtText400 mr-2">In partnership with</p>
                       <img loading="lazy" className="h-fix-24" src={UBSLogoImg} alt="Logo UBS" />
                       <img  loading="lazy" className="h-fix-24 ml-2" src={Key4LogoImg} alt="Logo Key 4" />
                     </div>
@@ -141,7 +141,7 @@ export const MakeOfferQuestions: (changeValue: (field: string, val: any) => void
     {
       title: translateTo('Set your price', lang),
       history: 'priceInfo',
-      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-3 p-sm-5',
+      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText100 p-3 p-sm-5',
       inputs: [
         {
           currency: get(formValue, 'propertyPriceCurrency', 'CHF'),
@@ -206,7 +206,7 @@ export const MakeOfferQuestions: (changeValue: (field: string, val: any) => void
       }],
       title: translateTo('Please tell us some more details', lang),
       history: 'analysis',
-      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-3 p-sm-5',
+      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText100 p-3 p-sm-5',
       footerWidth: 'max-w-fix-600',
       inputs: [
         {
@@ -279,7 +279,7 @@ export const MakeOfferQuestions: (changeValue: (field: string, val: any) => void
       }],
       title: translateTo('Where do you currently live?', lang),
       history: 'location',
-      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-3 p-sm-5 dis-f flex-wrap',
+      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText100 p-3 p-sm-5 dis-f flex-wrap',
       footerWidth: 'max-w-fix-600',
       inputs: [
         {
@@ -342,7 +342,7 @@ export const MakeOfferQuestions: (changeValue: (field: string, val: any) => void
       ],
       title: translateTo('Upload your proof of financing', lang),
       history: 'financingProof',
-      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 dis-f flex-wrap',
+      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText100 dis-f flex-wrap',
       footerWidth: 'max-w-fix-600',
       inputs: [
         {
@@ -371,7 +371,7 @@ export const MakeOfferQuestions: (changeValue: (field: string, val: any) => void
       }],
       cardType: 'loadComponent',
       history: 'financeCertificate',
-      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-3 p-sm-5',
+      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText100 p-3 p-sm-5',
       footerWidth: 'max-w-fix-600',
       component: FinanceCertificate,
       hideContinueBtn: true,
@@ -384,12 +384,12 @@ export const MakeOfferQuestions: (changeValue: (field: string, val: any) => void
       showBackButton: true,
       title: translateTo('Please enter your financial data', lang),
       history: 'financialData',
-      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-3 p-sm-5',
+      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText100 p-3 p-sm-5',
       footerWidth: 'max-w-fix-600',
       inputs: [
         {
           name: '',
-          customHTML: `<p class="fsize-300 txtDark700">${translateTo('These data are needed to apply for your financing certificate. Brixel is not saving any of your financial data.', lang)}</p>`,
+          customHTML: `<p class="fsize-300 txtText900">${translateTo('These data are needed to apply for your financing certificate. Brixel is not saving any of your financial data.', lang)}</p>`,
         },
         {
           currency: get(formValue, 'propertyPriceCurrency', 'CHF'),
@@ -445,7 +445,7 @@ export const MakeOfferQuestions: (changeValue: (field: string, val: any) => void
       hideContinueBtn: true,
       cardType: 'loadComponent',
       history: 'key4Registration',
-      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-3 p-sm-5',
+      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText100 p-3 p-sm-5',
       footerWidth: 'max-w-fix-600',
       component: Key4Registration,
     },
@@ -467,7 +467,7 @@ export const MakeOfferQuestions: (changeValue: (field: string, val: any) => void
           component: BrixelMultiUploadFile,
           topLabel: translateTo('Yes. Then upload it here directly.', lang),
           topLabelClass: 'mb-3 fweight-600',
-          classNameBox: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-5 mt-3 mt-sm-6',
+          classNameBox: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText100 p-5 mt-3 mt-sm-6',
           classBoxWrapper: '',
           ReduxFieldClass: '',
           label: translateTo(`Add a proof of financing from a ${countryName} financial institution`, lang),
@@ -476,7 +476,7 @@ export const MakeOfferQuestions: (changeValue: (field: string, val: any) => void
         },
         {
           customComponent: TextPartnerUpload,
-          classNameBox: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-5',
+          classNameBox: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText100 p-5',
           classBoxWrapper: 'mt-3',
           ReduxFieldClass: '',
           name: 'document',

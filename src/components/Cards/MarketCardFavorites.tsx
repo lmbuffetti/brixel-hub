@@ -132,7 +132,7 @@ const MarketCardFavorites = (props: MarketCardFavoritesType) => {
 
   return (
     <div className="mb-3 marketCardFavorite">
-      <div className="dis-fl-col dis-fl-row-md dis-f brdRadius brdSmall brdAltGrey200 ov-h h-perc-100">
+      <div className="dis-fl-col dis-fl-row-md dis-f brdRadius brdSmall brdText200 ov-h h-perc-100">
         <div className="w-fix-md-304 pos-r h-perc-100 ov-h">
           {
             isPreMarket() && (
@@ -227,7 +227,7 @@ const MarketCardFavorites = (props: MarketCardFavoritesType) => {
         <div className="dis-fl-col p-2 flex-1">
           <div className="dis-f a-t jc-b">
             <div>
-              <span className="fsize-300 txtAltGrey700 mb-1 ta-l">
+              <span className="fsize-300 txtText700 mb-1 ta-l">
                 {get(activeSingleProperty, 'location.zip', '')} {get(activeSingleProperty, 'location.city', '')}
                 {
                   get(activeSingleProperty, 'location.countryCode', 'CH') === 'CH' && (
@@ -286,11 +286,11 @@ const MarketCardFavorites = (props: MarketCardFavoritesType) => {
           </div>
 
           <div className="dis-fl-col dis-fl-row-md jc-b pt-2 mt-a flex-wrap">
-            <div className="fsize-300 txtDark400 mb-2 mb-lg-0">
+            <div className="fsize-300 txtText700 mb-2 mb-lg-0">
               <div className="dis-f a-c jc-fs flex-wrap w-perc-100">
 
-                <div className="bottom a-c txtDark700 brdSmallRight brdAltGrey200 pr-2 mr-2 pr-sm-6 mr-sm-6">
-                  <span className="fsize-300 dis-b txtAltGrey400">
+                <div className="bottom a-c txtText900 brdSmallRight brdText200 pr-2 mr-2 pr-sm-6 mr-sm-6">
+                  <span className="fsize-300 dis-b txtText400">
                     {translateTo('Price', lang)}
                   </span>
                   {
@@ -313,7 +313,7 @@ const MarketCardFavorites = (props: MarketCardFavoritesType) => {
                 </div>
 
                 <div>
-                  <span className="fsize-300 dis-b txtAltGrey400">
+                  <span className="fsize-300 dis-b txtText400">
                     {translateTo('Rooms', lang)}
                   </span>
                   <span className="ff-mono fsize-400 txtBlack dis-b pt-small-4">
@@ -321,7 +321,7 @@ const MarketCardFavorites = (props: MarketCardFavoritesType) => {
                   </span>
                 </div>
                 <div className="mx-4">
-                  <span className="fsize-300 dis-b txtAltGrey400">
+                  <span className="fsize-300 dis-b txtText400">
                     {translateTo('Size', lang)}
                   </span>
                   <span className="ff-mono fsize-400 txtBlack dis-b pt-small-4">
@@ -329,7 +329,7 @@ const MarketCardFavorites = (props: MarketCardFavoritesType) => {
                   </span>
                 </div>
                 <div>
-                  <span className="fsize-300 dis-b txtAltGrey400">
+                  <span className="fsize-300 dis-b txtText400">
                     {translateTo('Year built', lang)}
                   </span>
                   <span className="ff-mono fsize-400 txtBlack dis-b pt-small-4">

@@ -204,7 +204,7 @@ const DashboardHome = (props: DashboardHomeType) => {
                 <h5 className="mb-2 fSizePx18 fweight-600 txtGreen700">
                   {translateTo('Thanks for your request.', lang)}
                 </h5>
-                <p className="fsize-300 txtDark700">
+                <p className="fsize-300 txtText900">
                   <span>{translateTo('We will contact you as soon as possible for confirmation.', lang)}</span>
                 </p>
                 <BrixelButtonSecondary
@@ -230,7 +230,7 @@ const DashboardHome = (props: DashboardHomeType) => {
                 <h5 className="mb-2 fSizePx18 fweight-600">
                   {translateTo('Test drive our service. No strings attached.', lang)}
                 </h5>
-                <p className="fsize-300 txtDark700">
+                <p className="fsize-300 txtText900">
                   <span>{translateTo('Get the full Brixel experience worth', lang)}</span>
                   <span className="ml-small-4">
                     {get(activeSingleCompany, 'meta.teaserPackage.currency', '')} {Helpers.formatNumberValue(get(activeSingleCompany, 'meta.teaserPackage.price', 0), get(activeSingleCompany, 'meta.teaserPackage.currency', ''))}.
@@ -260,7 +260,7 @@ const DashboardHome = (props: DashboardHomeType) => {
             <h5 className="mb-2 fSizePx18 fweight-600">
               {translateTo('Get in touch and find out more', lang)}
             </h5>
-            <p className="fsize-300 txtDark700">
+            <p className="fsize-300 txtText900">
               {translateTo('Chat to one of our team members now.', lang)}
             </p>
             <BrixelButtonPrimary
@@ -548,7 +548,7 @@ const DashboardHome = (props: DashboardHomeType) => {
                 <div className="w-perc-100 w-perc-sm-35 dis-f pr-sm-2">
 
                   <div
-                    className="w-perc-100 brdRadius bgWhite shadow-2dp shadowHover-4dp pt-2 cur-poi txtDark700"
+                    className="w-perc-100 brdRadius bgWhite shadow-2dp shadowHover-4dp pt-2 cur-poi txtText900"
                   >
                     <div className="h-perc-100 min-h-fix-184 dis-fl-col jc-b">
                       <div className="dis-f px-3">
@@ -557,7 +557,7 @@ const DashboardHome = (props: DashboardHomeType) => {
                           color="blue"
                           saturationTxt={700}
                         />
-                        <span className="txtDark700 fweight-600 pl-1">
+                        <span className="txtText900 fweight-600 pl-1">
                           {translateTo('Media', lang)}
                         </span>
                       </div>
@@ -601,7 +601,7 @@ const DashboardHome = (props: DashboardHomeType) => {
                       <div className="linkWrap">
                         <span className="hr lighter" />
                         <div
-                          className="txtHoverDark200 txtLight700 px-3 py-1 wHover"
+                          className="txtHoverText600 txtText500 px-3 py-1 wHover"
                           onClick={() => history.push(`/${activeSingleProperty.id}/property/photos`)}
                         >
                           <span className="text">{translateTo('View', lang)}</span>
@@ -629,7 +629,7 @@ const DashboardHome = (props: DashboardHomeType) => {
                     <div
                       className=" w-perc-100 image-ratio zIndex1 pos-r min-w-fix-280 brdRadiusTop ov-h"
                     >
-                      <div className="pos-a-fix x-l-0 x-t-0 w-perc-100 h-fix-16 bgDark400 zIndex1" />
+                      <div className="pos-a-fix x-l-0 x-t-0 w-perc-100 h-fix-16 bgText700 zIndex1" />
                       <CoverPropertyImage
                         className="cover w-perc-100"
                         coverPhoto={get(formValue, 'coverPhoto.galleryThumbnailPath', undefined)}
@@ -679,7 +679,7 @@ const DashboardHome = (props: DashboardHomeType) => {
                 >
                   <Link
                     to={`/${activeSingleProperty.id}/marketing`}
-                    className="brdRadius bgWhite shadow-2dp shadowHover-4dp pt-2 mt-2 mt-md-0 cur-poi txtDark700 dis-b h-perc-100"
+                    className="brdRadius bgWhite shadow-2dp shadowHover-4dp pt-2 mt-2 mt-md-0 cur-poi txtText900 dis-b h-perc-100"
                   >
                     <div className="h-perc-100 dis-fl-col jc-b">
                       <div className="dis-f px-3">
@@ -688,7 +688,7 @@ const DashboardHome = (props: DashboardHomeType) => {
                           color="blue"
                           saturationTxt={700}
                         />
-                        <span className="txtDark700 fweight-600 pl-1">
+                        <span className="txtText900 fweight-600 pl-1">
                           {translateTo('Marketing', lang)}
                         </span>
                       </div>
@@ -700,7 +700,7 @@ const DashboardHome = (props: DashboardHomeType) => {
                             >
                               {
                                 get(activeSingleCompany, `availablePortals[${portal}]`, null) && (
-                                  <span className="txtDark700 fsize-300 fsize-sm-400 dis-f jc-b a-c w-perc-100 tt-c">
+                                  <span className="txtText900 fsize-300 fsize-sm-400 dis-f jc-b a-c w-perc-100 tt-c">
                                     <span>{portal}</span>
                                     <span className={`activeDot ${get(activeSingleProperty, `portals[${portal}]`, null) ? 'green' : 'grey'}`} />
                                   </span>
@@ -712,7 +712,7 @@ const DashboardHome = (props: DashboardHomeType) => {
                       </div>
                       <div className="linkWrap">
                         <span className="hr lighter" />
-                        <div className="px-3 py-1 txtLight700 wHover">
+                        <div className="px-3 py-1 txtText500 wHover">
                           <span className="text">{translateTo('View', lang)}</span>
                           <span className="arrow-symbol ml-1">&#62; </span>
                         </div>
@@ -741,7 +741,7 @@ const DashboardHome = (props: DashboardHomeType) => {
                   </div>
                 </div>
                 <div
-                  className="w-perc-100 w-perc-sm-33 bgWhite brdRadius-md ta-c p-3 mx-md-1 mt-2 mt-xs-0 shadow-2dp shadow-2dp-md shadow-0dp-sm brdSmallRight brdSmallLeft brdSmallHideLeft-md brdSmallHideRight-md brdLight200 dis-fl-row dis-fl-col-xs a-c shadowHover-4dp shadowHover-4dp-md shadowHover-0dp-sm cur-poi"
+                  className="w-perc-100 w-perc-sm-33 bgWhite brdRadius-md ta-c p-3 mx-md-1 mt-2 mt-xs-0 shadow-2dp shadow-2dp-md shadow-0dp-sm brdSmallRight brdSmallLeft brdSmallHideLeft-md brdSmallHideRight-md brdText100 dis-fl-row dis-fl-col-xs a-c shadowHover-4dp shadowHover-4dp-md shadowHover-0dp-sm cur-poi"
                   onClick={() => history.push(`/${activeSingleProperty.id}/prospects`)}
                 >
                   <BrixelIcon
@@ -803,7 +803,7 @@ const DashboardHome = (props: DashboardHomeType) => {
                     {
                       visitLists.length === 0 && (
                         <div
-                          className="dis-f jc-b a-c w-perc-100 brdSmallTop py-4 brdLight200 px-2 flex-wrap"
+                          className="dis-f jc-b a-c w-perc-100 brdSmallTop py-4 brdText100 px-2 flex-wrap"
                         >
                           <h5 className="ta-c mx-a">
                             {translateTo('You don\'t have any visits', lang)}
@@ -815,7 +815,7 @@ const DashboardHome = (props: DashboardHomeType) => {
                       visitLists.map((visit, i) => (
                         <div
                           key={`vst_${i.toString()}`}
-                          className="dis-f jc-b a-c w-perc-100 brdSmallTop my-2 pt-2 brdLight200 px-2 flex-wrap"
+                          className="dis-f jc-b a-c w-perc-100 brdSmallTop my-2 pt-2 brdText100 px-2 flex-wrap"
                         >
                           <div
                             className={`dis-f a-c ${classWidthTable(0)} order-1 cur-poi`}
@@ -832,7 +832,7 @@ const DashboardHome = (props: DashboardHomeType) => {
                             </p>
                           </div>
                           <p
-                            className={`${classWidthTable(1)} ${!get(visit, 'past', null) ? 'txtPrimary400' : 'txtLight600'} order-3 order-md-2 cur-poi`}
+                            className={`${classWidthTable(1)} ${!get(visit, 'past', null) ? 'txtPrimary400' : 'txtText400'} order-3 order-md-2 cur-poi`}
                             onClick={() => history.push(`/${activeSingleProperty.id}/prospect/${visit.id}`)}
                           >
                             {DateTime.fromMillis(visit.visit, { locale: lang }).toFormat('d LLL yyyy, H:mm')}
@@ -840,9 +840,9 @@ const DashboardHome = (props: DashboardHomeType) => {
                           <p className={`${classWidthTable(2)} ta-r ta-l-md order-2 order-md-3`}>
                             {
                               visit.visit > DateTime.now().toMillis() ? (
-                                <span className="txtDark700">{translateTo('Upcoming', lang)}</span>
+                                <span className="txtText900">{translateTo('Upcoming', lang)}</span>
                               ) : (
-                                <span className="txtLight600">{translateTo('Past', lang)}</span>
+                                <span className="txtText400">{translateTo('Past', lang)}</span>
                               )
                             }
                           </p>
@@ -867,7 +867,7 @@ const DashboardHome = (props: DashboardHomeType) => {
                           <p className={`${classWidthTable(4)} ta-r ta-l-md order-5`}>
                             <button
                               type="button"
-                              className="ml-a ml-md-0 txtLight600 fsize-400"
+                              className="ml-a ml-md-0 txtText400 fsize-400"
                               onClick={() => history.push(`/${activeSingleProperty.id}/prospects/${visit.id}/deal`)}
                             >
                               {translateTo(visit.visit > DateTime.now().toMillis() ? 'View' : 'Review', lang)}

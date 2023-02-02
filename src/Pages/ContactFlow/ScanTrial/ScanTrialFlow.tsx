@@ -351,7 +351,7 @@ const ScanTrialFlow = (props: ScanTrialFlowType) => {
                           )
                         }
                       </h4>
-                      <p className="mt-3 txtAltGrey700">
+                      <p className="mt-3 txtText700">
                         {translateTo(' 💡 Remember to fill out as many facts about your property as possible. The more information we have, the better we can assist you.', lang)}
                       </p>
                       <BrixelButtonPrimary
@@ -382,7 +382,7 @@ const ScanTrialFlow = (props: ScanTrialFlowType) => {
                           }
                           {/*                       {
                         quest.subtitle && (
-                          <p className="mb-5 ta-c txtDark200 w-perc-100" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
+                          <p className="mb-5 ta-c txtText600 w-perc-100" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
                       } */}
                           <div className={`${quest.className} w-perc-100`}>
                             <MultiFileldsReduxForm

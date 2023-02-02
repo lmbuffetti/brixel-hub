@@ -24,15 +24,15 @@ function PageFooter(props: PageFooterType) {
   return (
     <>
       <footer className={`footerWrap w-perc-100 ${className} ${activeSideBar ? 'leftPadding' : ''}`}>
-        <div className="dis-f flex-wrap jc-b p-1 p-sm-2 px-sm-3 brdSmallTop brdAltGrey100">
+        <div className="dis-f flex-wrap jc-b p-1 p-sm-2 px-sm-3 brdSmallTop brdText100">
           {
             get(activeCompanyData, 'logos', []).length > 0 && (
               <div className="dis-f a-c jc-c jc-fs-sm flex-wrap">
                 {
-                  activeSingleCompany.stub === 'baloise' && <span className="mr-2 fsize-300 txtAltGrey400">{translateTo('Powered by', lang)}</span>
+                  activeSingleCompany.stub === 'baloise' && <span className="mr-2 fsize-300 txtText400">{translateTo('Powered by', lang)}</span>
                 }
                 {
-                  activeSingleCompany.stub === 'ubs' && <span className="mr-2 fsize-300 txtAltGrey400">{translateTo('Your partner for financial questions', lang)}</span>
+                  activeSingleCompany.stub === 'ubs' && <span className="mr-2 fsize-300 txtText400">{translateTo('Your partner for financial questions', lang)}</span>
                 }
                 <div className="h-fix-20 h-fix-lg-24 dis-f">
                   {
@@ -42,7 +42,7 @@ function PageFooter(props: PageFooterType) {
                         key={`logo${i.toString()}`}
                         src={logo}
                         alt={`${get(activeSingleCompany, 'name', '')} logo ${i}`}
-                        className={`${i > 0 ? 'ml-2 brdSmallLeft brdAltGrey300 pl-2' : ''} h-perc-100`}
+                        className={`${i > 0 ? 'ml-2 brdSmallLeft brdText300 pl-2' : ''} h-perc-100`}
                       />
                     ))
                   }
@@ -55,7 +55,7 @@ function PageFooter(props: PageFooterType) {
               get(activeSingleCompany, 'links.privacy', null) && (
                 <a
                   href={get(activeSingleCompany, 'links.privacy', '')}
-                  className="fsize-300 txtAltGrey400 link"
+                  className="fsize-300 txtText400 link"
                   target="_blank"
                   rel="noreferrer"
                 >
@@ -67,7 +67,7 @@ function PageFooter(props: PageFooterType) {
               get(activeSingleCompany, 'links.privacy', null) && (
                 <a
                   href={get(activeSingleCompany, 'links.terms', '')}
-                  className="ml-2 fsize-300 txtAltGrey400 link"
+                  className="ml-2 fsize-300 txtText400 link"
                   target="_blank"
                   rel="noreferrer"
                 >
@@ -77,7 +77,7 @@ function PageFooter(props: PageFooterType) {
             }
 
             <div className="ta-r ml-1">
-              <span className="fsize-300 txtAltGrey400">@Brixel {new Date().getFullYear()}</span>
+              <span className="fsize-300 txtText400">@Brixel {new Date().getFullYear()}</span>
             </div>
           </div>
         </div>

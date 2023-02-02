@@ -42,8 +42,8 @@ const FavoritesProperty = (props: FavoritesPropertyType) => {
             <img width="440" src={emptyFav} alt="" />
             <div className="max-w-fix-320 ta-c mt-3">
               <h3 className="fweight-600 mb-2">{translateTo('No Properties yet here', lang)}</h3>
-              <p className="txtAltGrey400">{translateTo('Add properties by clicking the heart icon of a property card from the listing.', lang)}</p>
-              <p className="txtAltGrey400"></p>
+              <p className="txtText400">{translateTo('Add properties by clicking the heart icon of a property card from the listing.', lang)}</p>
+              <p className="txtText400"></p>
 
               <BrixelButtonPrimary
                 rounded

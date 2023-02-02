@@ -136,7 +136,7 @@ const IdentificationBuyerResume = (props: IdentificationBuyerResumeType) => {
               <h2 className="fweight-600 ta-c m-a mb-3 fsize-600 fsize-sm-800 mb-sm-6">
                 {translateTo(`Who is the ${userType} of the property?`, lang)}
               </h2>
-              <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100">
+              <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText100">
                 <div className="p-2 p-sm-5">
                   <p className="mb-1">
                     {translateTo('Please fill in the full name as it is stated in your ID. Add all people who are legally buying the property, e.g. your spouse or an investment partner.', lang)}
@@ -184,7 +184,7 @@ const IdentificationBuyerResume = (props: IdentificationBuyerResumeType) => {
                     leftIcon="plus"
                     onClick={() => onClickEdit(get(formValue, 'persons', []).length)}
                   />
-                  <hr className="brdAltGrey100" />
+                  <hr className="brdText100" />
 
                   <p className="mt-3">
                     {translateTo('Please give us your bank details to simplify the reservation process.', lang)}
@@ -266,7 +266,7 @@ const IdentificationBuyerResume = (props: IdentificationBuyerResumeType) => {
               <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 fsize-600 fsize-sm-800 mb-sm-6">
                 {translateTo(`Who is the ${userType} of the property?`, lang)}
               </h2>
-              <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100">
+              <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText100">
                 <div className="p-2 p-sm-5">
                   <h6 className="fweight-400">
                     {translateTo('Great, thank you.', lang)}
@@ -305,7 +305,7 @@ const IdentificationBuyerResume = (props: IdentificationBuyerResumeType) => {
                                 {
                                   data.name.includes('currentLivingAddress.address') ? (
                                     <>
-                                      <span className="fsize-300 txtAltGrey400">
+                                      <span className="fsize-300 txtText400">
                                         {translateTo('Address', lang)}
                                       </span>
                                       <p className="fsize-300">
@@ -332,7 +332,7 @@ const IdentificationBuyerResume = (props: IdentificationBuyerResumeType) => {
                                             {
                                               get(formValue, data.name.replace('[0]', `[${i}]`)) && (
                                                 <>
-                                                  <span className="fsize-300 txtAltGrey400">{data.label}</span>
+                                                  <span className="fsize-300 txtText400">{data.label}</span>
                                                   {
                                                     data.name.includes('date') ? (
                                                       <p className="fsize-300">

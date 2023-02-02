@@ -78,7 +78,7 @@ const PropertyDashboard = (props: PropertyDashboardType) => {
                     label={translateTo('Price', lang)}
                     labelClass="fweight-400"
                     subtitle={translateTo('On request', lang)}
-                    subtitleClass="fsize-200 pt-small-6 txtDark200"
+                    subtitleClass="fsize-200 pt-small-6 txtText600"
                     className="w-perc-100 mr-1 shadow-1dp brdMedium brdTrans p-2"
                     colorIcon="primary700"
                     backIcon="primary100 "
@@ -106,7 +106,7 @@ const PropertyDashboard = (props: PropertyDashboardType) => {
                     label={translateTo('Photos', lang)}
                     labelClass="fweight-400"
                     subtitle={`<span>${calcLenght(get(formValue, 'photos', []))}</span>&nbsp;<span>${translateTo(calcLenght(get(formValue, 'photos', [])) !== 1 ? 'Files' : 'File', lang)}</span>`}
-                    subtitleClass={`fsize-200 pt-small-6 ${calcLenght(get(formValue, 'photos', [])) >= 1 ? 'txtPrimary700' : 'txtDark200'}`}
+                    subtitleClass={`fsize-200 pt-small-6 ${calcLenght(get(formValue, 'photos', [])) >= 1 ? 'txtPrimary700' : 'txtText600'}`}
                     className={`w-perc-100 mr-1 shadow-1dp brdMedium ${getFact() === 'photos' ? 'brdPrimary400 bgWhite' : 'brdTrans'} p-2`}
                     colorIcon="primary700"
                     backIcon="primary100"
@@ -119,7 +119,7 @@ const PropertyDashboard = (props: PropertyDashboardType) => {
                     label={translateTo('Plans', lang)}
                     labelClass="fweight-400"
                     subtitle={`<span>${calcLenght(get(formValue, 'floorPlans', []))}</span>&nbsp;<span>${translateTo(calcLenght(get(formValue, 'floorPlans', [])) !== 1 ? 'Files' : 'File', lang)}</span>`}
-                    subtitleClass={`fsize-200 pt-small-6 ${calcLenght(get(formValue, 'floorPlans', [])) >= 1 ? 'txtPrimary700' : 'txtDark200'}`}
+                    subtitleClass={`fsize-200 pt-small-6 ${calcLenght(get(formValue, 'floorPlans', [])) >= 1 ? 'txtPrimary700' : 'txtText600'}`}
                     className={`w-perc-100 ml-1 shadow-1dp brdMedium ${getFact() === 'floorPlans' ? 'brdPrimary400 bgWhite' : 'brdTrans'} p-2`}
                     colorIcon="primary700"
                     backIcon="primary100 "

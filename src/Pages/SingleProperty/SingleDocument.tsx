@@ -177,7 +177,7 @@ const SingleDocument = (props: SingleDocumentType) => {
             <div className="single-document dis-fl-col">
               {/* top panel */}
               <div className="top dis-fl-row a-c jc-b mb-5">
-                <span className="name dis-b fsize-500 fweight-500 txtDark700">
+                <span className="name dis-b fsize-500 fweight-500 txtText900">
                   {translateTo('Edit document', lang)}
                 </span>
                 <BrixelButtonIcon

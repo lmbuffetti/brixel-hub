@@ -55,10 +55,10 @@ const BoxTrialTestDirve = (props: BoxTrialTestDirveType) => {
         )
       }
       <div className={`${isLarge ? 'pl-0 pl-md-3 mr-a' : ''} ta-c ta-l-md`}>
-        <h3 className={`${isLarge ? 'fsize-700 pb-2' : 'fsize-500 pb-1'} txtDark700 fweight-600 `}>
+        <h3 className={`${isLarge ? 'fsize-700 pb-2' : 'fsize-500 pb-1'} txtText900 fweight-600 `}>
           {translateTo('Test drive our service. No strings attached.', lang)}
         </h3>
-        <p className={`txtDark700 ${isLarge ? 'fSizePx18 fsize-sm-500 fweight-400 mb-3 px-2 px-sm-0' : ''}`}>
+        <p className={`txtText900 ${isLarge ? 'fSizePx18 fsize-sm-500 fweight-400 mb-3 px-2 px-sm-0' : ''}`}>
           <span>{translateTo('Get the full Brixel experience worth', lang)}</span>
           <span className="ml-small-4">{activeSingleCompany && get(activeSingleCompany, 'meta.teaserPackage.currency', '')} {Helpers.formatNumberValue(+get(activeSingleCompany, 'meta.teaserPackage.price', ''), get(activeSingleCompany, 'meta.teaserPackage.currency', ''))}</span>
         </p>

@@ -337,11 +337,11 @@ const Timeline = (props: TimelineType) => {
                         {
                           has(event, 'user') && (
                             <>
-                              <span className="fsize-100 txtDark200">{get(event, 'user', '')}</span>&nbsp;
+                              <span className="fsize-100 txtText600">{get(event, 'user', '')}</span>&nbsp;
                             </>
                           )
                         }
-                        <span className="fsize-100 txtDark200">{get(event, 'formattedDate', '')}</span>
+                        <span className="fsize-100 txtText600">{get(event, 'formattedDate', '')}</span>
                       </div>
                     </div>
                   </>
@@ -380,10 +380,10 @@ const Timeline = (props: TimelineType) => {
                       {
                         (editNote.id !== get(event, 'id', null)) && (
                           <div className="dis-fl-row mt-1">
-                            <span className="fsize-100 txtDark700 mr-2">
+                            <span className="fsize-100 txtText900 mr-2">
                               { get(find(get(event, 'history', ''), (el) => (get(el, 'type', null) === 'create')), 'author.name', 'BOT') }
                             </span>
-                            <span className="fsize-100 txtDark200">
+                            <span className="fsize-100 txtText600">
                               {DateTime.fromMillis(get(event, 'createdAt', 0), { locale: lang }).toFormat('d LLL yyyy, H:mm')}
                             </span>
                           </div>

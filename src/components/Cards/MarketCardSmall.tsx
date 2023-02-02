@@ -82,7 +82,7 @@ const MarketCardSmall = (props: MarketCardSmallType) => {
         onClick={(e) => (readOnly ? '' : openCard(e))}
       >
         <div className={`${type === 'own' ? 'dis-f-sm' : 'dis-fl-col'}`}>
-          <div className={`brdSmall brdRadius brdLight200 ov-h dis-f ${readOnly ? 'h-fix-104 h-fix-sm-144' : 'h-fix-80'} ${className}`}>
+          <div className={`brdSmall brdRadius brdText100 ov-h dis-f ${readOnly ? 'h-fix-104 h-fix-sm-144' : 'h-fix-80'} ${className}`}>
             {
               type === 'estimation' ? (
                 <BrixelIcon
@@ -105,12 +105,12 @@ const MarketCardSmall = (props: MarketCardSmallType) => {
             }
             <div className={`info dis-fl-col ${type === 'estimation' ? 'jc-c' : 'py-1'} ${readOnly ? 'ta-l' : ''} `}>
               <div className={`top dis-fl-col notranslate pl-2 pr-1 ov-h ${readOnly ? 'py-1 px-1 py-sm-2 px-sm-3' : ''}`}>
-                <span className={`ellipsis txtDark700 notranslate two ${readOnly ? 'fweight-600 fsize-400 fsize-sm-600' : 'fweight-600 fsize-400'}`}>
+                <span className={`ellipsis txtText900 notranslate two ${readOnly ? 'fweight-600 fsize-400 fsize-sm-600' : 'fweight-600 fsize-400'}`}>
                   {get(item, 'title', '')}
                 </span>
                 {
                   showAddess && (
-                    <span className={`ellipsis txtAltGrey700 notranslate two ${readOnly ? 'fsize-300 pt-1' : 'fsize-200 fweight-600'}`}>
+                    <span className={`ellipsis txtText700 notranslate two ${readOnly ? 'fsize-300 pt-1' : 'fsize-200 fweight-600'}`}>
                       {get(item, 'location.name', '')}, {get(item, 'location.city', '')}
                     </span>
                   )
@@ -122,14 +122,14 @@ const MarketCardSmall = (props: MarketCardSmallType) => {
                   <div className="px-2">
                     {
                       get(estimation, 'higherValue', null) ? (
-                        <p className="txtLight400">
+                        <p className="txtText300">
                           <span>{get(estimation, 'currency', 'EUR')}</span>
                           <span className="ml-1">
                             {Helpers.formatNumberValue(Math.round(get(estimation, 'higherValue', 0)), get(estimation, 'currency', 'EUR'))}
                           </span>
                         </p>
                       ) : (
-                        <p className="txtLight400">
+                        <p className="txtText300">
                           {translateTo('Pending', lang)}
                         </p>
                       )

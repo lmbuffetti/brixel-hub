@@ -55,10 +55,10 @@ const Pagination = (props: PaginationType) => {
   return (
     <div className={`dis-f a-c jc-b w-perc-100 pb-5 ${className}`}>
       <div className="flex-1">
-        <span className="txtDark400">{processResults()}</span>
-        <span className="mx-small-4 txtDark400">{translateTo('of', lang)}</span>
-        <strong className="notranslate txtDark400">{totalItems}</strong>
-        <span className="ml-small-4 txtDark400">{translateTo('total results', lang)}</span>
+        <span className="txtText700">{processResults()}</span>
+        <span className="mx-small-4 txtText700">{translateTo('of', lang)}</span>
+        <strong className="notranslate txtText700">{totalItems}</strong>
+        <span className="ml-small-4 txtText700">{translateTo('total results', lang)}</span>
       </div>
       {
         totalItems > 10 && (

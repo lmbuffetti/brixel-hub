@@ -65,14 +65,14 @@ const OfferDetail = (props: OfferDetailType) => {
                 <div className="offer-info dis-fl-row a-c mb-2 mb-md-5">
                   {
                     get(activeSingleDeal, 'user.email', null) && (
-                      <a className="mr-3 txtDark700" href={`mailto:${get(activeSingleDeal, 'user.email', '')}`}>
+                      <a className="mr-3 txtText900" href={`mailto:${get(activeSingleDeal, 'user.email', '')}`}>
                         {get(activeSingleDeal, 'user.email', '')}
                       </a>
                     )
                   }
                   {
                     get(activeSingleDeal, 'user.email', null) && (
-                      <a className="mr-3 txtDark700" href={`${Helpers.telephoneFormat(get(activeSingleDeal, 'user.phone', ''), false, false, true)}`}>
+                      <a className="mr-3 txtText900" href={`${Helpers.telephoneFormat(get(activeSingleDeal, 'user.phone', ''), false, false, true)}`}>
                         {Helpers.telephoneFormat(get(activeSingleDeal, 'user.phone', ''))}
                       </a>
                     )

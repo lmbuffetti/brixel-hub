@@ -257,8 +257,8 @@ function ContactForm(props: ContactFormType) {
               <h6 className="mb-1 txtGreen400 dis-f a-bl">
                 {translateTo('YOUR MESSAGE WAS SENT', lang)}
               </h6>
-              <h4 className="mb-2 txtDark700">{translateTo('Thank you', lang)}</h4>
-              <h5 className="heading6 txtDark700">{translateTo('We will contact you as soon as possible.', lang)}</h5>
+              <h4 className="mb-2 txtText900">{translateTo('Thank you', lang)}</h4>
+              <h5 className="heading6 txtText900">{translateTo('We will contact you as soon as possible.', lang)}</h5>
             </section>
             <section className="bodySection mx-2-neg px-2 bgWhite shadow-1dp brdRadiusTop pt-2 pb-4 mx-sm-5-neg px-sm-5 mb-1-neg">
               <p className="mb-2"><b>{translateTo('Here are 3 tips for a smooth process', lang)}</b></p>

@@ -15,7 +15,7 @@ const ResumeTrialFlow = (props: ResumeTrialFlowType) => {
   } = props;
 
   return (
-    <main id="rewards" className="pb-4 h-perc-100 txtDark700">
+    <main id="rewards" className="pb-4 h-perc-100 txtText900">
 
       {
         get(formValue, 'analysis', '') === 'on-site' && (

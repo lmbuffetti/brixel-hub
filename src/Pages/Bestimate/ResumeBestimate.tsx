@@ -64,7 +64,7 @@ function ResumeBestimate(props: ResumeBestimateType) {
   }, [estimation, activeSingleProperty]);
 
   return (
-    <main id="rewards" className="pb-4 h-perc-100 txtDark700">
+    <main id="rewards" className="pb-4 h-perc-100 txtText900">
       <>
         {
           get(estimation, 'result.value', null) ? (
@@ -78,23 +78,23 @@ function ResumeBestimate(props: ResumeBestimateType) {
                     {
                       get(activeSingleProperty, 'location.countryCode', null) === 'PT' ? (
                         <>
-                          <p className="ta-c mb-1 txtDark700">
+                          <p className="ta-c mb-1 txtText900">
                             {translateTo('Your property is worth', lang)}</p>
                           <p className="heading4 ff-mono txtGreen400 fweight-600 ta-c mb-1">{get(activeSingleCompany, 'country.currency', '')} {Helpers.formatNumberValue(condition.value, get(activeSingleCompany, 'country.currency', 'CHF'))}</p>
                         </>
                       ) : (
                         <>
-                          <p className="ta-c mb-1 txtDark700">
+                          <p className="ta-c mb-1 txtText900">
                             {translateTo('Your property is worth up to', lang)}
                           </p>
                           <p className="heading4 ff-mono txtGreen400 fweight-600 ta-c mb-1">{get(activeSingleCompany, 'country.currency', '')} {Helpers.formatNumberValue(condition.higherValue, get(activeSingleCompany, 'country.currency', 'CHF'))}</p>
                         </>
                       )
                     }
-                    <p className="body2 ta-c mb-5 txtDark700">
+                    <p className="body2 ta-c mb-5 txtText900">
                       {translateTo('Based on similar transactions.', lang)}
                     </p>
-                    <p className="fweight-400 ta-c mb-1 txtDark700">
+                    <p className="fweight-400 ta-c mb-1 txtText900">
                       {translateTo('Similar properties are currently worth between', lang)}
                     </p>
                     <div className="ta-c mb-5">
@@ -105,7 +105,7 @@ function ResumeBestimate(props: ResumeBestimateType) {
                         )
                       }
                     </div>
-                    <p className="fweight-400 ta-c txtDark700">
+                    <p className="fweight-400 ta-c txtText900">
                       {translateTo('Your Bestimate<sup>&reg;</sup> compared to local market data', lang)}
                     </p>
                   </>
@@ -121,7 +121,7 @@ function ResumeBestimate(props: ResumeBestimateType) {
             </>
           )
         }
-        <p className="body2 mt-5 txtDark700">
+        <p className="body2 mt-5 txtText900">
           {translateTo('The Bestimate<sup>&reg;</sup> is your free price indication. <br /> It is based on comparable transaction data. Due to the few inputs it does not replace any professional estimation but just gives you a quick orientation.', lang)}
         </p>
       </>

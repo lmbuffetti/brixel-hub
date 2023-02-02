@@ -65,8 +65,8 @@ const AddContactBuyer = (props: AddContactBuyerType) => {
         currentStep === 'message' && (
           <div className="dis-fl-col test">
             <section className="titleSection">
-              <h4 className="mb-2 txtDark700">{translateTo('About you', lang)}</h4>
-              <h5 className="heading6 txtDark700">{translateTo('How can we reach you?', lang)}</h5>
+              <h4 className="mb-2 txtText900">{translateTo('About you', lang)}</h4>
+              <h5 className="heading6 txtText900">{translateTo('How can we reach you?', lang)}</h5>
               <div className="min-h-
               fix-320"
               >
@@ -87,8 +87,8 @@ const AddContactBuyer = (props: AddContactBuyerType) => {
               <h6 className="mb-1 txtGreen400 dis-f a-bl">
                 {translateTo('YOUR MESSAGE WAS SENT', lang)}
               </h6>
-              <h4 className="mb-2 txtDark700">{translateTo('Thank you', lang)}</h4>
-              <h5 className="heading6 txtDark700">
+              <h4 className="mb-2 txtText900">{translateTo('Thank you', lang)}</h4>
+              <h5 className="heading6 txtText900">
                 {translateTo('We will contact you as soon as possible.', lang)}
               </h5>
             </section>

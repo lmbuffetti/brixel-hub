@@ -129,7 +129,7 @@ const EditBuyerData = (props: EditBuyerDataType) => {
         <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 fsize-600 fsize-sm-800 mb-sm-6">
           {translateTo(`Who is the ${userType} of the property?`, lang)}
         </h2>
-        <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100">
+        <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText100">
           <div className="p-2 p-sm-5">
             {
               forceStep === 0 && (
@@ -137,7 +137,7 @@ const EditBuyerData = (props: EditBuyerDataType) => {
                   <h3 className="fweight-600 fsize-600">
                     {translateTo(get(formValue, `persons[${profileId}]`, null) ? 'Edit Person' : 'Add Person', lang)}
                   </h3>
-                  <h6 className="mb-3 txtAltGrey700 fweight-400">
+                  <h6 className="mb-3 txtText700 fweight-400">
                     {translateTo('Fill the information below', lang)}
                   </h6>
                 </>
