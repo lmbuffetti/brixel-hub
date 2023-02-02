@@ -71,7 +71,7 @@ const BaloiseRegistration = (props: BaloiseRegistrationType) => {
       <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 fsize-600 fsize-sm-800 mb-sm-6">
         {translateTo('Learn within 48 hours if you can afford your desired home.', lang)}
       </h2>
-      <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText100">
+      <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText50">
         <div className="">
           <h6 className="fweight-600 fsize-500 txtText900 ta-c px-5 pt-5">
             {translateTo('Baloise needs the following documents from you:', lang)}
@@ -121,7 +121,7 @@ const BaloiseRegistration = (props: BaloiseRegistrationType) => {
                       acceptedFile={['jpg', 'png', 'application/pdf']}
                     />
                   </div>
-                  <hr className="brdText100" />
+                  <hr className="brdText50" />
                 </React.Fragment>
               ))
             }

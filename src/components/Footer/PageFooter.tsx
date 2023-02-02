@@ -24,7 +24,7 @@ function PageFooter(props: PageFooterType) {
   return (
     <>
       <footer className={`footerWrap w-perc-100 ${className} ${activeSideBar ? 'leftPadding' : ''}`}>
-        <div className="dis-f flex-wrap jc-b p-1 p-sm-2 px-sm-3 brdSmallTop brdText100">
+        <div className="dis-f flex-wrap jc-b p-1 p-sm-2 px-sm-3 brdSmallTop brdText50">
           {
             get(activeCompanyData, 'logos', []).length > 0 && (
               <div className="dis-f a-c jc-c jc-fs-sm flex-wrap">
@@ -42,7 +42,7 @@ function PageFooter(props: PageFooterType) {
                         key={`logo${i.toString()}`}
                         src={logo}
                         alt={`${get(activeSingleCompany, 'name', '')} logo ${i}`}
-                        className={`${i > 0 ? 'ml-2 brdSmallLeft brdText300 pl-2' : ''} h-perc-100`}
+                        className={`${i > 0 ? 'ml-2 brdSmallLeft brdText200 pl-2' : ''} h-perc-100`}
                       />
                     ))
                   }

@@ -127,7 +127,7 @@ const Key4Registration = (props: Key4RegistrationType) => {
                   <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 fsize-600 fsize-sm-800 mb-sm-6">
                     {translateTo('Learn within 48 hours if you can afford your desired home.', lang)}
                   </h2>
-                  <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText100">
+                  <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText50">
                     <div className="p-5">
                       <p className="fsize-500 txtText900">
                         {translateTo('Please prepare the following documents to apply for your certificate:', lang)}
@@ -231,7 +231,7 @@ const Key4Registration = (props: Key4RegistrationType) => {
                   <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 fsize-600 fsize-sm-800 mb-sm-6">
                     {translateTo('Unfortunately, your budget is not sufficient', lang)}
                   </h2>
-                  <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText100">
+                  <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText50">
                     <div className="p-5">
                       <h5>
                         {translateTo('Based on the details you have provided, financing your dream home is not quite possible yet.', lang)}

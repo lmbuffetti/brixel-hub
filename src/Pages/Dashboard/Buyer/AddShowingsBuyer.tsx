@@ -390,7 +390,7 @@ const AddShowingsBuyer = (props: AddShowingsBuyerType) => {
                                     {
                                       scheduleVisitFree.map((val, i) => (
                                         <div
-                                          className="date-schedule dis-fl-row bgText100 py-small-4 px-2 mb-1"
+                                          className="date-schedule dis-fl-row bgText50 py-small-4 px-2 mb-1"
                                           key={`vst_${i.toString()}`}
                                         >
                                           <div className="dis-fl-row a-c">
@@ -537,7 +537,7 @@ const AddShowingsBuyer = (props: AddShowingsBuyerType) => {
                             {
                               scheduleVisitFree.map((val, i) => (
                                 <div
-                                  className="date-schedule dis-fl-row bgText100 py-small-4 px-2 mb-1"
+                                  className="date-schedule dis-fl-row bgText50 py-small-4 px-2 mb-1"
                                   key={`vst_${i.toString()}`}
                                 >
                                   <div className="dis-fl-row a-c">

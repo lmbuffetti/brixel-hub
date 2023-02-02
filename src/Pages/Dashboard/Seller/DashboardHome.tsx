@@ -741,7 +741,7 @@ const DashboardHome = (props: DashboardHomeType) => {
                   </div>
                 </div>
                 <div
-                  className="w-perc-100 w-perc-sm-33 bgWhite brdRadius-md ta-c p-3 mx-md-1 mt-2 mt-xs-0 shadow-2dp shadow-2dp-md shadow-0dp-sm brdSmallRight brdSmallLeft brdSmallHideLeft-md brdSmallHideRight-md brdText100 dis-fl-row dis-fl-col-xs a-c shadowHover-4dp shadowHover-4dp-md shadowHover-0dp-sm cur-poi"
+                  className="w-perc-100 w-perc-sm-33 bgWhite brdRadius-md ta-c p-3 mx-md-1 mt-2 mt-xs-0 shadow-2dp shadow-2dp-md shadow-0dp-sm brdSmallRight brdSmallLeft brdSmallHideLeft-md brdSmallHideRight-md brdText50 dis-fl-row dis-fl-col-xs a-c shadowHover-4dp shadowHover-4dp-md shadowHover-0dp-sm cur-poi"
                   onClick={() => history.push(`/${activeSingleProperty.id}/prospects`)}
                 >
                   <BrixelIcon
@@ -803,7 +803,7 @@ const DashboardHome = (props: DashboardHomeType) => {
                     {
                       visitLists.length === 0 && (
                         <div
-                          className="dis-f jc-b a-c w-perc-100 brdSmallTop py-4 brdText100 px-2 flex-wrap"
+                          className="dis-f jc-b a-c w-perc-100 brdSmallTop py-4 brdText50 px-2 flex-wrap"
                         >
                           <h5 className="ta-c mx-a">
                             {translateTo('You don\'t have any visits', lang)}
@@ -815,7 +815,7 @@ const DashboardHome = (props: DashboardHomeType) => {
                       visitLists.map((visit, i) => (
                         <div
                           key={`vst_${i.toString()}`}
-                          className="dis-f jc-b a-c w-perc-100 brdSmallTop my-2 pt-2 brdText100 px-2 flex-wrap"
+                          className="dis-f jc-b a-c w-perc-100 brdSmallTop my-2 pt-2 brdText50 px-2 flex-wrap"
                         >
                           <div
                             className={`dis-f a-c ${classWidthTable(0)} order-1 cur-poi`}

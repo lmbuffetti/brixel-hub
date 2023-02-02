@@ -281,7 +281,7 @@ const Price = (props: PriceType) => {
                                         >
                                           {selectDocument(proEstimation.document, 'name')}
                                         </a>
-                                        <small className="fsize-200 fweight-500 txtText300">
+                                        <small className="fsize-200 fweight-500 txtText200">
                                           {selectDocument(proEstimation.document, 'date')}
                                         </small>
                                       </div>

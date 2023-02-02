@@ -76,7 +76,7 @@ const MarketCardFavorites = (props: MarketCardEstimationType) => {
 
   return (
     <div className="mb-3">
-      <div className="dis-fl-col dis-fl-row-sm brdRadius brdSmall brdText200 ov-h">
+      <div className="dis-fl-col dis-fl-row-sm brdRadius brdSmall brdText100 ov-h">
         <div className={`w-perc-100 w-fix-sm-200 h-fix-200 dis-f jc-c a-c ${get(activeSingleProperty, 'result.available', false) ? 'bgGreen100' : 'bgYellow100'}`}>
           {
             get(activeSingleProperty, 'result.available', false) ? (
@@ -163,7 +163,7 @@ const MarketCardFavorites = (props: MarketCardEstimationType) => {
             <div className="fsize-300 txtText700">
               <div className="dis-f a-c jc-fs flex-wrap w-perc-100">
 
-                <div className="bottom a-c txtText900 brdSmallRight-sm mb-1 mb-sm-0 brdText200 pr-6 mr-6">
+                <div className="bottom a-c txtText900 brdSmallRight-sm mb-1 mb-sm-0 brdText100 pr-6 mr-6">
                   <span className="fsize-300 dis-b txtText400">
                     {translateTo('Price', lang)}
                   </span>

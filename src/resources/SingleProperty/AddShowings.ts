@@ -7,7 +7,7 @@ export const QuestionsList: (lang: string) => QuestionsListType[] = (lang) => [
   {
     title: translateTo('Request a visit to your future home', lang),
     history: 'visitDates',
-    className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText100 p-2 p-sm-5',
+    className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText50 p-2 p-sm-5',
     inputs: [
       {
         component: BrixelInputDatePicker,
@@ -27,7 +27,7 @@ export const QuestionsList: (lang: string) => QuestionsListType[] = (lang) => [
   {
     title: translateTo('How can we reach you?', lang),
     history: 'contactInfo',
-    className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText100 p-2 p-sm-5',
+    className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText50 p-2 p-sm-5',
     inputs: [
       {
         component: BrixelInputText,
@@ -66,7 +66,7 @@ export const QuestionsList: (lang: string) => QuestionsListType[] = (lang) => [
   },
   {
     title: translateTo('Thank you for your request', lang),
-    className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText100 p-2 p-sm-5',
+    className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText50 p-2 p-sm-5',
     history: 'success',
     toSave: true,
     inputs: [],

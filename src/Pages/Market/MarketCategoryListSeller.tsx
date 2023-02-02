@@ -386,7 +386,7 @@ const MarketCategoryListSeller = (props: MarketCategoryListSellerType) => {
       {
         ownerProperties.total === 0 ? (
           <div className="px-2 px-md-0 mb-5 mb-sm-3">
-            <div className="p-2 px-sm-3 brdRadius brdSmall brdText100 bgWhite shadow-2dp min-h-fix-240 max-w-fix-800 ml-a mr-a pos-r mb-8 py-5 py-3">
+            <div className="p-2 px-sm-3 brdRadius brdSmall brdText50 bgWhite shadow-2dp min-h-fix-240 max-w-fix-800 ml-a mr-a pos-r mb-8 py-5 py-3">
               <img className="ml-a mr-a dis-b" width="80" src={EmptyHubImg} alt="Emtpy Hub" />
               <h4 className="ta-c mt-3 mb-2 fweight-700 mb-2">
                 {translateTo('Anybody home?', lang)}

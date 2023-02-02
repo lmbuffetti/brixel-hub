@@ -45,7 +45,7 @@ export const QuestionsList: (lang: string, type: string, changeField: (field: st
       subtitle: translateTo('Choose between apartment, house and building land.', lang),
       history: 'propertyType',
       footerWidth: 'max-w-fix-880',
-      classWrap: type === 'searchProfile' ? 'brdSmallBottom brdText100 pb-2 pb-md-4' : '',
+      classWrap: type === 'searchProfile' ? 'brdSmallBottom brdText50 pb-2 pb-md-4' : '',
       inputs: [
         {
           component: BrixelCheckbox,
@@ -90,7 +90,7 @@ export const QuestionsList: (lang: string, type: string, changeField: (field: st
       title: translateTo(type === 'searchProfile' ? 'How big should it be?' : 'How big should it be?', lang),
       history: 'tipology',
       vCentered: true,
-      classWrap: type === 'searchProfile' ? 'brdSmallBottom brdText100 pb-2 pb-md-4 inputRangeWrap' : 'inputRangeWrap',
+      classWrap: type === 'searchProfile' ? 'brdSmallBottom brdText50 pb-2 pb-md-4 inputRangeWrap' : 'inputRangeWrap',
       className: 'fieldHolder bgWhite brdRadius max-w-fix-600 m-a pl-2 pr-0 px-sm-5 py-5',
       footerWidth: 'max-w-fix-600',
       inputs: [
@@ -129,7 +129,7 @@ export const QuestionsList: (lang: string, type: string, changeField: (field: st
       vCentered: true,
       className: 'fieldHolder bgWhite brdRadius max-w-fix-800 m-a px-2 px-sm-5 py-5',
       footerWidth: 'max-w-fix-800',
-      classWrap: type === 'searchProfile' ? 'brdSmallBottom brdText100 pb-2 pb-md-4' : '',
+      classWrap: type === 'searchProfile' ? 'brdSmallBottom brdText50 pb-2 pb-md-4' : '',
       inputs: [
         {
           className: type === 'searchProfile' ? 'extraFeature' : 'extraFeature',
@@ -145,7 +145,7 @@ export const QuestionsList: (lang: string, type: string, changeField: (field: st
       subtitle: translateTo('You can add multiple addresses.', lang),
       history: 'locationInput',
       cardType: 'locationInput',
-      classWrap: type === 'searchProfile' ? 'brdSmallBottom brdText100 pb-4' : '',
+      classWrap: type === 'searchProfile' ? 'brdSmallBottom brdText50 pb-4' : '',
       className: 'fieldHolder bgWhite brdRadius max-w-fix-600 w-perc-100 m-a px-2 px-sm-5 py-5 dis-f flex-wrap',
       footerWidth: 'max-w-fix-600',
       classQuest: 'dis-fl-col dis-fl-row-sm',
@@ -197,7 +197,7 @@ export const QuestionsList: (lang: string, type: string, changeField: (field: st
       history: 'price',
       cardType: 'Price',
       className: `fieldHolder bgWhite brdRadius ${type === 'searchProfile' ? 'max-w-fix-344' : 'max-w-fix-600 m-a'}`,
-      classWrap: type === 'searchProfile' ? 'brdSmallBottom brdText100 pb-4' : '',
+      classWrap: type === 'searchProfile' ? 'brdSmallBottom brdText50 pb-4' : '',
       footerWidth: 'max-w-fix-600',
       inputs: [
         {

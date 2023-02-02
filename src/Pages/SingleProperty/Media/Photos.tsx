@@ -220,7 +220,7 @@ const Photos = (props: PhotosPageType) => {
                           {(!fixPhotos || (isArray(fixPhotos) && fixPhotos.length === 0)) && (<span>{translateTo('your first photos ', lang)}</span>)}
                           <span>{translateTo('or drag and drop.', lang)}</span>
                         </p>
-                        {(!fixPhotos || (isArray(fixPhotos) && fixPhotos.length === 0)) && (<span className='brdSmallTop brdText200 w-fix-104 my-2 ml-a mr-a'></span>)}
+                        {(!fixPhotos || (isArray(fixPhotos) && fixPhotos.length === 0)) && (<span className='brdSmallTop brdText100 w-fix-104 my-2 ml-a mr-a'></span>)}
 
                         <span className="fsize-300 txtText400 max-width-304">{translateTo('Choose .jpeg .png with max. 10 MB size', lang)}</span>
                       </div>

@@ -160,7 +160,7 @@ const SellerSidebar = (props: SellerSidebarType) => {
                   />
                   {
                     !isNaN(get(history, 'createdAt', null)) && (
-                      <p className="fsize-200 pt-small-4 txtText300">
+                      <p className="fsize-200 pt-small-4 txtText200">
                         {
                           get(history, 'history[0].author.name', null) && (
                             <>

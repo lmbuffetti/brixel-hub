@@ -80,7 +80,7 @@ const DashboardPropertyCard: (props: DashboardPropertyCardProps) => JSX.Element 
                   type === 'buy' ? (
                     <div className="dis-fl-col dis-fl-row-sm a-c">
                       <div className="dis-f w-perc-100 jc-b">
-                        <div className="brdSmallRight brdText200 pr-2">
+                        <div className="brdSmallRight brdText100 pr-2">
                           <h6 className="ff-mono txtText400 fsize-300">
                             {translateTo('Living area', lang)}
                           </h6>
@@ -88,7 +88,7 @@ const DashboardPropertyCard: (props: DashboardPropertyCardProps) => JSX.Element 
                             {get(activeSingleProperty, 'properties.typology.livingArea.value', 0)}m2
                           </p>
                         </div>
-                        <div className="ml-2 brdSmallRight brdText200 pr-2">
+                        <div className="ml-2 brdSmallRight brdText100 pr-2">
                           <h6 className="ff-mono txtText400 fsize-300">
                             {translateTo('Rooms', lang)}
                           </h6>
@@ -97,7 +97,7 @@ const DashboardPropertyCard: (props: DashboardPropertyCardProps) => JSX.Element 
                             }
                           </p>
                         </div>
-                        <div className="ml-2 brdSmallRight-sm brdText200 pr-2 mr-1">
+                        <div className="ml-2 brdSmallRight-sm brdText100 pr-2 mr-1">
                           <h6 className="ff-mono txtText400 fsize-300">
                             {translateTo('Year built', lang)}
                           </h6>

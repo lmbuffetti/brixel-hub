@@ -132,7 +132,7 @@ const MarketCardFavorites = (props: MarketCardFavoritesType) => {
 
   return (
     <div className="mb-3 marketCardFavorite">
-      <div className="dis-fl-col dis-fl-row-md dis-f brdRadius brdSmall brdText200 ov-h h-perc-100">
+      <div className="dis-fl-col dis-fl-row-md dis-f brdRadius brdSmall brdText100 ov-h h-perc-100">
         <div className="w-fix-md-304 pos-r h-perc-100 ov-h">
           {
             isPreMarket() && (
@@ -289,7 +289,7 @@ const MarketCardFavorites = (props: MarketCardFavoritesType) => {
             <div className="fsize-300 txtText700 mb-2 mb-lg-0">
               <div className="dis-f a-c jc-fs flex-wrap w-perc-100">
 
-                <div className="bottom a-c txtText900 brdSmallRight brdText200 pr-2 mr-2 pr-sm-6 mr-sm-6">
+                <div className="bottom a-c txtText900 brdSmallRight brdText100 pr-2 mr-2 pr-sm-6 mr-sm-6">
                   <span className="fsize-300 dis-b txtText400">
                     {translateTo('Price', lang)}
                   </span>

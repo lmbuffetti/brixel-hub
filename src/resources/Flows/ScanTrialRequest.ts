@@ -22,7 +22,7 @@ export const ScanTrialQuestions: (lang: string) => QuestionsListType[] = (lang) 
     }],
     title: translateTo('Nice to meet you. Who are you?', lang),
     history: 'contactInfo',
-    className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText100 p-2 p-sm-5',
+    className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText50 p-2 p-sm-5',
     inputs: [
       {
         component: BrixelInputText,

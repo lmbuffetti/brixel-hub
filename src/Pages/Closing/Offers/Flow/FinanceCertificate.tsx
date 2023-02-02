@@ -34,7 +34,7 @@ const FinanceCertificate = (props: FinanceCertificateType) => {
       <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 fsize-600 fsize-sm-800 mb-sm-6">
         {translateTo('Apply for a financing certificate', lang)}
       </h2>
-      <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText100">
+      <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText50">
 
         {
           get(activeSingleProperty, 'location.countryCode', '') === 'CH' ? (
@@ -133,7 +133,7 @@ const FinanceCertificate = (props: FinanceCertificateType) => {
           )
         }
 
-        <hr className="brdText100" />
+        <hr className="brdText50" />
 
         <div className="p-5">
           <span className="dis-b pb-2 fsize-500 txtText900">

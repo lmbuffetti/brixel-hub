@@ -93,7 +93,7 @@ const BookTrialFlow = (props: BookTrialFlowType) => {
           <>
             <h2 className="ta-c fweight-600 fsize-600 fsize-sm-800">{translateTo('We are ready 🚀.', lang)}</h2>
             <h2 className="mb-3 mb-sm-6 ta-c fweight-600 fsize-600 fsize-sm-800">{translateTo('When do you want us to visit?', lang)}</h2>
-            <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText100">
+            <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText50">
               <Accordion
                 color="dark"
                 saturationTxt={400}

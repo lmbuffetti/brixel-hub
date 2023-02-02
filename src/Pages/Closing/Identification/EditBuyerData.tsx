@@ -129,7 +129,7 @@ const EditBuyerData = (props: EditBuyerDataType) => {
         <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 fsize-600 fsize-sm-800 mb-sm-6">
           {translateTo(`Who is the ${userType} of the property?`, lang)}
         </h2>
-        <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText100">
+        <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText50">
           <div className="p-2 p-sm-5">
             {
               forceStep === 0 && (

@@ -82,7 +82,7 @@ const MarketCardSmall = (props: MarketCardSmallType) => {
         onClick={(e) => (readOnly ? '' : openCard(e))}
       >
         <div className={`${type === 'own' ? 'dis-f-sm' : 'dis-fl-col'}`}>
-          <div className={`brdSmall brdRadius brdText100 ov-h dis-f ${readOnly ? 'h-fix-104 h-fix-sm-144' : 'h-fix-80'} ${className}`}>
+          <div className={`brdSmall brdRadius brdText50 ov-h dis-f ${readOnly ? 'h-fix-104 h-fix-sm-144' : 'h-fix-80'} ${className}`}>
             {
               type === 'estimation' ? (
                 <BrixelIcon
@@ -122,14 +122,14 @@ const MarketCardSmall = (props: MarketCardSmallType) => {
                   <div className="px-2">
                     {
                       get(estimation, 'higherValue', null) ? (
-                        <p className="txtText300">
+                        <p className="txtText200">
                           <span>{get(estimation, 'currency', 'EUR')}</span>
                           <span className="ml-1">
                             {Helpers.formatNumberValue(Math.round(get(estimation, 'higherValue', 0)), get(estimation, 'currency', 'EUR'))}
                           </span>
                         </p>
                       ) : (
-                        <p className="txtText300">
+                        <p className="txtText200">
                           {translateTo('Pending', lang)}
                         </p>
                       )

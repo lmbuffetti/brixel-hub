@@ -277,7 +277,7 @@ const BrixelClosingTree = (props: BrixelClosingTreeType) => {
               </div>
             </div>
 
-            <div className="secDetails brdText100 closed">
+            <div className="secDetails brdText50 closed">
               <div className="p-2">
                 {
                   get(activeSingleOffer, 'offer.amount', 0) > 0 &&
@@ -556,7 +556,7 @@ const BrixelClosingTree = (props: BrixelClosingTreeType) => {
 
               {
                 get(activeSingleClosing, 'stageOffer.active', null) !== false && (
-                  <div className="collExBtn p-2 dis-f a-c brdSmallLeft brdText100">
+                  <div className="collExBtn p-2 dis-f a-c brdSmallLeft brdText50">
                     <BrixelIcon
                       icon={collapsed['stageOffer'] ? 'dropdown-open' : 'dropdown-close'}
                       color="altGrey"
@@ -676,7 +676,7 @@ const BrixelClosingTree = (props: BrixelClosingTreeType) => {
                   )
                 }
               </div>
-              <div className="collExBtn p-2 dis-f a-c brdSmallLeft brdText100">
+              <div className="collExBtn p-2 dis-f a-c brdSmallLeft brdText50">
                 <BrixelIcon
                   icon={collapsed['stageIdentification'] ? 'dropdown-open' : 'dropdown-close'}
                   color="altGrey"
@@ -751,7 +751,7 @@ const BrixelClosingTree = (props: BrixelClosingTreeType) => {
                   }
                 </div>
               </div>
-              <div className="collExBtn p-2 dis-f a-c brdSmallLeft brdText100">
+              <div className="collExBtn p-2 dis-f a-c brdSmallLeft brdText50">
                 <BrixelIcon
                   icon={collapsed[stage] ? 'dropdown-open' : 'dropdown-close'}
                   color="altGrey"
@@ -804,7 +804,7 @@ const BrixelClosingTree = (props: BrixelClosingTreeType) => {
               </div>
               {
                 get(activeSingleClosing, 'stageOffer.active', null) !== false && (
-                  <div className="collExBtn p-2 dis-f a-c brdSmallLeft brdText100">
+                  <div className="collExBtn p-2 dis-f a-c brdSmallLeft brdText50">
                     <BrixelIcon
                       icon={collapsed[stage] ? 'dropdown-open' : 'dropdown-close'}
                       color="altGrey"

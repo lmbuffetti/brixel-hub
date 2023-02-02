@@ -681,7 +681,7 @@ const GetStartedBuyer = (props: GetStartedType) => {
                     }
                     {
                       quest.bulletPoints && (
-                        <div className="brdSmallLeft-lg brdText100 w-perc-lg-45 pl-lg-5 py-lg-3 max-w-fix-lg-352">
+                        <div className="brdSmallLeft-lg brdText50 w-perc-lg-45 pl-lg-5 py-lg-3 max-w-fix-lg-352">
                           <span className="my-3 dis-b">{quest.bulletPoints.title}</span>
                           <ul className="">
                             {

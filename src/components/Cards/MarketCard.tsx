@@ -479,7 +479,7 @@ const MarketCard = (props: MarketCardProps) => {
                         {translateTo(get(item, 'title', ''), lang)}
                       </h6>
                       <div>
-                        <span className="fsize-300 txtText700 mb-1 ta-l brdSmallRight brdText300 mr-2 pr-2 dis-ib notranslate">
+                        <span className="fsize-300 txtText700 mb-1 ta-l brdSmallRight brdText200 mr-2 pr-2 dis-ib notranslate">
                           {get(item, 'location.zip', '')} {get(item, 'location.city', '')}
                           {
                             get(item, 'location.countryCode', 'CH') === 'CH' && (
@@ -489,10 +489,10 @@ const MarketCard = (props: MarketCardProps) => {
                             )
                           }
                         </span>
-                        <span className="fsize-300 txtText700 mb-1 ta-l brdSmallRight mr-2 pr-2 brdText300 dis-ib">
+                        <span className="fsize-300 txtText700 mb-1 ta-l brdSmallRight mr-2 pr-2 brdText200 dis-ib">
                           {translateTo(get(item, 'properties.propertyType', ''), lang)}
                         </span>
-                        <span className="fsize-300 txtText700 mb-1 ta-l brdSmallRight mr-2 pr-2  brdText300 dis-ib notranslate">
+                        <span className="fsize-300 txtText700 mb-1 ta-l brdSmallRight mr-2 pr-2  brdText200 dis-ib notranslate">
                           {FormatValue.formatRooms(get(item, 'properties.typology.bedrooms', 0), get(item, 'location.countryCode', 'CH'))}
                         </span>
                         {
@@ -584,7 +584,7 @@ const MarketCard = (props: MarketCardProps) => {
                             (get(item, 'properties.propertyType', null) === 'House' || get(item, 'properties.propertyType', null) === 'Apartment') && (
                               <div
                                 onClick={() => window.location.assign(`/${get(item,  'id', '')}/property/price/proEstimation`)}
-                                className="dis-fl-row a-c ml-4 brdSmallLeft brdText300 pl-4"
+                                className="dis-fl-row a-c ml-4 brdSmallLeft brdText200 pl-4"
                               >
                                 <div className="hide dis-fl-row-sm">
                                   <div className="pos-r h-fix-48 w-fix-48">
@@ -622,7 +622,7 @@ const MarketCard = (props: MarketCardProps) => {
               </>
             ) : (
               <div
-                className="brdSmall brdText100 brdRadius ov-h bgWhite"
+                className="brdSmall brdText50 brdRadius ov-h bgWhite"
                 // onClick={() => openCard()}
                 onMouseEnter={() => setShowSlideData(true)}
                 onMouseLeave={() => setShowSlideData(false)}

@@ -285,9 +285,9 @@ function PageHeader(props: PageHeaderType) {
                   className={`header-section dis-fl-row a-c jc-b w-perc-100 w-perc-lg-80 ${showMobileMenu ? 'hide' : ''}`}
                 >
                   <div
-                    className={`dis-f a-c pl-0 pl-lg-3 logoWrapper ${isFlow ? '' : 'min-w-fix-lg-232'} w-fit min-w-fix-40 ${((!isFlow && get(activeSingleProperty, 'id', '') && propID && propID.length > 9) || (propID === 'sell' || propID === 'buy') || showProgressStage) ? 'brdSmallRight brdText200' : ''} w-fit`}
+                    className={`dis-f a-c pl-0 pl-lg-3 logoWrapper ${isFlow ? '' : 'min-w-fix-lg-232'} w-fit min-w-fix-40 ${((!isFlow && get(activeSingleProperty, 'id', '') && propID && propID.length > 9) || (propID === 'sell' || propID === 'buy') || showProgressStage) ? 'brdSmallRight brdText100' : ''} w-fit`}
                   >
-                    <div className={`${isFlow ? '' : 'brdSmallRight brdText200'} min-w-88 w-perc-100 h-fix-72 dis-f a-c pr-2`}>
+                    <div className={`${isFlow ? '' : 'brdSmallRight brdText100'} min-w-88 w-perc-100 h-fix-72 dis-f a-c pr-2`}>
                       <img
                         loading="lazy"
                         onClick={() => {
@@ -380,7 +380,7 @@ function PageHeader(props: PageHeaderType) {
                             </span>
                           ) : (
                             <span
-                              className="fweight-600 dis-f cur-poi txtText300 bgText300"
+                              className="fweight-600 dis-f cur-poi txtText200 bgText200"
                             >
                               {translateTo('Loading...', lang)}
                             </span>

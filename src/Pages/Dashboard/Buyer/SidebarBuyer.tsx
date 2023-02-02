@@ -145,7 +145,7 @@ const SidebarBuyer = (props: SidebarBuyerType) => {
                       />
                       {
                         get(history, 'createdAt', null) && !isNaN(+get(history, 'createdAt', '')) && (
-                          <p className="fsize-200 pt-small-4 txtText300">
+                          <p className="fsize-200 pt-small-4 txtText200">
                             {
                               get(history, 'history[0].author.name', null) && (
                                 <>

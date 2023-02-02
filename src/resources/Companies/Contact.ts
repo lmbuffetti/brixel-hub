@@ -188,7 +188,7 @@ export const QuestionsList = (lang, company, isBuyer) => {
       contact[0] = {
         cardType: 'loadComponent',
         history: 'intro',
-        className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText100 p-3 p-sm-5',
+        className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText50 p-3 p-sm-5',
         footerWidth: 'max-w-fix-600',
         component: IntroBuyerUBS,
         hideContinueBtn: true,
@@ -301,7 +301,7 @@ export const QuestionsList = (lang, company, isBuyer) => {
     {
       title: translateTo('What is your current residential address?', lang),
       history: 'location',
-      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText100 p-3 p-sm-5 dis-f flex-wrap',
+      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText50 p-3 p-sm-5 dis-f flex-wrap',
       footerWidth: 'max-w-fix-600',
       inputs: [
         {

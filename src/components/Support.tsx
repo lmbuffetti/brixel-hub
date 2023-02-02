@@ -99,7 +99,7 @@ const Support = (props: SupportType) => {
                     }
                     {
                       layout !== 'floatable' && (
-                        <span className="ml-2 txtText300">{translateTo('Support', lang)}</span>
+                        <span className="ml-2 txtText200">{translateTo('Support', lang)}</span>
                       )
                     }
                   </div>

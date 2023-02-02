@@ -377,7 +377,7 @@ const Deals = (props: DealsType) => {
                                       <div
                                         className="mb-3 dis-fl-row jc-c"
                                       >
-                                        <span className="fsize-200 txtText300">
+                                        <span className="fsize-200 txtText200">
                                           {translateTo('Archived', lang)}
                                         </span>
                                       </div>

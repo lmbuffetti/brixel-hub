@@ -31,7 +31,7 @@ export const IdentificationQuestions = (editForm = false, userType, lang) => {
     {
       title: translateTo(`Who is the ${userType} of the property?`, lang),
       history: 'userName',
-      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText100 p-2 p-sm-5',
+      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText50 p-2 p-sm-5',
       subtitleSmall: `<span>${textIntro}</span>`,
       inputs: [
         {
@@ -49,7 +49,7 @@ export const IdentificationQuestions = (editForm = false, userType, lang) => {
     {
       title: `<span>${translateTo('Please give us all details about', lang)}</span><span class="ml-1 notranslate">${get(formValue, 'persons[0].fullName')}.</span>`,
       history: 'userData',
-      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText100 p-2 p-sm-5 dis-f flex-wrap',
+      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText50 p-2 p-sm-5 dis-f flex-wrap',
       footerWidth: 'max-w-fix-600',
       inputs: [
         {
@@ -154,7 +154,7 @@ export const IdentificationQuestions = (editForm = false, userType, lang) => {
     {
       title: `<span>${translateTo('Please upload an official ID of', lang)}</span><span class="ml-1 notranslate">${get(formValue, 'persons[0].fullName')}.</span>`,
       history: 'document',
-      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText100 p-2 p-sm-5 dis-f flex-wrap',
+      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText50 p-2 p-sm-5 dis-f flex-wrap',
       footerWidth: 'max-w-fix-600',
       inputs: [
         {
@@ -185,7 +185,7 @@ export const IdentificationQuestions = (editForm = false, userType, lang) => {
       hideContinueBtn: true,
       cardType: 'loadComponent',
       history: 'userDataResume',
-      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText100 p-2 p-sm-5',
+      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText50 p-2 p-sm-5',
       footerWidth: 'max-w-fix-600',
       component: IdentificationBuyerResume,
       hideActionsButton: true,
@@ -221,7 +221,7 @@ export const IdentificationQuestions = (editForm = false, userType, lang) => {
       title: translateTo('Thank you', lang),
       img: ClipboardImg,
       imgMaxWidth: 'max-w-fix-152',
-      cardClass: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText100 p-2 p-sm-5',
+      cardClass: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText50 p-2 p-sm-5',
       subtitle: 'Your data was transmitted. We will review your inputs and get back to you.',
       history: 'success',
       vCentered: true,

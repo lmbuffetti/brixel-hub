@@ -205,7 +205,7 @@ const Plans = (props: FloorPlansPageType) => {
                             {(!fixPhotos || (fixPhotos && fixPhotos.length === 0)) && (<span>{translateTo('your first plans ', lang)}</span>)}
                             <span>{translateTo('or drag and drop.', lang)}</span>
                           </p>
-                          {(!fixPhotos || (fixPhotos && fixPhotos.length === 0)) && (<span className='brdSmallTop brdText200 w-fix-104 my-2 ml-a mr-a'></span>)}
+                          {(!fixPhotos || (fixPhotos && fixPhotos.length === 0)) && (<span className='brdSmallTop brdText100 w-fix-104 my-2 ml-a mr-a'></span>)}
 
                           <span className="fsize-300 txtText400 max-width-304">{translateTo('Choose .jpeg .png with max. 10 MB size', lang)}</span>
                         </div>

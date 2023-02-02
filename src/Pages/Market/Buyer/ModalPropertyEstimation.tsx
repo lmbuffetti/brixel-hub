@@ -124,7 +124,7 @@ const ModalPropertyEstimation = (props: ModalPropertyEstimationType) => {
 
           <div className="dis-fl-col dis-fl-row-sm jc-fs">
 
-            <div className="brdSmallRight-sm brdText100 mr-2 pr-2">
+            <div className="brdSmallRight-sm brdText50 mr-2 pr-2">
               <h6 className="fsize-300 fweight-400 txtText400 pb-1">
                 {translateTo('Property worth', lang)}
               </h6>

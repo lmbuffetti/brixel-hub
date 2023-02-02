@@ -341,7 +341,7 @@ const IntroUpgrade = (props: IntroUpgradeType) => {
                                                       key={`logo${x.toString()}`}
                                                       src={logo}
                                                       alt={`${activeSingleCompany.name} logo ${x}`}
-                                                      className={`${x > 0 ? 'ml-2 brdSmallLeft brdText300 pl-2' : ''} h-perc-100`}
+                                                      className={`${x > 0 ? 'ml-2 brdSmallLeft brdText200 pl-2' : ''} h-perc-100`}
                                                     />
                                                   </div>
                                                 </>
