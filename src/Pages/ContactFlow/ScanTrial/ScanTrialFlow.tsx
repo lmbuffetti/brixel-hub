@@ -327,7 +327,7 @@ const ScanTrialFlow = (props: ScanTrialFlowType) => {
   if (activeSingleScanTrial === null) return <div />
 
   return (
-    <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'background', '')} ${get(quest, 'classWrapper', '')} ${showBookedTrial ? 'bgGreen100' : ''}`}>
+    <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'background', '')} ${get(quest, 'classWrapper', '')} ${showBookedTrial ? 'bgGreen50' : ''}`}>
 
       <div className={`bodyModal dis-fl-col upgradeModal container ${get(quest, 'history', '')} ${showBookedTrial ? 'dis-f jc-c' : ''} stepNo${currentIndex}`}>
         <form

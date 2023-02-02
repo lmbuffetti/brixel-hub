@@ -119,7 +119,7 @@ const DashboardPropertyCard: (props: DashboardPropertyCardProps) => JSX.Element 
                     <div className="dis-f a-c">
                       {
                         get(activeSingleProperty, 'virtual', null) && (
-                          <div className="bgBlue300 tourLink">
+                          <div className="bgBlue200 tourLink">
                             <button
                               onClick={() => history.push(`/${get(activeSingleProperty, 'id', '')}/property/tour`)}
                               className="dis-f a-c"

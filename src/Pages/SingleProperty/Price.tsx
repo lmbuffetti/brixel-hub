@@ -233,7 +233,7 @@ const Price = (props: PriceType) => {
                             get(proEstimation, 'value', 0) <= 0 ? (
                               <>
                                 <div className="w-perc-100 h-fix-40 mx-1 pos-r dis-f jc-c a-c">
-                                  <div className="w-perc-100 h-fix-40 bgBlue100 bgBlur pos-a" />
+                                  <div className="w-perc-100 h-fix-40 bgBlue50 bgBlur pos-a" />
                                   <div className="pos-r zIndex1">
                                     {
                                       calcPercentageProEstimation().realPerc === 100 && (

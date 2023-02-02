@@ -191,7 +191,7 @@ const Photos = (props: PhotosPageType) => {
                     }
 
                     <div
-                      className={`${(!fixPhotos || (isArray(fixPhotos) && fixPhotos.length === 0)) ? 'emptyState' : 'hasImages bgGreen100 mb-3 py-2'} upload-container dis-fl-col a-c ta-c`}
+                      className={`${(!fixPhotos || (isArray(fixPhotos) && fixPhotos.length === 0)) ? 'emptyState' : 'hasImages bgGreen50 mb-3 py-2'} upload-container dis-fl-col a-c ta-c`}
                       {...getRootProps()}
                     >
                       <input {...getInputProps()} />

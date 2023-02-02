@@ -301,7 +301,7 @@ const IntroUpgrade = (props: IntroUpgradeType) => {
                         </div>
                         {
                           partners && get(pkg, 'price.total', 0) > 0 && (
-                            <div className="p-4 pb-4 pb-sm-5 bgGreen100 dis-fl-col jc-c pos-r">
+                            <div className="p-4 pb-4 pb-sm-5 bgGreen50 dis-fl-col jc-c pos-r">
                               <BrixelIcon
                                 icon="plus"
                                 color="green"
@@ -314,7 +314,7 @@ const IntroUpgrade = (props: IntroUpgradeType) => {
                                     <span className="fweight-600 fsize-500 dis-b">
                                       {translateTo('Exclusive benefits for UBS clients', lang)}
                                     </span>
-                                    <span className="fweight-600 mt-1 dis-b p-2 bgBlue100">
+                                    <span className="fweight-600 mt-1 dis-b p-2 bgBlue50">
                                       {translateTo('You only pay if the property is sold.', lang)}
                                     </span>
                                     <ul className="checked mt-2 txtText900">
@@ -360,7 +360,7 @@ const IntroUpgrade = (props: IntroUpgradeType) => {
                                     <span className="fweight-600 fsize-500 dis-b">
                                       {translateTo('Exclusive benefits for Baloise clients', lang)}
                                     </span>
-                                    <span className="fweight-600 mt-1 dis-b p-2 bgBlue100">
+                                    <span className="fweight-600 mt-1 dis-b p-2 bgBlue50">
                                       {translateTo('You only pay if the property is sold.', lang)}</span>
                                     <ul className="checked mt-2 txtText900">
                                       <li>{translateTo('Clarification of the existing mortgage', lang)}</li>
@@ -473,7 +473,7 @@ const IntroUpgrade = (props: IntroUpgradeType) => {
                               </div>
                               {
                                 get(pkg, 'price.total', 0) > 0 && (
-                                  <div className="p-4 pb-4 pb-sm-5 bgGreen100 dis-fl-col jc-c pos-r">
+                                  <div className="p-4 pb-4 pb-sm-5 bgGreen50 dis-fl-col jc-c pos-r">
                                     <BrixelIcon
                                       icon="plus"
                                       color="green"
@@ -486,7 +486,7 @@ const IntroUpgrade = (props: IntroUpgradeType) => {
                                           <span className="fweight-600 fsize-500 dis-b">
                                             {translateTo('Exclusive benefits for UBS clients', lang)}
                                           </span>
-                                          <span className="fweight-600 mt-1 dis-b p-2 bgBlue100">
+                                          <span className="fweight-600 mt-1 dis-b p-2 bgBlue50">
                                             {translateTo('You only pay if the property is sold.', lang)}
                                           </span>
                                           <ul className="checked mt-2 txtText900">
@@ -505,7 +505,7 @@ const IntroUpgrade = (props: IntroUpgradeType) => {
                                           <span className="fweight-600 fsize-500 dis-b">
                                             {translateTo('Exclusive benefits for Baloise clients', lang)}
                                           </span>
-                                          <span className="fweight-600 mt-1 dis-b p-2 bgBlue100">
+                                          <span className="fweight-600 mt-1 dis-b p-2 bgBlue50">
                                             {translateTo('You only pay if the property is sold.', lang)}
                                           </span>
                                           <ul className="checked mt-2 txtText900">

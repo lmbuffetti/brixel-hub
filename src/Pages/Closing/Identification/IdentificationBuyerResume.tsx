@@ -144,7 +144,7 @@ const IdentificationBuyerResume = (props: IdentificationBuyerResumeType) => {
                   {
                     get(formValue, 'persons', []).map((buyer, i) => (
                       <div
-                        className="mt-2 bgBlue100x25 brdRadius p-2 dis-f a-c jc-b"
+                        className="mt-2 bgBlue50x25 brdRadius p-2 dis-f a-c jc-b"
                         key={`frm_${i.toString()}`}
                       >
                         <div className="dis-f a-c">
@@ -278,7 +278,7 @@ const IdentificationBuyerResume = (props: IdentificationBuyerResumeType) => {
                   {
                     get(formValue, 'persons', []).map((buyer, i) => (
                       <div
-                        className="mt-2 bgBlue100x25 brdRadius py-2 px-4"
+                        className="mt-2 bgBlue50x25 brdRadius py-2 px-4"
                         key={`frm_${i.toString()}`}
                       >
                         <div className="dis-f a-c jc-b">

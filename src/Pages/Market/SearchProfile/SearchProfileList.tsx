@@ -160,9 +160,9 @@ const SearchProfileList = (props: SearchProfileListType) => {
               searchProfile.id && (
                 <div
                   key={`searchProfile${i.toString()}`}
-                  className={`searchProfileList brdSmall brdRadius p-2 p-md-3 mb-2 ${i.toString() === '0' ? 'mt-4' : ''} ${userActiveSearchProfileId === searchProfile.id ? 'bgBlue100 brdBlue300' : 'brdText100'}`}
+                  className={`searchProfileList brdSmall brdRadius p-2 p-md-3 mb-2 ${i.toString() === '0' ? 'mt-4' : ''} ${userActiveSearchProfileId === searchProfile.id ? 'bgBlue50 brdBlue200' : 'brdText100'}`}
                 >
-                  <div className={`dis-f a-c jc-b ${userActiveSearchProfileId === searchProfile.id ? 'brdSmallBottom-md pb-md-3 mb-md-3 pb-2' : 'pb-2 pb-md-0'} brdBlue300`} >
+                  <div className={`dis-f a-c jc-b ${userActiveSearchProfileId === searchProfile.id ? 'brdSmallBottom-md pb-md-3 mb-md-3 pb-2' : 'pb-2 pb-md-0'} brdBlue200`} >
                     <div className="dis-f a-t jc-fs w-perc-75">
                       <BrixelRadioButton
                         disableDelay={true}
@@ -181,7 +181,7 @@ const SearchProfileList = (props: SearchProfileListType) => {
                     <div className="dis-f a-c jc-fe w-perc-20">
                       {
                         searchProfile.isDefault && (
-                          <div className="mr-md-2 brdFullRadius bgBlue200 txtBlue700 fsize-300 py-small-4 px-1">
+                          <div className="mr-md-2 brdFullRadius bgBlue100 txtBlue700 fsize-300 py-small-4 px-1">
                             {translateTo('Default', lang)}
                           </div>
                         )
@@ -258,7 +258,7 @@ const SearchProfileList = (props: SearchProfileListType) => {
                       }
                     </div>
 
-                    <div className={`hide-md dis-f jc-fe brdSmallTop ${userActiveSearchProfileId === searchProfile.id ? 'brdBlue300' : 'brdText200'} mt-3 pt-2`}>
+                    <div className={`hide-md dis-f jc-fe brdSmallTop ${userActiveSearchProfileId === searchProfile.id ? 'brdBlue200' : 'brdText200'} mt-3 pt-2`}>
                       <BrixelButtonText
                         theme="Red"
                         rounded

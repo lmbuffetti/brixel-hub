@@ -110,7 +110,7 @@
     &:nth-child(2) {
       border-color: map-get($greenColor, 400);
 
-      .bgGreen100 {
+      .bgGreen50 {
         background-color: rgba($color: map-get($greenColor, 100), $alpha: 0.5);
       }
 

@@ -95,7 +95,7 @@ const ModalPropertyEstimation = (props: ModalPropertyEstimationType) => {
       // multiActions={multiActions()}
     >
       <div>
-        <div className={`dis-f jc-c a-c py-7 ${get(activeEstimation, 'result.available', false) ? 'bgGreen200' : 'bgYellow200'}`}>
+        <div className={`dis-f jc-c a-c py-7 ${get(activeEstimation, 'result.available', false) ? 'bgGreen100' : 'bgYellow100'}`}>
 
           <BrixelIcon
             rounded

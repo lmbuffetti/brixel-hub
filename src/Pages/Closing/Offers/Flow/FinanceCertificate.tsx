@@ -41,7 +41,7 @@ const FinanceCertificate = (props: FinanceCertificateType) => {
             <div className="p-5">
               <div className="dis-fl-col dis-fl-row-sm jc-b a-t">
                 <div className="dis-f-col w-perc-100 flex-1 a-c jc-fs ta-c">
-                  <div className="m-a w-fix-80 h-fix-80 brdCircle bgBlue200 dis-f a-c jc-c mb-1">
+                  <div className="m-a w-fix-80 h-fix-80 brdCircle bgBlue100 dis-f a-c jc-c mb-1">
                     <img loading="lazy" src={FinancingQuestionImg} alt="Answer questions about financing" />
                   </div>
                   <p className="txtText900 fsize-300 fweight-600 ta-c">
@@ -49,7 +49,7 @@ const FinanceCertificate = (props: FinanceCertificateType) => {
                   </p>
                 </div>
                 <div className="dis-f-col w-perc-100 flex-1 a-c jc-fs my-2 my-sm-0">
-                  <div className="m-a w-fix-80 h-fix-80 brdCircle bgBlue200 dis-f a-c jc-c mb-1">
+                  <div className="m-a w-fix-80 h-fix-80 brdCircle bgBlue100 dis-f a-c jc-c mb-1">
                     <img loading="lazy" src={RegisterKey4Img} alt="Register on key4" />
                   </div>
                   <p className="txtText900 fsize-300 fweight-600 ta-c">
@@ -57,7 +57,7 @@ const FinanceCertificate = (props: FinanceCertificateType) => {
                   </p>
                 </div>
                 <div className="dis-f-col w-perc-100 flex-1 a-c jc-fs">
-                  <div className="m-a w-fix-80 h-fix-80 brdCircle bgBlue200 dis-f a-c jc-c mb-1">
+                  <div className="m-a w-fix-80 h-fix-80 brdCircle bgBlue100 dis-f a-c jc-c mb-1">
                     <img loading="lazy" src={UploadKey4Img} alt="Upload documents on key4" />
                   </div>
                   <p className="txtText900 fsize-300 fweight-600 ta-c">
@@ -99,7 +99,7 @@ const FinanceCertificate = (props: FinanceCertificateType) => {
 
               <div className="dis-fl-col dis-fl-row-sm jc-b a-t mt-3">
                 <div className="w-perc-100 flex-1 dis-f-col a-c jc-fs ta-c">
-                  <div className="m-a w-fix-80 h-fix-80 brdCircle bgBlue200 dis-f a-c jc-c mb-1">
+                  <div className="m-a w-fix-80 h-fix-80 brdCircle bgBlue100 dis-f a-c jc-c mb-1">
                     <img loading="lazy" src={FinancingQuestionImg} alt="Answer questions about financing" />
                   </div>
                   <p className="txtText900 fsize-300 fweight-600 ta-c">
@@ -107,7 +107,7 @@ const FinanceCertificate = (props: FinanceCertificateType) => {
                   </p>
                 </div>
                 <div className="w-perc-100 flex-1 dis-f-col a-c jc-fs my-2 my-sm-0">
-                  <div className="m-a w-fix-80 h-fix-80 brdCircle bgBlue200 dis-f a-c jc-c mb-1">
+                  <div className="m-a w-fix-80 h-fix-80 brdCircle bgBlue100 dis-f a-c jc-c mb-1">
                     <img loading="lazy" src={RegisterKey4Img} alt="Register on key4" />
                   </div>
                   <p className="txtText900 fsize-300 fweight-600 ta-c">
@@ -115,7 +115,7 @@ const FinanceCertificate = (props: FinanceCertificateType) => {
                   </p>
                 </div>
                 <div className="w-perc-100 flex-1 dis-f-col a-c jc-fs">
-                  <div className="m-a w-fix-80 h-fix-80 brdCircle bgBlue200 dis-f a-c jc-c mb-1">
+                  <div className="m-a w-fix-80 h-fix-80 brdCircle bgBlue100 dis-f a-c jc-c mb-1">
                     <img loading="lazy" src={UploadKey4Img} alt="Upload documents on key4" />
                   </div>
                   <p className="txtText900 fsize-300 fweight-600 ta-c">

@@ -300,16 +300,16 @@ const MarketCard = (props: MarketCardProps) => {
   const getColor = (text) => {
     switch (text) {
       case 'new': {
-        return 'Blue200';
+        return 'Blue100';
       }
       case 'updated': {
-        return 'Green100';
+        return 'Green50';
       }
       case 'premium': {
         return 'Red';
       }
       case 'pre-market': {
-        return 'Blue200';
+        return 'Blue100';
       }
       default:
     }
@@ -374,7 +374,7 @@ const MarketCard = (props: MarketCardProps) => {
                   {
                     get(selectActiveServicePackage(), 'type', null) === 'basic' && (
                       <div
-                        className="w-perc-100 dis-f bgBlue100 brdRadiusSmall px-2 pl-md-0 pr-md-6 mb-2 mb-sm-3 cur-poi"
+                        className="w-perc-100 dis-f bgBlue50 brdRadiusSmall px-2 pl-md-0 pr-md-6 mb-2 mb-sm-3 cur-poi"
                         onClick={() => history.push(`/${get(item,  'id', '')}/trialRequest?url=/sell`)}
                       >
                         <div className="hide dis-b-md">

@@ -189,7 +189,7 @@ const BrixelClosingTree = (props: BrixelClosingTreeType) => {
     <>
       {
         get(activeSingleClosing, `stageIdentification.${usrType}.persons`, []).length > 0 && (
-          <div className={`dis-f a-c txtGreen400 brdRadius w-perc-100 jc-b py-1 px-2 ${classNamePersons} ${(isBuyer && usrType === 'buyer') || (!isBuyer && usrType === 'seller') ? '' : 'filterGray'} ${statusIdentification('seller') === 'accepted' || statusIdentification('buyer') === 'accepted' ? 'disabled' : ''} bgBlue100x25 personsListIdentification`}>
+          <div className={`dis-f a-c txtGreen400 brdRadius w-perc-100 jc-b py-1 px-2 ${classNamePersons} ${(isBuyer && usrType === 'buyer') || (!isBuyer && usrType === 'seller') ? '' : 'filterGray'} ${statusIdentification('seller') === 'accepted' || statusIdentification('buyer') === 'accepted' ? 'disabled' : ''} bgBlue50x25 personsListIdentification`}>
             <div className="dis-f a-c wrapName">
               <BrixelIcon
                 className="mr-1"

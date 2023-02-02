@@ -68,7 +68,7 @@ const IntroBuyerUBS = (props: IntroBuyerUBSType) => {
             />
           </div>
         </div>
-        <div className="dis-fl-col w-perc-100 w-perc-lg-50 shadow-2dp bgGreen100 brdRadius p-3 px-md-6 py-4 mt-2 ml-a mr-a">
+        <div className="dis-fl-col w-perc-100 w-perc-lg-50 shadow-2dp bgGreen50 brdRadius p-3 px-md-6 py-4 mt-2 ml-a mr-a">
           <span className="ta-c mb-2"> {translateTo('Or would you rather check interest rates digitally in the self-service first?', lang)} </span>
           <BrixelButtonText
             rounded

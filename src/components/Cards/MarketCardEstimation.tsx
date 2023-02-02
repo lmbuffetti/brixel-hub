@@ -77,7 +77,7 @@ const MarketCardFavorites = (props: MarketCardEstimationType) => {
   return (
     <div className="mb-3">
       <div className="dis-fl-col dis-fl-row-sm brdRadius brdSmall brdText200 ov-h">
-        <div className={`w-perc-100 w-fix-sm-200 h-fix-200 dis-f jc-c a-c ${get(activeSingleProperty, 'result.available', false) ? 'bgGreen200' : 'bgYellow200'}`}>
+        <div className={`w-perc-100 w-fix-sm-200 h-fix-200 dis-f jc-c a-c ${get(activeSingleProperty, 'result.available', false) ? 'bgGreen100' : 'bgYellow100'}`}>
           {
             get(activeSingleProperty, 'result.available', false) ? (
               <img src={CoverEstimationGreenImg} alt="completed estimation" />

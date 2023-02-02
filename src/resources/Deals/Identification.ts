@@ -215,7 +215,7 @@ export const IdentificationQuestions = (editForm = false, userType, lang) => {
       ],
     },
     {
-      background: 'bgGreen100',
+      background: 'bgGreen50',
       hideProgress: true,
       cardType: 'card',
       title: translateTo('Thank you', lang),
