@@ -254,10 +254,10 @@ body .dashboardContainer.prospects {
 
 .cardTag {
   background-color: map-get($lightColor, 200);
-  padding: $step / 2 $step;
+  padding: calc($step / (2 * $step));
   @include fontStyle(100);
   color: map-get($darkColor, 700);
-  border-radius: $step / 2;
+  border-radius: calc($step / 2);
   width: 68px;
   text-align: center;
   line-height: 17px;
