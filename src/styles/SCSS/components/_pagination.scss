@@ -6,7 +6,7 @@
   }
 
   .pagination-dropdown {
-    border-radius: $brd-radius-small / 2;
+    border-radius: calc($brd-radius-small / 2);
 
     ul {
       margin-bottom: 24px;
