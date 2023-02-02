@@ -75,6 +75,11 @@ const checkUser = (store) => (next) => (action) => {
           if (get(window, 'location.href', '').includes('localhost')) {
             store.dispatch({ type: SET_LOGGED_IN_USER, payload: {} });
           }
+          if ((get(window, 'location.hostname', '').includes('localhost') || get(window, 'location.hostname', '').includes('192.168'))) {
+            removeCookie('brixelToken');
+            window.location.assign('/tokeninput');
+          } else window.location.assign(`${baseByData.logoutUrl}?url=${get(window, 'location.href', '')}`);
+          if (!hideLoad) store.dispatch({ type: SPINNER_OFF });
           store.dispatch({ type: SPINNER_OFF });
         });
       break;
