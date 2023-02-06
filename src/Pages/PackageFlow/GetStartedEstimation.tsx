@@ -455,17 +455,22 @@ const GetStartedEstimation = (props: GetStartedEstimationType) => {
 
   // ON CHANGE VALUE RE-CALC THE PERCENTAGE OF FACTS
   useEffect(() => {
-    setOldIndex(currentIndex);
     const inputSheet: FormValueType['inputSheet'] = cloneDeep(get(formValue, 'inputSheet', {}) || {});
     if (calcPercentageFacts('GetStarted').calcPerc !== calcPercentageFacts('GetStarted').savedPerc && inputSheet.totalComplete !== calcPercentageFacts('GetStarted').calcPerc) {
       inputSheet.totalComplete = calcPercentageFacts('GetStarted').calcPerc;
       changeFieldValue('inputSheet', inputSheet);
     }
+  }, [formValue]);
+
+  // ON CHANGE VALUE RE-CALC THE PERCENTAGE OF FACTS
+  useEffect(() => {
+    setOldIndex(currentIndex);
     const newQuest = QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue);
-    if (newQuest[currentIndex].inputs && newQuest[currentIndex] && (newQuest[currentIndex].inputs || []).length === 1 && get(newQuest[currentIndex], 'inputs[0].options', []).length > 0 && get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), null) && !isArray(get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), [])) && oldIndex <= currentIndex) {
+    const currentValue = get(formValue, get(questions, `[${currentIndex}].inputs[0].name`, ''), '');
+    if (newQuest[currentIndex].inputs && newQuest[currentIndex] && (newQuest[currentIndex].inputs || []).length === 1 && get(newQuest[currentIndex], 'inputs[0].options', []).length > 0 && get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), null) && !isArray(get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), [])) && oldIndex <= currentIndex && currentValue.toLowerCase() !== 'other') {
       changeStep('next', null, 1, true);
     }
-  }, [formValue]);
+  }, [get(formValue, get(questions, `[${currentIndex}].inputs[0].name`, ''), null)]);
 
   // IF THE URL IS SUCCESS (SUCCESS CREATE USER) REDIRECT TO SECOND PART
   useEffect(() => {
