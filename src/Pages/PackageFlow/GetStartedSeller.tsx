@@ -99,6 +99,7 @@ const GetStartedSeller = (props: GetStartedSellerType) => {
   // FUNCTION TO SAVE DATA
   const saveData = async () => {
     if (isLoading || loadingRequest) return false;
+    setLoadingRequest(true);
     const dataForm = cloneDeep(formValue);
     const dataFormAnswer = cloneDeep(formValue);
     setCookie('brixelSplashHome', 'sellerWelcome');
@@ -198,7 +199,6 @@ const GetStartedSeller = (props: GetStartedSellerType) => {
       });
       setCookie('brixelFirstTime', 'true');
       // DISPATCH TO DO REGISTRATION USER
-      setLoadingRequest(true);
       await handleValidateUser(data);
     }
   };
@@ -303,7 +303,6 @@ const GetStartedSeller = (props: GetStartedSellerType) => {
       let defId = checkCondition(newIndex, act);
       if (defId !== newIndex) defId = checkCondition(defId, act);
       if (newQuestions[defId]) {
-        // setPosition(newIndex);
         if (newQuestions[defId].toSave) {
           saveData();
         } else {
@@ -367,10 +366,6 @@ const GetStartedSeller = (props: GetStartedSellerType) => {
   useEffect(() => {
     setOldIndex(currentIndex);
     if (company.stub) {
-      const newQuest = QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue);
-      if (newQuest[currentIndex].inputs && newQuest[currentIndex] && (newQuest[currentIndex].inputs || []).length === 1 && get(newQuest[currentIndex], 'inputs[0].options', []).length > 0 && get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), null) && !isArray(get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), [])) && oldIndex <= currentIndex) {
-        changeStep('next', null, 1, true);
-      }
       const inputSheet = cloneDeep(get(formValue, 'inputSheet', {}) || {});
       if (calcPercentageFacts('GetStarted').calcPerc !== calcPercentageFacts('GetStarted').savedPerc && get(inputSheet, 'totalComplete', 0) !== calcPercentageFacts('GetStarted').calcPerc) {
         set(inputSheet, 'totalComplete', calcPercentageFacts('GetStarted').calcPerc);
@@ -378,6 +373,17 @@ const GetStartedSeller = (props: GetStartedSellerType) => {
       }
     }
   }, [formValue]);
+
+  // ON CHANGE VALUE RE-CALC THE PERCENTAGE OF FACTS
+  useEffect(() => {
+    setOldIndex(currentIndex);
+    if (company.stub) {
+      const newQuest = QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue);
+      if (newQuest[currentIndex].inputs && newQuest[currentIndex] && (newQuest[currentIndex].inputs || []).length === 1 && get(newQuest[currentIndex], 'inputs[0].options', []).length > 0 && get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), null) && !isArray(get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), [])) && oldIndex <= currentIndex && !get(newQuest[currentIndex + 1], 'toSave', '') && !get(newQuest[currentIndex], 'toSave', '')) {
+        changeStep('next', null, 1, true);
+      }
+    }
+  }, [get(formValue, get(questions, `[${currentIndex}].inputs[0].name`, ''), null)]);
 
   // ON DID MOUNT I GET THE COMPANY DATA
   useEffect(() => {

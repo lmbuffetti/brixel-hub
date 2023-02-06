@@ -49,9 +49,10 @@ const AccountDropdown = (props: AccountDropdownType) => {
     setSelLang(defLangCode);
     localStorage.setItem('lang', defLangCode);
     setCookie('brixelLang', defLangCode);
-    if (get(loggedInUser, 'user.id', null)) {
+    console.log(defLangCode);
+    if (get(loggedInUser, 'id', null)) {
       const userData = {
-        id: get(loggedInUser, 'user.id', null),
+        id: get(loggedInUser, 'id', null),
         language: defLangCode,
         setLoggedInUser: true,
         smallLoader: 'saveData',

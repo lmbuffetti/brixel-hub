@@ -1,7 +1,7 @@
 /* GENERAL */
-$fontpath: "~@brixel/brixel-components/dist/styles/";
-$imgpath: "~@brixel/brixel-components/dist/styles/";
-$imgRootpath: "~@brixel/brixel-components/dist/";
+$fontpath: "@brixel/brixel-components/dist/styles/";
+$imgpath: "@brixel/brixel-components/dist/styles/";
+$imgRootpath: "@brixel/brixel-components/dist/";
 
 $grid-breakpoints: (
   xxs: 0,
@@ -15,8 +15,8 @@ $grid-breakpoints: (
 $responsive-medium: map-get($grid-breakpoints, md);
 $n: 20;
 
-@import '~@brixel/brixel-components/dist/styles/SCSS/general/variables';
-@import '~@brixel/brixel-components/dist/styles/SCSS/utils/fontMixin';
+@import '@brixel/brixel-components/dist/styles/SCSS/general/variables';
+@import '@brixel/brixel-components/dist/styles/SCSS/utils/fontMixin';
 
 $sidebarWidth: 232px;
 $sidebarWidthCollapsed: 70px;

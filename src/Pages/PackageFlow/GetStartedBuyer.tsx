@@ -431,7 +431,7 @@ const GetStartedBuyer = (props: GetStartedType) => {
     if (propertyType.length > 0 && locations.length > 0 && rooms.max && !searchProfileName) {
       changeFieldValue('name', titleSearchProfile(formValue, lang))
     }
-  }, [formValue]);
+  }, [get(formValue, get(questions, `[${currentIndex}].inputs[0].name`, ''), null)]);
 
   // SET DATA BY COMPANY
   useEffect(() => {

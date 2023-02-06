@@ -1,5 +1,5 @@
-@import '~@brixel/brixel-components/dist/styles/SCSS/general/variables';
-$imgRootpath: "~@brixel/brixel-components/dist/";
+@import '@brixel/brixel-components/dist/styles/SCSS/general/variables';
+$imgRootpath: "@brixel/brixel-components/dist/";
 $lightColorNew: #F7F6F5;
 $lightColorNew2: #F0F0F2;
 
@@ -244,14 +244,14 @@ $lightColorNew2: #F0F0F2;
 .slick-next {
   right: 8px;
   &:after {
-    background-image: url('~@brixel/brixel-components/dist/images/Icons/svg/arrow-simple-right.svg?url');
+    background-image: url('@brixel/brixel-components/dist/images/Icons/svg/arrow-simple-right.svg?url');
   }
 }
 
 .slick-prev {
   left: 8px;
   &:after {
-    background-image: url('~@brixel/brixel-components/dist/images/Icons/svg/arrow-simple-left.svg?url');
+    background-image: url('@brixel/brixel-components/dist/images/Icons/svg/arrow-simple-left.svg?url');
   }
 }
 

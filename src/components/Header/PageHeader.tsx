@@ -137,9 +137,9 @@ function PageHeader(props: PageHeaderType) {
     localStorage.setItem('lang', defLangCode);
     setCookie('brixelLang', defLangCode);
     handleSetLanguage(defLangCode);
-    if (get(loggedInUser, 'user.id', null)) {
+    if (get(loggedInUser, 'id', null)) {
       const userData = {
-        id: get(loggedInUser, 'user.id', null),
+        id: get(loggedInUser, 'id', null),
         language: defLangCode,
         setLoggedInUser: true,
         smallLoader: 'saveData',
@@ -333,7 +333,7 @@ function PageHeader(props: PageHeaderType) {
                     showProgressStage && (
                       <div className="quickNav mr-a dis-f fsize-300 fsize-sm-400 pl-2 pl-md-4">
                         <ProgressSellerStage
-                          smallLayout={windowDimensions.width < 1025 ? !!isFlow : !isFlow}
+                          smallLayout={windowDimensions.width < 1025 ? isFlow : !isFlow}
                           xSmallMobile={windowDimensions.width < 480}
                           stepIndexProgress={history.location.pathname.includes('welcomeSeller') ? 0 : stepIndexProgrss}
                           lang={lang}
@@ -431,10 +431,10 @@ function PageHeader(props: PageHeaderType) {
                                       onClick={() => toggleMobileMenu()}
                                     >
                                       <BrixelAvatar
-                                        avatarImg={get(loggedInUser, 'user.avatar[0]', '') ? baseByData.shortPath + get(loggedInUser, 'user.avatar[0].thumbnailPath', '') : null}
-                                        name={get(loggedInUser, 'user.email')}
+                                        avatarImg={get(loggedInUser, 'avatar[0]', '') ? baseByData.shortPath + get(loggedInUser, 'avatar[0].thumbnailPath', '') : null}
+                                        name={get(loggedInUser, 'email')}
                                         isIcon
-                                        profileId={get(loggedInUser, 'user.id', '')}
+                                        profileId={get(loggedInUser, 'id', '')}
                                       />
                                     </button>
                                   </div>
@@ -533,10 +533,10 @@ function PageHeader(props: PageHeaderType) {
                                       >
                                         <div className="dis-f w-perc-100 a-c">
                                           <BrixelAvatar
-                                            avatarImg={get(loggedInUser, 'user.avatar[0]', '') ? baseByData.shortPath + get(loggedInUser, 'user.avatar[0].thumbnailPath', '') : null}
-                                            name={get(loggedInUser, 'user.email')}
+                                            avatarImg={get(loggedInUser, 'avatar[0]', '') ? baseByData.shortPath + get(loggedInUser, 'avatar[0].thumbnailPath', '') : null}
+                                            name={get(loggedInUser, 'email')}
                                             isIcon
-                                            profileId={get(loggedInUser, 'user.id', '')}
+                                            profileId={get(loggedInUser, 'id', '')}
                                           />
                                           <BrixelIcon
                                             className="ml-1"
@@ -618,7 +618,7 @@ const mapStateToProps = (state) => ({
   formValue: get(state, 'brixelForm.Property.values', get(state, 'property.activeSingleProperty', {})),
   lang: get(state, 'common.language', 'en'),
   languages: get(state, 'common.languages', []),
-  loggedInUser: get(state, 'user.loggedInUser', {}),
+  loggedInUser: get(state, 'user.loggedInUser.user', {}),
   ownerProperties: get(state, 'market.ownerProperties', {}),
   packagesProperty: get(state, 'property.activeSinglePropertyPackage', []),
   property: get(state, 'property.activeSingleProperty', {}),

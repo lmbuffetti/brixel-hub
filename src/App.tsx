@@ -545,17 +545,9 @@ const App = (props: AppType) => {
                                 <>
                                   <Route path="/:propID/*" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
                                   <Route path="/:propID?/singleFlow" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
-                                  <Route path="/:propID?/docubox/*" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
-                                  <Route path="/:propID?/closing/*" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
-                                  <Route path="/:propID?/property" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
-                                  <Route path="/:propID?/marketing" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
                                   <Route path="/:propID?/support" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
-                                  <Route path="/:propID?/prospects" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
-                                  <Route path="/:propID?/offers" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
                                   <Route path="/:propID?/deal/*" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
                                   <Route path="/:propID/prospect/:dealID" element={<ProtectedRoute><SingleDeal /></ProtectedRoute>} />
-                                  <Route path="/:propID?/upgrade" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
-                                  <Route path="/:propID?/trialRequest" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
                                 </>
                               )
                             }
