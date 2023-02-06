@@ -455,7 +455,17 @@ const checkCommon = (store) => (next) => (action) => {
             });
           }
         })
-        .catch(() => {
+        .catch((err) => {
+          const statusCode = get(err, 'meta.statusText.response.data.statusCode', null);
+          if (statusCode === 404) {
+            const data = {
+              owner: store.getState().user.loggedInUser.user.id,
+              page: type === true ? id : store.getState().brixelForm.Property.values.id,
+              generate: has(action.payload, 'generate') ? generate : true,
+              reloadOnwProperties: get(action.payload, 'reloadOnwProperties', false),
+            };
+            store.dispatch({ type: CREATE_ESTIMATION, payload: data });
+          }
           if (smallLoader) {
             store.dispatch({
               type: SPINNER_SMALL,
