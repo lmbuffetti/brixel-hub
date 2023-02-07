@@ -2,8 +2,8 @@
   background: $brx-white;
   border-radius: $brd-radius-small;
   position: absolute;
-  left: $step * 2;
-  bottom: $step * 3;
+  left: calc($step * 2);
+  bottom: calc($step * 3);
   max-width: 146px;
   padding: $step;
   overflow: hidden;
@@ -17,7 +17,7 @@
     bottom: 0;
     width: 100%;
     background: map_get($primaryColor, 700);
-    padding: $step / 2;
+    padding: calc($step / 2);
     border-radius: $brd-radius-small;
     display: flex;
     justify-content: space-between;
@@ -29,11 +29,11 @@
       height: 16px;
     }
     .contactUser {
-      width: $step * 2;
-      height: $step * 2;
+      width: calc($step * 2);
+      height: calc($step * 2);
       border-radius: 50%;
       background: map_get($primaryColor, 100);
-      padding: $step / 2;
+      padding: calc($step / 2);
       i {
         font-size: $step;
       }
@@ -53,8 +53,8 @@
 
 .detailList {
   > div {
-    margin-right: $step * 2;
-    margin-bottom: $step * 2;
+    margin-right: calc($step * 2);
+    margin-bottom: calc($step * 2);
 
   }
 }

@@ -62,17 +62,17 @@
 
     @media (min-width: $responsive-medium) {
       height: 100%;
-      padding: $step * 4 $step * 5;
-      padding-top: $step * 3;
-      padding-right: $step * 5;
+      padding: calc($step * 4) calc($step * 5);
+      padding-top: calc($step * 3);
+      padding-right: calc($step * 5);
       &.home {
         padding-right: 0px;
       }
     }
     @media (max-width: $responsive-medium) {
-      padding-left: $step * 2;
-      padding-right: $step * 2;
-      padding-top: $step * 2;
+      padding-left: calc($step * 2);
+      padding-right: calc($step * 2);
+      padding-top: calc($step * 2);
       padding-bottom: $step;
       overflow-y: auto;
       overflow-x: hidden;
@@ -102,7 +102,7 @@
       left: 0;
       top: 0;
       max-width: 100%;
-      padding: $step * 2;
+      padding: calc($step * 2);
       padding-bottom: 90px;
     }
   }
@@ -110,7 +110,7 @@
   @media (min-width: $responsive-medium) {
     .secondLevel,
     .thirdLevel {
-      margin-bottom: $step * 3;
+      margin-bottom: calc($step * 3);
 
       &.inputSheet {
         //max-width: 478px;

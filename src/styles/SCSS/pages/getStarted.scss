@@ -112,7 +112,7 @@
         > .brixel-checkbox-icon {
           flex: 50%;
           @media (min-width: $responsive-small) {
-            padding-bottom: $step * 2;
+            padding-bottom: calc($step * 2);
             max-width: 50%;
           }
 
@@ -123,7 +123,7 @@
           > label  {
             padding: $step;
             padding-left: $step;
-            padding-right: $step * 2;
+            padding-right: calc($step * 2);
           }
 
           &:nth-child(odd) {
@@ -195,8 +195,8 @@
         //padding-left: 0 !important;
         //padding-right: 0 !important;
         h3 {
-          padding-left: $step * 2;
-          padding-right: $step * 2;
+          padding-left: calc($step * 2);
+          padding-right: calc($step * 2);
         }
       }
     }
@@ -312,7 +312,7 @@
 
               .cardLayout .slick-slider .slick-slide {
                 padding-top: 0;
-                padding-bottom: $step * 3;
+                padding-bottom: calc($step * 3);
               }
             }
             .subcontainer {
@@ -327,14 +327,14 @@
           .singleStep {
 
             @media (max-width: $responsive-medium) {
-              padding-left: $step * 2 !important;
-              padding-right: $step * 2 !important;
+              padding-left: calc($step * 2) !important;
+              padding-right: calc($step * 2) !important;
             }
           }
           .cardLayout {
             .textLabel {
               min-height: fit-content;
-              padding-bottom: $step * 2;
+              padding-bottom: calc($step * 2);
               @media (max-width: $responsive-small) {
                 text-align: left;
                 padding-bottom: 0;
@@ -471,8 +471,8 @@ body:not(.overlayOpen).locationInputResume {
       padding-right: 0 !important;
     }
     .subcontainer h3 {
-      padding-left: $step * 2;
-      padding-right: $step * 2;
+      padding-left: calc($step * 2);
+      padding-right: calc($step * 2);
     }
   }
   .editLocation {
@@ -509,13 +509,13 @@ body:not(.overlayOpen).locationInputResume {
 }
 
 .message.cardError {
-    padding-left: $step * 3;
+    padding-left: calc($step * 3);
   }
 
 .flowProfile {
   .signUpScreen {
     .slick-dots {
-      margin-top: $step * 2;
+      margin-top: calc($step * 2);
       li {
         width: 8px;
         height: 8px;
@@ -584,7 +584,7 @@ body:not(.overlayOpen).locationInputResume {
   .wBulletPoints {
     .labelLarge {
       span {
-        margin-bottom: $step * 2;
+        margin-bottom: calc($step * 2);
         font-weight: 600;
         color: map-get($darkColor, 700);
       }

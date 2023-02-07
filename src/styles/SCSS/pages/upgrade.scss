@@ -94,7 +94,7 @@
     align-items: center;
   }
   .packageBox {
-    border-top: $step * 2 solid;
+    border-top: calc($step * 2) solid;
     border-radius: $brd-radius-small;
     box-shadow: $shadow-4dp;
     max-width: 400px;
@@ -104,7 +104,7 @@
       max-width: 400px;
 
       @media (min-width: $responsive-medium) {
-        margin-right: $step * 2;
+        margin-right: calc($step * 2);
       }
     }
     &:nth-child(2) {
@@ -193,7 +193,7 @@
         margin-left: 0;
       }
       padding: 0;
-      padding-left: $step * 4;
+      padding-left: calc($step * 4);
       display: flex;
       margin-top: $step;
 
@@ -213,7 +213,7 @@
 
     &:nth-child(1) {
       @media (min-width: $responsive-medium) {
-        margin-right: $step * 2;
+        margin-right: calc($step * 2);
       }
     }
     &:nth-child(2) {
@@ -224,7 +224,7 @@
     }
     &:nth-child(3) {
       @media (min-width: $responsive-medium) {
-        margin-left: $step * 2;
+        margin-left: calc($step * 2);
       }
     }
 
@@ -360,9 +360,9 @@
         margin-left: 0;
       }
       padding: 0;
-      padding-left: $step * 4;
+      padding-left: calc($step * 4);
       display: flex;
-      margin-top: $step * 2;
+      margin-top: calc($step * 2);
 
       span {
         margin-left: $step;

@@ -196,7 +196,7 @@
   transform: translate(100%, -100%);
   background: map-get($darkColor, 400);
   border-radius: $step;
-  padding: $step / 2 $step;
+  padding: calc($step / 2) $step;
   color: $brx-white;
   pointer-events: none;
   box-shadow: $shadow-2dp;

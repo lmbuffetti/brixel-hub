@@ -22,8 +22,8 @@
 
   &:not(.getStarted) {
     .bodyModal {
-      max-height: calc(100% - #{$step * 2});
-      top: $step * 2;
+      max-height: calc(100% - #{calc($step * 2)});
+      top: calc($step * 2);
       @media (max-width: $responsive-small) {
         top: 0;
         max-height: 100%;
@@ -118,7 +118,7 @@
           flex: 0 0 100%;
           position: relative;
           &:not([class*=p-]) {
-            //padding: $step * 3;
+            //padding: calc($step * 3);
           }
 
           @media (min-width: $responsive-medium) {
@@ -130,7 +130,7 @@
           }
 
           @media (max-width: $responsive-medium) {
-            padding: $step * 3 $step * 2;
+            padding: calc($step * 3) calc($step * 2);
 
             &.vertCentered {
               align-items: center;
@@ -202,12 +202,12 @@
       display: flex;
       justify-content: space-between;
       align-items: stretch;
-      padding: $step * 2 0;
+      padding: calc($step * 2) 0;
       max-width: 100%;
 
       > div {
         flex: 0 0 33.33%;
-        padding-left: $step * 3;
+        padding-left: calc($step * 3);
         display: flex;
         flex-direction: column;
         justify-content: center;

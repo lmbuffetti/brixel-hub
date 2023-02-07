@@ -107,15 +107,17 @@ const Pagination = (props) => {
                       }
                       <li
                         key={number}
+                        onClick={() => processPagination(number, 'page')}
                         className={pageNumbers[(activePage / itemsPerPage)] === number ? 'page-item mr-1 active' : 'page-item mr-1'}
                       >
-                        <span onClick={() => processPagination(number, 'page')} className="page-link ff-mono">
+                        <span className="page-link ff-mono">
                           {number}
                         </span>
                       </li>
                       {
                         (number + 1) <= pageNumbers.length && (
                           <li
+                            onClick={() => processPagination((number + 1), 'page')}
                             key={(number + 1)}
                             className={pageNumbers[(activePage / itemsPerPage)] === (number + 1) ? 'page-item mr-1 active' : 'page-item mr-1'}
                             onClick={() => processPagination((number + 1), 'page')}

@@ -6,6 +6,7 @@
   height: 100%;
   z-index: 5;
   background: rgba(map_get($darkColor, 700), .7);
+  animation: fadeInSec $default-time-long $default-easing forwards;
 
   &.bgOverlayDark {
     > .container {
@@ -229,7 +230,8 @@
     will-change: opacity;
 
     @media (min-width: $responsive-large) {
-      animation: scaleUpCustom $default-time-long $default-easing forwards;
+      max-height: calc(100% - 100px);
+      animation: fadeInSec $default-time-long $default-easing forwards;
     }
 
     @media (max-width: $responsive-large) {
@@ -237,7 +239,7 @@
       top: 0;
       transform: translateY(0);
       opacity: 0;
-      animation: scaleUp $default-time-long $default-easing forwards;
+      animation: fadeInSec $default-time-long $default-easing forwards;
       max-width: 100%;
     }
   }

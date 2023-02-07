@@ -35,10 +35,10 @@
     > div {
       @media (min-width: $responsive-medium) {
         .secondLevel {
-          margin-right: $step * 1.5;
+          margin-right: calc($step * 1).5;
         }
         .thirdLevel {
-          margin-left: $step * 1.5;
+          margin-left: calc($step * 1).5;
         }
       }
     }
@@ -88,7 +88,7 @@
 .ProEstimationFlow {
   .subcontainer > .multiFieldWrap {
     border-top: 1px solid map-get($lightColor, 200);
-    padding: $step * 3 0;
+    padding: calc($step * 3) 0;
     margin-top: 0;
 
     > .multiFieldWrap {
