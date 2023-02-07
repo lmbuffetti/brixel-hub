@@ -55,8 +55,9 @@ function RightHeaderFlow(props: RightHeaderFlowType) {
 
   // FUNCTION TO POPULATE THE DROPDOWN LANGUAGE MENU
   useEffect(() => {
-    languages.map((lng) => lng.label = lng.shortValue);
-    setDropLang(languages);
+    const capitalize = (item) => item.charAt(0).toUpperCase() + item.slice(1);
+    const newLang = languages.map((lng) => ({...lng, label: capitalize(lng.shortLabel)}));
+    setDropLang(newLang);
   }, [languages]);
 
   // FUNCTION TO TRANSLATE THE CONTENT USING TRANSIFEX
@@ -130,7 +131,7 @@ function RightHeaderFlow(props: RightHeaderFlowType) {
       history.push(url || '/sell');
     }
   };
-
+  console.log(dropLang);
   return (
     <div className="dis-f a-c">
       {
