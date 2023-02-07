@@ -1,5 +1,5 @@
-/* eslint-disable array-callback-return */
-import { BrixelButtonIcon, BrixelButtonPrimary, BrixelButtonText } from '@brixel/brixel-components';
+import React, {useEffect, useState} from 'react';
+import {BrixelButtonIcon, BrixelButtonPrimary, BrixelButtonText} from '@brixel/brixel-components';
 import {
   BrixelInputText,
   BrixelRadioButton,
@@ -8,27 +8,23 @@ import {
   initializeForm,
   ReduxField,
 } from '@brixel/brixel-components/dist/form';
-import { diff } from 'deep-object-diff';
+import {diff} from 'deep-object-diff';
 import find from 'lodash/find';
 import get from 'lodash/get';
 import has from 'lodash/has';
-import set from 'lodash/set';
-import uniq from 'lodash/uniq';
-import PropTypes from 'prop-types';
-/* eslint-disable dot-notation */
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { bindActionCreators, compose } from 'redux';
-import { requestDone } from '../../actions/CommonActions';
-import { updateDocument } from '../../actions/UploadActions';
+import {connect} from 'react-redux';
+import {useLocation, useNavigate, useParams} from 'react-router-dom';
+import {bindActionCreators, compose} from 'redux';
+import {requestDone} from '../../actions/CommonActions';
+import {updateDocument} from '../../actions/UploadActions';
 
 // COMPONENTS
 import SplashScreen from '../../components/SplashScreen';
 import translateTo from '../../utils/translation';
+import type {SingleFolderType} from '../../@types/Pages/SingleProperty/SingleFolder';
+import {DocumentType} from '@brixel/brixel-components/dist/@types/Model';
 
-const SingleDocument = (props) => {
+const SingleDocument = (props: SingleFolderType) => {
   const history = {
     push: useNavigate(),
     location: useLocation(),
@@ -36,7 +32,6 @@ const SingleDocument = (props) => {
   const match = useParams();
   const {
     activeSingleProperty,
-    changeFieldValue,
     formValue,
     handleUpdateDocument,
     initialValues,
@@ -47,8 +42,8 @@ const SingleDocument = (props) => {
     setRequestDone,
   } = props;
 
-  const [activeDocument, setActiveDocument] = useState({});
-  const [documentFolders, setDocumentFolders] = useState([]);
+  const [activeDocument, setActiveDocument] = useState<DocumentType>({});
+  const [documentFolders, setDocumentFolders] = useState<object[]>([]);
   const [folderAction, setFolderAction] = useState('newFolder');
 
   const docID = get(match, 'docID', null);
@@ -56,29 +51,29 @@ const SingleDocument = (props) => {
   useEffect(() => () => setRequestDone(false), []);
 
   useEffect(() => {
-    if (activeSingleProperty.id) {
+    if (activeSingleProperty.documents) {
       const currentDoc = activeSingleProperty.documents.find((doc) => doc.id === docID);
-      if (folderAction === 'newFolder') currentDoc.folder = '';
-      initForm(currentDoc);
+      if (currentDoc) {
+        if (folderAction === 'newFolder') currentDoc.folder = '';
+        initForm(currentDoc);
+      }
     }
   }, [activeSingleProperty.id, folderAction]);
 
   useEffect(() => {
-    const folderArrayAux = [];
+    const folderArrayAux: string[] = [];
     if (docID) {
       find(activeSingleProperty.documents, (el) => {
         if (el.id === docID) {
-          if (el.isPrivate === true) set(el, 'isPrivate', 'Private');
-          else if (el.isPrivate === false) set(el, 'isPrivate', 'Public');
           setActiveDocument(el);
         }
       });
-      if (has(formValue, 'id')) {
+      if (has(formValue, 'id') && activeSingleProperty.documents) {
         activeSingleProperty.documents.forEach((value) => {
-          if (get(value, 'folder')) folderArrayAux.push(value.folder);
+          if (value.folder) folderArrayAux.push(value.folder);
         });
-        const array = uniq(folderArrayAux);
-        array.forEach((value, key) => {
+        const array: object[] = [];
+        folderArrayAux.forEach((value, key) => {
           array[key] = {
             label: translateTo(value, lang),
             value,
@@ -104,7 +99,7 @@ const SingleDocument = (props) => {
       id: activeDocument.id,
       body: {
         name: formValue.name,
-        isPrivate: formValue.isPrivate === 'Private',
+        isPrivate: formValue.isPrivate,
         folder: formValue.folder,
         path: activeDocument.path,
         mimeType: activeDocument.mimeType,
@@ -139,7 +134,6 @@ const SingleDocument = (props) => {
                   className='pos-a-fix x-r-2'
                   theme="dark"
                   onClick={() => {
-                    changeFieldValue('documents', initialValues.documents);
                     history.push(`/${activeSingleProperty.id}/docubox`);
                   }}
                 />
@@ -174,7 +168,7 @@ const SingleDocument = (props) => {
                           className: 'mr-2 zIndex1 w-fix-248',
                         }}
                         input={{
-                          name: `folder`,
+                          name: 'folder',
                           placeholder: 'New folder name',
                         }}
                         labels={{
@@ -211,7 +205,6 @@ const SingleDocument = (props) => {
                   rounded
                   label={translateTo('Cancel', lang)}
                   onClick={() => {
-                    changeFieldValue('documents', initialValues);
                     history.push(`/${activeSingleProperty.id}/docubox`);
                   }}
                 />
@@ -234,28 +227,12 @@ const SingleDocument = (props) => {
   );
 };
 
-SingleDocument.propTypes = {
-  activeSingleProperty: PropTypes.object.isRequired,
-  changeFieldValue: PropTypes.func.isRequired,
-  formValue: PropTypes.object.isRequired,
-  handleUpdateDocument: PropTypes.func.isRequired,
-  initForm: PropTypes.func.isRequired,
-  initialValues: PropTypes.object.isRequired,
-  isRequestDone: PropTypes.bool.isRequired,
-  isSmallLoading: PropTypes.object.isRequired,
-  lang: PropTypes.string.isRequired,
-  setRequestDone: PropTypes.func.isRequired,
-};
-
-SingleDocument.defaultProps = {};
-
 const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   formValue: get(state, 'brixelForm.SingleDoc.values', {}),
   initialValues: get(state, 'brixelForm.SingleDoc.initialValues', {}),
   isRequestDone: get(state, 'common.requestDone', false),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
-  isSuperAdmin: get(state, 'common.superAdmin', false),
   lang: get(state, 'common.language', 'en'),
 });
 
