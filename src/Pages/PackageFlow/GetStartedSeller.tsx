@@ -441,9 +441,15 @@ const GetStartedSeller = (props: GetStartedSellerType) => {
 
   // FUNCTION TO CALC THE LIVING SPACE FROM GROSS AREA
   useEffect(() => {
-    if (get(formValue, 'properties.typology.grossArea.value', 0) > 0) {
-      const livingSpace = Math.round(get(formValue, 'properties.typology.grossArea.value', 0) * 0.85);
-      changeFieldValue('properties.typology.livingArea.value', livingSpace);
+    const livingSpace = get(formValue, 'properties.typology.livingArea.value', 0);
+    const calcLivingSpace = Math.round(get(formValue, 'properties.typology.grossArea.value', 0) * 0.85);
+    const grossArea = get(formValue, 'properties.typology.grossArea.value', 0);
+    const calcGrossArea = Math.round(get(formValue, 'properties.typology.livingArea.value', 0) * 100 / 85);
+    if (get(formValue, 'properties.typology.grossArea.value', 0) > 0 && livingSpace !== calcLivingSpace) {
+      changeFieldValue('properties.typology.livingArea.value', calcLivingSpace);
+    }
+    if (get(formValue, 'properties.typology.livingArea.value', 0) > 0 && calcGrossArea !== grossArea) {
+      changeFieldValue('properties.typology.grossArea.value', calcGrossArea);
     }
     if (get(formValue, 'properties.typology.floorSpace.value', 0) > 0) {
       changeFieldValue('properties.typology.livingArea.value', get(formValue, 'properties.typology.floorSpace.value', 0));
@@ -453,10 +459,8 @@ const GetStartedSeller = (props: GetStartedSellerType) => {
     }
     if ((get(formValue, 'properties.propertyType', null) === 'Commercial') && (formValue.location.countryCode === 'PT')) {
       changeFieldValue('properties.typology.grossArea.value', get(formValue, 'properties.typology.floorSpace.value', 0));
-      const livingSpace = Math.round(get(formValue, 'properties.typology.grossArea.value', 0) * 0.85);
-      changeFieldValue('properties.typology.livingArea.value', livingSpace);
     }
-  }, [get(formValue, 'properties.typology.grossArea.value', 0), get(formValue, 'properties.typology.floorSpace.value', 0), get(formValue, 'properties.typology.lotArea.value', 0)]);
+  }, [currentIndex]);
 
   // FUNCTION TO CLOSE
   const closeWindow = () => {
