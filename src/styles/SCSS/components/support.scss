@@ -33,7 +33,7 @@
   .supportBubble {
     transition: background-color $default-time $default-easing;
     &:hover {
-      background-color: map-get($lightColor, 100);
+      background-color: map-get($textColor, 25);
     }
   }
 

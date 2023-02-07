@@ -1,11 +1,11 @@
 .accordWrap {
   &:first-child {
     .accordControl {
-      border-top: 1px solid map_get($lightColor, 200);
+      border-top: 1px solid map-get($textColor, 50);
     }
   }
   .accordControl {
-    border-bottom: 1px solid map_get($lightColor, 200);
+    border-bottom: 1px solid map-get($textColor, 50);
     transition: $default-time ease-in-out;
   }
   &:last-child {
@@ -17,14 +17,14 @@
     .accordControl {
       position: relative;
       z-index: 1;
-      background: map_get($blueColor, 100);
+      background: map-get($blueColor, 50);
     }
   }
   &:hover {
     .accordControl {
-      background: map_get($blueColor, 100);
+      background: map-get($blueColor, 50);
       .onHover {
-        color: map_get($darkColor, 400);;
+        color: map-get($textColor, 700);;
       }
     }
   }
@@ -87,7 +87,7 @@
 
 .ProEstimationFlow {
   .subcontainer > .multiFieldWrap {
-    border-top: 1px solid map-get($lightColor, 200);
+    border-top: 1px solid map-get($textColor, 50);
     padding: calc($step * 3) 0;
     margin-top: 0;
 

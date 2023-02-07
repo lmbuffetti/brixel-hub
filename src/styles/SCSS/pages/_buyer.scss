@@ -22,7 +22,7 @@ $responsive-desktop: map-get($grid-breakpoints, xl );
     .brixel-market {
       .market-teaser {
         .teaser {
-          background-color: map-get($redColor, 300);
+          background-color: map-get($redColor, 200);
         }
       }
     }
@@ -85,7 +85,7 @@ $responsive-desktop: map-get($grid-breakpoints, xl );
   justify-content: flex-start;
 
   .closePanel {
-    border-bottom: 1px solid map-get($lightColor, 200);
+    border-bottom: 1px solid map-get($textColor, 50);
   }
 
   &.open {

@@ -1,51 +1,32 @@
 .docubox {
 
   .docubox-header {
-    border-bottom: 1px solid map_get($lightColor, 300);
+    border-bottom: 1px solid map-get($textColor, 100);
   }
 
-  .name .docDetails {
-    max-width: calc(100% - 60px);
+  .name div:nth-child(2) {
+    min-height: 50px;
+    width: calc(100% - 50px);
   }
 
-
-  .sortable-ghost {
-    position: absolute;
-    width: calc(100% - 16px);
-    height: 1px;
-    border-top: 1px solid map_get($primaryColor, 400) !important;
-    + .single-document-folder,
-    + .single-document {
-      border-top: 1px solid transparent !important;
-    }
-  }
-  .sortable-chosen {
-    + .single-document-folder,
-    + .single-document {
-      border-top: 1px solid transparent !important;
-    }
-  }
-  .noFolderWrapper div.single-document-folder:not(.sortable-chosen) {
-    &:first-child {
-      border-top-color: transparent;
-    }
-  }
-  .single-document-folder,
   .single-document {
-    &:not(.sortable-chosen) {
-      border: 1px solid transparent;
-      border-top: 1px solid map_get($lightColor, 200);
-    }
+    border-bottom: 1px solid map-get($textColor, 50);
     cursor: grab;
+
+    &:last-child {
+      border-bottom: 0;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
 
     .name {
       width: calc(100% - 44px);
     }
 
     .document-title {
-      overflow-wrap: break-word;
-      word-wrap: break-word;
-      word-break: break-word;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 
@@ -65,18 +46,6 @@
   height: 5px;
   position: absolute;
   bottom: 0;
-  background: map_get($primaryColor, 400);
+  background: map-get($primaryColor, 400);
   transition: all $default-time;
-}
-.noFolderWrapper,
-.document-folder {
-  border: 1px solid transparent;
-  &:has(.sortable-chosen) {
-    border-color: map_get($primaryColor, 400);
-    .single-document {
-      &:first-child:not(.sortable-chosen) {
-        border-top-color: map_get($primaryColor, 400);
-      }
-    }
-  }
 }

@@ -3,7 +3,7 @@
     width: calc(100% - 16px);
 
     span, p {
-      color: map-get($darkColor, 700);
+      color: map-get($textColor, 900);
     }
 
     .public-DraftStyleDefault-block {

@@ -26,7 +26,7 @@
  /*  .brixel-tabs {
     box-shadow: none;
     overflow: hidden;
-    border-bottom: 1px solid map-get($altGreyColor, 100);
+    border-bottom: 1px solid map-get($textColor, 50);
     border-top-left-radius: $step;
     border-top-right-radius: $step;
 
@@ -36,7 +36,7 @@
       li.listItem {
         padding-top: calc($step * 3);
         padding-bottom: calc($step * 3);
-        color: map-get($altGreyColor, 400);
+        color: map-get($textColor, 400);
         transition: background-color $default-time-long;
 
         > span {
@@ -44,16 +44,16 @@
           @include fontStyle(300, 400);
         }
         &:hover {
-          background-color: map-get($lightColor, 100);
+          background-color: map-get($textColor, 25);
           span {
-            color: map-get($altGreyColor, 400);
+            color: map-get($textColor, 400);
           }
         }
         &.active {
-          background-color: map-get($greenColor, 100);
+          background-color: map-get($greenColor, 50);
 
           > span {
-            color: map-get($darkColor, 700);
+            color: map-get($textColor, 900);
             font-weight: 600;
           }
         }
@@ -116,7 +116,7 @@
       &:nth-child(2) {
         border-top: 1px solid;
         border-bottom: 1px solid;
-        border-color: map-get($altGreyColor, 100);
+        border-color: map-get($textColor, 50);
       }
     }
 
@@ -124,11 +124,11 @@
       &:nth-child(2) {
           border-left: 1px solid;
           border-right: 1px solid;
-          border-color: map-get($altGreyColor, 100);
+          border-color: map-get($textColor, 50);
       }
       .secHead {
         border-bottom: 1px solid;
-        border-color: map-get($altGreyColor, 100);
+        border-color: map-get($textColor, 50);
       }
     }
     .secDetails {

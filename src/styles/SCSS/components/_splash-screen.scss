@@ -5,7 +5,7 @@
   width: 100%;
   height: 100%;
   z-index: 5;
-  background: rgba(map_get($darkColor, 700), .7);
+  background: rgba(map-get($textColor, 900), .7);
   animation: fadeInSec $default-time-long $default-easing forwards;
 
   &.bgOverlayDark {
@@ -151,20 +151,20 @@
 
       .title {
         @include fontStyle(500, 'medium', left);
-        color: map-get($darkColor, 700);
+        color: map-get($textColor, 900);
       }
 
       .details {
-        background-color: map-get($lightColor, 100);
+        background-color: map-get($textColor, 25);
 
         .detail-title,
         .detail-info {
           @include fontStyle(400, 'regular', left);
-          color: map-get($darkColor, 200);
+          color: map-get($textColor, 600);
         }
 
         .detail-info {
-          color: map-get($darkColor, 700);
+          color: map-get($textColor, 900);
 
           &.link {
             align-self: end;
@@ -187,7 +187,7 @@
         }
 
         &.red {
-          background-color: map-get($redColor, 100);
+          background-color: map-get($redColor, 50);
 
           .title {
             @include fontStyle(500,'medium',left);
@@ -196,7 +196,7 @@
         }
 
         &.green {
-          background-color: map-get($greenColor, 100);
+          background-color: map-get($greenColor, 50);
 
           .title {
             @include fontStyle(500,'medium',left);
@@ -214,7 +214,7 @@
 }
 
 .noMatchProperty {
-  border: 2px dotted map-get($lightColor, 200);
+  border: 2px dotted map-get($textColor, 50);
 }
 
 

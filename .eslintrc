@@ -171,5 +171,61 @@
         ]
       }
     }
-  }
+  },
+  "overrides": [
+    {
+      "files": ["**/*.ts", "**/*.tsx"],
+      "env": { "browser": true, "es6": true, "node": true },
+      "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:import/errors",
+        "plugin:import/warnings",
+        "plugin:import/typescript"
+      ],
+      "globals": { "Atomics": "readonly", "SharedArrayBuffer": "readonly" },
+      "parser": "@typescript-eslint/parser",
+      "parserOptions": {
+        "ecmaFeatures": { "jsx": true },
+        "ecmaVersion": 2020,
+        "sourceType": "module",
+        "project": "./tsconfig.json"
+      },
+      "plugins": ["@typescript-eslint"],
+      "rules": {
+        "indent": ["error", 2, { "SwitchCase": 1 }],
+        "linebreak-style": ["error", "unix"],
+        "quotes": ["error", "single"],
+        "comma-dangle": ["error", "always-multiline"],
+        "@typescript-eslint/no-explicit-any": 0,
+        "@typescript-eslint/ban-ts-comment": 0,
+        "import/no-unresolved": "off",
+        "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", "ts", "tsx"] }],
+        "import/extensions": [
+          "error",
+          "ignorePackages",
+          {
+            "js": "never",
+            "jsx": "never",
+            "ts": "never",
+            "tsx": "never"
+          }
+        ]
+      },
+      "settings": {
+        "import/resolver": {
+          "node": {
+            "extensions": [
+              ".js",
+              ".jsx",
+              ".ts",
+              ".tsx"
+            ]
+          }
+        }
+      }
+    }
+  ]
 }
+

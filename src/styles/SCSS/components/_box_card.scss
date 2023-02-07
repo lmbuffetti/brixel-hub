@@ -15,7 +15,7 @@
   }
   .selElement .title,
   label.brixel-label {
-    color: map-get($darkColor, 700);
+    color: map-get($textColor, 900);
   }
   &.docubox {
     &.emptyMedia {

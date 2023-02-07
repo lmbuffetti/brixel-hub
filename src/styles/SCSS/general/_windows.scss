@@ -42,13 +42,13 @@
     flex: 1;
 
     @media (max-width: $responsive-medium) {
-      background-color: map-get($lightColor, 100);
+      background-color: map-get($textColor, 25);
     }
     .dashboardContainer {
       // padding-bottom: 100px;
 
       @media (max-width: $responsive-medium) {
-        background-color: map-get($lightColor, 100);
+        background-color: map-get($textColor, 25);
         &.prospects {
         }
       }

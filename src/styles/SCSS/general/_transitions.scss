@@ -340,17 +340,17 @@
 
 @keyframes skeleton-loading {
   0% {
-    background-color: map-get($lightColor, 200);
+    background-color: map-get($textColor, 50);
   }
   100% {
-    background-color: map-get($lightColor, 100);
+    background-color: map-get($textColor, 25);
   }
 }
 @keyframes skeleton-loading-inner {
   0% {
-    background-color: map-get($lightColor, 300);
+    background-color: map-get($textColor, 100);
   }
   100% {
-    background-color: map-get($lightColor, 200);
+    background-color: map-get($textColor, 50);
   }
 }
