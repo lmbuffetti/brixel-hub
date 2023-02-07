@@ -3,6 +3,7 @@ import {ServicePackageType} from '@brixel/brixel-components/dist/@types/Model';
 export interface LanguagesType {
   value?: string;
   shortValue?: string;
+  shortLabel?: string;
   label?: string;
   code: string;
   name: string;
