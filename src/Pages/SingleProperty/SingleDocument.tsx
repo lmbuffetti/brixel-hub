@@ -7,11 +7,11 @@ import has from 'lodash/has';
 import {diff} from 'deep-object-diff';
 import {bindActionCreators, compose} from 'redux';
 import {connect} from 'react-redux';
-import {BrixelButtonIcon, BrixelButtonPrimary, BrixelButtonText,} from '@brixel/brixel-components';
+import {BrixelButtonIcon, BrixelButtonPrimary, BrixelButtonText} from '@brixel/brixel-components';
 import translateTo from '../../utils/translation';
-import {BrixelInputText, BrixelSelect, change, initializeForm, ReduxField,} from '@brixel/brixel-components/dist/form';
+import {BrixelInputText, BrixelSelect, change, initializeForm, ReduxField} from '@brixel/brixel-components/dist/form';
 import documentConfig from '@brixel/brixel-components/dist/configuration/DocumentsConfig';
-import {updateDocument,} from '../../actions/UploadActions';
+import {updateDocument} from '../../actions/UploadActions';
 
 // COMPONENTS
 import SplashScreen from '../../components/SplashScreen';
