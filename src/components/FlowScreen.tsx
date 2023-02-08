@@ -7,7 +7,6 @@ import isArray from 'lodash/isArray';
 import {connect} from 'react-redux';
 import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import {bindActionCreators, compose} from 'redux';
-import Cookies from 'universal-cookie';
 import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import {spinnerOff, spinnerOn} from '../actions/CommonActions';
 import {getActiveSingleCompany} from '../actions/CompanyActions';
@@ -18,10 +17,7 @@ import translateTo from '../utils/translation';
 import {QuestionsListType} from '@brixel/brixel-components/dist/@types/Model';
 import type {FlowScreenType} from '../@types/components/FlowScreen';
 
-const cookie = new Cookies();
-
 const FlowScreen = (props: FlowScreenType) => {
-  const isOpenTransifex = cookie.get('transifex_sidebar');
   const history = {
     push: useNavigate(),
     location: useLocation(),
@@ -29,7 +25,7 @@ const FlowScreen = (props: FlowScreenType) => {
   const match = useParams();
   // PROPS
   const {
-    QuestionsList,
+    baseURL,
     company,
     destroyForm,
     errorValue,
@@ -41,6 +37,7 @@ const FlowScreen = (props: FlowScreenType) => {
     lang = 'en',
     onChangeCurrentIndex,
     onSaveData,
+    QuestionsList,
   } = props;
   // STATE
   // SET THE QUESTIONS IN BASE OF THE COUNTRY
@@ -199,7 +196,7 @@ const FlowScreen = (props: FlowScreenType) => {
             }, 500);
           }
           if (newQuestions[defId].history) {
-            history.push(`/packageFlow/getStarted/${company.stub}/${newQuestions[defId].history}`, { state: get(history, 'location.state', {}) });
+            history.push(`${baseURL}/${newQuestions[defId].history}`, { state: get(history, 'location.state', {}) });
           }
           if (checkBrowser() > 0) {
             //@ts-ignore
@@ -230,9 +227,10 @@ const FlowScreen = (props: FlowScreenType) => {
   }, [get(formValue, get(questions, `[${currentIndex}].inputs[0].name`, ''), null)]);
 
   useEffect(() => {
+    setQuestions(QuestionsList);
     setQuest(questions[currentIndex]);
     onChangeCurrentIndex(currentIndex);
-  }, [currentIndex, questions]);
+  }, [currentIndex, QuestionsList]);
 
   // FUNCTION TO CLOSE
   const closeWindow = () => {
@@ -307,7 +305,7 @@ const FlowScreen = (props: FlowScreenType) => {
 
   return (
     <>
-      <div id="bodyModalWrapper" className={`withHeader getStarted slideUpTrans ${get(quest, 'background', '')} ${get(quest, 'history', '')}  ${isOpenTransifex ? '' : 'notranslate'}`}>
+      <div id="bodyModalWrapper" className={`withHeader getStarted slideUpTrans ${get(quest, 'background', '')} ${get(quest, 'history', '')}`}>
         {
           get(quest, 'inputs', null) && get(quest, 'history', '') !== 'createProfile' && get(quest, 'history', null) !== 'resume' && (
             <div className="pos-r">
@@ -357,22 +355,24 @@ const FlowScreen = (props: FlowScreenType) => {
                           quest.subtitle && (
                             <p className="mb-5 ta-c txtText600 w-perc-100 px-3 px-sm-2" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
                         }
-                        <MultiFileldsReduxForm
-                          baseByData={baseByData}
-                          form="GetStarted"
-                          className="w-perc-100"
-                          disableNextBtn={false}
-                          formValue={formValue}
-                          inputs={quest.inputs}
-                          onClick={() => changeStep()}
-                          onCloseGoBack={() => changeStep('back')}
-                          onClickDisabled={!checkValidateField()}
-                          onSubmit={() => changeStep()}
-                          showSendButton={quest.showSendButton}
-                          showErrors={showError}
-                          disableDelay={quest.history !== 'createProfile'}
-                          skipPhone
-                        />
+                        <div className={`${quest.className} w-perc-100`}>
+                          <MultiFileldsReduxForm
+                            baseByData={baseByData}
+                            form="GetStarted"
+                            className="w-perc-100"
+                            disableNextBtn={false}
+                            formValue={formValue}
+                            inputs={quest.inputs}
+                            onClick={() => changeStep()}
+                            onCloseGoBack={() => changeStep('back')}
+                            onClickDisabled={!checkValidateField()}
+                            onSubmit={() => changeStep()}
+                            showSendButton={quest.showSendButton}
+                            showErrors={showError}
+                            disableDelay={quest.history !== 'createProfile'}
+                            skipPhone
+                          />
+                        </div>
                       </div>
 
                     )

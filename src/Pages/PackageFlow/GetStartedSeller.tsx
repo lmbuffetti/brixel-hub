@@ -294,6 +294,7 @@ const GetStartedSeller = (props: GetStartedSellerType) => {
 
   return (
     <FlowScreen
+      baseURL={`/packageFlow/getStarted/${activeSingleCompany.stub}`}
       onChangeCurrentIndex={(index) => setCurrentIndex(index)}
       formName="GetStarted"
       onSaveData={() => saveData()}

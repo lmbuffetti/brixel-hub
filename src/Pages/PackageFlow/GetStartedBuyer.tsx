@@ -241,6 +241,7 @@ const GetStartedBuyer = (props: GetStartedType) => {
 
   return (
     <FlowScreen
+      baseURL={`/packageFlow/getStartedBuyer/${activeSingleCompany.stub}`}
       onChangeCurrentIndex={(index) => setCurrentIndex(index)}
       formName="GetStarted"
       onSaveData={() => saveData()}
