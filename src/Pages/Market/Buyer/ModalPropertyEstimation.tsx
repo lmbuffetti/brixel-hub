@@ -86,8 +86,8 @@ const ModalPropertyEstimation = (props: ModalPropertyEstimationType) => {
     }
   }
 
-  const convertLabel = (value, field, type: string | null = null) => {
-    const fact = factsOptions[field].find((val) => val.value === value);
+  const convertLabel = (curVal, field, type: string | null = null) => {
+    const fact = factsOptions[field].find((val) => val.value === curVal);
     if (fact && type) return fact[type];
     return fact
   }
