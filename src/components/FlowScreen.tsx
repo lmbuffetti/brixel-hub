@@ -251,9 +251,9 @@ const FlowScreen = (props: FlowScreenType) => {
             }
             return null;
           });
-          if (isValid) newQuest.push(qst);
+          if (isValid && !quest.hideOnFlow) newQuest.push(quest);
         } else {
-          newQuest.push(qst);
+          if (!quest.hideOnFlow) newQuest.push(quest);
         }
         return null;
       });
