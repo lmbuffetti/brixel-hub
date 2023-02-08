@@ -86,6 +86,12 @@ const ModalPropertyEstimation = (props: ModalPropertyEstimationType) => {
     }
   }
 
+  const convertLabel = (value, field, type: string | null = null) => {
+    const fact = factsOptions[field].find((val) => val.value === value);
+    if (fact && type) return fact[type];
+    return fact
+  }
+
   return (
     <BrixelModal
       clickOutsideToClose={false}
@@ -255,13 +261,13 @@ const ModalPropertyEstimation = (props: ModalPropertyEstimationType) => {
                           {translateTo('Condition', lang)}
                         </span>
                         <span className="ff-mono fsize-500 txtBlack">
-                          {translateTo(get(activeEstimation, 'data.properties.building.conditionStatus', ''), lang)}
+                          {translateTo(convertLabel(get(activeEstimation, 'data.properties.building.conditionStatus', ''), 'conditionStatus', 'label'), lang)}
                         </span>
                       </div>
                     )
                   }
                   {
-                    get(activeEstimation, 'data.properties.typology.bathrooms', null) && (
+                    get(activeEstimation, 'data.properties.typology.bathrooms', 0) > 0 && (
                       <div>
                         <span className="fsize-300 dis-b txtText400 mb-1">
                           {translateTo('Bathrooms', lang)}
@@ -288,7 +294,7 @@ const ModalPropertyEstimation = (props: ModalPropertyEstimationType) => {
                                 key={`solar${i.toString()}`}
                                 className="ff-mono fsize-500 txtBlack"
                               >
-                                {translateTo(get(activeEstimation, `data.properties.building.solarOrientarion[${key}]`, ''), lang)}
+                                {translateTo(convertLabel(get(activeEstimation, `data.properties.building.solarOrientarion[${key}]`, ''), 'solarOrientation', 'label'), lang)}
                               </span>
                             </>
                           ))
