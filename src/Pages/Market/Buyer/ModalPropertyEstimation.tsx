@@ -122,37 +122,41 @@ const ModalPropertyEstimation = (props: ModalPropertyEstimationType) => {
             {translateTo(get(activeEstimation, 'data.title', ''), lang)}
           </h4>
 
-          <div className="dis-fl-col dis-fl-row-sm jc-fs">
+          {
+            get(activeEstimation, 'result.available', false) && (
+              <div className="dis-fl-col dis-fl-row-sm jc-fs">
 
-            <div className="brdSmallRight-sm brdText50 mr-2 pr-2">
-              <h6 className="fsize-300 fweight-400 txtText400 pb-1">
-                {translateTo('Property worth', lang)}
-              </h6>
-              <p className="ff-mono dis-f a-b txtGreen400">
-                <span className="mr-1 fsize-300">{currency}</span>
-                <span className="fsize-500">{Helpers.formatNumberValue(value, currency)}</span>
-              </p>
-            </div>
+                <div className="brdSmallRight-sm brdText50 mr-2 pr-2">
+                  <h6 className="fsize-300 fweight-400 txtText400 pb-1">
+                    {translateTo('Property worth', lang)}
+                  </h6>
+                  <p className="ff-mono dis-f a-b txtGreen400">
+                    <span className="mr-1 fsize-300">{currency}</span>
+                    <span className="fsize-500">{Helpers.formatNumberValue(value, currency)}</span>
+                  </p>
+                </div>
 
 
-            <div className="mt-1 mt-sm-0">
-              <h6 className="fsize-300 fweight-400 txtText400 pb-1">
-                {translateTo('Similar properties are currently worth between', lang)}
-              </h6>
-              <p className="ff-mono dis-f a-b txtGreen400">
-                <span>
-                  <span className="mr-1 fsize-400">{currency}</span>
-                  <span>{Helpers.formatNumberValue(lowerValue, currency)}</span>
-                </span>
-                <span className="mx-2">-</span>
-                <span>
-                  <span className="mr-1 fsize-400">{currency}</span>
-                  <span>{Helpers.formatNumberValue(higherValue, currency)}</span>
-                </span>
-              </p>
-            </div>
+                <div className="mt-1 mt-sm-0">
+                  <h6 className="fsize-300 fweight-400 txtText400 pb-1">
+                    {translateTo('Similar properties are currently worth between', lang)}
+                  </h6>
+                  <p className="ff-mono dis-f a-b txtGreen400">
+                    <span>
+                      <span className="mr-1 fsize-400">{currency}</span>
+                      <span>{Helpers.formatNumberValue(lowerValue, currency)}</span>
+                    </span>
+                    <span className="mx-2">-</span>
+                    <span>
+                      <span className="mr-1 fsize-400">{currency}</span>
+                      <span>{Helpers.formatNumberValue(higherValue, currency)}</span>
+                    </span>
+                  </p>
+                </div>
 
-          </div>
+              </div>
+            )
+          }
 
           <hr className="my-4 lighter" />
 
