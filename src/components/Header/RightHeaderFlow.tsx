@@ -131,7 +131,7 @@ function RightHeaderFlow(props: RightHeaderFlowType) {
       history.push(url || '/sell');
     }
   };
-  console.log(dropLang);
+
   return (
     <div className="dis-f a-c">
       {

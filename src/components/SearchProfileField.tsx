@@ -16,6 +16,7 @@ const SearchProfileField = (props: SearchProfileFieldType) => {
   } = props;
 
   const renderFieldsSearchProfile = () => {
+    if (field === 'profile.livingSituation') return null;
     if (field === 'location') {
       if (get(searchProfile, 'location', null) && get(searchProfile, 'location', []).length > 0) {
         return (
