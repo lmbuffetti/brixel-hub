@@ -19,6 +19,7 @@ import translateTo from '../../../utils/translation';
 import BrixelButtonPrimary from '@brixel/brixel-components/dist/components/BrixelButtonPrimary';
 import {generateEstimation} from '../../../actions/EstimationActions';
 import {EstimationType} from '@brixel/brixel-components/dist/@types/Model';
+import Tags from '../../../components/Tags';
 
 const { factsOptions } = FactsOptions;
 
@@ -123,7 +124,7 @@ const ModalPropertyEstimation = (props: ModalPropertyEstimationType) => {
           </h4>
 
           {
-            get(activeEstimation, 'result.available', false) && (
+            !get(activeEstimation, 'result.available', false) ? (
               <div className="dis-fl-col dis-fl-row-sm jc-fs">
 
                 <div className="brdSmallRight-sm brdText50 mr-2 pr-2">
@@ -154,6 +155,30 @@ const ModalPropertyEstimation = (props: ModalPropertyEstimationType) => {
                   </p>
                 </div>
 
+              </div>
+            ) : (
+              <div className="dis-fl-col dis-fl-row-sm jc-fs">
+                <div>
+                  <h6 className="mr-2 pr-2 brdSmallRight-sm brdText50 fsize-300 fweight-400 txtText400 pb-1">
+                    {translateTo('Property worth', lang)}
+                  </h6>
+
+                  <Tags
+                    lang={lang}
+                    status="pending"
+                    text="Pending"
+                    message={{
+                      pending: translateTo('Pending', lang),
+                    }}
+                  />
+                </div>
+
+
+                <div className="mt-1 mt-sm-0">
+                  <h6 className="fsize-300 fweight-400 txtText400 pb-1">
+                    {translateTo('Similar properties are currently worth between', lang)}
+                  </h6>
+                </div>
               </div>
             )
           }
@@ -381,7 +406,7 @@ const ModalPropertyEstimation = (props: ModalPropertyEstimationType) => {
               <BrixelButtonPrimary
                 rounded
                 isLoading={isSmallLoading.generateEstimation}
-                label={translateTo('Update Estimation', lang)}
+                label={translateTo('Refresh', lang)}
                 onClick={() => onUpdateEstimation()}
               />
             )
