@@ -169,10 +169,11 @@ const SearchProfileList = (props: SearchProfileListType) => {
                         input={{
                           value: userActiveSearchProfileId,
                           name: 'saerchProfileSelected',
-                          onChange: () => onChangeProfile(searchProfile.id || ''),
+                          onChange: (val) => onChangeProfile(val),
                           checkmarkColor: 'blue',
                         }}
                         options={[{
+                          index: i,
                           value: searchProfile.id,
                           label: searchProfile.name || titleSearchProfile(searchProfile, lang),
                         }]}
