@@ -54,7 +54,7 @@ const checkLead = (store) => (next) => (action) => {
                   });
                   store.dispatch({ type: SET_OWNED_PROPERTIES, payload: res.data });
               })
-                .catch((err) => {
+                .catch(() => {
                   store.dispatch({ type: SET_OWNED_PROPERTIES, payload: res.data });
                   store.dispatch({ type: SKELETON_OFF, payload: { own: false } });
                 });
