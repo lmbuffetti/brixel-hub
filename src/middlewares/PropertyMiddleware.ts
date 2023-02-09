@@ -426,6 +426,7 @@ const checkCommon = (store) => (next) => (action) => {
         type = false;
         id = get(action.payload, 'id', action.payload);
       }
+      console.log('get estimation');
       api.property.getEstimation(id)
         .then((res) => {
           if (res.meta.normalizedStatus === 200) {
