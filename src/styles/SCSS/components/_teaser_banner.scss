@@ -22,7 +22,7 @@
     @media (max-width: $responsive-small) {
       flex-wrap: wrap;
       flex-direction: column;
-      background-color: map-get($greenColor, 100);
+      background-color: map-get($greenColor, 50);
       justify-content: center;
       text-align: center;
       padding: $step;
@@ -72,7 +72,7 @@
   position: relative;
 
   &.bigBanner {
-    background-color: map-get($greenColor, 100);
+    background-color: map-get($greenColor, 50);
 
     .innerContent {
       max-width: 500px;
@@ -262,7 +262,7 @@
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    background: map-get($lightColor, 400);
+    background: map-get($textColor, 200);
     color: #FFF;
     font-family: $font-family-secondary;
     font-size: 18px;
@@ -338,8 +338,8 @@
           counter-increment: olList;
           content: counter(olList);
           border-radius: 50%;
-          color: map_get($greenColor, 400);
-          border: 1px solid map_get($greenColor, 400);
+          color: map-get($greenColor, 400);
+          border: 1px solid map-get($greenColor, 400);
           display: flex;
           width: 40px;
           height: 40px;

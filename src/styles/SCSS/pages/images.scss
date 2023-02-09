@@ -51,7 +51,7 @@
 
 .upload-container {
   &.hasImages {
-    border: 1px dashed map_get($greenColor, 400);
+    border: 1px dashed map-get($greenColor, 400);
     border-radius: $brd-radius-small;
   }
 }
@@ -78,7 +78,7 @@
 
   .loader-wheel {
     animation: spin 1s infinite linear;
-    border: 4px solid map-get($darkColor, 400);
+    border: 4px solid map-get($textColor, 700);
     border-left: 4px solid transparent;
     border-radius: 50%;
     height: 40px;

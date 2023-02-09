@@ -16,14 +16,14 @@
     left: 0;
     bottom: 0;
     width: 100%;
-    background: map_get($primaryColor, 700);
+    background: map-get($primaryColor, 700);
     padding: calc($step / 3);
     border-radius: $brd-radius-small;
     display: flex;
     justify-content: space-between;
     align-items: center;
     .button {
-      background: map_get($redColor, 200);
+      background: map-get($redColor, 100);
       border-radius: 24px;
       width: 32px;
       height: 16px;
@@ -32,7 +32,7 @@
       width: calc($step * 2);
       height: calc($step * 2);
       border-radius: 50%;
-      background: map_get($primaryColor, 100);
+      background: map-get($primaryColor, 50);
       padding: calc($step / 3);
       i {
         font-size: $step;
@@ -49,7 +49,7 @@
       min-width: 140px;
     }
     span {
-      color: map_get($darkColor, 400);
+      color: map-get($textColor, 700);
     }
   }
 }
