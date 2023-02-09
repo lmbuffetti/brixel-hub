@@ -134,7 +134,6 @@ function PageHeader(props: PageHeaderType) {
     // handleChangeLanguage(lang);
     const defLangCode = get(langCode, 'value', null) ? langCode.value : langCode;
     setSelLang(defLangCode);
-    localStorage.setItem('lang', defLangCode);
     setCookie('brixelLang', defLangCode);
     handleSetLanguage(defLangCode);
     if (get(loggedInUser, 'id', null)) {

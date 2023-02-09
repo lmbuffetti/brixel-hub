@@ -32,20 +32,10 @@
     }
   }
 
-  .orange-bar {
-    rx: 4;
-    ry: 4;
-  }
-
   .gray-bar {
     &.hover {
       fill-opacity: 0.2 !important;
     }
-  }
-
-  .filter-bar {
-    rx: 4;
-    ry: 4;
   }
 
   .slider {
@@ -136,12 +126,12 @@
         overflow: hidden;
       }
       .currency {
-        letter-spacing: 0px;
+        letter-spacing: 0;
         fill: black;
       }
       .value {
         fill: map-get($primaryColor, 700);
-        letter-spacing: 0px;
+        letter-spacing: 0;
         font-weight: 700;
         text-anchor: start;
       }
@@ -345,7 +335,7 @@
   }
   .value {
     position: absolute;
-    left: 0px;
+    left: 0;
     top: 40px;
     font-family: $font-family-secondary;
     font-size: 1.1rem;
@@ -360,7 +350,7 @@
 }
 
 @media screen and (max-width: $responsive-small) {
-  range-graph {
+  .range-graph {
     background-color: white;
 
     .svg-range-container {

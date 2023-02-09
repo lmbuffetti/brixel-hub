@@ -875,9 +875,7 @@ button.minimum-w-210 {
   overflow-wrap: break-word;
   word-wrap: break-word;
 
-  -ms-word-break: break-all;
   /* This is the dangerous one in WebKit, as it breaks things wherever */
-  word-break: break-all;
   /* Instead use this non-standard one: */
   word-break: break-word;
 
@@ -894,7 +892,6 @@ button.minimum-w-210 {
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
     -webkit-flex-flow: row nowrap;
-    -ms-flex-flow: row nowrap;
     flex-flow: row nowrap;
     -webkit-box-align: center;
     -webkit-align-items: center;
@@ -1109,7 +1106,7 @@ input::-webkit-date-and-time-value {
       width: 5px;
       position: absolute;
       top: 10px;
-      left: 0px;
+      left: 0;
       background: black;
       border-radius: 50%;
     }

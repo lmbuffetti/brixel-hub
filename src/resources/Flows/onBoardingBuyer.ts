@@ -240,7 +240,7 @@ export const QuestionsList: (lang: string, type: string, changeField: (field: st
           }],
         },
       ],
-      hideSearchProfileFlow: true,
+      hideOnFlow: true,
       successMessage: translateTo('This is a nice number.', lang),
     },
     {
