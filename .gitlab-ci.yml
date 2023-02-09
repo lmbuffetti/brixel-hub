@@ -27,7 +27,7 @@ build site:
 
 # Run the cypress test
 test integration:
-  image: cypress/browsers:node16.17.1-chrome106-ff105-edge
+  image: cypress/browsers:node16.16.0-chrome107-ff107-edge
   stage: test
   only:
     refs:
