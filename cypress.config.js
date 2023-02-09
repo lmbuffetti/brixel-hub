@@ -1,5 +1,4 @@
 const { defineConfig } = require("cypress");
-const _ = require('lodash')
 
 module.exports = defineConfig({
   requestTimeout: 480000,
