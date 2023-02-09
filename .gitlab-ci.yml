@@ -9,7 +9,7 @@ build site:
   stage: build
   only:
     refs:
-      - BRI-450
+      - develop
       - staging
       - master
   variables:
@@ -17,7 +17,7 @@ build site:
   script:
     - npm -v;
     - npm install
-    - if [ "$FOLDER" == "BRI-450" ]; then npm run build-dev; fi
+    - if [ "$FOLDER" == "develop" ]; then npm run build-dev; fi
     - if [ "$FOLDER" == "staging" ]; then npm run build-stage; fi
     - if [ "$FOLDER" == "master" ]; then npm run build-prod; fi
   artifacts:
@@ -31,7 +31,7 @@ test integration:
   stage: test
   only:
     refs:
-      - BRI-450
+      - develop
       - staging
       - master
   variables:
@@ -62,7 +62,7 @@ deploy_dev:
   image: alpine
   stage: deploy
   only:
-    - BRI-450
+    - develop
   script:
     - apk add --no-cache rsync openssh
     - mkdir -p ~/.ssh
