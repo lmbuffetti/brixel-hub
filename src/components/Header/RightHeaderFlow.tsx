@@ -46,10 +46,10 @@ function RightHeaderFlow(props: RightHeaderFlowType) {
 
   // FUNCTION TO CHECK IF USER IS LOGGED IN
   useEffect(() => {
-    if (loggedInUser) {
+    if (loggedInUser?.id) {
       const langUsr = loggedInUser.language;
       setCurrentLang(lang);
-      setCookie('brixelLang', langUsr);
+      if(langUsr) setCookie('brixelLang', langUsr);
     }
   }, [loggedInUser, lang]);
 
@@ -89,9 +89,11 @@ function RightHeaderFlow(props: RightHeaderFlowType) {
   // FUNCTION TO SET THE LANGUAGE WHEN SELECTED
   const newLang = (e, langCode) => {
     e.stopPropagation();
-    setCurrentLang(langCode.value);
-    handleSetLanguage(langCode.value);
-    setCookie('brixelLang', langCode.value);
+    if (langCode.value) {
+      setCurrentLang(langCode.value);
+      handleSetLanguage(langCode.value);
+      setCookie('brixelLang', langCode.value);
+    }
   };
 
   const closeOverlay = () => {

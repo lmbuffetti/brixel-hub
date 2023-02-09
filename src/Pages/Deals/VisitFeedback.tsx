@@ -52,7 +52,7 @@ const VisitFeedback = (props: VisitFeedbackType) => {
   const checkPriceReason = get(formValue, 'reasons', null) && get(formValue, 'reasons', []).findIndex((val) => val === 'price') > -1;
 
   useEffect(() => {
-    setCookie('brixelLang', (lang || 'en').toString());
+    if (lang) setCookie('brixelLang', (lang || 'en').toString());
   }, [lang]);
 
   const onUpdateError = () => {
