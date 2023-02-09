@@ -220,17 +220,22 @@ const FlowScreen = (props: FlowScreenType) => {
     setOldIndex(currentIndex);
     if (company.stub) {
       const newQuest = QuestionsList;
-      if (newQuest[currentIndex].inputs && newQuest[currentIndex] && (newQuest[currentIndex].inputs || []).length === 1 && get(newQuest[currentIndex], 'inputs[0].options', []).length > 0 && get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), null) && !isArray(get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), [])) && oldIndex <= currentIndex && !get(newQuest[currentIndex + 1], 'toSave', '') && !get(newQuest[currentIndex], 'toSave', '')) {
+      if (
+        (newQuest[currentIndex]?.inputs || []).length === 1 &&
+        get(newQuest[currentIndex], 'inputs[0].options', []).length > 0 &&
+        get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), null) &&
+        !isArray(get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), [])) &&
+        oldIndex <= currentIndex
+      ) {
         changeStep('next', null, 1, true);
       }
     }
   }, [get(formValue, get(questions, `[${currentIndex}].inputs[0].name`, ''), null)]);
 
   useEffect(() => {
-    setQuestions(QuestionsList);
     setQuest(questions[currentIndex]);
     onChangeCurrentIndex(currentIndex);
-  }, [currentIndex, QuestionsList]);
+  }, [currentIndex, questions]);
 
   // FUNCTION TO CLOSE
   const closeWindow = () => {
@@ -251,15 +256,15 @@ const FlowScreen = (props: FlowScreenType) => {
             }
             return null;
           });
-          if (isValid && !quest.hideOnFlow) newQuest.push(quest);
+          if (isValid && !qst.hideOnFlow) newQuest.push(qst);
         } else {
-          if (!quest.hideOnFlow) newQuest.push(quest);
+          if (!qst.hideOnFlow) newQuest.push(qst);
         }
         return null;
       });
       setQuestions(newQuest);
     }
-  }, [formValue]);
+  }, [formValue, QuestionsList]);
 
   // DYNAMIC LABEL NEXT BUTTON
   const buttonLabel = () => {
