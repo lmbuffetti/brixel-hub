@@ -219,7 +219,7 @@ const FlowScreen = (props: FlowScreenType) => {
   useEffect(() => {
     setOldIndex(currentIndex);
     if (company.stub) {
-      const newQuest = QuestionsList;
+      const newQuest = questions;
       if (
         (newQuest[currentIndex]?.inputs || []).length === 1 &&
         get(newQuest[currentIndex], 'inputs[0].options', []).length > 0 &&
