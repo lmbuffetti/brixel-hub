@@ -107,7 +107,7 @@
 
     @media (max-width: $responsive-small) {
       flex-direction: column;
-      padding: 0px;
+      padding: 0;
       padding-bottom: 16px;
 
       .closeBtn {
@@ -126,8 +126,8 @@
 
         img {
           width: 100%;
-          border-bottom-right-radius: 0px;
-          border-bottom-left-radius: 0px;
+          border-bottom-right-radius: 0;
+          border-bottom-left-radius: 0;
         }
       }
 

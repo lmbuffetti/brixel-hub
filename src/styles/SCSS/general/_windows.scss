@@ -59,11 +59,9 @@
 
     @media (min-width: $responsive-medium) {
       height: 100%;
-      padding: calc($step * 4) calc($step * 5);
-      padding-top: calc($step * 3);
-      padding-right: calc($step * 5);
+      padding: calc($step * 3) calc($step * 5) calc($step * 4);
       &.home {
-        padding-right: 0px;
+        padding-right: 0;
       }
     }
     @media (max-width: $responsive-medium) {

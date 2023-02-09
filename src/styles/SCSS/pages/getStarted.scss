@@ -121,9 +121,7 @@
           }
 
           > label  {
-            padding: $step;
-            padding-left: $step;
-            padding-right: calc($step * 2);
+            padding: $step calc($step * 2) $step $step;
           }
 
           &:nth-child(odd) {

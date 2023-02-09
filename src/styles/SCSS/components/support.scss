@@ -7,8 +7,6 @@
     max-height: 0;
     overflow: hidden;
     transition: all $default-loader-time;
-    width: -webkit-fit-content;
-    width: -moz-fit-content;
     width: fit-content;
 
     &.open {
@@ -82,7 +80,7 @@
 .marketHome {
   .supportBtn {
     @media (max-width: $responsive-medium) {
-      padding-top: 0px;
+      padding-top: 0;
     }
   }
   .map-view,

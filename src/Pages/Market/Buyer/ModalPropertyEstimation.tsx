@@ -99,7 +99,6 @@ const ModalPropertyEstimation = (props: ModalPropertyEstimationType) => {
       layout="xxlarge"
       bodyClassColor="bgWhite p-0"
       hideHeader={true}
-      // multiActions={multiActions()}
     >
       <div>
         <div className={`dis-f jc-c a-c py-7 ${get(activeEstimation, 'result.available', false) ? 'bgGreen100' : 'bgYellow100'}`}>

@@ -1,5 +1,5 @@
 import {QuestionInputType} from '@brixel/brixel-components/dist/@types/Model';
-import {FormValueType} from './IdentificationFlow';
+import type {FormValueType} from './IdentificationFlow';
 
 export interface IdentificationBuyerResumeType {
   cardInput?: QuestionInputType[];
