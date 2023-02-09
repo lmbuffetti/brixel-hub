@@ -19,6 +19,7 @@ import translateTo from '../../../utils/translation';
 import BrixelButtonPrimary from '@brixel/brixel-components/dist/components/BrixelButtonPrimary';
 import {generateEstimation} from '../../../actions/EstimationActions';
 import {EstimationType} from '@brixel/brixel-components/dist/@types/Model';
+import Tags from '../../../components/Tags';
 
 const { factsOptions } = FactsOptions;
 
@@ -85,6 +86,12 @@ const ModalPropertyEstimation = (props: ModalPropertyEstimationType) => {
     }
   }
 
+  const convertLabel = (curVal, field, type: string | null = null) => {
+    const fact = factsOptions[field].find((val) => val.value === curVal);
+    if (fact && type) return fact[type];
+    return fact
+  }
+
   return (
     <BrixelModal
       clickOutsideToClose={false}
@@ -92,7 +99,6 @@ const ModalPropertyEstimation = (props: ModalPropertyEstimationType) => {
       layout="xxlarge"
       bodyClassColor="bgWhite p-0"
       hideHeader={true}
-      // multiActions={multiActions()}
     >
       <div>
         <div className={`dis-f jc-c a-c py-7 ${get(activeEstimation, 'result.available', false) ? 'bgGreen100' : 'bgYellow100'}`}>
@@ -122,37 +128,65 @@ const ModalPropertyEstimation = (props: ModalPropertyEstimationType) => {
             {translateTo(get(activeEstimation, 'data.title', ''), lang)}
           </h4>
 
-          <div className="dis-fl-col dis-fl-row-sm jc-fs">
+          {
+            !get(activeEstimation, 'result.available', false) ? (
+              <div className="dis-fl-col dis-fl-row-sm jc-fs">
 
-            <div className="brdSmallRight-sm brdText50 mr-2 pr-2">
-              <h6 className="fsize-300 fweight-400 txtText400 pb-1">
-                {translateTo('Property worth', lang)}
-              </h6>
-              <p className="ff-mono dis-f a-b txtGreen400">
-                <span className="mr-1 fsize-300">{currency}</span>
-                <span className="fsize-500">{Helpers.formatNumberValue(value, currency)}</span>
-              </p>
-            </div>
+                <div className="brdSmallRight-sm brdText50 mr-2 pr-2">
+                  <h6 className="fsize-300 fweight-400 txtText400 pb-1">
+                    {translateTo('Property worth', lang)}
+                  </h6>
+                  <p className="ff-mono dis-f a-b txtGreen400">
+                    <span className="mr-1 fsize-300">{currency}</span>
+                    <span className="fsize-500">{Helpers.formatNumberValue(value, currency)}</span>
+                  </p>
+                </div>
 
 
-            <div className="mt-1 mt-sm-0">
-              <h6 className="fsize-300 fweight-400 txtText400 pb-1">
-                {translateTo('Similar properties are currently worth between', lang)}
-              </h6>
-              <p className="ff-mono dis-f a-b txtGreen400">
-                <span>
-                  <span className="mr-1 fsize-400">{currency}</span>
-                  <span>{Helpers.formatNumberValue(lowerValue, currency)}</span>
-                </span>
-                <span className="mx-2">-</span>
-                <span>
-                  <span className="mr-1 fsize-400">{currency}</span>
-                  <span>{Helpers.formatNumberValue(higherValue, currency)}</span>
-                </span>
-              </p>
-            </div>
+                <div className="mt-1 mt-sm-0">
+                  <h6 className="fsize-300 fweight-400 txtText400 pb-1">
+                    {translateTo('Similar properties are currently worth between', lang)}
+                  </h6>
+                  <p className="ff-mono dis-f a-b txtGreen400">
+                    <span>
+                      <span className="mr-1 fsize-400">{currency}</span>
+                      <span>{Helpers.formatNumberValue(lowerValue, currency)}</span>
+                    </span>
+                    <span className="mx-2">-</span>
+                    <span>
+                      <span className="mr-1 fsize-400">{currency}</span>
+                      <span>{Helpers.formatNumberValue(higherValue, currency)}</span>
+                    </span>
+                  </p>
+                </div>
 
-          </div>
+              </div>
+            ) : (
+              <div className="dis-fl-col dis-fl-row-sm jc-fs">
+                <div>
+                  <h6 className="mr-2 pr-2 brdSmallRight-sm brdText50 fsize-300 fweight-400 txtText400 pb-1">
+                    {translateTo('Property worth', lang)}
+                  </h6>
+
+                  <Tags
+                    lang={lang}
+                    status="pending"
+                    text="Pending"
+                    message={{
+                      pending: translateTo('Pending', lang),
+                    }}
+                  />
+                </div>
+
+
+                <div className="mt-1 mt-sm-0">
+                  <h6 className="fsize-300 fweight-400 txtText400 pb-1">
+                    {translateTo('Similar properties are currently worth between', lang)}
+                  </h6>
+                </div>
+              </div>
+            )
+          }
 
           <hr className="my-4 lighter" />
 
@@ -226,13 +260,13 @@ const ModalPropertyEstimation = (props: ModalPropertyEstimationType) => {
                           {translateTo('Condition', lang)}
                         </span>
                         <span className="ff-mono fsize-500 txtBlack">
-                          {translateTo(get(activeEstimation, 'data.properties.building.conditionStatus', ''), lang)}
+                          {translateTo(convertLabel(get(activeEstimation, 'data.properties.building.conditionStatus', ''), 'conditionStatus', 'label'), lang)}
                         </span>
                       </div>
                     )
                   }
                   {
-                    get(activeEstimation, 'data.properties.typology.bathrooms', null) && (
+                    get(activeEstimation, 'data.properties.typology.bathrooms', 0) > 0 && (
                       <div>
                         <span className="fsize-300 dis-b txtText400 mb-1">
                           {translateTo('Bathrooms', lang)}
@@ -259,7 +293,7 @@ const ModalPropertyEstimation = (props: ModalPropertyEstimationType) => {
                                 key={`solar${i.toString()}`}
                                 className="ff-mono fsize-500 txtBlack"
                               >
-                                {translateTo(get(activeEstimation, `data.properties.building.solarOrientarion[${key}]`, ''), lang)}
+                                {translateTo(convertLabel(get(activeEstimation, `data.properties.building.solarOrientarion[${key}]`, ''), 'solarOrientation', 'label'), lang)}
                               </span>
                             </>
                           ))
@@ -376,7 +410,7 @@ const ModalPropertyEstimation = (props: ModalPropertyEstimationType) => {
               <BrixelButtonPrimary
                 rounded
                 isLoading={isSmallLoading.generateEstimation}
-                label={translateTo('Update Estimation', lang)}
+                label={translateTo('Refresh', lang)}
                 onClick={() => onUpdateEstimation()}
               />
             )

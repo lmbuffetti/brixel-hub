@@ -115,7 +115,7 @@ $responsive-desktop: map-get($grid-breakpoints, xl );
       > div {
         margin-top: $step;
         > :first-child {
-          margin-left: 0px;
+          margin-left: 0;
         }
       }
     }

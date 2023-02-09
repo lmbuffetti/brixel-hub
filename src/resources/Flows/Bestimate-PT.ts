@@ -169,7 +169,7 @@ export const BestimatePT = (type = null, propertyType, lang) => {
           className: 'two-cols',
           label: translateTo(type === 'getStarted' ? '' : 'How many external parking lots belong to the property?', lang),
           name: 'properties.parking.outside',
-          labelLeft: 'External parking',
+          labelLeft: translateTo('External parking', lang),
           step: 1,
           min: 0,
           max: 99,

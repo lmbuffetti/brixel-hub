@@ -36,11 +36,11 @@ const SearchProfileModal = (props: SearchProfileModalType) => {
     userSearchProfiles = [],
   } = props;
   // STATE
-  const [userActiveSearchProfileId, setUserActiveSearchProfileId] = useState(activeSearchProfile.id);
+  const [userActiveSearchProfileId, setUserActiveSearchProfileId] = useState(activeSearchProfile?.id);
 
   useEffect(() => {
-    setUserActiveSearchProfileId(activeSearchProfile.id)
-  }, [activeSearchProfile.id]);
+    setUserActiveSearchProfileId(activeSearchProfile?.id)
+  }, [activeSearchProfile?.id]);
 
   const saveData = (type) => {
     const formData = {...formValue};
@@ -142,7 +142,7 @@ const SearchProfileModal = (props: SearchProfileModalType) => {
             clr: 'primary',
             name: translateTo('Apply search profile', lang),
             btnType: 'Primary',
-            disabled: activeSearchProfile.id === userActiveSearchProfileId,
+            disabled: activeSearchProfile?.id === userActiveSearchProfileId,
             func: () => saveChangeSearchProfile(),
             isLoading: isSmallLoading.saveData,
           },

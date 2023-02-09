@@ -250,11 +250,12 @@ export const QuestionsList: (lang: string, country: string, changeValue: (field:
           classBoxWrapper: 'brdRadius max-w-fix-600 w-perc-100 pb-3 pb-sm-5 brdRadius fieldHolder bgWhite m-a',
           widthBox: '100',
           mapOptions: {
-            lang: lang,
+            showMap: true,
             hideSearch: true,
             showSelectCountry: false,
             multipleFieldSearch: false,
             draggable: false,
+            lang: lang,
           },
           validation: [Validation.required],
         },
