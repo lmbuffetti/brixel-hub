@@ -29,7 +29,7 @@ const OfferListings = (props: OfferListingsType) => {
   return (
     <>
       <div className="w-perc-100 txtText900 dealsListings">
-        <h3 className="mb-3 hide dis-b-lg">{translateTo('Closing', lang)}</h3>
+        <h3 className="mb-3 hide dis-b-lg">{Helpers.sanitizeText(translateTo('Closing', lang))}</h3>
         {
           get(data[0], 'deal', null) === 'sample' && (
             <div className="ta-c txtText900">

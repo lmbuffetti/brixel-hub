@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {BrixelButtonIcon} from '@brixel/brixel-components';
+import {BrixelButtonIcon, Helpers} from '@brixel/brixel-components';
 import {change, MultiFileldsReduxForm} from '@brixel/brixel-components/dist/form';
 import {diff} from 'deep-object-diff';
 import get from 'lodash/get';
@@ -74,7 +74,7 @@ const FactsQuestion = (props: FactsQuestionType) => {
       <div className="dis-f a-c jc-b pos-r mb-3">
         {
           get(quest, 'title', null) && (
-            <h5 dangerouslySetInnerHTML={{ __html: translateTo(get(quest, 'title', ''), lang)}} />
+            <h5 dangerouslySetInnerHTML={{ __html: Helpers.sanitizeText(translateTo(get(quest, 'title', ''), lang))}} />
           )
         }
         <BrixelButtonIcon

@@ -53,7 +53,7 @@ const checkLead = (store) => (next) => (action) => {
                     if (resEst.meta.normalizedStatus === 200) set(res.data.data[key], 'estimation', resEst.data);
                   });
                   store.dispatch({ type: SET_OWNED_PROPERTIES, payload: res.data });
-              })
+                })
                 .catch(() => {
                   store.dispatch({ type: SET_OWNED_PROPERTIES, payload: res.data });
                   store.dispatch({ type: SKELETON_OFF, payload: { own: false } });

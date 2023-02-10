@@ -10,6 +10,13 @@ const ErrorBoundary = lazy(() => import('./components/ErrorBoundering'));
 
 const store = configureStore;
 const container = document.getElementById('root');
+
+// @ts-ignore
+if (window.Cypress) {
+  // @ts-ignore
+  window.store = store
+}
+
 if (container) {
   const root = createRoot(container);
 

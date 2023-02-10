@@ -1,10 +1,10 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useState} from 'react';
 import {
   BrixelButtonIcon,
   BrixelButtonPrimary,
   BrixelButtonText,
   BrixelProgressLineDots,
+  Helpers,
 } from '@brixel/brixel-components';
 import translateTo from '../../utils/translation';
 import {change, initializeForm, MultiFileldsReduxForm, reset} from '@brixel/brixel-components/dist/form';
@@ -262,7 +262,7 @@ const Bestimate = (props: BestimateType) => {
                       <div>
                         <h3 className={`${quest.subtitle ? 'mb-1' : 'mb-5'}`}>{quest.title}</h3>
                         {quest.subtitle && (
-                          <p className="mb-5 txtText600" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)}
+                          <p className="mb-5 txtText600" dangerouslySetInnerHTML={{ __html: Helpers.sanitizeText(quest.subtitle) }} />)}
                         <MultiFileldsReduxForm
                           disableNextBtn={false}
                           formValue={formValue}
