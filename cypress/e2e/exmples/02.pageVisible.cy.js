@@ -1,15 +1,6 @@
-/// <reference types="cypress" />
-
-// Welcome to Cypress!
-//
-// This spec file contains a variety of sample tests
-// for a todo list app that are designed to demonstrate
-// the power of writing tests in Cypress.
-//
-// To learn more about how Cypress works and
-// what makes it such an awesome testing tool,
-// please read our getting started guide:
-// https://on.cypress.io/introduction-to-cypress
+// Edit this array to add or change the preset of viewport for the tests
+// Complete list: https://docs.cypress.io/api/commands/viewport
+const preset = ['macbook-15'];
 
 const pageToCheck = [
   // SELL DASHBOARD
@@ -66,7 +57,16 @@ describe('viewport testing', () => {
           const pageURL = page.url.replace(':pageID', res.value);
           cy.visit(`http://localhost:5000/${pageURL}`);
           cy.get(`.${page.classToCheck}`, { timeout: 10000 }).should('be.visible');
-          const preset = ['ipad-2', 'iphone-6', 'macbook-15'];
+          cy.window()
+            .its('store')
+            .invoke('getState')
+            .its('common')
+            .its('isSmallLoading')
+            .should(($identifier) => {
+              const filterData = Object.keys($identifier).filter((key) => $identifier[key] === false);
+              expect(filterData.length).to.equal(0);
+            });
+          
           preset.forEach((prs) => {
             cy.viewport(prs);
             cy.screenshot(`./examples/${page.url}-${prs}`, { overwrite: true })
