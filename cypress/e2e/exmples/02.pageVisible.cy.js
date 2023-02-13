@@ -65,12 +65,12 @@ describe('viewport testing', () => {
             .should(($identifier) => {
               const filterData = Object.keys($identifier).filter((key) => $identifier[key] === false);
               expect(filterData.length).to.equal(0);
+  
+              preset.forEach((prs) => {
+                cy.viewport(prs);
+                cy.screenshot(`./examples/${page.url}-${prs}`, { overwrite: true })
+              })
             });
-          
-          preset.forEach((prs) => {
-            cy.viewport(prs);
-            cy.screenshot(`./examples/${page.url}-${prs}`, { overwrite: true })
-          })
         })
     })
     
