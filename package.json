@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "@brixel/brixel-components": "git+https://brixel_admin:e1C13Nz8THA_psP6pe1e@gitlab.com/brixel/brixel-styleguide-components.git#master",
+    "@react-buddy/ide-toolbox": "^2.3.1",
     "deep-object-diff": "^1.1.9",
     "eslint-plugin-jsx-a11y": "^6.7.1",
     "eslint-plugin-react": "^7.32.2",
@@ -19,6 +20,7 @@
     "react-dropzone": "^14.2.3",
     "react-helmet": "^6.1.0",
     "react-icalendar-link": "^3.0.2",
+    "react-pdf": "^6.2.2",
     "react-redux": "8.0.5",
     "react-router-dom": "6.8.1",
     "react-slick": "^0.29.0",
@@ -31,8 +33,7 @@
     "slick-carousel": "^1.8.1",
     "smoothscroll-polyfill": "^0.4.4",
     "sortablejs": "^1.15.0",
-    "universal-cookie": "^4.0.4",
-    "@react-buddy/ide-toolbox": "^2.3.1"
+    "universal-cookie": "^4.0.4"
   },
   "scripts": {
     "start-fast": "NODE_ENV=page-dev webpack serve --no-client-overlay --config webpack.config.js --progress profile --env TEST --mode development",
