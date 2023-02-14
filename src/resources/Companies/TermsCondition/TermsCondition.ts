@@ -14,17 +14,6 @@ export const QuestionsList = (lang, company, isBuyer) => {
         history: 'ubsPolicy',
         cardType: 'ubsPolicy',
         footerWidth: 'max-w-fix-912',
-        bulletPoints: {
-          title: translateTo('What are my advantages?', lang),
-          description: isBuyer ? [
-            translateTo('Non-binding guidance on all financial questions related to the purchase of real estate.', lang),
-            translateTo('Get 0.3% reduction on your interest rate on your first self-occupied home.', lang),
-          ] : [
-            translateTo('You get CHF 2000 discount', lang),
-            translateTo('You pay only if the sale is successful', lang),
-            translateTo('Your selling price is checked', lang),
-          ],
-        },
         text: [{
           title: translateTo('Transmission of data to UBS', lang),
           subtitle: translateTo('The financing offers from UBS are only accessible to persons resident in Switzerland.', lang),
@@ -32,6 +21,17 @@ export const QuestionsList = (lang, company, isBuyer) => {
         }],
       },
     ]
+    if (!isBuyer) {
+      question[0].footerWidth = 'max-w-fix-752';
+      question[0].bulletPoints = {
+        title: translateTo('What are my advantages?', lang),
+        description: [
+          translateTo('You get CHF 2000 discount', lang),
+          translateTo('You pay only if the sale is successful', lang),
+          translateTo('Your selling price is checked', lang),
+        ],
+      }
+    }
   }
   if (company.stub === 'baloise') {
     if (isBuyer) {
