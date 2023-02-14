@@ -89,7 +89,7 @@ export default {
     imageType: () => '/imagetype/0/0',
     rotate: (id, rotation) => `/image/${id}/rotate/${rotation}`,
     singleDocument: (id) => `/document/${id}`,
-    singlePrivateDocument: (id) => `/document/${id}`,
+    singlePrivateDocument: (id) => `/documentprotected/${id}`,
     singleImage: (id) => `/image/${id}`,
   },
   user: {
