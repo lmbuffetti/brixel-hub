@@ -1,5 +1,5 @@
-@import '~@brixel/brixel-components/dist/styles/SCSS/general/variables';
-$imgRootpath: "~@brixel/brixel-components/dist/";
+@import '@brixel/brixel-components/dist/styles/SCSS/general/variables';
+$imgRootpath: "@brixel/brixel-components/dist/";
 $lightColorNew: #F7F6F5;
 $lightColorNew2: #F0F0F2;
 
@@ -17,9 +17,9 @@ $lightColorNew2: #F0F0F2;
     padding-top: 0;
 
     #market {
-      padding-top: $step * 3;
+      padding-top: calc($step * 3);
       @media (max-width: $responsive-small) {
-        padding-top: $step * 2;
+        padding-top: calc($step * 2);
       }
       &.sellerPage {
         .actionTop {
@@ -32,7 +32,7 @@ $lightColorNew2: #F0F0F2;
       }
       .searchProfileArea {
         &:hover {
-          background: map-get($lightColor, 100);
+          background: map-get($textColor, 25);
         }
       }
       .searchProfileList {
@@ -179,12 +179,12 @@ $lightColorNew2: #F0F0F2;
 }
 
 .prop-box .tag-container .type-tag {
-  top: $step / 2;
-  left: $step / 2;
-  padding-left: $step / 2;
-  padding-right: $step / 2;
-  padding-top: $step / 3;
-  padding-bottom: $step / 3;
+  top: calc($step / 3);
+  left: calc($step / 3);
+  padding-left: calc($step / 3);
+  padding-right: calc($step / 3);
+  padding-top: calc($step / 3);
+  padding-bottom: calc($step / 3);
 }
 
 
@@ -193,9 +193,9 @@ $lightColorNew2: #F0F0F2;
   display: flex;
   height: 10px;
   position: relative;
-  margin-top: $step * 2;
+  margin-top: calc($step * 2);
   width: 100%;
-  background-color: map-get($lightColor, 200);
+  background-color: map-get($textColor, 50);
   border-radius: $step;
 
   &::after {
@@ -244,14 +244,14 @@ $lightColorNew2: #F0F0F2;
 .slick-next {
   right: 8px;
   &:after {
-    background-image: url('~@brixel/brixel-components/dist/images/Icons/svg/arrow-simple-right.svg?url');
+    background-image: url('@brixel/brixel-components/dist/images/Icons/svg/arrow-simple-right.svg?url');
   }
 }
 
 .slick-prev {
   left: 8px;
   &:after {
-    background-image: url('~@brixel/brixel-components/dist/images/Icons/svg/arrow-simple-left.svg?url');
+    background-image: url('@brixel/brixel-components/dist/images/Icons/svg/arrow-simple-left.svg?url');
   }
 }
 
@@ -306,8 +306,8 @@ $lightColorNew2: #F0F0F2;
 }
 
 .overlayCard {
-  padding-top: $step * 3;
-  padding-bottom: $step * 5;
+  padding-top: calc($step * 3);
+  padding-bottom: calc($step * 5);
   overflow: auto;
   display: flex;
 
@@ -336,7 +336,7 @@ $lightColorNew2: #F0F0F2;
       flex: 50%;
       @media (max-width: $responsive-small) {
         flex: 100%;
-        padding-bottom: $step * 3 ;
+        padding-bottom: calc($step * 3);
       }
     }
   }
@@ -397,7 +397,6 @@ $lightColorNew2: #F0F0F2;
     left: 24px;
     top: 24px;
     bottom: auto;
-    left: 24px;
     transform: initial;
   }
   .actionMap .btn-action .actionLabel {

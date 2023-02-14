@@ -22,7 +22,7 @@ $responsive-desktop: map-get($grid-breakpoints, xl );
     .brixel-market {
       .market-teaser {
         .teaser {
-          background-color: map-get($redColor, 300);
+          background-color: map-get($redColor, 200);
         }
       }
     }
@@ -85,7 +85,7 @@ $responsive-desktop: map-get($grid-breakpoints, xl );
   justify-content: flex-start;
 
   .closePanel {
-    border-bottom: 1px solid map-get($lightColor, 200);
+    border-bottom: 1px solid map-get($textColor, 50);
   }
 
   &.open {
@@ -103,8 +103,8 @@ $responsive-desktop: map-get($grid-breakpoints, xl );
       position: fixed;
 
       .topPanel {
-        //padding-left: $step * 2;
-        //padding-right: $step * 2;
+        //padding-left: calc($step * 2);
+        //padding-right: calc($step * 2);
       }
     }
   }
@@ -115,7 +115,7 @@ $responsive-desktop: map-get($grid-breakpoints, xl );
       > div {
         margin-top: $step;
         > :first-child {
-          margin-left: 0px;
+          margin-left: 0;
         }
       }
     }
@@ -136,7 +136,7 @@ $responsive-desktop: map-get($grid-breakpoints, xl );
 
 .detailList {
   > div {
-    margin-right: $step * 3;
-    margin-bottom: $step * 3;
+    margin-right: calc($step * 3);
+    margin-bottom: calc($step * 3);
   }
 }

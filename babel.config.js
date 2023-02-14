@@ -7,5 +7,6 @@ module.exports = {
     ['@babel/transform-runtime', {
       regenerator: true,
     }],
+    'istanbul'
   ],
 };

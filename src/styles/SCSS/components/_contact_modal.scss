@@ -4,12 +4,12 @@
     background: transparent;
   }
   .footerInfo {
-    border-top: 1px solid map_get($lightColor, 200);
+    border-top: 1px solid map-get($textColor, 50);
     position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
-    padding: $step * 2;
+    padding: calc($step * 2);
     z-index: 100;
     background: $brx-white;
   }
@@ -30,7 +30,7 @@
         margin-left: 4px;
       }
       .brixelIcon {
-        margin-right: $step * 2;
+        margin-right: calc($step * 2);
       }
     }
   }
@@ -38,7 +38,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid map_get($lightColor, 200);
+    border-bottom: 1px solid map-get($textColor, 50);
     padding-bottom: $step;
     padding-top: $step;
 
@@ -60,22 +60,22 @@
       padding-left: $step;
       padding-right: $step;
       &:first-child {
-        padding-left: $step * 2;
+        padding-left: calc($step * 2);
       }
       &:last-child {
-        padding-right: $step * 2;
+        padding-right: calc($step * 2);
       }
     }
   }
   #rzSlider {
     position: absolute;
-    bottom: $step * 2;
+    bottom: calc($step * 2);
     background: #fff;
     padding: $step 24px;
     box-shadow: 0 0 5px -2px #000;
     border-radius: 3px;
     z-index: 100;
-    width: calc(100% - #{$step * 2});
+    width: calc(100% - #{calc($step * 2)});
     left: $step;
     .input-range {
       width: calc(100% - 25px);
@@ -85,7 +85,7 @@
     }
   }
   .overlay {
-    background: rgba(map_get($darkColor, 700), 0.7);
+    background: rgba(map-get($textColor, 900), 0.7);
     position: absolute;
     left: 0;
     top: 0;

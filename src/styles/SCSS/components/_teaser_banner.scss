@@ -22,11 +22,11 @@
     @media (max-width: $responsive-small) {
       flex-wrap: wrap;
       flex-direction: column;
-      background-color: map-get($greenColor, 100);
+      background-color: map-get($greenColor, 50);
       justify-content: center;
       text-align: center;
       padding: $step;
-      margin-bottom: $step * 2;
+      margin-bottom: calc($step * 2);
 
       .teaserTag {
         margin-bottom: $step;
@@ -72,7 +72,7 @@
   position: relative;
 
   &.bigBanner {
-    background-color: map-get($greenColor, 100);
+    background-color: map-get($greenColor, 50);
 
     .innerContent {
       max-width: 500px;
@@ -92,22 +92,22 @@
       }
     }
 
-    padding: $step * 2;
+    padding: calc($step * 2);
 
     .bannerContent {
-      padding-right: $step * 3;
-      padding-left: $step * 3;
-      padding-top: $step * 1;
+      padding-right: calc($step * 3);
+      padding-left: calc($step * 3);
+      padding-top: calc($step * 1);
 
       p {
-        padding-top: $step * 2;
-        padding-bottom: $step * 2;
+        padding-top: calc($step * 2);
+        padding-bottom: calc($step * 2);
       }
     }
 
     @media (max-width: $responsive-small) {
       flex-direction: column;
-      padding: 0px;
+      padding: 0;
       padding-bottom: 16px;
 
       .closeBtn {
@@ -126,18 +126,18 @@
 
         img {
           width: 100%;
-          border-bottom-right-radius: 0px;
-          border-bottom-left-radius: 0px;
+          border-bottom-right-radius: 0;
+          border-bottom-left-radius: 0;
         }
       }
 
       .bannerContent {
-        padding-top: $step * 2;
-        padding-right: $step * 2;
-        padding-left: $step * 2;
+        padding-top: calc($step * 2);
+        padding-right: calc($step * 2);
+        padding-left: calc($step * 2);
 
         p {
-          padding-bottom: $step * 3;
+          padding-bottom: calc($step * 3);
         }
       }
     }
@@ -156,11 +156,11 @@
 
   .teaserTag {
     background-color: map-get($greenColor, 400);
-    padding-left: $step * 2;
-    padding-right: $step * 2;
+    padding-left: calc($step * 2);
+    padding-right: calc($step * 2);
     @include fontStyle(100, 'medium');
     color: white;
-    border-radius: $step / 2;
+    border-radius: calc($step / 2);
     text-align: center;
     line-height: 24px;
   }
@@ -262,7 +262,7 @@
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    background: map-get($lightColor, 400);
+    background: map-get($textColor, 200);
     color: #FFF;
     font-family: $font-family-secondary;
     font-size: 18px;
@@ -294,10 +294,10 @@
     }
 
     .slick-prev {
-      left: $step * 2;
+      left: calc($step * 2);
     }
     .slick-next {
-      right: $step * 2;
+      right: calc($step * 2);
     }
     .slick-prev,
     .slick-next {
@@ -320,7 +320,7 @@
         list-style: none;
         position: relative;
         padding-left: 72px;
-        margin-bottom: $step * 4;
+        margin-bottom: calc($step * 4);
 
         >h5 {
           margin-bottom: $step;
@@ -338,8 +338,8 @@
           counter-increment: olList;
           content: counter(olList);
           border-radius: 50%;
-          color: map_get($greenColor, 400);
-          border: 1px solid map_get($greenColor, 400);
+          color: map-get($greenColor, 400);
+          border: 1px solid map-get($greenColor, 400);
           display: flex;
           width: 40px;
           height: 40px;

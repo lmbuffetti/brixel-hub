@@ -1,4 +1,4 @@
-@import '~@brixel/brixel-components/dist/styles/SCSS/utils/fontMixin';
+@import '@brixel/brixel-components/dist/styles/SCSS/utils/fontMixin';
 
 #wrapDatePicker {
   position: relative;
@@ -54,27 +54,27 @@
       border: none;
     }
     .react-datepicker__day-names {
-      border-top: 1px solid map_get($lightColor, 300);
-      border-bottom: 1px solid map_get($lightColor, 300);
+      border-top: 1px solid map-get($textColor, 100);
+      border-bottom: 1px solid map-get($textColor, 100);
       margin-top: 8px;
     }
     .react-datepicker__current-month {
-      color: map_get($darkColor, 700);
+      color: map-get($textColor, 900);
     }
     .react-datepicker-time__header, .react-datepicker-year-header {
-      color: map_get($primaryColor, 400);
+      color: map-get($primaryColor, 400);
     }
     .react-datepicker__day-name {
-      color: map_get($lightColor, 700);
+      color: map-get($textColor, 500);
     }
     .react-datepicker__day, .react-datepicker__time-name {
-      color: map_get($darkColor, 700);
+      color: map-get($textColor, 900);
       &.react-datepicker__day--disabled {
-        color: map_get($darkColor, 100);
+        color: map-get($textColor, 500);
       }
     }
     .react-datepicker__day--selected, .react-datepicker__day--in-selecting-range, .react-datepicker__day--in-range, .react-datepicker__month-text--selected, .react-datepicker__month-text--in-selecting-range, .react-datepicker__month-text--in-range {
-      background: map_get($primaryColor, 400);
+      background: map-get($primaryColor, 400);
       font-weight: 400;
       color: $brx-white;
     }

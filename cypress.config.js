@@ -12,6 +12,7 @@ module.exports = defineConfig({
   video: false,
   
   e2e: {
+    testIsolation: false,
     setupNodeEvents(on, config) {
       require('./cypress/plugins/index.js')(on, config)
       return config;

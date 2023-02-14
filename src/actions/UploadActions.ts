@@ -1,0 +1,40 @@
+import {createActions} from 'redux-actions';
+import {
+  DELETE_DOCUMENT,
+  DELETE_IMG,
+  GET_IMAGE_TYPE,
+  MULTI_UPLOAD_DOCUMENT,
+  MULTI_UPLOAD_IMG,
+  ROTATE_IMG,
+  SET_COVER_PHOTO,
+  SET_IMAGE_TYPE,
+  UPDATE_DOCUMENT,
+  UPLOAD_DOCUMENT,
+  UPLOAD_IMG,
+} from './types/UploadTypes';
+
+export const {
+  rotateImg,
+  getImageType,
+  setImageType,
+  setCoverPhoto,
+  uploadImg,
+  deleteImg,
+  uploadDocument,
+  deleteDocument,
+  multiUploadImg,
+  updateDocument,
+  multiUploadDocument,
+} = createActions({
+  [ROTATE_IMG]: (payload) => payload,
+  [GET_IMAGE_TYPE]: (payload) => payload,
+  [SET_IMAGE_TYPE]: (payload) => payload,
+  [SET_COVER_PHOTO]: (payload) => payload,
+  [UPLOAD_IMG]: (payload) => payload,
+  [DELETE_IMG]: (payload) => payload,
+  [UPLOAD_DOCUMENT]: (payload) => payload,
+  [MULTI_UPLOAD_IMG]: (payload) => payload,
+  [DELETE_DOCUMENT]: (payload) => payload,
+  [UPDATE_DOCUMENT]: (payload) => payload,
+  [MULTI_UPLOAD_DOCUMENT]: (payload) => payload,
+});

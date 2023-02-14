@@ -29,7 +29,7 @@
         .header {
           @include fontStyle(400,'medium',left);
           letter-spacing: 1px;
-          color: map_get($lightColor, 700);
+          color: map-get($textColor, 500);
         }
       }
     }
@@ -108,7 +108,7 @@
               .name {
                 @include fontStyle(300,'regular',left);
                 @include line-break;
-                color: map_get($darkColor, 700);
+                color: map-get($textColor, 900);
               }
 
               .id,
@@ -142,8 +142,8 @@
                   transition: all $default-time-long;
 
                   &.link:hover {
-                    color: map_get($primaryColor, 400);
-                    text-decoration-color: map_get($primaryColor, 400);
+                    color: map-get($primaryColor, 400);
+                    text-decoration-color: map-get($primaryColor, 400);
                   }
                 }
               }
@@ -158,7 +158,7 @@
 
     .header {
       &:nth-child(1) {
-        padding-left: $step * 2;
+        padding-left: calc($step * 2);
       }
       &:nth-child(2),
       &:nth-child(3) {

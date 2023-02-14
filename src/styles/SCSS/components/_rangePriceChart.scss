@@ -32,20 +32,10 @@
     }
   }
 
-  .orange-bar {
-    rx: 4;
-    ry: 4;
-  }
-
   .gray-bar {
     &.hover {
       fill-opacity: 0.2 !important;
     }
-  }
-
-  .filter-bar {
-    rx: 4;
-    ry: 4;
   }
 
   .slider {
@@ -136,12 +126,12 @@
         overflow: hidden;
       }
       .currency {
-        letter-spacing: 0px;
+        letter-spacing: 0;
         fill: black;
       }
       .value {
-        fill: map_get($primaryColor, 700);
-        letter-spacing: 0px;
+        fill: map-get($primaryColor, 700);
+        letter-spacing: 0;
         font-weight: 700;
         text-anchor: start;
       }
@@ -164,11 +154,11 @@
     font-weight: 600;
     font-size: 12px;
     z-index: 100;
-    padding: $step * 1 $step;
+    padding: calc($step * 1) $step;
     background-color: #FFFFFF;
     pointer-events: none;
     white-space: nowrap;
-    border: 1px solid map_get($lightColor, 400);
+    border: 1px solid map-get($textColor, 200);
     border-radius: $brd-radius-small;
 
     .num {
@@ -183,7 +173,7 @@
     }
 
     .avg-increase {
-      color: map_get($primaryColor, 700);
+      color: map-get($primaryColor, 700);
 
       i {
         width: 9px !important;
@@ -235,7 +225,7 @@
     p {
       font-size: 14px;
       font-weight: 600;
-      color: map-get($darkColor, 700 );
+      color: map-get($textColor, 900);
     }
     span.info {
       font-size: 14px;
@@ -245,7 +235,7 @@
     }
     &.top {
       background-color: $brx-white;
-      color: map_get($primaryColor, 700);
+      color: map-get($primaryColor, 700);
       font-size: 0.875rem;
       span {
         font-size: 0.75rem;
@@ -263,7 +253,7 @@
     }
 
     .avg-increase {
-      color: map_get($primaryColor, 700);
+      color: map-get($primaryColor, 700);
 
       i {
         width: 9px !important;
@@ -339,13 +329,13 @@
     }
 
     span {
-      color: map_get($darkColor, 700);
+      color: map-get($textColor, 900);
       font-weight: 600;
     }
   }
   .value {
     position: absolute;
-    left: 0px;
+    left: 0;
     top: 40px;
     font-family: $font-family-secondary;
     font-size: 1.1rem;
@@ -360,7 +350,7 @@
 }
 
 @media screen and (max-width: $responsive-small) {
-  range-graph {
+  .range-graph {
     background-color: white;
 
     .svg-range-container {

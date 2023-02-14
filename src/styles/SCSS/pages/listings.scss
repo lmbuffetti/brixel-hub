@@ -2,8 +2,8 @@
   background: $brx-white;
   border-radius: $brd-radius-small;
   position: absolute;
-  left: $step * 2;
-  bottom: $step * 3;
+  left: calc($step * 2);
+  bottom: calc($step * 3);
   max-width: 146px;
   padding: $step;
   overflow: hidden;
@@ -16,24 +16,24 @@
     left: 0;
     bottom: 0;
     width: 100%;
-    background: map_get($primaryColor, 700);
-    padding: $step / 2;
+    background: map-get($primaryColor, 700);
+    padding: calc($step / 2);
     border-radius: $brd-radius-small;
     display: flex;
     justify-content: space-between;
     align-items: center;
     .button {
-      background: map_get($redColor, 200);
+      background: map-get($redColor, 100);
       border-radius: 24px;
       width: 32px;
       height: 16px;
     }
     .contactUser {
-      width: $step * 2;
-      height: $step * 2;
+      width: calc($step * 2);
+      height: calc($step * 2);
       border-radius: 50%;
-      background: map_get($primaryColor, 100);
-      padding: $step / 2;
+      background: map-get($primaryColor, 50);
+      padding: calc($step / 2);
       i {
         font-size: $step;
       }
@@ -46,15 +46,15 @@
     text-transform: capitalize;
     padding-bottom: $step;
     span {
-      color: map_get($darkColor, 400);
+      color: map-get($textColor, 700);
     }
   }
 }
 
 .detailList {
   > div {
-    margin-right: $step * 2;
-    margin-bottom: $step * 2;
+    margin-right: calc($step * 2);
+    margin-bottom: calc($step * 2);
 
   }
 }
