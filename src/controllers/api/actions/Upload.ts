@@ -37,6 +37,11 @@ class Upload extends Base {
     const url = ep.upload.singleDocument(id);
     return this.apiClient.put(url, { action: onUploading }, data);
   }
+
+  getPrivateDocument(id) {
+    const url = ep.upload.singlePrivateDocument(id);
+    return this.apiClient.get(url, {baseUrlType: 'self', responseType: 'blob'}, {}, {'Content-Type': 'application/octet-stream'});
+  }
 }
 
 export default Upload;
