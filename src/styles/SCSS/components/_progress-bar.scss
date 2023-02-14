@@ -9,18 +9,18 @@
   .bars {
 
     .single-bar {
-      background-color: map-get($lightColor, 400);
+      background-color: map-get($textColor, 200);
 
       &.hover-active {
         &:hover {
-          background-color: map-get($greenColor, 200);
+          background-color: map-get($greenColor, 100);
         }
 
         &.active {
           background-color: map-get($greenColor, 400);
 
           &:hover {
-            background-color: map-get($greenColor, 200);
+            background-color: map-get($greenColor, 100);
           }
         }
       }
@@ -55,14 +55,14 @@
       .single-bar {
         &.hover-active {
           &:hover {
-            background-color: map-get($greenColor, 200);
+            background-color: map-get($greenColor, 100);
           }
 
           &.active {
             background-color: map-get($primaryColor, 400);
 
             &:hover {
-              background-color: map-get($primaryColor, 200);
+              background-color: map-get($primaryColor, 100);
             }
           }
         }
@@ -77,9 +77,9 @@
         padding: 0 $step;
         padding-right: 0;
         background: map-get($primaryColor, 400);
-        margin-right: $step / 2;
-        margin-bottom: $step / 2;
-        border-radius: $step / 2;
+        margin-right: calc($step / 2);
+        margin-bottom: calc($step / 2);
+        border-radius: calc($step / 2);
         span {
           line-height: 28px;
           display: inline-block;

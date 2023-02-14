@@ -1,19 +1,19 @@
 .pagination {
-  color: map_get($darkColor, 700);
+  color: map-get($textColor, 900);
 
   ul {
     list-style-type: none;
   }
 
   .pagination-dropdown {
-    border-radius: $brd-radius-small / 2;
+    border-radius: calc($brd-radius-small / 2);
 
     ul {
       margin-bottom: 24px;
     }
 
     i {
-      color: map_get($lightColor, 400);
+      color: map-get($textColor, 200);
     }
   }
 
@@ -35,7 +35,7 @@
 
       &:hover,
       &.active {
-        background: map_get($greenColor, 400);
+        background: map-get($greenColor, 400);
         color: $brx-white
       }
 

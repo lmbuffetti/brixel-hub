@@ -26,7 +26,7 @@
     position: absolute;
     left: 0;
     width: 100%;
-    padding: $step $step * 2;
+    padding: $step calc($step * 2);
     z-index: 5;
     background: rgba($brx-white, 0.8);
   }

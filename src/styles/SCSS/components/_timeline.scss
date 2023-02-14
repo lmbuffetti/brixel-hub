@@ -3,12 +3,12 @@
     width: calc(100% - 16px);
 
     span, p {
-      color: map-get($darkColor, 700);
+      color: map-get($textColor, 900);
     }
 
     .public-DraftStyleDefault-block {
       &.public-DraftStyleDefault-ltr {
-        margin: 0px;
+        margin: 0;
         padding: 8px 0;
       }
     }

@@ -1,6 +1,6 @@
 #bodyModalWrapper {
   &:not([class*="bg"]) {
-    background-color: map_get($lightColor, 100);
+    background-color: map-get($textColor, 25);
   }
   width: 100%;
   flex: 1;
@@ -9,7 +9,6 @@
   height: 100%;
   left: 0;
   top: 0;
-  z-index: 10;
 
   &.withHeader {
     position: relative;
@@ -22,8 +21,8 @@
 
   &:not(.getStarted) {
     .bodyModal {
-      max-height: calc(100% - #{$step * 2});
-      top: $step * 2;
+      max-height: calc(100% - #{calc($step * 2)});
+      top: calc($step * 2);
       @media (max-width: $responsive-small) {
         top: 0;
         max-height: 100%;
@@ -90,13 +89,13 @@
         border-radius: $brd-radius-small;
       }
 
-      &.bgRed100 {
+      &.bgRed50 {
         background: none;
         &:before {
           background-color: map-get($redColor, 100 );
         }
       }
-      &.bgPrimary100 {
+      &.bgPrimary50 {
         background: none;
         &:before {
           background-color: map-get($primaryColor, 100 );
@@ -118,7 +117,7 @@
           flex: 0 0 100%;
           position: relative;
           &:not([class*=p-]) {
-            //padding: $step * 3;
+            //padding: calc($step * 3);
           }
 
           @media (min-width: $responsive-medium) {
@@ -130,7 +129,7 @@
           }
 
           @media (max-width: $responsive-medium) {
-            padding: $step * 3 $step * 2;
+            padding: calc($step * 3) calc($step * 2);
 
             &.vertCentered {
               align-items: center;
@@ -198,22 +197,22 @@
     }
     .boxMarketCheck {
       border-radius: $brd-radius-small;
-      border: 1px solid map_get($lightColor, 200);
+      border: 1px solid map-get($textColor, 50);
       display: flex;
       justify-content: space-between;
       align-items: stretch;
-      padding: $step * 2 0;
+      padding: calc($step * 2) 0;
       max-width: 100%;
 
       > div {
         flex: 0 0 33.33%;
-        padding-left: $step * 3;
+        padding-left: calc($step * 3);
         display: flex;
         flex-direction: column;
         justify-content: center;
 
         &:not(:last-child) {
-          border-right: 1px solid map_get($lightColor, 200);
+          border-right: 1px solid map-get($textColor, 50);
         }
 
         p {
@@ -254,7 +253,6 @@
   position: fixed;
   left: 0;
   top: 0;
-  z-index: 10;
 
   &.withHeader {
     position: relative;

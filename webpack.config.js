@@ -41,7 +41,7 @@ const clientConfig = (env) => {
     entry: {
       polyfill: '@babel/polyfill',
       main: [
-        './src/index.jsx',
+        './src/index.tsx',
         './service-worker-brixel.js',
         './src/styles/SCSS/general/main.scss',
       ],
@@ -116,7 +116,7 @@ const clientConfig = (env) => {
           ],
         },
         {
-          test: /\.jsx?/,
+          test: /\.(ts|js)x$/,
           exclude: /node_modules/,
           use: [
             {
@@ -130,6 +130,11 @@ const clientConfig = (env) => {
               },
             },
           ],
+        },
+        {
+          test: /\.(ts|tsx)$/,
+          exclude: /node_modules/,
+          use: 'ts-loader',
         },
         // Svg loader
         {
@@ -212,7 +217,7 @@ const clientConfig = (env) => {
       }),
     ],
     resolve: {
-      extensions: ['.js', '.jsx'],
+      extensions: ['.js', '.jsx', '.ts', '.tsx'],
     },
     performance: {
       hints: false
@@ -229,7 +234,7 @@ const clientConfig = (env) => {
   if (!testMode) {
     config.plugins.push(
       new ESLintPlugin({
-        extensions: ['js', 'jsx'],
+        extensions: ['js', 'jsx', 'ts', 'tsx'],
         failOnError: !devMode,
         failOnWarning: !devMode,
         emitWarning: true,

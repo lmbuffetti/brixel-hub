@@ -25,7 +25,7 @@
       border: none;
       border-collapse: collapse;
       margin-bottom: 1em;
-      color: map-get($darkColor, 700);
+      color: map-get($textColor, 900);
       text-align: left;
       border-radius: 8px;
       background-color: white;
@@ -64,7 +64,7 @@
       tbody tr {
         display: flex;
         &:not(:last-child) {
-          border-bottom: 1px solid map-get($altGreyColor, 200 );
+          border-bottom: 1px solid map-get($textColor, 100);
         }
         > th {
           width: 68%;
@@ -74,7 +74,7 @@
         > td {
           border: 0;
           width: 30%;
-          padding-left: 0px;
+          padding-left: 0;
         }
       }
       tbody th {
@@ -94,24 +94,24 @@
     align-items: center;
   }
   .packageBox {
-    border-top: $step * 2 solid;
+    border-top: calc($step * 2) solid;
     border-radius: $brd-radius-small;
     box-shadow: $shadow-4dp;
     max-width: 400px;
 
     &:nth-child(1) {
-      border-color: map-get($darkColor, 700);
+      border-color: map-get($textColor, 900);
       max-width: 400px;
 
       @media (min-width: $responsive-medium) {
-        margin-right: $step * 2;
+        margin-right: calc($step * 2);
       }
     }
     &:nth-child(2) {
       border-color: map-get($greenColor, 400);
 
-      .bgGreen100 {
-        background-color: rgba($color: map-get($greenColor, 100), $alpha: 0.5);
+      .bgGreen50 {
+        background-color: rgba($color: map-get($greenColor, 50), $alpha: 0.5);
       }
 
       @media (min-width: $responsive-medium) {
@@ -183,17 +183,16 @@
         background-position: center;
         position: absolute;
         left: 0;
-        background-color: map_get($darkColor, 700);
+        background-color: map-get($textColor, 900);
       }
 
       list-style: none;
-      margin-top: 0;
       margin-bottom: 0;
       &:not([class*='ml']) {
         margin-left: 0;
       }
       padding: 0;
-      padding-left: $step * 4;
+      padding-left: calc($step * 4);
       display: flex;
       margin-top: $step;
 
@@ -207,13 +206,13 @@
 .packageWrap.regularPackage {
 
   .packageBox {
-    border: 1px solid map_get($lightColor, 200);
+    border: 1px solid map-get($textColor, 50);
     border-radius: $brd-radius-small;
     max-width: 400px;
 
     &:nth-child(1) {
       @media (min-width: $responsive-medium) {
-        margin-right: $step * 2;
+        margin-right: calc($step * 2);
       }
     }
     &:nth-child(2) {
@@ -224,7 +223,7 @@
     }
     &:nth-child(3) {
       @media (min-width: $responsive-medium) {
-        margin-left: $step * 2;
+        margin-left: calc($step * 2);
       }
     }
 
@@ -244,72 +243,72 @@
   }
 /*
   .basic {
-    border-color: map_get($greenColor, 700);
+    border-color: map-get($greenColor, 700);
     h4 {
-      color: map_get($greenColor, 700);
+      color: map-get($greenColor, 700);
     }
     h6:not([class*=bg]) {
-      background-color: map_get($greenColor, 700);
+      background-color: map-get($greenColor, 700);
     }
 
     ul.checked {
       li {
         &:before {
-          background-color: map_get($greenColor, 700);
+          background-color: map-get($greenColor, 700);
         }
       }
     }
   }
 
   .private {
-    border-color: map_get($blueColor, 400);
+    border-color: map-get($blueColor, 400);
     h4 {
-      color: map_get($blueColor, 400);
+      color: map-get($blueColor, 400);
     }
     h6:not([class*=bg]) {
-      background-color: map_get($blueColor, 400);
+      background-color: map-get($blueColor, 400);
     }
 
     ul.checked {
       li {
         &:before {
-          background-color: map_get($blueColor, 400);
+          background-color: map-get($blueColor, 400);
         }
       }
     }
   }
 
   .premium {
-    border-color: map_get($redColor, 400);
+    border-color: map-get($redColor, 400);
     h4 {
-      color: map_get($redColor, 400);
+      color: map-get($redColor, 400);
     }
     h6:not([class*=bg]) {
-      background-color: map_get($redColor, 400);
+      background-color: map-get($redColor, 400);
     }
 
     ul.checked {
       li {
         &:before {
-          background-color: map_get($redColor, 400);
+          background-color: map-get($redColor, 400);
         }
       }
     }
   }
 
   .one {
-    border-color: map_get($darkColor, 700);
+    border-color: map-get($textColor, 900);
     h4 {
-      color: map_get($darkColor, 700);
+      color: map-get($textColor, 900);
     }
     h6:not([class*=bg]) {
-      background-color: map_get($darkColor, 700);
+      background-color: map-get($textColor, 900);
     }
 
     ul.checked {
       li {
         &:before {
-          background-color: map_get($darkColor, 700);
+          background-color: map-get($textColor, 900);
         }
       }
     }
@@ -317,16 +316,16 @@
 
   span {
     &.basic {
-      color: map_get($primaryColor, 700);
+      color: map-get($primaryColor, 700);
     }
     &.private {
-      color: map_get($blueColor, 400);
+      color: map-get($blueColor, 400);
     }
     &.premium {
-      color: map_get($redColor, 400);
+      color: map-get($redColor, 400);
     }
     &.one {
-      color: map_get($darkColor, 700);
+      color: map-get($textColor, 900);
     }
   }
 
@@ -350,7 +349,7 @@
         background-position: center;
         position: absolute;
         left: 0;
-        background-color: map_get($primaryColor, 400);
+        background-color: map-get($primaryColor, 400);
       }
 
       list-style: none;
@@ -360,9 +359,9 @@
         margin-left: 0;
       }
       padding: 0;
-      padding-left: $step * 4;
+      padding-left: calc($step * 4);
       display: flex;
-      margin-top: $step * 2;
+      margin-top: calc($step * 2);
 
       span {
         margin-left: $step;

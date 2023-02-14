@@ -4,7 +4,7 @@
   }
   .hubTopWrapper {
     @media (min-width: $responsive-medium) {
-      /* background-color: map-get($lightColor, 100); */
+      /* background-color: map-get($textColor, 25); */
       min-height: 100vh;
     }
   }
@@ -43,7 +43,7 @@
     &.saveActionOn {
       .inputSheet {
         @media (max-width: $responsive-medium) {
-          padding-bottom: $step * 8;
+          padding-bottom: calc($step * 8);
         }
       }
     }
@@ -58,19 +58,19 @@
         }
       }
       @media (max-width: $responsive-large) {
-        margin-bottom: $step * 2;
+        margin-bottom: calc($step * 2);
 
         .fixedIcon {
           display: flex;
           background: white;
-          padding: $step * 2 0;
+          padding: calc($step * 2) 0;
           max-width: 100%;
           z-index: 4;
           justify-content: space-between;
           align-items: center;
         }
         .sectionTitle {
-          padding-top: $step * 3;
+          padding-top: calc($step * 3);
           position: relative;
         }
       }
@@ -78,7 +78,7 @@
     .secondLevel {
       @media (max-width: $responsive-large) {
         .backPanel {
-          padding-top: $step * 8;
+          padding-top: calc($step * 8);
         }
       }
     }

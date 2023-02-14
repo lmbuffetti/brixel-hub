@@ -43,7 +43,7 @@ body .dashboardContainer.prospects {
     .statusItem {
       position: relative;
       &:hover {
-        background-color: map-get($lightColor, 100);
+        background-color: map-get($textColor, 25);
       }
       .statusIcon {
         position: absolute;
@@ -234,7 +234,7 @@ body .dashboardContainer.prospects {
     filter: grayscale(1);
 
     &.winner {
-      background-color: map-get($greenColor, 100);
+      background-color: map-get($greenColor, 50);
     }
   }
 
@@ -253,17 +253,17 @@ body .dashboardContainer.prospects {
 
 
 .cardTag {
-  background-color: map-get($lightColor, 200);
-  padding: $step / 2 $step;
+  background-color: map-get($textColor, 50);
+  padding: calc($step / (2 * $step));
   @include fontStyle(100);
-  color: map-get($darkColor, 700);
-  border-radius: $step / 2;
+  color: map-get($textColor, 900);
+  border-radius: calc($step / 3);
   width: 68px;
   text-align: center;
   line-height: 17px;
 
   &.winner {
-    background-color: map-get($greenColor, 200);
+    background-color: map-get($greenColor, 100);
   }
 }
 
@@ -278,7 +278,7 @@ body .dashboardContainer.prospects {
 }
 .singleCol::-webkit-scrollbar {
   visibility: hidden;
-  width: 0px;
+  width: 0;
   display: none;
 }
 .emptyMessage {

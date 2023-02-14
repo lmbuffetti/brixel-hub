@@ -11,7 +11,7 @@
 // To learn more about the benefits of this model and instructions on how to
 // opt-in, read https://bit.ly/CRA-PWA
 
-import SWHelper from './src/utils/SWHelper';
+import SWHelper from './src/utils/SWHelper.ts';
 
 const isLocalhost = Boolean(
   window.location.hostname === 'localhost' ||
