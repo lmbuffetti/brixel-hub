@@ -21,7 +21,6 @@ import {useDropzone} from 'react-dropzone';
 import {connect} from 'react-redux';
 import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import {bindActionCreators, compose} from 'redux';
-import api from '../../controllers/api/config/index';
 import {deleteDocument, multiUploadDocument, uploadDocument} from '../../actions/UploadActions';
 import buyerDocumentsEmpty from '../../images/Media/buyer_docuboxEmpty.svg';
 // IMAGES
@@ -122,31 +121,13 @@ const Documents = (props: DocumentsPageType) => {
 
   const openDocument = (e, id) => {
     if (e) e.preventDefault();
-
-    api.image.getPrivateDocument(id)
-      .then((res) => {
-        const fileURL = window.URL.createObjectURL(res.data);
-        const tab = window.open();
-        if (tab) tab.location.href = fileURL;
-      })
-
-    // window.open(`${getConfigEnv.shortPath}/document/${id}`, '_blank');
-    /*
-      const openDocument = (e, id) => {
-      if (e) e.preventDefault();
-      api.image.getPrivateDocument(id)
-        .then((res) => {
-          handleSetModal({
-            className: '',
-            containerClassColor: 'bgWhite max-w-fix-424',
-            state: true,
-            layout: 'fullscreen',
-            pdfFile: res.data,
-            small: true,
-          });
-        })
-      };
-    */
+    // api.image.getPrivateDocument(id)
+    //   .then((res) => {
+    //     const fileURL = window.URL.createObjectURL(res.data);
+    //     const tab = window.open();
+    //     if (tab) tab.location.href = fileURL;
+    //   })
+    window.open(`${getConfigEnv.shortPath}/document/${id}`, '_blank');
   };
 
   const index = (key) => findIndex(showFullFolder, (el) => el === key);
