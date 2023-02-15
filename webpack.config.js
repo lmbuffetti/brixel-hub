@@ -15,7 +15,7 @@ const ESLintPlugin = require('eslint-webpack-plugin');
 const safelistClass = require('./webapckSafelistClass');
 const CompressionPlugin = require("compression-webpack-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
-const TerserPlugin = require('terser-webpack-plugin');
+// const TerserPlugin = require('terser-webpack-plugin');
 const zlib = require("zlib");
 const { GenerateSW } = require('workbox-webpack-plugin');
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
@@ -333,7 +333,6 @@ const clientConfig = (env) => {
       nodeEnv: 'production',
       minimize: true,
       minimizer: [
-        new TerserPlugin(),
         new CssMinimizerPlugin(),
       ],
     };
