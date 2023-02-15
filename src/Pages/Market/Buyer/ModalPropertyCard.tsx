@@ -132,7 +132,7 @@ const ModalPropertyCard = (props: ModalPropertyCardType) => {
             className="td-u"
             bgTransparent
             theme="altGrey"
-            label="Close"
+            label={translateTo('Close', lang)}
             onClick={() => onClose()}
           />
         </div>
