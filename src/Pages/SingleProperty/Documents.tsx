@@ -121,23 +121,13 @@ const Documents = (props: DocumentsPageType) => {
 
   const openDocument = (e, id) => {
     if (e) e.preventDefault();
+    // api.image.getPrivateDocument(id)
+    //   .then((res) => {
+    //     const fileURL = window.URL.createObjectURL(res.data);
+    //     const tab = window.open();
+    //     if (tab) tab.location.href = fileURL;
+    //   })
     window.open(`${getConfigEnv.shortPath}/document/${id}`, '_blank');
-    /*
-      const openDocument = (e, id) => {
-      if (e) e.preventDefault();
-      api.image.getPrivateDocument(id)
-        .then((res) => {
-          handleSetModal({
-            className: '',
-            containerClassColor: 'bgWhite max-w-fix-424',
-            state: true,
-            layout: 'fullscreen',
-            pdfFile: res.data,
-            small: true,
-          });
-        })
-      };
-    */
   };
 
   const index = (key) => findIndex(showFullFolder, (el) => el === key);
