@@ -15,6 +15,7 @@ build site:
   variables:
     FOLDER: $CI_COMMIT_REF_NAME
   script:
+    - npm install npm@6
     - npm -v;
     - npm install
     - if [ "$FOLDER" == "develop" ]; then npm run build-dev; fi
