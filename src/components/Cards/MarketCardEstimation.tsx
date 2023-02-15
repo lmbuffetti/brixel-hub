@@ -49,7 +49,6 @@ const MarketCardFavorites = (props: MarketCardEstimationType) => {
   }
 
   const onDeleteEstimation = () => {
-    console.log(lang);
     handleSetModal({
       state: true,
       component: React.createElement(BrixelModalConfirm, {
