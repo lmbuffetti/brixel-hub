@@ -35,7 +35,7 @@ const FlowScreen = (props: FlowScreenType) => {
     handleSpinnerOff,
     initialValues,
     lang = 'en',
-    onChangeCurrentIndex,
+    onChangeCurrentIndex = () => '',
     onSaveData,
     QuestionsList,
   } = props;
@@ -270,7 +270,7 @@ const FlowScreen = (props: FlowScreenType) => {
   const buttonLabel = () => {
     let label;
     const inputName = get(quest, 'inputs[0].name', null);
-    if (get(questions, `[${currentIndex + 2}].toSave`, null)) label = 'Save';
+    if (get(questions, `[${currentIndex + 1}].toSave`, null)) label = 'Save';
     else if (get(quest, 'history', '') === 'baloiseInfo') label = 'Continue';
     else if (inputName && get(quest, 'inputs[0].validation', null) === null && get(formValue, inputName, null) === null) label = 'Skip';
     else label = 'Next';
@@ -416,6 +416,60 @@ const FlowScreen = (props: FlowScreenType) => {
                           )
                         }
                       </div>
+                    )
+                  }
+                  {
+                    (quest.bulletPoints || quest.text) && (
+                      <>
+                        {
+                          quest.title && (
+                            <h3 className={`fweight-600 max-w-fix-600 ta-c fsize-600 fsize-sm-800 m-a ${quest.subtitle ? 'mb-1' : 'mb-5'}`} dangerouslySetInnerHTML={{ __html: quest.title }} />
+                          )
+                        }
+
+                        {
+                          quest.bulletPoints && (
+                            <div
+                              className="brdRadius bgWhite ml-a mr-a px-2 px-sm-6 max-w-fix-752 pt-3 pb-6 mb-3 bulletPointsStep"
+                            >
+                              <div className="brdText50">
+                                <span className="fweight-600 my-3 dis-b">{quest.bulletPoints.title}</span>
+                                <ul>
+                                  {
+                                    get(quest, 'bulletPoints.description', []).map((bullet,k) => (
+                                      <li
+                                        className="mb-2"
+                                        key={k.toString()}
+                                      >
+                                        {bullet}
+                                      </li>
+                                    ))
+                                  }
+                                </ul>
+                              </div>
+                            </div>
+                          )
+                        }
+                        <div
+                          className="brdRadius bgWhite ml-a mr-a px-2 px-sm-6 max-w-fix-752 pt-3 pb-6"
+                        >
+                          {
+                            get(quest, 'text', []).map((text, i) => (
+                              <div
+                                key={i.toString()}
+                              >
+                                <span className="fweight-600 my-3 dis-b">{text.title}</span>
+                                {
+                                  text.subtitle && (
+                                    <p className="fsize-300 fweight-500 mb-1 dis-b">{text.subtitle}</p>
+                                  )
+                                }
+                                <p className="fsize-300 mb-2 dis-b" dangerouslySetInnerHTML={{ __html: text.description }} />
+                              </div>
+                            ))
+                          }
+                        </div>
+                      </>
                     )
                   }
                 </div>
