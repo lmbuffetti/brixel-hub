@@ -1,33 +1,24 @@
-/* eslint-disable max-len */
+/**/
 import translateTo from '../../utils/translation';
-import {BrixelInputDatePicker, BrixelInputText, BrixelTextArea, Validation} from '@brixel/brixel-components/dist/form';
+import {BrixelInputText, BrixelTextArea, Validation} from '@brixel/brixel-components/dist/form';
+import ScheduleVisitComponent from '../../Pages/Dashboard/Buyer/ScheduleVisiitComponent';
+import scheduleSvg from '../../images/dashboard/scehdule.svg';
 import {QuestionsListType} from '@brixel/brixel-components/dist/@types/Model';
 
 export const QuestionsList: (lang: string) => QuestionsListType[] = (lang) => [
   {
+    titleIcon: scheduleSvg,
     title: translateTo('Request a visit to your future home', lang),
     history: 'visitDates',
-    className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText50 p-2 p-sm-5',
-    inputs: [
-      {
-        component: BrixelInputDatePicker,
-        className: '',
-        classNameBox: 'ml-a mr-a',
-        classBoxWrapper: 'mt-2',
-        ReduxFieldClass: '',
-        label: translateTo('Choose your date', lang),
-        name: 'visitDates',
-        showFullSelectDate: true,
-        large: true,
-        hasButtonChoice: true,
-        validation: [Validation.required],
-      },
-    ],
+    classNameWrapper: 'max-w-fix-600 ml-a mr-a p-2 p-sm-5',
+    component: ScheduleVisitComponent,
+    cardType: 'loadComponent',
+    hideFooter: true,
   },
   {
     title: translateTo('How can we reach you?', lang),
     history: 'contactInfo',
-    className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText50 p-2 p-sm-5',
+    className: 'bgWhite max-w-fix-600 ml-a mr-a p-2 p-sm-5',
     inputs: [
       {
         component: BrixelInputText,
@@ -69,6 +60,5 @@ export const QuestionsList: (lang: string) => QuestionsListType[] = (lang) => [
     className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText50 p-2 p-sm-5',
     history: 'success',
     toSave: true,
-    inputs: [],
   },
 ];
