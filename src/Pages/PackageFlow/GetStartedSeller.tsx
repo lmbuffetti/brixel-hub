@@ -210,7 +210,7 @@ const GetStartedSeller = (props: GetStartedSellerType) => {
     const companyByUrl = queryString.parse(get(history, 'location.search', ''));
     const companyCookie = cookie.get('brixelStubCompany') || null;
     const channelCookie = cookie.get('brixelChannelSignup') || null;
-    let defComp = get(companyByUrl, 'company', companyCookie);
+    let defComp = get(companyByUrl, 'company', companyStub) || companyCookie;
     if (companyStub && companyStub !== get(questions, '[0].history', null)) defComp = companyStub;
     if (defComp) {
       handleGetActiveSingleCompany({ stub: defComp || 'default' });
@@ -236,20 +236,6 @@ const GetStartedSeller = (props: GetStartedSellerType) => {
   useEffect(() => {
     setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue));
   }, [lang, company.stub, translations, formValue]);
-
-
-  // ON CHANGE STEP (currentIndex is different for each step) CHANGE THE isEnter (used for enter effect) AND LOAD COMPANY DATA IF countryCode CHANGE
-  useEffect(() => {
-    const countryCodeLocation = get(formValue, 'location.countryCode', '');
-    const countryCodeCompany = get(company, 'country.code', '');
-    if (countryCodeCompany !== countryCodeLocation) {
-      let newCountryStub = '';
-      if (countryCodeLocation === 'CH') newCountryStub = 'brixel_zurich';
-      if (countryCodeLocation === 'PT') newCountryStub = 'brixel_portugal';
-      if (countryCodeLocation === 'DE') newCountryStub = 'brixel_germany';
-      handleGetActiveSingleCompany({ stub: newCountryStub });
-    }
-  }, [get(formValue, 'location.countryCode', '')]);
 
   // FUNCTION TO CALC THE LIVING SPACE FROM GROSS AREA
   useEffect(() => {

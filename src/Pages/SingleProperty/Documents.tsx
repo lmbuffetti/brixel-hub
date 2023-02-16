@@ -5,6 +5,7 @@ import {
   BrixelDropdownMini,
   BrixelIcon,
   useOutsideAlerter,
+  Helpers,
 } from '@brixel/brixel-components';
 import documentConfig from '@brixel/brixel-components/dist/configuration/DocumentsConfig';
 import getConfigEnv from '@brixel/brixel-components/dist/configuration/Settings';
@@ -121,13 +122,8 @@ const Documents = (props: DocumentsPageType) => {
 
   const openDocument = (e, id) => {
     if (e) e.preventDefault();
-    // api.image.getPrivateDocument(id)
-    //   .then((res) => {
-    //     const fileURL = window.URL.createObjectURL(res.data);
-    //     const tab = window.open();
-    //     if (tab) tab.location.href = fileURL;
-    //   })
-    window.open(`${getConfigEnv.shortPath}/document/${id}`, '_blank');
+    Helpers.openDocument(id);
+    // window.open(`${getConfigEnv.shortPath}/document/${id}`, '_blank');
   };
 
   const index = (key) => findIndex(showFullFolder, (el) => el === key);

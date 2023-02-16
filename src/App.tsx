@@ -332,7 +332,7 @@ const App = (props: AppType) => {
     }
 
     if (
-      !history.location.pathname.includes('sell') &&
+      (!history.location.pathname.includes('sell') || history.location.pathname.includes('termsConditionFlow')) &&
       (!history.location.pathname.includes('buy') || history.location.pathname.includes('buyer'))
     ) {
       setShowFooter(true);
