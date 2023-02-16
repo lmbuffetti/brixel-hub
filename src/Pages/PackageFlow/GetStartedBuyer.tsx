@@ -192,24 +192,6 @@ const GetStartedBuyer = (props: GetStartedType) => {
     setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue, 'GetStarted'));
   }, [lang]);
 
-  // ON CHANGE STEP (currentIndex is different for each step) CHANGE THE isEnter (used for enter effect) AND LOAD COMPANY DATA IF countryCode CHANGE
-  useEffect(() => {
-    if (get(questions, `[${currentIndex - 1}].history`, null) === 'locationInput') {
-      const countryCodeLocation = get(formValue, 'locations[0].countryCode', '');
-      const countryCodeCompany = get(company, 'country.code', '');
-      if (countryCodeCompany !== countryCodeLocation) {
-        let newCountryStub = '';
-        if (countryCodeLocation === 'CH') newCountryStub = 'brixel_zurich';
-        else if (countryCodeLocation === 'PT') newCountryStub = 'brixel_portugal';
-        else if (countryCodeLocation === 'DE') newCountryStub = 'brixel_germany';
-        else {
-          changeFieldValue('finance.currency', 'EUR');
-        }
-        handleGetActiveSingleCompany({ stub: newCountryStub });
-      }
-    }
-  }, [currentIndex]);
-
   // GET THE NEXT DATA IN BASE OF CURRENT ANSWER
   useEffect(() => {
     const rooms: {max?: number; min?: number} = get(formValue, 'characteristics.bedrooms', {});

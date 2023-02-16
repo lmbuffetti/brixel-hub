@@ -9,9 +9,6 @@ import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import {bindActionCreators, compose} from 'redux';
 import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import {spinnerOff, spinnerOn} from '../actions/CommonActions';
-import {getActiveSingleCompany} from '../actions/CompanyActions';
-import {createActiveSingleProperty, saveActiveSingleProperty} from '../actions/PropertyActions';
-import {doLogin, saveActiveSingleUser, validateUser} from '../actions/UserActions';
 import {checkBrowser} from '../utils/helpers';
 import translateTo from '../utils/translation';
 import {QuestionsListType} from '@brixel/brixel-components/dist/@types/Model';
@@ -545,14 +542,8 @@ const mapDispatchToProps = (dispatch) => ({
   handleReset(formName, initialValue) {
     (dispatch(reset(formName, initialValue)));
   },
-  handleCreateActiveSingleProperty: bindActionCreators(createActiveSingleProperty, dispatch),
-  handleDoLogin: bindActionCreators(doLogin, dispatch),
-  handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
-  handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
-  handleSaveActiveSingleUser: bindActionCreators(saveActiveSingleUser, dispatch),
   handleSpinnerOn: bindActionCreators(spinnerOn, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
-  handleValidateUser: bindActionCreators(validateUser, dispatch),
 });
 
 export default compose(
