@@ -212,7 +212,6 @@ const GetStartedSeller = (props: GetStartedSellerType) => {
     const channelCookie = cookie.get('brixelChannelSignup') || null;
     let defComp = get(companyByUrl, 'company', companyStub) || companyCookie;
     if (companyStub && companyStub !== get(questions, '[0].history', null)) defComp = companyStub;
-    console.log(defComp);
     if (defComp) {
       handleGetActiveSingleCompany({ stub: defComp || 'default' });
       setCookie('brixelStubCompany', defComp);
