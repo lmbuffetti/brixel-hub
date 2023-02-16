@@ -591,3 +591,15 @@ body:not(.overlayOpen).locationInputResume {
     }
   }
 }
+
+.scheduleVisit {
+  #wrapDatePicker #fixedDatePicker {
+    all: initial;
+  }
+
+  #wrapDatePicker {
+    .react-datepicker {
+      all: initial;
+    }
+  }
+}

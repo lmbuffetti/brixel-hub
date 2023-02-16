@@ -681,7 +681,7 @@ const checkCommon = (store) => (next) => (action) => {
           store.dispatch({
             type: GET_ACTIVE_SINGLE_PROPERTY_BOOKINGS,
             payload: {
-              id: page, data: { user: getByUser }, smallLoader: 'loadBooking', redirectTo,
+              id: page, data: { user: getByUser }, smallLoader, redirectTo,
             },
           });
           if (smallLoader) {

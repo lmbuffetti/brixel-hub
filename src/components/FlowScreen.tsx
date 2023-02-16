@@ -31,6 +31,7 @@ const FlowScreen = (props: FlowScreenType) => {
     handleReset,
     handleSpinnerOff,
     initialValues,
+    isSmallLoading,
     lang = 'en',
     onChangeCurrentIndex = () => '',
     onSaveData,
@@ -307,7 +308,7 @@ const FlowScreen = (props: FlowScreenType) => {
 
   return (
     <>
-      <div id="bodyModalWrapper" className={`withHeader getStarted slideUpTrans ${get(quest, 'background', '')} ${get(quest, 'history', '')}`}>
+      <div id="bodyModalWrapper" className={`withHeader getStarted slideUpTrans ${get(quest, 'background', '')} ${get(quest, 'history', '')} ${get(quest, 'classNameWrapper', '')}`}>
         {
           get(quest, 'inputs', null) && get(quest, 'history', '') !== 'createProfile' && get(quest, 'history', null) !== 'resume' && (
             <div className="pos-r">
@@ -341,26 +342,34 @@ const FlowScreen = (props: FlowScreenType) => {
               <div ref={singleStepRef} className="singleStep pt-5 jc-c ">
                 <div className="subcontainer m-a">
                   {
+                    quest.titleIcon && (
+                      <div className="ta-c mb-3">
+                        <img src={quest.titleIcon}  alt="Title Icon"/>
+                      </div>
+                    )
+                  }
+                  {
+                    quest.titleGreen && (
+                      <h3 className="txtGreen400 w-perc-100">{quest.titleGreen}</h3>
+                    )
+                  }
+                  {
+                    quest.title && (
+                      <h3 className={`fweight-600 max-w-fix-408 ta-c fsize-600 fsize-sm-800 m-a ${quest.subtitle ? 'mb-1' : 'mb-5'}`} dangerouslySetInnerHTML={{ __html: quest.title }} />
+                    )
+                  }
+                  {
+                    quest.subtitle && (
+                      <p className="mb-5 ta-c txtText600 w-perc-100 px-3 px-sm-2" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
+                  }
+                  {
                     get(quest, 'inputs', null) && (
                       <div id={`step-${currentIndex}`} className="dis-fl-col a-c flex-wrap">
-                        {
-                          quest.titleGreen && (
-                            <h3 className="txtGreen400 w-perc-100">{quest.titleGreen}</h3>
-                          )
-                        }
-                        {
-                          quest.title && (
-                            <h3 className={`fweight-600 max-w-fix-408 ta-c fsize-600 fsize-sm-800 m-a ${quest.subtitle ? 'mb-1' : 'mb-5'}`} dangerouslySetInnerHTML={{ __html: quest.title }} />
-                          )
-                        }
-                        {
-                          quest.subtitle && (
-                            <p className="mb-5 ta-c txtText600 w-perc-100 px-3 px-sm-2" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
-                        }
                         <div className={`${quest.className} w-perc-100`}>
                           <MultiFileldsReduxForm
                             baseByData={baseByData}
-                            form="GetStarted"
+                            onSaveData={() => onSaveData()}
+                            form={formName}
                             className="w-perc-100"
                             disableNextBtn={false}
                             formValue={formValue}
@@ -384,10 +393,11 @@ const FlowScreen = (props: FlowScreenType) => {
                       React.createElement(
                         quest.component,
                         {
-                          formName: 'GetStarted',
+                          formName,
                           initialValue: formValue,
                           ...quest,
                           onClick: () => (questions[currentIndex + 1] ? changeStep() : closeWindow()),
+                          onSaveData: () => onSaveData(),
                         },
                       )
                     )
@@ -473,7 +483,7 @@ const FlowScreen = (props: FlowScreenType) => {
               </div>
             </div>
             {
-              get(quest, 'history', null) !== 'createProfile' && (
+              get(quest, 'history', null) !== 'createProfile' && get(quest, 'hideFooter', null) !== true && (
                 <div
                   className={`footerAction flowFooter ${get(quest, 'footerWidth', '')} ${get(quest, 'history', null) === 'resume' ? 'hide' : ''} ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
                 >
@@ -498,6 +508,7 @@ const FlowScreen = (props: FlowScreenType) => {
                             rounded
                             theme="green"
                             label={translateTo(buttonLabel(), lang)}
+                            isLoading={isSmallLoading.sendData}
                             rightIcon="arrow-right-small"
                             onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
                             onShowError={() => setShowError(true)}
@@ -527,6 +538,7 @@ const mapStateToProps = (state, ownProps) => {
     formValue: get(state, `brixelForm.${formName}.values`, {}),
     initialValues: get(state, `brixelForm.${formName}.values`, {}),
     isLoading: get(state, 'common.isLoading', 0) > 0,
+    isSmallLoading: get(state, 'common.isSmallLoading', {}),
     lang: get(state, 'common.language', 'en'),
     loggedInUser: get(state, 'user.loggedInUser.user', {}),
     packagesProperty: get(state, 'property.packagesProperty', []),
