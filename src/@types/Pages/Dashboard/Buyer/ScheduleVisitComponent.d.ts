@@ -11,4 +11,3 @@ export interface ScheduleVisitComponentType {
   lang: string;
   onClick: () => void;
 }
-
