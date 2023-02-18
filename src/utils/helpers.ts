@@ -6,6 +6,9 @@ import {configureStore} from '../store';
 import {InputSheets} from '../resources/SingleProperty/inputSheets';
 import {BestimateQuestions} from '../resources/Flows/Bestimate';
 import {QuestionInputType, QuestionsListType} from '@brixel/brixel-components/dist/@types/Model';
+import {FactsOptions} from '@brixel/brixel-components';
+
+const { factsOptions } = FactsOptions;
 
 const cookies = new Cookies();
 
@@ -358,4 +361,10 @@ export const transformInternalLink = (url, {activeSingleProperty}) => {
     });
     return internalLink;
   }
+}
+
+export const convertLabel = (curVal, field, type: string | null = 'label') => {
+  const fact = factsOptions[field].find((val) => val.value === curVal);
+  if (fact && type) return fact[type];
+  return fact
 }
