@@ -156,8 +156,8 @@ const FlowScreen = (props: FlowScreenType) => {
       if (defId !== newIndex) defId = checkCondition(defId, act);
       if (newQuestions[defId]) {
         if (newQuestions[defId].toSave) {
-          const action = history.location.pathname.includes('termsConditionFlow') ? 'accept' : '';
-          onSaveData(action);
+          const act = history.location.pathname.includes('termsConditionFlow') ? 'accept' : '';
+          onSaveData(act);
         } else {
           const newQuest = {
             ...newQuestions[defId],
