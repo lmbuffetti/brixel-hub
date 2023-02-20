@@ -32,6 +32,8 @@ const LearnMoreListingsProperty = (props: LearnMoreListingsPropertyType) => {
     onClick()
   }
 
+  console.log(id);
+
   return (
     <div>
       <div className="dis-f a-t jc-b">

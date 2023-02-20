@@ -239,12 +239,13 @@ const MarketCard = (props: MarketCardProps) => {
         handleMarkNotInterested({id: item.id, reloadBuyerProperties: true} );
         handleSetModal({state: false});
       } else {
+        console.log(item.id);
         handleSetModal({
           state: true,
           component: React.createElement(NotInterestedConfirmModal, {
             lang,
             id: item.id,
-            onClick: () => handleMarkNotInterested(item.id),
+            onClick: () => handleMarkNotInterested({id: item.id, reloadBuyerProperties: true}),
           }),
           small: true,
           layout: 'large',
