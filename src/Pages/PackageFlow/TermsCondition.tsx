@@ -106,7 +106,7 @@ const TermsCondition = (props: TermsConditionType) => {
     <FlowScreen
       baseURL={`/termsConditionFlow/${activeSingleCompany.stub}`}
       formName="GetStarted"
-      onSaveData={() => saveData()}
+      onSaveData={(action) => saveData(action)}
       QuestionsList={questions}
     />
   );

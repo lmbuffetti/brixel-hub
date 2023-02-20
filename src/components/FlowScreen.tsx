@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {BrixelButtonIcon, BrixelButtonPrimary, BrixelProgressBar} from '@brixel/brixel-components';
+import {BrixelButtonText, BrixelButtonIcon, BrixelButtonPrimary, BrixelProgressBar} from '@brixel/brixel-components';
 import {destroy, MultiFileldsReduxForm, reset} from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
 import has from 'lodash/has';
@@ -149,14 +149,15 @@ const FlowScreen = (props: FlowScreenType) => {
       }
       newIndex += step;
     }
-    if (newIndex === -1) {
+    if (newIndex === -1 && history.location.pathname.includes('packageFlow')) {
       history.push(`/packageFlow/${company.stub}`);
     } else {
       let defId = checkCondition(newIndex, act);
       if (defId !== newIndex) defId = checkCondition(defId, act);
       if (newQuestions[defId]) {
         if (newQuestions[defId].toSave) {
-          onSaveData();
+          const actTerms = history.location.pathname.includes('termsConditionFlow') ? 'accept' : '';
+          onSaveData(actTerms);
         } else {
           const newQuest = {
             ...newQuestions[defId],
@@ -269,7 +270,6 @@ const FlowScreen = (props: FlowScreenType) => {
     let label;
     const inputName = get(quest, 'inputs[0].name', null);
     if (get(questions, `[${currentIndex + 1}].toSave`, null)) label = 'Save';
-    else if (get(quest, 'history', '') === 'baloiseInfo') label = 'Continue';
     else if (inputName && get(quest, 'inputs[0].validation', null) === null && get(formValue, inputName, null) === null) label = 'Skip';
     else label = 'Next';
     return label;
@@ -429,12 +429,6 @@ const FlowScreen = (props: FlowScreenType) => {
                     (quest.bulletPoints || quest.text) && (
                       <>
                         {
-                          quest.title && (
-                            <h3 className={`fweight-600 max-w-fix-600 ta-c fsize-600 fsize-sm-800 m-a ${quest.subtitle ? 'mb-1' : 'mb-5'}`} dangerouslySetInnerHTML={{ __html: quest.title }} />
-                          )
-                        }
-
-                        {
                           quest.bulletPoints && (
                             <div
                               className="brdRadius bgWhite ml-a mr-a px-2 px-sm-6 max-w-fix-752 pt-3 pb-6 mb-3 bulletPointsStep"
@@ -513,6 +507,16 @@ const FlowScreen = (props: FlowScreenType) => {
                             onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
                             onShowError={() => setShowError(true)}
                             type="submit"
+                          />
+                        )
+                      }
+                      {
+                        history.location.pathname.includes('termsConditionFlow') && (
+                          <BrixelButtonText
+                            theme="light"
+                            className="pos-a-sm x-r"
+                            label={translateTo('Skip', lang)}
+                            onClick={() => onSaveData('skip')}
                           />
                         )
                       }
