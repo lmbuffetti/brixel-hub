@@ -57,9 +57,9 @@ const TermsCondition = (props: TermsConditionType) => {
   }, []);
 
   useEffect(() => {
-
     if(get(isSmallLoading, 'sentData', null)) {
-      history.push(redirectURL || '/sell');
+      const defaultRedirect = isBuyer ? '/buy' : '/sell';
+      history.push(redirectURL || defaultRedirect);
     }
   }, [get(isSmallLoading, 'sentData', null)]);
 
