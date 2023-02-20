@@ -562,8 +562,18 @@ const App = (props: AppType) => {
                         !history.location.pathname.includes('onBoarding') &&
                         (
                           <>
-                            <Route path="/buyer/:propID/*" element={<ProtectedRoute><DashboardBuyer /></ProtectedRoute>} />
-                            <Route path="/buyer/propertyList" element={<ProtectedRoute><DashboardBuyer /></ProtectedRoute>} />
+                            <Route
+                              path="/buyer/:propID/*"
+                              element={
+                                <ProtectedRoute><DashboardBuyer /></ProtectedRoute>
+                              }
+                            />
+                            <Route
+                              path="/buyer/propertyList"
+                              element={
+                                <ProtectedRoute><DashboardBuyer /></ProtectedRoute>
+                              }
+                            />
                           </>
                         )
                       }

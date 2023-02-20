@@ -4,7 +4,6 @@ import {compose} from 'redux';
 import {connect} from 'react-redux';
 import get from 'lodash/get';
 import last from 'lodash/last';
-import isNumber from 'lodash/isNumber';
 import lazyWithRetry from '../../../components/LazyWithRetry';
 import type {DealsDashboardBuyerType} from '../../../@types/Pages/Dashboard/Buyer/DealsDashboardBuyer';
 
@@ -22,7 +21,7 @@ const DealsDashboardBuyer = (props: DealsDashboardBuyerType) => {
   } = props;
   // URL PARAMS
   const propID = get(match, 'propID', null);
-  const getFact = () => last(history.location.pathname.split('/'));
+  const getFact = () => last(history.location.pathname.split('/')) || '';
   const link = get(history, 'location.pathname', '').split('/');
 
   useEffect(() => {
@@ -41,7 +40,7 @@ const DealsDashboardBuyer = (props: DealsDashboardBuyerType) => {
         }
         {
           (
-            getFact() && isNumber(getFact())
+            getFact() && getFact().length > 20
           )
             ? (
               <Suspense fallback="">
