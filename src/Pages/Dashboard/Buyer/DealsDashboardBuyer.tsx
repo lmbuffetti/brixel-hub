@@ -22,7 +22,7 @@ const DealsDashboardBuyer = (props: DealsDashboardBuyerType) => {
   } = props;
   // URL PARAMS
   const propID = get(match, 'propID', null);
-  const getFact = () => last(history.location.pathname.split('/'));
+  const getFact = () => last(history.location.pathname.split('/')) || '';
   const link = get(history, 'location.pathname', '').split('/');
 
   useEffect(() => {
@@ -30,7 +30,7 @@ const DealsDashboardBuyer = (props: DealsDashboardBuyerType) => {
       history.push(`/buyer/${propID}/closing/${activeSingleDeal.id}`);
     }
   }, [activeSingleDeal.id]);
-
+  console.log('eh', getFact());
   return (
     <div className={`${get(history, 'location.pathname', '').includes('closing/') ? '' : 'secondLevel'}`}>
       <div>
@@ -41,7 +41,7 @@ const DealsDashboardBuyer = (props: DealsDashboardBuyerType) => {
         }
         {
           (
-            getFact() && isNumber(getFact())
+            getFact() && getFact().length > 20
           )
             ? (
               <Suspense fallback="">
