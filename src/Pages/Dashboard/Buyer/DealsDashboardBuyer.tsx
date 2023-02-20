@@ -4,7 +4,6 @@ import {compose} from 'redux';
 import {connect} from 'react-redux';
 import get from 'lodash/get';
 import last from 'lodash/last';
-import isNumber from 'lodash/isNumber';
 import lazyWithRetry from '../../../components/LazyWithRetry';
 import type {DealsDashboardBuyerType} from '../../../@types/Pages/Dashboard/Buyer/DealsDashboardBuyer';
 
@@ -30,7 +29,7 @@ const DealsDashboardBuyer = (props: DealsDashboardBuyerType) => {
       history.push(`/buyer/${propID}/closing/${activeSingleDeal.id}`);
     }
   }, [activeSingleDeal.id]);
-  console.log('eh', getFact());
+
   return (
     <div className={`${get(history, 'location.pathname', '').includes('closing/') ? '' : 'secondLevel'}`}>
       <div>

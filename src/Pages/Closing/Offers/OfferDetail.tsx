@@ -37,7 +37,7 @@ const OfferDetail = (props: OfferDetailType) => {
       handleGetActiveSingleDeal(data);
     }
   }, [dealID, activeSingleProperty]);
-  console.log('offer')
+
   return (
     <>
       <div className={`single-offer-container ${isBuyer && windowDimensions.width <= 1024 ? 'secondLevel p-2' : ''} dis-fl-col pb-4 pl-sm-1 pr-sm-2 dealsListings`}>
