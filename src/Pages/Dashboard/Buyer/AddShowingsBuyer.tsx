@@ -79,7 +79,7 @@ const AddShowingsBuyer = (props: AddShowingsBuyerType) => {
 
   useEffect(() => {
     if (isSmallLoading.sendData === false) {
-      history.push(`/buyer/${activeSingleProperty.id}/scheduleVisit?showBookings`)
+      history.push(`/buyer/${activeSingleProperty.id}/home`);
     }
   }, [isSmallLoading]);
 
