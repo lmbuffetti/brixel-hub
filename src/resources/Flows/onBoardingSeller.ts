@@ -363,22 +363,26 @@ export const QuestionsList: (lang: string, country: string, changeValue: (field:
         },
       ],
     },
-    {
-      title: translateTo('Property condition', lang),
-      history: 'propertyCondition',
-      cardType: 'propertyCondition',
-      footerWidth: 'max-w-fix-384',
-      inputs: [
-        {
-          classNameBox: 'brdRadius max-w-fix-384 w-perc-100 px-2 px-sm-5 py-5 brdRadius fieldHolder bgWhite m-a',
-          component: BrixelRadioButton,
-          name: 'properties.building.conditionStatus',
-          options: conditionStatus,
-          validation: [Validation.required],
-        },
-      ],
-    },
   );
+  if (company !== 'baloise' && company !== 'ubs') {
+    question.push(
+      {
+        title: translateTo('Property condition', lang),
+        history: 'propertyCondition',
+        cardType: 'propertyCondition',
+        footerWidth: 'max-w-fix-384',
+        inputs: [
+          {
+            classNameBox: 'brdRadius max-w-fix-384 w-perc-100 px-2 px-sm-5 py-5 brdRadius fieldHolder bgWhite m-a',
+            component: BrixelRadioButton,
+            name: 'properties.building.conditionStatus',
+            options: conditionStatus,
+            validation: [Validation.required],
+          },
+        ],
+      },
+    );
+  }
   question.push(
     {
       condition: [{

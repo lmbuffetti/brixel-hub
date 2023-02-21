@@ -58,8 +58,10 @@ describe('Seller Onboarding', () => {
         })
 
         it('condition property', () => {
-          cy.viewport(device);
-          cy.get('[type="radio"]').first().check({ force: true });
+          if (company !== 'ubs' && company !== 'baloise') {
+            cy.viewport(device);
+            cy.get('[type="radio"]').first().check({force: true});
+          }
         })
 
         it('user register', () => {

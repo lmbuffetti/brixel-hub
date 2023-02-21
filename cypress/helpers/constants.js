@@ -1,6 +1,6 @@
 module.exports = {
   companies: [
-    'brixel_portugal',
+    'ubs',
   ],
   devices: [
     'iphone-6',
