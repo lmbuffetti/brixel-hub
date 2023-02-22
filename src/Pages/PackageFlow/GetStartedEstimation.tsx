@@ -370,13 +370,19 @@ const GetStartedEstimation = (props: GetStartedEstimationType) => {
   }, [currentIndex]);
 
   return (
-    <FlowScreen
-      baseURL={`/packageFlow/getStartedEstimation/${activeSingleCompany.stub}`}
-      onChangeCurrentIndex={(index) => setCurrentIndex(index)}
-      formName="GetStarted"
-      onSaveData={() => saveData()}
-      QuestionsList={questions}
-    />
+    <>
+      {
+        activeSingleCompany.id && (
+          <FlowScreen
+            baseURL={`/packageFlow/getStartedEstimation/${activeSingleCompany.stub}`}
+            onChangeCurrentIndex={(index) => setCurrentIndex(index)}
+            formName="GetStarted"
+            onSaveData={() => saveData()}
+            QuestionsList={questions}
+          />
+        )
+      }
+    </>
   );
 };
 

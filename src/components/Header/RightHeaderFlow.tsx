@@ -136,22 +136,21 @@ function RightHeaderFlow(props: RightHeaderFlowType) {
 
   return (
     <div className="dis-f a-c">
+      <div className="">
+        <BrixelDropdown
+          noBorder
+          className="langMenu"
+          color="dark"
+          saturationTxt={700}
+          keyType="label"
+          selected={currentLang || 'en'}
+          options={dropLang}
+          onSelect={(e, keys) => newLang(e, keys)}
+          liClass="tt-low"
+        />
+      </div>
       {
-        loggedInUser && !loggedInUser.id ? (
-          <div className="">
-            <BrixelDropdown
-              noBorder
-              className="langMenu"
-              color="dark"
-              saturationTxt={700}
-              keyType="label"
-              selected={currentLang}
-              options={dropLang}
-              onSelect={(e, keys) => newLang(e, keys)}
-              liClass="tt-low"
-            />
-          </div>
-        ) : (
+        loggedInUser?.id && (
           <div className="ml-1">
             <BrixelButtonIcon
               ghost

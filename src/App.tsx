@@ -23,7 +23,7 @@ import {
 import {setActiveSingleDeal} from './actions/DealActions';
 import {setActiveSingleProperty} from './actions/PropertyActions';
 import {getImageType} from './actions/UploadActions';
-import {checkToken, setUserTypes} from './actions/UserActions';
+import {checkToken, saveActiveSingleUser, setUserTypes} from './actions/UserActions';
 import BestimateCardOverlay from './components/BestimateCardOverlay';
 import PageFooter from './components/Footer/PageFooter';
 import Loading from './components/Loading';
@@ -113,13 +113,14 @@ const App = (props: AppType) => {
     config,
     handleCheckToken,
     handleGetImageType,
+    handleGetTranslations,
     handleReset,
     handleSetActiveSingleDeal,
     handleSetActiveSingleProperty,
     handleSetLanguage,
+    handleSaveActiveSingleUser,
     handleSetModal,
     handleSetNotification,
-    handleGetTranslations,
     handleSetUserTypes,
     handleSetWindowsDimension,
     isLoading = false,
@@ -133,13 +134,14 @@ const App = (props: AppType) => {
     redirectTo,
     splashScreenType,
     teamAvatars,
-    userTypes,
+    translations,
     windowDimensions,
   } = props;
   // STATE
   // CONSTANT TO PREVENT TRANSIFEX ERROR
   const [langURL, setLangURL] = useState<string | null>(null);
   const [classMain, setClassMain] = useState('w-perc-100 pos-r hubContainer');
+  const [urlLang, setUrlLang] = useState<string>();
 
   const [isSecLevel, setIsSecLevel] = useState(false);
   const [showSupport, setShowSupport] = useState(false);
@@ -161,22 +163,50 @@ const App = (props: AppType) => {
     if (queryURL?.lang) setLangURL(queryURL.lang.toLowerCase());
   }, []);
 
+  useEffect(() => {
+    const { search } = history.location;
+    if (search) {
+      const objURL = JSON.parse('{"' + search.replace('?', '').replace(/&/g, '","').replace(/=/g,'":"') + '"}', function(key, value) { return key=== '' ?value:decodeURIComponent(value) });
+      if (objURL.lang) {
+        cookies.set('brixelLang', (objURL.lang).toLowerCase());
+        setUrlLang((objURL.lang).toLowerCase());
+      }
+    }
+  }, [history.location.search]);
+
+  useEffect(() => {
+    if (loggedInUser.id && urlLang) {
+      const userData = {
+        id: get(loggedInUser, 'id', null),
+        language:urlLang,
+        setLoggedInUser: true,
+        smallLoader: 'saveData',
+      };
+      handleSaveActiveSingleUser(userData);
+      handleSetLanguage(urlLang);
+    }
+  }, [loggedInUser.id, urlLang]);
+
+
+
   // FUCNTION TO INITIALIZE TRANSIFEX AND LOAD THE TRANSLATIONS
   useEffect(() => {
     let userLang: string | undefined = 'en';
-    if (loggedInUser.id) {
-      userLang = loggedInUser.language === 'en_US' ? 'en' : loggedInUser.language;
-      if (userLang) handleSetLanguage(userLang);
-    } else if (activeSingleCompany.id && !loggedInUser.id) {
-      if (cookies.get('brixelLang') && cookies.get('brixelLang') !== 'undefined') {
-        userLang = cookies.get('brixelLang');
-      } else {
-        userLang = langURL || activeSingleCompany.language.code || 'en';
+    if (!urlLang) {
+      if (loggedInUser.language) {
+        userLang = loggedInUser.language === 'en_US' ? 'en' : loggedInUser.language;
+        if (userLang) handleSetLanguage(userLang);
+      } else if (activeSingleCompany.id && !loggedInUser.id) {
+        if (cookies.get('brixelLang') && cookies.get('brixelLang') !== 'undefined') {
+          userLang = cookies.get('brixelLang');
+        } else {
+          userLang = langURL || activeSingleCompany.language.code || 'en';
+        }
+        cookies.set('brixelLang', userLang);
+        if (userLang) handleSetLanguage(userLang);
       }
-      cookies.set('brixelLang', userLang);
-      if (userLang) handleSetLanguage(userLang);
     }
-  }, [loggedInUser.id, activeSingleCompany.id]);
+  }, [loggedInUser.language, activeSingleCompany.id]);
 
   useEffect(() => {
     if (languages.length > 0) {
@@ -425,16 +455,6 @@ const App = (props: AppType) => {
     }
   });
 
-  // CONDITION TO VIEW THE ELEMENTS AFTER LOADING
-  if (
-    !loggedInUser ||
-    (!userTypes && get(activeSingleProperty, 'id', null))
-  ) {
-    return (
-      <Loading isLoading={isLoading} />
-    );
-  }
-
   return (
     <>
       <Helmet>
@@ -446,6 +466,11 @@ const App = (props: AppType) => {
         <link rel="icon" sizes="192x192" href={Android192} />
         <title>Brixel Hub</title>
       </Helmet>
+      {
+        (!lang || Object.keys(translations).length === 0 || !activeSingleCompany.id) && (
+          <Loading isLoading={true} />
+        )
+      }
       {
         pageError && (
           <BrixelPage500
@@ -820,7 +845,7 @@ const mapStateToProps = (state) => ({
   config: get(state, 'common.configUrl', {}),
   isLoading: get(state, 'common.isLoading', 0) > 0,
   isSmallLoading: get(state, 'common.isSmallLoading', { }),
-  lang: get(state, 'common.language', 'en'),
+  lang: get(state, 'common.language', null),
   languages: get(state, 'common.languages', '[]'),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
   modal: get(state, 'common.modal', {}),
@@ -830,6 +855,7 @@ const mapStateToProps = (state) => ({
   splashScreenType: get(state, 'common.splashScreenType', ''),
   teamAvatars: get(state, 'companies.activeSingleCompany.teamAvatars', get(state, 'user.loggedInUser.user.company.teamAvatars', [])),
   userTypes: get(state, 'user.userTypes', null),
+  translations: get(state, 'translations', {}),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
@@ -842,6 +868,7 @@ const mapDispatchToProps = (dispatch) => ({
   },
   handleCheckToken: bindActionCreators(checkToken, dispatch),
   handleGetImageType: bindActionCreators(getImageType, dispatch),
+  handleSaveActiveSingleUser: bindActionCreators(saveActiveSingleUser, dispatch),
   handleSendSlackNotifications: bindActionCreators(sendSlackNotification, dispatch),
   handleSetActiveSingleDeal: bindActionCreators(setActiveSingleDeal, dispatch),
   handleSetActiveSingleProperty: bindActionCreators(setActiveSingleProperty, dispatch),

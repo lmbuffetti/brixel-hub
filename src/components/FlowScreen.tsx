@@ -234,7 +234,7 @@ const FlowScreen = (props: FlowScreenType) => {
   useEffect(() => {
     setQuest(questions[currentIndex]);
     onChangeCurrentIndex(currentIndex);
-  }, [currentIndex, questions]);
+  }, [currentIndex, questions, lang]);
 
   // FUNCTION TO CLOSE
   const closeWindow = () => {
@@ -244,26 +244,24 @@ const FlowScreen = (props: FlowScreenType) => {
 
   // GET THE NEXT DATA IN BASE OF CURRENT ANSWER
   useEffect(() => {
-    if (formValue && company.stub) {
-      const newQuest: QuestionsListType[] = [];
-      QuestionsList.map((qst) => {
-        if (qst.condition) {
-          let isValid = true;
-          qst.condition.map((item) => {
-            if (item.name && get(formValue, item.name, null) !== item.value) {
-              isValid = false;
-            }
-            return null;
-          });
-          if (isValid && !qst.hideOnFlow) newQuest.push(qst);
-        } else {
-          if (!qst.hideOnFlow) newQuest.push(qst);
-        }
-        return null;
-      });
-      setQuestions(newQuest);
-    }
-  }, [formValue, QuestionsList]);
+    const newQuest: QuestionsListType[] = [];
+    QuestionsList.map((qst) => {
+      if (qst.condition) {
+        let isValid = true;
+        qst.condition.map((item) => {
+          if (item.name && get(formValue, item.name, null) !== item.value) {
+            isValid = false;
+          }
+          return null;
+        });
+        if (isValid && !qst.hideOnFlow) newQuest.push(qst);
+      } else {
+        if (!qst.hideOnFlow) newQuest.push(qst);
+      }
+      return null;
+    });
+    setQuestions(newQuest);
+  }, [formValue, QuestionsList, lang]);
 
   // DYNAMIC LABEL NEXT BUTTON
   const buttonLabel = () => {
@@ -496,7 +494,7 @@ const FlowScreen = (props: FlowScreenType) => {
                         )
                       }
                       {
-                        get(quest, 'history', null) !== 'resume' && (get(quest, 'inputs', []).length > 1 || action === 'back') && (
+                        get(quest, 'history', null) !== 'resume' && (get(quest, 'inputs', []).length > 0 || action === 'back') && (
                           <BrixelButtonPrimary
                             className={`mr-a ml-a noWrap ${get(quest, 'history', null)}`}
                             rounded

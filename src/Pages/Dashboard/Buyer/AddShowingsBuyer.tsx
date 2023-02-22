@@ -36,6 +36,7 @@ const AddShowingsBuyer = (props: AddShowingsBuyerType) => {
     isSmallLoading,
     lang,
     loggedInUser,
+    translations,
   } = props;
   const [questions, setQuestions] = useState<QuestionsListType[]>(QuestionsList(lang));
 
@@ -50,7 +51,7 @@ const AddShowingsBuyer = (props: AddShowingsBuyerType) => {
 
   useEffect(() => {
     setQuestions(QuestionsList(lang))
-  }, [formValue, lang]);
+  }, [formValue, lang, translations]);
 
   useEffect(() => {
     if (propID && loggedInUser.id) {
@@ -134,6 +135,7 @@ const mapStateToProps = (state) => {
     isSmallLoading: get(state, 'common.isSmallLoading', {}),
     lang: get(state, 'common.language', 'en'),
     loggedInUser: get(state, 'user.loggedInUser.user', {}),
+    translations: get(state, 'common.translation', {}),
   });
 };
 
