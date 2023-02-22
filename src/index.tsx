@@ -1,4 +1,4 @@
-import React, {lazy, Suspense} from 'react';
+import React, {lazy, Suspense, Profiler} from 'react';
 import {createRoot} from 'react-dom/client';
 import {Provider} from 'react-redux';
 import {BrowserRouter} from 'react-router-dom';
@@ -10,6 +10,13 @@ const ErrorBoundary = lazy(() => import('./components/ErrorBoundering'));
 
 const store = configureStore;
 const container = document.getElementById('root');
+
+// @ts-ignore
+if (window.Cypress) {
+  // @ts-ignore
+  window.store = store
+}
+
 if (container) {
   const root = createRoot(container);
 
@@ -28,16 +35,25 @@ if (container) {
     if (typeof window !== 'undefined' && window.location.href.includes('localhost')) {
       serviceWorkerRegistration.unregister();
     }
+
+    // eslint-disable-next-line max-params
+    const onRender = (id, phase, actualDuration, baseDuration, startTime, commitTime, interactions) => {
+      // eslint-disable-next-line no-console
+      console.warn(`ID: ${id}, actual time: ${actualDuration}, baseDuration: ${baseDuration}, startTime: ${startTime}, commitTime: ${commitTime}, interactions: ${interactions}`);
+    };
+
     return (
-      <Provider store={store}>
-        <BrowserRouter>
-          <Suspense>
-            <ErrorBoundary>
-              <App />
-            </ErrorBoundary>
-          </Suspense>
-        </BrowserRouter>
-      </Provider>
+      <Profiler id="App" onRender={onRender}>
+        <Provider store={store}>
+          <BrowserRouter>
+            <Suspense>
+              <ErrorBoundary>
+                <App />
+              </ErrorBoundary>
+            </Suspense>
+          </BrowserRouter>
+        </Provider>
+      </Profiler>
     );
   };
 

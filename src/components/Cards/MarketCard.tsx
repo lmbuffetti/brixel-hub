@@ -35,7 +35,7 @@ import api from '../../controllers/api/config';
 import testdrive from '../../images/Market/testDriveSell.svg';
 import ModalPropertyCard from '../../Pages/Market/Buyer/ModalPropertyCard';
 import NotInterestedConfirmModal from '../../Pages/Market/Buyer/NotInterestedConfirmModal';
-import {calcPercentageProEstimation, completedBestimate, getCookie, setCookie} from '../../utils/helpers';
+import {calcPercentageProEstimation, completedBestimate, convertLabel, getCookie, setCookie} from '../../utils/helpers';
 import translateTo from '../../utils/translation';
 import CoverPropertyImage from '../CoverPropertyImage';
 import CardImageText from '../Skeleton/CardImageText';
@@ -244,7 +244,7 @@ const MarketCard = (props: MarketCardProps) => {
           component: React.createElement(NotInterestedConfirmModal, {
             lang,
             id: item.id,
-            onClick: () => handleMarkNotInterested(item.id),
+            onClick: () => handleMarkNotInterested({id: item.id, reloadBuyerProperties: true}),
           }),
           small: true,
           layout: 'large',
@@ -825,7 +825,7 @@ const MarketCard = (props: MarketCardProps) => {
                         </div>
                       ) : (
                         <span className="txtGreen400 ff-mono fsize-500">
-                          {translateTo(get(item, 'status', null) === 'sold' ? 'Sold' : 'On Request', lang)}
+                          {translateTo(convertLabel(get(item, 'status', null), 'propertyStatus'), lang)}
                         </span>
                       )
                     }

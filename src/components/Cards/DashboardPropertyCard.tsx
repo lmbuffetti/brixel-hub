@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 import {Link, useLocation, useNavigate} from 'react-router-dom';
 import {bindActionCreators, compose} from 'redux';
 import {setModal, setSplashType} from '../../actions/CommonActions';
-import {completedBestimate} from '../../utils/helpers';
+import {completedBestimate, convertLabel} from '../../utils/helpers';
 import translateTo from '../../utils/translation';
 import CoverPropertyImage from '../CoverPropertyImage';
 import type {DashboardPropertyCardProps} from '../../@types/components/Cards/DashboardPropertyCard';
@@ -71,7 +71,7 @@ const DashboardPropertyCard: (props: DashboardPropertyCardProps) => JSX.Element 
                       </>
                     ) : (
                       <span>
-                        {type !== 'sold' ? translateTo('Sold', lang) : translateTo('Reserved', lang)}
+                        {translateTo(convertLabel(get(activeSingleProperty, 'status', 'on-request'), 'propertyStatus'), lang)}
                       </span>
                     )
                   }

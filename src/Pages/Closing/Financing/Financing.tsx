@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {BrixelButtonIcon, BrixelButtonPrimary, BrixelProgressBar} from '@brixel/brixel-components';
+import {BrixelButtonIcon, BrixelButtonPrimary, BrixelProgressBar, Helpers} from '@brixel/brixel-components';
 import translateTo from '../../../utils/translation';
 import {change, destroy, initializeForm, MultiFileldsReduxForm, reset} from '@brixel/brixel-components/dist/form';
 import {bindActionCreators} from 'redux';
@@ -443,7 +443,10 @@ const Financing = (props: FinancingType) => {
                     <div id={`step-${currentIndex}`} className="dis-fl-col flex-wrap">
                       {
                         quest.title && (
-                          <h2 className={`fweight-600 fsize-600 fsize-sm-800 max-w-fix-464 ta-c m-a ${quest.subtitle ? 'mb-1' : 'mb-3 mb-sm-6'}`} dangerouslySetInnerHTML={{ __html: quest.title }} />
+                          <h2
+                            className={`fweight-600 fsize-600 fsize-sm-800 max-w-fix-464 ta-c m-a ${quest.subtitle ? 'mb-1' : 'mb-3 mb-sm-6'}`}
+                            dangerouslySetInnerHTML={{ __html: Helpers.sanitizeText(quest.title) }}
+                          />
                         )
                       }
                       {
@@ -490,13 +493,13 @@ const Financing = (props: FinancingType) => {
                       <img loading="lazy" src={quest.img} alt={quest.title} className={`${quest.imgMaxWidth ? quest.imgMaxWidth : 'max-w-fix-232'} mb-3`} />
                       <h2
                         className="fadeAnim fweight-600 ta-c"
-                        dangerouslySetInnerHTML={{ __html: quest.title || '' }}
+                        dangerouslySetInnerHTML={{ __html: Helpers.sanitizeText(quest.title || '') }}
                       />
                       {
                         quest.subtitle && (
                           <h6
                             className="fadeAnim fsize-600 fweight-400 mt-2 ta-c"
-                            dangerouslySetInnerHTML={{ __html: quest.subtitle }}
+                            dangerouslySetInnerHTML={{ __html: Helpers.sanitizeText(quest.subtitle) }}
                           />
                         )
                       }
@@ -510,7 +513,7 @@ const Financing = (props: FinancingType) => {
                         className={`mt-3 m-a noWrap ${quest.history}`}
                         rounded
                         theme="green"
-                        themeSat={600}
+                        themeSat={500}
                         label={translateTo(buttonLabel(), lang)}
                         disabled={!checkValidateField()}
                         isLoading={isSmallLoading.sendData}
@@ -552,7 +555,7 @@ const Financing = (props: FinancingType) => {
                                 className={`noWrap mr-a ml-a ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
                                 disabled={!checkValidateField()}
                                 theme="green"
-                                themeSat={600}
+                                themeSat={500}
                                 rounded
                                 label={translateTo(buttonLabel(), lang)}
                                 rightIcon="arrow-right-small"
@@ -565,7 +568,7 @@ const Financing = (props: FinancingType) => {
                                 rounded
                                 isLoading={isSmallLoading.sendData === true}
                                 theme="green"
-                                themeSat={600}
+                                themeSat={500}
                                 label={translateTo(buttonLabel(), lang)}
                                 rightIcon="arrow-right-small"
                                 onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
@@ -580,7 +583,7 @@ const Financing = (props: FinancingType) => {
                   {
                     quest.txtAfterNextButton && (
                       <div className="max-w-fix-456 mx-a mt-2">
-                        <div dangerouslySetInnerHTML={{ __html: quest.txtAfterNextButton }} />
+                        <div dangerouslySetInnerHTML={{ __html: Helpers.sanitizeText(quest.txtAfterNextButton) }} />
                       </div>
                     )
                   }

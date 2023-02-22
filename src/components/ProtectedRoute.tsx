@@ -6,6 +6,7 @@ import {connect} from 'react-redux';
 import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import Cookies from 'universal-cookie';
 import type {ProtectedRouteType} from '../@types/components/ProtectedRoute';
+import Loading from './Loading';
 
 const cookie = new Cookies();
 
@@ -16,28 +17,34 @@ const ProtectedRoute = (props: ProtectedRouteType) => {
     location: useLocation(),
   };
   const {
-    allowAccess = false,
     children,
     isTest,
     loggedInUser,
-    userTypes,
   } = props;
+
   useEffect(() => {
     if ((get(window, 'location.hostname', '').includes('localhost') || get(window, 'location.hostname', '').includes('192.168')) && typeof cookie.get('brixelToken') === 'undefined' && !window.localStorage.getItem('brixelToken')) {
       history.push('/tokeninput');
     } else if (typeof cookie.get('brixelToken') === 'undefined' && !isTest) {
       window.location.assign(`${baseByData.loginUrl}?url=${get(window, 'location.href', '')}`);
-    } else if (loggedInUser.token && userTypes && allowAccess && allowAccess !== userTypes) {
-      // history.push('/');
     }
-  }, [loggedInUser]);
+  }, [loggedInUser.id]);
 
-  return (<>{children}</>);
+  return (
+    <>
+      {
+        !loggedInUser.id && (
+          <Loading isLoading={true} />
+        )
+      }
+      {children}
+    </>
+  );
 };
 
 const mapStateToProps = (state) => ({
   isTest: get(state, 'common.test', false),
-  loggedInUser: get(state, 'user.loggedInUser', { }),
+  loggedInUser: get(state, 'user.loggedInUser.user', { }),
   userTypes: get(state, 'user.userTypes', null),
 });
 

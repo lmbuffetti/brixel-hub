@@ -60,11 +60,14 @@ export interface FlowScreenType {
   initForm: (data: object) => void;
   initialValues: object;
   isLoading: boolean;
+  isSmallLoading: {
+    sendData: boolean;
+  };
   isTest?: boolean;
   lang?: string;
   loggedInUser: LoggedUserType;
   onChangeCurrentIndex: (index: number) => void;
-  onSaveData: () => void;
+  onSaveData: (val?: string) => void;
   translations: object;
 }
 

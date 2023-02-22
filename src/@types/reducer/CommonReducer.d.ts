@@ -7,7 +7,7 @@ export interface CommonReducerType {
   history: object;
   isLoading: number;
   isSmallLoading: object;
-  language: string;
+  language: string | null;
   languages: object[],
   modal: object,
   notification: object;

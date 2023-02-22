@@ -16,10 +16,7 @@ export const QuestionsList = (lang, company, isBuyer) => {
         footerWidth: 'max-w-fix-912',
         bulletPoints: {
           title: translateTo('What are my advantages?', lang),
-          description: isBuyer ? [
-            translateTo('Non-binding guidance on all financial questions related to the purchase of real estate.', lang),
-            translateTo('Get 0.3% reduction on your interest rate on your first self-occupied home.', lang),
-          ] : [
+          description: [
             translateTo('You get CHF 2000 discount', lang),
             translateTo('You pay only if the sale is successful', lang),
             translateTo('Your selling price is checked', lang),
@@ -32,6 +29,28 @@ export const QuestionsList = (lang, company, isBuyer) => {
         }],
       },
     ]
+    if (isBuyer) {
+      question = [
+        {
+          title: translateTo('Activate your UBS advantages now.', lang),
+          history: 'ubsPolicy',
+          cardType: 'ubsPolicy',
+          footerWidth: 'max-w-fix-752',
+          bulletPoints: {
+            title: translateTo('What are my advantages?', lang),
+            description: [
+              translateTo('Non-binding support on all financial questions concerning the purchase of real estate (incl. free property appraisal).', lang),
+              translateTo('Benefit from a 0.30% interest rate reduction on your first owner-occupied home.', lang),
+              translateTo('Get access to the exclusive UBS pre-market to see properties before they are publicly on the market.', lang),
+            ],
+          },
+          text: [{
+            title: translateTo('Privacy Policy', lang),
+            description: `<span>${translateTo('I agree that my data (surname, first name, telephone number, e-mail) is transmitted to UBS Switzerland AG. Furthermore, to check whether I am already a client of UBS Switzerland AG, I authorize UBS Switzerland AG to compare my data with my existing data at UBS Switzerland AG.', lang)}</span><span class="mt-1 dis-b">${translateTo('This consent can be revoked at any time for the future. The revocation of consent does not affect the legality of the data processing carried out based on the consent until the revocation.', lang)}</span>`,
+          }],
+        },
+      ]
+    }
   }
   if (company.stub === 'baloise') {
     if (isBuyer) {

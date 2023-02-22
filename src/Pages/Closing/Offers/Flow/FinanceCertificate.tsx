@@ -1,4 +1,4 @@
-import {BrixelButtonPrimary, BrixelButtonText} from '@brixel/brixel-components';
+import {BrixelButtonPrimary, BrixelButtonText, Helpers} from '@brixel/brixel-components';
 import {BrixelCheckbox, change} from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
 import React, {useState} from 'react';
@@ -92,7 +92,7 @@ const FinanceCertificate = (props: FinanceCertificateType) => {
             </div>
           ) : (
             <div className="p-5">
-              <p className="txtText900" dangerouslySetInnerHTML={{ __html: translateTo('No problem.<br>We suggest checking your financing as soon as possible.', lang)}} />
+              <p className="txtText900" dangerouslySetInnerHTML={{ __html: Helpers.sanitizeText(translateTo('No problem.<br>We suggest checking your financing as soon as possible.', lang))}} />
               <p className="txtText900 pt-2">
                 {translateTo('A pre-approved mortgage gets you ahead of unqualified buyers. That\'s how you can get one:', lang)}
               </p>

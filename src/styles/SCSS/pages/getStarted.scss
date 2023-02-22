@@ -513,6 +513,7 @@ body:not(.overlayOpen).locationInputResume {
 .flowProfile {
   .signUpScreen {
     .slick-dots {
+      position: relative;
       margin-top: calc($step * 2);
       li {
         width: 8px;
@@ -549,6 +550,7 @@ body:not(.overlayOpen).locationInputResume {
   img {
     border-radius: 50%;
   }
+
 }
 
 // closing flow style
@@ -586,6 +588,18 @@ body:not(.overlayOpen).locationInputResume {
         font-weight: 600;
         color: map-get($textColor, 900);
       }
+    }
+  }
+}
+
+.scheduleVisit {
+  #wrapDatePicker #fixedDatePicker {
+    all: initial;
+  }
+
+  #wrapDatePicker {
+    .react-datepicker {
+      all: initial;
     }
   }
 }

@@ -5,10 +5,8 @@ export interface TermsConditionType {
   changeFieldValue: (field: string, val: string | null | boolean | string[] | object | number) => void;
   company: CompanyType;
   destroyForm: () => void;
-  errorValue: object;
   formValue: PropertyType;
   handleGetActiveSingleCompany: (data: object) => void;
-  handleReset: (data: object) => void;
   handleSaveActiveSingleUser: (data: object) => void;
   handleSpinnerOff: () => void;
   initForm: (data: object) => void;

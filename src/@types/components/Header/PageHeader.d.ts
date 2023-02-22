@@ -13,11 +13,11 @@ export interface PageHeaderType {
   activeCompanyPackages: ServicePackageType[];
   activeSingleProperty: object;
   changeZIndex?: (val: number) => void;
-  handleSaveActiveSingleUser(...args: unknown[]): unknown;
-  handleSetActiveSingleProperty(...args: unknown[]): unknown;
-  handleSetActiveSinglePropertyActivePackage(...args: unknown[]): unknown;
-  handleSetLanguage(...args: unknown[]): unknown;
-  handleSetUserTypes(...args: unknown[]): unknown;
+  handleSaveActiveSingleUser: (data: object) => void;
+  handleSetActiveSingleProperty: (data: object) => void;
+  handleSetActiveSinglePropertyActivePackage: (data?: object) => void;
+  handleSetLanguage: (data: object) => void;
+  handleSetUserTypes: (data: string) => void;
   isFlow?: boolean;
   lang?: any;
   languages: LanguagesType[];

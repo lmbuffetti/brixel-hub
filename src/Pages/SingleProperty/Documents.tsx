@@ -6,6 +6,7 @@ import {
   BrixelIcon,
   BrixelTooltip,
   useOutsideAlerter,
+  Helpers,
 } from '@brixel/brixel-components';
 import documentConfig from '@brixel/brixel-components/dist/configuration/DocumentsConfig';
 import getConfigEnv from '@brixel/brixel-components/dist/configuration/Settings';
@@ -120,7 +121,8 @@ const Documents = (props: DocumentsPageType) => {
 
   const openDocument = (e, id) => {
     if (e) e.preventDefault();
-    window.open(`${getConfigEnv.shortPath}/document/${id}`, '_blank');
+    Helpers.openDocument(id);
+    // window.open(`${getConfigEnv.shortPath}/document/${id}`, '_blank');
   };
 
   const index = (key) => findIndex(showFullFolder, (el) => el === key);

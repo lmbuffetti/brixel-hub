@@ -46,13 +46,18 @@ const checkLead = (store) => (next) => (action) => {
               res.data.data.forEach((prop) => {
                 if (prop.properties.propertyType === 'Apartment' || prop.properties.propertyType === 'House') calls.push(api.property.getEstimation(prop.id));
               });
-              Promise.all(calls).then((response) => {
-                response.forEach((resEst, key) => {
-                  if (resEst.meta.normalizedStatus === 400) set(res.data.data[key], 'estimation', {});
-                  if (resEst.meta.normalizedStatus === 200) set(res.data.data[key], 'estimation', resEst.data);
+              Promise.all(calls)
+                .then((response) => {
+                  response.forEach((resEst, key) => {
+                    if (resEst.meta.normalizedStatus === 400) set(res.data.data[key], 'estimation', {});
+                    if (resEst.meta.normalizedStatus === 200) set(res.data.data[key], 'estimation', resEst.data);
+                  });
+                  store.dispatch({ type: SET_OWNED_PROPERTIES, payload: res.data });
+                })
+                .catch(() => {
+                  store.dispatch({ type: SET_OWNED_PROPERTIES, payload: res.data });
+                  store.dispatch({ type: SKELETON_OFF, payload: { own: false } });
                 });
-                store.dispatch({ type: SET_OWNED_PROPERTIES, payload: res.data });
-              });
             } else store.dispatch({ type: SET_OWNED_PROPERTIES, payload: res.data });
           }
           store.dispatch({ type: SKELETON_OFF, payload: { own: false } });

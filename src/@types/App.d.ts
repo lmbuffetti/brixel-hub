@@ -16,8 +16,10 @@ export interface AppType {
   handleCheckToken: (data: object) => void;
   handleGetImageType: (data: object) => void;
   handleGetTranslations: (data: object, path: string) => void;
+  handleSaveActiveSingleUser: (data: object) => void;
   handleReset: (form: string, data: object) => void;
   handleSetActiveSingleDeal: (data: object) => void;
+  handleGetActiveSingleCompany: (data: object) => void;
   handleSetActiveSingleProperty: (data: object) => void;
   handleSetLanguage: (lng: string) => void;
   handleSetModal: (data: object) => void;
@@ -46,4 +48,5 @@ export interface AppType {
     width: number;
     height: number;
   };
+  translations: object;
 }

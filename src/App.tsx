@@ -1,10 +1,11 @@
 import React, {Fragment, lazy, Suspense, useCallback, useEffect, useRef, useState} from 'react';
-import {BrixelIcon, BrixelModal, BrixelModalConfirm, BrixelNotification} from '@brixel/brixel-components';
+import {BrixelIcon, BrixelModal, BrixelModalConfirm, BrixelNotification, Helpers} from '@brixel/brixel-components';
 import BrixelPage500 from '@brixel/brixel-components/dist/components/BrixelPage500';
 import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import {reset} from '@brixel/brixel-components/dist/form';
 import {getTranslations} from '@brixel/brixel-components/dist/utils/TranslationsRedux.Functions';
 import get from 'lodash/get';
+import isEmpty from 'lodash/isEmpty';
 import queryString from 'query-string';
 // COMPONENTS
 import {Helmet} from 'react-helmet';
@@ -23,7 +24,7 @@ import {
 import {setActiveSingleDeal} from './actions/DealActions';
 import {setActiveSingleProperty} from './actions/PropertyActions';
 import {getImageType} from './actions/UploadActions';
-import {checkToken, setUserTypes} from './actions/UserActions';
+import {checkToken, saveActiveSingleUser, setUserTypes} from './actions/UserActions';
 import BestimateCardOverlay from './components/BestimateCardOverlay';
 import PageFooter from './components/Footer/PageFooter';
 import Loading from './components/Loading';
@@ -36,6 +37,7 @@ import AppleTouch76 from './images/apple-touch-icon-76x76.png';
 import translateTo from './utils/translation';
 import type {AppType} from './@types/App';
 import Financing from './Pages/Closing/Financing/Financing';
+import {getActiveSingleCompany} from './actions/CompanyActions';
 
 const SplashScreen = lazy(() => import('./components/SplashScreen'));
 const RemoveTrailingSlash = lazy(() => import('./components/RemoveTrailingSlash'));
@@ -113,14 +115,16 @@ const App = (props: AppType) => {
     activeSingleProperty,
     config,
     handleCheckToken,
+    handleGetActiveSingleCompany,
     handleGetImageType,
+    handleGetTranslations,
     handleReset,
+    handleSaveActiveSingleUser,
     handleSetActiveSingleDeal,
     handleSetActiveSingleProperty,
     handleSetLanguage,
     handleSetModal,
     handleSetNotification,
-    handleGetTranslations,
     handleSetUserTypes,
     handleSetWindowsDimension,
     isLoading = false,
@@ -134,13 +138,14 @@ const App = (props: AppType) => {
     redirectTo,
     splashScreenType,
     teamAvatars,
-    userTypes,
+    translations,
     windowDimensions,
   } = props;
   // STATE
   // CONSTANT TO PREVENT TRANSIFEX ERROR
   const [langURL, setLangURL] = useState<string | null>(null);
   const [classMain, setClassMain] = useState('w-perc-100 pos-r hubContainer');
+  const [urlLang, setUrlLang] = useState<string>();
 
   const [isSecLevel, setIsSecLevel] = useState(false);
   const [showSupport, setShowSupport] = useState(false);
@@ -162,22 +167,58 @@ const App = (props: AppType) => {
     if (queryURL?.lang) setLangURL(queryURL.lang.toLowerCase());
   }, []);
 
+  useEffect(() => {
+    const { search } = history.location;
+    if (search) {
+      const objURL = JSON.parse('{"' + search.replace('?', '').replace(/&/g, '","').replace(/=/g,'":"') + '"}', function(key, value) { return key=== '' ?value:decodeURIComponent(value) });
+      if (objURL.lang) {
+        cookies.set('brixelLang', (objURL.lang).toLowerCase());
+        setUrlLang((objURL.lang).toLowerCase());
+      }
+    }
+  }, [history.location.search]);
+
+  useEffect(() => {
+    if (loggedInUser.id && urlLang && !isEmpty(urlLang)) {
+      const userData = {
+        id: get(loggedInUser, 'id', null),
+        language:urlLang,
+        setLoggedInUser: true,
+        smallLoader: 'saveData',
+      };
+      handleSaveActiveSingleUser(userData);
+      handleSetLanguage(urlLang);
+    }
+  }, [loggedInUser.id, urlLang]);
+
+
+  useEffect(() => {
+    if (activeSingleProperty.company && !activeSingleCompany.id) {
+      handleGetActiveSingleCompany({id: activeSingleProperty.company})
+    }
+  }, [activeSingleProperty.id]);
+
+
+
   // FUCNTION TO INITIALIZE TRANSIFEX AND LOAD THE TRANSLATIONS
   useEffect(() => {
     let userLang: string | undefined = 'en';
-    if (loggedInUser.id) {
-      userLang = loggedInUser.language === 'en_US' ? 'en' : loggedInUser.language;
-      if (userLang) handleSetLanguage(userLang);
-    } else if (activeSingleCompany.id && !loggedInUser.id) {
-      if (cookies.get('brixelLang') && cookies.get('brixelLang') !== 'undefined') {
-        userLang = cookies.get('brixelLang');
-      } else {
-        userLang = langURL || activeSingleCompany.language.code || 'en';
+    if (!urlLang) {
+      if (loggedInUser.language) {
+        userLang = loggedInUser.language === 'en_US' ? 'en' : loggedInUser.language;
+        if (userLang) handleSetLanguage(userLang);
+      } else if (activeSingleCompany.id && !loggedInUser.id) {
+        if (cookies.get('brixelLang') && cookies.get('brixelLang') !== 'undefined') {
+          userLang = cookies.get('brixelLang');
+        } else {
+          userLang = langURL || activeSingleCompany.language.code || 'en';
+        }
+        if (isEmpty(userLang)) userLang = 'en';
+        cookies.set('brixelLang', userLang);
+        if (userLang) handleSetLanguage(userLang);
       }
-      cookies.set('brixelLang', userLang);
-      if (userLang) handleSetLanguage(userLang);
     }
-  }, [loggedInUser.id, activeSingleCompany.id]);
+  }, [loggedInUser.language, activeSingleCompany.id]);
 
   useEffect(() => {
     if (languages.length > 0) {
@@ -333,7 +374,7 @@ const App = (props: AppType) => {
     }
 
     if (
-      !history.location.pathname.includes('sell') &&
+      (!history.location.pathname.includes('sell') || history.location.pathname.includes('termsConditionFlow')) &&
       (!history.location.pathname.includes('buy') || history.location.pathname.includes('buyer'))
     ) {
       setShowFooter(true);
@@ -426,16 +467,6 @@ const App = (props: AppType) => {
     }
   });
 
-  // CONDITION TO VIEW THE ELEMENTS AFTER LOADING
-  if (
-    !loggedInUser ||
-    (!userTypes && get(activeSingleProperty, 'id', null))
-  ) {
-    return (
-      <Loading isLoading={isLoading} />
-    );
-  }
-
   return (
     <>
       <Helmet>
@@ -447,6 +478,11 @@ const App = (props: AppType) => {
         <link rel="icon" sizes="192x192" href={Android192} />
         <title>Brixel Hub</title>
       </Helmet>
+      {
+        (!lang || Object.keys(translations).length === 0 || !activeSingleCompany.id) && (
+          <Loading isLoading={true} />
+        )
+      }
       {
         pageError && (
           <BrixelPage500
@@ -511,7 +547,7 @@ const App = (props: AppType) => {
                       <Route path="/packageFlow/:propID/WelcomeSeller/*" element={<ProtectedRoute><WelcomeSeller /></ProtectedRoute>} />
                       <Route path="/packageFlow/testDrive/*" element={<ScanTrialFlow />} />
                       <Route path="/visitFeedback/:dealID/:pageID" element={<VisitFeedback />} />
-                      <Route path="/buyer/:propID/scheduleVisit" element={<ProtectedRoute><AddShowingsBuyer /></ProtectedRoute>} />
+                      <Route path="/buyer/:propID/scheduleVisit/*" element={<ProtectedRoute><AddShowingsBuyer /></ProtectedRoute>} />
                       <Route path="/buyer/:id/financingFlow/*" element={<Financing />} />
 
                       { /* PARTNER CONTACT FLOW */}
@@ -563,8 +599,18 @@ const App = (props: AppType) => {
                         !history.location.pathname.includes('onBoarding') &&
                         (
                           <>
-                            <Route path="/buyer/:propID/*" element={<ProtectedRoute><DashboardBuyer /></ProtectedRoute>} />
-                            <Route path="/buyer/propertyList" element={<ProtectedRoute><DashboardBuyer /></ProtectedRoute>} />
+                            <Route
+                              path="/buyer/:propID/*"
+                              element={
+                                <ProtectedRoute><DashboardBuyer /></ProtectedRoute>
+                              }
+                            />
+                            <Route
+                              path="/buyer/propertyList"
+                              element={
+                                <ProtectedRoute><DashboardBuyer /></ProtectedRoute>
+                              }
+                            />
                           </>
                         )
                       }
@@ -682,7 +728,7 @@ const App = (props: AppType) => {
               >
                 {
                   modal.body && (
-                    <div className={modal.bodyInnerClass} dangerouslySetInnerHTML={{ __html: modal.body }} />
+                    <div className={modal.bodyInnerClass} dangerouslySetInnerHTML={{ __html: Helpers.sanitizeText(Helpers.sanitizeText(modal.body)) }} />
                   )
                 }
                 {
@@ -815,7 +861,7 @@ const mapStateToProps = (state) => ({
   config: get(state, 'common.configUrl', {}),
   isLoading: get(state, 'common.isLoading', 0) > 0,
   isSmallLoading: get(state, 'common.isSmallLoading', { }),
-  lang: get(state, 'common.language', 'en'),
+  lang: get(state, 'common.language', null),
   languages: get(state, 'common.languages', '[]'),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
   modal: get(state, 'common.modal', {}),
@@ -825,6 +871,7 @@ const mapStateToProps = (state) => ({
   splashScreenType: get(state, 'common.splashScreenType', ''),
   teamAvatars: get(state, 'companies.activeSingleCompany.teamAvatars', get(state, 'user.loggedInUser.user.company.teamAvatars', [])),
   userTypes: get(state, 'user.userTypes', null),
+  translations: get(state, 'translations', {}),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
@@ -837,9 +884,11 @@ const mapDispatchToProps = (dispatch) => ({
   },
   handleCheckToken: bindActionCreators(checkToken, dispatch),
   handleGetImageType: bindActionCreators(getImageType, dispatch),
+  handleSaveActiveSingleUser: bindActionCreators(saveActiveSingleUser, dispatch),
   handleSendSlackNotifications: bindActionCreators(sendSlackNotification, dispatch),
   handleSetActiveSingleDeal: bindActionCreators(setActiveSingleDeal, dispatch),
   handleSetActiveSingleProperty: bindActionCreators(setActiveSingleProperty, dispatch),
+  handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
   handleSetLanguage: bindActionCreators(setLanguage, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
   handleSetNotification: bindActionCreators(setScreenNotification, dispatch),

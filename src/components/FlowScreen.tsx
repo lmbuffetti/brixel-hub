@@ -1,17 +1,13 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {BrixelButtonIcon, BrixelButtonPrimary, BrixelProgressBar} from '@brixel/brixel-components';
+import {BrixelButtonText, BrixelButtonIcon, BrixelButtonPrimary, BrixelProgressBar} from '@brixel/brixel-components';
 import {destroy, MultiFileldsReduxForm, reset} from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
 import has from 'lodash/has';
-import isArray from 'lodash/isArray';
 import {connect} from 'react-redux';
 import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import {bindActionCreators, compose} from 'redux';
 import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import {spinnerOff, spinnerOn} from '../actions/CommonActions';
-import {getActiveSingleCompany} from '../actions/CompanyActions';
-import {createActiveSingleProperty, saveActiveSingleProperty} from '../actions/PropertyActions';
-import {doLogin, saveActiveSingleUser, validateUser} from '../actions/UserActions';
 import {checkBrowser} from '../utils/helpers';
 import translateTo from '../utils/translation';
 import {QuestionsListType} from '@brixel/brixel-components/dist/@types/Model';
@@ -34,8 +30,9 @@ const FlowScreen = (props: FlowScreenType) => {
     handleReset,
     handleSpinnerOff,
     initialValues,
+    isSmallLoading,
     lang = 'en',
-    onChangeCurrentIndex,
+    onChangeCurrentIndex = () => '',
     onSaveData,
     QuestionsList,
   } = props;
@@ -151,14 +148,15 @@ const FlowScreen = (props: FlowScreenType) => {
       }
       newIndex += step;
     }
-    if (newIndex === -1) {
+    if (newIndex === -1 && history.location.pathname.includes('packageFlow')) {
       history.push(`/packageFlow/${company.stub}`);
     } else {
       let defId = checkCondition(newIndex, act);
       if (defId !== newIndex) defId = checkCondition(defId, act);
       if (newQuestions[defId]) {
         if (newQuestions[defId].toSave) {
-          onSaveData();
+          const actTerms = history.location.pathname.includes('termsConditionFlow') ? 'accept' : '';
+          onSaveData(actTerms);
         } else {
           const newQuest = {
             ...newQuestions[defId],
@@ -224,7 +222,8 @@ const FlowScreen = (props: FlowScreenType) => {
         (newQuest[currentIndex]?.inputs || []).length === 1 &&
         get(newQuest[currentIndex], 'inputs[0].options', []).length > 0 &&
         get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), null) &&
-        !isArray(get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), [])) &&
+        typeof get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), '') === 'string' &&
+        !get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), '').toLowerCase().includes('other') &&
         oldIndex <= currentIndex
       ) {
         changeStep('next', null, 1, true);
@@ -235,7 +234,7 @@ const FlowScreen = (props: FlowScreenType) => {
   useEffect(() => {
     setQuest(questions[currentIndex]);
     onChangeCurrentIndex(currentIndex);
-  }, [currentIndex, questions]);
+  }, [currentIndex, questions, lang]);
 
   // FUNCTION TO CLOSE
   const closeWindow = () => {
@@ -245,33 +244,30 @@ const FlowScreen = (props: FlowScreenType) => {
 
   // GET THE NEXT DATA IN BASE OF CURRENT ANSWER
   useEffect(() => {
-    if (formValue && company.stub) {
-      const newQuest: QuestionsListType[] = [];
-      QuestionsList.map((qst) => {
-        if (qst.condition) {
-          let isValid = true;
-          qst.condition.map((item) => {
-            if (item.name && get(formValue, item.name, null) !== item.value) {
-              isValid = false;
-            }
-            return null;
-          });
-          if (isValid && !qst.hideOnFlow) newQuest.push(qst);
-        } else {
-          if (!qst.hideOnFlow) newQuest.push(qst);
-        }
-        return null;
-      });
-      setQuestions(newQuest);
-    }
-  }, [formValue, QuestionsList]);
+    const newQuest: QuestionsListType[] = [];
+    QuestionsList.map((qst) => {
+      if (qst.condition) {
+        let isValid = true;
+        qst.condition.map((item) => {
+          if (item.name && get(formValue, item.name, null) !== item.value) {
+            isValid = false;
+          }
+          return null;
+        });
+        if (isValid && !qst.hideOnFlow) newQuest.push(qst);
+      } else {
+        if (!qst.hideOnFlow) newQuest.push(qst);
+      }
+      return null;
+    });
+    setQuestions(newQuest);
+  }, [formValue, QuestionsList, lang]);
 
   // DYNAMIC LABEL NEXT BUTTON
   const buttonLabel = () => {
     let label;
     const inputName = get(quest, 'inputs[0].name', null);
-    if (get(questions, `[${currentIndex + 2}].toSave`, null)) label = 'Save';
-    else if (get(quest, 'history', '') === 'baloiseInfo') label = 'Continue';
+    if (get(questions, `[${currentIndex + 1}].toSave`, null)) label = 'Save';
     else if (inputName && get(quest, 'inputs[0].validation', null) === null && get(formValue, inputName, null) === null) label = 'Skip';
     else label = 'Next';
     return label;
@@ -310,7 +306,7 @@ const FlowScreen = (props: FlowScreenType) => {
 
   return (
     <>
-      <div id="bodyModalWrapper" className={`withHeader getStarted slideUpTrans ${get(quest, 'background', '')} ${get(quest, 'history', '')}`}>
+      <div id="bodyModalWrapper" className={`withHeader getStarted slideUpTrans ${get(quest, 'background', '')} ${get(quest, 'history', '')} ${get(quest, 'classNameWrapper', '')}`}>
         {
           get(quest, 'inputs', null) && get(quest, 'history', '') !== 'createProfile' && get(quest, 'history', null) !== 'resume' && (
             <div className="pos-r">
@@ -344,26 +340,34 @@ const FlowScreen = (props: FlowScreenType) => {
               <div ref={singleStepRef} className="singleStep pt-5 jc-c ">
                 <div className="subcontainer m-a">
                   {
+                    quest.titleIcon && (
+                      <div className="ta-c mb-3">
+                        <img src={quest.titleIcon}  alt="Title Icon"/>
+                      </div>
+                    )
+                  }
+                  {
+                    quest.titleGreen && (
+                      <h3 className="txtGreen400 w-perc-100">{quest.titleGreen}</h3>
+                    )
+                  }
+                  {
+                    quest.title && (
+                      <h3 className={`fweight-600 max-w-fix-408 ta-c fsize-600 fsize-sm-800 m-a ${quest.subtitle ? 'mb-1' : 'mb-5'}`} dangerouslySetInnerHTML={{ __html: quest.title }} />
+                    )
+                  }
+                  {
+                    quest.subtitle && (
+                      <p className="mb-5 ta-c txtText600 w-perc-100 px-3 px-sm-2" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
+                  }
+                  {
                     get(quest, 'inputs', null) && (
                       <div id={`step-${currentIndex}`} className="dis-fl-col a-c flex-wrap">
-                        {
-                          quest.titleGreen && (
-                            <h3 className="txtGreen400 w-perc-100">{quest.titleGreen}</h3>
-                          )
-                        }
-                        {
-                          quest.title && (
-                            <h3 className={`fweight-600 max-w-fix-408 ta-c fsize-600 fsize-sm-800 m-a ${quest.subtitle ? 'mb-1' : 'mb-5'}`} dangerouslySetInnerHTML={{ __html: quest.title }} />
-                          )
-                        }
-                        {
-                          quest.subtitle && (
-                            <p className="mb-5 ta-c txtText600 w-perc-100 px-3 px-sm-2" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
-                        }
                         <div className={`${quest.className} w-perc-100`}>
                           <MultiFileldsReduxForm
                             baseByData={baseByData}
-                            form="GetStarted"
+                            onSaveData={() => onSaveData()}
+                            form={formName}
                             className="w-perc-100"
                             disableNextBtn={false}
                             formValue={formValue}
@@ -387,10 +391,11 @@ const FlowScreen = (props: FlowScreenType) => {
                       React.createElement(
                         quest.component,
                         {
-                          formName: 'GetStarted',
+                          formName,
                           initialValue: formValue,
                           ...quest,
                           onClick: () => (questions[currentIndex + 1] ? changeStep() : closeWindow()),
+                          onSaveData: () => onSaveData(),
                         },
                       )
                     )
@@ -418,11 +423,59 @@ const FlowScreen = (props: FlowScreenType) => {
                       </div>
                     )
                   }
+                  {
+                    (quest.bulletPoints || quest.text) && (
+                      <>
+                        {
+                          quest.bulletPoints && (
+                            <div
+                              className="brdRadius bgWhite ml-a mr-a px-2 px-sm-6 max-w-fix-752 pt-3 pb-6 mb-3 bulletPointsStep"
+                            >
+                              <div className="brdText50">
+                                <span className="fweight-600 my-3 dis-b">{quest.bulletPoints.title}</span>
+                                <ul>
+                                  {
+                                    get(quest, 'bulletPoints.description', []).map((bullet,k) => (
+                                      <li
+                                        className="mb-2"
+                                        key={k.toString()}
+                                      >
+                                        {bullet}
+                                      </li>
+                                    ))
+                                  }
+                                </ul>
+                              </div>
+                            </div>
+                          )
+                        }
+                        <div
+                          className="brdRadius bgWhite ml-a mr-a px-2 px-sm-6 max-w-fix-752 pt-3 pb-6"
+                        >
+                          {
+                            get(quest, 'text', []).map((text, i) => (
+                              <div
+                                key={i.toString()}
+                              >
+                                <span className="fweight-600 my-3 dis-b">{text.title}</span>
+                                {
+                                  text.subtitle && (
+                                    <p className="fsize-300 fweight-500 mb-1 dis-b">{text.subtitle}</p>
+                                  )
+                                }
+                                <p className="fsize-300 mb-2 dis-b" dangerouslySetInnerHTML={{ __html: text.description }} />
+                              </div>
+                            ))
+                          }
+                        </div>
+                      </>
+                    )
+                  }
                 </div>
               </div>
             </div>
             {
-              get(quest, 'history', null) !== 'createProfile' && (
+              get(quest, 'history', null) !== 'createProfile' && get(quest, 'hideFooter', null) !== true && (
                 <div
                   className={`footerAction flowFooter ${get(quest, 'footerWidth', '')} ${get(quest, 'history', null) === 'resume' ? 'hide' : ''} ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
                 >
@@ -441,16 +494,27 @@ const FlowScreen = (props: FlowScreenType) => {
                         )
                       }
                       {
-                        get(quest, 'history', null) !== 'resume' && (get(quest, 'inputs', []).length > 1 || (get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton' || get(quest, 'history', null) === 'propertyType' || get(quest, 'history', null) === 'baloiseInfo') || action === 'back') && (
+                        get(quest, 'history', null) !== 'resume' && (get(quest, 'inputs', []).length > 0 || action === 'back' || questions[currentIndex + 1]?.toSave) && (
                           <BrixelButtonPrimary
                             className={`mr-a ml-a noWrap ${get(quest, 'history', null)}`}
                             rounded
                             theme="green"
                             label={translateTo(buttonLabel(), lang)}
+                            isLoading={isSmallLoading.sendData}
                             rightIcon="arrow-right-small"
                             onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
                             onShowError={() => setShowError(true)}
                             type="submit"
+                          />
+                        )
+                      }
+                      {
+                        history.location.pathname.includes('termsConditionFlow') && (
+                          <BrixelButtonText
+                            theme="light"
+                            className="pos-a-sm x-r"
+                            label={translateTo('Skip', lang)}
+                            onClick={() => onSaveData('skip')}
                           />
                         )
                       }
@@ -476,6 +540,7 @@ const mapStateToProps = (state, ownProps) => {
     formValue: get(state, `brixelForm.${formName}.values`, {}),
     initialValues: get(state, `brixelForm.${formName}.values`, {}),
     isLoading: get(state, 'common.isLoading', 0) > 0,
+    isSmallLoading: get(state, 'common.isSmallLoading', {}),
     lang: get(state, 'common.language', 'en'),
     loggedInUser: get(state, 'user.loggedInUser.user', {}),
     packagesProperty: get(state, 'property.packagesProperty', []),
@@ -491,14 +556,8 @@ const mapDispatchToProps = (dispatch) => ({
   handleReset(formName, initialValue) {
     (dispatch(reset(formName, initialValue)));
   },
-  handleCreateActiveSingleProperty: bindActionCreators(createActiveSingleProperty, dispatch),
-  handleDoLogin: bindActionCreators(doLogin, dispatch),
-  handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
-  handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
-  handleSaveActiveSingleUser: bindActionCreators(saveActiveSingleUser, dispatch),
   handleSpinnerOn: bindActionCreators(spinnerOn, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
-  handleValidateUser: bindActionCreators(validateUser, dispatch),
 });
 
 export default compose(

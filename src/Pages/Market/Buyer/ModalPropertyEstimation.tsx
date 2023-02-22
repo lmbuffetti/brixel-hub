@@ -122,31 +122,63 @@ const ModalPropertyEstimation = (props: ModalPropertyEstimationType) => {
           }
         </div>
 
+        <div className="dis-f mt-2 px-2">
+          {
+            get(activeEstimation, 'result.available', false) ? (
+              <Tags
+                lang={lang}
+                status="accepted"
+                text="Calculated"
+                message={{
+                  accepted: translateTo('Calculated', lang),
+                }}
+              />
+            ) : (
+              <Tags
+                lang={lang}
+                status="pending"
+                text="Pending"
+                message={{
+                  pending: translateTo('Pending', lang),
+                }}
+              />
+            )
+          }
+        </div>
         <div className="p-4">
 
           <h4 className="mb-3 fweight-600">
             {translateTo(get(activeEstimation, 'data.title', ''), lang)}
           </h4>
 
-          {
-            !get(activeEstimation, 'result.available', false) ? (
-              <div className="dis-fl-col dis-fl-row-sm jc-fs">
+          <div className="dis-fl-col dis-fl-row-sm jc-fs">
 
-                <div className="brdSmallRight-sm brdText50 mr-2 pr-2">
-                  <h6 className="fsize-300 fweight-400 txtText400 pb-1">
-                    {translateTo('Property worth', lang)}
-                  </h6>
+            <div className="brdSmallRight-sm brdText50 mr-2 pr-2">
+              <h6 className="fsize-300 fweight-400 txtText400 pb-1">
+                {translateTo('Property worth', lang)}
+              </h6>
+              {
+                get(activeEstimation, 'result.available', false) ? (
                   <p className="ff-mono dis-f a-b txtGreen400">
                     <span className="mr-1 fsize-300">{currency}</span>
                     <span className="fsize-500">{Helpers.formatNumberValue(value, currency)}</span>
                   </p>
-                </div>
+                ) : (
+                  <p className="ff-mono dis-f a-b txtGreen400">
+                    <span className="fsize-500">-</span>
+                  </p>
+                )
+              }
+            </div>
 
 
-                <div className="mt-1 mt-sm-0">
-                  <h6 className="fsize-300 fweight-400 txtText400 pb-1">
-                    {translateTo('Similar properties are currently worth between', lang)}
-                  </h6>
+            <div className="mt-1 mt-sm-0">
+              <h6 className="fsize-300 fweight-400 txtText400 pb-1">
+                {translateTo('Similar properties are currently worth between', lang)}
+              </h6>
+
+              {
+                get(activeEstimation, 'result.available', false) ? (
                   <p className="ff-mono dis-f a-b txtGreen400">
                     <span>
                       <span className="mr-1 fsize-400">{currency}</span>
@@ -158,35 +190,15 @@ const ModalPropertyEstimation = (props: ModalPropertyEstimationType) => {
                       <span>{Helpers.formatNumberValue(higherValue, currency)}</span>
                     </span>
                   </p>
-                </div>
+                ) : (
+                  <p className="ff-mono dis-f a-b txtGreen400">
+                    <span className="fsize-500">-</span>
+                  </p>
+                )
+              }
+            </div>
+          </div>
 
-              </div>
-            ) : (
-              <div className="dis-fl-col dis-fl-row-sm jc-fs">
-                <div>
-                  <h6 className="mr-2 pr-2 brdSmallRight-sm brdText50 fsize-300 fweight-400 txtText400 pb-1">
-                    {translateTo('Property worth', lang)}
-                  </h6>
-
-                  <Tags
-                    lang={lang}
-                    status="pending"
-                    text="Pending"
-                    message={{
-                      pending: translateTo('Pending', lang),
-                    }}
-                  />
-                </div>
-
-
-                <div className="mt-1 mt-sm-0">
-                  <h6 className="fsize-300 fweight-400 txtText400 pb-1">
-                    {translateTo('Similar properties are currently worth between', lang)}
-                  </h6>
-                </div>
-              </div>
-            )
-          }
 
           <hr className="my-4 lighter" />
 

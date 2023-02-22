@@ -160,6 +160,7 @@ class ApiClient {
       url,
       method,
       baseURL: baseUrl,
+      responseType: options.responseType || 'json',
       params,
       headers: head,
       withCredentials: false,

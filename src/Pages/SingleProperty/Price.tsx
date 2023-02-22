@@ -11,7 +11,6 @@ import {
 } from '@brixel/brixel-components';
 import translateTo from '../../utils/translation';
 import {BrixelInputText, BrixelSelect, ReduxField} from '@brixel/brixel-components/dist/form';
-import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import {bindActionCreators, compose} from 'redux';
 import {connect} from 'react-redux';
 import {factsOptions} from '@brixel/brixel-components/dist/constants/Facts';
@@ -273,14 +272,12 @@ const Price = (props: PriceType) => {
                                         saturationTxt={700}
                                       />
                                       <div className="pl-small-4">
-                                        <a
+                                        <button
                                           className="txtText900 fweight-600 fsize-300 dis-b"
-                                          href={`${baseByData.shortPath}${selectDocument(proEstimation.document, 'path')}`}
-                                          target="_blank"
-                                          rel="noreferrer"
+                                          onClick={() => Helpers.openDocument(proEstimation.document)}
                                         >
                                           {selectDocument(proEstimation.document, 'name')}
-                                        </a>
+                                        </button>
                                         <small className="fsize-200 fweight-500 txtText200">
                                           {selectDocument(proEstimation.document, 'date')}
                                         </small>

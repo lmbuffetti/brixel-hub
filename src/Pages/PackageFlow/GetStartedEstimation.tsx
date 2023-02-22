@@ -318,21 +318,6 @@ const GetStartedEstimation = (props: GetStartedEstimationType) => {
     setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue));
   }, [lang, translations, formValue]);
 
-  // ON CHANGE STEP (currentIndex is different for each step) CHANGE THE isEnter (used for enter effect) AND LOAD COMPANY DATA IF countryCode CHANGE
-  useEffect(() => {
-    if (currentIndex > 2) {
-      const countryCodeLocation = get(formValue, 'location.countryCode', '');
-      const countryCodeCompany = get(company, 'country.code', '');
-      if (countryCodeCompany !== countryCodeLocation) {
-        let newCountryStub = '';
-        if (countryCodeLocation === 'CH') newCountryStub = 'brixel_zurich';
-        if (countryCodeLocation === 'PT') newCountryStub = 'brixel_portugal';
-        if (countryCodeLocation === 'DE') newCountryStub = 'brixel_germany';
-        handleGetActiveSingleCompany({ stub: newCountryStub });
-      }
-    }
-  }, [get(formValue, 'location.countryCode', '')]);
-
   // FUNCTION TO CALC THE LIVING SPACE FROM GROSS AREA
   useEffect(() => {
     const livingSpace = get(formValue, 'properties.typology.livingArea.value', 0);
@@ -385,13 +370,19 @@ const GetStartedEstimation = (props: GetStartedEstimationType) => {
   }, [currentIndex]);
 
   return (
-    <FlowScreen
-      baseURL={`/packageFlow/getStartedEstimation/${activeSingleCompany.stub}`}
-      onChangeCurrentIndex={(index) => setCurrentIndex(index)}
-      formName="GetStarted"
-      onSaveData={() => saveData()}
-      QuestionsList={questions}
-    />
+    <>
+      {
+        activeSingleCompany.id && (
+          <FlowScreen
+            baseURL={`/packageFlow/getStartedEstimation/${activeSingleCompany.stub}`}
+            onChangeCurrentIndex={(index) => setCurrentIndex(index)}
+            formName="GetStarted"
+            onSaveData={() => saveData()}
+            QuestionsList={questions}
+          />
+        )
+      }
+    </>
   );
 };
 

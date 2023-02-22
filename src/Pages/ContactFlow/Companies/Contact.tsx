@@ -1,6 +1,11 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {BrixelButtonIcon, BrixelButtonPrimary, BrixelButtonText} from '@brixel/brixel-components';
-import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/BrixelButtonSecondary';
+import {
+  BrixelButtonIcon,
+  BrixelButtonPrimary,
+  BrixelButtonSecondary,
+  BrixelButtonText,
+  Helpers,
+} from '@brixel/brixel-components';
 import {phonecode} from '@brixel/brixel-components/dist/constants/CountryCodePhone';
 import {change, destroy, initializeForm, MultiFileldsReduxForm, reset} from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
@@ -329,12 +334,18 @@ const Contact = (props: ContactType) => {
                         <div id={`step-${currentIndex}`} className="dis-fl-col flex-wrap activeQuestBack">
                           {
                             quest.title && (
-                              <h2 className={`fsize-600 fsize-sm-700 fweight-600 max-w-fix-600 ta-c m-a ${quest.subtitle ? 'mb-1' : 'mb-3 mb-sm-6'}`} dangerouslySetInnerHTML={{ __html: quest.title }} />
+                              <h2
+                                className={`fsize-600 fsize-sm-700 fweight-600 max-w-fix-600 ta-c m-a ${quest.subtitle ? 'mb-1' : 'mb-3 mb-sm-6'}`}
+                                dangerouslySetInnerHTML={{ __html: Helpers.sanitizeText(quest.title) }}
+                              />
                             )
                           }
                           {
                             quest.subtitle && (
-                              <p className="mb-5 ta-c txtText600 w-perc-100 fsize-600 fsize-sm-700 fweight-400" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
+                              <p
+                                className="mb-5 ta-c txtText600 w-perc-100 fsize-600 fsize-sm-700 fweight-400"
+                                dangerouslySetInnerHTML={{ __html: Helpers.sanitizeText(quest.subtitle) }}
+                              />)
                           }
                           <div className={`${quest.className} w-perc-100`}>
                             <MultiFileldsReduxForm
@@ -374,12 +385,18 @@ const Contact = (props: ContactType) => {
                         <div>
                           {
                             quest.title && (
-                              <h2 className={`fsize-600 fsize-sm-700 fweight-600 max-w-fix-600 ta-c m-a ${quest.subtitle ? 'mb-1' : 'mb-3 mb-sm-6'}`} dangerouslySetInnerHTML={{ __html: quest.title }} />
+                              <h2
+                                className={`fsize-600 fsize-sm-700 fweight-600 max-w-fix-600 ta-c m-a ${quest.subtitle ? 'mb-1' : 'mb-3 mb-sm-6'}`}
+                                dangerouslySetInnerHTML={{ __html: Helpers.sanitizeText(quest.title) }} />
                             )
                           }
                           {
                             quest.subtitle && (
-                              <p className="mb-5 fsize-600 fsize-sm-700 fweight-400 ta-c txtText600 w-perc-100" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
+                              <p
+                                className="mb-5 fsize-600 fsize-sm-700 fweight-400 ta-c txtText600 w-perc-100"
+                                dangerouslySetInnerHTML={{ __html: Helpers.sanitizeText(quest.subtitle) }}
+                              />
+                            )
                           }
                           <div className="dis-f a-t flex-wrap jc-c">
                             {
@@ -404,7 +421,7 @@ const Contact = (props: ContactType) => {
                             quest.title && (
                               <h2
                                 className="fadeAnim fweight-600 ta-c"
-                                dangerouslySetInnerHTML={{ __html: quest.title }}
+                                dangerouslySetInnerHTML={{ __html: Helpers.sanitizeText(quest.title) }}
                               />
                             )
                           }
@@ -412,7 +429,7 @@ const Contact = (props: ContactType) => {
                             quest.subtitle && (
                               <h6
                                 className="fadeAnim fsize-600 fweight-400 mt-2 ta-c"
-                                dangerouslySetInnerHTML={{ __html: quest.subtitle }}
+                                dangerouslySetInnerHTML={{ __html: Helpers.sanitizeText(quest.subtitle) }}
                               />
                             )
                           }
@@ -426,7 +443,7 @@ const Contact = (props: ContactType) => {
                             className={`mt-3 m-a noWrap ${quest.history}`}
                             rounded
                             theme="green"
-                            themeSat={600}
+                            themeSat={500}
                             label={translateTo(buttonLabel(), lang)}
                             disabled={!checkValidateField()}
                             rightIcon="arrow-right-small"
@@ -467,7 +484,7 @@ const Contact = (props: ContactType) => {
                                       className={`noWrap ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
                                       disabled={!checkValidateField()}
                                       theme="green"
-                                      themeSat={600}
+                                      themeSat={500}
                                       rounded
                                       label={translateTo(buttonLabel(), lang)}
                                       rightIcon="arrow-right-small"
@@ -479,7 +496,7 @@ const Contact = (props: ContactType) => {
                                       disabled={!checkValidateField()}
                                       rounded
                                       theme="green"
-                                      themeSat={600}
+                                      themeSat={500}
                                       label={translateTo(buttonLabel(), lang)}
                                       rightIcon="arrow-right-small"
                                       onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}

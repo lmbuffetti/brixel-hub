@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {BrixelButtonIcon, BrixelButtonPrimary, BrixelProgressBar} from '@brixel/brixel-components';
+import {BrixelButtonIcon, BrixelButtonPrimary, BrixelProgressBar, Helpers} from '@brixel/brixel-components';
 import {change, destroy, initializeForm, MultiFileldsReduxForm, reset} from '@brixel/brixel-components/dist/form';
 import {bindActionCreators} from 'redux';
 import {useLocation, useNavigate, useParams} from 'react-router-dom';
@@ -380,13 +380,19 @@ const IdentificationFlow = (props: IdentificationFlowType) => {
                     <div id={`step-${currentIndex}`} className="dis-fl-col flex-wrap">
                       {
                         quest.title && (
-                          <h3 className={`fweight-600 fsize-600 fsize-sm-800 max-w-fix-464 ta-c m-a ${quest.subtitle ? 'mb-1' : 'mb-3 mb-sm-6'}`} dangerouslySetInnerHTML={{ __html: quest.title }} />
+                          <h3
+                            className={`fweight-600 fsize-600 fsize-sm-800 max-w-fix-464 ta-c m-a ${quest.subtitle ? 'mb-1' : 'mb-3 mb-sm-6'}`}
+                            dangerouslySetInnerHTML={{ __html: Helpers.sanitizeText(quest.title) }}
+                          />
                         )
                       }
                       <div className={`${quest.className} w-perc-100`}>
                         {
                           quest.subtitleSmall && (
-                            <p className="mb-3" dangerouslySetInnerHTML={{ __html: quest.subtitleSmall }} />
+                            <p
+                              className="mb-3"
+                              dangerouslySetInnerHTML={{ __html: Helpers.sanitizeText(quest.subtitleSmall) }}
+                            />
                           )
                         }
                         <MultiFileldsReduxForm
@@ -433,7 +439,7 @@ const IdentificationFlow = (props: IdentificationFlowType) => {
                         quest.title && (
                           <h2
                             className="fadeAnim fsize-600 fsize-sm-700 fweight-600 ta-c"
-                            dangerouslySetInnerHTML={{ __html: quest.title }}
+                            dangerouslySetInnerHTML={{ __html: Helpers.sanitizeText(quest.title) }}
                           />
                         )
                       }
@@ -441,7 +447,7 @@ const IdentificationFlow = (props: IdentificationFlowType) => {
                         quest.subtitle && (
                           <h6
                             className="fadeAnim fsize-400 fsize-sm-500 fweight-400 mt-2 ta-c"
-                            dangerouslySetInnerHTML={{ __html: quest.subtitle }}
+                            dangerouslySetInnerHTML={{ __html: Helpers.sanitizeText(quest.subtitle) }}
                           />
                         )
                       }
@@ -464,7 +470,7 @@ const IdentificationFlow = (props: IdentificationFlowType) => {
                         className={`mt-3 m-a noWrap ${quest.history}`}
                         rounded
                         theme="green"
-                        themeSat={600}
+                        themeSat={500}
                         label={translateTo(buttonLabel(), lang)}
                         disabled={!checkValidateField()}
                         isLoading={isSmallLoading.sendData}

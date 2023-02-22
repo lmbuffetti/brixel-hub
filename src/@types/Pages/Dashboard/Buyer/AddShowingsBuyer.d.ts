@@ -8,6 +8,7 @@ export interface FormValueType {
   page: string;
   name: string;
   slots: SinglePropertyBookingSlotsType[];
+  scheduleVisitFree: SinglePropertyBookingSlotsType[];
   phone: {
     prefix: string;
     number: string;
@@ -29,9 +30,10 @@ export interface AddShowingsBuyerType {
   initForm(...args: unknown[]): unknown;
   initialValues: FormValueType;
   isSmallLoading: {
-    scheduleVisit: boolean;
+    sendData: boolean;
   };
   lang: string;
   loggedInUser: LoggedUserType;
+  translations: object;
 }
 

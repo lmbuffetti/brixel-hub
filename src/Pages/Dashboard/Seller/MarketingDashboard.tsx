@@ -5,7 +5,6 @@ import get from 'lodash/get';
 import {compose} from 'redux';
 import {connect} from 'react-redux';
 import last from 'lodash/last';
-import Sticker from 'react-stickyfill';
 import lazyWithRetry from '../../../components/LazyWithRetry';
 import Loading from '../../../components/Loading';
 import type {MarketingDashboardType} from '../../../@types/Pages/Dashboard/Seller/MarketingDashboard';
@@ -36,19 +35,17 @@ const MarketingDashboard = (props: MarketingDashboardType) => {
       {
         isReady ? (
           <div className="listings-container dis-f jc-fs h-perc-lg-100 a-t" id="listingsDashaboard">
-            <Sticker>
-              <div className="w-perc-100">
-                <h3 className="mb-3 hide dis-b-lg">{translateTo('Marketing', lang)}</h3>
-                <div className="dis-f a-t flex-wrap max-w-fix-1280">
-                  <div className="pr-md-1 w-perc-100 w-perc-md-50">
-                    <Page />
-                  </div>
-                  <div className="mt-2 mt-md-0 pl-md-1 w-perc-100 w-perc-md-50">
-                    <Portals />
-                  </div>
+            <div className="w-perc-100">
+              <h3 className="mb-3 hide dis-b-lg">{translateTo('Marketing', lang)}</h3>
+              <div className="dis-f a-t flex-wrap max-w-fix-1280">
+                <div className="pr-md-1 w-perc-100 w-perc-md-50">
+                  <Page />
+                </div>
+                <div className="mt-2 mt-md-0 pl-md-1 w-perc-100 w-perc-md-50">
+                  <Portals />
                 </div>
               </div>
-            </Sticker>
+            </div>
             {
               getFact() !== 'marketing' && (
                 <Suspense fallback={<Loading isLoading />}>

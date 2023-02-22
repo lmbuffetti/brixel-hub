@@ -15,10 +15,12 @@ const ESLintPlugin = require('eslint-webpack-plugin');
 const safelistClass = require('./webapckSafelistClass');
 const CompressionPlugin = require("compression-webpack-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
-const TerserPlugin = require('terser-webpack-plugin');
+// const TerserPlugin = require('terser-webpack-plugin');
 const zlib = require("zlib");
 const { GenerateSW } = require('workbox-webpack-plugin');
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
+const WebpackPwaManifest = require('webpack-pwa-manifest');
+// const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 // const devMode = false;
 const ROOT_DIR = path.resolve(__dirname, './');
@@ -211,10 +213,19 @@ const clientConfig = (env) => {
         filename: devMode || testMode ? 'css/[name].css' : 'css/[name].[fullhash].css',
         chunkFilename: devMode || testMode ? 'css/[name]_[id].css' : 'css/[name]_[id].[chunkhash].css',
       }),
+      new WebpackPwaManifest({
+        name: 'Brixel Hub',
+        short_name: 'Hub',
+        description: 'Brixel Hub',
+        background_color: '#ffffff',
+        start_url: '/',
+        filename: "manifest_config.json",
+      }),
       new WebpackManifestPlugin({
         writeToFileEmit: true,
-        transifexKey: baseByData(getEnvBuild).transifexIdHub,
+        start_url: '/'
       }),
+      // new BundleAnalyzerPlugin(),
     ],
     resolve: {
       extensions: ['.js', '.jsx', '.ts', '.tsx'],
@@ -290,14 +301,12 @@ const clientConfig = (env) => {
       new CompressionPlugin({
         filename: "[path][base].gz",
         algorithm: "gzip",
-        test: /\.js$|\.css$|\.html$/,
         threshold: 10240,
         minRatio: 0.8,
       }),
       new CompressionPlugin({
         filename: "[path][base].br",
         algorithm: "brotliCompress",
-        test: /\.(js|css|html|svg)$/,
         compressionOptions: {
           params: {
             [zlib.constants.BROTLI_PARAM_QUALITY]: 11,
@@ -333,7 +342,6 @@ const clientConfig = (env) => {
       nodeEnv: 'production',
       minimize: true,
       minimizer: [
-        new TerserPlugin(),
         new CssMinimizerPlugin(),
       ],
     };
