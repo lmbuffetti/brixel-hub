@@ -37,6 +37,7 @@ import AppleTouch76 from './images/apple-touch-icon-76x76.png';
 import translateTo from './utils/translation';
 import type {AppType} from './@types/App';
 import Financing from './Pages/Closing/Financing/Financing';
+import {getActiveSingleCompany} from './actions/CompanyActions';
 
 const SplashScreen = lazy(() => import('./components/SplashScreen'));
 const RemoveTrailingSlash = lazy(() => import('./components/RemoveTrailingSlash'));
@@ -113,13 +114,14 @@ const App = (props: AppType) => {
     activeSingleProperty,
     config,
     handleCheckToken,
+    handleGetActiveSingleCompany,
     handleGetImageType,
     handleGetTranslations,
     handleReset,
+    handleSaveActiveSingleUser,
     handleSetActiveSingleDeal,
     handleSetActiveSingleProperty,
     handleSetLanguage,
-    handleSaveActiveSingleUser,
     handleSetModal,
     handleSetNotification,
     handleSetUserTypes,
@@ -187,6 +189,13 @@ const App = (props: AppType) => {
       handleSetLanguage(urlLang);
     }
   }, [loggedInUser.id, urlLang]);
+
+
+  useEffect(() => {
+    if (activeSingleProperty.company && !activeSingleCompany.id) {
+      handleGetActiveSingleCompany({id: activeSingleProperty.company})
+    }
+  }, [activeSingleProperty.id]);
 
 
 
@@ -874,6 +883,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleSendSlackNotifications: bindActionCreators(sendSlackNotification, dispatch),
   handleSetActiveSingleDeal: bindActionCreators(setActiveSingleDeal, dispatch),
   handleSetActiveSingleProperty: bindActionCreators(setActiveSingleProperty, dispatch),
+  handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
   handleSetLanguage: bindActionCreators(setLanguage, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
   handleSetNotification: bindActionCreators(setScreenNotification, dispatch),

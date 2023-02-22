@@ -494,7 +494,7 @@ const FlowScreen = (props: FlowScreenType) => {
                         )
                       }
                       {
-                        get(quest, 'history', null) !== 'resume' && (get(quest, 'inputs', []).length > 0 || action === 'back') && (
+                        get(quest, 'history', null) !== 'resume' && (get(quest, 'inputs', []).length > 0 || action === 'back' || questions[currentIndex + 1]?.toSave) && (
                           <BrixelButtonPrimary
                             className={`mr-a ml-a noWrap ${get(quest, 'history', null)}`}
                             rounded

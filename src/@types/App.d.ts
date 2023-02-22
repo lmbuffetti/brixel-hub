@@ -19,6 +19,7 @@ export interface AppType {
   handleSaveActiveSingleUser: (data: object) => void;
   handleReset: (form: string, data: object) => void;
   handleSetActiveSingleDeal: (data: object) => void;
+  handleGetActiveSingleCompany: (data: object) => void;
   handleSetActiveSingleProperty: (data: object) => void;
   handleSetLanguage: (lng: string) => void;
   handleSetModal: (data: object) => void;
