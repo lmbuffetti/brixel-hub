@@ -447,7 +447,7 @@ const ScanTrialFlow = (props: ScanTrialFlowType) => {
                             className={`mt-3 m-a noWrap ${quest.history}`}
                             rounded
                             theme="green"
-                            themeSat={600}
+                            themeSat={500}
                             label={translateTo(buttonLabel(), lang)}
                             disabled={!checkValidateField()}
                             rightIcon="arrow-right-small"
@@ -477,7 +477,7 @@ const ScanTrialFlow = (props: ScanTrialFlowType) => {
                                 className={`noWrap mr-a ml-a ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
                                 disabled={!checkValidateField()}
                                 theme="green"
-                                themeSat={600}
+                                themeSat={500}
                                 rounded
                                 label={translateTo(buttonLabel(), lang)}
                                 rightIcon="arrow-right-small"
@@ -504,7 +504,7 @@ const ScanTrialFlow = (props: ScanTrialFlowType) => {
                                         disabled={!checkValidateField()}
                                         rounded
                                         theme="green"
-                                        themeSat={600}
+                                        themeSat={500}
                                         label={translateTo(buttonLabel(), lang)}
                                         rightIcon="arrow-right-small"
                                         onClick={() => (questions[currentIndex + 1] ? changeStep() : goToFacts())}
