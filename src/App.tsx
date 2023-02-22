@@ -5,6 +5,7 @@ import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import {reset} from '@brixel/brixel-components/dist/form';
 import {getTranslations} from '@brixel/brixel-components/dist/utils/TranslationsRedux.Functions';
 import get from 'lodash/get';
+import isEmpty from 'lodash/isEmpty';
 import queryString from 'query-string';
 // COMPONENTS
 import {Helmet} from 'react-helmet';
@@ -175,7 +176,7 @@ const App = (props: AppType) => {
   }, [history.location.search]);
 
   useEffect(() => {
-    if (loggedInUser.id && urlLang) {
+    if (loggedInUser.id && urlLang && !isEmpty(urlLang)) {
       const userData = {
         id: get(loggedInUser, 'id', null),
         language:urlLang,
@@ -202,6 +203,7 @@ const App = (props: AppType) => {
         } else {
           userLang = langURL || activeSingleCompany.language.code || 'en';
         }
+        if (isEmpty(userLang)) userLang = 'en';
         cookies.set('brixelLang', userLang);
         if (userLang) handleSetLanguage(userLang);
       }
