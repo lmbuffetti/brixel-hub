@@ -19,6 +19,7 @@ const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const zlib = require("zlib");
 const { GenerateSW } = require('workbox-webpack-plugin');
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
+// const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 // const devMode = false;
 const ROOT_DIR = path.resolve(__dirname, './');
@@ -215,6 +216,7 @@ const clientConfig = (env) => {
         writeToFileEmit: true,
         transifexKey: baseByData(getEnvBuild).transifexIdHub,
       }),
+      // new BundleAnalyzerPlugin(),
     ],
     resolve: {
       extensions: ['.js', '.jsx', '.ts', '.tsx'],

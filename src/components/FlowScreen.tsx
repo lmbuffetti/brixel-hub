@@ -3,7 +3,6 @@ import {BrixelButtonText, BrixelButtonIcon, BrixelButtonPrimary, BrixelProgressB
 import {destroy, MultiFileldsReduxForm, reset} from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
 import has from 'lodash/has';
-import isArray from 'lodash/isArray';
 import {connect} from 'react-redux';
 import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import {bindActionCreators, compose} from 'redux';
@@ -223,7 +222,8 @@ const FlowScreen = (props: FlowScreenType) => {
         (newQuest[currentIndex]?.inputs || []).length === 1 &&
         get(newQuest[currentIndex], 'inputs[0].options', []).length > 0 &&
         get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), null) &&
-        !isArray(get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), [])) &&
+        typeof get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), '') === 'string' &&
+        !get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), '').toLowerCase().includes('other') &&
         oldIndex <= currentIndex
       ) {
         changeStep('next', null, 1, true);
@@ -496,7 +496,7 @@ const FlowScreen = (props: FlowScreenType) => {
                         )
                       }
                       {
-                        get(quest, 'history', null) !== 'resume' && (get(quest, 'inputs', []).length > 1 || (get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton' || get(quest, 'history', null) === 'propertyType' || get(quest, 'history', null) === 'baloiseInfo') || action === 'back') && (
+                        get(quest, 'history', null) !== 'resume' && (get(quest, 'inputs', []).length > 1 || action === 'back') && (
                           <BrixelButtonPrimary
                             className={`mr-a ml-a noWrap ${get(quest, 'history', null)}`}
                             rounded
