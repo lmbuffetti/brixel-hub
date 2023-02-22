@@ -364,7 +364,10 @@ export const transformInternalLink = (url, {activeSingleProperty}) => {
 }
 
 export const convertLabel = (curVal, field, type: string | null = 'label') => {
-  const fact = factsOptions[field].find((val) => val.value === curVal);
-  if (fact && type) return fact[type];
-  return fact
+  if (factsOptions[field]) {
+    const fact = factsOptions[field].find((val) => val.value === curVal);
+    if (fact && type) return fact[type];
+    return fact
+  }
+  return '';
 }
