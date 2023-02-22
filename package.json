@@ -125,6 +125,7 @@
     "webpack-merge": "^5.8.0",
     "webpack-nano": "^1.1.1",
     "webpack-node-externals": "^3.0.0",
+    "webpack-pwa-manifest": "^4.3.0",
     "workbox-core": "^6.5.4",
     "workbox-expiration": "^6.5.4",
     "workbox-precaching": "^6.5.4",
