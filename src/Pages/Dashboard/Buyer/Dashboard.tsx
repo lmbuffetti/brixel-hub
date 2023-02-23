@@ -88,7 +88,7 @@ const Dashboard = (props: DashboardType) => {
   }, [activeSingleProperty.id]);
 
   useEffect(() => {
-    if (propID && propID !== 'propertyLists' && loggedInUser.id) {
+    if (propID && propID !== 'propertyLists') {
       const data = {
         fullVersion: false,
         smallLoader: 'property',
@@ -96,7 +96,7 @@ const Dashboard = (props: DashboardType) => {
       };
       handleGetActiveSingleProperty(data);
     }
-  }, [propID, loggedInUser]);
+  }, [propID]);
 
   // FUNCTION TO RESET FORM ON CHANGE SECTIONS - EXCEPT FOR FACTS AND ACHIEVEMENT FLOW
   useEffect(() => {

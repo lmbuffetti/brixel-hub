@@ -17,18 +17,25 @@ const ProtectedRoute = (props: ProtectedRouteType) => {
     location: useLocation(),
   };
   const {
+    activeSingleCompany,
     children,
     isTest,
     loggedInUser,
   } = props;
 
   useEffect(() => {
-    if ((get(window, 'location.hostname', '').includes('localhost') || get(window, 'location.hostname', '').includes('192.168')) && typeof cookie.get('brixelToken') === 'undefined' && !window.localStorage.getItem('brixelToken')) {
-      history.push('/tokeninput');
-    } else if (typeof cookie.get('brixelToken') === 'undefined' && !isTest) {
-      window.location.assign(`${baseByData.loginUrl}?url=${get(window, 'location.href', '')}`);
+    if (typeof cookie.get('brixelToken') === 'undefined' && !window.localStorage.getItem('brixelToken')) {
+      if ((history.location.pathname.includes('buyer') && activeSingleCompany.id) || !history.location.pathname.includes('buyer')) {
+        const companyURL = activeSingleCompany.id ? `/${activeSingleCompany.stub}` : '';
+        const redirectURL = `${baseByData.loginUrl}${companyURL}?url=${get(window, 'location.href', '')}`;
+        if ((get(window, 'location.hostname', '').includes('localhost') || get(window, 'location.hostname', '').includes('192.168'))) {
+          history.push('/tokeninput');
+        } else if (typeof cookie.get('brixelToken') === 'undefined' && !isTest) {
+          window.location.assign(redirectURL);
+        }
+      }
     }
-  }, [loggedInUser.id]);
+  }, [loggedInUser.id, activeSingleCompany]);
 
   return (
     <>
@@ -43,6 +50,7 @@ const ProtectedRoute = (props: ProtectedRouteType) => {
 };
 
 const mapStateToProps = (state) => ({
+  activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   isTest: get(state, 'common.test', false),
   loggedInUser: get(state, 'user.loggedInUser.user', { }),
   userTypes: get(state, 'user.userTypes', null),
