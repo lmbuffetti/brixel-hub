@@ -192,12 +192,12 @@ const App = (props: AppType) => {
 
 
   useEffect(() => {
-    if (activeSingleProperty.company && !activeSingleCompany.id) {
+    const companyID = activeSingleCompany.id;
+    const companyPageID = (activeSingleProperty.company || '').toString();
+    if (activeSingleProperty.company && (companyID !== companyPageID || !companyID)) {
       handleGetActiveSingleCompany({id: activeSingleProperty.company})
     }
   }, [activeSingleProperty.id]);
-
-
 
   // FUCNTION TO INITIALIZE TRANSIFEX AND LOAD THE TRANSLATIONS
   useEffect(() => {

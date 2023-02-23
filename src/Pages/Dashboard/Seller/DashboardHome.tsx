@@ -144,9 +144,11 @@ const DashboardHome = (props: DashboardHomeType) => {
       const getActiveScanTrial = activeSinglePropertyHistory.find((hst) => hst.actionStub === 'page-scan-trial');
       if (getActiveScanTrial && DateTime.now().toMillis() < get(getActiveScanTrial, 'meta.meta.date', 0)) {
         setActiveScanTrial(activeSinglePropertyHistory.find((hst) => hst.actionStub === 'page-scan-trial'));
+      } else {
+        setActiveScanTrial(undefined);
       }
     }
-  }, [activeSinglePropertyHistory]);
+  }, [activeSinglePropertyHistory, activeSingleProperty.id]);
 
   const countMandatoryDocuments = () => {
     let count = 0;
