@@ -38,6 +38,7 @@ import translateTo from './utils/translation';
 import type {AppType} from './@types/App';
 import Financing from './Pages/Closing/Financing/Financing';
 import {getActiveSingleCompany} from './actions/CompanyActions';
+import {setCookie} from './utils/helpers';
 
 const SplashScreen = lazy(() => import('./components/SplashScreen'));
 const RemoveTrailingSlash = lazy(() => import('./components/RemoveTrailingSlash'));
@@ -171,7 +172,7 @@ const App = (props: AppType) => {
     if (search) {
       const objURL = JSON.parse('{"' + search.replace('?', '').replace(/&/g, '","').replace(/=/g,'":"') + '"}', function(key, value) { return key=== '' ?value:decodeURIComponent(value) });
       if (objURL.lang) {
-        cookies.set('brixelLang', (objURL.lang).toLowerCase());
+        setCookie('brixelLang', (objURL.lang).toLowerCase());
         setUrlLang((objURL.lang).toLowerCase());
       }
     }
@@ -213,7 +214,7 @@ const App = (props: AppType) => {
           userLang = langURL || activeSingleCompany.language.code || 'en';
         }
         if (isEmpty(userLang)) userLang = 'en';
-        cookies.set('brixelLang', userLang);
+        setCookie('brixelLang', userLang);
         if (userLang) handleSetLanguage(userLang);
       }
     }

@@ -26,6 +26,7 @@ import translateTo from '../../utils/translation';
 import lazyWithRetry from '../LazyWithRetry';
 import type {LanguagesType, PageHeaderType} from '../../@types/components/Header/PageHeader';
 import {OptionsType} from '@brixel/brixel-components/dist/@types/Form/Input';
+import isEmpty from 'lodash/isEmpty';
 
 const RightFlowHeader = lazyWithRetry(() => import('./RightHeaderFlow'));
 const AccountDropdown = lazyWithRetry(() => import('../AccountDropdown'));
@@ -136,7 +137,7 @@ function PageHeader(props: PageHeaderType) {
     setSelLang(defLangCode);
     if (defLangCode) setCookie('brixelLang', defLangCode);
     handleSetLanguage(defLangCode);
-    if (get(loggedInUser, 'id', null)) {
+    if (get(loggedInUser, 'id', null) && !isEmpty(defLangCode)) {
       const userData = {
         id: get(loggedInUser, 'id', null),
         language: defLangCode,
