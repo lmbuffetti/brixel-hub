@@ -470,7 +470,7 @@ const IdentificationFlow = (props: IdentificationFlowType) => {
                         className={`mt-3 m-a noWrap ${quest.history}`}
                         rounded
                         theme="green"
-                        themeSat={600}
+                        themeSat={500}
                         label={translateTo(buttonLabel(), lang)}
                         disabled={!checkValidateField()}
                         isLoading={isSmallLoading.sendData}

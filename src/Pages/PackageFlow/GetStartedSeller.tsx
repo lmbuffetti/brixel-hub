@@ -279,13 +279,19 @@ const GetStartedSeller = (props: GetStartedSellerType) => {
   }, [get(company, 'id', null)]);
 
   return (
-    <FlowScreen
-      baseURL={`/packageFlow/getStarted/${activeSingleCompany.stub}`}
-      onChangeCurrentIndex={(index) => setCurrentIndex(index)}
-      formName="GetStarted"
-      onSaveData={() => saveData()}
-      QuestionsList={questions}
-    />
+    <>
+      {
+        activeSingleCompany.id && (
+          <FlowScreen
+            baseURL={`/packageFlow/getStarted/${activeSingleCompany.stub}`}
+            onChangeCurrentIndex={(index) => setCurrentIndex(index)}
+            formName="GetStarted"
+            onSaveData={() => saveData()}
+            QuestionsList={questions}
+          />
+        )
+      }
+    </>
   );
 };
 

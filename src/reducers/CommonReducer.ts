@@ -1,7 +1,6 @@
 import {countryList} from '@brixel/brixel-components';
 import getConfigEnv from '@brixel/brixel-components/dist/configuration/Settings';
 import {handleActions} from 'redux-actions';
-import Cookies from 'universal-cookie';
 import type {CommonReducerType} from '../@types/reducer/CommonReducer';
 
 import {
@@ -29,8 +28,6 @@ import {
   SPINNER_SMALL_OFF,
 } from '../actions/types/CommonTypes';
 
-const cookie = new Cookies();
-
 export const defaultState: CommonReducerType = {
   configUrl: getConfigEnv,
   country: countryList,
@@ -40,7 +37,7 @@ export const defaultState: CommonReducerType = {
   history: {},
   isLoading: 1,
   isSmallLoading: {},
-  language: cookie.get('brixelLang') || 'en',
+  language: null,
   languages: getConfigEnv.languages || [],
   modal: {
     state: false, title: '', body: '', action: {}, multiActions: [],

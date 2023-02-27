@@ -10,6 +10,7 @@ import {setLanguage} from '../../actions/CommonActions';
 import {checkBrowser, setCookie} from '../../utils/helpers';
 import type {RightHeaderFlowType} from '../../@types/components/Header/RightHeaderFlow';
 import type {LanguagesType} from '../../@types/components/Header/PageHeader';
+import isEmpty from 'lodash/isEmpty';
 
 function RightHeaderFlow(props: RightHeaderFlowType) {
   const history = {
@@ -49,7 +50,7 @@ function RightHeaderFlow(props: RightHeaderFlowType) {
     if (loggedInUser?.id) {
       const langUsr = loggedInUser.language;
       setCurrentLang(lang);
-      if(langUsr) setCookie('brixelLang', langUsr);
+      if(!isEmpty(langUsr)) setCookie('brixelLang', langUsr);
     }
   }, [loggedInUser, lang]);
 
@@ -136,22 +137,21 @@ function RightHeaderFlow(props: RightHeaderFlowType) {
 
   return (
     <div className="dis-f a-c">
+      <div className="">
+        <BrixelDropdown
+          noBorder
+          className="langMenu"
+          color="dark"
+          saturationTxt={700}
+          keyType="label"
+          selected={currentLang || 'en'}
+          options={dropLang}
+          onSelect={(e, keys) => newLang(e, keys)}
+          liClass="tt-low"
+        />
+      </div>
       {
-        loggedInUser && !loggedInUser.id ? (
-          <div className="">
-            <BrixelDropdown
-              noBorder
-              className="langMenu"
-              color="dark"
-              saturationTxt={700}
-              keyType="label"
-              selected={currentLang}
-              options={dropLang}
-              onSelect={(e, keys) => newLang(e, keys)}
-              liClass="tt-low"
-            />
-          </div>
-        ) : (
+        loggedInUser?.id && (
           <div className="ml-1">
             <BrixelButtonIcon
               ghost
