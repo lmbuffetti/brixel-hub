@@ -479,7 +479,7 @@ const App = (props: AppType) => {
         <title>Brixel Hub</title>
       </Helmet>
       {
-        (!lang || Object.keys(translations).length === 0) && (
+        (!lang || Object.keys(translations).length === 0 || (isFlow && !activeSingleCompany.id)) && (
           <Loading isLoading={true} />
         )
       }
