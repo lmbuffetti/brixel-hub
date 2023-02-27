@@ -478,7 +478,7 @@ const App = (props: AppType) => {
         <title>Brixel Hub</title>
       </Helmet>
       {
-        (!lang || Object.keys(translations).length === 0 || !activeSingleCompany.id) && (
+        (!lang || Object.keys(translations).length === 0) && (
           <Loading isLoading={true} />
         )
       }
