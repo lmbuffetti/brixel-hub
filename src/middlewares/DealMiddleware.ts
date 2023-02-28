@@ -174,6 +174,71 @@ const checkCommon = (store) => (next) => (action) => {
                 }
               });
           }
+        })
+        .catch((err) => {
+          const statusCode = get(err, 'meta.statusText.response.data.statusCode', null);
+          if (statusCode === 400) {
+            const registerUser = omit(action.payload, ['page', 'stage', 'actionStub']);
+            api.lead.createUserLead(registerUser)
+              .then((res) => {
+                if (res.meta.normalizedStatus === 200) {
+                  const deal = {
+                    page: action.payload.page,
+                    user: res.data.id,
+                    stage: action.payload.stage,
+                    actionStub: action.payload.actionStub,
+                  };
+                  api.deal.createSingleDeal(deal)
+                    .then((response1) => {
+                      if (response1.meta.normalizedStatus === 200) {
+                        store.dispatch({
+                          type: SET_SCREEN_NOTIFICATION,
+                          payload: {
+                            state: true,
+                            label: 'Deal created',
+                            type: 'done',
+                          },
+                        });
+                        store.dispatch({
+                          type: GET_PAGE_DEALS,
+                          payload: {
+                            id: action.payload.page,
+                            smallLoader,
+                          },
+                        });
+                        store.dispatch({
+                          type: REDIRECT_TO,
+                          payload: {
+                            history: link,
+                          },
+                        });
+                      } else {
+                        // TODO: Should dispatch error state
+                        store.dispatch({
+                          type: SET_SCREEN_NOTIFICATION,
+                          payload: {
+                            state: true,
+                            label: res.data.errorMessage,
+                            type: 'alert',
+                          },
+                        });
+                      }
+                      if (smallLoader) {
+                        store.dispatch({
+                          type: SPINNER_SMALL,
+                          payload: {
+                            [smallLoader]: false,
+                          },
+                        });
+                      } else {
+                        store.dispatch({
+                          type: SPINNER_OFF,
+                        });
+                      }
+                    });
+                }
+              });
+          }
         });
       break;
     }
