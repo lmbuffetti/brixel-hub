@@ -378,10 +378,10 @@ const SingleDeal = (props: SingleDealType) => {
                             onClick={() => history.push(`/${activeSingleProperty.id}/prospects`)}
                           />
                         </div>
-                        <OptionsDropdown showDesktop />
+                        <OptionsDropdown className="pt-2 pt-lg-0" showMobile showDesktop />
                       </div>
                       <div className="top dis-fl-row jc-b mb-0 mb-lg-4">
-                        <div className="user dis-fl-row col-7 p-2 p-lg-0">
+                        <div className="user dis-fl-row col-md-7 p-2 p-lg-0">
                           <BrixelAvatar
                             baseURL={get(getConfigEnv, 'shortPath', '')}
                             name={Helpers.userNameVal(get(activeSingleDeal, 'user.firstName', ''), get(activeSingleDeal, 'user.lastName', ''), get(activeSingleDeal, 'user.name', '')) === 'No Name' ? get(activeSingleDeal, 'user.email', '') : Helpers.userNameVal(get(activeSingleDeal, 'user.firstName', ''), get(activeSingleDeal, 'user.lastName', ''), get(activeSingleDeal, 'user.name', ''))}
@@ -419,11 +419,18 @@ const SingleDeal = (props: SingleDealType) => {
                             </div>
                           </div>
                         </div>
+                        {/* <div className="pos-r dis-f a-c">
+                          <OptionsDropdown
+                            btnClass="shadow-3dp"
+                            className=""
+                            showMobile
+                          />
+                        </div> */}
                       </div>
 
                       {/* middle panel */}
-                      <div className="mid p-2 dis-fl-row flex-wrap mb-lg-2 pos-r">
-                        <div className="left dis-fl-col col-7 p-0 min-w-perc-100 min-w-perc-lg-0">
+                      <div className="mid p-2 dis-fl-row-md flex-wrap mb-lg-2 pos-r">
+                        <div className="left dis-fl-col col-md-6 p-0">
                           <span className="fsize-200 overline tt-up mb-2">{translateTo('Information', lang)}</span>
 
                           <div className="detail-part dis-fl-row">
@@ -442,7 +449,7 @@ const SingleDeal = (props: SingleDealType) => {
                           </div>
 
                         </div>
-                        <div className="right dis-fl-col col-5 p-0 min-w-perc-100 min-w-perc-lg-0">
+                        <div className="right dis-fl-col col-md-6 p-0">
                           {
                             activeSingleDeal.id && (
                               <ProgressBar
@@ -483,16 +490,11 @@ const SingleDeal = (props: SingleDealType) => {
 
                       {/* bottom panel */}
                       <div className="bottom dis-fl-col dis-fl-row-sm w-perc-100 h-perc-100 py-3 pos-r">
-                        <OptionsDropdown
-                          btnClass="shadow-3dp"
-                          className="pos-a-fix x-t-0 x-r-0 mt-2-neg"
-                          showMobile
-                        />
                         <Timeline
                           isDeal
                           className="col-12 col-sm-6 p-0"
                         />
-                        <div className="dis-fl-col-md col-12 col-sm-6">
+                        <div className="dis-fl-col-md col-12 col-sm-6 px-0">
                           {
                             (get(activeSingleDeal, 'visit', null) && get(activeSingleDeal, 'visit', '').toString().length !== 0) && (
                               <>
@@ -544,7 +546,7 @@ const SingleDeal = (props: SingleDealType) => {
                             )
                           }
 
-                          <span className="overline mb-3">{translateTo('Offer', lang)}</span>
+                          <span className="overline dis-b mb-3">{translateTo('Offer', lang)}</span>
                           <div className="brdRadius shadow-1dp pos-r dis-fl-col bgWhite p-small-12 w-perc-100">
                             <div className="dis-fl-row jc-b">
                               <div className="dis-f a-c">
