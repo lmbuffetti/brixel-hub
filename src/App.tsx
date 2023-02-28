@@ -173,17 +173,19 @@ const App = (props: AppType) => {
       const objURL = JSON.parse('{"' + search.replace('?', '').replace(/&/g, '","').replace(/=/g,'":"') + '"}', function(key, value) { return key=== '' ?value:decodeURIComponent(value) });
       if (objURL.lang) {
         setCookie('brixelLang', (objURL.lang).toLowerCase());
-        handleSetLanguage(objURL.lang);
+        handleSetLanguage( (objURL.lang).toLowerCase());
         setUrlLang((objURL.lang).toLowerCase());
       }
     }
   }, [history.location.search]);
 
   useEffect(() => {
-    if (loggedInUser.id && urlLang && !isEmpty(urlLang)) {
+    let currentLang = urlLang;
+    if (loggedInUser.id && urlLang && (!isEmpty(currentLang) || isEmpty(loggedInUser.language))) {
+      if (isEmpty(currentLang) && isEmpty(loggedInUser.language)) currentLang = 'en';
       const userData = {
         id: get(loggedInUser, 'id', null),
-        language:urlLang,
+        language:currentLang,
         setLoggedInUser: true,
         smallLoader: 'saveData',
       };
@@ -204,9 +206,10 @@ const App = (props: AppType) => {
   useEffect(() => {
     let userLang: string | undefined = 'en';
     if (!urlLang) {
-      if (loggedInUser.language) {
+      if (loggedInUser.id) {
         userLang = loggedInUser.language === 'en_US' ? 'en' : loggedInUser.language;
-        if (userLang) handleSetLanguage(userLang);
+        if (isEmpty(userLang)) userLang = 'en';
+        handleSetLanguage(userLang || 'en');
       } else if (activeSingleCompany.id && !loggedInUser.id) {
         if (cookies.get('brixelLang') && cookies.get('brixelLang') !== 'undefined') {
           userLang = cookies.get('brixelLang');
