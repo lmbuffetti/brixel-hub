@@ -57,7 +57,7 @@ function RightHeaderFlow(props: RightHeaderFlowType) {
   // FUNCTION TO POPULATE THE DROPDOWN LANGUAGE MENU
   useEffect(() => {
     const capitalize = (item) => item.charAt(0).toUpperCase() + item.slice(1);
-    const newLang = languages.map((lng) => ({...lng, label: capitalize(lng.shortLabel)}));
+    const newLang = languages.map((lng) => ({...lng, label: lng.shortLabel ? capitalize(lng.shortLabel) : 'en'}));
     setDropLang(newLang);
   }, [languages]);
 
