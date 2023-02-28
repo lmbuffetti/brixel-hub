@@ -70,7 +70,7 @@ const Dashboard = (props: DashboardType) => {
   }, []);
 
   useEffect(() => {
-    if (activeSingleProperty.id) {
+    if (activeSingleProperty.id && loggedInUser.id) {
       const companiesListUser: string[] = get(activeSingleProperty, 'companies', []);
       if (activeSingleProperty.id) {
         handleGetActiveSingleCompany({ id: activeSingleProperty.company });
@@ -78,14 +78,14 @@ const Dashboard = (props: DashboardType) => {
         handleGetActiveSingleCompany({ id: companiesListUser[companiesListUser.length - 1] });
       }
       if (dealID !== activeSingleDeal.id || !dealID) {
-        let actionStub;
+        let actionStub = 'default';
         if (get(history, 'location.pathname', '').includes('showings')) actionStub = 'user-schedule';
         if (get(history, 'location.pathname', '').includes('docubox')) actionStub = 'get-document';
         if (get(history, 'location.pathname', '').includes('contact')) actionStub = 'message';
         handleGetBuyerDeal({ id: propID, actionStub });
       }
     }
-  }, [activeSingleProperty.id]);
+  }, [activeSingleProperty.id, loggedInUser]);
 
   useEffect(() => {
     if (propID && propID !== 'propertyLists') {
