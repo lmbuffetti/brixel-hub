@@ -173,6 +173,7 @@ const App = (props: AppType) => {
       const objURL = JSON.parse('{"' + search.replace('?', '').replace(/&/g, '","').replace(/=/g,'":"') + '"}', function(key, value) { return key=== '' ?value:decodeURIComponent(value) });
       if (objURL.lang) {
         setCookie('brixelLang', (objURL.lang).toLowerCase());
+        handleSetLanguage(objURL.lang);
         setUrlLang((objURL.lang).toLowerCase());
       }
     }
@@ -187,7 +188,6 @@ const App = (props: AppType) => {
         smallLoader: 'saveData',
       };
       handleSaveActiveSingleUser(userData);
-      handleSetLanguage(urlLang);
     }
   }, [loggedInUser.id, urlLang]);
 
