@@ -108,7 +108,7 @@ function RightHeaderFlow(props: RightHeaderFlowType) {
       if (userType === 'seller') {
         history.push(url || `/${propID}/closing/${dealID}`);
       } else {
-        history.push(url || `/buyer/${propID}/closing/${dealID}`);
+        history.push(url || `/buyer/${propID}/closing`);
       }
     } else if (history.location.pathname.toLowerCase().includes('schedulevisit')) {
       history.push(url || `/buyer/${propID}/home`);
