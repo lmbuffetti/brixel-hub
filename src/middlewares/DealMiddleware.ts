@@ -177,7 +177,7 @@ const checkCommon = (store) => (next) => (action) => {
         })
         .catch((err) => {
           const statusCode = get(err, 'meta.statusText.response.data.statusCode', null);
-          if (statusCode === 400) {
+          if (statusCode === 404 || statusCode === 400) {
             const registerUser = omit(action.payload, ['page', 'stage', 'actionStub']);
             api.lead.createUserLead(registerUser)
               .then((res) => {
