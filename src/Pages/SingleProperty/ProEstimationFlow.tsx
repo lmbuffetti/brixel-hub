@@ -102,7 +102,7 @@ const ProEstimationFlow = (props: ProEstimationFlowType) => {
       }
       if (Object.keys(initialValues).length > 0 && Object.keys(formValue).length > 0) {
         keyChanged.forEach((item) => {
-          InputSheets('proEstimation', 'formFlow', lang).forEach((singleQuest) => {
+          InputSheets('proEstimation', lang, () => '').forEach((singleQuest) => {
             if (singleQuest.inputs) {
               singleQuest.inputs.forEach((input) => {
                 if (input.condition) {
@@ -128,7 +128,7 @@ const ProEstimationFlow = (props: ProEstimationFlowType) => {
         });
       }
       const questList: QuestionsListType[] = [];
-      InputSheets('proEstimation', 'formFlow', lang).forEach((singleQuest) => {
+      InputSheets('proEstimation', lang, () => '').forEach((singleQuest) => {
         get(singleQuest, 'inputs', []).forEach((input) => {
           if (input.isProEstimation) {
             let mergeCondition: object[] = [];
@@ -161,12 +161,11 @@ const ProEstimationFlow = (props: ProEstimationFlowType) => {
       const percentageComplete = calcPercentageProEstimation('formFlow', {});
       setPercComplete(percentageComplete.realPerc);
     }
-  }, [formValue]);
+  }, [formValue, lang]);
 
   useEffect(() => {
     setSendNotification(percComplete >= 100);
   }, [percComplete]);
-
 
   // CHECK IF FIELD IS VALID
   const checkValidateField = (act = '') => {

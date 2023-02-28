@@ -22,6 +22,7 @@ import translateTo from '../../utils/translation';
 import CoverPropertyImage from '../CoverPropertyImage';
 import Tags from '../Tags';
 import type {MarketCardFavoritesType} from '../../@types/components/Cards/MarketCardFavorites';
+import {convertLabel} from '../../utils/helpers';
 
 const MarketCardFavorites = (props: MarketCardFavoritesType) => {
   const history = {
@@ -305,7 +306,7 @@ const MarketCardFavorites = (props: MarketCardFavoritesType) => {
                       </div>
                     ) : (
                       <span className="txtGreen400 fsize-500 ff-mono">
-                        {translateTo(get(activeSingleProperty, 'status', null) === 'sold' ? 'Sold' : 'On Request', lang)}
+                        {translateTo(convertLabel(get(activeSingleProperty, 'status', ''), 'propertyStatus'), lang)}
                       </span>
                     )
                   }

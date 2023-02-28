@@ -223,7 +223,7 @@ const Dashboard = (props: DashboardType) => {
     extractKey(changeObj);
     allVal.map((name) => {
       const getError = get(errorValue, name, null);
-      if (getError !== 'Mark Required' && getError !== true && isValid) isValid = false;
+      if (getError !== true && getError !== null && isValid) isValid = false;
       return null;
     });
     return isValid;

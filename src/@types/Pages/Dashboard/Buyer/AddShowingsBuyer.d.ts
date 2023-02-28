@@ -34,5 +34,6 @@ export interface AddShowingsBuyerType {
   };
   lang: string;
   loggedInUser: LoggedUserType;
+  translations: object;
 }
 

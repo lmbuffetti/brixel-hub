@@ -143,7 +143,7 @@ const BrixelUpgradeMessage = (props: BrixelUpgradeMessageType) => {
               className="m-a"
               label={unlockFunction ? btnLabel || 'Unlock now' : btnLabel}
               theme="blue"
-              themeSat={600}
+              themeSat={500}
               onClick={() => onClickBtn()}
             />
           </div>
