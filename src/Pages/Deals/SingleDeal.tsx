@@ -138,8 +138,10 @@ const SingleDeal = (props: SingleDealType) => {
   const saveData = () => {
     const deal = cloneDeep(activeSingleDeal);
     const data = {
+      actionStubs: TimelineStubs.Deal,
       id: deal.id,
       data: deal,
+      propID: propID,
       smallLoader: 'saveData',
     };
     // For now we still dont use the diff object (TODO: API ticket)
