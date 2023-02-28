@@ -419,7 +419,7 @@ const MakeOffer = (props: MakeOfferType) => {
     else if (questions[currentIndex + 1]) changeStep();
     else closeWindow();
   };
-
+  console.log(quest);
   return (
     <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'background', '')} ${get(quest, 'classWrapper', '')} trialRequest`}>
       <div className="pos-r">
