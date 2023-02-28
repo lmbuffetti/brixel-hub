@@ -70,7 +70,7 @@ const Dashboard = (props: DashboardType) => {
   }, []);
 
   useEffect(() => {
-    if (activeSingleProperty.id) {
+    if (activeSingleProperty.id && loggedInUser.id) {
       const companiesListUser: string[] = get(activeSingleProperty, 'companies', []);
       if (activeSingleProperty.id) {
         handleGetActiveSingleCompany({ id: activeSingleProperty.company });
@@ -85,7 +85,7 @@ const Dashboard = (props: DashboardType) => {
         handleGetBuyerDeal({ id: propID, actionStub });
       }
     }
-  }, [activeSingleProperty.id]);
+  }, [activeSingleProperty.id, loggedInUser]);
 
   useEffect(() => {
     if (propID && propID !== 'propertyLists') {
