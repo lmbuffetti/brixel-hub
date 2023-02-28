@@ -270,11 +270,12 @@ const Deals = (props: DealsType) => {
 
             </div>
             {
-              windowDimensions.width <= 1024 && (
+              windowDimensions.width <= 768 && (
                 <BrixelTabs
+                  activeTab={activeTab}
                   className="mt-3"
-                  labels={[translateTo('Interested', lang), translateTo('Visits', lang), translateTo('Offers', lang)]}
-                  clicksList={['interested', 'visits', 'offers']}
+                  labels={[translateTo('Interested', lang), translateTo('Visit', lang), translateTo('Offer', lang)]}
+                  clicksList={['interested', 'visit', 'offer']}
                   onClick={(val) => mobileTabsDeal(val)}
                   fullWidth
                 />
@@ -285,19 +286,24 @@ const Deals = (props: DealsType) => {
             <div className="titleContainer">
               {
                 filteredDeals && Object.keys(filteredDeals).map((key, i) => (
-
-                  <div
-                    key={`fltDls_${i.toString()}`}
-                    className="rightCol"
-                  >
-                    <div className="pr-2">
-                      <DealsTitle
-                        lang={lang}
-                        title={translateTo(key, lang)}
-                        total={get(filteredDeals, `${key}`, []).length}
-                      />
-                    </div>
-                  </div>
+                  <>
+                    {
+                      (key === activeTab || windowDimensions.width > 768) && (
+                        <div
+                          key={`fltDls_${i.toString()}`}
+                          className="rightCol"
+                        >
+                          <div className="pr-2">
+                            <DealsTitle
+                              lang={lang}
+                              title={translateTo(key, lang)}
+                              total={get(filteredDeals, `${key}`, []).length}
+                            />
+                          </div>
+                        </div>
+                      )
+                    }
+                  </>
                 ))
               }
             </div>
@@ -328,86 +334,92 @@ const Deals = (props: DealsType) => {
                     {
                       filteredDeals && Object.keys(filteredDeals).map((key, o) => (
                         <React.Fragment key={`fltDls_${o.toString()}`}>
-                          <div
-                            className={`singleCol ${key}`}
-                          >
-                            <ReactSortable
-                              group="groupName"
-                              list={filteredDeals[key]}
-                              setList={(order) => dragDocuments(order, key)}
-                            >
-                              {
-                                filteredDeals[key].filter((dl) => dl.active).map((singleDeal, k) => (
-                                  <div
-                                    key={`SingleDeal${k.toString()}`}
-                                  >
-
-                                    <div
-                                      id={singleDeal.id}
-                                      className="list-item pos-r"
-                                    >
-                                      <DealsCard
-                                        archOnClick={() => archiveDeal(singleDeal.id, singleDeal.stage, key)}
-                                        archived={!singleDeal.active}
-                                        className={`${!singleDeal.active ? 'bgText25' : 'bgWhite'} dealCard`}
-                                        date={DateTime.fromMillis(singleDeal.updatedAt, { locale: lang }).toFormat('dd LLL yy, H:mm')}
-                                        feedback={get(singleDeal, 'visitFeedback')}
-                                        isNew={get(singleDeal, 'newSeller')}
-                                        isWinner={get(singleDeal, 'winner')}
-                                        lang={lang}
-                                        name={Helpers.userNameVal(singleDeal.user.firstName, singleDeal.user.lastName, singleDeal.user.name) === 'No Name' ? get(singleDeal.user, 'email', '') : Helpers.userNameVal(singleDeal.user.firstName, singleDeal.user.lastName, singleDeal.user.name)}
-                                        offer={has(singleDeal, 'closing.stageOffer') ? singleDeal.closing.stageOffer : {}}
-                                        parentOnClick={() => openDeal(singleDeal.id)}
-                                        profileId={get(singleDeal, 'user.id', '')}
-                                        stage={singleDeal.stage}
-                                        visit={singleDeal.visit}
-                                      />
-                                    </div>
-                                  </div>
-                                ))
-                              }
-                            </ReactSortable>
-                            {
-                              filteredDeals[key].filter((dl) => !dl.active).map((singleDeal, k) => (
-                                <React.Fragment
-                                  key={`SingleDeal${k.toString()}`}
+                          {
+                            (key === activeTab || windowDimensions.width > 768) && (
+                              <div
+                                className={`singleCol ${key}`}
+                              >
+                                <ReactSortable
+                                  disabled={windowDimensions.width <= 1024}
+                                  group="groupName"
+                                  list={filteredDeals[key]}
+                                  setList={(order) => dragDocuments(order, key)}
                                 >
                                   {
-                                    k === 0 && (
+                                    filteredDeals[key].filter((dl) => dl.active).map((singleDeal, k) => (
                                       <div
-                                        className="mb-3 dis-fl-row jc-c"
+                                        className={windowDimensions.width > 768 ? 'cur-all-scroll' : ''}
+                                        key={`SingleDeal${k.toString()}`}
                                       >
-                                        <span className="fsize-200 txtText200">
-                                          {translateTo('Archived', lang)}
-                                        </span>
-                                      </div>
-                                    )
-                                  }
 
-                                  <div
-                                    className="list-item pos-r archived"
-                                  >
-                                    <DealsCard
-                                      archOnClick={() => archiveDeal(singleDeal.id, singleDeal.stage, key)}
-                                      archived={!singleDeal.active}
-                                      className={`${!singleDeal.active ? 'bgText25' : 'bgWhite'} dealCard`}
-                                      date={DateTime.fromMillis(singleDeal.updatedAt, { locale: lang }).toFormat('dd LLL yy, H:mm')}
-                                      feedback={get(singleDeal, 'visitFeedback')}
-                                      isNew={get(singleDeal, 'newSeller')}
-                                      isWinner={get(singleDeal, 'winner')}
-                                      lang={lang}
-                                      name={Helpers.userNameVal(singleDeal.user.firstName, singleDeal.user.lastName, singleDeal.user.name) === 'No Name' ? get(singleDeal.user, 'email', '') : Helpers.userNameVal(singleDeal.user.firstName, singleDeal.user.lastName, singleDeal.user.name)}
-                                      offer={has(singleDeal, 'closing.stageOffer') ? singleDeal.closing.stageOffer : {}}
-                                      parentOnClick={() => openDeal(singleDeal.id)}
-                                      profileId={get(singleDeal, 'user.id', '')}
-                                      stage={singleDeal.stage}
-                                      visit={singleDeal.visit}
-                                    />
-                                  </div>
-                                </React.Fragment>
-                              ))
-                            }
-                          </div>
+                                        <div
+                                          id={singleDeal.id}
+                                          className="list-item pos-r"
+                                        >
+                                          <DealsCard
+                                            archOnClick={() => archiveDeal(singleDeal.id, singleDeal.stage, key)}
+                                            archived={!singleDeal.active}
+                                            className={`${!singleDeal.active ? 'bgText25' : 'bgWhite'} dealCard`}
+                                            date={DateTime.fromMillis(singleDeal.updatedAt, { locale: lang }).toFormat('dd LLL yy, H:mm')}
+                                            feedback={get(singleDeal, 'visitFeedback')}
+                                            isNew={get(singleDeal, 'newSeller')}
+                                            isWinner={get(singleDeal, 'winner')}
+                                            lang={lang}
+                                            name={Helpers.userNameVal(singleDeal.user.firstName, singleDeal.user.lastName, singleDeal.user.name) === 'No Name' ? get(singleDeal.user, 'email', '') : Helpers.userNameVal(singleDeal.user.firstName, singleDeal.user.lastName, singleDeal.user.name)}
+                                            offer={has(singleDeal, 'closing.stageOffer') ? singleDeal.closing.stageOffer : {}}
+                                            parentOnClick={() => openDeal(singleDeal.id)}
+                                            profileId={get(singleDeal, 'user.id', '')}
+                                            stage={singleDeal.stage}
+                                            visit={singleDeal.visit}
+                                          />
+                                        </div>
+                                      </div>
+                                    ))
+                                  }
+                                </ReactSortable>
+                                {
+                                  filteredDeals[key].filter((dl) => !dl.active).map((singleDeal, k) => (
+                                    <React.Fragment
+                                      key={`SingleDeal${k.toString()}`}
+                                    >
+                                      {
+                                        k === 0 && (
+                                          <div
+                                            className="mb-3 dis-fl-row jc-c"
+                                          >
+                                            <span className="fsize-200 txtText200">
+                                              {translateTo('Archived', lang)}
+                                            </span>
+                                          </div>
+                                        )
+                                      }
+
+                                      <div
+                                        className="list-item pos-r archived"
+                                      >
+                                        <DealsCard
+                                          archOnClick={() => archiveDeal(singleDeal.id, singleDeal.stage, key)}
+                                          archived={!singleDeal.active}
+                                          className={`${!singleDeal.active ? 'bgText25' : 'bgWhite'} dealCard`}
+                                          date={DateTime.fromMillis(singleDeal.updatedAt, { locale: lang }).toFormat('dd LLL yy, H:mm')}
+                                          feedback={get(singleDeal, 'visitFeedback')}
+                                          isNew={get(singleDeal, 'newSeller')}
+                                          isWinner={get(singleDeal, 'winner')}
+                                          lang={lang}
+                                          name={Helpers.userNameVal(singleDeal.user.firstName, singleDeal.user.lastName, singleDeal.user.name) === 'No Name' ? get(singleDeal.user, 'email', '') : Helpers.userNameVal(singleDeal.user.firstName, singleDeal.user.lastName, singleDeal.user.name)}
+                                          offer={has(singleDeal, 'closing.stageOffer') ? singleDeal.closing.stageOffer : {}}
+                                          parentOnClick={() => openDeal(singleDeal.id)}
+                                          profileId={get(singleDeal, 'user.id', '')}
+                                          stage={singleDeal.stage}
+                                          visit={singleDeal.visit}
+                                        />
+                                      </div>
+                                    </React.Fragment>
+                                  ))
+                                }
+                              </div>
+                            )
+                          }
                         </React.Fragment>
                       ))
                     }
