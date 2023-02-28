@@ -420,9 +420,11 @@ const checkCommon = (store) => (next) => (action) => {
     case SAVE_ACTIVE_SINGLE_DEAL: {
       next(action);
       const {
+        actionStubs,
         data,
         id,
         smallLoader,
+        propID,
         type,
       } = action.payload;
       if (type !== 'archive') {
@@ -442,6 +444,8 @@ const checkCommon = (store) => (next) => (action) => {
 
       const obj = cloneDeep(data);
       delete obj.user;
+      delete obj.propID;
+      delete obj.actionStubs;
       api.deal.updateSingleDeal(id, obj)
         .then((res) => {
           if (res.meta.status === 200) {
@@ -452,13 +456,14 @@ const checkCommon = (store) => (next) => (action) => {
             store.dispatch({
               type: GET_PAGE_DEALS,
               payload: {
-                id: store.getState().property.activeSingleProperty.id,
+                id: propID || store.getState().property.activeSingleProperty.id,
                 smallLoader,
               },
             });
             store.dispatch({
               type: GET_HISTORY_LISTINGS,
               payload: {
+                actionStubs: actionStubs,
                 parent: action.payload.id,
                 type: 'deal',
                 resultsPerPage: 50,

@@ -36,6 +36,7 @@ const DealsCard = (props: DealsCardProps) => {
 
   const returnMessage = () => {
     if (Object.keys(lastAction).length > 0) {
+      if (lastAction.actionStub === 'default') return translateTo('Default', lang);
       if (lastAction.actionStub === 'user-add-favorite') return translateTo('Marked page as favorite', lang);
       if (lastAction.actionStub === 'user-schedule') return translateTo('Requested showing', lang);
       if (lastAction.actionStub === 'user-get-document') return translateTo('Requested documents', lang);
