@@ -78,7 +78,7 @@ const Dashboard = (props: DashboardType) => {
         handleGetActiveSingleCompany({ id: companiesListUser[companiesListUser.length - 1] });
       }
       if (dealID !== activeSingleDeal.id || !dealID) {
-        let actionStub = 'add-favorite';
+        let actionStub = 'default';
         if (get(history, 'location.pathname', '').includes('showings')) actionStub = 'user-schedule';
         if (get(history, 'location.pathname', '').includes('docubox')) actionStub = 'get-document';
         if (get(history, 'location.pathname', '').includes('contact')) actionStub = 'message';
