@@ -8,6 +8,10 @@
 
 `npm install`
 
+If you have not built for a long time, onpm r you have problems with
+the installed node packages, please delete the ```node_modules``` 
+folder and run ```npm install``` again.
+
 ## Start Locally
 
 `npm run start-dev`
