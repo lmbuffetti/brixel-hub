@@ -10,7 +10,6 @@ describe('Buyer Onboarding', () => {
   companies.forEach(company => {
     //This gives you some feedback in the Cypress side bar console on what URL you're at
     describe(`company: ${company}`, () => {
-
       devices.forEach((device) => {
         it('visit url', () => {
           cy.viewport(device);
@@ -68,6 +67,16 @@ describe('Buyer Onboarding', () => {
                 cy.wait(1000).then(() => {
                   cy.get('button[type="submit"]').click();
                 })
+                cy.wait(1000).then(() => {
+                  cy.get('body', {timeout: 10000}).then($body => {
+                    if ($body.find('p.txtRed400').length > 0) {
+                      cy.get('input[name="login.password"]').type('123456789');
+                      cy.wait(1000).then(() => {
+                        cy.get('button[type="submit"]').click();
+                      })
+                    }
+                  });
+                });
               } else {
                 cy.get('body', {timeout: 10000}).should('be.visible');
               }
