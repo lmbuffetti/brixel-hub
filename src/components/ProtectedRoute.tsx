@@ -22,9 +22,7 @@ const ProtectedRoute = (props: ProtectedRouteType) => {
   } = props;
 
   useEffect(() => {
-    console.log(activeSingleCompany, getCookie('brixelToken'));
     if (!getCookie('brixelToken')) {
-      console.log(activeSingleCompany);
       if ((history.location.pathname.includes('buyer') && activeSingleCompany.id) || !history.location.pathname.includes('buyer')) {
         const companyURL = activeSingleCompany.id ? `/${activeSingleCompany.stub}` : '';
         const redirectURL = `${baseByData.loginUrl}${companyURL}?url=${get(window, 'location.href', '')}`;
