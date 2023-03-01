@@ -3,7 +3,6 @@ module.exports = {
     'brixel_portugal',
   ],
   devices: [
-    'iphone-6',
     'macbook-15',
   ]
 }

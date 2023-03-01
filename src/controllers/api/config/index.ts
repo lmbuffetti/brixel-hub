@@ -64,6 +64,6 @@ if (typeof window !== 'undefined') {
 }
 
 export default apiFactory({
-  baseURL: configUrl.apiRoot,
-  // baseURL: 'http://localhost:46071/api/v3/',
+  // baseURL: configUrl.apiRoot,
+  baseURL: 'http://localhost:46071/api/v3/',
 });
