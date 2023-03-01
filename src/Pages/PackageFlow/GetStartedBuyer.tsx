@@ -66,7 +66,6 @@ const GetStartedBuyer = (props: GetStartedType) => {
 
   // FUNCTION TO SAVE DATA
   const saveData = async (action = '') => {
-    console.log(isLoading, loadingRequest);
     if (isLoading || loadingRequest) return false;
     const dataForm = cloneDeep(formValue);
     const dataFormAnswer = cloneDeep(formValue);
@@ -109,7 +108,6 @@ const GetStartedBuyer = (props: GetStartedType) => {
     const page = get(formValue, 'signupScreen', null);
     // IF USER IS LOGGED IN SAVE DIRECTLY THE PAGE
     handleSpinnerOn();
-    console.log('do something');
     if (formValue.owner) {
       data.owner = get(loggedInUser, 'user.id', '');
       // DISPATCH TO SAVE THE PROPERTY
