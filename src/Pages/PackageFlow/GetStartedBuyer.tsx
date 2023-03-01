@@ -62,8 +62,11 @@ const GetStartedBuyer = (props: GetStartedType) => {
     return () => destroyForm();
   }, []);
 
+
+
   // FUNCTION TO SAVE DATA
   const saveData = async (action = '') => {
+    console.log(isLoading, loadingRequest);
     if (isLoading || loadingRequest) return false;
     const dataForm = cloneDeep(formValue);
     const dataFormAnswer = cloneDeep(formValue);
@@ -106,6 +109,7 @@ const GetStartedBuyer = (props: GetStartedType) => {
     const page = get(formValue, 'signupScreen', null);
     // IF USER IS LOGGED IN SAVE DIRECTLY THE PAGE
     handleSpinnerOn();
+    console.log('do something');
     if (formValue.owner) {
       data.owner = get(loggedInUser, 'user.id', '');
       // DISPATCH TO SAVE THE PROPERTY
@@ -128,7 +132,7 @@ const GetStartedBuyer = (props: GetStartedType) => {
       // USER DATA
       const userData = {
         ...register,
-        email: (login?.email || '').toLowerCase(),
+        email: (register?.email || '').toLowerCase(),
         acceptTerms: get(register, 'privacy[0]', true),
         acceptMarketing: get(register, 'acceptMarketing[0]', false),
         name: `${register.firstName} ${get(register, 'lastName', '')}`,
@@ -156,6 +160,9 @@ const GetStartedBuyer = (props: GetStartedType) => {
       setCookie('brixelFirstTime', 'true');
       await handleValidateUser(data);
     }
+    setTimeout(() => {
+      setLoadingRequest(false);
+    }, 500)
   };
 
   useEffect(() => {

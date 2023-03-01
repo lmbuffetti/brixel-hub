@@ -280,6 +280,7 @@ const checkUser = (store) => (next) => (action) => {
       const extraLoading = action.payload.user.extraLoading || false;
       delete action.payload.user.createUser;
       store.dispatch({ type: SPINNER_ON });
+      console.log(action.payload.user);
       api.user.validateUser(action.payload.user.email)
         .then((res) => {
           if (newUser && res.meta.status === 200) {
