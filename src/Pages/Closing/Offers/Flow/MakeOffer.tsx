@@ -35,25 +35,25 @@ const MakeOffer = (props: MakeOfferType) => {
   const match = useParams();
   // PROPS
   const {
-    activeSingleProperty,
-    activeSingleDeal,
     activeSingleCompany,
+    activeSingleDeal,
+    activeSingleProperty,
     changeFieldValue,
     destroyForm,
     errorValue,
     formValue,
     handleGetActiveSingleCompany,
     handleGetActiveSingleProperty,
+    handleGetBuyerDeal,
     handleMultiUploadDocument,
+    handleReset,
     handleSaveMakeOffer,
     handleSetModal,
     initForm,
     initialValues,
     isSmallLoading,
-    handleGetBuyerDeal,
     lang,
     loggedInUser,
-    handleReset,
     translations,
   } = props;
   let lowCountry = get(formValue, 'propertyLocation.countryCode', '');
