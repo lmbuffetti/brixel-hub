@@ -45,7 +45,6 @@ const GetStartedEstimation = (props: GetStartedEstimationType) => {
     handleCreateEstimation,
     handleDoLogin,
     handleGetActiveSingleCompany,
-    handleSpinnerOff,
     handleSpinnerOn,
     handleValidateUser,
     initForm,
@@ -67,7 +66,6 @@ const GetStartedEstimation = (props: GetStartedEstimationType) => {
 
   // DESTROY FORM ON EXIT
   useEffect(() => {
-    handleSpinnerOff();
     return () => destroyForm();
   }, []);
 

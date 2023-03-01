@@ -4,11 +4,9 @@ import get from 'lodash/get';
 import {compose} from 'redux';
 import {connect} from 'react-redux';
 import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
-import Cookies from 'universal-cookie';
 import type {ProtectedRouteType} from '../@types/components/ProtectedRoute';
 import Loading from './Loading';
-
-const cookie = new Cookies();
+import {getCookie} from '../utils/helpers';
 
 // COMPONENT TO ENABLE ROUTES TO ONLY LOGGED IN USER
 const ProtectedRoute = (props: ProtectedRouteType) => {
@@ -24,13 +22,15 @@ const ProtectedRoute = (props: ProtectedRouteType) => {
   } = props;
 
   useEffect(() => {
-    if (typeof cookie.get('brixelToken') === 'undefined' && !window.localStorage.getItem('brixelToken')) {
+    console.log(activeSingleCompany, getCookie('brixelToken'));
+    if (!getCookie('brixelToken')) {
+      console.log(activeSingleCompany);
       if ((history.location.pathname.includes('buyer') && activeSingleCompany.id) || !history.location.pathname.includes('buyer')) {
         const companyURL = activeSingleCompany.id ? `/${activeSingleCompany.stub}` : '';
         const redirectURL = `${baseByData.loginUrl}${companyURL}?url=${get(window, 'location.href', '')}`;
         if ((get(window, 'location.hostname', '').includes('localhost') || get(window, 'location.hostname', '').includes('192.168'))) {
           history.push('/tokeninput');
-        } else if (typeof cookie.get('brixelToken') === 'undefined' && !isTest) {
+        } else if (!isTest) {
           window.location.assign(redirectURL);
         }
       }

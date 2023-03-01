@@ -49,12 +49,42 @@ describe('viewport testing', () => {
   
   Cypress.Cookies.debug(true);
   
+  before(async () => {
+    const data = {
+      username: 'jesttest+sellere2emacbook-15@brixel.io',
+      password: '123456789',
+    }
+    const auth = btoa(`${data.username}:${data.password}`);
+    const url = 'https://dev.api.brixel.io/api/v3/authentication/getToken'
+    await fetch(url, {
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+        'Authorization': `Basic ${auth}`,
+      },
+    })
+      .then((response) => response.json())
+      .then(async (data) => {
+        cy.setCookie('brixelToken', data.token);
+        const urlPAGES = 'https://dev.api.brixel.io/api/v3/market/list/ownedPages/10/0?order=updatedAt&direction=DESC';
+        await fetch(urlPAGES, {
+          headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+            'x-brixel-token': data.token,
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            cy.setCookie('userPageID', data.data[0].id);
+          })
+      });
+  });
+  
   pageToCheck.forEach((page) => {
     
     it('take viewport screenshot', () => {
       cy.getCookie('userPageID')
         .then((res) => {
-          const pageURL = page.url.replace(':pageID', res.value);
+          const pageURL = page.url.replace(':pageID', res?.value || '');
           cy.visit(`http://localhost:5000/${pageURL}`);
           cy.get(`.${page.classToCheck}`, { timeout: 10000 }).should('be.visible');
           cy.window()
@@ -62,7 +92,8 @@ describe('viewport testing', () => {
             .invoke('getState')
             .its('common')
             .its('isSmallLoading')
-            .should(($identifier) => {
+            .then(($identifier) => {
+              cy.log($identifier);
               const filterData = Object.keys($identifier).filter((key) => $identifier[key] === false);
               expect(filterData.length).to.equal(0);
   

@@ -60,14 +60,14 @@ const MarketCategoryListSeller = (props: MarketCategoryListSellerType) => {
     activeSinglePropertyActivePackage,
     activeSinglePropertyPackage,
     bestimate,
-    companyListings,
+    // companyListings,
     estimation,
     handleGetActiveSingleCompany,
     handleGetActiveCompanyPackages,
-    handleGetCompanyListing,
+    // handleGetCompanyListing,
     handleGetEstimation,
     handleGetPackageProperty,
-    handleSetActiveSingleCompany,
+    // handleSetActiveSingleCompany,
     handleSetActiveSingleProperty,
     handleSetHistory,
     isSmallLoading,
@@ -87,7 +87,6 @@ const MarketCategoryListSeller = (props: MarketCategoryListSellerType) => {
   const [bestimateMessage, setBestimateMessage] = useState(marketCookie === 'true');
   const [propertyId, setPropertyId] = useState<string>();
   const [activeCompanyId, setActiveCompanyId] = useState<string>();
-  const [companyDetail, setCompanyDetail] = useState({ });
   const [filteredPackages, setFilteredPackages] = useState<ServicePackageType[]>([]);
   const [artByCountry, setArtByCountry] = useState(ArticlesList.default);
 
@@ -96,20 +95,16 @@ const MarketCategoryListSeller = (props: MarketCategoryListSellerType) => {
   }, [marketCookie]);
 
   useEffect(() => {
-    handleGetCompanyListing();
+    // handleGetCompanyListing();
   }, []);
 
   useEffect(() => {
-    if (companyListings.length > 0) {
-      if (propertyId) {
-        const indexOwn = ownerProperties.data.findIndex((page) => page.id === propertyId);
-        handleSetActiveSingleProperty({ customID: propertyId, setID: indexOwn });
-        const singleCmp = companyListings.find((cmp) => get(cmp, 'id', null) === get(ownerProperties, `data[${indexOwn}].company`, null));
-        handleSetActiveSingleCompany(singleCmp || {});
-        handleGetPackageProperty({ id: propertyId, smallLoader: 'package' });
-      } else handleSetActiveSingleProperty({});
-    }
-  }, [propertyId, companyListings.length]);
+    if (propertyId) {
+      const indexOwn = ownerProperties.data.findIndex((page) => page.id === propertyId);
+      handleSetActiveSingleProperty({ customID: propertyId, setID: indexOwn });
+      handleGetPackageProperty({ id: propertyId, smallLoader: 'package' });
+    } else handleSetActiveSingleProperty({});
+  }, [propertyId]);
 
   useEffect(() => {
     if (activeSingleCompanyPackages.length > 0) {
@@ -211,13 +206,11 @@ const MarketCategoryListSeller = (props: MarketCategoryListSellerType) => {
   }, []);
 
   useEffect(() => {
-    if (companyListings && activeCompanyId) {
-      const actCompany = companyListings.find((item) => item.id === activeCompanyId);
-      if (actCompany) setCompanyDetail(actCompany);
-      const actCountry = get(actCompany, 'country.code', '').toLowerCase();
+    if (activeSingleCompany.id) {
+      const actCountry = get(activeSingleCompany, 'country.code', '').toLowerCase();
       setArtByCountry(ArticlesList[actCountry] || ArticlesList.default);
     }
-  }, [activeCompanyId, companyListings]);
+  }, [activeSingleCompany]);
 
   useEffect(() => {
     if (activeCompanyId && !isSmallLoading.pkgComapny) {
@@ -228,15 +221,6 @@ const MarketCategoryListSeller = (props: MarketCategoryListSellerType) => {
       handleGetActiveCompanyPackages(dataCompany);
     }
   }, [activeCompanyId]);
-
-  const getCompanyStub = () => {
-    // TODO: Company management for "Add new" property flow
-    if (ownerProperties.total === 0) return get(activeSingleCompany, 'stub', '')
-    else {
-      const company = companyListings.find((cmp) => cmp.id === get(ownerProperties, 'data[0].company', ''));
-      if (company) return company.stub;
-    }
-  };
 
   return (
     <Suspense fallback="">
@@ -398,7 +382,7 @@ const MarketCategoryListSeller = (props: MarketCategoryListSellerType) => {
                 rounded
                 className="m-a mt-3"
                 label={translateTo('+ Add new', lang)}
-                onClick={() => history.push(`/packageFlow/getStarted?company=${getCompanyStub()}`)}
+                onClick={() => history.push(`/packageFlow/getStarted?company=${activeSingleCompany.stub}`)}
               />
             </div>
           </div>
@@ -416,7 +400,7 @@ const MarketCategoryListSeller = (props: MarketCategoryListSellerType) => {
                 theme="text"
                 labelClass="ws-nw"
                 themeSat={900}
-                onClick={() => history.push(`/packageFlow/getStarted?company=${getCompanyStub()}`)}
+                onClick={() => history.push(`/packageFlow/getStarted?company=${activeSingleCompany.stub}`)}
               />
             </div>
             {
@@ -431,7 +415,7 @@ const MarketCategoryListSeller = (props: MarketCategoryListSellerType) => {
                         {
                           ownerProperties.total > 0 ? (
                             <MarketCard
-                              companyDetail={companyDetail}
+                              companyDetail={activeSingleCompany}
                               index={i}
                               layout="singleOwnCard"
                               type="own"

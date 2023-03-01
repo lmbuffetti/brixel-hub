@@ -40,7 +40,6 @@ const GetStartedSeller = (props: GetStartedSellerType) => {
     handleCreateActiveSingleProperty,
     handleDoLogin,
     handleGetActiveSingleCompany,
-    handleSpinnerOff,
     handleSpinnerOn,
     handleValidateUser,
     initForm,
@@ -63,7 +62,6 @@ const GetStartedSeller = (props: GetStartedSellerType) => {
 
   // DESTROY FORM ON EXIT
   useEffect(() => {
-    handleSpinnerOff();
     return () => destroyForm();
   }, []);
 
