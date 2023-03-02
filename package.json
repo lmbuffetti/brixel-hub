@@ -50,6 +50,7 @@
     "ncu-u": "ncu -x 'redux-actions' -u",
     "e2e": "npx cypress run --e2e --headless --browser chrome",
     "test-cypress": "npm run start-test & npm run e2e",
+    "run-cypress": "cypress run",
     "test-component": "cypress open --component",
     "test-e2e": "npm run start-fast & cypress open --e2e --env flags='{\"feature-a\":true,\"feature-b\":false}'",
     "start-test": "node server.js"

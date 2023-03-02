@@ -23,6 +23,7 @@ const FlowScreen = (props: FlowScreenType) => {
   const {
     baseURL,
     company,
+    closeLink,
     destroyForm,
     errorValue,
     formName,
@@ -236,6 +237,16 @@ const FlowScreen = (props: FlowScreenType) => {
     onChangeCurrentIndex(currentIndex);
   }, [currentIndex, questions, lang]);
 
+  // MOVE STEP FORWARD AFTER SAVING
+  useEffect(() => {
+    if (isSmallLoading.sendData === true && questions[currentIndex + 1]) {
+      const newIndex = currentIndex + 1;
+      setCurrentIndex(newIndex);
+      setQuest(questions[newIndex]);
+    }
+  }, [isSmallLoading]);
+
+
   // FUNCTION TO CLOSE
   const closeWindow = () => {
     handleReset(formName, initialValues);
@@ -340,35 +351,40 @@ const FlowScreen = (props: FlowScreenType) => {
               <div ref={singleStepRef} className="singleStep pt-5 jc-c ">
                 <div className="subcontainer m-a">
                   {
-                    quest.titleIcon && (
-                      <div className="ta-c mb-3">
-                        <img src={quest.titleIcon}  alt="Title Icon"/>
-                      </div>
+                    get(quest, 'cardType', null) !== 'card' && (
+                      <>
+                        {
+                          quest.titleIcon && (
+                            <div className="ta-c mb-3">
+                              <img src={quest.titleIcon}  alt="Title Icon"/>
+                            </div>
+                          )
+                        }
+                        {
+                          quest.titleGreen && (
+                            <h3 className="txtGreen400 w-perc-100">{quest.titleGreen}</h3>
+                          )
+                        }
+                        {
+                          quest.title && (
+                            <h3 className={`fweight-600 max-w-fix-408 ta-c fsize-600 fsize-sm-800 m-a ${quest.subtitle ? 'mb-1' : 'mb-5'}`} dangerouslySetInnerHTML={{ __html: quest.title }} />
+                          )
+                        }
+                        {
+                          quest.subtitle && (
+                            <p className="mb-5 ta-c txtText600 w-perc-100 px-3 px-sm-2" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
+                        }
+                      </>
                     )
-                  }
-                  {
-                    quest.titleGreen && (
-                      <h3 className="txtGreen400 w-perc-100">{quest.titleGreen}</h3>
-                    )
-                  }
-                  {
-                    quest.title && (
-                      <h3 className={`fweight-600 max-w-fix-408 ta-c fsize-600 fsize-sm-800 m-a ${quest.subtitle ? 'mb-1' : 'mb-5'}`} dangerouslySetInnerHTML={{ __html: quest.title }} />
-                    )
-                  }
-                  {
-                    quest.subtitle && (
-                      <p className="mb-5 ta-c txtText600 w-perc-100 px-3 px-sm-2" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
                   }
                   {
                     get(quest, 'inputs', null) && (
                       <div id={`step-${currentIndex}`} className="dis-fl-col a-c flex-wrap">
-                        <div className={`${quest.className} w-perc-100`}>
+                        <div className={`w-perc-100 ${quest.className}`}>
                           <MultiFileldsReduxForm
                             baseByData={baseByData}
                             onSaveData={() => onSaveData()}
                             form={formName}
-                            className="w-perc-100"
                             disableNextBtn={false}
                             formValue={formValue}
                             inputs={quest.inputs}
@@ -402,12 +418,12 @@ const FlowScreen = (props: FlowScreenType) => {
                   }
                   {
                     (get(quest, 'cardType', null) === 'card') && (
-                      <div className="scaleAnim ta-c">
+                      <div className={`scaleAnim ta-c ${quest.cardClass}`}>
                         <img loading="lazy" src={quest.img} alt={quest.title} className="max-w-fix-232 mb-5" />
                         {
                           quest.title && (
-                            <h5
-                              className="fadeAnim mt-2 ta-c"
+                            <h2
+                              className="fadeAnim fweight-600 ta-c"
                               dangerouslySetInnerHTML={{ __html: quest.title }}
                             />
                           )
@@ -482,7 +498,11 @@ const FlowScreen = (props: FlowScreenType) => {
                   <div className="pos-r">
                     <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-c">
                       {
-                        ((currentIndex !== questions.length - 2) && get(quest, 'history', '') !== 'baloiseInfo') && (
+                        (
+                          currentIndex !== questions.length - 2 &&
+                          get(quest, 'history', '') !== 'baloiseInfo' &&
+                          quest.history !== 'success'
+                        ) && (
                           <BrixelButtonIcon
                             className="backBtn pos-a x-l"
                             icon="arrow-left-small"
@@ -494,7 +514,7 @@ const FlowScreen = (props: FlowScreenType) => {
                         )
                       }
                       {
-                        get(quest, 'history', null) !== 'resume' && (get(quest, 'inputs', []).length > 0 || action === 'back' || questions[currentIndex + 1]?.toSave) && (
+                        get(quest, 'history', null) !== 'resume' && (get(quest, 'inputs', []).length > 0 || action === 'back') ? (
                           <BrixelButtonPrimary
                             className={`mr-a ml-a noWrap ${get(quest, 'history', null)}`}
                             rounded
@@ -506,6 +526,24 @@ const FlowScreen = (props: FlowScreenType) => {
                             onShowError={() => setShowError(true)}
                             type="submit"
                           />
+                        ) : (
+                          <>
+                            {
+                              quest.history === 'success' && (
+                                <BrixelButtonPrimary
+                                  className={`mr-a ml-a noWrap ${get(quest, 'history', null)}`}
+                                  rounded
+                                  theme="green"
+                                  label={translateTo('Close', lang)}
+                                  isLoading={isSmallLoading.sendData}
+                                  rightIcon="arrow-right-small"
+                                  onClick={() => history.push(closeLink || '../../')}
+                                  onShowError={() => setShowError(true)}
+                                  type="submit"
+                                />
+                              )
+                            }
+                          </>
                         )
                       }
                       {

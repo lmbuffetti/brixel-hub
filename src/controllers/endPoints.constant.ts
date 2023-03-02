@@ -16,6 +16,7 @@ export default {
     buyerDeal: (id) => `/page/${id}/deal/buyer`,
     closingIdentification: (id, personType = 'buyer') => `/deal/${id}/closing/identification/person?personType=${personType}`,
     createSingleDeal: () => '/deal',
+    deleteOffer: (id) => `/deal/${id}/closing/deleteOffer`,
     getListOfDeals: (paginationLimit, paginationSkip, data) => `/deal/${paginationLimit}/${paginationSkip}${data}`,
     makeOffer: (id) => `/deal/${id}/closing/makeOffer`,
     offerListings: (id) => `/page/${id}/offers`,

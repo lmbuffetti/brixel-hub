@@ -1,6 +1,6 @@
-import Constants from '../../helpers/constants';
+import { testData, userTest } from '../../helpers/constants';
 
-const { devices, companies } = Constants;
+const { devices, companies } = testData;
 
 describe('Seller Onboarding', () => {
 
@@ -99,8 +99,8 @@ describe('Seller Onboarding', () => {
             .then((res) => {
               if (!res) {
                 cy.get('input[name="register.name"]').type('Test Automated');
-                cy.get('input[name="register.email"]').type(`jestTest+sellerE2E${device}@brixel.io`);
-                cy.get('input[name="register.password"]').type('123456789');
+                cy.get('input[name="register.email"]').type(userTest.estimation.email);
+                cy.get('input[name="register.password"]').type(userTest.estimation.password);
                 cy.get('input[name="register.privacy"]').check({force: true});
                 cy.wait(1000).then(() => {
                   cy.get('button[type="submit"]').click();
@@ -108,7 +108,7 @@ describe('Seller Onboarding', () => {
                 cy.wait(1000).then(() => {
                   cy.get('body', {timeout: 10000}).then($body => {
                     if ($body.find('p.txtRed400').length > 0) {
-                      cy.get('input[name="login.password"]').type('123456789');
+                      cy.get('input[name="login.password"]').type(userTest.seller.password);
                       cy.wait(1000).then(() => {
                         cy.get('button[type="submit"]').click();
                       })

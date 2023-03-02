@@ -1,5 +1,6 @@
 // Edit this array to add or change the preset of viewport for the tests
 // Complete list: https://docs.cypress.io/api/commands/viewport
+
 const preset = ['macbook-15'];
 
 const pageToCheck = [
@@ -50,33 +51,7 @@ describe('viewport testing', () => {
   Cypress.Cookies.debug(true);
   
   before(async () => {
-    const data = {
-      username: 'jesttest+sellere2emacbook-15@brixel.io',
-      password: '123456789',
-    }
-    const auth = btoa(`${data.username}:${data.password}`);
-    const url = 'https://dev.api.brixel.io/api/v3/authentication/getToken'
-    await fetch(url, {
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8',
-        'Authorization': `Basic ${auth}`,
-      },
-    })
-      .then((response) => response.json())
-      .then(async (data) => {
-        cy.setCookie('brixelToken', data.token);
-        const urlPAGES = 'https://dev.api.brixel.io/api/v3/market/list/ownedPages/10/0?order=updatedAt&direction=DESC';
-        await fetch(urlPAGES, {
-          headers: {
-            'Content-Type': 'application/json; charset=utf-8',
-            'x-brixel-token': data.token,
-          },
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            cy.setCookie('userPageID', data.data[0].id);
-          })
-      });
+    cy.loginViaApi('loadSingleProp');
   });
   
   pageToCheck.forEach((page) => {
