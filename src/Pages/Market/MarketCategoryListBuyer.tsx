@@ -32,7 +32,6 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
     buyerProperties,
     activeSearchProfile,
     filterPropType = [],
-    handleGetActiveBuyerProperties,
     handleGetActiveSingleCompany,
     handleSetModal,
     lang,
@@ -64,20 +63,6 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
     });
     setFieldsSearchProfile(fields);
   }, []);
-
-  useEffect(() => {
-    if (page && cat && activeSearchProfile) {
-      const data = {
-        limit: 9,
-        offset: 0,
-        order: 'updatedAt',
-        direction: 'DESC',
-        searchProfileId: activeSearchProfile.id,
-        type: cat,
-      }
-      handleGetActiveBuyerProperties(data);
-    }
-  }, [page, cat, activeSearchProfile]);
 
   useEffect(() => {
     if (get(loggedInUser, 'id', null)) {

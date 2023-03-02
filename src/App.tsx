@@ -19,7 +19,7 @@ import {
   setLanguage,
   setModal,
   setScreenNotification,
-  setWindowDimensions,
+  setWindowDimensions, spinnerOff,
 } from './actions/CommonActions';
 import {setActiveSingleDeal} from './actions/DealActions';
 import {setActiveSingleProperty} from './actions/PropertyActions';
@@ -127,6 +127,7 @@ const App = (props: AppType) => {
     handleSetNotification,
     handleSetUserTypes,
     handleSetWindowsDimension,
+    handleSpinnerOff,
     isLoading = false,
     isSmallLoading,
     lang,
@@ -165,6 +166,7 @@ const App = (props: AppType) => {
     if (smoothscrollPolyfill) smoothscrollPolyfill.polyfill();
     const queryURL: { lang?: string } = queryString.parse(get(history, 'location.search', ''));
     if (queryURL?.lang) setLangURL(queryURL.lang.toLowerCase());
+    if (history.location.pathname.includes('packageFlow')) handleSpinnerOff();
   }, []);
 
   useEffect(() => {
@@ -476,13 +478,16 @@ const App = (props: AppType) => {
         <link rel="apple-touch-icon" href={AppleTouch76} />
         <link rel="apple-touch-icon" sizes="76x76" href={AppleTouch76} />
         <link rel="apple-touch-icon" sizes="120x120" href={AppleTouch120} />
-        <link rel="apple-touch-icon" sizes="152x152" href={AppleTouch152} />
+        <link rel="apple-touch-icon" sizes="152x152" href={AppleTouch152} />2
         <link rel="apple-touch-icon" sizes="180x180" href={AppleTouch180} />
         <link rel="icon" sizes="192x192" href={Android192} />
         <title>Brixel Hub</title>
       </Helmet>
       {
-        (!lang || Object.keys(translations).length === 0 || (isFlow && !activeSingleCompany.id)) && (
+        ((!lang ||
+          Object.keys(translations).length === 0 ||
+          (isFlow && !activeSingleCompany.id)
+        ) && !history.location.pathname.includes('tokeninput')) && (
           <Loading isLoading={true} />
         )
       }
@@ -551,7 +556,7 @@ const App = (props: AppType) => {
                       <Route path="/packageFlow/testDrive/*" element={<ScanTrialFlow />} />
                       <Route path="/visitFeedback/:dealID/:pageID" element={<VisitFeedback />} />
                       <Route path="/buyer/:propID/scheduleVisit/*" element={<ProtectedRoute><AddShowingsBuyer /></ProtectedRoute>} />
-                      <Route path="/buyer/:id/financingFlow/*" element={<Financing />} />
+                      <Route path="/buyer/:id/financingFlow/*" element={<ProtectedRoute><Financing /></ProtectedRoute>} />
 
                       { /* PARTNER CONTACT FLOW */}
                       <Route path="/:propID/contactFlow/*" element={<ProtectedRoute><Contact /></ProtectedRoute>} />
@@ -561,8 +566,8 @@ const App = (props: AppType) => {
                       <Route path="/tokeninput" element={<InsertToken />} />
 
                       { /* SECTION: CLOSING FLOWS */}
-                      <Route path="/packageFlow/:id/makeOffer/*" element={<MakeOffer />} />
-                      <Route path="/packageFlow/:propID/:dealID/closing/:userType/identification/*" element={<IdentificationFlow />} />
+                      <Route path="/packageFlow/:id/makeOffer/*" element={<ProtectedRoute><MakeOffer /></ProtectedRoute>} />
+                      <Route path="/packageFlow/:propID/:dealID/closing/:userType/identification/*" element={<ProtectedRoute><IdentificationFlow /></ProtectedRoute>} />
 
                       { /* SECTION: HUB DASHBOARD */ }
                       {
@@ -882,17 +887,18 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(getTranslations(langList, baseURL))
   },
   handleCheckToken: bindActionCreators(checkToken, dispatch),
+  handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
   handleGetImageType: bindActionCreators(getImageType, dispatch),
   handleSaveActiveSingleUser: bindActionCreators(saveActiveSingleUser, dispatch),
   handleSendSlackNotifications: bindActionCreators(sendSlackNotification, dispatch),
   handleSetActiveSingleDeal: bindActionCreators(setActiveSingleDeal, dispatch),
   handleSetActiveSingleProperty: bindActionCreators(setActiveSingleProperty, dispatch),
-  handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
   handleSetLanguage: bindActionCreators(setLanguage, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
   handleSetNotification: bindActionCreators(setScreenNotification, dispatch),
   handleSetUserTypes: bindActionCreators(setUserTypes, dispatch),
   handleSetWindowsDimension: bindActionCreators(setWindowDimensions, dispatch),
+  handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
 });
 
 export default compose(connect(mapStateToProps, mapDispatchToProps))(App);
