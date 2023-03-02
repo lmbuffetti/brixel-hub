@@ -1,5 +1,5 @@
 module.exports = {
-  standard: [/^brixel/, 'h-fix-56', 'w-fix-56', 'rdw-editor-toolbar', 'rdw-wrapper', 'brixel-text-editor', 'rdw-editor-main', 'rdw-inline-wrapper', '.public-DraftEditorPlaceholder-root',
+  standard: [/^brixel/, 'h-fix-56', 'w-fix-56', 'rdw-editor-toolbar', 'rdw-wrapper', 'brixel-text-editor', 'rdw-editor-main', 'rdw-inline-wrapper', 'public-DraftEditorPlaceholder-root',
     'rdw-option-wrapper', 'rdw-emoji-wrapper', 'rdw-emoji-modal', 'rdw-emoji-icon', 'flex-56'],
   deep: [
     /^bg/,
