@@ -77,11 +77,12 @@ const Dashboard = (props: DashboardType) => {
       } else if (companiesListUser.length > 0) {
         handleGetActiveSingleCompany({ id: companiesListUser[companiesListUser.length - 1] });
       }
-      if (dealID !== activeSingleDeal.id || !dealID) {
+      if ((dealID !== activeSingleDeal.id || !dealID) && loggedInUser.id) {
         let actionStub = 'default';
         if (get(history, 'location.pathname', '').includes('showings')) actionStub = 'user-schedule';
         if (get(history, 'location.pathname', '').includes('docubox')) actionStub = 'get-document';
         if (get(history, 'location.pathname', '').includes('contact')) actionStub = 'message';
+        if (get(history, 'location.pathname', '').includes('makeOffer')) actionStub = 'make-offer';
         handleGetBuyerDeal({ id: propID, actionStub });
       }
     }

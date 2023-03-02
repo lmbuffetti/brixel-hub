@@ -13,6 +13,7 @@ module.exports = defineConfig({
   
   e2e: {
     testIsolation: false,
+    supportFile: './cypress/support/index.js',
     setupNodeEvents(on, config) {
       require('./cypress/plugins/index.js')(on, config)
       return config;

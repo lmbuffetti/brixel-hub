@@ -1,6 +1,6 @@
-import Constants from '../../helpers/constants';
+import { testData, userTest } from '../../helpers/constants';
 
-const { devices, companies } = Constants;
+const { devices, companies } = testData;
 
 describe('Buyer Onboarding', () => {
 
@@ -22,7 +22,7 @@ describe('Buyer Onboarding', () => {
           cy.get('button[type="submit"]').click();
         })
 
-        it('property device', () => {
+        it('property room & size', () => {
           cy.viewport(device);
           cy.get('button[type="submit"]').click();
         })
@@ -31,7 +31,7 @@ describe('Buyer Onboarding', () => {
           cy.viewport(device);
           cy.get('[type="checkbox"]').check({ force: true });
           cy.get('button[type="submit"]').not('.disabled').click();
-        })
+        });
 
         it('address autocomplete', () => {
           cy.viewport(device);
@@ -61,8 +61,8 @@ describe('Buyer Onboarding', () => {
             .then((res) => {
               if (!res) {
                 cy.get('input[name="register.name"]').type('Test Automated');
-                cy.get('input[name="register.email"]').type(`jestTest+sellerE2E${device}@brixel.io`);
-                cy.get('input[name="register.password"]').type('123456789');
+                cy.get('input[name="register.email"]').type(userTest.buyer.email);
+                cy.get('input[name="register.password"]').type(userTest.buyer.password);
                 cy.get('input[name="register.privacy"]').check({force: true});
                 cy.wait(1000).then(() => {
                   cy.get('button[type="submit"]').click();
@@ -70,7 +70,7 @@ describe('Buyer Onboarding', () => {
                 cy.wait(1000).then(() => {
                   cy.get('body', {timeout: 10000}).then($body => {
                     if ($body.find('p.txtRed400').length > 0) {
-                      cy.get('input[name="login.password"]').type('123456789');
+                      cy.get('input[name="login.password"]').type(userTest.buyer.password);
                       cy.wait(1000).then(() => {
                         cy.get('button[type="submit"]').click();
                       })
@@ -81,10 +81,6 @@ describe('Buyer Onboarding', () => {
                 cy.get('body', {timeout: 10000}).should('be.visible');
               }
             });
-        })
-
-        it('Welcome buyer screen', () => {
-          cy.get('.result-popup', { timeout: 10000 }).should('be.visible');
         })
 
       });

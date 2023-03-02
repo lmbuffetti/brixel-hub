@@ -129,7 +129,7 @@ const checkCommon = (store) => (next) => (action) => {
               page: action.payload.page,
               user: response.data.id,
               stage: action.payload.stage,
-              actionStub: action.payload.actionStub,
+              actionStub: action.payload.actionStub || 'default',
             };
             api.deal.createSingleDeal(deal)
               .then((response1) => {
@@ -186,7 +186,7 @@ const checkCommon = (store) => (next) => (action) => {
                     page: action.payload.page,
                     user: res.data.id,
                     stage: action.payload.stage,
-                    actionStub: action.payload.actionStub,
+                    actionStub: action.payload.actionStub || 'default',
                   };
                   api.deal.createSingleDeal(deal)
                     .then((response1) => {
@@ -369,7 +369,7 @@ const checkCommon = (store) => (next) => (action) => {
         .then((res) => {
           if (!res.data) {
             const deal = {
-              actionStub: null,
+              actionStub: 'default',
               page: id,
               user: get(store.getState(), 'user.loggedInUser.user.id', ''),
               stage: 'Interested',

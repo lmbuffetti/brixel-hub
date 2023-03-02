@@ -1,4 +1,5 @@
 /* eslint-disable max-len */
+import React from 'react';
 import {FactsOptions} from '@brixel/brixel-components';
 import {
   BrixelInputDatePicker,
@@ -11,7 +12,6 @@ import {
   Validation,
 } from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
-import React from 'react';
 import BaloiseLogoImg from '../../images/Companies/Baloise/BaloiseLogo.svg';
 import Key4LogoImg from '../../images/Companies/ubsKey4/key4Logo.svg';
 import UBSLogoImg from '../../images/Companies/ubsKey4/ubsLogo.svg';
@@ -142,6 +142,7 @@ export const MakeOfferQuestions: (changeValue: (field: string, val: any) => void
       title: translateTo('Set your price', lang),
       history: 'priceInfo',
       className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText50 p-3 p-sm-5',
+      footerWidth: 'max-w-fix-600',
       inputs: [
         {
           currency: get(formValue, 'propertyPriceCurrency', 'CHF'),

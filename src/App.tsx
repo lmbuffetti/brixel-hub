@@ -171,8 +171,9 @@ const App = (props: AppType) => {
 
   useEffect(() => {
     const { search } = history.location;
-    if (search) {
-      const objURL = JSON.parse('{"' + search.replace('?', '').replace(/&/g, '","').replace(/=/g,'":"') + '"}', function(key, value) { return key=== '' ?value:decodeURIComponent(value) });
+    if (search && search.includes('=')) {
+      const objURL = JSON.parse('{"' + search.replace('?', '').replace(/&/g, '","').replace(/=/g,'":"') + '"}', function(key, value) {
+        return key === '' ? value : decodeURIComponent(value) });
       if (objURL.lang) {
         setCookie('brixelLang', (objURL.lang).toLowerCase());
         handleSetLanguage( (objURL.lang).toLowerCase());

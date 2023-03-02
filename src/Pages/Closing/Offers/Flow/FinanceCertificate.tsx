@@ -1,7 +1,7 @@
+import React, {useState} from 'react';
 import {BrixelButtonPrimary, BrixelButtonText, Helpers} from '@brixel/brixel-components';
 import {BrixelCheckbox, change} from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
-import React, {useState} from 'react';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
 import FinancingQuestionImg from '../../../../images/Offer/financing_question.svg';
@@ -23,6 +23,7 @@ const FinanceCertificate = (props: FinanceCertificateType) => {
   const continueWithoutCert = () => {
     if (checkedBox) {
       changeFieldValue('financeCertificate', 1);
+      changeFieldValue('skipFinanceTest', 1);
       changeFieldValue('noDocument', 1);
     } else {
       changeFieldValue('noDocument', 0);
