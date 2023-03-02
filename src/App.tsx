@@ -171,8 +171,9 @@ const App = (props: AppType) => {
 
   useEffect(() => {
     const { search } = history.location;
-    if (search) {
-      const objURL = JSON.parse('{"' + search.replace('?', '').replace(/&/g, '","').replace(/=/g,'":"') + '"}', function(key, value) { return key=== '' ?value:decodeURIComponent(value) });
+    if (search && search.includes('=')) {
+      const objURL = JSON.parse('{"' + search.replace('?', '').replace(/&/g, '","').replace(/=/g,'":"') + '"}', function(key, value) {
+        return key === '' ? value : decodeURIComponent(value) });
       if (objURL.lang) {
         setCookie('brixelLang', (objURL.lang).toLowerCase());
         handleSetLanguage( (objURL.lang).toLowerCase());
@@ -515,7 +516,7 @@ const App = (props: AppType) => {
               >
                 <div
                   id="bodyScroll"
-                  className={`content dis-fl-col ${!isFlow ? `hubDasContent ${overflowClass()}` : 'flowContent'} ${notification[0] && notification[0].state ? 'saveActionOn pb-8' : ''}`}
+                  className={`content dis-fl-col ${!isFlow ? `hubDasContent ${overflowClass()}` : 'flowContent'} ${notification[0] && notification[0].state ? 'saveActionOn' : ''}`}
                   style={isSecLevel ? { height: '100%' } : { height: headerCalc() }}
                   ref={dashContentRef}
                 >

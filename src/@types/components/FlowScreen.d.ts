@@ -42,6 +42,7 @@ export interface FormValueType {
 }
 
 export interface FlowScreenType {
+  closeLink?: string;
   baseURL: string;
   QuestionsList: QuestionsListType[];
   activeSingleCompany: CompanyType;

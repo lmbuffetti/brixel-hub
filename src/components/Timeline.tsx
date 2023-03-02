@@ -273,7 +273,7 @@ const Timeline = (props: TimelineType) => {
     <div className={`timeline dis-fl-col ${className}`}>
       <span className="title overline tt-up mb-3">{translateTo('History', lang)}</span>
       <div className="events-container w-perc-100 dis-fl-col a-c">
-        <div ref={noteWrapperRef} className="add-note-container p-2 bgWhite brdRadius w-perc-100 dis-fl-col pb-2 mb-2 md-lg-4">
+        <div ref={noteWrapperRef} className="add-note-container p-2 bgWhite brdRadius brdSmall brdText100 w-perc-100 dis-fl-col pb-2 mb-2 md-lg-4">
           <div className="text-container dis-fl-row">
             <BrixelAvatar
               avatarImg={get(loggedInUser, 'avatar[0]', '') ? getConfigEnv.shortPath + get(loggedInUser, 'avatar[0].thumbnailPath', '') : null}
@@ -284,6 +284,7 @@ const Timeline = (props: TimelineType) => {
               editorClassName="new-note"
               wrapperClassName="ml-2 dis-fl-col"
               toolbarClassName="hide"
+              placeholder={translateTo('Add your notes here', lang)}
               input={{
                 name: 'newNote',
                 onChange: (val) => setNewNote(val),
@@ -310,7 +311,7 @@ const Timeline = (props: TimelineType) => {
         {
           chronologicalData && chronologicalData.map((event, i) => (
             <div
-              className={`single-event p-small-12 w-perc-100 dis-fl-row a-t bgWhite mb-2 brdRadius ${has(event, 'parent') ? 'note' : ''} ${has(event, 'parent') && get(event, 'pinned', null) ? 'pinned' : ''}`}
+              className={`single-event brdSmall brdText100 p-small-12 w-perc-100 dis-fl-row a-t bgWhite mb-2 brdRadius ${has(event, 'parent') ? 'note' : ''} ${has(event, 'parent') && get(event, 'pinned', null) ? 'pinned' : ''}`}
               id={`note-${i}`}
               key={`chrLog_${i.toString()}`}
             >

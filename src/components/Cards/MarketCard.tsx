@@ -716,7 +716,7 @@ const MarketCard = (props: MarketCardProps) => {
                           <CoverPropertyImage
                             loadedImg={(val) => setCoverImgLoaded(val)}
                             className={`${isPreMarket() ? 'pre-market' : ''} ${get(item, 'tags', []).join(' ')} cover w-perc-100 h-perc-100 h-fix-216 pos-r`}
-                            coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
+                            coverPhoto={isPreMarket() ? undefined : get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
                             propertyType={get(item, 'properties.propertyType', undefined)}
                           />
                         )
