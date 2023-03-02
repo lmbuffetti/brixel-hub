@@ -382,8 +382,8 @@ const SingleDeal = (props: SingleDealType) => {
                         </div>
                         <OptionsDropdown className="pt-2 pt-lg-0" showMobile showDesktop />
                       </div>
-                      <div className="top dis-fl-row jc-b mb-0 mb-lg-4">
-                        <div className="user dis-fl-row col-md-7 p-2 p-lg-0">
+                      <div className="top dis-fl-row jc-b mb-0 mb-lg-4 pb-3">
+                        <div className="user dis-fl-row col-md-7">
                           <BrixelAvatar
                             baseURL={get(getConfigEnv, 'shortPath', '')}
                             name={Helpers.userNameVal(get(activeSingleDeal, 'user.firstName', ''), get(activeSingleDeal, 'user.lastName', ''), get(activeSingleDeal, 'user.name', '')) === 'No Name' ? get(activeSingleDeal, 'user.email', '') : Helpers.userNameVal(get(activeSingleDeal, 'user.firstName', ''), get(activeSingleDeal, 'user.lastName', ''), get(activeSingleDeal, 'user.name', ''))}
@@ -431,7 +431,7 @@ const SingleDeal = (props: SingleDealType) => {
                       </div>
 
                       {/* middle panel */}
-                      <div className="mid p-2 dis-fl-row-md flex-wrap mb-lg-2 pos-r">
+                      <div className="mid dis-fl-row-md flex-wrap mb-lg-2 pos-r">
                         <div className="left dis-fl-col col-md-6 p-0">
                           <span className="fsize-200 overline tt-up mb-2">{translateTo('Information', lang)}</span>
 
@@ -491,7 +491,7 @@ const SingleDeal = (props: SingleDealType) => {
                       </div>
 
                       {/* bottom panel */}
-                      <div className="bottom dis-fl-col dis-fl-row-sm w-perc-100 h-perc-100 py-3 pos-r">
+                      <div className="bottom dis-fl-col dis-fl-row-sm w-perc-100 h-perc-100 py-3 pos-r p-0">
                         <Timeline
                           isDeal
                           className="col-12 col-sm-6 p-0"
@@ -549,7 +549,7 @@ const SingleDeal = (props: SingleDealType) => {
                           }
 
                           <span className="overline dis-b mb-3">{translateTo('Offer', lang)}</span>
-                          <div className="brdRadius shadow-1dp pos-r dis-fl-col bgWhite p-small-12 w-perc-100">
+                          <div className="brdRadius brdSmall brdText200 pos-r dis-fl-col bgWhite p-small-12 w-perc-100">
                             <div className="dis-fl-row jc-b">
                               <div className="dis-f a-c">
                                 <BrixelIcon
