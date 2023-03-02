@@ -3,11 +3,6 @@
 
 import { testData } from '../../helpers/constants';
 const { devices } = testData;
-import ep from '../../../src/controllers/endPoints.constant';
-
-const multiofferTest = [
-
-]
 
 describe('viewport testing', () => {
   
@@ -22,7 +17,6 @@ describe('viewport testing', () => {
       cy.viewport(device);
       cy.getCookie('userPageID')
         .then((res) => {
-          console.log('test', ep.deal.deleteOffer(123));
           cy.visit(`http://localhost:5000/packageFlow/${res.value}/makeOffer/priceInfo`);
         });
     })
@@ -39,7 +33,6 @@ describe('viewport testing', () => {
     it('request credit without certificate', () => {
       cy.reduxValue('brixelForm', 'offerFlow')
         .then(($identifier) => {
-          console.log($identifier);
           if ($identifier.values.financeCertificate === 0) {
             cy.get('[name="proofConfirm"]').check( { force: true });
             cy.get('.multiStepSlides button[type="button"]').click();
@@ -94,10 +87,7 @@ describe('viewport testing', () => {
     });
   
     it('success screen', () => {
-      cy.get('button[type="submit"] .btnLoader', {timeout: 10000}).should('not.be.visible')
-        .then(() => {
-          console.log(ep.deal.deleteOffer(123));
-        })
+      cy.get('button[type="submit"] .btnLoader', {timeout: 10000}).should('not.be.visible');
     });
   });
 })

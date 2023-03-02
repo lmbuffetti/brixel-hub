@@ -49,8 +49,8 @@ Cypress.Commands.add('loginViaApi', async (actionAfterLogin) => {
           .then(async(pageData) => {
             cy.setCookie('userPageID', pageData.data[0].id);
             if (actionAfterLogin.loadDeal) {
-              const urlPAGES = `https://dev.api.brixel.io/api/v3/page/${pageData.data[0].id}/deal/buyer`;
-              await fetch(urlPAGES, {
+              const urlDEAL = `https://dev.api.brixel.io/api/v3/page/${pageData.data[0].id}/deal/buyer`;
+              await fetch(urlDEAL, {
                 headers: {
                   'Content-Type': 'application/json; charset=utf-8',
                   'x-brixel-token': data.token,
@@ -58,7 +58,6 @@ Cypress.Commands.add('loginViaApi', async (actionAfterLogin) => {
               })
                 .then((response) => response.json())
                 .then((deal) => {
-                  console.log(deal)
                   cy.setCookie('dealUserID', deal.id);
                 })
             }

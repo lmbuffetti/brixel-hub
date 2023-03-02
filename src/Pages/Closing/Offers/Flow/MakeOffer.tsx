@@ -1,17 +1,9 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {
-  BrixelButtonIcon,
-  BrixelButtonPrimary,
-  BrixelButtonSecondary,
-  BrixelProgressBar,
-  Helpers,
-} from '@brixel/brixel-components';
-import {change, destroy, initializeForm, MultiFileldsReduxForm, reset} from '@brixel/brixel-components/dist/form';
+import React, {useEffect, useState} from 'react';
+import {change, destroy, initializeForm, reset} from '@brixel/brixel-components/dist/form';
 import {FinancialCalculator} from '@brixel/brixel-components/dist/utils/FinancialFormulas';
 import get from 'lodash/get';
 import set from 'lodash/set';
 import has from 'lodash/has';
-import isArray from 'lodash/isArray';
 import {connect} from 'react-redux';
 import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import {bindActionCreators, compose} from 'redux';
@@ -23,7 +15,6 @@ import {multiUploadDocument} from '../../../../actions/UploadActions';
 import {sendUserScanTrial} from '../../../../actions/UserActions';
 import {MakeOfferQuestions} from '../../../../resources/Deals/MakeOffer';
 import {getCookie, setCookie} from '../../../../utils/helpers';
-import translateTo from '../../../../utils/translation';
 import type {MakeOfferType} from '../../../../@types/Pages/Closing/Offers/Flow/MakeOffer';
 import {QuestionsListType} from '@brixel/brixel-components/dist/@types/Model';
 import FlowScreen from '../../../../components/FlowScreen';
@@ -41,13 +32,11 @@ const MakeOffer = (props: MakeOfferType) => {
     activeSingleProperty,
     changeFieldValue,
     destroyForm,
-    errorValue,
     formValue,
     handleGetActiveSingleCompany,
     handleGetActiveSingleProperty,
     handleGetBuyerDeal,
     handleMultiUploadDocument,
-    handleReset,
     handleSaveMakeOffer,
     handleSetModal,
     initForm,
