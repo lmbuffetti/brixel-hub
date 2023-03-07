@@ -25,3 +25,12 @@ declare module '*.scss' {
   export default content;
 }
 
+declare namespace Cypress {
+  interface Chainable<Subject = any> {
+    deleteOffer(): Chainable<any>;
+    getBuyerDeal(): Chainable<any>;
+    loginViaApi(): Chainable<any>;
+    propertyListings(): Chainable<any>;
+    reduxValue(state: string, field: string): Chainable<any>;
+  }
+}
