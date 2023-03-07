@@ -11,14 +11,14 @@ describe('Seller Onboarding', () => {
   });
 
   //for each company do the onboarding
-  companies.forEach(company => {
+  Object.keys(companies).forEach((key: any) => {
     //This gives you some feedback in the Cypress side bar console on what URL you're at
-    describe(`company: ${company}`, () => {
+    describe(`company: ${key}`, () => {
 
       devices.forEach((device) => {
         it('visit url', () => {
           cy.viewport(device);
-          cy.visit(`http://localhost:5000/packageFlow/getStarted/${company}/propertyType`);
+          cy.visit(`http://localhost:5000/packageFlow/getStarted/${key}/propertyType`);
         })
 
         it('select property type', () => {
@@ -47,7 +47,7 @@ describe('Seller Onboarding', () => {
 
         it('address autocomplete', () => {
           cy.viewport(device);
-          cy.get('input[role="text"]').type('Avenida');
+          cy.get('input[role="text"]').type(companies[key].autocomplete);
           cy.get('ul.resultAutoComplete li:first-child', { timeout: 10000 }).should('be.visible').click();
           cy.wait(100).then(() => {
             cy.get('button[type="submit"]').click();
@@ -61,7 +61,7 @@ describe('Seller Onboarding', () => {
         })
 
         it('condition property', () => {
-          if (company !== 'ubs' && company !== 'baloise') {
+          if (key !== 'ubs' && key !== 'baloise') {
             cy.viewport(device);
             cy.get('[type="radio"]').first().check({force: true});
           }
@@ -96,7 +96,11 @@ describe('Seller Onboarding', () => {
         })
 
         it('Welcome seller screen', () => {
-          cy.get('.welcomeSellerBody', { timeout: 10000 }).should('be.visible');
+          if (key === 'ubs' || key === 'baloise') {
+            cy.get('.rewards-container', { timeout: 10000 }).should('be.visible');
+          } else {
+            cy.get('.welcomeSellerBody', {timeout: 10000}).should('be.visible');
+          }
           cy.url().then((url) => {
             cy.log('Current URL is: ' + url);
             const splitURL = url.split('/');

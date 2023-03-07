@@ -38,7 +38,9 @@ export interface MakeOfferType {
   handleSaveMakeOffer: (data: object) => void;
   handleSetModal: (data: object) => void;
   initForm: (data: object) => void;
+  isTest: boolean;
   initialValues: FormValueType;
+  handleSpinnerSmallOff: () => void;
   isSmallLoading: {
     sendData: boolean;
   };

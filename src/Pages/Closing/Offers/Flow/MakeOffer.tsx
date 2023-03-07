@@ -7,7 +7,7 @@ import has from 'lodash/has';
 import {connect} from 'react-redux';
 import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import {bindActionCreators, compose} from 'redux';
-import {setModal, spinnerOff} from '../../../../actions/CommonActions';
+import {setModal, spinnerOff, spinnerSmallOff} from '../../../../actions/CommonActions';
 import {getActiveSingleCompany} from '../../../../actions/CompanyActions';
 import {getActiveSingleDeal, getBuyerDeal, saveMakeOffer} from '../../../../actions/DealActions';
 import {getActiveSingleProperty} from '../../../../actions/PropertyActions';
@@ -33,7 +33,7 @@ const MakeOffer = (props: MakeOfferType) => {
     changeFieldValue,
     destroyForm,
     formValue,
-    handleGetActiveSingleCompany,
+    handleSpinnerSmallOff,
     handleGetActiveSingleProperty,
     handleGetBuyerDeal,
     handleMultiUploadDocument,
@@ -42,6 +42,7 @@ const MakeOffer = (props: MakeOfferType) => {
     initForm,
     initialValues,
     isSmallLoading,
+    isTest,
     lang,
     loggedInUser,
     translations,
@@ -51,6 +52,7 @@ const MakeOffer = (props: MakeOfferType) => {
   const QuestionData = MakeOfferQuestions((name, value) => changeFieldValue(name, value), (id) => setCurrentIndex(id)[0], (data) => handleSetModal(data), lang);
   const [questions, setQuestions] = useState<QuestionsListType[]>(QuestionData);
   const [isToSave, setIsToSave] = useState(true);
+  const price = get(formValue, 'amount', 0);
   // GET URL PARAMS
   const propID = get(match, 'id', null);
   const dealID = get(activeSingleDeal, 'id', null);
@@ -64,19 +66,33 @@ const MakeOffer = (props: MakeOfferType) => {
       };
       handleGetActiveSingleProperty(data);
     }
-    return () => destroyForm();
+    initForm({});
+    return () => {
+      initForm({});
+      handleSpinnerSmallOff();
+      destroyForm();
+    }
   }, []);
 
   useEffect(() => {
     if (activeSingleDeal.id && (get(activeSingleDeal, 'closing.stageOffer.offer.status', null) && (get(activeSingleDeal, 'closing.stageOffer.offer.amount', 0) === 0 || get(activeSingleDeal, 'closing.stageOffer.offer.status', '') !== 'rejected'))) {
       history.push({ pathname: `/buyer/${propID}/closing/${activeSingleDeal.id}` });
     }
-    if (get(activeSingleProperty, 'company', null)) {
-      const defComp = get(activeSingleProperty, 'company', 'default');
-      handleGetActiveSingleCompany({ id: defComp });
+    if (activeSingleProperty.id && !activeSingleDeal.id && loggedInUser.id && !isTest) {
+      const buyerDealData = {
+        id: activeSingleProperty.id,
+        actionsStub: 'make-offer',
+      }
+      handleGetBuyerDeal(buyerDealData);
     }
-    if (activeSingleProperty.id && !activeSingleDeal.id && loggedInUser.id) handleGetBuyerDeal({ id: activeSingleProperty.id, actionsStub: 'make-offer' });
-  }, [activeSingleDeal.id, activeSingleProperty.id, loggedInUser]);
+    if (activeSingleProperty.id && !activeSingleDeal.id && loggedInUser.id && isTest && activeSingleCompany.id) {
+      const buyerDealData = {
+        id: activeSingleProperty.id,
+        actionsStub: 'make-offer',
+      }
+      handleGetBuyerDeal(buyerDealData);
+    }
+  }, [activeSingleDeal.id, activeSingleProperty.id, activeSingleCompany.id, loggedInUser]);
 
   useEffect(() => {
     const cost = {
@@ -86,7 +102,6 @@ const MakeOffer = (props: MakeOfferType) => {
     };
     let lowCountryData = get(formValue, 'propertyLocation.countryCode', '');
     lowCountryData = lowCountryData ? lowCountryData.toLowerCase() : '';
-    const price = get(formValue, 'propertyPrice', 0);
     const financeCalc = FinancialCalculator(lowCountryData, price, cost, '');
     if (financeCalc) {
       const affordabilityData = get(financeCalc, 'affordability', 0);
@@ -156,7 +171,7 @@ const MakeOffer = (props: MakeOfferType) => {
       ...dataForm,
       ...dataDocuments,
     };
-    if (isToSave) {
+    if (isToSave && data.amount > 0) {
       if (docs.length === 0 && activeSingleCompany.stub === 'ubs') {
         history.push(`/buyer/${propID}/financingFlow`);
       } else {
@@ -228,6 +243,7 @@ const mapStateToProps = (state) => ({
   lang: get(state, 'common.language', ''),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
   translations: get(state, 'translations', { }),
+  isTest: get(state, 'common.isTest', false),
   initialValues: {
     ...get(state, 'brixelForm.offerFlow.values', {}),
     affordabilityCheck: null,
@@ -265,6 +281,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleSendScanTrial: bindActionCreators(sendUserScanTrial, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
+  handleSpinnerSmallOff: bindActionCreators(spinnerSmallOff, dispatch),
 });
 
 export default compose(

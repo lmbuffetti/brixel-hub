@@ -7,13 +7,13 @@ describe('Buyer Onboarding', () => {
   Cypress.Cookies.debug(true);
 
   //for each company do the onboarding
-  companies.forEach(company => {
+  Object.keys(companies).forEach((key) => {
     //This gives you some feedback in the Cypress side bar console on what URL you're at
-    describe(`company: ${company}`, () => {
+    describe(`company: ${key}`, () => {
       devices.forEach((device) => {
         it('visit url', () => {
           cy.viewport(device);
-          cy.visit(`http://localhost:5000/packageFlow/getStartedBuyer/${company}/propertyType`);
+          cy.visit(`http://localhost:5000/packageFlow/getStartedBuyer/${key}/propertyType`);
         })
 
         it('select property type', () => {
@@ -36,7 +36,7 @@ describe('Buyer Onboarding', () => {
         it('address autocomplete', () => {
           cy.viewport(device);
           cy.url().should('contain', '/locationInput');
-          cy.get('input[role="text"]').type('Lisboa');
+          cy.get('input[role="text"]').type(companies[key].autocompleteCity);
           cy.get('ul.resultAutoComplete li:first-child', { timeout: 10000 }).should('be.visible').click();
           cy.wait(300).then(() => {
             cy.get('button[type="submit"]').not('.disabled').click();
