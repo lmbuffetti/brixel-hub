@@ -88,8 +88,8 @@ const MarketCardFavorites = (props: MarketCardEstimationType) => {
         </div>
 
         <div className="w-perc-100 dis-fl-col p-2">
-          <div className="dis-f a-t jc-b">
-            <div>
+          <div className="dis-fl-col-rev dis-fl-row-sm a-t jc-b">
+            <div className="w-perc-100">
               <span className="fsize-300 txtText700 mb-1 ta-l">
                 {get(activeSingleProperty, 'data.location.zip', '')} {get(activeSingleProperty, 'data.location.city', '')}
                 {
@@ -113,7 +113,7 @@ const MarketCardFavorites = (props: MarketCardEstimationType) => {
                 onClick={() => openProperty()}
               />
             </div>
-            <div className="dis-f">
+            <div className="dis-f jc-b w-perc-100">
               <div className="dis-f a-c">
                 <Tags
                   lang={lang}

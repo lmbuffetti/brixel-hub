@@ -458,7 +458,7 @@ export const MakeOfferQuestions: (changeValue: (field: string, val: any) => void
         value: null,
       }],
       title: translateTo('Do you have a recent proof of financing?', lang),
-      subtitle: translateTo('Do you have a recent proof of financing?', lang),
+      // subtitle: translateTo('Do you have a recent proof of financing?', lang),
       history: 'financingProofPartner',
       className: 'max-w-fix-600 ml-a mr-a dis-f flex-wrap ',
       footerWidth: 'max-w-fix-600',
