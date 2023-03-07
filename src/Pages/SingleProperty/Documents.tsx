@@ -251,13 +251,13 @@ const Documents = (props: DocumentsPageType) => {
   }
 
   const dragDocuments = (doc, id, list) => {
-    if (list) {
+    if (list && list !== 'NoFolder') {
       if (list === 'folderList') {
         if (doc.length === processedDocuments.length) setProcessedDocuments(doc);
       } else if (list) {
         setProcessedDocuments((prevState) => {
           const newDoc: DocumentType[][] = [...prevState];
-          const folderID = prevState.findIndex((dc) => dc[0].folder === list);
+          const folderID = prevState.findIndex((dc) => get(dc[0], 'folder') === list);
           const updateDoc = doc.map((dc) => ({ ...dc, folder: list }));
           delete updateDoc.chosen;
           delete updateDoc.selected;
