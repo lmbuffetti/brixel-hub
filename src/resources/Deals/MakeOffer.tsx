@@ -122,7 +122,7 @@ export const MakeOfferQuestions: (changeValue: (field: string, val: any) => void
                 {
                   formValue.company === 'ubs' && (
                     <div className="dis-f a-c mt-3">
-                      <p className="txtText400 mr-2">In partnership with</p>
+                      <p className="txtText400 mr-2">{translateTo('In partnership with', lang)}</p>
                       <img loading="lazy" className="h-fix-24" src={UBSLogoImg} alt="Logo UBS" />
                       <img  loading="lazy" className="h-fix-24 ml-2" src={Key4LogoImg} alt="Logo Key 4" />
                     </div>
