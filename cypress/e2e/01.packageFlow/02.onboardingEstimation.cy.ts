@@ -7,14 +7,14 @@ describe('Seller Onboarding', () => {
   Cypress.Cookies.debug(true, { verbose: false })
 
   //for each company do the onboarding
-  companies.forEach(company => {
+  Object.keys(companies).forEach((key) => {
     //This gives you some feedback in the Cypress side bar console on what URL you're at
-    describe(`company: ${company}`, () => {
+    describe(`company: ${key}`, () => {
 
       devices.forEach((device) => {
         it('visit url', () => {
           cy.viewport(device);
-          cy.visit('http://localhost:5000/packageFlow/getStartedEstimation/brixel_portugal/estimationType');
+          cy.visit(`http://localhost:5000/packageFlow/getStartedEstimation/${key}/estimationType`);
         })
 
         it('select intention', () => {
@@ -49,7 +49,7 @@ describe('Seller Onboarding', () => {
 
         it('address autocomplete', () => {
           cy.viewport(device);
-          cy.get('input[role="text"]').type('Avenida');
+          cy.get('input[role="text"]').type(companies[key].autocomplete);
           cy.get('ul.resultAutoComplete li:first-child', { timeout: 10000 }).should('be.visible').click();
           cy.wait(100).then(() => {
             cy.get('button[type="submit"]').click();

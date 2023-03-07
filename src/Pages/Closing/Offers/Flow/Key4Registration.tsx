@@ -16,6 +16,7 @@ const Key4Registration = (props: Key4RegistrationType) => {
     activeSingleProperty,
     activeSinglePropertyDocs,
     formValue,
+    isTest,
     lang,
     loggedInUser,
     onClick,
@@ -28,6 +29,7 @@ const Key4Registration = (props: Key4RegistrationType) => {
   const [maxAffordability, setMaxAffordability] = useState<number | null>(null);
   const affordability = get(formValue, 'affordability', 0);
   const loanToValueRatio = get(formValue, 'loanToValueRatio', 0);
+  const price = get(formValue, 'amount', 0);
 
   useEffect(() => {
     const equityCapital = get(formValue, 'financeBuyer.equity', 0);
@@ -38,7 +40,6 @@ const Key4Registration = (props: Key4RegistrationType) => {
       income: grossIncome,
       fixedCost,
     };
-    const price = get(formValue, 'propertyPrice', 0);
     setMaxLoanRatio(FinancialCalculator(lowCountry, price, cost, '').maxLoanRatio);
     setMaxAffordability(FinancialCalculator(lowCountry, price, cost, '').maxAffordability);
   }, []);
@@ -75,7 +76,7 @@ const Key4Registration = (props: Key4RegistrationType) => {
       const mortgageAmount = marketValue - Equity;
       url = `https://app.key4.ch/app/HVE/1?channelType=${channelType}&useCase=${useCase}&subtype=${subtype}&objectUsage=${objectUsage}&campID=${campID}&marketValue=${marketValue}&postalCode=${postalCode}&city=${city}&streetName=${streetName}&streetNumber=${streetNumber}&objectType=${objectType}&grossAnnualIncome=${grossAnnualIncome}&lang=${lang}&equity=${Equity}&startDate=${startDate}&mortgageAmount=${mortgageAmount}`;
     }
-    window.open(url, '_blank');
+    if (!isTest) window.open(url, '_blank');
     setTimeout(() => onClick(), 500);
   };
 
@@ -254,6 +255,7 @@ const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   activeSinglePropertyDocs: get(state, 'property.activeSingleProperty.documents', []),
   formValue: get(state, 'brixelForm.offerFlow.values', {}),
+  isTest: get(state, 'common.isTest', false),
   lang: get(state, 'common.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
 });

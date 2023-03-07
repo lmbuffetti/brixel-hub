@@ -37,6 +37,8 @@ export const defaultState: CommonReducerType = {
   history: {},
   isLoading: 1,
   isSmallLoading: {},
+  // @ts-ignore
+  isTest: typeof window?.Cypress !== 'undefined',
   language: null,
   languages: getConfigEnv.languages || [],
   modal: {

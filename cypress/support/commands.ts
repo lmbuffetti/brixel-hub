@@ -42,62 +42,23 @@ Cypress.Commands.add('loginViaApi', () => {
     .then( (data) => {
       cy.setCookie('brixelToken', data.body.token);
     });
-})
-
-Cypress.Commands.add('propertyListings',  () => {
-  const url = `https://dev.api.brixel.io/api/v3${ep.market.ownedProperties(1, 0, '?order=updatedAt&direction=DESC')}`;
-  const token = cookie.get('brixelToken');
-  if (token) {
-    cy.request({
-      method: 'GET',
-      url: url,
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8',
-        'x-brixel-token': token,
-      },
-    })
-      .then((pageData) => {
-        cy.setCookie('userPageID', pageData.body.data[0].id);
-      });
-  }
 });
 
-Cypress.Commands.add('getBuyerDeal',  () => {
-  const pageID = cookie.get('userPageID');
-  const url = `https://dev.api.brixel.io/api/v3${ep.deal.buyerDeal(pageID)}`;
-  const token = cookie.get('brixelToken');
-  if (token) {
-    cy.request({
-      method: 'GET',
-      url: url,
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8',
-        'x-brixel-token': token,
-      },
-    })
-      .then((pageData) => {
-        console.log(pageData);
-        cy.setCookie('dealPageID', pageData.body.id);
-      });
-  }
-});
-
-Cypress.Commands.add('deleteOffer',  () => {
-  const dealID = cookie.get('dealPageID');
+Cypress.Commands.add('deleteOffer',  (dealID) => {
   const url = `https://dev.api.brixel.io/api/v3${ep.deal.deleteOffer(dealID)}`;
   const token = cookie.get('brixelToken');
-  if (token) {
-    cy.request({
-      method: 'POST',
-      url: url,
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8',
-        'x-brixel-token': token,
-      },
-    })
-      .then((res) => {
-        console.log(res);
+  if (token && dealID) {
+      cy.request({
+        method: 'POST',
+        url: url,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+          'x-brixel-token': token,
+        },
       })
+        .then((res) => {
+          console.log(res);
+        })
   }
 });
 

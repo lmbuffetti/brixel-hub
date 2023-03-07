@@ -32,6 +32,7 @@ const Dashboard = (props: DashboardType) => {
   const match = useParams();
   // PROPS
   const {
+    activeSingleCompany,
     activeSingleProperty,
     activeSingleDeal,
     handleGetFavoritesProperties,
@@ -77,7 +78,7 @@ const Dashboard = (props: DashboardType) => {
       } else if (companiesListUser.length > 0) {
         handleGetActiveSingleCompany({ id: companiesListUser[companiesListUser.length - 1] });
       }
-      if ((dealID !== activeSingleDeal.id || !dealID) && loggedInUser.id) {
+      if ((dealID !== activeSingleDeal.id || !dealID) && loggedInUser.id && activeSingleCompany.id) {
         let actionStub = 'default';
         if (get(history, 'location.pathname', '').includes('showings')) actionStub = 'user-schedule';
         if (get(history, 'location.pathname', '').includes('docubox')) actionStub = 'get-document';
@@ -86,7 +87,7 @@ const Dashboard = (props: DashboardType) => {
         handleGetBuyerDeal({ id: propID, actionStub });
       }
     }
-  }, [activeSingleProperty.id, loggedInUser]);
+  }, [activeSingleProperty.id, loggedInUser, activeSingleCompany?.id]);
 
   useEffect(() => {
     if (propID && propID !== 'propertyLists') {
@@ -138,7 +139,7 @@ const Dashboard = (props: DashboardType) => {
 
 const mapStateToProps = (state) => ({
   activeSingleDeal: get(state, 'deal.activeSingleDeal', {}),
-  activeSingleCompany: get(state, 'companies.activeSingleCompany.id', { }),
+  activeSingleCompany: get(state, 'companies.activeSingleCompany', { }),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
 });
