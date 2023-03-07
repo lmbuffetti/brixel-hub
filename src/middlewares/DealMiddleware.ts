@@ -3,6 +3,7 @@ import omit from 'lodash/omit';
 import get from 'lodash/get';
 import set from 'lodash/set';
 import has from 'lodash/has';
+import { testData } from '../../cypress/helpers/constants';
 import {
   REDIRECT_TO,
   SET_SCREEN_NOTIFICATION,
@@ -37,6 +38,7 @@ import {exampleDeal} from '../resources/Deals/exampleDeal';
 import api from '../controllers/api/config';
 
 import TimelineActionStubs from '../resources/Utilities/timelineActionStubs';
+const { companies } = testData;
 
 const checkCommon = (store) => (next) => (action) => {
   switch (action.type) {
@@ -59,6 +61,8 @@ const checkCommon = (store) => (next) => (action) => {
           type: SPINNER_ON,
         });
       }
+      const isTest = get(store.getState(), 'common.isTest', false);
+      const company = get(store.getState(), 'companies.activeSingleCompany.stub', null);
       api.user.getUserByEmail(action.payload.leadEmail)
         .then((response) => {
           // User not found, we need to create a new one
@@ -68,11 +72,13 @@ const checkCommon = (store) => (next) => (action) => {
               .then((res) => {
                 if (res.meta.normalizedStatus === 200) {
                   const deal = {
+                    id: isTest ? companies[company.stub].propID : null,
                     page: action.payload.page,
                     user: res.data.id,
                     stage: action.payload.stage,
                     actionStub: action.payload.actionStub,
                   };
+                  if (!deal.id) delete deal.id;
                   api.deal.createSingleDeal(deal)
                     .then((response1) => {
                       if (response1.meta.normalizedStatus === 200) {
@@ -126,11 +132,13 @@ const checkCommon = (store) => (next) => (action) => {
           } else if (response.meta.normalizedStatus === 200) {
             // User already exists, we just need to create the deal
             const deal = {
+              id: isTest ? companies[company.stub].propID : null,
               page: action.payload.page,
               user: response.data.id,
               stage: action.payload.stage,
               actionStub: action.payload.actionStub || 'default',
             };
+            if (!deal.id) delete deal.id;
             api.deal.createSingleDeal(deal)
               .then((response1) => {
                 if (response1.meta.normalizedStatus === 200) {
@@ -183,11 +191,13 @@ const checkCommon = (store) => (next) => (action) => {
               .then((res) => {
                 if (res.meta.normalizedStatus === 200) {
                   const deal = {
+                    id: isTest ? companies[company.stub].propID : null,
                     page: action.payload.page,
                     user: res.data.id,
                     stage: action.payload.stage,
                     actionStub: action.payload.actionStub || 'default',
                   };
+                  if (!deal.id) delete deal.id;
                   api.deal.createSingleDeal(deal)
                     .then((response1) => {
                       if (response1.meta.normalizedStatus === 200) {
@@ -365,6 +375,8 @@ const checkCommon = (store) => (next) => (action) => {
           type: SPINNER_ON,
         });
       }
+      const isTest = get(store.getState(), 'common.isTest', false);
+      const company = get(store.getState(), 'companies.activeSingleCompany.stub', null);
       api.deal.getBuyerDeal(id)
         .then((res) => {
           if (!res.data) {
@@ -373,8 +385,10 @@ const checkCommon = (store) => (next) => (action) => {
               page: id,
               user: get(store.getState(), 'user.loggedInUser.user.id', ''),
               stage: 'Interested',
+              id: isTest && company ? companies[company].propID : null,
             };
             if (actionStub) deal.actionStub = actionStub;
+            if (!deal.id) delete deal.id;
             api.deal.createSingleDeal(deal)
               .then((response1) => {
                 if (response1.meta.normalizedStatus === 200) {

@@ -6,6 +6,7 @@ export interface Key4RegistrationType {
   activeSingleProperty: PropertyType;
   activeSinglePropertyDocs: DocumentType[];
   formValue: FormValueType;
+  isTest: boolean;
   lang: string;
   loggedInUser: LoggedUserType;
   onClick: () => void;

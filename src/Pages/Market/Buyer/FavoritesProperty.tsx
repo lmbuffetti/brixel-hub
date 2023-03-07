@@ -55,8 +55,8 @@ const FavoritesProperty = (props: FavoritesPropertyType) => {
             </div>
           </div>
         ) : (
-          <div className="dis-f a-c jc-b my-3">
-            <h4 className="fweight-600">
+          <div className="dis-fl-row-sm dis-fl-col a-c jc-b my-3">
+            <h4 className="fweight-600 mb-1 mb-sm-0">
               <span>{translateTo('Saved properties', lang)}</span>
               <span className="ml-1">({wishlistProperties.total || '-'})</span>
             </h4>
