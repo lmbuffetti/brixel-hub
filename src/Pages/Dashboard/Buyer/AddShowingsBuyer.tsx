@@ -19,6 +19,7 @@ import type {AddShowingsBuyerType} from '../../../@types/Pages/Dashboard/Buyer/A
 import FlowScreen from '../../../components/FlowScreen';
 
 const AddShowingsBuyer = (props: AddShowingsBuyerType) => {
+
   const match = useParams();
   // PROPS
   const {
