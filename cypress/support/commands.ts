@@ -28,8 +28,8 @@ import Cookies from 'universal-cookie';
 const cookie = new Cookies();
 import ep from '../../src/controllers/endPoints.constant';
 
-Cypress.Commands.add('loginViaApi', () => {
-  const auth = btoa(`${userTest.seller.email}:${userTest.seller.password}`);
+Cypress.Commands.add('loginViaApi', (type = 'seller') => {
+  const auth = btoa(`${userTest.seller.email}:${userTest[type].password}`);
   const url = `https://dev.api.brixel.io/api/v3${ep.user.getToken()}`;
   cy.request({
     method: 'GET',
@@ -40,6 +40,7 @@ Cypress.Commands.add('loginViaApi', () => {
     },
   })
     .then( (data) => {
+      cy.log(`logged user as ${type}`);
       cy.setCookie('brixelToken', data.body.token);
     });
 });
@@ -48,17 +49,17 @@ Cypress.Commands.add('deleteOffer',  (dealID) => {
   const url = `https://dev.api.brixel.io/api/v3${ep.deal.deleteOffer(dealID)}`;
   const token = cookie.get('brixelToken');
   if (token && dealID) {
-      cy.request({
-        method: 'POST',
-        url: url,
-        headers: {
-          'Content-Type': 'application/json; charset=utf-8',
-          'x-brixel-token': token,
-        },
+    cy.request({
+      method: 'POST',
+      url: url,
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+        'x-brixel-token': token,
+      },
+    })
+      .then((res) => {
+        console.log(res);
       })
-        .then((res) => {
-          console.log(res);
-        })
   }
 });
 
