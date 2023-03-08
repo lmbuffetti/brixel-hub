@@ -28,7 +28,7 @@ describe('viewport testing', () => {
             const token = cookie.get('brixelToken');
             const dealID = companies[key].propID;
             if (!token) {
-              cy.loginViaApi();
+              cy.loginViaApi('buyer');
             }
             try {
               cy.log(dealID);

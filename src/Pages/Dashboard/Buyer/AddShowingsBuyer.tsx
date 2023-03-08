@@ -78,12 +78,6 @@ const AddShowingsBuyer = (props: AddShowingsBuyerType) => {
     }
   }, [propID]);
 
-  useEffect(() => {
-    if (isSmallLoading.sendData === false) {
-      history.push(`/buyer/${activeSingleProperty.id}/home`);
-    }
-  }, [isSmallLoading]);
-
   const saveData = () => {
     const data = {
       page: activeSingleProperty.id,
