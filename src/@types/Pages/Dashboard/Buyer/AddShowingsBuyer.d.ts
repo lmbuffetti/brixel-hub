@@ -29,9 +29,6 @@ export interface AddShowingsBuyerType {
   handleGetActiveSinglePropertyBookings(...args: unknown[]): unknown;
   initForm(...args: unknown[]): unknown;
   initialValues: FormValueType;
-  isSmallLoading: {
-    sendData: boolean;
-  };
   lang: string;
   loggedInUser: LoggedUserType;
   translations: object;

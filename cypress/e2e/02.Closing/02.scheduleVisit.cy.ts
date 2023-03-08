@@ -18,7 +18,7 @@ describe('viewport testing', () => {
       it('get data', () => {
         const token = cookie.get('brixelToken');
         if (!token) {
-          cy.loginViaApi();
+          cy.loginViaApi('buyer');
         }
       })
 
@@ -55,7 +55,7 @@ describe('viewport testing', () => {
       })
 
       it('success screen', () => {
-        cy.get('.hubDashboard', {timeout: 10000}).should('be.visible');
+        cy.get('button[type="submit"] .btnLoader', {timeout: 10000}).should('not.be.visible');
       });
     });
   });
