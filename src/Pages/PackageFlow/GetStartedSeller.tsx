@@ -87,6 +87,8 @@ const GetStartedSeller = (props: GetStartedSellerType) => {
     setLoadingRequest(true);
     const dataForm = cloneDeep(formValue);
     const dataFormAnswer = cloneDeep(formValue);
+    delete dataFormAnswer.id;
+    delete dataForm.id;
     setCookie('brixelSplashHome', 'sellerWelcome');
     const { login, register } = dataForm;
     const formCompany = dataForm.company;

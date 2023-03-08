@@ -67,6 +67,8 @@ const GetStartedBuyer = (props: GetStartedType) => {
     if (isLoading || loadingRequest) return false;
     const dataForm = cloneDeep(formValue);
     const dataFormAnswer = cloneDeep(formValue);
+    delete dataFormAnswer.id;
+    delete dataForm.id;
     setCookie('brixelSplashHome', 'buyerWelcome');
     const { login, register } = dataForm;
     // delete dataForm.login;
