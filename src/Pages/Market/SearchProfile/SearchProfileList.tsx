@@ -65,7 +65,11 @@ const SearchProfileList = (props: SearchProfileListType) => {
   const editSearchProfile = (searchProfile) => {
     const initialValue: object = {};
     fieldsSearchProfile.forEach((field) => {
-      set(initialValue, field, get(searchProfile, field, ''));
+      if (get(searchProfile, field, '') === null) {
+        set(initialValue, field, 9);
+      } else {
+        set(initialValue, field, get(searchProfile, field, ''));
+      }
     })
     initForm(initialValue)
     history.push(`/buy/searchProfile/list/edit/${searchProfile.id}`)
