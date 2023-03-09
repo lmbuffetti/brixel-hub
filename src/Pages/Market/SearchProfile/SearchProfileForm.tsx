@@ -42,6 +42,12 @@ const SearchProfileForm = (props: SearchProfileFormType) => {
       const initialValue: SearchProfileFormType['formValue'] = {};
       fields.forEach((field) => {
         set(initialValue, field, get(getCurrentSearchProfile, field, ''));
+        if (get(getCurrentSearchProfile, `${field}.max`, '') === null) {
+          if (field.includes('bedrooms')) set(initialValue, `${field}.max`, 9);
+          else set(initialValue, `${field}.max`, 300);
+        } else {
+          set(initialValue, field, get(getCurrentSearchProfile, field, ''));
+        }
       })
       initialValue.locations = get(getCurrentSearchProfile, 'location', []);
       initialValue.location = get(getCurrentSearchProfile, 'location[0]', []);
@@ -67,7 +73,6 @@ const SearchProfileForm = (props: SearchProfileFormType) => {
     });
     setFullForm(inputform);
   }, [formValue]);
-
 
   return (
     <div className="flowWrapper">
