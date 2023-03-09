@@ -8,7 +8,7 @@ import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import {bindActionCreators, compose} from 'redux';
 import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import {spinnerOff, spinnerOn} from '../actions/CommonActions';
-import {checkBrowser} from '../utils/helpers';
+import {checkBrowser, redirectUrl} from '../utils/helpers';
 import translateTo from '../utils/translation';
 import {QuestionsListType} from '@brixel/brixel-components/dist/@types/Model';
 import type {FlowScreenType} from '../@types/components/FlowScreen';
@@ -250,7 +250,8 @@ const FlowScreen = (props: FlowScreenType) => {
   // FUNCTION TO CLOSE
   const closeWindow = () => {
     handleReset(formName, initialValues);
-    history.push(`/${propID}/home`);
+    const linkToRedirect = redirectUrl(history.location.pathname, {propID});
+    history.push(linkToRedirect);
   };
 
   // GET THE NEXT DATA IN BASE OF CURRENT ANSWER
