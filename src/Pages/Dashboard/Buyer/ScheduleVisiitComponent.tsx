@@ -49,20 +49,28 @@ const ScheduleVisitComponent = (props: ScheduleVisitComponentType) => {
   }, [activeSinglePropertyBookingSlots]);
 
   const removeEl = (id) => {
+    history.push({search: ''});
     const visit = scheduleVisitFree;
     scheduleVisitFree.splice(id, 1);
     setScheduleVisitFree(visit.length === 0 ? [] : [...scheduleVisitFree]);
-    if (visit.length === 0) setDate(null);
+    if (visit.length === 0) {
+      setRecapScreen(false);
+      setChooseDatesOpen(true);
+      setDate(null);
+    }
+    setRecapScreen(false);
     setShowResizer(false);
   };
 
   const handleChangeDate = (day) => {
+    setRecapScreen(false);
     setDate(day);
     setShowResizer(true);
     setChooseDatesOpen(false);
   };
 
   const handleChange = (e) => {
+    setRecapScreen(false);
     setAllDay(e);
     setHours({ min: 8, max: 20 });
   };
@@ -71,6 +79,8 @@ const ScheduleVisitComponent = (props: ScheduleVisitComponentType) => {
     if (recapScreen) {
       history.push(`/buyer/${activeSingleProperty.id}/home`)
     } else if (showResizer) {
+      history.push({search: ''});
+      setRecapScreen(false);
       const startFormHour = Math.trunc(hours.min) < 10 ? `0${Math.trunc(hours.min)}` : Math.trunc(hours.min);
       const startHour = hours.min % 1 !== 0 ? `${startFormHour}:30` : `${startFormHour}:00`;
       const endFormHour = Math.trunc(hours.max) < 10 ? `0${Math.trunc(hours.max)}` : Math.trunc(hours.max);

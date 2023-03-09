@@ -72,6 +72,8 @@ function PageHeader(props: PageHeaderType) {
   const [showProgressStage, setShowProgressStage] = useState(false);
   const [stepIndexProgrss, setIndexProgrss] = useState(0);
 
+  const isBuyer = history.location.pathname.includes('buyer');
+
   // REF
   const profileMenu = useRef(null);
   const menuHub = useRef(null);
@@ -293,7 +295,7 @@ function PageHeader(props: PageHeaderType) {
                         onClick={() => {
                           handleSetUserTypes('seller');
                           handleSetActiveSingleProperty({});
-                          history.push('/sell');
+                          history.push(isBuyer ? '/buy' : '/sell');
                         }}
                         className={`${windowDimensions.width <= 590 || (propID !== 'buy' && propID !== 'sell') ? 'max-w-fix-32' : ''} pos-r cur-poi`}
                         src={windowDimensions.width <= 590 || (propID !== 'buy' && propID !== 'sell') ? logoMobile : logo}

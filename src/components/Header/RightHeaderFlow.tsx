@@ -7,7 +7,7 @@ import {connect} from 'react-redux';
 import {useLocation, useNavigate} from 'react-router-dom';
 import {bindActionCreators} from 'redux';
 import {setLanguage} from '../../actions/CommonActions';
-import {checkBrowser, setCookie} from '../../utils/helpers';
+import {checkBrowser, redirectUrl, setCookie} from '../../utils/helpers';
 import type {RightHeaderFlowType} from '../../@types/components/Header/RightHeaderFlow';
 import type {LanguagesType} from '../../@types/components/Header/PageHeader';
 import isEmpty from 'lodash/isEmpty';
@@ -28,7 +28,7 @@ function RightHeaderFlow(props: RightHeaderFlowType) {
 
   // GET URL PARAMS
   const fullURL = get(history, 'location.pathname', '').split('/');
-  let propID = fullURL[2];
+  const propID = fullURL[2];
   const dealID = fullURL[3];
   const isBuyer = userType === 'buyer';
 
@@ -98,41 +98,8 @@ function RightHeaderFlow(props: RightHeaderFlowType) {
   };
 
   const closeOverlay = () => {
-    let url = localStorage.getItem('backUrl');
-    if (
-      history.location.pathname.toLowerCase().includes('getstartedbuyer') ||
-      history.location.pathname.toLowerCase().includes('visitfeedback')
-    ) {
-      history.push('/buy');
-    } else if (history.location.pathname.toLowerCase().includes('makeoffer') || history.location.pathname.toLowerCase().includes('closing')) {
-      if (userType === 'seller') {
-        history.push(url || `/${propID}/closing/${dealID}`);
-      } else {
-        history.push(url || `/buyer/${propID}/closing`);
-      }
-    } else if (history.location.pathname.toLowerCase().includes('schedulevisit')) {
-      history.push(url || `/buyer/${propID}/home`);
-    } else if (history.location.pathname.toLowerCase().includes('contactflow')) {
-      const BASEURL = isBuyer ? '/buyer' : '';
-      propID = isBuyer ? fullURL[2] : fullURL[1];
-      history.push(url || `${BASEURL}/${propID}/home`);
-    } else {
-      url = localStorage.getItem('backUrlBis');
-      const urlBuyer = localStorage.getItem('backUrlBuyerEstimations');
-      if (url) {
-        localStorage.removeItem('backUrlBis');
-      }
-      else {
-        if (urlBuyer) {
-          url = urlBuyer;
-        } else {
-          url = localStorage.getItem('backUrl');
-        }
-        localStorage.removeItem('backUrl');
-        localStorage.removeItem('backUrlBuyerEstimations');
-      }
-      history.push(url || '/sell');
-    }
+    const linkToRedirect = redirectUrl(history.location.pathname, {propID, dealID, isBuyer, userType});
+    history.push(linkToRedirect);
   };
 
   return (
