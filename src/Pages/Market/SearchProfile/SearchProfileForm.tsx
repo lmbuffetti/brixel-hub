@@ -41,14 +41,13 @@ const SearchProfileForm = (props: SearchProfileFormType) => {
       const getCurrentSearchProfile = userSearchProfiles.find((itm) => itm.id === idSearchProfile);
       const initialValue: SearchProfileFormType['formValue'] = {};
       fields.forEach((field) => {
-        console.log(get(getCurrentSearchProfile, field, ''))
         set(initialValue, field, get(getCurrentSearchProfile, field, ''));
-        if (get(getCurrentSearchProfile, field['max'], '') === null) {
-          set(initialValue, field['max'], 9);
+        if (get(getCurrentSearchProfile, `${field}.max`, '') === null) {
+          if (field.includes('bedrooms')) set(initialValue, `${field}.max`, 9);
+          else set(initialValue, `${field}.max`, 300);
         } else {
           set(initialValue, field, get(getCurrentSearchProfile, field, ''));
         }
-        // set(initialValue, field, get(getCurrentSearchProfile, field, ''));
       })
       initialValue.locations = get(getCurrentSearchProfile, 'location', []);
       initialValue.location = get(getCurrentSearchProfile, 'location[0]', []);
@@ -56,7 +55,7 @@ const SearchProfileForm = (props: SearchProfileFormType) => {
       set(initialValue, 'location.countryCode', get(getCurrentSearchProfile, 'location[0].countryCode', companyCountryCode));
       if (idSearchProfile) initialValue.id = idSearchProfile;
       if (!initialValue.isDefault) initialValue.isDefault = false;
-      // initForm(initialValue);
+      initForm(initialValue);
     }
   }, [userSearchProfiles]);
 
