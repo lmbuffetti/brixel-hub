@@ -47,6 +47,34 @@ import {DealType, HistoryType} from '@brixel/brixel-components/dist/@types/Model
 
 const { factsOptions } = FactsOptions;
 
+const craftCMSStubs = [
+  {
+    article: 'seller-hub-home-onboarding-article',
+    banner: 'seller-hub-home-onboarding-banner-bottom',
+    step: 1,
+  }, {
+    banner: 'seller-hub-home-onboarding-banner-bottom',
+    article: 'seller-hub-home-preparation-articles',
+    step: 2,
+  },{
+    banner: 'seller-hub-home-onboarding-banner-bottom',
+    article: 'seller-hub-home-marketing-articles',
+    step: 3,
+  },{
+    banner: 'seller-hub-home-onboarding-banner-bottom',
+    article: 'seller-hub-home-onboarding-article',
+    step: 4,
+  },{
+    banner: 'seller-hub-home-onboarding-banner-bottom',
+    article: 'seller-hub-home-closing-articles',
+    step: 5,
+  },{
+    banner: 'seller-hub-home-sold-banner-bottom',
+    article: 'seller-hub-home-sold-article',
+    step: 6,
+  },
+]
+
 const DashboardHome = (props: DashboardHomeType) => {
   const history = {
     push: useNavigate(),
@@ -435,19 +463,6 @@ const DashboardHome = (props: DashboardHomeType) => {
 
               <span className="dis-b mt-2-neg"></span>
 
-              <ArticlesBox
-                activeSingleProperty={activeSingleProperty}
-                activeSingleCompany={activeSingleCompany}
-                lang={lang}
-                placementSlug="seller-hub-home-onboarding-article"
-              />
-
-              <BannerBox
-                activeSingleCompany={activeSingleCompany}
-                className="mt-3"
-                lang={lang}
-                placementSlug="seller-hub-home-onboarding-banner-bottom"
-              />
             </>
           )
         }
@@ -647,20 +662,6 @@ const DashboardHome = (props: DashboardHomeType) => {
                   </div>
                 </div>
               </div>
-
-              <ArticlesBox
-                activeSingleProperty={activeSingleProperty}
-                activeSingleCompany={activeSingleCompany}
-                lang={lang}
-                placementSlug="seller-hub-home-onboarding-article"
-              />
-
-              <BannerBox
-                activeSingleCompany={activeSingleCompany}
-                className="mt-3"
-                lang={lang}
-                placementSlug="seller-hub-home-onboarding-banner-bottom"
-              />
 
             </>
           )
@@ -884,20 +885,6 @@ const DashboardHome = (props: DashboardHomeType) => {
                 )
               }
 
-              <ArticlesBox
-                activeSingleProperty={activeSingleProperty}
-                activeSingleCompany={activeSingleCompany}
-                lang={lang}
-                placementSlug="seller-hub-home-onboarding-article"
-              />
-
-              <BannerBox
-                activeSingleCompany={activeSingleCompany}
-                className="mt-3"
-                lang={lang}
-                placementSlug="seller-hub-home-onboarding-banner-bottom"
-              />
-
             </>
           )
         }
@@ -1012,27 +999,26 @@ const DashboardHome = (props: DashboardHomeType) => {
                 </div>
               </div>
 
-              <ArticlesBox
-                activeSingleProperty={activeSingleProperty}
-                activeSingleCompany={activeSingleCompany}
-                lang={lang}
-                placementSlug="seller-hub-home-sold-partner"
-              />
+            </>
+          )
+        }
 
+        {
+          progressState?.step && (
+            <>
               <ArticlesBox
                 activeSingleProperty={activeSingleProperty}
                 activeSingleCompany={activeSingleCompany}
                 lang={lang}
-                placementSlug="seller-hub-home-sold-article"
+                placementSlug={craftCMSStubs[progressState.step - 1].article}
               />
 
               <BannerBox
                 activeSingleCompany={activeSingleCompany}
                 className="mt-6"
                 lang={lang}
-                placementSlug="seller-hub-home-sold-banner-bottom"
+                placementSlug={craftCMSStubs[progressState.step - 1].banner}
               />
-
             </>
           )
         }

@@ -27,6 +27,7 @@ declare module '*.scss' {
 
 declare namespace Cypress {
   interface Chainable<Subject = any> {
+    compareSnapshot(name: string, cover: number): Chainable<any>;
     deleteOffer(dealID: string): Chainable<any>;
     getBuyerDeal(pageID: string): Chainable<any>;
     loginViaApi(type?: 'seller' | 'buyer' | 'estimation'): Chainable<any>;
