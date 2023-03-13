@@ -62,7 +62,7 @@ const craftCMSStubs = [
     step: 3,
   },{
     banner: 'seller-hub-home-onboarding-banner-bottom',
-    article: 'seller-hub-home-onboarding-article',
+    article: 'seller-hub-home-negotiation-articles',
     step: 4,
   },{
     banner: 'seller-hub-home-onboarding-banner-bottom',
