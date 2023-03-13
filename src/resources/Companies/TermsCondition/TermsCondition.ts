@@ -10,6 +10,7 @@ export const QuestionsList = (lang, company, isBuyer) => {
   if (company.stub === 'ubs') {
     question = [
       {
+        btnLabel: 'Accept',
         title: translateTo('Activate your UBS advantages now.', lang),
         history: 'ubsPolicy',
         cardType: 'ubsPolicy',
@@ -32,6 +33,7 @@ export const QuestionsList = (lang, company, isBuyer) => {
     if (isBuyer) {
       question = [
         {
+          btnLabel: 'Accept',
           title: translateTo('Activate your UBS advantages now.', lang),
           history: 'ubsPolicy',
           cardType: 'ubsPolicy',
@@ -56,6 +58,7 @@ export const QuestionsList = (lang, company, isBuyer) => {
     if (isBuyer) {
       question = [
         {
+          btnLabel: 'Accept',
           title: translateTo('Benefit from the consulting services of our partner Baloise.', lang),
           history: 'baloisePolicy',
           cardType: 'baloisePolicy',
