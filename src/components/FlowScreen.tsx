@@ -348,7 +348,7 @@ const FlowScreen = (props: FlowScreenType) => {
             className="dis-fl-col jc-b interactive"
             onSubmit={() => changeStep()}
           >
-            <div ref={multiStepSlidesRef} className="multiStepSlides">
+            <div id={`step-${currentIndex}`} ref={multiStepSlidesRef} className="multiStepSlides">
               <div ref={singleStepRef} className="singleStep pt-5 jc-c ">
                 <div className="subcontainer m-a">
                   {
@@ -380,7 +380,7 @@ const FlowScreen = (props: FlowScreenType) => {
                   }
                   {
                     get(quest, 'inputs', null) && (
-                      <div id={`step-${currentIndex}`} className="dis-fl-col a-c flex-wrap">
+                      <div className="dis-fl-col a-c flex-wrap">
                         <div className={`w-perc-100 ${quest.className}`}>
                           <MultiFileldsReduxForm
                             baseByData={baseByData}

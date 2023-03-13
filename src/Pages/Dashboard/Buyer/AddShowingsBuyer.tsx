@@ -88,7 +88,7 @@ const AddShowingsBuyer = (props: AddShowingsBuyerType) => {
       message: formValue.message,
       smallLoader: 'sendData',
     };
-    handleCreatePropertyVisitBooking(data);
+    //handleCreatePropertyVisitBooking(data);
   };
 
   return (
