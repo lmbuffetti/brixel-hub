@@ -10,6 +10,7 @@ export const QuestionsList = (lang, company, isBuyer) => {
   if (company.stub === 'ubs') {
     question = [
       {
+        btnLabel: 'Accept',
         title: translateTo('Activate your UBS advantages now.', lang),
         history: 'ubsPolicy',
         cardType: 'ubsPolicy',
@@ -32,6 +33,7 @@ export const QuestionsList = (lang, company, isBuyer) => {
     if (isBuyer) {
       question = [
         {
+          btnLabel: 'Accept',
           title: translateTo('Activate your UBS advantages now.', lang),
           history: 'ubsPolicy',
           cardType: 'ubsPolicy',
@@ -56,6 +58,7 @@ export const QuestionsList = (lang, company, isBuyer) => {
     if (isBuyer) {
       question = [
         {
+          btnLabel: 'Accept',
           title: translateTo('Benefit from the consulting services of our partner Baloise.', lang),
           history: 'baloisePolicy',
           cardType: 'baloisePolicy',
@@ -128,10 +131,10 @@ export const QuestionsList = (lang, company, isBuyer) => {
             title: translateTo('Transmission of data to Baloise Insurance.', lang),
             description: translateTo('I hereby agree that my data (last name, first name, street, house number, zip code, phone number, e-mail) is transmitted to Basler Versicherung AG to check if I am eligible for the discount by comparing the data with my relevant data held by Basler Versicherung AG and to add the information that I use the Brixel service to my customer profile at Basler Versicherung AG to better meet my needs. You can revoke this consent at any time in the future. The revocation of consent does not affect the legality of the data processing based on the consent until revocation.', lang),
           },
-          {
-            title: translateTo('Transmission of data to Baloise Bank.', lang),
-            description: translateTo('I hereby agree that my data (last name, first name, street, house number, zip code, telephone number, e-mail) is transmitted to Baloise Bank AG to check if I am eligible for the discount by comparing the data with my relevant data held by Baloise Bank AG, and to add the information that I use the Brixel service to my customer profile at Baloise Bank AG to better meet my needs. For the aforementioned purposes, I release Baloise Bank AG as well as third parties commissioned by it from banking secrecy. You can revoke this consent at any time in the future. The revocation of consent does not affect the legality of the data processing carried out based on the consent until revocation.', lang),
-          }],
+            {
+              title: translateTo('Transmission of data to Baloise Bank.', lang),
+              description: translateTo('I hereby agree that my data (last name, first name, street, house number, zip code, telephone number, e-mail) is transmitted to Baloise Bank AG to check if I am eligible for the discount by comparing the data with my relevant data held by Baloise Bank AG, and to add the information that I use the Brixel service to my customer profile at Baloise Bank AG to better meet my needs. For the aforementioned purposes, I release Baloise Bank AG as well as third parties commissioned by it from banking secrecy. You can revoke this consent at any time in the future. The revocation of consent does not affect the legality of the data processing carried out based on the consent until revocation.', lang),
+            }],
         },
         {
           condition: [{
@@ -147,10 +150,10 @@ export const QuestionsList = (lang, company, isBuyer) => {
             title: translateTo('Transmission of data to Baloise Insurance.', lang),
             description: translateTo('I hereby agree that my data (last name, first name, street, house number, zip code, phone number, e-mail) is transmitted to Basler Versicherung AG to check if I am eligible for the discount by comparing the data with my relevant data held by Basler Versicherung AG and to add the information that I use the Brixel service to my customer profile at Basler Versicherung AG to better meet my needs. You can revoke this consent at any time in the future. The revocation of consent does not affect the legality of the data processing based on the consent until revocation.', lang),
           },
-          {
-            title: translateTo('Transmission of data to Baloise Bank.', lang),
-            description: translateTo('I hereby agree that my data (last name, first name, street, house number, zip code, telephone number, e-mail) is transmitted to Baloise Bank AG to check if I am eligible for the discount by comparing the data with my relevant data held by Baloise Bank AG, and to add the information that I use the Brixel service to my customer profile at Baloise Bank AG to better meet my needs. For the aforementioned purposes, I release Baloise Bank AG as well as third parties commissioned by it from banking secrecy. You can revoke this consent at any time in the future. The revocation of consent does not affect the legality of the data processing carried out based on the consent until revocation.', lang),
-          }],
+            {
+              title: translateTo('Transmission of data to Baloise Bank.', lang),
+              description: translateTo('I hereby agree that my data (last name, first name, street, house number, zip code, telephone number, e-mail) is transmitted to Baloise Bank AG to check if I am eligible for the discount by comparing the data with my relevant data held by Baloise Bank AG, and to add the information that I use the Brixel service to my customer profile at Baloise Bank AG to better meet my needs. For the aforementioned purposes, I release Baloise Bank AG as well as third parties commissioned by it from banking secrecy. You can revoke this consent at any time in the future. The revocation of consent does not affect the legality of the data processing carried out based on the consent until revocation.', lang),
+            }],
         },
         {
           condition: [{

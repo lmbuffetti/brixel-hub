@@ -224,8 +224,7 @@ const FlowScreen = (props: FlowScreenType) => {
         get(newQuest[currentIndex], 'inputs[0].options', []).length > 0 &&
         get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), null) &&
         typeof get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), '') === 'string' &&
-        !get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), '').toLowerCase().includes('other') &&
-        oldIndex <= currentIndex
+        !get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), '').toLowerCase().includes('other') && !history.location.pathname.includes('termsConditionFlow') && oldIndex <= currentIndex
       ) {
         changeStep('next', null, 1, true);
       }
@@ -279,7 +278,8 @@ const FlowScreen = (props: FlowScreenType) => {
   const buttonLabel = () => {
     let label;
     const inputName = get(quest, 'inputs[0].name', null);
-    if (get(questions, `[${currentIndex + 1}].toSave`, null)) label = 'Save';
+    if (get(questions, `[${currentIndex}].btnLabel`, null)) label = get(questions, `[${currentIndex}].btnLabel`, null);
+    else if (get(questions, `[${currentIndex + 1}].toSave`, null)) label = 'Save';
     else if (inputName && get(quest, 'inputs[0].validation', null) === null && get(formValue, inputName, null) === null) label = 'Skip';
     else label = 'Next';
     return label;
@@ -348,7 +348,7 @@ const FlowScreen = (props: FlowScreenType) => {
             className="dis-fl-col jc-b interactive"
             onSubmit={() => changeStep()}
           >
-            <div ref={multiStepSlidesRef} className="multiStepSlides">
+            <div id={`step-${currentIndex}`} ref={multiStepSlidesRef} className="multiStepSlides">
               <div ref={singleStepRef} className="singleStep pt-5 jc-c ">
                 <div className="subcontainer m-a">
                   {
@@ -380,7 +380,7 @@ const FlowScreen = (props: FlowScreenType) => {
                   }
                   {
                     get(quest, 'inputs', null) && (
-                      <div id={`step-${currentIndex}`} className="dis-fl-col a-c flex-wrap">
+                      <div className="dis-fl-col a-c flex-wrap">
                         <div className={`w-perc-100 ${quest.className}`}>
                           <MultiFileldsReduxForm
                             baseByData={baseByData}
@@ -515,7 +515,7 @@ const FlowScreen = (props: FlowScreenType) => {
                         )
                       }
                       {
-                        get(quest, 'history', null) !== 'resume' && (get(quest, 'inputs', []).length > 0 || action === 'back') ? (
+                        get(quest, 'history', null) !== 'resume' && (get(quest, 'inputs', []).length > 0 || action === 'back' || history.location.pathname.includes('termsConditionFlow')) ? (
                           <BrixelButtonPrimary
                             className={`mr-a ml-a noWrap ${get(quest, 'history', null)}`}
                             rounded
@@ -602,3 +602,4 @@ const mapDispatchToProps = (dispatch) => ({
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
 )(FlowScreen);
+
