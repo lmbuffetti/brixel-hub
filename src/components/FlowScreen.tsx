@@ -338,6 +338,7 @@ const FlowScreen = (props: FlowScreenType) => {
         }
 
         <div
+          id={`step-${quest.history}`}
           className={`bodyModal container ${currentIndex ? '' : ''} ${get(quest, 'history', '')}`}
         >
 
