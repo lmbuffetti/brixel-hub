@@ -14,6 +14,7 @@ describe('Seller Onboarding', () => {
       devices.forEach((device) => {
         it('visit url', () => {
           cy.viewport(device);
+          cy.clearAllCookies();
           cy.visit(`http://localhost:5000/packageFlow/getStartedEstimation/${key}/estimationType`);
         })
 
