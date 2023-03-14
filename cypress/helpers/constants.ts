@@ -42,4 +42,19 @@ export const userTest = {
     username: 'jesttest+seller@brixel.io',
     password: '123456789',
   },
+  buyerPartner: {
+    email: 'jesttest+buyer:partner@brixel.io',
+    username: 'jesttest+buyer@brixel.io',
+    password: '123456789',
+  },
+  estimationPartner: {
+    email: 'jesttest+estimation:partner@brixel.io',
+    username: 'jesttest+estimation@brixel.io',
+    password: '123456789',
+  },
+  sellerPartner: {
+    email: 'jesttest+seller:partner@brixel.io',
+    username: 'jesttest+seller@brixel.io',
+    password: '123456789',
+  },
 }

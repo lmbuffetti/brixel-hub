@@ -73,7 +73,11 @@ describe('Seller Onboarding', () => {
             .then((res) => {
               if (!res) {
                 cy.get('input[name="register.name"]').type('Test Automated');
-                cy.get('input[name="register.email"]').type(userTest.seller.email);
+                let {email} = userTest.seller;
+                if (key === 'ubs' || key === 'baloise') {
+                  email = userTest.sellerPartner.email.replace(':partner', key);
+                }
+                cy.get('input[name="register.email"]').type(email);
                 cy.get('input[name="register.password"]').type(userTest.seller.password);
                 cy.get('input[name="register.privacy"]').check({force: true});
                 cy.wait(1000).then(() => {
