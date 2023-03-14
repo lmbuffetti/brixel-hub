@@ -13,6 +13,7 @@ describe('Buyer Onboarding', () => {
       devices.forEach((device) => {
         it('visit url', () => {
           cy.viewport(device);
+          cy.clearAllCookies();
           cy.visit(`http://localhost:5000/packageFlow/getStartedBuyer/${key}/propertyType`);
         })
 
