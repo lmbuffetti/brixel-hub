@@ -13,6 +13,7 @@ describe('Buyer Onboarding', () => {
       devices.forEach((device) => {
         it('visit url', () => {
           cy.viewport(device);
+          cy.clearAllCookies();
           cy.visit(`http://localhost:5000/packageFlow/getStartedBuyer/${key}/propertyType`);
         })
 
@@ -61,7 +62,11 @@ describe('Buyer Onboarding', () => {
             .then((res) => {
               if (!res) {
                 cy.get('input[name="register.name"]').type('Test Automated');
-                cy.get('input[name="register.email"]').type(userTest.buyer.email);
+                let {email} = userTest.buyer;
+                if (key === 'ubs' || key === 'baloise') {
+                  email = userTest.buyerPartner.email.replace(':partner', key);
+                }
+                cy.get('input[name="register.email"]').type(email);
                 cy.get('input[name="register.password"]').type(userTest.buyer.password);
                 cy.get('input[name="register.privacy"]').check({force: true});
                 cy.wait(1000).then(() => {

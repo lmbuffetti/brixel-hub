@@ -14,6 +14,7 @@ describe('Seller Onboarding', () => {
       devices.forEach((device) => {
         it('visit url', () => {
           cy.viewport(device);
+          cy.clearAllCookies();
           cy.visit(`http://localhost:5000/packageFlow/getStartedEstimation/${key}/estimationType`);
         })
 
@@ -99,7 +100,11 @@ describe('Seller Onboarding', () => {
             .then((res) => {
               if (!res) {
                 cy.get('input[name="register.name"]').type('Test Automated');
-                cy.get('input[name="register.email"]').type(userTest.estimation.email);
+                let {email} = userTest.estimation;
+                if (key === 'ubs' || key === 'baloise') {
+                  email = userTest.estimationPartner.email.replace(':partner', key);
+                }
+                cy.get('input[name="register.email"]').type(email);
                 cy.get('input[name="register.password"]').type(userTest.estimation.password);
                 cy.get('input[name="register.privacy"]').check({force: true});
                 cy.wait(1000).then(() => {

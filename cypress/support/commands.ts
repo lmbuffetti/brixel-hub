@@ -27,6 +27,9 @@ import { userTest } from '../helpers/constants';
 import Cookies from 'universal-cookie';
 const cookie = new Cookies();
 import ep from '../../src/controllers/endPoints.constant';
+import compareSnapshot from 'cypress-image-diff-js/dist/command';
+
+compareSnapshot();
 
 Cypress.Commands.add('loginViaApi', (type = 'seller') => {
   const auth = btoa(`${userTest.seller.email}:${userTest[type].password}`);

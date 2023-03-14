@@ -123,7 +123,7 @@ const BookTrialFlow = (props: BookTrialFlowType) => {
                         name: 'dateBook',
                         type: 'date',
                         maxDate: new Date(`${DateTime.now().year + 1}-12-31`),
-                        minDate: new Date(`${DateTime.now().year}-12-${DateTime.now().day + 1}`),
+                        minDate: new Date(`${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day + 1}`),
                         onChange: (val) => handleChangeDate(val),
                         validate: [Validation.required],
                       }}

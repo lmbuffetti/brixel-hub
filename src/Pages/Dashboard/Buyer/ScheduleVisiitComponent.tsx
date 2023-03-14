@@ -115,7 +115,7 @@ const ScheduleVisitComponent = (props: ScheduleVisitComponentType) => {
         <div className="dis-fl-col a-c scheduleVisit">
           {
             (scheduleVisitFree.length > 0) && (
-              <div className="dis-fl-col a-c jc-b">
+              <div id="recap-date-screen" className="dis-fl-col a-c jc-b">
                 {
                   scheduleVisitFree.map((val, i) => (
                     <div
@@ -187,7 +187,7 @@ const ScheduleVisitComponent = (props: ScheduleVisitComponentType) => {
           }
           {
             showResizer && (
-              <div className="w-perc-100">
+              <div id="select-time-screen" className="w-perc-100">
                 <div id="rzSlider" className="modalWindow" ref={hoursRef}>
                   <h6>{translateTo('Choose your time', lang)}</h6>
                   <BrixelInputMultiRange
@@ -217,7 +217,7 @@ const ScheduleVisitComponent = (props: ScheduleVisitComponentType) => {
           }
           {
             chooseDatesOpen && (
-              <div className="dis-fl-col a-c jc-b">
+              <div id="select-date-screen" className="dis-fl-col a-c jc-b">
                 <span className="fsize-400 fweight-400 mb-3">
                   {translateTo('Choose your date', lang)}
                 </span>
