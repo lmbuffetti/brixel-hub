@@ -137,8 +137,7 @@ describe('seller Onboarding', () => {
               cy.setCookie('userPageID', splitURL[indexURL + 1]);
             }
           })
-        })
-
+        });
       });
     });
   });
