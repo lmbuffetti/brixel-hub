@@ -189,7 +189,7 @@ const VisitFeedback = (props: VisitFeedbackType) => {
                         successMessage ? (
                           <div id="step-0" className="dis-fl-col flex-wrap">
                             <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 fsize-600 fsize-sm-800 mb-sm-6">
-                              {translateTo('Thank you. Your feedback has been sent.', (lang || 'en').toString())}
+                              {translateTo('Thank you!', (lang || 'en').toString())}
                             </h2>
                             <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText50 p-2 p-sm-5 w-perc-100 mb-5">
                               <div className=" multiFieldWrap w-perc-100 ">
@@ -249,7 +249,7 @@ const VisitFeedback = (props: VisitFeedbackType) => {
                         ) : (
                           <>
                             <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 fsize-600 fsize-sm-800 mb-sm-6">
-                              {translateTo('Thank you for your feedback.', (lang || 'en').toString())}
+                              {translateTo('Thank you!', (lang || 'en').toString())}
                             </h2>
                             <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText50 p-2 p-sm-5 w-perc-100 mb-5">
                               <div className=" multiFieldWrap w-perc-100 ">
