@@ -1006,6 +1006,16 @@ const DashboardHome = (props: DashboardHomeType) => {
         {
           progressState?.step && (
             <>
+              {
+                progressState?.step === 6 && (
+                  <ArticlesBox
+                    activeSingleProperty={activeSingleProperty}
+                    activeSingleCompany={activeSingleCompany}
+                    lang={lang}
+                    placementSlug="seller-hub-home-sold-partner"
+                  />
+                )
+              }
               <ArticlesBox
                 activeSingleProperty={activeSingleProperty}
                 activeSingleCompany={activeSingleCompany}
@@ -1019,6 +1029,7 @@ const DashboardHome = (props: DashboardHomeType) => {
                 lang={lang}
                 placementSlug={craftCMSStubs[progressState.step - 1].banner}
               />
+
             </>
           )
         }
