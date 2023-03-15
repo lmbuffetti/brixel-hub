@@ -63,7 +63,7 @@ const IntroBuyerUBS = (props: IntroBuyerUBSType) => {
             <BrixelButtonSecondary
               onClick={() => onClickForwardContactFlow('ubs')}
               className="mt-a"
-              label="Arrange personal consultation"
+              label={translateTo('Arrange personal consultation', lang)}
               rounded
             />
           </div>
