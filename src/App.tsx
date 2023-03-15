@@ -292,13 +292,13 @@ const App = (props: AppType) => {
       if (get(redirectTo, 'history.pathname', null)) {
         history.push(get(redirectTo, 'history.pathname', ''), { state: get(redirectTo, 'history.state', {}) });
       } else if (redirectTo.history.includes('home')) {
-        window.location.assign(redirectTo.history);
+        // window.location.assign(redirectTo.history);
       } else {
         history.push(redirectTo.history);
       }
     }
     if (redirectTo && get(redirectTo, 'url', null)) {
-      window.location.assign(redirectTo.url);
+      // window.location.assign(redirectTo.url);
     }
   }, [redirectTo]);
 
