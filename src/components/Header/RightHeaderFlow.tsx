@@ -25,7 +25,8 @@ function RightHeaderFlow(props: RightHeaderFlowType) {
     loggedInUser,
     userType,
   } = props;
-
+  // STATE
+  const [hideLang, setHideLang] = useState(false);
   // GET URL PARAMS
   const fullURL = get(history, 'location.pathname', '').split('/');
   const propID = fullURL[2];
@@ -42,6 +43,11 @@ function RightHeaderFlow(props: RightHeaderFlowType) {
       const url = get(urlParams, 'url', '') || '';
       localStorage.setItem('backUrl', url.toString());
       localStorage.setItem('backUrlBis', url.toString());
+    }
+    if (history.location.pathname.includes('visitFeedback')) {
+      setHideLang(true);
+    } else {
+      setHideLang(false);
     }
   }, [history]);
 
@@ -87,6 +93,7 @@ function RightHeaderFlow(props: RightHeaderFlowType) {
     }
   }, []);
 
+
   // FUNCTION TO SET THE LANGUAGE WHEN SELECTED
   const newLang = (e, langCode) => {
     e.stopPropagation();
@@ -105,17 +112,21 @@ function RightHeaderFlow(props: RightHeaderFlowType) {
   return (
     <div className="dis-f a-c">
       <div className="">
-        <BrixelDropdown
-          noBorder
-          className="langMenu"
-          color="dark"
-          saturationTxt={700}
-          keyType="label"
-          selected={currentLang || 'en'}
-          options={dropLang}
-          onSelect={(e, keys) => newLang(e, keys)}
-          liClass="tt-low"
-        />
+        {
+          !hideLang && (
+            <BrixelDropdown
+              noBorder
+              className="langMenu"
+              color="dark"
+              saturationTxt={700}
+              keyType="label"
+              selected={currentLang || 'en'}
+              options={dropLang}
+              onSelect={(e, keys) => newLang(e, keys)}
+              liClass="tt-low"
+            />
+          )
+        }
       </div>
       {
         loggedInUser?.id && (
