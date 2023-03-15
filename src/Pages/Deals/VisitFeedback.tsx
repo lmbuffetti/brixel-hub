@@ -106,7 +106,7 @@ const VisitFeedback = (props: VisitFeedbackType) => {
     const data = {
       fullVersion: false,
       smallLoader: 'property',
-      id: pageID,
+      stub: pageID,
     };
     handleGetActiveSingleProperty(data);
   }, []);
