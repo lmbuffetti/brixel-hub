@@ -47,7 +47,8 @@ const VisitFeedback = (props: VisitFeedbackType) => {
   const [successMessage, setSuccessMessage] = useState(false);
   const urlParams = queryString.parse(get(history, 'location.search', ''));
   const status = urlParams.status === 'true';
-  const { lang } = urlParams;
+  let { lang } = urlParams;
+  lang = (lang || 'en').toString();
 
   const checkPriceReason = get(formValue, 'reasons', null) && get(formValue, 'reasons', []).findIndex((val) => val === 'price') > -1;
 
@@ -264,7 +265,7 @@ const VisitFeedback = (props: VisitFeedbackType) => {
                                       input={{
                                         name: 'reasons',
                                         options: [
-                                          { label: translateTo('Price', (lang || 'en').toString()), value: 'price' },
+                                          { label: translateTo('Price', lang), value: 'price' },
                                           { label: translateTo('Location', (lang || 'en').toString()), value: 'location' },
                                           { label: translateTo('Floor plan', (lang || 'en').toString()), value: 'floorPlan' },
                                           { label: translateTo('Condition', (lang || 'en').toString()), value: 'condition' },

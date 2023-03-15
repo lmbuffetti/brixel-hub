@@ -159,7 +159,7 @@ export const feedMessage = (user, history, packages, activeSingleProperty, lang)
       colorBgIcon: 'Green',
       colorIconSat: 100,
       colorBgIconSat: 400,
-      message: translateTo('Visit feedback email sent', lang),
+      message: translateTo('visit feedback email sent', lang),
       icon: 'mail-open',
     },
     'deal-confirm-visit-email': {
@@ -186,7 +186,7 @@ export const feedMessage = (user, history, packages, activeSingleProperty, lang)
       colorBgIcon: 'Green',
       colorIconSat: 100,
       colorBgIconSat: 400,
-      message: `<span>${translateTo('Your visit is confirmed:', lang)}<span class="ml-small-4"></br><span>${get(history, 'meta.state', null) ? DateTime.fromMillis(get(history, 'meta.state', 0)).toFormat('dd LLL yyyy, hh:mm', user.language) : 0}</span>`,
+      message: `<span><span>${translateTo('Your visit is confirmed', lang)}</span><span class="ml-small-4"></br><span>${get(history, 'meta.state', null) ? DateTime.fromMillis(get(history, 'meta.state', 0)).toFormat('dd LLL yyyy, hh:mm', user.language) : 0}</span>`,
       icon: 'calendar',
     },
     'user-schedule': {
