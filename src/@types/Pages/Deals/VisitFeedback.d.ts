@@ -11,7 +11,9 @@ export interface VisitFeedbackType {
   contacts: ContactType;
   errorValue: object;
   formValue: FormValueType;
+  lng: string;
   handleGetActiveSingleProperty: (darta: object) => void;
+  handleSetLanguage: (data: string) => void;
   handleInitForm: (darta: object) => void;
   handleSendVisitFeedback: (darta: object) => void;
   handleSetActiveSingleCompany: (data: string) => void;

@@ -44,7 +44,7 @@ function RightHeaderFlow(props: RightHeaderFlowType) {
       localStorage.setItem('backUrl', url.toString());
       localStorage.setItem('backUrlBis', url.toString());
     }
-    if (history.location.pathname.includes('visitFeedback')) {
+    if (history.location.pathname.includes('visitFeedbackss')) {
       setHideLang(true);
     } else {
       setHideLang(false);
