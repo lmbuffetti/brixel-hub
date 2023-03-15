@@ -1,21 +1,25 @@
-import translateTo from '../utils/translation';
+import React, {useState} from 'react';
 import get from 'lodash/get';
 import {
   BrixelButtonPrimary,
   BrixelButtonText,
   FactsOptions,
 } from '@brixel/brixel-components';
-import React, {useState} from 'react';
-import {compose} from 'redux';
+import {bindActionCreators, compose} from 'redux';
 import {connect} from 'react-redux';
+import translateTo from '../utils/translation';
+import { saveActiveSingleUser } from '../actions/UserActions';
 import type {CustomerSatisfactionType} from '../@types/components/CustomerSatisfaction';
 import {BrixelInputScale, BrixelTextArea} from '@brixel/brixel-components/dist/form';
+import BrixelButtonIcon from '@brixel/brixel-components/dist/components/BrixelButtonIcon';
 
 const {factsOptions} = FactsOptions;
 
 const CustomerSatisfaction = (props: CustomerSatisfactionType) => {
   const {
+    handleUpdateUser,
     lang,
+    loggedInUser,
     onClose,
   } = props;
   // STATE
@@ -25,16 +29,46 @@ const CustomerSatisfaction = (props: CustomerSatisfactionType) => {
   });
   const [currentStep, setCurrentStep] = useState('rate');
 
-  const onSaveData = () => {
+  const onCloseModal = () => {
+    const userData = {
+      id: get(loggedInUser, 'id', null),
+      sentFeedback: (loggedInUser.sentFeedback || 0) + 1,
+      smallLoader: 'saveData',
+    };
+    handleUpdateUser(userData);
+    onClose();
+  }
+
+  const onSendData = () => {
+    // SAVE THE DATA
+    const data = {
+      user: loggedInUser.id,
+      message: formValue.message,
+      rate: formValue.rate,
+    }
+    setCurrentStep('success');
+    // const userData = {
+    //   id: get(loggedInUser, 'id', null),
+    //   sentFeedback: -1,
+    //   smallLoader: 'saveData',
+    // };
+    // handleUpdateUser(userData);
+    console.log(data);
+  }
+
+  const onChangeStep = () => {
     switch (currentStep) {
-      case 'message':
+      case 'message': {
         // SAVE THE DATA
-        return false;
+        onSendData();
         break;
+      }
       case 'rate':
         // SAVE THE DATA IF RATE > 4 or 5
-        if (formValue.rate >= 4) return false
-        else setCurrentStep('message');
+        if (formValue.rate >= 0) {
+          if (formValue.rate >= 4) onSendData();
+          else setCurrentStep('message');
+        }
         break;
       default:
         onClose();
@@ -43,6 +77,15 @@ const CustomerSatisfaction = (props: CustomerSatisfactionType) => {
 
   return (
     <>
+      <div className="dis-f jc-fe a-c p-2">
+        <BrixelButtonIcon
+          ghost
+          className="zIndex11"
+          theme="text"
+          icon="close-small"
+          onClick={() => onCloseModal()}
+        />
+      </div>
       <div className="dis-fl-col jc-c pb-2">
         {
           currentStep === 'rate' && (
@@ -96,18 +139,31 @@ const CustomerSatisfaction = (props: CustomerSatisfactionType) => {
           )
         }
         <hr className="mt-5 mb-2" />
-        <div className="dis-f jc-b a-c px-2">
-          <BrixelButtonText
-            rounded
-            label="Skip"
-            onClick={() => onClose()}
-          />
-          <BrixelButtonPrimary
-            rounded
-            label="Send"
-            onClick={() => onSaveData()}
-          />
-        </div>
+        {
+          currentStep === 'success' ? (
+            <div className="dis-f jc-fe a-c px-2">
+              <BrixelButtonPrimary
+                rounded
+                label="Close"
+                onClick={() => onClose()}
+              />
+            </div>
+          ) : (
+            <div className="dis-f jc-b a-c px-2">
+              <BrixelButtonText
+                rounded
+                label="Skip"
+                onClick={() => onCloseModal()}
+              />
+              <BrixelButtonPrimary
+                rounded
+                label="Send"
+                onClick={() => onChangeStep()}
+                rightIcon="send"
+              />
+            </div>
+          )
+        }
       </div>
     </>
   )
@@ -115,8 +171,13 @@ const CustomerSatisfaction = (props: CustomerSatisfactionType) => {
 
 const mapStateToProps = (state) => ({
   lang: get(state, 'common.language', 'en'),
+  loggedInUser: get(state, 'user.loggedInUser.user', {}),
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  handleUpdateUser: bindActionCreators(saveActiveSingleUser, dispatch),
 });
 
 export default compose(
-  connect(mapStateToProps, null),
+  connect(mapStateToProps, mapDispatchToProps),
 )(CustomerSatisfaction);
