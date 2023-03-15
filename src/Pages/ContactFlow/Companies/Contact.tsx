@@ -261,6 +261,7 @@ const Contact = (props: ContactType) => {
     setOldIndex(currentIndex);
     const newQuest: QuestionsListType[] = [];
     if (formValue && activeSingleCompany.stub) {
+      console.log(lang);
       QuestionsList(lang, activeSingleCompany, isBuyer).map((quests) => {
         if (quests.condition) {
           let isValid = true;
@@ -284,7 +285,7 @@ const Contact = (props: ContactType) => {
       changeStep('next', null, 1, true);
     }
     if (currentIndex === 0 && formValue.analysis === 'remote') changeStep();
-  }, [formValue, activeSingleCompany.id]);
+  }, [formValue, activeSingleCompany.id, lang]);
 
   useEffect(() => {
     if (get(formValue, 'time.timestamp', null)) {
