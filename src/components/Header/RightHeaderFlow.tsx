@@ -160,8 +160,3 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(RightHeaderFlow);
-
-
-https://www.transifex.com/wide-ventures/brixeltech/translate/#pt/brixelio/453640988?q=source_updated_after%3A2023-03-15
-https://www.transifex.com/wide-ventures/brixeltech/translate/#de/brixelio/453640988?q=source_updated_after%3A2023-03-15
-https://www.transifex.com/wide-ventures/brixeltech/translate/#fr/brixelio/453640988?q=source_updated_after%3A2023-03-15
