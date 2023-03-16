@@ -131,7 +131,7 @@ const VisitFeedback = (props: VisitFeedbackType) => {
                   status ? (
                     <div id="step-0" className="dis-fl-col flex-wrap">
                       <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 fsize-600 fsize-sm-800 mb-sm-6">
-                        {translateTo('We\'re glad you are still interested.', (lng).toString())}
+                        {translateTo('We\'re glad you are still interested.', lng)}
                       </h2>
                       <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText50 p-2 p-sm-5 w-perc-100 mb-5">
                         <div className=" multiFieldWrap w-perc-100 ">
