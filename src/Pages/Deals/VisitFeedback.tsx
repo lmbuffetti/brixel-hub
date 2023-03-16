@@ -195,17 +195,17 @@ const VisitFeedback = (props: VisitFeedbackType) => {
                         successMessage ? (
                           <div id="step-0" className="dis-fl-col flex-wrap">
                             <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 fsize-600 fsize-sm-800 mb-sm-6">
-                              {translateTo('Thank you. Your feedback has been sent.', lng)}
+                              {translateTo('Thank you!', lng)}
                             </h2>
                             <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText50 p-2 p-sm-5 w-perc-100 mb-5">
                               <div className=" multiFieldWrap w-perc-100 ">
                                 <div className="dis-f jc-b h-perc-100 a-t">
                                   <div className="ml-0 mr-a pr-10 dis-f-col jc-b w-perc-100 pos-r" tabIndex={-1}>
-                                    <p>
-                                      {translateTo('Thank you for your feedback.', lng)}
-                                    </p>
                                     <p className="mt-1">
-                                      {translateTo('Do you want to share any specific reasons or a comment to the owner?', lng)}
+                                      {translateTo('Your feedback has been sent and it will be visible to the Brixel team and to the property owner.', lng)}
+                                    </p>
+                                    <p>
+                                      {translateTo('If you have any questions or would like to share anything else, please contact us at:', lng)}
                                     </p>
 
                                     <div className="mt-3">
@@ -240,7 +240,7 @@ const VisitFeedback = (props: VisitFeedbackType) => {
                                     </div>
 
                                     <h6>{translateTo('Still looking for your dream home?', lng)}</h6>
-                                    <p>{translateTo('Check your Brixel market to find other properties.', lng)}</p>
+                                    <p>{translateTo('Check out more properties for sale and on our pre-market.', lng)}</p>
                                   </div>
                                 </div>
                               </div>
@@ -249,7 +249,7 @@ const VisitFeedback = (props: VisitFeedbackType) => {
                               onClick={() => history.push('/buy')}
                               rounded
                               className="w-fit m-a"
-                              label="Login to your market"
+                              label="Go to the Brixel Hub"
                             />
                           </div>
                         ) : (
