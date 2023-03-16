@@ -8,7 +8,7 @@ import {DateTime} from 'luxon';
 import {BrixelButtonSecondary, BrixelIcon, Helpers} from '@brixel/brixel-components';
 import translateTo from '../utils/translation';
 import ReviewOffer from '../Pages/Closing/Offers/ReviewOffer';
-import {setSplashType} from '../actions/CommonActions';
+import {setModal} from '../actions/CommonActions';
 import ClosingTree from './Skeleton/ClosingTree';
 import type {BrixelClosingTreeType} from '../@types/components/BrixelClosingTree';
 
@@ -24,10 +24,10 @@ const BrixelClosingTree = (props: BrixelClosingTreeType) => {
     activeSingleOffer,
     className = '',
     dealID,
+    handleSetModal,
     isBuyer = false,
     lang,
     propID,
-    setSplashScreen,
     windowDimensions,
   } = props;
   // STATE
@@ -41,8 +41,12 @@ const BrixelClosingTree = (props: BrixelClosingTreeType) => {
     if (action === 'add') {
       history.push(`/packageFlow/${propID}/makeOffer`);
     } else {
-      setSplashScreen({
-        component: ReviewOffer,
+      handleSetModal({
+        state: true,
+        classname: 'manageOffer',
+        component: <ReviewOffer />,
+        small: true,
+        layout: 'xlarge',
       });
     }
   }, []);
@@ -903,7 +907,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  setSplashScreen: bindActionCreators(setSplashType, dispatch),
+  handleSetModal: bindActionCreators(setModal, dispatch),
 });
 
 export default compose(

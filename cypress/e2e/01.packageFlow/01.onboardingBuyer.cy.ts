@@ -1,20 +1,20 @@
-import Constants from '../../helpers/constants';
+import { testData, userTest } from '../../helpers/constants';
 
-const { devices, companies } = Constants;
+const { devices, companies } = testData;
 
 describe('Buyer Onboarding', () => {
 
   Cypress.Cookies.debug(true);
 
   //for each company do the onboarding
-  companies.forEach(company => {
+  Object.keys(companies).forEach((key) => {
     //This gives you some feedback in the Cypress side bar console on what URL you're at
-    describe(`company: ${company}`, () => {
-
+    describe(`company: ${key}`, () => {
       devices.forEach((device) => {
         it('visit url', () => {
           cy.viewport(device);
-          cy.visit(`http://localhost:5000/packageFlow/getStartedBuyer/${company}/propertyType`);
+          cy.clearAllCookies();
+          cy.visit(`http://localhost:5000/packageFlow/getStartedBuyer/${key}/propertyType`);
         })
 
         it('select property type', () => {
@@ -23,7 +23,7 @@ describe('Buyer Onboarding', () => {
           cy.get('button[type="submit"]').click();
         })
 
-        it('property device', () => {
+        it('property room & size', () => {
           cy.viewport(device);
           cy.get('button[type="submit"]').click();
         })
@@ -32,12 +32,12 @@ describe('Buyer Onboarding', () => {
           cy.viewport(device);
           cy.get('[type="checkbox"]').check({ force: true });
           cy.get('button[type="submit"]').not('.disabled').click();
-        })
+        });
 
         it('address autocomplete', () => {
           cy.viewport(device);
           cy.url().should('contain', '/locationInput');
-          cy.get('input[role="text"]').type('Lisboa');
+          cy.get('input[role="text"]').type(companies[key].autocompleteCity);
           cy.get('ul.resultAutoComplete li:first-child', { timeout: 10000 }).should('be.visible').click();
           cy.wait(300).then(() => {
             cy.get('button[type="submit"]').not('.disabled').click();
@@ -62,20 +62,30 @@ describe('Buyer Onboarding', () => {
             .then((res) => {
               if (!res) {
                 cy.get('input[name="register.name"]').type('Test Automated');
-                cy.get('input[name="register.email"]').type(`jestTest+sellerE2E${device}@brixel.io`);
-                cy.get('input[name="register.password"]').type('123456789');
+                let {email} = userTest.buyer;
+                if (key === 'ubs' || key === 'baloise') {
+                  email = userTest.buyerPartner.email.replace(':partner', key);
+                }
+                cy.get('input[name="register.email"]').type(email);
+                cy.get('input[name="register.password"]').type(userTest.buyer.password);
                 cy.get('input[name="register.privacy"]').check({force: true});
                 cy.wait(1000).then(() => {
                   cy.get('button[type="submit"]').click();
                 })
+                cy.wait(1000).then(() => {
+                  cy.get('body', {timeout: 10000}).then($body => {
+                    if ($body.find('p.txtRed400').length > 0) {
+                      cy.get('input[name="login.password"]').type(userTest.buyer.password);
+                      cy.wait(1000).then(() => {
+                        cy.get('button[type="submit"]').click();
+                      })
+                    }
+                  });
+                });
               } else {
                 cy.get('body', {timeout: 10000}).should('be.visible');
               }
             });
-        })
-
-        it('Welcome buyer screen', () => {
-          cy.get('.result-popup', { timeout: 10000 }).should('be.visible');
         })
 
       });

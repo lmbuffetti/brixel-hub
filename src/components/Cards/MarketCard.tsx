@@ -443,7 +443,7 @@ const MarketCard = (props: MarketCardProps) => {
                 <CoverPropertyImage
                   loadedImg={(val) => setCoverImgLoaded(val)}
                   className={`${isPreMarket() ? 'pre-market' : ''} ${get(item, 'tags', []).join(' ')} cover w-perc-100 ${layout === 'singleOwnCard' ? 'w-fix-sm-184 h-fix-184 mb-sm-0' : 'w-fix-sm-216 h-fix-216'}`}
-                  coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
+                  coverPhoto={isPreMarket() ? undefined : get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
                   propertyType={get(item, 'properties.propertyType', undefined)}
                   onClick={() => openCard(null)}
                 />
@@ -716,7 +716,7 @@ const MarketCard = (props: MarketCardProps) => {
                           <CoverPropertyImage
                             loadedImg={(val) => setCoverImgLoaded(val)}
                             className={`${isPreMarket() ? 'pre-market' : ''} ${get(item, 'tags', []).join(' ')} cover w-perc-100 h-perc-100 h-fix-216 pos-r`}
-                            coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
+                            coverPhoto={isPreMarket() ? undefined : get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
                             propertyType={get(item, 'properties.propertyType', undefined)}
                           />
                         )

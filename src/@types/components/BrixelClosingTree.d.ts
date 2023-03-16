@@ -9,7 +9,7 @@ export interface BrixelClosingTreeType {
   isBuyer?: boolean;
   lang: string;
   propID: string;
-  setSplashScreen: (data: object) => void;
+  handleSetModal: (data: object) => void;
   windowDimensions: {
     width: number;
     height: number;

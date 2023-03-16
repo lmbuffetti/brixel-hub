@@ -26,6 +26,7 @@ import translateTo from '../../utils/translation';
 import lazyWithRetry from '../LazyWithRetry';
 import type {LanguagesType, PageHeaderType} from '../../@types/components/Header/PageHeader';
 import {OptionsType} from '@brixel/brixel-components/dist/@types/Form/Input';
+import isEmpty from 'lodash/isEmpty';
 
 const RightFlowHeader = lazyWithRetry(() => import('./RightHeaderFlow'));
 const AccountDropdown = lazyWithRetry(() => import('../AccountDropdown'));
@@ -70,6 +71,8 @@ function PageHeader(props: PageHeaderType) {
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [showProgressStage, setShowProgressStage] = useState(false);
   const [stepIndexProgrss, setIndexProgrss] = useState(0);
+
+  const isBuyer = history.location.pathname.includes('buyer');
 
   // REF
   const profileMenu = useRef(null);
@@ -136,7 +139,7 @@ function PageHeader(props: PageHeaderType) {
     setSelLang(defLangCode);
     if (defLangCode) setCookie('brixelLang', defLangCode);
     handleSetLanguage(defLangCode);
-    if (get(loggedInUser, 'id', null)) {
+    if (get(loggedInUser, 'id', null) && !isEmpty(defLangCode)) {
       const userData = {
         id: get(loggedInUser, 'id', null),
         language: defLangCode,
@@ -292,7 +295,7 @@ function PageHeader(props: PageHeaderType) {
                         onClick={() => {
                           handleSetUserTypes('seller');
                           handleSetActiveSingleProperty({});
-                          history.push('/sell');
+                          history.push(isBuyer ? '/buy' : '/sell');
                         }}
                         className={`${windowDimensions.width <= 590 || (propID !== 'buy' && propID !== 'sell') ? 'max-w-fix-32' : ''} pos-r cur-poi`}
                         src={windowDimensions.width <= 590 || (propID !== 'buy' && propID !== 'sell') ? logoMobile : logo}

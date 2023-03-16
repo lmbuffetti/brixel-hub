@@ -3,6 +3,7 @@ import omit from 'lodash/omit';
 import get from 'lodash/get';
 import set from 'lodash/set';
 import has from 'lodash/has';
+import { testData } from '../../cypress/helpers/constants';
 import {
   REDIRECT_TO,
   SET_SCREEN_NOTIFICATION,
@@ -37,6 +38,7 @@ import {exampleDeal} from '../resources/Deals/exampleDeal';
 import api from '../controllers/api/config';
 
 import TimelineActionStubs from '../resources/Utilities/timelineActionStubs';
+const { companies } = testData;
 
 const checkCommon = (store) => (next) => (action) => {
   switch (action.type) {
@@ -59,6 +61,8 @@ const checkCommon = (store) => (next) => (action) => {
           type: SPINNER_ON,
         });
       }
+      const isTest = get(store.getState(), 'common.isTest', false);
+      const company = get(store.getState(), 'companies.activeSingleCompany.stub', null);
       api.user.getUserByEmail(action.payload.leadEmail)
         .then((response) => {
           // User not found, we need to create a new one
@@ -68,11 +72,13 @@ const checkCommon = (store) => (next) => (action) => {
               .then((res) => {
                 if (res.meta.normalizedStatus === 200) {
                   const deal = {
+                    id: isTest ? companies[company.stub].propID : null,
                     page: action.payload.page,
                     user: res.data.id,
                     stage: action.payload.stage,
                     actionStub: action.payload.actionStub,
                   };
+                  if (!deal.id) delete deal.id;
                   api.deal.createSingleDeal(deal)
                     .then((response1) => {
                       if (response1.meta.normalizedStatus === 200) {
@@ -126,11 +132,13 @@ const checkCommon = (store) => (next) => (action) => {
           } else if (response.meta.normalizedStatus === 200) {
             // User already exists, we just need to create the deal
             const deal = {
+              id: isTest ? companies[company.stub].propID : null,
               page: action.payload.page,
               user: response.data.id,
               stage: action.payload.stage,
-              actionStub: action.payload.actionStub,
+              actionStub: action.payload.actionStub || 'default',
             };
+            if (!deal.id) delete deal.id;
             api.deal.createSingleDeal(deal)
               .then((response1) => {
                 if (response1.meta.normalizedStatus === 200) {
@@ -171,6 +179,73 @@ const checkCommon = (store) => (next) => (action) => {
                   store.dispatch({
                     type: SPINNER_OFF,
                   });
+                }
+              });
+          }
+        })
+        .catch((err) => {
+          const statusCode = get(err, 'meta.statusText.response.data.statusCode', null);
+          if (statusCode === 404 || statusCode === 400) {
+            const registerUser = omit(action.payload, ['page', 'stage', 'actionStub']);
+            api.lead.createUserLead(registerUser)
+              .then((res) => {
+                if (res.meta.normalizedStatus === 200) {
+                  const deal = {
+                    id: isTest ? companies[company.stub].propID : null,
+                    page: action.payload.page,
+                    user: res.data.id,
+                    stage: action.payload.stage,
+                    actionStub: action.payload.actionStub || 'default',
+                  };
+                  if (!deal.id) delete deal.id;
+                  api.deal.createSingleDeal(deal)
+                    .then((response1) => {
+                      if (response1.meta.normalizedStatus === 200) {
+                        store.dispatch({
+                          type: SET_SCREEN_NOTIFICATION,
+                          payload: {
+                            state: true,
+                            label: 'Deal created',
+                            type: 'done',
+                          },
+                        });
+                        store.dispatch({
+                          type: GET_PAGE_DEALS,
+                          payload: {
+                            id: action.payload.page,
+                            smallLoader,
+                          },
+                        });
+                        store.dispatch({
+                          type: REDIRECT_TO,
+                          payload: {
+                            history: link,
+                          },
+                        });
+                      } else {
+                        // TODO: Should dispatch error state
+                        store.dispatch({
+                          type: SET_SCREEN_NOTIFICATION,
+                          payload: {
+                            state: true,
+                            label: res.data.errorMessage,
+                            type: 'alert',
+                          },
+                        });
+                      }
+                      if (smallLoader) {
+                        store.dispatch({
+                          type: SPINNER_SMALL,
+                          payload: {
+                            [smallLoader]: false,
+                          },
+                        });
+                      } else {
+                        store.dispatch({
+                          type: SPINNER_OFF,
+                        });
+                      }
+                    });
                 }
               });
           }
@@ -300,16 +375,20 @@ const checkCommon = (store) => (next) => (action) => {
           type: SPINNER_ON,
         });
       }
+      const isTest = get(store.getState(), 'common.isTest', false);
+      const company = get(store.getState(), 'companies.activeSingleCompany.stub', null);
       api.deal.getBuyerDeal(id)
         .then((res) => {
           if (!res.data) {
             const deal = {
-              actionStub: null,
+              actionStub: 'default',
               page: id,
               user: get(store.getState(), 'user.loggedInUser.user.id', ''),
               stage: 'Interested',
+              id: isTest && company ? companies[company].propID : null,
             };
             if (actionStub) deal.actionStub = actionStub;
+            if (!deal.id) delete deal.id;
             api.deal.createSingleDeal(deal)
               .then((response1) => {
                 if (response1.meta.normalizedStatus === 200) {
@@ -355,9 +434,11 @@ const checkCommon = (store) => (next) => (action) => {
     case SAVE_ACTIVE_SINGLE_DEAL: {
       next(action);
       const {
+        actionStubs,
         data,
         id,
         smallLoader,
+        propID,
         type,
       } = action.payload;
       if (type !== 'archive') {
@@ -377,6 +458,8 @@ const checkCommon = (store) => (next) => (action) => {
 
       const obj = cloneDeep(data);
       delete obj.user;
+      delete obj.propID;
+      delete obj.actionStubs;
       api.deal.updateSingleDeal(id, obj)
         .then((res) => {
           if (res.meta.status === 200) {
@@ -387,13 +470,14 @@ const checkCommon = (store) => (next) => (action) => {
             store.dispatch({
               type: GET_PAGE_DEALS,
               payload: {
-                id: store.getState().property.activeSingleProperty.id,
+                id: propID || store.getState().property.activeSingleProperty.id,
                 smallLoader,
               },
             });
             store.dispatch({
               type: GET_HISTORY_LISTINGS,
               payload: {
+                actionStubs: actionStubs,
                 parent: action.payload.id,
                 type: 'deal',
                 resultsPerPage: 50,

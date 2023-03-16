@@ -4,6 +4,7 @@ import {BrixelInputText, BrixelTextArea, Validation} from '@brixel/brixel-compon
 import ScheduleVisitComponent from '../../Pages/Dashboard/Buyer/ScheduleVisiitComponent';
 import scheduleSvg from '../../images/dashboard/scehdule.svg';
 import {QuestionsListType} from '@brixel/brixel-components/dist/@types/Model';
+import ClipboardImg from '../../images/scanTrial/clipboard.png';
 
 export const QuestionsList: (lang: string) => QuestionsListType[] = (lang) => [
   {
@@ -56,9 +57,16 @@ export const QuestionsList: (lang: string) => QuestionsListType[] = (lang) => [
     ],
   },
   {
+    background: 'bgCardGreen',
+    hideProgress: true,
+    cardType: 'card',
     title: translateTo('Thank you for your request', lang),
-    className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText50 p-2 p-sm-5',
+    img: ClipboardImg,
+    imgMaxWidth: 'max-w-fix-160',
+    cardClass: 'max-w-fix-360 ml-a mr-a pb-5',
+    subtitle: translateTo('', lang),
     history: 'success',
+    vCentered: true,
     toSave: true,
   },
 ];

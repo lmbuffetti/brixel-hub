@@ -371,3 +371,47 @@ export const convertLabel = (curVal, field, type: string | null = 'label') => {
   }
   return '';
 }
+
+export const redirectUrl = (link, options) => {
+  let url = localStorage.getItem('backUrl');
+  const {
+    propID,
+    dealID,
+    isBuyer,
+    userType,
+  } = options;
+  if (url) return url;
+  if (
+    link.toLowerCase().includes('getstartedbuyer') ||
+    link.toLowerCase().includes('visitfeedback')
+  ) {
+    return '/buy';
+  } else if (link.toLowerCase().includes('makeoffer') || link.toLowerCase().includes('closing')) {
+    if (userType === 'seller') {
+      return `/${propID}/closing/${dealID}`;
+    } else {
+      return `/buyer/${propID}/closing`;
+    }
+  } else if (link.toLowerCase().includes('schedulevisit')) {
+    return `/buyer/${propID}/home`;
+  } else if (link.toLowerCase().includes('contactflow')) {
+    const BASEURL = isBuyer ? '/buyer' : '';
+    return `${BASEURL}/${propID}/home`;
+  } else {
+    url = localStorage.getItem('backUrlBis');
+    const urlBuyer = localStorage.getItem('backUrlBuyerEstimations');
+    if (url) {
+      localStorage.removeItem('backUrlBis');
+    }
+    else {
+      if (urlBuyer) {
+        url = urlBuyer;
+      } else {
+        url = localStorage.getItem('backUrl');
+      }
+      localStorage.removeItem('backUrl');
+      localStorage.removeItem('backUrlBuyerEstimations');
+    }
+    return url || '/sell';
+  }
+}

@@ -1,4 +1,5 @@
 /* eslint-disable max-len */
+import React from 'react';
 import {FactsOptions} from '@brixel/brixel-components';
 import {
   BrixelInputDatePicker,
@@ -11,7 +12,6 @@ import {
   Validation,
 } from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
-import React from 'react';
 import BaloiseLogoImg from '../../images/Companies/Baloise/BaloiseLogo.svg';
 import Key4LogoImg from '../../images/Companies/ubsKey4/key4Logo.svg';
 import UBSLogoImg from '../../images/Companies/ubsKey4/ubsLogo.svg';
@@ -113,8 +113,8 @@ export const MakeOfferQuestions: (changeValue: (field: string, val: any) => void
                 {
                   formValue.company === 'baloise' && (
                     <div className="dis-f a-c mt-3">
-                      <p className="txtText400 mr-2">In partnership with</p>
-                      <img loading="lazy" src={BaloiseLogoImg} alt="Logo Baloise" />
+                      <p className="txtText400 mr-2">{translateTo('In partnership with', lang)}</p>
+                      <img className="h-fix-24" loading="lazy" src={BaloiseLogoImg} alt="Logo Baloise" />
                     </div>
                   )
                 }
@@ -122,7 +122,7 @@ export const MakeOfferQuestions: (changeValue: (field: string, val: any) => void
                 {
                   formValue.company === 'ubs' && (
                     <div className="dis-f a-c mt-3">
-                      <p className="txtText400 mr-2">In partnership with</p>
+                      <p className="txtText400 mr-2">{translateTo('In partnership with', lang)}</p>
                       <img loading="lazy" className="h-fix-24" src={UBSLogoImg} alt="Logo UBS" />
                       <img  loading="lazy" className="h-fix-24 ml-2" src={Key4LogoImg} alt="Logo Key 4" />
                     </div>
@@ -142,6 +142,7 @@ export const MakeOfferQuestions: (changeValue: (field: string, val: any) => void
       title: translateTo('Set your price', lang),
       history: 'priceInfo',
       className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText50 p-3 p-sm-5',
+      footerWidth: 'max-w-fix-600',
       inputs: [
         {
           currency: get(formValue, 'propertyPriceCurrency', 'CHF'),
@@ -350,6 +351,7 @@ export const MakeOfferQuestions: (changeValue: (field: string, val: any) => void
           classNameBox: 'max-w-fix-600 ml-a mr-a',
           classBoxWrapper: 'p-5',
           ReduxFieldClass: '',
+          labelButton: translateTo('Upload', lang),
           label: translateTo(`Add a proof of financing by ${countryName} financial institution`, lang),
           name: 'document',
           theme: 'simple',
@@ -456,7 +458,7 @@ export const MakeOfferQuestions: (changeValue: (field: string, val: any) => void
         value: null,
       }],
       title: translateTo('Do you have a recent proof of financing?', lang),
-      subtitle: translateTo('Do you have a recent proof of financing?', lang),
+      // subtitle: translateTo('Do you have a recent proof of financing?', lang),
       history: 'financingProofPartner',
       className: 'max-w-fix-600 ml-a mr-a dis-f flex-wrap ',
       footerWidth: 'max-w-fix-600',
@@ -470,6 +472,7 @@ export const MakeOfferQuestions: (changeValue: (field: string, val: any) => void
           classNameBox: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText50 p-5 mt-3 mt-sm-6',
           classBoxWrapper: '',
           ReduxFieldClass: '',
+          labelButton: translateTo('Upload', lang),
           label: translateTo(`Add a proof of financing from a ${countryName} financial institution`, lang),
           name: 'document',
           theme: 'simple',

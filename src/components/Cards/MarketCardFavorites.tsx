@@ -217,7 +217,7 @@ const MarketCardFavorites = (props: MarketCardFavoritesType) => {
             ) : (
               <CoverPropertyImage
                 className={`${isPreMarket() ? 'pre-market' : ''} ${get(activeSingleProperty, 'tags', []).join(' ')} cover w-perc-100 h-fix-208 h-fix-sm-304 h-fix-lg-208 pos-r cur-poi`}
-                coverPhoto={get(activeSingleProperty, 'coverPhoto.galleryThumbnailPath', undefined)}
+                coverPhoto={isPreMarket() ? undefined : get(activeSingleProperty, 'coverPhoto.galleryThumbnailPath', undefined)}
                 propertyType={get(activeSingleProperty, 'properties.propertyType', undefined)}
                 onClick={() => onOpenCard()}
               />
@@ -226,8 +226,8 @@ const MarketCardFavorites = (props: MarketCardFavoritesType) => {
         </div>
 
         <div className="dis-fl-col p-2 flex-1">
-          <div className="dis-f a-t jc-b">
-            <div>
+          <div className="dis-fl-col-rev dis-fl-row-sm a-t jc-b">
+            <div className="w-perc-100 w-auto-sm">
               <span className="fsize-300 txtText700 mb-1 ta-l">
                 {get(activeSingleProperty, 'location.zip', '')} {get(activeSingleProperty, 'location.city', '')}
                 {
@@ -259,8 +259,8 @@ const MarketCardFavorites = (props: MarketCardFavoritesType) => {
                 }}
               />
             </div>
-            <div>
-              <div className="dis-f a-c">
+            <div className="w-perc-100 mb-1 mb-sm-0 w-auto-sm">
+              <div className="dis-f w-perc-100 w-auto-sm jc-b a-c">
                 {
                   get(offerDetail, 'offer.status', 'none') !== 'none' && get(offerDetail, 'offer.status', null) !== 'rejected' && !isPreMarket() && (
                     <Tags
@@ -290,7 +290,7 @@ const MarketCardFavorites = (props: MarketCardFavoritesType) => {
             <div className="fsize-300 txtText700 mb-2 mb-lg-0">
               <div className="dis-f a-c jc-fs flex-wrap w-perc-100">
 
-                <div className="bottom a-c txtText900 brdSmallRight brdText100 pr-2 mr-2 pr-sm-6 mr-sm-6">
+                <div className="bottom a-c txtText900 brdSmallRight-sm mb-1 mb-sm-0 brdText100 pr-6 mr-6">
                   <span className="fsize-300 dis-b txtText400">
                     {translateTo('Price', lang)}
                   </span>
@@ -313,30 +313,33 @@ const MarketCardFavorites = (props: MarketCardFavoritesType) => {
 
                 </div>
 
-                <div>
-                  <span className="fsize-300 dis-b txtText400">
-                    {translateTo('Rooms', lang)}
-                  </span>
-                  <span className="ff-mono fsize-400 txtBlack dis-b pt-small-4">
-                    {FormatValue.formatRooms(get(activeSingleProperty, 'properties.typology.bedrooms', 0), get(activeSingleProperty, 'location.countryCode', 'CH'))}
-                  </span>
+                <div className="dis-f">
+                  <div>
+                    <span className="fsize-300 dis-b txtText400">
+                      {translateTo('Rooms', lang)}
+                    </span>
+                    <span className="ff-mono fsize-400 txtBlack dis-b pt-small-4">
+                      {FormatValue.formatRooms(get(activeSingleProperty, 'properties.typology.bedrooms', 0), get(activeSingleProperty, 'location.countryCode', 'CH'))}
+                    </span>
+                  </div>
+                  <div className="mx-4">
+                    <span className="fsize-300 dis-b txtText400">
+                      {translateTo('Size', lang)}
+                    </span>
+                    <span className="ff-mono fsize-400 txtBlack dis-b pt-small-4">
+                      {get(activeSingleProperty, 'properties.typology.livingArea.value', 0)} m2
+                    </span>
+                  </div>
+                  <div>
+                    <span className="fsize-300 dis-b txtText400">
+                      {translateTo('Year built', lang)}
+                    </span>
+                    <span className="ff-mono fsize-400 txtBlack dis-b pt-small-4">
+                      {get(activeSingleProperty, 'properties.building.built', 0)}
+                    </span>
+                  </div>
                 </div>
-                <div className="mx-4">
-                  <span className="fsize-300 dis-b txtText400">
-                    {translateTo('Size', lang)}
-                  </span>
-                  <span className="ff-mono fsize-400 txtBlack dis-b pt-small-4">
-                    {get(activeSingleProperty, 'properties.typology.livingArea.value', 0)} m2
-                  </span>
-                </div>
-                <div>
-                  <span className="fsize-300 dis-b txtText400">
-                    {translateTo('Year built', lang)}
-                  </span>
-                  <span className="ff-mono fsize-400 txtBlack dis-b pt-small-4">
-                    {get(activeSingleProperty, 'properties.building.built', 0)}
-                  </span>
-                </div>
+
               </div>
             </div>
 

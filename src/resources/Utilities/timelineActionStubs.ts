@@ -32,7 +32,6 @@ const TimelineStubs = {
   ],
   BuyerSidebarDeal: [
     'page-message',
-    'deal-feedback-visit-email',
     'deal-confirm-visit',
     'deal-confirm-visit-email',
     'deal-confirm-offer',

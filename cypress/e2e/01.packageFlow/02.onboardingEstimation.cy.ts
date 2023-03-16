@@ -1,20 +1,21 @@
-import Constants from '../../helpers/constants';
+import { testData, userTest } from '../../helpers/constants';
 
-const { devices, companies } = Constants;
+const { devices, companies } = testData;
 
 describe('Seller Onboarding', () => {
 
-  Cypress.Cookies.debug(true);
+  Cypress.Cookies.debug(true, { verbose: false })
 
   //for each company do the onboarding
-  companies.forEach(company => {
+  Object.keys(companies).forEach((key) => {
     //This gives you some feedback in the Cypress side bar console on what URL you're at
-    describe(`company: ${company}`, () => {
+    describe(`company: ${key}`, () => {
 
       devices.forEach((device) => {
         it('visit url', () => {
           cy.viewport(device);
-          cy.visit('http://localhost:5000/packageFlow/getStartedEstimation/brixel_portugal/estimationType');
+          cy.clearAllCookies();
+          cy.visit(`http://localhost:5000/packageFlow/getStartedEstimation/${key}/estimationType`);
         })
 
         it('select intention', () => {
@@ -48,8 +49,12 @@ describe('Seller Onboarding', () => {
         })
 
         it('address autocomplete', () => {
-          cy.get('input[role="search"]').type('Avenida');
+          cy.viewport(device);
+          cy.get('input[role="text"]').type(companies[key].autocomplete);
           cy.get('ul.resultAutoComplete li:first-child', { timeout: 10000 }).should('be.visible').click();
+          cy.wait(100).then(() => {
+            cy.get('button[type="submit"]').click();
+          })
         })
 
         it('location recap', () => {
@@ -84,7 +89,9 @@ describe('Seller Onboarding', () => {
         it('extra features', () => {
           cy.viewport(device);
           cy.get('input[name="properties.extraFeaturesBestimatePT"]').check({ force: true });
-          cy.get('button[type="submit"]').click();
+          cy.wait(100).then(() => {
+            cy.get('button[type="submit"]').click();
+          })
         })
 
         it('user register', () => {
@@ -93,12 +100,26 @@ describe('Seller Onboarding', () => {
             .then((res) => {
               if (!res) {
                 cy.get('input[name="register.name"]').type('Test Automated');
-                cy.get('input[name="register.email"]').type(`jestTest+sellerE2E${device}@brixel.io`);
-                cy.get('input[name="register.password"]').type('123456789');
+                let {email} = userTest.estimation;
+                if (key === 'ubs' || key === 'baloise') {
+                  email = userTest.estimationPartner.email.replace(':partner', key);
+                }
+                cy.get('input[name="register.email"]').type(email);
+                cy.get('input[name="register.password"]').type(userTest.estimation.password);
                 cy.get('input[name="register.privacy"]').check({force: true});
                 cy.wait(1000).then(() => {
                   cy.get('button[type="submit"]').click();
                 })
+                cy.wait(1000).then(() => {
+                  cy.get('body', {timeout: 10000}).then($body => {
+                    if ($body.find('p.txtRed400').length > 0) {
+                      cy.get('input[name="login.password"]').type(userTest.seller.password);
+                      cy.wait(1000).then(() => {
+                        cy.get('button[type="submit"]').click();
+                      })
+                    }
+                  });
+                });
               } else {
                 cy.get('body', {timeout: 10000}).should('be.visible');
               }

@@ -32,7 +32,6 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
     buyerProperties,
     activeSearchProfile,
     filterPropType = [],
-    handleGetActiveBuyerProperties,
     handleGetActiveSingleCompany,
     handleSetModal,
     lang,
@@ -64,20 +63,6 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
     });
     setFieldsSearchProfile(fields);
   }, []);
-
-  useEffect(() => {
-    if (page && cat && activeSearchProfile) {
-      const data = {
-        limit: 9,
-        offset: 0,
-        order: 'updatedAt',
-        direction: 'DESC',
-        searchProfileId: activeSearchProfile.id,
-        type: cat,
-      }
-      handleGetActiveBuyerProperties(data);
-    }
-  }, [page, cat, activeSearchProfile]);
 
   useEffect(() => {
     if (get(loggedInUser, 'id', null)) {
@@ -299,7 +284,7 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
 
           <div className="container">
             <div className="dis-fl-col dis-fl-row-sm a-c jc-c jc-b-sm my-5">
-              <div className="ta-l max-w-fix-304 mb-2 mb-sm-0">
+              <div className="ta-l mb-2 mb-sm-0">
                 <h4 className="fweight-600 dis-f a-c">
                   <span className="mr-1">{translateTo('Results', lang)}</span>
                   <span>({get(buyerProperties, 'total', 0)})</span>

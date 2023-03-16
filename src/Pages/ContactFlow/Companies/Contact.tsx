@@ -284,7 +284,7 @@ const Contact = (props: ContactType) => {
       changeStep('next', null, 1, true);
     }
     if (currentIndex === 0 && formValue.analysis === 'remote') changeStep();
-  }, [formValue, activeSingleCompany.id]);
+  }, [formValue, activeSingleCompany.id, lang]);
 
   useEffect(() => {
     if (get(formValue, 'time.timestamp', null)) {

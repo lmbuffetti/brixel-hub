@@ -45,7 +45,6 @@ const GetStartedEstimation = (props: GetStartedEstimationType) => {
     handleCreateEstimation,
     handleDoLogin,
     handleGetActiveSingleCompany,
-    handleSpinnerOff,
     handleSpinnerOn,
     handleValidateUser,
     initForm,
@@ -67,7 +66,6 @@ const GetStartedEstimation = (props: GetStartedEstimationType) => {
 
   // DESTROY FORM ON EXIT
   useEffect(() => {
-    handleSpinnerOff();
     return () => destroyForm();
   }, []);
 
@@ -124,6 +122,8 @@ const GetStartedEstimation = (props: GetStartedEstimationType) => {
     if (isLoading || loadingRequest) return false;
     const dataForm = cloneDeep(formValue);
     const dataFormAnswer = cloneDeep(formValue);
+    delete dataFormAnswer.id;
+    delete dataForm.id;
     const { login, register } = dataForm;
     setCookie('brixelSplashHome', 'bestimateResult');
     // delete dataForm.login;

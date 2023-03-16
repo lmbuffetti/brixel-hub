@@ -5,7 +5,7 @@ import {
 } from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
 import {connect} from 'react-redux';
-import {useLocation, useNavigate, useParams} from 'react-router-dom';
+import {useParams} from 'react-router-dom';
 import {bindActionCreators, compose} from 'redux';
 import {spinnerSmallOff} from '../../../actions/CommonActions';
 import {
@@ -19,10 +19,7 @@ import type {AddShowingsBuyerType} from '../../../@types/Pages/Dashboard/Buyer/A
 import FlowScreen from '../../../components/FlowScreen';
 
 const AddShowingsBuyer = (props: AddShowingsBuyerType) => {
-  const history = {
-    push: useNavigate(),
-    location: useLocation(),
-  };
+
   const match = useParams();
   // PROPS
   const {
@@ -33,7 +30,6 @@ const AddShowingsBuyer = (props: AddShowingsBuyerType) => {
     handleGetActiveSingleProperty,
     initForm,
     initialValues,
-    isSmallLoading,
     lang,
     loggedInUser,
     translations,
@@ -77,12 +73,6 @@ const AddShowingsBuyer = (props: AddShowingsBuyerType) => {
       handleGetActiveSingleProperty(data);
     }
   }, [propID]);
-
-  useEffect(() => {
-    if (isSmallLoading.sendData === false) {
-      history.push(`/buyer/${activeSingleProperty.id}/home`);
-    }
-  }, [isSmallLoading]);
 
   const saveData = () => {
     const data = {
@@ -132,7 +122,6 @@ const mapStateToProps = (state) => {
     errorValue: get(state, 'brixelForm.Showings.syncErrors', {}),
     formValue: get(state, 'brixelForm.Showings.values', {}),
     initialValues,
-    isSmallLoading: get(state, 'common.isSmallLoading', {}),
     lang: get(state, 'common.language', 'en'),
     loggedInUser: get(state, 'user.loggedInUser.user', {}),
     translations: get(state, 'common.translation', {}),

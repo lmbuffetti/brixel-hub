@@ -32,6 +32,7 @@ const Dashboard = (props: DashboardType) => {
   const match = useParams();
   // PROPS
   const {
+    activeSingleCompany,
     activeSingleProperty,
     activeSingleDeal,
     handleGetFavoritesProperties,
@@ -70,25 +71,26 @@ const Dashboard = (props: DashboardType) => {
   }, []);
 
   useEffect(() => {
-    if (activeSingleProperty.id) {
+    if (activeSingleProperty.id && loggedInUser.id) {
       const companiesListUser: string[] = get(activeSingleProperty, 'companies', []);
       if (activeSingleProperty.id) {
         handleGetActiveSingleCompany({ id: activeSingleProperty.company });
       } else if (companiesListUser.length > 0) {
         handleGetActiveSingleCompany({ id: companiesListUser[companiesListUser.length - 1] });
       }
-      if (dealID !== activeSingleDeal.id || !dealID) {
-        let actionStub;
+      if ((dealID !== activeSingleDeal.id || !dealID) && loggedInUser.id && activeSingleCompany.id) {
+        let actionStub = 'default';
         if (get(history, 'location.pathname', '').includes('showings')) actionStub = 'user-schedule';
         if (get(history, 'location.pathname', '').includes('docubox')) actionStub = 'get-document';
         if (get(history, 'location.pathname', '').includes('contact')) actionStub = 'message';
+        if (get(history, 'location.pathname', '').includes('makeOffer')) actionStub = 'make-offer';
         handleGetBuyerDeal({ id: propID, actionStub });
       }
     }
-  }, [activeSingleProperty.id]);
+  }, [activeSingleProperty.id, loggedInUser, activeSingleCompany?.id]);
 
   useEffect(() => {
-    if (propID && propID !== 'propertyLists' && loggedInUser.id) {
+    if (propID && propID !== 'propertyLists') {
       const data = {
         fullVersion: false,
         smallLoader: 'property',
@@ -96,7 +98,7 @@ const Dashboard = (props: DashboardType) => {
       };
       handleGetActiveSingleProperty(data);
     }
-  }, [propID, loggedInUser]);
+  }, [propID]);
 
   // FUNCTION TO RESET FORM ON CHANGE SECTIONS - EXCEPT FOR FACTS AND ACHIEVEMENT FLOW
   useEffect(() => {
@@ -137,7 +139,7 @@ const Dashboard = (props: DashboardType) => {
 
 const mapStateToProps = (state) => ({
   activeSingleDeal: get(state, 'deal.activeSingleDeal', {}),
-  activeSingleCompany: get(state, 'companies.activeSingleCompany.id', { }),
+  activeSingleCompany: get(state, 'companies.activeSingleCompany', { }),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
 });

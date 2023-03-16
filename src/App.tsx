@@ -19,7 +19,7 @@ import {
   setLanguage,
   setModal,
   setScreenNotification,
-  setWindowDimensions,
+  setWindowDimensions, spinnerOff,
 } from './actions/CommonActions';
 import {setActiveSingleDeal} from './actions/DealActions';
 import {setActiveSingleProperty} from './actions/PropertyActions';
@@ -38,6 +38,7 @@ import translateTo from './utils/translation';
 import type {AppType} from './@types/App';
 import Financing from './Pages/Closing/Financing/Financing';
 import {getActiveSingleCompany} from './actions/CompanyActions';
+import {setCookie} from './utils/helpers';
 
 const SplashScreen = lazy(() => import('./components/SplashScreen'));
 const RemoveTrailingSlash = lazy(() => import('./components/RemoveTrailingSlash'));
@@ -127,6 +128,7 @@ const App = (props: AppType) => {
     handleSetNotification,
     handleSetUserTypes,
     handleSetWindowsDimension,
+    handleSpinnerOff,
     isLoading = false,
     isSmallLoading,
     lang,
@@ -165,48 +167,53 @@ const App = (props: AppType) => {
     if (smoothscrollPolyfill) smoothscrollPolyfill.polyfill();
     const queryURL: { lang?: string } = queryString.parse(get(history, 'location.search', ''));
     if (queryURL?.lang) setLangURL(queryURL.lang.toLowerCase());
+    if (history.location.pathname.includes('packageFlow')) handleSpinnerOff();
   }, []);
 
   useEffect(() => {
     const { search } = history.location;
-    if (search) {
-      const objURL = JSON.parse('{"' + search.replace('?', '').replace(/&/g, '","').replace(/=/g,'":"') + '"}', function(key, value) { return key=== '' ?value:decodeURIComponent(value) });
+    if (search && search.includes('=') && !search.includes('transifex')) {
+      const objURL = JSON.parse('{"' + search.replace('?', '').replace(/&/g, '","').replace(/=/g,'":"') + '"}', function(key, value) {
+        return key === '' ? value : decodeURIComponent(value) });
       if (objURL.lang) {
-        cookies.set('brixelLang', (objURL.lang).toLowerCase());
+        setCookie('brixelLang', (objURL.lang).toLowerCase());
+        handleSetLanguage( (objURL.lang).toLowerCase());
         setUrlLang((objURL.lang).toLowerCase());
       }
     }
   }, [history.location.search]);
 
   useEffect(() => {
-    if (loggedInUser.id && urlLang && !isEmpty(urlLang)) {
+    let currentLang = urlLang;
+    if (loggedInUser.id && urlLang && (!isEmpty(currentLang) || isEmpty(loggedInUser.language))) {
+      if (isEmpty(currentLang) && isEmpty(loggedInUser.language)) currentLang = 'en';
       const userData = {
         id: get(loggedInUser, 'id', null),
-        language:urlLang,
+        language:currentLang,
         setLoggedInUser: true,
         smallLoader: 'saveData',
       };
       handleSaveActiveSingleUser(userData);
-      handleSetLanguage(urlLang);
     }
   }, [loggedInUser.id, urlLang]);
 
 
   useEffect(() => {
-    if (activeSingleProperty.company && !activeSingleCompany.id) {
+    const companyID = activeSingleCompany.id;
+    const companyPageID = (activeSingleProperty.company || '').toString();
+    if (activeSingleProperty.company && (companyID !== companyPageID || !companyID)) {
       handleGetActiveSingleCompany({id: activeSingleProperty.company})
     }
   }, [activeSingleProperty.id]);
-
-
 
   // FUCNTION TO INITIALIZE TRANSIFEX AND LOAD THE TRANSLATIONS
   useEffect(() => {
     let userLang: string | undefined = 'en';
     if (!urlLang) {
-      if (loggedInUser.language) {
+      if (loggedInUser.id) {
         userLang = loggedInUser.language === 'en_US' ? 'en' : loggedInUser.language;
-        if (userLang) handleSetLanguage(userLang);
+        if (isEmpty(userLang)) userLang = 'en';
+        handleSetLanguage(userLang || 'en');
       } else if (activeSingleCompany.id && !loggedInUser.id) {
         if (cookies.get('brixelLang') && cookies.get('brixelLang') !== 'undefined') {
           userLang = cookies.get('brixelLang');
@@ -214,7 +221,7 @@ const App = (props: AppType) => {
           userLang = langURL || activeSingleCompany.language.code || 'en';
         }
         if (isEmpty(userLang)) userLang = 'en';
-        cookies.set('brixelLang', userLang);
+        setCookie('brixelLang', userLang);
         if (userLang) handleSetLanguage(userLang);
       }
     }
@@ -286,13 +293,13 @@ const App = (props: AppType) => {
       if (get(redirectTo, 'history.pathname', null)) {
         history.push(get(redirectTo, 'history.pathname', ''), { state: get(redirectTo, 'history.state', {}) });
       } else if (redirectTo.history.includes('home')) {
-        window.location.assign(redirectTo.history);
+        // window.location.assign(redirectTo.history);
       } else {
         history.push(redirectTo.history);
       }
     }
     if (redirectTo && get(redirectTo, 'url', null)) {
-      window.location.assign(redirectTo.url);
+      // window.location.assign(redirectTo.url);
     }
   }, [redirectTo]);
 
@@ -473,13 +480,16 @@ const App = (props: AppType) => {
         <link rel="apple-touch-icon" href={AppleTouch76} />
         <link rel="apple-touch-icon" sizes="76x76" href={AppleTouch76} />
         <link rel="apple-touch-icon" sizes="120x120" href={AppleTouch120} />
-        <link rel="apple-touch-icon" sizes="152x152" href={AppleTouch152} />
+        <link rel="apple-touch-icon" sizes="152x152" href={AppleTouch152} />2
         <link rel="apple-touch-icon" sizes="180x180" href={AppleTouch180} />
         <link rel="icon" sizes="192x192" href={Android192} />
         <title>Brixel Hub</title>
       </Helmet>
       {
-        (!lang || Object.keys(translations).length === 0 || !activeSingleCompany.id) && (
+        ((!lang ||
+          Object.keys(translations).length === 0 ||
+          (isFlow && !activeSingleCompany.id)
+        ) && !history.location.pathname.includes('tokeninput')) && (
           <Loading isLoading={true} />
         )
       }
@@ -507,7 +517,7 @@ const App = (props: AppType) => {
               >
                 <div
                   id="bodyScroll"
-                  className={`content dis-fl-col ${!isFlow ? `hubDasContent ${overflowClass()}` : 'flowContent'} ${notification[0] && notification[0].state ? 'saveActionOn pb-8' : ''}`}
+                  className={`content dis-fl-col ${!isFlow ? `hubDasContent ${overflowClass()}` : 'flowContent'} ${notification[0] && notification[0].state ? 'saveActionOn' : ''}`}
                   style={isSecLevel ? { height: '100%' } : { height: headerCalc() }}
                   ref={dashContentRef}
                 >
@@ -548,7 +558,7 @@ const App = (props: AppType) => {
                       <Route path="/packageFlow/testDrive/*" element={<ScanTrialFlow />} />
                       <Route path="/visitFeedback/:dealID/:pageID" element={<VisitFeedback />} />
                       <Route path="/buyer/:propID/scheduleVisit/*" element={<ProtectedRoute><AddShowingsBuyer /></ProtectedRoute>} />
-                      <Route path="/buyer/:id/financingFlow/*" element={<Financing />} />
+                      <Route path="/buyer/:id/financingFlow/*" element={<ProtectedRoute><Financing /></ProtectedRoute>} />
 
                       { /* PARTNER CONTACT FLOW */}
                       <Route path="/:propID/contactFlow/*" element={<ProtectedRoute><Contact /></ProtectedRoute>} />
@@ -558,8 +568,8 @@ const App = (props: AppType) => {
                       <Route path="/tokeninput" element={<InsertToken />} />
 
                       { /* SECTION: CLOSING FLOWS */}
-                      <Route path="/packageFlow/:id/makeOffer/*" element={<MakeOffer />} />
-                      <Route path="/packageFlow/:propID/:dealID/closing/:userType/identification/*" element={<IdentificationFlow />} />
+                      <Route path="/packageFlow/:id/makeOffer/*" element={<ProtectedRoute><MakeOffer /></ProtectedRoute>} />
+                      <Route path="/packageFlow/:propID/:dealID/closing/:userType/identification/*" element={<ProtectedRoute><IdentificationFlow /></ProtectedRoute>} />
 
                       { /* SECTION: HUB DASHBOARD */ }
                       {
@@ -883,17 +893,18 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(getTranslations(langList, baseURL))
   },
   handleCheckToken: bindActionCreators(checkToken, dispatch),
+  handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
   handleGetImageType: bindActionCreators(getImageType, dispatch),
   handleSaveActiveSingleUser: bindActionCreators(saveActiveSingleUser, dispatch),
   handleSendSlackNotifications: bindActionCreators(sendSlackNotification, dispatch),
   handleSetActiveSingleDeal: bindActionCreators(setActiveSingleDeal, dispatch),
   handleSetActiveSingleProperty: bindActionCreators(setActiveSingleProperty, dispatch),
-  handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
   handleSetLanguage: bindActionCreators(setLanguage, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
   handleSetNotification: bindActionCreators(setScreenNotification, dispatch),
   handleSetUserTypes: bindActionCreators(setUserTypes, dispatch),
   handleSetWindowsDimension: bindActionCreators(setWindowDimensions, dispatch),
+  handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
 });
 
 export default compose(connect(mapStateToProps, mapDispatchToProps))(App);

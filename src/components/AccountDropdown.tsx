@@ -11,6 +11,7 @@ import {setCookie} from '../utils/helpers';
 import translateTo from '../utils/translation';
 import type {AccountDropdownType} from '../@types/components/AccountDropdown';
 import {OptionsType} from '@brixel/brixel-components/dist/@types/Form/Input';
+import isEmpty from 'lodash/isEmpty';
 
 const AccountDropdown = (props: AccountDropdownType) => {
   // PROPS
@@ -29,6 +30,11 @@ const AccountDropdown = (props: AccountDropdownType) => {
   const [langSel, setSelLang] = useState(lang);
   const [closeDropDown, setCloseDropdown] = useState(false);
 
+  useEffect(() => {
+    setSelLang(lang);
+  }, [lang]);
+
+
   // GET LANGUAGE LISTS
   useEffect(() => {
     const langHeader: OptionsType[] = [];
@@ -44,19 +50,20 @@ const AccountDropdown = (props: AccountDropdownType) => {
 
   // FUNCTION TO CHANGE  THE LANGUAGE
   const newLang = (langCode) => {
-    // handleChangeLanguage(lang);
     const defLangCode = get(langCode, 'value', null) ? langCode.value : langCode;
-    setSelLang(defLangCode);
-    localStorage.setItem('lang', defLangCode);
-    setCookie('brixelLang', defLangCode);
-    if (get(loggedInUser, 'id', null)) {
-      const userData = {
-        id: get(loggedInUser, 'id', null),
-        language: defLangCode,
-        setLoggedInUser: true,
-        smallLoader: 'saveData',
-      };
-      handleSaveActiveSingleUser(userData);
+    if (!isEmpty(defLangCode)) {
+      setSelLang(defLangCode);
+      localStorage.setItem('lang', defLangCode);
+      setCookie('brixelLang', defLangCode);
+      if (get(loggedInUser, 'id', null)) {
+        const userData = {
+          id: get(loggedInUser, 'id', null),
+          language: defLangCode,
+          setLoggedInUser: true,
+          smallLoader: 'saveData',
+        };
+        handleSaveActiveSingleUser(userData);
+      }
     }
     setCloseDropdown(true);
   };

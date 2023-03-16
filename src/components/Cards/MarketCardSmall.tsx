@@ -98,7 +98,7 @@ const MarketCardSmall = (props: MarketCardSmallType) => {
                 <CoverPropertyImage
                   loadedImg={(val) => setCoverImgLoaded(val)}
                   className={`${isPreMarket() ? 'pre-market' : ''} ${get(item, 'tags', []).join(' ')} cover w-perc-100 h-perc-100 pos-r ${readOnly ? 'h-fix-104 w-fix-104 h-fix-sm-144 w-fix-sm-128' : 'h-fix-80 w-fix-80'}`}
-                  coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
+                  coverPhoto={isPreMarket() ? undefined : get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
                   propertyType={get(item, 'properties.propertyType', undefined)}
                 />
               )

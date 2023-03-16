@@ -1,5 +1,4 @@
 import {
-  LoggedUserType,
   PropertyType,
   SinglePropertyBookingSlotsType,
 } from '@brixel/brixel-components/dist/@types/Model';

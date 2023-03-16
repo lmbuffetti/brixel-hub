@@ -1,5 +1,6 @@
 // Edit this array to add or change the preset of viewport for the tests
 // Complete list: https://docs.cypress.io/api/commands/viewport
+
 const preset = ['macbook-15'];
 
 const pageToCheck = [
@@ -49,12 +50,16 @@ describe('viewport testing', () => {
   
   Cypress.Cookies.debug(true);
   
+  before(async () => {
+    cy.loginViaApi('loadSingleProp');
+  });
+  
   pageToCheck.forEach((page) => {
     
     it('take viewport screenshot', () => {
       cy.getCookie('userPageID')
         .then((res) => {
-          const pageURL = page.url.replace(':pageID', res.value);
+          const pageURL = page.url.replace(':pageID', res?.value || '');
           cy.visit(`http://localhost:5000/${pageURL}`);
           cy.get(`.${page.classToCheck}`, { timeout: 10000 }).should('be.visible');
           cy.window()
@@ -62,7 +67,8 @@ describe('viewport testing', () => {
             .invoke('getState')
             .its('common')
             .its('isSmallLoading')
-            .should(($identifier) => {
+            .then(($identifier) => {
+              cy.log($identifier);
               const filterData = Object.keys($identifier).filter((key) => $identifier[key] === false);
               expect(filterData.length).to.equal(0);
   

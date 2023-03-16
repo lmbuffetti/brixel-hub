@@ -8,7 +8,7 @@ import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import {bindActionCreators, compose} from 'redux';
 import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import {spinnerOff, spinnerOn} from '../actions/CommonActions';
-import {checkBrowser} from '../utils/helpers';
+import {checkBrowser, redirectUrl} from '../utils/helpers';
 import translateTo from '../utils/translation';
 import {QuestionsListType} from '@brixel/brixel-components/dist/@types/Model';
 import type {FlowScreenType} from '../@types/components/FlowScreen';
@@ -23,6 +23,7 @@ const FlowScreen = (props: FlowScreenType) => {
   const {
     baseURL,
     company,
+    closeLink,
     destroyForm,
     errorValue,
     formName,
@@ -223,8 +224,7 @@ const FlowScreen = (props: FlowScreenType) => {
         get(newQuest[currentIndex], 'inputs[0].options', []).length > 0 &&
         get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), null) &&
         typeof get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), '') === 'string' &&
-        !get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), '').toLowerCase().includes('other') &&
-        oldIndex <= currentIndex
+        !get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), '').toLowerCase().includes('other') && !history.location.pathname.includes('termsConditionFlow') && oldIndex <= currentIndex
       ) {
         changeStep('next', null, 1, true);
       }
@@ -236,10 +236,21 @@ const FlowScreen = (props: FlowScreenType) => {
     onChangeCurrentIndex(currentIndex);
   }, [currentIndex, questions, lang]);
 
+  // MOVE STEP FORWARD AFTER SAVING
+  useEffect(() => {
+    if (isSmallLoading.sendData === true && questions[currentIndex + 1]) {
+      const newIndex = currentIndex + 1;
+      setCurrentIndex(newIndex);
+      setQuest(questions[newIndex]);
+    }
+  }, [isSmallLoading]);
+
+
   // FUNCTION TO CLOSE
   const closeWindow = () => {
     handleReset(formName, initialValues);
-    history.push(`/${propID}/home`);
+    const linkToRedirect = redirectUrl(history.location.pathname, {propID});
+    history.push(linkToRedirect);
   };
 
   // GET THE NEXT DATA IN BASE OF CURRENT ANSWER
@@ -267,7 +278,8 @@ const FlowScreen = (props: FlowScreenType) => {
   const buttonLabel = () => {
     let label;
     const inputName = get(quest, 'inputs[0].name', null);
-    if (get(questions, `[${currentIndex + 1}].toSave`, null)) label = 'Save';
+    if (get(questions, `[${currentIndex}].btnLabel`, null)) label = get(questions, `[${currentIndex}].btnLabel`, null);
+    else if (get(questions, `[${currentIndex + 1}].toSave`, null)) label = 'Save';
     else if (inputName && get(quest, 'inputs[0].validation', null) === null && get(formValue, inputName, null) === null) label = 'Skip';
     else label = 'Next';
     return label;
@@ -326,6 +338,7 @@ const FlowScreen = (props: FlowScreenType) => {
         }
 
         <div
+          id={`step-${quest.history}`}
           className={`bodyModal container ${currentIndex ? '' : ''} ${get(quest, 'history', '')}`}
         >
 
@@ -336,39 +349,44 @@ const FlowScreen = (props: FlowScreenType) => {
             className="dis-fl-col jc-b interactive"
             onSubmit={() => changeStep()}
           >
-            <div ref={multiStepSlidesRef} className="multiStepSlides">
+            <div id={`step-${currentIndex}`} ref={multiStepSlidesRef} className="multiStepSlides">
               <div ref={singleStepRef} className="singleStep pt-5 jc-c ">
                 <div className="subcontainer m-a">
                   {
-                    quest.titleIcon && (
-                      <div className="ta-c mb-3">
-                        <img src={quest.titleIcon}  alt="Title Icon"/>
-                      </div>
+                    get(quest, 'cardType', null) !== 'card' && (
+                      <>
+                        {
+                          quest.titleIcon && (
+                            <div className="ta-c mb-3">
+                              <img src={quest.titleIcon}  alt="Title Icon"/>
+                            </div>
+                          )
+                        }
+                        {
+                          quest.titleGreen && (
+                            <h3 className="txtGreen400 w-perc-100">{quest.titleGreen}</h3>
+                          )
+                        }
+                        {
+                          quest.title && (
+                            <h3 className={`fweight-600 max-w-fix-408 ta-c fsize-600 fsize-sm-800 m-a ${quest.subtitle ? 'mb-1' : 'mb-5'}`} dangerouslySetInnerHTML={{ __html: quest.title }} />
+                          )
+                        }
+                        {
+                          quest.subtitle && (
+                            <p className="mb-5 ta-c txtText600 w-perc-100 px-3 px-sm-2" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
+                        }
+                      </>
                     )
-                  }
-                  {
-                    quest.titleGreen && (
-                      <h3 className="txtGreen400 w-perc-100">{quest.titleGreen}</h3>
-                    )
-                  }
-                  {
-                    quest.title && (
-                      <h3 className={`fweight-600 max-w-fix-408 ta-c fsize-600 fsize-sm-800 m-a ${quest.subtitle ? 'mb-1' : 'mb-5'}`} dangerouslySetInnerHTML={{ __html: quest.title }} />
-                    )
-                  }
-                  {
-                    quest.subtitle && (
-                      <p className="mb-5 ta-c txtText600 w-perc-100 px-3 px-sm-2" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
                   }
                   {
                     get(quest, 'inputs', null) && (
-                      <div id={`step-${currentIndex}`} className="dis-fl-col a-c flex-wrap">
-                        <div className={`${quest.className} w-perc-100`}>
+                      <div className="dis-fl-col a-c flex-wrap">
+                        <div className={`w-perc-100 ${quest.className}`}>
                           <MultiFileldsReduxForm
                             baseByData={baseByData}
                             onSaveData={() => onSaveData()}
                             form={formName}
-                            className="w-perc-100"
                             disableNextBtn={false}
                             formValue={formValue}
                             inputs={quest.inputs}
@@ -402,12 +420,12 @@ const FlowScreen = (props: FlowScreenType) => {
                   }
                   {
                     (get(quest, 'cardType', null) === 'card') && (
-                      <div className="scaleAnim ta-c">
+                      <div className={`scaleAnim ta-c ${quest.cardClass}`}>
                         <img loading="lazy" src={quest.img} alt={quest.title} className="max-w-fix-232 mb-5" />
                         {
                           quest.title && (
-                            <h5
-                              className="fadeAnim mt-2 ta-c"
+                            <h2
+                              className="fadeAnim fweight-600 ta-c"
                               dangerouslySetInnerHTML={{ __html: quest.title }}
                             />
                           )
@@ -482,7 +500,11 @@ const FlowScreen = (props: FlowScreenType) => {
                   <div className="pos-r">
                     <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-c">
                       {
-                        ((currentIndex !== questions.length - 2) && get(quest, 'history', '') !== 'baloiseInfo') && (
+                        (
+                          currentIndex !== questions.length - 2 &&
+                          get(quest, 'history', '') !== 'baloiseInfo' &&
+                          quest.history !== 'success'
+                        ) && (
                           <BrixelButtonIcon
                             className="backBtn pos-a x-l"
                             icon="arrow-left-small"
@@ -494,7 +516,7 @@ const FlowScreen = (props: FlowScreenType) => {
                         )
                       }
                       {
-                        get(quest, 'history', null) !== 'resume' && (get(quest, 'inputs', []).length > 0 || action === 'back' || questions[currentIndex + 1]?.toSave) && (
+                        get(quest, 'history', null) !== 'resume' && (get(quest, 'inputs', []).length > 0 || action === 'back' || history.location.pathname.includes('termsConditionFlow')) ? (
                           <BrixelButtonPrimary
                             className={`mr-a ml-a noWrap ${get(quest, 'history', null)}`}
                             rounded
@@ -506,6 +528,24 @@ const FlowScreen = (props: FlowScreenType) => {
                             onShowError={() => setShowError(true)}
                             type="submit"
                           />
+                        ) : (
+                          <>
+                            {
+                              quest.history === 'success' && (
+                                <BrixelButtonPrimary
+                                  className={`mr-a ml-a noWrap ${get(quest, 'history', null)}`}
+                                  rounded
+                                  theme="green"
+                                  label={translateTo('Close', lang)}
+                                  isLoading={isSmallLoading.sendData}
+                                  rightIcon="arrow-right-small"
+                                  onClick={() => history.push(closeLink || '../../')}
+                                  onShowError={() => setShowError(true)}
+                                  type="submit"
+                                />
+                              )
+                            }
+                          </>
                         )
                       }
                       {

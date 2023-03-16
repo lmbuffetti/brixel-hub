@@ -21,6 +21,8 @@ import {titleProperty} from '../../utils/titleCreation';
 import {QuestionsListType} from '@brixel/brixel-components/dist/@types/Model';
 import type {GetStartedSellerType} from '../../@types/Pages/PackageFlow/GetStartedSeller';
 import FlowScreen from '../../components/FlowScreen';
+import { testData } from '../../../cypress/helpers/constants';
+const { companies } = testData;
 
 const cookie = new Cookies();
 
@@ -40,7 +42,6 @@ const GetStartedSeller = (props: GetStartedSellerType) => {
     handleCreateActiveSingleProperty,
     handleDoLogin,
     handleGetActiveSingleCompany,
-    handleSpinnerOff,
     handleSpinnerOn,
     handleValidateUser,
     initForm,
@@ -63,7 +64,6 @@ const GetStartedSeller = (props: GetStartedSellerType) => {
 
   // DESTROY FORM ON EXIT
   useEffect(() => {
-    handleSpinnerOff();
     return () => destroyForm();
   }, []);
 
@@ -81,13 +81,14 @@ const GetStartedSeller = (props: GetStartedSellerType) => {
     if (!isLoading) setLoadingRequest(false);
   }, [isLoading]);
 
-
   // FUNCTION TO SAVE DATA
   const saveData = async () => {
     if (isLoading || loadingRequest) return false;
     setLoadingRequest(true);
     const dataForm = cloneDeep(formValue);
     const dataFormAnswer = cloneDeep(formValue);
+    delete dataFormAnswer.id;
+    delete dataForm.id;
     setCookie('brixelSplashHome', 'sellerWelcome');
     const { login, register } = dataForm;
     const formCompany = dataForm.company;
@@ -275,7 +276,7 @@ const GetStartedSeller = (props: GetStartedSellerType) => {
       setCookie('brixelStubCompany', company.stub);
       changeFieldValue('company', company.stub);
     }
-    if (get(formValue, 'properties.propertyType', null) === null) initForm(initialValues);
+    initForm(initialValues);
   }, [get(company, 'id', null)]);
 
   return (
@@ -302,6 +303,8 @@ const mapStateToProps = (state, ownProps) => {
   const propertyType = get(urlSearch, 'propertyType', null);
   const companyCountryCode = get(state, 'companies.activeSingleCompany.country.code', 'PT');
   const countryPhoneCode = phonecode.find((code) => code.code === companyCountryCode);
+  const company = get(state, 'companies.activeSingleCompany.stub', null);
+  const isTest = get(state, 'common.isTest', false);
   return ({
     activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
     activeSingleProperty: get(state, 'property.activeSingleProperty', null),
@@ -314,9 +317,7 @@ const mapStateToProps = (state, ownProps) => {
       pageID: get(state, 'brixelForm.GetStarted.values.pageID', null),
       changeCountry: get(state, 'companies.activeSingleCompany.country.code', 'all'),
       company: get(state, 'companies.activeSingleCompany.stub', null),
-      // price: {
-      //   currency: get(state, 'companies.activeSingleCompany.country.currency', null),
-      // },
+      id: isTest && company ? companies[company].propID : null,
       location: {
         ...get(state, 'brixelForm.GetStarted.values.location', { }),
         countryCode: get(state, 'companies.activeSingleCompany.country.code', 'PT'),
@@ -353,6 +354,7 @@ const mapStateToProps = (state, ownProps) => {
       signup: get(state, 'user.loggedInUser.user.id', null) !== null,
     },
     isLoading: get(state, 'common.isLoading', 0) > 0,
+    isTest: get(state, 'common.isTest', false),
     lang: get(state, 'common.language', 'en'),
     loggedInUser: get(state, 'user.loggedInUser.user', {}),
     packagesProperty: get(state, 'property.packagesProperty', []),

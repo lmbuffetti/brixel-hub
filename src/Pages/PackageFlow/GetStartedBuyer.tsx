@@ -39,7 +39,6 @@ const GetStartedBuyer = (props: GetStartedType) => {
     handleDoLogin,
     handleGetActiveSingleCompany,
     handleCreateSearchProfile,
-    handleSpinnerOff,
     handleSpinnerOn,
     handleValidateUser,
     initForm,
@@ -58,15 +57,18 @@ const GetStartedBuyer = (props: GetStartedType) => {
 
   // DESTROY FORM ON EXIT
   useEffect(() => {
-    handleSpinnerOff();
     return () => destroyForm();
   }, []);
+
+
 
   // FUNCTION TO SAVE DATA
   const saveData = async (action = '') => {
     if (isLoading || loadingRequest) return false;
     const dataForm = cloneDeep(formValue);
     const dataFormAnswer = cloneDeep(formValue);
+    delete dataFormAnswer.id;
+    delete dataForm.id;
     setCookie('brixelSplashHome', 'buyerWelcome');
     const { login, register } = dataForm;
     // delete dataForm.login;
@@ -128,7 +130,7 @@ const GetStartedBuyer = (props: GetStartedType) => {
       // USER DATA
       const userData = {
         ...register,
-        email: (login?.email || '').toLowerCase(),
+        email: (register?.email || '').toLowerCase(),
         acceptTerms: get(register, 'privacy[0]', true),
         acceptMarketing: get(register, 'acceptMarketing[0]', false),
         name: `${register.firstName} ${get(register, 'lastName', '')}`,
@@ -156,6 +158,9 @@ const GetStartedBuyer = (props: GetStartedType) => {
       setCookie('brixelFirstTime', 'true');
       await handleValidateUser(data);
     }
+    setTimeout(() => {
+      setLoadingRequest(false);
+    }, 500)
   };
 
   useEffect(() => {
