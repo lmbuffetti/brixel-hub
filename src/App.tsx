@@ -171,7 +171,7 @@ const App = (props: AppType) => {
 
   useEffect(() => {
     const { search } = history.location;
-    if (search && search.includes('=')) {
+    if (search && search.includes('=') && !search.includes('transifex')) {
       const objURL = JSON.parse('{"' + search.replace('?', '').replace(/&/g, '","').replace(/=/g,'":"') + '"}', function(key, value) {
         return key === '' ? value : decodeURIComponent(value) });
       if (objURL.lang) {
