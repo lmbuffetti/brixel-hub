@@ -14,7 +14,7 @@ import {bindActionCreators, compose} from 'redux';
 import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import {connect} from 'react-redux';
 import get from 'lodash/get';
-import {spinnerOff} from '../../actions/CommonActions';
+import {setLanguage, spinnerOff} from '../../actions/CommonActions';
 import {sendVisitFeedback} from '../../actions/DealActions';
 import {getActiveSingleProperty} from '../../actions/PropertyActions';
 import {setActiveSingleCompany} from '../../actions/CompanyActions';
@@ -31,14 +31,16 @@ const VisitFeedback = (props: VisitFeedbackType) => {
   const {
     activeSingleProperty,
     contacts,
-    formValue,
     errorValue,
-    handleSendVisitFeedback,
+    formValue,
     handleGetActiveSingleProperty,
-    handleSetActiveSingleCompany,
     handleInitForm,
+    handleSendVisitFeedback,
+    handleSetActiveSingleCompany,
+    handleSetLanguage,
     initialValues,
     isSmallLoading,
+    lng,
   } = props;
   // GET URL PARAMS
   const dealID = get(match, 'dealID', null);
@@ -47,13 +49,16 @@ const VisitFeedback = (props: VisitFeedbackType) => {
   const [successMessage, setSuccessMessage] = useState(false);
   const urlParams = queryString.parse(get(history, 'location.search', ''));
   const status = urlParams.status === 'true';
-  let { lang } = urlParams;
-  lang = (lang || 'en').toString();
+  const { lang } = urlParams;
 
   const checkPriceReason = get(formValue, 'reasons', null) && get(formValue, 'reasons', []).findIndex((val) => val === 'price') > -1;
 
   useEffect(() => {
-    if (lang) setCookie('brixelLang', (lang || 'en').toString());
+    if (lang) {
+      const defLang = (lang || 'en').toString();
+      handleSetLanguage(defLang);
+      setCookie('brixelLang', defLang);
+    }
   }, [lang]);
 
   const onUpdateError = () => {
@@ -126,7 +131,7 @@ const VisitFeedback = (props: VisitFeedbackType) => {
                   status ? (
                     <div id="step-0" className="dis-fl-col flex-wrap">
                       <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 fsize-600 fsize-sm-800 mb-sm-6">
-                        {translateTo('We\'re glad you are still interested.', (lang || 'en').toString())}
+                        {translateTo('We\'re glad you are still interested.', lng)}
                       </h2>
                       <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText50 p-2 p-sm-5 w-perc-100 mb-5">
                         <div className=" multiFieldWrap w-perc-100 ">
@@ -134,8 +139,8 @@ const VisitFeedback = (props: VisitFeedbackType) => {
                             <div className="ml-0 mr-a dis-f-col jc-b w-perc-100 pos-r" tabIndex={-1}>
 
                               <div>
-                                <h6>{translateTo('Do you want to make an offer?', (lang || 'en').toString())}</h6>
-                                <p>{translateTo('Make your offer online and have a proof of financing ready.', (lang || 'en').toString())}</p>
+                                <h6>{translateTo('Do you want to make an offer?', (lng))}</h6>
+                                <p>{translateTo('Make your offer online and have a proof of financing ready.', lng)}</p>
                                 <BrixelButtonPrimary
                                   onClick={() => history.push(`/packageFlow/${activeSingleProperty.id}/makeOffer`)}
                                   rounded
@@ -145,7 +150,7 @@ const VisitFeedback = (props: VisitFeedbackType) => {
                               </div>
 
                               <p className="mt-5">
-                                {translateTo('You can contact us if you have any specific questions to the owner.', (lang || 'en').toString())}
+                                {translateTo('You can contact us if you have any specific questions to the owner.',lng)}
                               </p>
 
                               <div className="my-3">
@@ -190,17 +195,17 @@ const VisitFeedback = (props: VisitFeedbackType) => {
                         successMessage ? (
                           <div id="step-0" className="dis-fl-col flex-wrap">
                             <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 fsize-600 fsize-sm-800 mb-sm-6">
-                              {translateTo('Thank you!', (lang || 'en').toString())}
+                              {translateTo('Thank you!', lng)}
                             </h2>
                             <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText50 p-2 p-sm-5 w-perc-100 mb-5">
                               <div className=" multiFieldWrap w-perc-100 ">
                                 <div className="dis-f jc-b h-perc-100 a-t">
                                   <div className="ml-0 mr-a pr-10 dis-f-col jc-b w-perc-100 pos-r" tabIndex={-1}>
-                                    <p>
-                                      {translateTo('Thank you for your feedback.', (lang || 'en').toString())}
-                                    </p>
                                     <p className="mt-1">
-                                      {translateTo('Do you want to share any specific reasons or a comment to the owner?', (lang || 'en').toString())}
+                                      {translateTo('Your feedback has been sent and it will be visible to the Brixel team and to the property owner.', lng)}
+                                    </p>
+                                    <p>
+                                      {translateTo('If you have any questions or would like to share anything else, please contact us at:', lng)}
                                     </p>
 
                                     <div className="mt-3">
@@ -234,8 +239,8 @@ const VisitFeedback = (props: VisitFeedbackType) => {
                                       }
                                     </div>
 
-                                    <h6>{translateTo('Still looking for your dream home?', (lang || 'en').toString())}</h6>
-                                    <p>{translateTo('Check your Brixel market to find other properties.', (lang || 'en').toString())}</p>
+                                    <h6>{translateTo('Still looking for your dream home?', lng)}</h6>
+                                    <p>{translateTo('Check out more properties for sale and on our pre-market.', lng)}</p>
                                   </div>
                                 </div>
                               </div>
@@ -244,13 +249,13 @@ const VisitFeedback = (props: VisitFeedbackType) => {
                               onClick={() => history.push('/buy')}
                               rounded
                               className="w-fit m-a"
-                              label="Login to your market"
+                              label="Go to the Brixel Hub"
                             />
                           </div>
                         ) : (
                           <>
                             <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 fsize-600 fsize-sm-800 mb-sm-6">
-                              {translateTo('Thank you!', (lang || 'en').toString())}
+                              {translateTo('Thank you for your feedback.', lng)}
                             </h2>
                             <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText50 p-2 p-sm-5 w-perc-100 mb-5">
                               <div className=" multiFieldWrap w-perc-100 ">
@@ -260,17 +265,17 @@ const VisitFeedback = (props: VisitFeedbackType) => {
                                       component={BrixelCheckbox}
                                       form="visitFeedback"
                                       labels={{
-                                        label: 'What is the main reason for your refusal?',
+                                        label: translateTo('What is the main reason for your refusal?', lng),
                                       }}
                                       input={{
                                         name: 'reasons',
                                         options: [
-                                          { label: translateTo('Price', lang), value: 'price' },
-                                          { label: translateTo('Location', (lang || 'en').toString()), value: 'location' },
-                                          { label: translateTo('Floor plan', (lang || 'en').toString()), value: 'floorPlan' },
-                                          { label: translateTo('Condition', (lang || 'en').toString()), value: 'condition' },
-                                          { label: translateTo('Better alternative', (lang || 'en').toString()), value: 'betterAlternative' },
-                                          { label: translateTo('Other', (lang || 'en').toString()), value: 'other' },
+                                          { label: translateTo('Price', lng), value: 'price' },
+                                          { label: translateTo('Location', lng), value: 'location' },
+                                          { label: translateTo('Floor plan', lng), value: 'floorPlan' },
+                                          { label: translateTo('Condition', lng), value: 'condition' },
+                                          { label: translateTo('Better alternative', lng), value: 'betterAlternative' },
+                                          { label: translateTo('Other', lng), value: 'other' },
                                         ],
                                         validate: [Validation.required],
                                       }}
@@ -283,7 +288,7 @@ const VisitFeedback = (props: VisitFeedbackType) => {
                                       component={BrixelTextArea}
                                       form="visitFeedback"
                                       labels={{
-                                        label: translateTo('Do you want to add anything (Optional)', (lang || 'en').toString()),
+                                        label: translateTo('Do you want to add anything (Optional)', lng),
                                       }}
                                       input={{
                                         name: 'otherReason',
@@ -299,13 +304,13 @@ const VisitFeedback = (props: VisitFeedbackType) => {
                                           }}
                                           form="visitFeedback"
                                           labels={{
-                                            label: translateTo('Do you want to get noticed if the price changes?', (lang || 'en').toString()),
+                                            label: translateTo('Do you want to get noticed if the price changes?', lng),
                                           }}
                                           input={{
                                             name: 'priceChangeAlert',
                                             options: [
-                                              { label: translateTo('Yes', (lang || 'en').toString()), value: true },
-                                              { label: translateTo('No', (lang || 'en').toString()), value: false },
+                                              { label: translateTo('Yes', lng), value: true },
+                                              { label: translateTo('No', lng), value: false },
                                             ],
                                             validate: [Validation.required],
                                           }}
@@ -322,7 +327,7 @@ const VisitFeedback = (props: VisitFeedbackType) => {
                               isLoading={isSmallLoading.sendVisit}
                               rounded
                               className="w-fit m-a"
-                              label={translateTo('Send', (lang || 'en').toString())}
+                              label={translateTo('Send', lng)}
                             />
                           </>
                         )
@@ -351,7 +356,7 @@ const mapStateToProps = (state) => {
     formValue: get(state, 'brixelForm.visitFeedback.values', {}),
     errorValue: get(state, 'brixelForm.visitFeedback.syncErrors', {}),
     isSmallLoading: get(state, 'common.isSmallLoading', {}),
-    lang: get(state, 'common.language', 'en'),
+    lng: get(state, 'common.language', 'en'),
     initialValues,
   });
 };
@@ -364,6 +369,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
   handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
   handleSendVisitFeedback: bindActionCreators(sendVisitFeedback, dispatch),
+  handleSetLanguage: bindActionCreators(setLanguage, dispatch),
 });
 
 export default compose(

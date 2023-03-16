@@ -172,7 +172,7 @@ const App = (props: AppType) => {
 
   useEffect(() => {
     const { search } = history.location;
-    if (search && search.includes('=')) {
+    if (search && search.includes('=') && !search.includes('transifex')) {
       const objURL = JSON.parse('{"' + search.replace('?', '').replace(/&/g, '","').replace(/=/g,'":"') + '"}', function(key, value) {
         return key === '' ? value : decodeURIComponent(value) });
       if (objURL.lang) {
@@ -303,13 +303,13 @@ const App = (props: AppType) => {
       if (get(redirectTo, 'history.pathname', null)) {
         history.push(get(redirectTo, 'history.pathname', ''), { state: get(redirectTo, 'history.state', {}) });
       } else if (redirectTo.history.includes('home')) {
-        window.location.assign(redirectTo.history);
+        // window.location.assign(redirectTo.history);
       } else {
         history.push(redirectTo.history);
       }
     }
     if (redirectTo && get(redirectTo, 'url', null)) {
-      window.location.assign(redirectTo.url);
+      // window.location.assign(redirectTo.url);
     }
   }, [redirectTo]);
 
