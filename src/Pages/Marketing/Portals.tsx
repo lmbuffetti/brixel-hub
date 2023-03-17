@@ -219,17 +219,33 @@ const Portals = (props) => {
               <React.Fragment key={`cstPrt_${i.toString()}`}>
                 {
                   customPortals[key] && !key.toLocaleLowerCase().includes('url') && (
-                    <a
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      href={customPortals[`${key}Url`]}
-                      className="dis-f a-c"
-                    >
-                      <span className="fsize-300 txtGreen400 td-u">{translateTo(key, lang)}</span>
-                      <BrixelStatus
-                        color="green"
-                      />
-                    </a>
+                    <>
+                      {
+                        customPortals[`${key}Url`] ? (
+                          <a
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            href={customPortals[`${key}Url`]}
+                            className="dis-f a-c"
+                          >
+                            <span className="fsize-300 txtGreen400 td-u">{translateTo(key, lang)}</span>
+                            <BrixelStatus
+                              color="green"
+                            />
+                          </a>
+                        ) : (
+                          <div
+                            className="dis-f a-c"
+                          >
+                            <span className="fsize-300 txtGreen400">{translateTo(key, lang)}</span>
+                            <BrixelStatus
+                              color="green"
+                            />
+                          </div>
+                        )
+                      }
+                    </>
+
                   )
                 }
               </React.Fragment>
