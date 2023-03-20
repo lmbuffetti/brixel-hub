@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import get from 'lodash/get';
 import {
   BrixelButtonPrimary,
@@ -12,22 +12,33 @@ import { saveActiveSingleUser } from '../actions/UserActions';
 import type {CustomerSatisfactionType} from '../@types/components/CustomerSatisfaction';
 import {BrixelInputScale, BrixelTextArea} from '@brixel/brixel-components/dist/form';
 import BrixelButtonIcon from '@brixel/brixel-components/dist/components/BrixelButtonIcon';
+import {sendRate} from '../actions/CommonActions';
 
 const {factsOptions} = FactsOptions;
 
 const CustomerSatisfaction = (props: CustomerSatisfactionType) => {
   const {
+    activeSingleCompany,
+    handleSaveRate,
     handleUpdateUser,
+    isSmallLoading,
     lang,
     loggedInUser,
     onClose,
   } = props;
   // STATE
   const [formValue, setFormValue] = useState({
-    rate: -1,
+    rating: -1,
     message: '',
   });
-  const [currentStep, setCurrentStep] = useState('rate');
+  const [currentStep, setCurrentStep] = useState('rating');
+
+  useEffect(() => {
+    if (isSmallLoading.saveData === false) {
+      setCurrentStep('success');
+    }
+  }, [isSmallLoading]);
+
 
   const onCloseModal = () => {
     const userData = {
@@ -39,21 +50,24 @@ const CustomerSatisfaction = (props: CustomerSatisfactionType) => {
     onClose();
   }
 
+
+
   const onSendData = () => {
     // SAVE THE DATA
     const data = {
+      company: activeSingleCompany.id,
       user: loggedInUser.id,
       message: formValue.message,
-      rate: formValue.rate,
+      rating: formValue.rating,
+      smallLoader: 'saveData',
     }
-    setCurrentStep('success');
-    // const userData = {
-    //   id: get(loggedInUser, 'id', null),
-    //   sentFeedback: -1,
-    //   smallLoader: 'saveData',
-    // };
-    // handleUpdateUser(userData);
-    console.log(data);
+    handleSaveRate(data);
+    const userData = {
+      id: get(loggedInUser, 'id', null),
+      sentFeedback: -1,
+      smallLoader: 'saveData',
+    };
+    handleUpdateUser(userData);
   }
 
   const onChangeStep = () => {
@@ -63,10 +77,10 @@ const CustomerSatisfaction = (props: CustomerSatisfactionType) => {
         onSendData();
         break;
       }
-      case 'rate':
-        // SAVE THE DATA IF RATE > 4 or 5
-        if (formValue.rate >= 0) {
-          if (formValue.rate >= 4) onSendData();
+      case 'rating':
+        // SAVE THE DATA IF rating > 4 or 5
+        if (formValue.rating >= 0) {
+          if (formValue.rating >= 4) onSendData();
           else setCurrentStep('message');
         }
         break;
@@ -88,16 +102,16 @@ const CustomerSatisfaction = (props: CustomerSatisfactionType) => {
       </div>
       <div className="dis-fl-col jc-c pb-2">
         {
-          currentStep === 'rate' && (
+          currentStep === 'rating' && (
             <div className="px-2">
               <h3 className="ta-c">{translateTo('How would you rate your experience on our platform?', lang)}</h3>
 
               <div className="w-perc-100 mt-5">
                 <BrixelInputScale
                   input={{
-                    name: 'rate',
-                    onChange: (val) => setFormValue((prevVal) => ({...prevVal, rate: val})),
-                    value: formValue.rate,
+                    name: 'rating',
+                    onChange: (val) => setFormValue((prevVal) => ({...prevVal, rating: val})),
+                    value: formValue.rating,
                   }}
                   hideMessage={true}
                   iconSize="large"
@@ -160,6 +174,7 @@ const CustomerSatisfaction = (props: CustomerSatisfactionType) => {
                 label="Send"
                 onClick={() => onChangeStep()}
                 rightIcon="send"
+                isLoading={isSmallLoading.saveData}
               />
             </div>
           )
@@ -170,11 +185,14 @@ const CustomerSatisfaction = (props: CustomerSatisfactionType) => {
 };
 
 const mapStateToProps = (state) => ({
+  activeSingleCompany: get(state, 'companies.activeSingleCompany' , {}),
+  isSmallLoading: get(state, 'common.isSmallLoading', {}),
   lang: get(state, 'common.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  handleSaveRate: bindActionCreators(sendRate, dispatch),
   handleUpdateUser: bindActionCreators(saveActiveSingleUser, dispatch),
 });
 
