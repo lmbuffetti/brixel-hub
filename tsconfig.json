@@ -4,9 +4,9 @@
     "lib": [
       "dom",
       "dom.iterable",
-      "esnext",
+      "esnext"
     ],
-    "types": ["cypress", "node"],
+    "types": ["cypress", "node", "webpack-env"],
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
@@ -20,7 +20,7 @@
     "outDir": "lib",
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "strict": true,
+    "strict": true
   },
   "files": ["src/@types/custom.d.ts"],
   "include": [

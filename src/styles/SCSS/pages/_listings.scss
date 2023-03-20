@@ -42,14 +42,11 @@
 }
 
 .portalsList {
-  > a, .singlePortal {
+  > a, .singlePortal, > div {
     text-transform: capitalize;
     padding-bottom: $step;
     > span {
       min-width: 140px;
-    }
-    span {
-      color: map-get($textColor, 700);
     }
   }
 }

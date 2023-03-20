@@ -824,12 +824,11 @@ const MarketCard = (props: MarketCardProps) => {
                           </span>
                         </div>
                       ) : (
-                        <span className="txtGreen400 ff-mono fsize-500">
+                        <span className={`ff-mono fsize-500 ${Helpers.statusColorClass(get(item, 'status', null))}`}>
                           {translateTo(convertLabel(get(item, 'status', null), 'propertyStatus'), lang)}
                         </span>
                       )
                     }
-
                   </div>
                   <div className="mx-3">
                     <span className="hr lighter" />
