@@ -6,7 +6,7 @@ import {bindActionCreators, compose} from 'redux';
 import {connect} from 'react-redux';
 import {BrixelButtonPrimary, BrixelButtonText, BrixelStatus} from '@brixel/brixel-components';
 import translateTo from '../../utils/translation';
-import {BrixelSwitchButton, BrixelTextArea, change, ReduxField, reset} from '@brixel/brixel-components/dist/form';
+import {BrixelSwitchButton, change, reset} from '@brixel/brixel-components/dist/form';
 import {updatePortalsReview} from '../../actions/PropertyActions';
 import {setModal} from '../../actions/CommonActions';
 import {MarketingModalData} from '../../resources/SingleProperty/marketingModal';
@@ -21,7 +21,6 @@ const Portals = (props) => {
     changeFieldValue,
     companyPortals,
     customPortals,
-    formValue,
     handleSetModal,
     handleUpdatePortalsReview,
     isSmallLoading,
@@ -187,22 +186,33 @@ const Portals = (props) => {
                     <>
                       {
                         portals[key] ? (
-                          <a
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            href={portals[`${key}Url`]}
-                            className="dis-f a-c"
-                          >
-                            <span className="fsize-300">{translateTo(key, lang)}</span>
-                            <BrixelStatus
-                              color="green"
-                            />
-                          </a>
+                          <>
+                            {
+                              portals[`${key}Url`] ? (
+                                <a
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  href={portals[`${key}Url`]}
+                                  className="dis-f a-c"
+                                >
+                                  <span className="fsize-300 txtGreen400 td-u">{translateTo(key, lang)}</span>
+                                  <BrixelStatus
+                                    color="green"
+                                  />
+                                </a>
+                              ) : (
+                                <div className="dis-f a-c">
+                                  <span className="fsize-300 txtText900">{translateTo(key, lang)}</span>
+                                  <BrixelStatus
+                                    color="green"
+                                  />
+                                </div>
+                              )
+                            }
+                          </>
                         ) : (
-                          <div
-                            className="dis-f a-c singlePortal"
-                          >
-                            <span className="fsize-300">{translateTo(key, lang)}</span>
+                          <div className="dis-f a-c singlePortal">
+                            <span className="fsize-300 txtText900">{translateTo(key, lang)}</span>
                             <BrixelStatus
                               color="red"
                             />
@@ -220,17 +230,33 @@ const Portals = (props) => {
               <React.Fragment key={`cstPrt_${i.toString()}`}>
                 {
                   customPortals[key] && !key.toLocaleLowerCase().includes('url') && (
-                    <a
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      href={customPortals[`${key}Url`]}
-                      className="dis-f a-c"
-                    >
-                      <span className="fsize-300">{translateTo(key, lang)}</span>
-                      <BrixelStatus
-                        color="green"
-                      />
-                    </a>
+                    <>
+                      {
+                        customPortals[`${key}Url`] ? (
+                          <a
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            href={customPortals[`${key}Url`]}
+                            className="dis-f a-c"
+                          >
+                            <span className="fsize-300 txtGreen400 td-u">{translateTo(key, lang)}</span>
+                            <BrixelStatus
+                              color="green"
+                            />
+                          </a>
+                        ) : (
+                          <div
+                            className="dis-f a-c"
+                          >
+                            <span className="fsize-300 txtText900">{translateTo(key, lang)}</span>
+                            <BrixelStatus
+                              color="green"
+                            />
+                          </div>
+                        )
+                      }
+                    </>
+
                   )
                 }
               </React.Fragment>
@@ -238,12 +264,12 @@ const Portals = (props) => {
           }
         </div>
 
-        {
+        {/* {
           checkPortalsOnline() && !formValue.portalsReview && (
             <>
               <div>
                 <p className="fweight-500 txtText900 mb-1 mt-5">{translateTo('Portals description', lang)}</p>
-                <span className="txtText600">{translateTo('Add a description text which is shown on portals only.', lang)}</span>
+                <span className="txtText600">{translateTo('Description text which is shown on portals only.', lang)}</span>
               </div>
               <ReduxField
                 form="Property"
@@ -258,7 +284,7 @@ const Portals = (props) => {
               />
             </>
           )
-        }
+        } */}
 
         <div className="dis-f a-c jc-fe mt-5">
           {
@@ -328,7 +354,7 @@ Portals.propTypes = {
   changeFieldValue: PropTypes.func.isRequired,
   companyPortals: PropTypes.object.isRequired,
   customPortals: PropTypes.object.isRequired,
-  formValue: PropTypes.object.isRequired,
+  // formValue: PropTypes.object.isRequired,
   handleSetModal: PropTypes.func.isRequired,
   handleUpdatePortalsReview: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
@@ -338,14 +364,14 @@ Portals.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  const formValue = get(state, 'brixelForm.Property.values', {});
+  // const formValue = get(state, 'brixelForm.Property.values', {});
   const activeSingleProperty = get(state, 'property.activeSingleProperty', {});
   return ({
     activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
     activeSingleProperty,
     companyPortals: get(state, 'companies.activeSingleCompany.availablePortals', {}),
     customPortals: get(activeSingleProperty, 'customPortals', {}),
-    formValue,
+    // formValue,
     lang: get(state, 'common.language', 'en'),
     isSmallLoading: get(state, 'common.isSmallLoading', {}),
     modal: get(state, 'common.modal', {}),

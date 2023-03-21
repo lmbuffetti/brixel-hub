@@ -172,8 +172,8 @@ const Plans = (props: FloorPlansPageType) => {
                       {
                         (!fixPhotos || (fixPhotos && fixPhotos.length === 0)) ? ('') : (
                           <>
-                            <p className='fweight-600'>{translateTo('Drag to move and reorder photos', lang)} </p>
-                            <p className='fsize-300 txtText400 mb-2'>{translateTo('Drag to move and reorder photos', lang)} </p>
+                            <p className='fweight-600'>{translateTo('Drag the files to move and rearrange', lang)} </p>
+                            <p className='fsize-300 txtText400 mb-2'>{translateTo('Choose the order you like', lang)} </p>
                           </>
                         )
                       }
@@ -201,13 +201,14 @@ const Plans = (props: FloorPlansPageType) => {
 
 
                           <p className="mt-2 txtGreen400">
-                            <span className='td-u fweight-500'>{translateTo('Click to upload', lang)} </span>
-                            {(!fixPhotos || (fixPhotos && fixPhotos.length === 0)) && (<span>{translateTo('your first plans ', lang)}</span>)}
-                            <span>{translateTo('or drag and drop.', lang)}</span>
+                            <span className='td-u fweight-500'>{translateTo('Click to upload', lang)}</span>
+                            <span> {translateTo('or drag and drop files here', lang)}</span>
+                            {/* {(!fixPhotos || (fixPhotos && fixPhotos.length === 0)) && (<span>{translateTo('your first plans ', lang)}</span>)} */}
+
                           </p>
                           {(!fixPhotos || (fixPhotos && fixPhotos.length === 0)) && (<span className='brdSmallTop brdText100 w-fix-104 my-2 ml-a mr-a'></span>)}
 
-                          <span className="fsize-300 txtText400 max-width-304">{translateTo('Choose .jpeg .png with max. 10 MB size', lang)}</span>
+                          <span className="fsize-300 txtText400 max-width-304">{translateTo('Formats .jpeg or .png with a maximum of 10 MB', lang)}</span>
                         </div>
                       </div>
                     </>
