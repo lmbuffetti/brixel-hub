@@ -67,6 +67,7 @@ export default {
     createPropertyVisitSchedule: () => '/schedule',
     estimation: (id) => `/page/${id}/estimation`,
     getPageVisits: (id) => `/page/${id}/visit`,
+    getPageVisitsBuyer: (id) => `/page/${id}/visit/buyer`,
     packagePage: (id) => `/pageServicePackage/10/0?pageID=${id}&order=createdAt&direction=ASC`,
     pageById: (id) => `/page/${id}`,
     pageByIdPublic: (id) => `/page/${id}/publicpart`,
