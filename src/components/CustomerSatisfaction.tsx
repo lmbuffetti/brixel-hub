@@ -101,10 +101,10 @@ const CustomerSatisfaction = (props: CustomerSatisfactionType) => {
           onClick={() => onCloseModal()}
         />
       </div>
-      <div className="dis-fl-col jc-c pb-3">
+      <div className="dis-fl-col jc-c pb-2">
         {
           currentStep === 'rating' && (
-            <div className="px-2">
+            <div className="px-3">
               <h3 className="ta-c fsize-600 fweight-600 max-w-fix-360 ml-a mr-a">{translateTo('How would you rate your experience on our platform?', lang)}</h3>
 
               <div className="w-perc-100 my-5 mb-3">
@@ -143,7 +143,7 @@ const CustomerSatisfaction = (props: CustomerSatisfactionType) => {
         }
         {
           currentStep === 'success' && (
-            <div className="px-2">
+            <div className="px-3 mt-4">
               <h3 className="ta-c fsize-600 fweight-600 max-w-fix-360 ml-a mr-a mb-1">{translateTo('Thank you for your answer! 🙂', lang)}</h3>
 
               <div className="max-w-fix-360 ml-a mr-a mb-2 ta-c mb-2">
@@ -154,7 +154,7 @@ const CustomerSatisfaction = (props: CustomerSatisfactionType) => {
             </div>
           )
         }
-        <hr className="mt-6 mb-3 lighter" />
+        <hr className="mt-5 mb-2 lighter" />
         {
           currentStep === 'success' ? (
             <div className="dis-f jc-fe a-c px-3">
