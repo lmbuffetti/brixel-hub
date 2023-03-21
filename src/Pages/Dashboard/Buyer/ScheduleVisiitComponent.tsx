@@ -76,6 +76,11 @@ const ScheduleVisitComponent = (props: ScheduleVisitComponentType) => {
   };
 
   const onClickBtn = () => {
+    const newScheduleVisit = scheduleVisitFree.map((visit) => ({
+      ...visit,
+      start: visit.slot && visit.slot.split(' ')[1] ? visit.slot.split(' ')[1] : visit.start,
+      end: visit.slot && visit.slot.split(' ')[2] ? visit.slot.split(' ')[2] : visit.end,
+    }))
     if (recapScreen) {
       history.push(`/buyer/${activeSingleProperty.id}/home`)
     } else if (showResizer) {
@@ -86,7 +91,7 @@ const ScheduleVisitComponent = (props: ScheduleVisitComponentType) => {
       const endFormHour = Math.trunc(hours.max) < 10 ? `0${Math.trunc(hours.max)}` : Math.trunc(hours.max);
       const endHour = hours.max % 1 !== 0 ? `${endFormHour}:30` : `${endFormHour}:00`;
       setScheduleVisitFree([
-        ...scheduleVisitFree,
+        ...newScheduleVisit,
         {
           start: allDay ? null : startHour,
           end: allDay ? null : endHour,

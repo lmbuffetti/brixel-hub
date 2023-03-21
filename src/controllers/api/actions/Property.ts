@@ -48,6 +48,11 @@ class Property extends Base {
     return this.apiClient.get(url, {});
   }
 
+  getPageVisitsBuyer(id) {
+    const url = ep.property.getPageVisitsBuyer(id);
+    return this.apiClient.get(url, {});
+  }
+
   updatePropertyVisitSchedule(id, data) {
     const url = ep.property.propertyVisitScheduleById(id);
     return this.apiClient.put(url, {}, data);
