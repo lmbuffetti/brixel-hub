@@ -186,22 +186,33 @@ const Portals = (props) => {
                     <>
                       {
                         portals[key] ? (
-                          <a
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            href={portals[`${key}Url`]}
-                            className="dis-f a-c"
-                          >
-                            <span className="fsize-300 txtGreen400 td-u">{translateTo(key, lang)}</span>
-                            <BrixelStatus
-                              color="green"
-                            />
-                          </a>
+                          <>
+                            {
+                              portals[`${key}Url`] ? (
+                                <a
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  href={portals[`${key}Url`]}
+                                  className="dis-f a-c"
+                                >
+                                  <span className="fsize-300 txtGreen400 td-u">{translateTo(key, lang)}</span>
+                                  <BrixelStatus
+                                    color="green"
+                                  />
+                                </a>
+                              ) : (
+                                <div className="dis-f a-c">
+                                  <span className="fsize-300 txtGreen400">{translateTo(key, lang)}</span>
+                                  <BrixelStatus
+                                    color="green"
+                                  />
+                                </div>
+                              )
+                            }
+                          </>
                         ) : (
-                          <div
-                            className="dis-f a-c singlePortal"
-                          >
-                            <span className="fsize-300 txtGreen400 td-u">{translateTo(key, lang)}</span>
+                          <div className="dis-f a-c singlePortal">
+                            <span className="fsize-300 txtGreen400">{translateTo(key, lang)}</span>
                             <BrixelStatus
                               color="red"
                             />
