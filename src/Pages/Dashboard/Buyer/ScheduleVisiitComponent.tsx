@@ -76,6 +76,7 @@ const ScheduleVisitComponent = (props: ScheduleVisitComponentType) => {
   };
 
   const onClickBtn = () => {
+    console.log(scheduleVisitFree);
     if (recapScreen) {
       history.push(`/buyer/${activeSingleProperty.id}/home`)
     } else if (showResizer) {

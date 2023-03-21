@@ -584,7 +584,7 @@ const checkCommon = (store) => (next) => (action) => {
       }
       next(action);
       const { id, data, redirectTo } = action.payload;
-      api.property.getPageVisits(id, data).then((response) => {
+      api.property.getPageVisitsBuyer(id).then((response) => {
         store.dispatch({
           type: SET_ACTIVE_SINGLE_PROPERTY_BOOKINGS,
           payload: response.data,
