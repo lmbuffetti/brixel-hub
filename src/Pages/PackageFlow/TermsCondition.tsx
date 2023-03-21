@@ -51,16 +51,14 @@ const TermsCondition = (props: TermsConditionType) => {
   useEffect(() => {
     handleSpinnerOff();
     const parmsURL = queryString.parse(get(history, 'location.search', ''));
-    console.log(parmsURL);
     setRedirectURL((get(parmsURL, 'url', '') || '').toString());
     // history.push(`/termsConditionFlow/${companyStub}/${userType}`);
     return () => destroyForm();
   }, []);
-  console.log(redirectURL);
+
   useEffect(() => {
     if(get(isSmallLoading, 'sentData', null)) {
       const defaultRedirect = isBuyer ? '/buy' : '/sell';
-      console.log(redirectURL);
       history.push(redirectURL || defaultRedirect);
     }
   }, [get(isSmallLoading, 'sentData', null)]);

@@ -210,17 +210,19 @@ const App = (props: AppType) => {
   useEffect(() => {
     let userLang: string | undefined = 'en';
     if (!urlLang) {
-      if (loggedInUser.id && (loggedInUser?.sentFeedback || 0) < 2 && (loggedInUser?.sentFeedback || 0) >= 0 && !isFlow) {
-        handleSetModal({
-          clickOutsideToClose: false,
-          hideHeader: true,
-          hideClose: true,
-          bodyClassColor: 'p-0',
-          state: true,
-          small: true,
-          layout: 'large',
-          component: <CustomerSatisfaction onClose={() => handleSetModal({})} />,
-        })
+      if (loggedInUser.id) {
+        if ((loggedInUser?.sentFeedback || 0) < 2 && (loggedInUser?.sentFeedback || 0) >= 0 && !isFlow) {
+          handleSetModal({
+            clickOutsideToClose: false,
+            hideHeader: true,
+            hideClose: true,
+            bodyClassColor: 'p-0',
+            state: true,
+            small: true,
+            layout: 'large',
+            component: <CustomerSatisfaction onClose={() => handleSetModal({})} />,
+          })
+        }
         userLang = loggedInUser.language === 'en_US' ? 'en' : loggedInUser.language;
         if (isEmpty(userLang)) userLang = 'en';
         handleSetLanguage(userLang || 'en');
