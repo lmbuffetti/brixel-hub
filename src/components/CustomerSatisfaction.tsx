@@ -96,17 +96,18 @@ const CustomerSatisfaction = (props: CustomerSatisfactionType) => {
           ghost
           className="zIndex11"
           theme="text"
-          icon="close-small"
+          themeSat={400}
+          icon="close"
           onClick={() => onCloseModal()}
         />
       </div>
-      <div className="dis-fl-col jc-c pb-2">
+      <div className="dis-fl-col jc-c pb-3">
         {
           currentStep === 'rating' && (
             <div className="px-2">
-              <h3 className="ta-c">{translateTo('How would you rate your experience on our platform?', lang)}</h3>
+              <h3 className="ta-c fsize-600 fweight-600 max-w-fix-360 ml-a mr-a">{translateTo('How would you rate your experience on our platform?', lang)}</h3>
 
-              <div className="w-perc-100 mt-5">
+              <div className="w-perc-100 my-5 mb-3">
                 <BrixelInputScale
                   input={{
                     name: 'rating',
@@ -115,6 +116,7 @@ const CustomerSatisfaction = (props: CustomerSatisfactionType) => {
                   }}
                   hideMessage={true}
                   iconSize="large"
+                  centered
                   showMinMaxLabelValue={true}
                   options={factsOptions.custormerSatisfaction}
                 />
@@ -124,10 +126,10 @@ const CustomerSatisfaction = (props: CustomerSatisfactionType) => {
         }
         {
           currentStep === 'message' && (
-            <div className="px-2">
-              <h3 className="ta-c">{translateTo('We are sorry! 😕 What can we do to make it better?', lang)}</h3>
+            <div className="px-3">
+              <h3 className="ta-c fsize-600 fweight-600 max-w-fix-360 ml-a mr-a">{translateTo('We are sorry! 😕 What can we do to make it better?', lang)}</h3>
 
-              <div className="w-perc-100 mt-5">
+              <div className="w-perc-100 mt-4">
                 <BrixelTextArea
                   input={{
                     name: 'message',
@@ -142,20 +144,20 @@ const CustomerSatisfaction = (props: CustomerSatisfactionType) => {
         {
           currentStep === 'success' && (
             <div className="px-2">
-              <h3 className="ta-c">{translateTo('Thank you for your answer! 🙂', lang)}</h3>
+              <h3 className="ta-c fsize-600 fweight-600 max-w-fix-360 ml-a mr-a mb-1">{translateTo('Thank you for your answer! 🙂', lang)}</h3>
 
-              <div className="w-perc-100 mt-5">
-                <p>
+              <div className="max-w-fix-360 ml-a mr-a mb-2 ta-c mb-2">
+                <p className="txtText700">
                   {translateTo('Your feedback is very important to us and will help us make a better product.', lang)}
                 </p>
               </div>
             </div>
           )
         }
-        <hr className="mt-5 mb-2" />
+        <hr className="mt-6 mb-3 lighter" />
         {
           currentStep === 'success' ? (
-            <div className="dis-f jc-fe a-c px-2">
+            <div className="dis-f jc-fe a-c px-3">
               <BrixelButtonPrimary
                 rounded
                 label="Close"
@@ -167,6 +169,7 @@ const CustomerSatisfaction = (props: CustomerSatisfactionType) => {
               <BrixelButtonText
                 rounded
                 label="Skip"
+                theme='text'
                 onClick={() => onCloseModal()}
               />
               <BrixelButtonPrimary
