@@ -562,7 +562,7 @@ const App = (props: AppType) => {
                       <Route path="/packageFlow/getstarted/:companyStub/*" element={<GetStartedSeller />} />
                       <Route path="/packageFlow/getstartedBuyer/:companyStub/*" element={<GetStartedBuyer />} />
                       <Route path="/packageFlow/getstartedEstimation/:companyStub/*" element={<GetStartedEstimation />} />
-                      <Route path="/termsConditionFlow/:companyStub/:userType" element={<TermsCondition />} />
+                      <Route path="/termsConditionFlow/:companyStub/:userType" element={<ProtectedRoute><TermsCondition /></ProtectedRoute>} />
 
                       <Route path="/packageFlow/:propID/WelcomeSeller/*" element={<ProtectedRoute><WelcomeSeller /></ProtectedRoute>} />
                       <Route path="/packageFlow/testDrive/*" element={<ScanTrialFlow />} />
