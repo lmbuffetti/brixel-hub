@@ -163,6 +163,7 @@ const DashboardHome = (props: ContactType) => {
                         !isNaN(+visitAccepted) && (
                           <div className="mt-a">
                             <AddToCalendar
+                              lang={lang}
                               timestamp={activeSingleDeal.visit}
                               title={translateTo(`Visit ${activeSingleProperty.title}`, lang)}
                               location={formatCalendar('location')}
