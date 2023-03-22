@@ -11,6 +11,7 @@ import translateTo from '../../utils/translation';
 import CoverPropertyImage from '../CoverPropertyImage';
 import CardImageText from '../Skeleton/CardImageText';
 import type {MarketCardMapType} from '../../@types/components/Cards/MarketCardMap';
+import {convertLabel} from '../../utils/helpers';
 
 const MarketCardMap = (props: MarketCardMapType) => {
   // PROPS
@@ -223,16 +224,17 @@ const MarketCardMap = (props: MarketCardMapType) => {
                 }
               </div>
             </div>
-            <div className="bottom m-a ml-0 mb-0 dis-f a-c fsize-400">
+            <div className={`bottom m-a ml-0 mb-0 dis-f a-c fsize-400 fweight-500 ${Helpers.statusColorClass(get(item, 'status', null))}`}>
+
               {
                 get(item, 'price.total', 0) !== 0 && get(item, 'status', null) === 'on-sale' && !isPreMarket() ? (
                   <>
-                    <span className="notranslate fsize-400 txtText900 fweight-600">{get(item, 'price.currency', '')} &nbsp; </span>
-                    <span className="notranslate fsize-400 txtText900 fweight-600">{Helpers.formatNumberValue(get(item, 'price.total', 0), get(item, 'price.currency', ''))}</span>
+                    <span className="notranslate ">{get(item, 'price.currency', '')} &nbsp; </span>
+                    <span className="notranslate ">{Helpers.formatNumberValue(get(item, 'price.total', 0), get(item, 'price.currency', ''))}</span>
                   </>
                 ) : (
-                  <span className="txtGreen400 fsize-300 fweight-500">
-                    {translateTo(get(item, 'status', null) === 'sold' ? 'Sold' : 'On Request', lang)}
+                  <span className={''}>
+                    {translateTo(convertLabel(get(item, 'status', null), 'propertyStatus'), lang)}
                   </span>
                 )
               }
