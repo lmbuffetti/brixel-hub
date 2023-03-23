@@ -41,10 +41,11 @@ const CustomerSatisfaction = (props: CustomerSatisfactionType) => {
 
 
   const onCloseModal = () => {
+    localStorage.brixelSatisfactionDay = Math.floor(Date.now() / 1000);
     const userData = {
       id: get(loggedInUser, 'id', null),
       sentFeedback: (loggedInUser.sentFeedback || 0) + 1,
-      smallLoader: 'saveData',
+      smallLoader: 'saveUserData',
     };
     handleUpdateUser(userData);
     onClose();
