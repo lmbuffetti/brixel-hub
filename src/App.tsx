@@ -217,13 +217,15 @@ const App = (props: AppType) => {
             clickOutsideToClose: false,
             hideHeader: true,
             hideClose: true,
-            bodyClassColor: 'p-0',
+            bodyClassColor: 'p-0 dis-fl-col',
+            bodyInnerClass: 'h-perc-100 dis-fl-col flex-1',
             state: true,
             small: true,
             layout: 'large',
             component: <CustomerSatisfaction onClose={() => handleSetModal({})} />,
           })
         }
+        //}
         userLang = loggedInUser.language === 'en_US' ? 'en' : loggedInUser.language;
         if (isEmpty(userLang)) userLang = 'en';
         handleSetLanguage(userLang || 'en');
@@ -746,6 +748,7 @@ const App = (props: AppType) => {
                 multiActions={modal.multiActions}
                 multiBodyActions={modal.multiBodyActions}
                 title={modal.title}
+                bodyInnerClass={modal.bodyInnerClass}
                 titleImg={modal.titleImg}
                 onClose={() => modal.hideClose !== true ? handleSetModal({ state: false }) : ''}
               >
