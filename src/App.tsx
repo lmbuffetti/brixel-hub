@@ -156,6 +156,7 @@ const App = (props: AppType) => {
   const [zIndex, setZIndex] = useState(1);
   const [isFlow, setIsFlow] = useState(false);
   const [showFooter, setShowFooter] = useState(false);
+  const [showCustomerSatisfaction, setShowCustomerSatisfaction] = useState<any>();
   // const [extraHeight, setExtraHeight] = useState(0);
 
   // USEREF TO MANAGE DOM ELEMENT
@@ -214,7 +215,8 @@ const App = (props: AppType) => {
       !isFlow &&
       history.location.pathname.includes('buy') &&
       userTypes === 'buyer' &&
-      activeSingleCompany.id
+      activeSingleCompany.id &&
+      !showCustomerSatisfaction
     ) {
       let isToday = false;
       const today = Math.floor(Date.now() / 1000);
@@ -249,9 +251,13 @@ const App = (props: AppType) => {
             localStorage.brixelSatisfactionEndTime = countdown;
           }
         }, 1000);
+        setShowCustomerSatisfaction(showCustomer);
       }
+    } else if (showCustomerSatisfaction) {
+      clearInterval(showCustomerSatisfaction);
+      setShowCustomerSatisfaction(undefined);
     }
-  }, [loggedInUser.language, activeSingleCompany.id, userTypes]);
+  }, [loggedInUser.language, activeSingleCompany.id, userTypes, isFlow, history.location.pathname]);
 
 
   // FUCNTION TO INITIALIZE TRANSIFEX AND LOAD THE TRANSLATIONS
