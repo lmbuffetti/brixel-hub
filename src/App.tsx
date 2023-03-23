@@ -230,7 +230,7 @@ const App = (props: AppType) => {
               layout: 'large',
               component: <CustomerSatisfaction onClose={() => handleSetModal({})} />,
             })
-          }, 120000);
+          }, 60000);
         }
         userLang = loggedInUser.language === 'en_US' ? 'en' : loggedInUser.language;
         if (isEmpty(userLang)) userLang = 'en';
