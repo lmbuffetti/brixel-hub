@@ -144,11 +144,11 @@ const CustomerSatisfaction = (props: CustomerSatisfactionType) => {
         {
           currentStep === 'success' && (
             <div className='fadeIn'>
-              <h3 className="ta-c fsize-600 fweight-600 max-w-fix-360 ml-a mr-a mb-1">{translateTo('Thank you for your answer! 🙂', lang)}</h3>
+              <h3 className="ta-c fsize-600 fweight-600 max-w-fix-360 ml-a mr-a mb-1">{translateTo('Thank you! 🙂', lang)}</h3>
 
               <div className="max-w-fix-360 ml-a mr-a mb-2 ta-c mb-2">
                 <p className="txtText700">
-                  {translateTo('Your feedback is very important to us and will help us make a better product.', lang)}
+                  {translateTo('Your feedback is very important and will help us make a better product.', lang)}
                 </p>
               </div>
             </div>
