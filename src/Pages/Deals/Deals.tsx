@@ -145,13 +145,10 @@ const Deals = (props: DealsType) => {
   };
 
   const archiveDeal = (id, stage, parent) => {
-
-    console.log(processedDeals)
     if (processedDeals) {
       const deals = cloneDeep(processedDeals[parent]);
 
       find(deals, (element, key) => {
-        console.log(element.id, id);
         if (element.id === id) {
           set(deals[key], 'active', !processedDeals[parent][key].active);
           set(deals[key], 'newSeller', false);
