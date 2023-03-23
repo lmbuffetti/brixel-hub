@@ -12,6 +12,7 @@ import {diff} from 'deep-object-diff';
 import find from 'lodash/find';
 import get from 'lodash/get';
 import has from 'lodash/has';
+import uniqBy from 'lodash/uniqBy';
 import {connect} from 'react-redux';
 import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import {bindActionCreators, compose} from 'redux';
@@ -80,7 +81,8 @@ const SingleDocument = (props: SingleFolderType) => {
             id: value.toLowerCase(),
           };
         });
-        setDocumentFolders(array);
+        const uniq = uniqBy(array, 'id');
+        setDocumentFolders(uniq);
       }
     }
   }, [activeSingleProperty.updatedAt, formValue]);
