@@ -90,7 +90,7 @@ const CustomerSatisfaction = (props: CustomerSatisfactionType) => {
   }
 
   return (
-    <>
+    <div className='dis-fl-col flex-1 h-perc-100 jc-b'>
       <div className="dis-f jc-fe a-c p-2">
         <BrixelButtonIcon
           ghost
@@ -101,10 +101,10 @@ const CustomerSatisfaction = (props: CustomerSatisfactionType) => {
           onClick={() => onCloseModal()}
         />
       </div>
-      <div className="dis-fl-col jc-c pb-2">
+      <div className='px-3'>
         {
           currentStep === 'rating' && (
-            <div className="px-3">
+            <>
               <h3 className="ta-c fsize-600 fweight-600 max-w-fix-360 ml-a mr-a">{translateTo('How would you rate your experience on our platform?', lang)}</h3>
 
               <div className="w-perc-100 my-5 mb-3">
@@ -121,15 +121,15 @@ const CustomerSatisfaction = (props: CustomerSatisfactionType) => {
                   options={factsOptions.custormerSatisfaction}
                 />
               </div>
-            </div>
+            </>
           )
         }
         {
           currentStep === 'message' && (
-            <div className="px-3">
+            <>
               <h3 className="ta-c fsize-600 fweight-600 max-w-fix-360 ml-a mr-a">{translateTo('We are sorry! 😕 What can we do to make it better?', lang)}</h3>
 
-              <div className="w-perc-100 mt-4">
+              <div className="w-perc-100 mt-4 mb-2">
                 <BrixelTextArea
                   input={{
                     name: 'message',
@@ -138,13 +138,13 @@ const CustomerSatisfaction = (props: CustomerSatisfactionType) => {
                   }}
                 />
               </div>
-            </div>
+            </>
           )
         }
         {
           currentStep === 'success' && (
-            <div className="px-3 mt-4">
-              <h3 className="ta-c fsize-600 fweight-600 max-w-fix-360 ml-a mr-a mb-1">{translateTo('Thank you!', lang)}</h3>
+            <div className='fadeIn'>
+              <h3 className="ta-c fsize-600 fweight-600 max-w-fix-360 ml-a mr-a mb-1">{translateTo('Thank you! 🙂', lang)}</h3>
 
               <div className="max-w-fix-360 ml-a mr-a mb-2 ta-c mb-2">
                 <p className="txtText700">
@@ -154,6 +154,8 @@ const CustomerSatisfaction = (props: CustomerSatisfactionType) => {
             </div>
           )
         }
+      </div>
+      <div className="dis-fl-col jc-c pb-2">
         <hr className="mt-5 mb-2 lighter" />
         {
           currentStep === 'success' ? (
@@ -183,7 +185,7 @@ const CustomerSatisfaction = (props: CustomerSatisfactionType) => {
           )
         }
       </div>
-    </>
+    </div>
   )
 };
 
