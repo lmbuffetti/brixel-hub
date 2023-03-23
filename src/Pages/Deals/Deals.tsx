@@ -145,26 +145,12 @@ const Deals = (props: DealsType) => {
   };
 
   const archiveDeal = (id, stage, parent) => {
-    let section;
-
-    if (stage === 'New') {
-      section = 'newSeller';
-    }
-    if (stage === 'Interested') {
-      section = 'interested';
-    }
-    if (stage === 'Visit') {
-      section = 'visits';
-    }
-    if (stage === 'Offer') {
-      section = 'offers';
-    }
     if (processedDeals) {
-      const deals = cloneDeep(processedDeals[parent][section]);
+      const deals = cloneDeep(processedDeals[parent]);
 
       find(deals, (element, key) => {
         if (element.id === id) {
-          set(deals[key], 'active', !processedDeals[parent][section][key].active);
+          set(deals[key], 'active', !processedDeals[parent][key].active);
           set(deals[key], 'newSeller', false);
           saveDeal(deals[key], 'archive');
         }
