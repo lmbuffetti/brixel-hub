@@ -162,7 +162,7 @@ const CustomerSatisfaction = (props: CustomerSatisfactionType) => {
             <div className="dis-f jc-fe a-c px-3">
               <BrixelButtonPrimary
                 rounded
-                label="Close"
+                label={translateTo('Close', lang)}
                 onClick={() => onClose()}
               />
             </div>
@@ -170,13 +170,13 @@ const CustomerSatisfaction = (props: CustomerSatisfactionType) => {
             <div className="dis-f jc-b a-c px-2">
               <BrixelButtonText
                 rounded
-                label="Skip"
+                label={translateTo('Skip', lang)}
                 theme='text'
                 onClick={() => onCloseModal()}
               />
               <BrixelButtonPrimary
                 rounded
-                label="Send"
+                label={translateTo('Send', lang)}
                 onClick={() => onChangeStep()}
                 rightIcon="send"
                 isLoading={isSmallLoading.saveData}

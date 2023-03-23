@@ -141,6 +141,7 @@ const App = (props: AppType) => {
     splashScreenType,
     teamAvatars,
     translations,
+    userTypes,
     windowDimensions,
   } = props;
   // STATE
@@ -211,19 +212,26 @@ const App = (props: AppType) => {
     let userLang: string | undefined = 'en';
     if (!urlLang) {
       if (loggedInUser.id) {
-        //if ((loggedInUser?.sentFeedback || 0) < 2 && (loggedInUser?.sentFeedback || 0) >= 0 && !isFlow) {
-        if (!isFlow) {
-          handleSetModal({
-            clickOutsideToClose: false,
-            hideHeader: true,
-            hideClose: true,
-            bodyClassColor: 'p-0 dis-fl-col',
-            bodyInnerClass: 'h-perc-100 dis-fl-col flex-1',
-            state: true,
-            small: true,
-            layout: 'large',
-            component: <CustomerSatisfaction onClose={() => handleSetModal({})} />,
-          })
+        if (
+          (loggedInUser?.sentFeedback || 0) < 2 &&
+          (loggedInUser?.sentFeedback || 0) >= 0 &&
+          !isFlow &&
+          history.location.pathname.includes('buy') &&
+          userTypes === 'buyer'
+        ) {
+          setTimeout(() => {
+            handleSetModal({
+              clickOutsideToClose: false,
+              hideHeader: true,
+              hideClose: true,
+              bodyClassColor: 'p-0 dis-fl-col',
+              bodyInnerClass: 'h-perc-100 dis-fl-col flex-1',
+              state: true,
+              small: true,
+              layout: 'large',
+              component: <CustomerSatisfaction onClose={() => handleSetModal({})} />,
+            })
+          }, 120000);
         }
         //}
         userLang = loggedInUser.language === 'en_US' ? 'en' : loggedInUser.language;
@@ -240,7 +248,7 @@ const App = (props: AppType) => {
         if (userLang) handleSetLanguage(userLang);
       }
     }
-  }, [loggedInUser.language, activeSingleCompany.id]);
+  }, [loggedInUser.language, activeSingleCompany.id, userTypes]);
 
   useEffect(() => {
     if (languages.length > 0) {
