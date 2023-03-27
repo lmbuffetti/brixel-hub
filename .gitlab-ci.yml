@@ -5,7 +5,7 @@ stages:
 
 # Run the command to create the build for only specific branches
 build site:
-  image: node:18.12.1
+  image: node:18.15.0
   stage: build
   only:
     refs:
@@ -19,7 +19,7 @@ build site:
     - npm install
     - if [ "$FOLDER" == "BUY-83-CustomerSatisfation" ]; then npm run build-dev; fi
     - if [ "$FOLDER" == "staging" ]; then npm run build-stage; fi
-    - if [ "$FOLDER" == "master" ]; then npm run build-prod; fi
+    - if [ "$FOLDER" == "master" ]; then npm run build-prod; fi
   artifacts:
     expire_in: 5 days
     paths:
