@@ -9,11 +9,14 @@ import { DateTime } from 'luxon';
 import PageHeader from './Header/PageHeader';
 import PageFooter from './Footer/PageFooter';
 import scheduleAcceptedSvg from '../images/dashboard/scheduleAccepted.svg';
+import {bindActionCreators} from 'redux';
+import {setModal} from '../actions/CommonActions';
 
 const ModalAddToCalendar = (props: ModalAddToCalendarType) => {
   const {
     activeSingleDeal,
     activeSingleProperty,
+    handleSetModal,
     lang,
   } = props;
   // STATE
@@ -57,6 +60,7 @@ const ModalAddToCalendar = (props: ModalAddToCalendarType) => {
       <PageHeader
         showFooter
         isFlow
+        onClose={() => handleSetModal({})}
       />
       <div className="bgGreen100 flex-1 dis-fl-col jc-c">
         <div className="dis-fl-col a-c">
@@ -89,4 +93,8 @@ const mapStateToProps = (state) => ({
   lang: get(state, 'common.language', 'en'),
 });
 
-export default connect(mapStateToProps, null)(ModalAddToCalendar);
+const mapDispatchToProps = (dispatch) => ({
+  handleSetModal: bindActionCreators(setModal, dispatch),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(ModalAddToCalendar);

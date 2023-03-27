@@ -6,5 +6,6 @@ import {
 export interface ModalAddToCalendarType {
   activeSingleDeal: DealType;
   activeSingleProperty: PropertyType;
+  handleSetModal: (data: object) => void;
   lang: string;
 }

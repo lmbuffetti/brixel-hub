@@ -54,6 +54,7 @@ function PageHeader(props: PageHeaderType) {
     lang = 'en',
     languages,
     loggedInUser = {},
+    onClose,
     ownerProperties,
     packagesProperty,
     showFooter,
@@ -360,6 +361,7 @@ function PageHeader(props: PageHeaderType) {
             {
               isFlow ? (
                 <RightFlowHeader
+                  onClose={() => onClose ? onClose() : undefined}
                   languages={langMenu}
                 />
               ) : (
