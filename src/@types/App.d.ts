@@ -49,5 +49,6 @@ export interface AppType {
     width: number;
     height: number;
   };
+  userTypes: string;
   translations: object;
 }

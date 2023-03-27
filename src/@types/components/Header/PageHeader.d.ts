@@ -22,6 +22,7 @@ export interface PageHeaderType {
   lang?: any;
   languages: LanguagesType[];
   loggedInUser?: object;
+  onClose?: () => void;
   ownerProperties: object;
   packagesProperty: ServicePackageType[];
   showFooter: boolean;
