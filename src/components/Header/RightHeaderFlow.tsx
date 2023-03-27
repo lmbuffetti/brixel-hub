@@ -23,6 +23,7 @@ function RightHeaderFlow(props: RightHeaderFlowType) {
     lang = 'en',
     languages = [],
     loggedInUser,
+    onClose,
     userType,
   } = props;
   // STATE
@@ -105,8 +106,12 @@ function RightHeaderFlow(props: RightHeaderFlowType) {
   };
 
   const closeOverlay = () => {
-    const linkToRedirect = redirectUrl(history.location.pathname, {propID, dealID, isBuyer, userType});
-    history.push(linkToRedirect);
+    if (onClose) {
+      onClose();
+    } else {
+      const linkToRedirect = redirectUrl(history.location.pathname, {propID, dealID, isBuyer, userType});
+      history.push(linkToRedirect);
+    }
   };
 
   return (

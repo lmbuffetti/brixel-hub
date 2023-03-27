@@ -784,6 +784,7 @@ const App = (props: AppType) => {
                 classImg={modal.classImg}
                 classTitle={modal.classTitle}
                 layout={modal.layout}
+                showLogoHeader={modal.showLogoHeader}
                 multiActions={modal.multiActions}
                 multiBodyActions={modal.multiBodyActions}
                 title={modal.title}

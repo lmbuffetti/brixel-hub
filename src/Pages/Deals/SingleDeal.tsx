@@ -501,7 +501,7 @@ const SingleDeal = (props: SingleDealType) => {
                             (get(activeSingleDeal, 'visit', null) && get(activeSingleDeal, 'visit', '').toString().length !== 0) && (
                               <>
                                 <span className="overline mb-3">{translateTo('Visit', lang)}</span>
-                                <div className="visit-container brdRadius shadow-1dp dis-fl-col p-small-12">
+                                <div className="brdRadius brdSmall brdText200 pos-r dis-fl-col bgWhite p-small-12 w-perc-100 mb-4">
                                   <div className="dis-f a-c">
                                     <BrixelIcon
                                       icon={getIcon()}
