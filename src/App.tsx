@@ -265,28 +265,6 @@ const App = (props: AppType) => {
     let userLang: string | undefined = 'en';
     if (!urlLang) {
       if (loggedInUser.id) {
-        if (
-          (loggedInUser?.sentFeedback || 0) < 2 &&
-          (loggedInUser?.sentFeedback || 0) >= 0 &&
-          !isFlow &&
-          history.location.pathname.includes('buy') &&
-          userTypes === 'buyer'
-        ) {
-          setTimeout(() => {
-            handleSetModal({
-              clickOutsideToClose: false,
-              hideHeader: true,
-              hideClose: true,
-              bodyClassColor: 'p-0 dis-fl-col',
-              bodyInnerClass: 'h-perc-100 dis-fl-col flex-1',
-              state: true,
-              small: true,
-              layout: 'large',
-              component: <CustomerSatisfaction onClose={() => handleSetModal({})} />,
-            })
-          }, 60000);
-        }
-        //}
         userLang = loggedInUser.language === 'en_US' ? 'en' : loggedInUser.language;
         if (isEmpty(userLang)) userLang = 'en';
         handleSetLanguage(userLang || 'en');
