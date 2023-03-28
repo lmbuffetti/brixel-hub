@@ -33,6 +33,7 @@ import {tobase64Handler} from '../../utils/helpers';
 import translateTo from '../../utils/translation';
 import {DocumentType} from '@brixel/brixel-components/dist/@types/Model';
 import type {DocumentsPageType, DocumentTypePage} from '../../@types/Pages/SingleProperty/Documents';
+import { setNotification } from '../../actions/CommonActions';
 
 const Documents = (props: DocumentsPageType) => {
   const history = {
@@ -53,6 +54,7 @@ const Documents = (props: DocumentsPageType) => {
     lang,
     loggedInUser,
     userType,
+    handleSetScreenNotification,
   } = props;
   const [documentOptionsOpen, setDocumentOptionsOpen] = useState<{id?: string | null, active: boolean}>({ id: null, active: false });
   const [documentId, setDocumentId] = useState(0);
@@ -140,23 +142,44 @@ const Documents = (props: DocumentsPageType) => {
   }, [isSmallLoading]);
 
   // MULTIUPLOADING FUNCTION
-  const onDrop = useCallback(async (acceptedFiles) => {
-    const reader = new FileReader();
-    // const imgType = imageType.find((val) => val.name === 'Gallery');
-    // eslint-disable-next-line no-console
-    reader.onabort = () => console.log('file reading was aborted');
-    // eslint-disable-next-line no-console
-    reader.onerror = () => console.log('file reading has failed');
-    const imgList = tobase64Handler(acceptedFiles, get(loggedInUser, 'id'), 'documents', formValue.id);
-    imgList.then((res) => {
-      handleMultiUploadDocument({
-        docs: activeSingleProperty.documents,
-        allImgs: res,
-        actions: 'documents',
-        pageID: formValue.id || propID,
-        smallLoader: 'uploadMedia',
+  const onDrop = useCallback(async (acceptedFiles, fileRejections) => {
+    if (fileRejections.length > 0) {
+      fileRejections.forEach((file) => {
+        file.errors.forEach((err) => {
+          if (err.code === 'file-too-large') {
+            handleSetScreenNotification({
+              state: true,
+              type: 'alert',
+              label: translateTo('One or more file(s) is(are) bigger than 10MB', lang),
+            });
+          }
+          if (err.code === 'file-invalid-type') {
+            handleSetScreenNotification({
+              state: true,
+              type: 'alert',
+              label: translateTo('One or more files has(have) an invalid format', lang),
+            });
+          }
+        });
       });
-    });
+    } else {
+      const reader = new FileReader();
+      // const imgType = imageType.find((val) => val.name === 'Gallery');
+      // eslint-disable-next-line no-console
+      reader.onabort = () => console.log('file reading was aborted');
+      // eslint-disable-next-line no-console
+      reader.onerror = () => console.log('file reading has failed');
+      const imgList = tobase64Handler(acceptedFiles, get(loggedInUser, 'id'), 'documents', formValue.id);
+      imgList.then((res) => {
+        handleMultiUploadDocument({
+          docs: activeSingleProperty.documents,
+          allImgs: res,
+          actions: 'documents',
+          pageID: formValue.id || propID,
+          smallLoader: 'uploadMedia',
+        });
+      });
+    }
   }, [formValue, loggedInUser]);
 
   const loadFile = async (e, type = '', key: number) => {
@@ -897,6 +920,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleMultiUploadDocument: bindActionCreators(multiUploadDocument, dispatch),
   handleDeleteDocument: bindActionCreators(deleteDocument, dispatch),
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
+  handleSetScreenNotification: bindActionCreators(setNotification, dispatch),
 });
 
 export default compose(

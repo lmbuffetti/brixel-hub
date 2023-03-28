@@ -21,4 +21,5 @@ export interface DocumentsPageType {
   loggedInUser: LoggedUserType;
   lang: string;
   userType: string;
+  handleSetScreenNotification: (data: object) => void;
 }
