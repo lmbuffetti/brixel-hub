@@ -253,7 +253,7 @@ const App = (props: AppType) => {
         }, 1000);
         setShowCustomerSatisfaction(showCustomer);
       }
-    } else if (showCustomerSatisfaction) {
+    } else if (showCustomerSatisfaction && !history.location.pathname.includes('buy')) {
       clearInterval(showCustomerSatisfaction);
       setShowCustomerSatisfaction(undefined);
     }
