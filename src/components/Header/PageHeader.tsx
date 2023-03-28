@@ -357,11 +357,10 @@ function PageHeader(props: PageHeaderType) {
                 </div>
               )
             }
-
             {
               isFlow ? (
                 <RightFlowHeader
-                  onClose={() => onClose ? onClose() : undefined}
+                  onClose={onClose ? () => onClose() : undefined}
                   languages={langMenu}
                 />
               ) : (
