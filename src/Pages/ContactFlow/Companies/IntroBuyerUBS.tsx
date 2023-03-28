@@ -46,7 +46,9 @@ const IntroBuyerUBS = (props: IntroBuyerUBSType) => {
         <div className="dis-fl-col w-perc-100 w-perc-lg-50 shadow-2dp bgWhite brdRadius p-3 p-md-6 mb-3 mb-md-0 ml-a mr-a">
           <div className="dis-f mb-3">
             <div className="w-perc-70 w-perc-md-55">
-              <h5 className="fweight-600 fSizePx18"> {translateTo('Personal consultation on site or via video call.', lang)}</h5>
+              <h5 className="fweight-600 fSizePx18">
+                {translateTo('Personal consultation on site or via video call.', lang)}
+              </h5>
             </div>
             <div className="w-perc-30 w-perc-md-45 ta-r">
               <img loading="lazy" className="h-fix-24 mt-small-4 ml-a" alt='UBS Logo' src={ubsLogo} />
@@ -54,9 +56,15 @@ const IntroBuyerUBS = (props: IntroBuyerUBSType) => {
           </div>
           <div className="bulletPointsStep mb-4">
             <ul>
-              <li className="mb-2 txtText700 fsize-300">{translateTo('Financing offer individually tailored to your needs and goals', lang)}</li>
-              <li className="mb-2 txtText700 fsize-300">{translateTo('Free consultation at a branch office or via video call (including advice on tax implications of buying real estate)', lang)}</li>
-              <li className=" txtText700 fsize-300">{translateTo('Attractive and flexible solutions, for example for construction financing or renovation projects', lang)}</li>
+              <li className="mb-2 txtText700 fsize-300">
+                {translateTo('Financing offer individually tailored to your needs and goals', lang)}
+              </li>
+              <li className="mb-2 txtText700 fsize-300">
+                {translateTo('Free consultation at a branch office or via video call (including advice on tax implications of buying real estate)', lang)}
+              </li>
+              <li className=" txtText700 fsize-300">
+                {translateTo('Attractive and flexible solutions, for example for construction financing or renovation projects', lang)}
+              </li>
             </ul>
           </div>
           <div className="mt-a">
@@ -69,7 +77,9 @@ const IntroBuyerUBS = (props: IntroBuyerUBSType) => {
           </div>
         </div>
         <div className="dis-fl-col w-perc-100 w-perc-lg-50 shadow-2dp bgGreen50 brdRadius p-3 px-md-6 py-4 mt-2 ml-a mr-a">
-          <span className="ta-c mb-2"> {translateTo('Or would you rather check interest rates digitally in the self-service first?', lang)} </span>
+          <span className="ta-c mb-2">
+            {translateTo('Or would you rather check interest rates digitally in the self-service first?', lang)}
+          </span>
           <BrixelButtonText
             rounded
             bgTransparent
