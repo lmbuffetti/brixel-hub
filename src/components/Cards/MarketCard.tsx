@@ -185,6 +185,7 @@ const MarketCard = (props: MarketCardProps) => {
     }
   };
   const selectActiveServicePackage = () => {
+    // TODO check servicePackageType error
     let basicPackage: ServicePackageType | undefined = undefined;
     if (companyListings.length > 0) {
       const activeCompany = companyListings.find((cmp) => cmp.id === get(item, 'company', ''));
@@ -195,8 +196,8 @@ const MarketCard = (props: MarketCardProps) => {
       if (propertyServicePacakges && propertyServicePacakges.length > 0) {
         const activeSinglePropertyPackage = cloneDeep(propertyServicePacakges);
         if (activeSinglePropertyPackage.length > 0) {
-          const sortedPackage = orderBy(activeSinglePropertyPackage, ['price.total'], ['desc']);
-          const getActivePackage = sortedPackage.find((pkg) => pkg.started);
+          const sortedPackage: any = orderBy(activeSinglePropertyPackage, ['price.total'], ['desc']);
+          const getActivePackage: any = sortedPackage.find((pkg) => pkg.started);
           if (getActivePackage && get(getActivePackage, 'servicePackage', null)) {
             return getActivePackage.servicePackage;
           }

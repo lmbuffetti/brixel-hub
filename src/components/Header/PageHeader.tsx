@@ -27,6 +27,7 @@ import lazyWithRetry from '../LazyWithRetry';
 import type {LanguagesType, PageHeaderType} from '../../@types/components/Header/PageHeader';
 import {OptionsType} from '@brixel/brixel-components/dist/@types/Form/Input';
 import isEmpty from 'lodash/isEmpty';
+import {ServicePackageType} from '@brixel/brixel-components/dist/@types/Model';
 
 const RightFlowHeader = lazyWithRetry(() => import('./RightHeaderFlow'));
 const AccountDropdown = lazyWithRetry(() => import('../AccountDropdown'));
@@ -102,13 +103,14 @@ function PageHeader(props: PageHeaderType) {
   }, [get(activeSingleProperty, 'id', null)]);
 
   useEffect(() => {
-    const activeSinglePropertyPackage = cloneDeep(packagesProperty);
+    // TODO check servicePackageType error
+    const activeSinglePropertyPackage: ServicePackageType[] = cloneDeep(packagesProperty);
     setPackageName('Basic');
     const basicPackage = activeCompanyPackages.find((pkg) => pkg.type === 'basic');
     handleSetActiveSinglePropertyActivePackage(basicPackage);
     if (activeSinglePropertyPackage.length > 0) {
-      const sortedPackage = orderBy(activeSinglePropertyPackage, ['price.total'], ['desc']);
-      const getActivePackage = sortedPackage.find((pkg) => pkg.started);
+      const sortedPackage: any = orderBy(activeSinglePropertyPackage, ['price.total'], ['desc']);
+      const getActivePackage: any = sortedPackage.find((pkg) => pkg.started);
       if (getActivePackage && get(getActivePackage, 'servicePackage', null)) {
         handleSetActiveSinglePropertyActivePackage(getActivePackage.servicePackage);
         setPackageName(getActivePackage?.servicePackage?.name || '');
