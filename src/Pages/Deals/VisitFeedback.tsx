@@ -249,7 +249,7 @@ const VisitFeedback = (props: VisitFeedbackType) => {
                               onClick={() => history.push('/buy')}
                               rounded
                               className="w-fit m-a"
-                              label="Go to the Brixel Hub"
+                              label={translateTo('Go to the Brixel Hub', lng)}
                             />
                           </div>
                         ) : (

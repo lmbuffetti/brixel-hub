@@ -21,6 +21,11 @@ class Common extends Base {
     const url = ep.common.sendMessageContact();
     return this.apiClient.post(url, { }, data);
   }
+
+  sendRate(data) {
+    const url = ep.common.sendRate();
+    return this.apiClient.post(url, { }, data);
+  }
 }
 
 export default Common;

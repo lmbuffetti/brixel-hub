@@ -39,6 +39,7 @@ import type {AppType} from './@types/App';
 import Financing from './Pages/Closing/Financing/Financing';
 import {getActiveSingleCompany} from './actions/CompanyActions';
 import {setCookie} from './utils/helpers';
+import CustomerSatisfaction from './components/CustomerSatisfaction';
 
 const SplashScreen = lazy(() => import('./components/SplashScreen'));
 const RemoveTrailingSlash = lazy(() => import('./components/RemoveTrailingSlash'));
@@ -141,6 +142,7 @@ const App = (props: AppType) => {
     splashScreenType,
     teamAvatars,
     translations,
+    userTypes,
     windowDimensions,
   } = props;
   // STATE
@@ -211,6 +213,28 @@ const App = (props: AppType) => {
     let userLang: string | undefined = 'en';
     if (!urlLang) {
       if (loggedInUser.id) {
+        if (
+          (loggedInUser?.sentFeedback || 0) < 2 &&
+          (loggedInUser?.sentFeedback || 0) >= 0 &&
+          !isFlow &&
+          history.location.pathname.includes('buy') &&
+          userTypes === 'buyer'
+        ) {
+          setTimeout(() => {
+            handleSetModal({
+              clickOutsideToClose: false,
+              hideHeader: true,
+              hideClose: true,
+              bodyClassColor: 'p-0 dis-fl-col',
+              bodyInnerClass: 'h-perc-100 dis-fl-col flex-1',
+              state: true,
+              small: true,
+              layout: 'large',
+              component: <CustomerSatisfaction onClose={() => handleSetModal({})} />,
+            })
+          }, 120000);
+        }
+        //}
         userLang = loggedInUser.language === 'en_US' ? 'en' : loggedInUser.language;
         if (isEmpty(userLang)) userLang = 'en';
         handleSetLanguage(userLang || 'en');
@@ -225,7 +249,7 @@ const App = (props: AppType) => {
         if (userLang) handleSetLanguage(userLang);
       }
     }
-  }, [loggedInUser.language, activeSingleCompany.id]);
+  }, [loggedInUser.language, activeSingleCompany.id, userTypes]);
 
   useEffect(() => {
     if (languages.length > 0) {
@@ -552,7 +576,7 @@ const App = (props: AppType) => {
                       <Route path="/packageFlow/getstarted/:companyStub/*" element={<GetStartedSeller />} />
                       <Route path="/packageFlow/getstartedBuyer/:companyStub/*" element={<GetStartedBuyer />} />
                       <Route path="/packageFlow/getstartedEstimation/:companyStub/*" element={<GetStartedEstimation />} />
-                      <Route path="/termsConditionFlow/:companyStub/:userType" element={<TermsCondition />} />
+                      <Route path="/termsConditionFlow/:companyStub/:userType" element={<ProtectedRoute><TermsCondition /></ProtectedRoute>} />
 
                       <Route path="/packageFlow/:propID/WelcomeSeller/*" element={<ProtectedRoute><WelcomeSeller /></ProtectedRoute>} />
                       <Route path="/packageFlow/testDrive/*" element={<ScanTrialFlow />} />
@@ -730,9 +754,11 @@ const App = (props: AppType) => {
                 classImg={modal.classImg}
                 classTitle={modal.classTitle}
                 layout={modal.layout}
+                showLogoHeader={modal.showLogoHeader}
                 multiActions={modal.multiActions}
                 multiBodyActions={modal.multiBodyActions}
                 title={modal.title}
+                bodyInnerClass={modal.bodyInnerClass}
                 titleImg={modal.titleImg}
                 onClose={() => modal.hideClose !== true ? handleSetModal({ state: false }) : ''}
               >
