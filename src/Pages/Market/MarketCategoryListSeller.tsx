@@ -109,7 +109,8 @@ const MarketCategoryListSeller = (props: MarketCategoryListSellerType) => {
   useEffect(() => {
     if (activeSingleCompanyPackages.length > 0) {
       const packages = activeSingleCompanyPackages;
-      let filtPkg: ServicePackageType[] = [];
+      // TODO check servicePackageType error
+      let filtPkg: any = [];
       if (packages) {
         filtPkg = packages.filter((pkg) => pkg.availableToCustomer);
       }

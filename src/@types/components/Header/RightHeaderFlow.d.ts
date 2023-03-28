@@ -6,5 +6,6 @@ export interface RightHeaderFlowType {
   lang?: string;
   languages?: LanguagesType[];
   loggedInUser?: LoggedUserType;
+  onClose: () => void;
   userType: string;
 }

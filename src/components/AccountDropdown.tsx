@@ -77,7 +77,7 @@ const AccountDropdown = (props: AccountDropdownType) => {
           params: {
             options: langMenu,
             input: {
-              value: langSel,
+              value: langSel || '',
               name: 'lang',
               onChange: (val) => newLang(val),
             },

@@ -220,7 +220,7 @@ const DealsCard = (props: DealsCardProps) => {
         theme="text"
         ghost
         icon="archive"
-        className="archiveBtn pos-a bt x-r mr-1 mb-1"
+        className="archiveBtn pos-a bt x-r mr-1 mb-4"
         onClick={(e) => {
           e.preventDefault();
           archOnClick();

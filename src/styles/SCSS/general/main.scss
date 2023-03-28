@@ -1149,3 +1149,18 @@ input::-webkit-date-and-time-value {
 .w-100-vw {
   width: 100vw;
 }
+.dropdown.addToCalendar {
+  .brixelIcon {
+    margin-right: 6px;
+    .icon-dropdown-open svg  path,
+    .icon-dropdown-close svg  path {
+     fill: #fff !important;
+    }
+  }
+  .dropdown-list .brixelIcon {
+    margin-right: $step;
+    .icon-ical svg path {
+      fill: map-get($textColor, 900) !important;
+    }
+  }
+}
