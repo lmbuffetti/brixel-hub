@@ -73,7 +73,8 @@ const SingleDocument = (props: SingleFolderType) => {
         activeSingleProperty.documents.forEach((value) => {
           if (value.folder) folderArrayAux.push(value.folder);
         });
-        const array: object[] = [];
+        // TODO check type  of folder array
+        const array: any = [];
         folderArrayAux.forEach((value, key) => {
           array[key] = {
             label: translateTo(value, lang),
