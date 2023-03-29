@@ -42,7 +42,7 @@ function PageFooter(props: PageFooterType) {
                         key={`logo${i.toString()}`}
                         src={logo}
                         alt={`${get(activeSingleCompany, 'name', '')} logo ${i}`}
-                        className={`${i > 0 ? 'ml-2 brdSmallLeft brdText200 pl-2' : ''} h-perc-100`}
+                        className={`min-h-fix-16 ${i > 0 ? 'ml-2 brdSmallLeft brdText200 pl-2' : ''} h-perc-100`}
                       />
                     ))
                   }

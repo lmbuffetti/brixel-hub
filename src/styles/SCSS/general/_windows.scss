@@ -18,6 +18,9 @@
       overflow-y: hidden;
     }
     .innerWrap {
+      @media (max-width: $responsive-medium) {
+        overflow-y: hidden;
+      }
       display: flex;
       flex-direction: column;
       // height: 100%;
