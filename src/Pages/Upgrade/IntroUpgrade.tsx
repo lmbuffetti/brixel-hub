@@ -153,8 +153,8 @@ const IntroUpgrade = (props: IntroUpgradeType) => {
   }, [activeSinglePropertyPackage, packages]);
 
   useEffect(() => {
-    let filtPkg = packages.filter((pkg) => pkg.availableToCustomer);
-    // eslint-disable-next-line no-return-assign
+    // TODO check servicePackageType error
+    let filtPkg: any = packages.filter((pkg) => pkg.availableToCustomer);
     filtPkg.map((pkg) => set(pkg, 'price.total', +get(pkg, 'price.total', 0)));
     filtPkg = orderBy(filtPkg, ['price.total'], ['asc']);
     setFilteredPackages(filtPkg);

@@ -338,7 +338,7 @@ const FlowScreen = (props: FlowScreenType) => {
         }
 
         <div
-          id={`step-${quest.history}`}
+          id={`step-${quest?.history || 'default'}`}
           className={`bodyModal container ${currentIndex ? '' : ''} ${get(quest, 'history', '')}`}
         >
 
@@ -353,7 +353,7 @@ const FlowScreen = (props: FlowScreenType) => {
               <div ref={singleStepRef} className="singleStep pt-5 jc-c ">
                 <div className="subcontainer m-a">
                   {
-                    get(quest, 'cardType', null) !== 'card' && (
+                    quest && get(quest, 'cardType', null) !== 'card' && (
                       <>
                         {
                           quest.titleIcon && (
@@ -396,7 +396,7 @@ const FlowScreen = (props: FlowScreenType) => {
                             onSubmit={() => changeStep()}
                             showSendButton={quest.showSendButton}
                             showErrors={showError}
-                            disableDelay={quest.history !== 'createProfile'}
+                            disableDelay={quest?.history !== 'createProfile'}
                             skipPhone
                           />
                         </div>
@@ -442,7 +442,7 @@ const FlowScreen = (props: FlowScreenType) => {
                     )
                   }
                   {
-                    (quest.bulletPoints || quest.text) && (
+                    (quest?.bulletPoints || quest?.text) && (
                       <>
                         {
                           quest.bulletPoints && (
@@ -503,7 +503,7 @@ const FlowScreen = (props: FlowScreenType) => {
                         (
                           currentIndex !== questions.length - 2 &&
                           get(quest, 'history', '') !== 'baloiseInfo' &&
-                          quest.history !== 'success'
+                          quest?.history !== 'success'
                         ) && (
                           <BrixelButtonIcon
                             className="backBtn pos-a x-l"
@@ -531,7 +531,7 @@ const FlowScreen = (props: FlowScreenType) => {
                         ) : (
                           <>
                             {
-                              quest.history === 'success' && (
+                              quest?.history === 'success' && (
                                 <BrixelButtonPrimary
                                   className={`mr-a ml-a noWrap ${get(quest, 'history', null)}`}
                                   rounded

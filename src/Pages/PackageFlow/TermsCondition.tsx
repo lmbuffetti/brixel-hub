@@ -52,7 +52,7 @@ const TermsCondition = (props: TermsConditionType) => {
     handleSpinnerOff();
     const parmsURL = queryString.parse(get(history, 'location.search', ''));
     setRedirectURL((get(parmsURL, 'url', '') || '').toString());
-    history.push(`/termsConditionFlow/${companyStub}/${userType}`);
+    // history.push(`/termsConditionFlow/${companyStub}/${userType}`);
     return () => destroyForm();
   }, []);
 

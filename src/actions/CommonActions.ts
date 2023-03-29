@@ -28,6 +28,7 @@ import {
   SPINNER_ON,
   SPINNER_SMALL,
   SPINNER_SMALL_OFF,
+  SEND_RATE,
 } from './types/CommonTypes';
 
 export const {
@@ -59,6 +60,7 @@ export const {
   sendSlackNotification,
   setFeatureFlags,
   setTranslations,
+  sendRate,
 } = createActions({
   [REDIRECT_TO]: (payload) => payload,
   [REQUEST_DONE]: (payload) => payload,
@@ -88,4 +90,5 @@ export const {
   [SEND_SLACK_NOTIFICATION]: (payload) => payload,
   [SET_FEATURE_FLAGS]: (payload) => payload,
   [SET_TRANSLATIONS]: (payload) => payload,
+  [SEND_RATE]: (payload) => payload,
 });

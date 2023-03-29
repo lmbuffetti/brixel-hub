@@ -1,5 +1,6 @@
 export default {
   common: {
+    sendRate: () => '/rate',
     sendMessage: () => '/message',
     sendMessageContact: () => '/contact/message',
     sendSlackNotification: (channel) => `/utils/sendCustomSlackMessage?channel=${channel}`,

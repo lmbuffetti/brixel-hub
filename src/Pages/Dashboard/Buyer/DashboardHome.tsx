@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {AddToCalendar, BrixelButtonPrimary, BrixelButtonSecondary} from '@brixel/brixel-components';
+import { BrixelButtonPrimary, BrixelButtonSecondary} from '@brixel/brixel-components';
 import get from 'lodash/get';
 import isNaN from 'lodash/isNaN';
 import {DateTime} from 'luxon';
@@ -22,6 +22,7 @@ import {getCookie, setCookie} from '../../../utils/helpers';
 import translateTo from '../../../utils/translation';
 import type {ContactType} from '../../../@types/Pages/Dashboard/Buyer/DashboardHome';
 import {SinglePropertyBookingSlotsType} from '@brixel/brixel-components/dist/@types/Model';
+import ModalAddToCalendar from '../../../components/ModalAddToCalendar';
 
 const DashboardHome = (props: ContactType) => {
   const history = {
@@ -36,6 +37,7 @@ const DashboardHome = (props: ContactType) => {
     activeSingleProperty,
     activeSinglePropertyBookingSlots,
     handleGetActiveSinglePropertyBookings,
+    handleSetModal,
     isSmallLoading,
     lang,
     loggedInUser,
@@ -77,7 +79,7 @@ const DashboardHome = (props: ContactType) => {
     }
   }, [propID, loggedInUser]);
 
-  const formatCalendar = (type) => {
+  /* const formatCalendar = (type) => {
     switch (type) {
       case 'location': {
         if (activeSingleProperty.location) {
@@ -102,7 +104,7 @@ const DashboardHome = (props: ContactType) => {
         break;
       }
     }
-  }
+  } */
 
   // UNTILE NO PROPERTY OR NO USER TYPE SHOW THE LOADING
   if ((!activeSingleProperty.id && !userTypes) || isSmallLoading.getProperty) {
@@ -162,11 +164,20 @@ const DashboardHome = (props: ContactType) => {
                       {
                         !isNaN(+visitAccepted) && (
                           <div className="mt-a">
-                            <AddToCalendar
-                              lang={lang}
-                              timestamp={activeSingleDeal.visit}
-                              title={translateTo(`Visit ${activeSingleProperty.title}`, lang)}
-                              location={formatCalendar('location')}
+                            <BrixelButtonPrimary
+                              label={translateTo('Show details', lang)}
+                              rounded
+                              onClick={() => {
+                                handleSetModal({
+                                  state: 'flow',
+                                  bodyClassColor: 'p-0 dis-fl-col',
+                                  bodyInnerClass: 'dis-fl-col flex-1 jc-b',
+                                  layout: 'fullscreen',
+                                  hideHeader: true,
+                                  small: true,
+                                  component: <ModalAddToCalendar />,
+                                })
+                              }}
                             />
                           </div>
                         )

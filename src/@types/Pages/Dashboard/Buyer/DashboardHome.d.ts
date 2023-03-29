@@ -11,7 +11,8 @@ export interface ContactType {
   activeSingleDeal: DealType;
   activeSingleProperty: PropertyType;
   activeSinglePropertyBookingSlots: SinglePropertyBookingSlotsType[];
-  handleGetActiveSinglePropertyBookings: (data: object) => void
+  handleGetActiveSinglePropertyBookings: (data: object) => void;
+  handleSetModal: (data: object) => void;
   isSmallLoading: {
     getProperty: boolean;
   };

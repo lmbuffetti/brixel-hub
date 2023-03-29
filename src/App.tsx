@@ -140,6 +140,7 @@ const App = (props: AppType) => {
     splashScreenType,
     teamAvatars,
     translations,
+    userTypes,
     windowDimensions,
   } = props;
   // STATE
@@ -224,7 +225,7 @@ const App = (props: AppType) => {
         if (userLang) handleSetLanguage(userLang);
       }
     }
-  }, [loggedInUser.language, activeSingleCompany.id]);
+  }, [loggedInUser.language, activeSingleCompany.id, userTypes]);
 
   useEffect(() => {
     if (languages.length > 0) {
@@ -551,7 +552,7 @@ const App = (props: AppType) => {
                       <Route path="/packageFlow/getstarted/:companyStub/*" element={<GetStartedSeller />} />
                       <Route path="/packageFlow/getstartedBuyer/:companyStub/*" element={<GetStartedBuyer />} />
                       <Route path="/packageFlow/getstartedEstimation/:companyStub/*" element={<GetStartedEstimation />} />
-                      <Route path="/termsConditionFlow/:companyStub/:userType" element={<TermsCondition />} />
+                      <Route path="/termsConditionFlow/:companyStub/:userType" element={<ProtectedRoute><TermsCondition /></ProtectedRoute>} />
 
                       <Route path="/packageFlow/:propID/WelcomeSeller/*" element={<ProtectedRoute><WelcomeSeller /></ProtectedRoute>} />
                       <Route path="/packageFlow/testDrive/*" element={<ScanTrialFlow />} />
@@ -729,9 +730,11 @@ const App = (props: AppType) => {
                 classImg={modal.classImg}
                 classTitle={modal.classTitle}
                 layout={modal.layout}
+                showLogoHeader={modal.showLogoHeader}
                 multiActions={modal.multiActions}
                 multiBodyActions={modal.multiBodyActions}
                 title={modal.title}
+                bodyInnerClass={modal.bodyInnerClass}
                 titleImg={modal.titleImg}
                 onClose={() => modal.hideClose !== true ? handleSetModal({ state: false }) : ''}
               >

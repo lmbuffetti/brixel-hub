@@ -12,6 +12,7 @@ import {
   SPINNER_OFF,
   SPINNER_ON,
   SPINNER_SMALL,
+  SEND_RATE,
 } from '../actions/types/CommonTypes';
 
 import api from '../controllers/api/config';
@@ -210,6 +211,33 @@ const checkCommon = (store) => (next) => (action) => {
         .then((res) => {
           // eslint-disable-next-line no-console
           console.log(res);
+        });
+      break;
+    }
+    // SEND RATE
+    case SEND_RATE: {
+      next(action);
+      const data = cloneDeep(action.payload);
+      const { smallLoader } = data;
+      delete data.smallLoader;
+      if (smallLoader) {
+        store.dispatch({
+          type: SPINNER_SMALL,
+          payload: {
+            [smallLoader]: true,
+          },
+        });
+      }
+      api.common.sendRate(data)
+        .then(() => {
+          if (smallLoader) {
+            store.dispatch({
+              type: SPINNER_SMALL,
+              payload: {
+                [smallLoader]: false,
+              },
+            });
+          }
         });
       break;
     }
