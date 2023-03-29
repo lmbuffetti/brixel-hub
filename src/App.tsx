@@ -39,6 +39,7 @@ import type {AppType} from './@types/App';
 import Financing from './Pages/Closing/Financing/Financing';
 import {getActiveSingleCompany} from './actions/CompanyActions';
 import {setCookie} from './utils/helpers';
+import CustomerSatisfaction from './components/CustomerSatisfaction';
 
 const SplashScreen = lazy(() => import('./components/SplashScreen'));
 const RemoveTrailingSlash = lazy(() => import('./components/RemoveTrailingSlash'));
@@ -155,6 +156,7 @@ const App = (props: AppType) => {
   const [zIndex, setZIndex] = useState(1);
   const [isFlow, setIsFlow] = useState(false);
   const [showFooter, setShowFooter] = useState(false);
+  const [showCustomerSatisfaction, setShowCustomerSatisfaction] = useState<any>();
   // const [extraHeight, setExtraHeight] = useState(0);
 
   // USEREF TO MANAGE DOM ELEMENT
@@ -205,6 +207,58 @@ const App = (props: AppType) => {
       handleGetActiveSingleCompany({id: activeSingleProperty.company})
     }
   }, [activeSingleProperty.id]);
+
+  useEffect(() => {
+    if (
+      (loggedInUser?.sentFeedback || 0) < 2 &&
+      (loggedInUser?.sentFeedback || 0) >= 0 &&
+      !isFlow &&
+      history.location.pathname.includes('buy') &&
+      userTypes === 'buyer' &&
+      activeSingleCompany.id &&
+      !showCustomerSatisfaction
+    ) {
+      let isToday = false;
+      const today = Math.floor(Date.now() / 1000);
+      if (localStorage.brixelSatisfactionDay && today === localStorage.brixelSatisfactionDay) {
+        isToday = true;
+      }
+      if (!isToday) {
+        const interval = 60;
+        let countdown = interval;
+        if (!localStorage.brixelSatisfactionEndTime) {
+          localStorage.brixelSatisfactionEndTime = interval;
+        } else {
+          countdown = localStorage.brixelSatisfactionEndTime;
+        }
+        // const showCustomer = setInterval(() => {
+        //   countdown -= 1;
+        //   if (countdown === 0) {
+        //     handleSetModal({
+        //       clickOutsideToClose: false,
+        //       hideHeader: true,
+        //       hideClose: true,
+        //       bodyClassColor: 'p-0 dis-fl-col',
+        //       bodyInnerClass: 'h-perc-100 dis-fl-col flex-1',
+        //       state: true,
+        //       small: true,
+        //       layout: 'large',
+        //       component: <CustomerSatisfaction onClose={() => handleSetModal({})} />,
+        //     })
+        //     clearInterval(showCustomer);
+        //     localStorage.brixelSatisfactionEndTime = interval;
+        //   } else if (countdown >= 0) {
+        //     localStorage.brixelSatisfactionEndTime = countdown;
+        //   }
+        // }, 1000);
+        // setShowCustomerSatisfaction(showCustomer);
+      }
+    } else if (showCustomerSatisfaction && !history.location.pathname.includes('buy')) {
+      clearInterval(showCustomerSatisfaction);
+      setShowCustomerSatisfaction(undefined);
+    }
+  }, [loggedInUser.language, activeSingleCompany.id, userTypes, isFlow, history.location.pathname]);
+
 
   // FUCNTION TO INITIALIZE TRANSIFEX AND LOAD THE TRANSLATIONS
   useEffect(() => {
