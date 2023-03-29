@@ -165,7 +165,7 @@ const DashboardHome = (props: ContactType) => {
                         !isNaN(+visitAccepted) && (
                           <div className="mt-a">
                             <BrixelButtonPrimary
-                              label='Show details'
+                              label={translateTo('Show details', lang)}
                               rounded
                               onClick={() => {
                                 handleSetModal({
