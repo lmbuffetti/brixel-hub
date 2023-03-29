@@ -292,14 +292,15 @@ const GetStartedEstimation = (props: GetStartedEstimationType) => {
     const companyByUrl = queryString.parse(get(history, 'location.search', ''));
     const companyCookie = cookie.get('brixelStubCompany') || null;
     const channelCookie = cookie.get('brixelChannelSignup') || null;
-    if (get(companyByUrl, 'company', companyCookie) || companyStub !== get(questions, '[0].history', null)) {
-      let defComp = get(companyByUrl, 'company', companyCookie);
-      if (companyStub && companyStub !== get(questions, '[0].history', null)) defComp = companyStub;
+    let defComp = get(companyByUrl, 'company', companyStub) || companyCookie;
+    if (companyStub && companyStub !== get(questions, '[0].history', null)) defComp = companyStub;
+    if (defComp) {
       handleGetActiveSingleCompany({ stub: defComp || 'default' });
       setCookie('brixelStubCompany', defComp);
-      history.push(`/packageFlow/getStartedEstimation/${defComp}/${get(questions, '[0].history', null)}`);
+      changeFieldValue('company', defComp);
+      history.push(`/packageFlow/getStarted/${defComp}/${get(questions, '[0].history', null)}`);
     } else if (!isTest) {
-      const companyUser = get(loggedInUser, 'users.company.stub', null);
+      const companyUser = get(loggedInUser, 'company.stub', null);
       if (companyUser) handleGetActiveSingleCompany({ stub: companyUser });
       else handleGetActiveSingleCompany({ stub: 'default' });
       changeFieldValue('location.countryCode', 'all');
