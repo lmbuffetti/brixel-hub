@@ -19,7 +19,7 @@ build site:
     - npm install
     - if [ "$FOLDER" == "BUY-83-CustomerSatisfation" ]; then npm run build-dev; fi
     - if [ "$FOLDER" == "staging" ]; then npm run build-stage; fi
-    - if [ "$FOLDER" == "master" ]; then npm run build-prod; fi
+    - if [ "$FOLDER" == "master" ]; then npm run build-prod; fi
   artifacts:
     expire_in: 5 days
     paths:
