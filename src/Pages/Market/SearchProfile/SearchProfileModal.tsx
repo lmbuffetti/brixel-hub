@@ -201,8 +201,8 @@ const SearchProfileModal = (props: SearchProfileModalType) => {
       onClose={() => onClose()}
       titleTop
       layout="xxlarge"
-      titleTopClass="modalTitleClass fweight-600 fsize-500 fsize-md-600 brdSmallBottom brdText50 ta-c mb-2 mb-md-4"
-      bodyClassColor="bgWhite"
+      titleTopClass="modalTitleClass fweight-600 fsize-500 fsize-md-600 brdSmallBottom brdText50 ta-c"
+      bodyClassColor="p-2 p-md-3 pt-md-4 bgWhite"
       multiActions={multiActions()}
     >
       {
