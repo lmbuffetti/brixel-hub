@@ -115,6 +115,7 @@ const CustomerSatisfaction = (props: CustomerSatisfactionType) => {
                     onChange: (val) => setFormValue((prevVal) => ({...prevVal, rating: val})),
                     value: formValue.rating,
                   }}
+                  lang={lang}
                   hideMessage={true}
                   iconSize="large"
                   centered
