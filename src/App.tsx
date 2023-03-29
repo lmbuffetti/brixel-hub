@@ -39,7 +39,7 @@ import type {AppType} from './@types/App';
 import Financing from './Pages/Closing/Financing/Financing';
 import {getActiveSingleCompany} from './actions/CompanyActions';
 import {setCookie} from './utils/helpers';
-import CustomerSatisfaction from './components/CustomerSatisfaction';
+// import CustomerSatisfaction from './components/CustomerSatisfaction';
 
 const SplashScreen = lazy(() => import('./components/SplashScreen'));
 const RemoveTrailingSlash = lazy(() => import('./components/RemoveTrailingSlash'));
@@ -225,11 +225,11 @@ const App = (props: AppType) => {
       }
       if (!isToday) {
         const interval = 60;
-        let countdown = interval;
+        // let countdown = interval;
         if (!localStorage.brixelSatisfactionEndTime) {
           localStorage.brixelSatisfactionEndTime = interval;
         } else {
-          countdown = localStorage.brixelSatisfactionEndTime;
+          // countdown = localStorage.brixelSatisfactionEndTime;
         }
         // const showCustomer = setInterval(() => {
         //   countdown -= 1;
