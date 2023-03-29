@@ -46,6 +46,7 @@ const GetStartedBuyer = (props: GetStartedType) => {
     isLoading,
     lang = 'en',
     loggedInUser,
+    translations,
   } = props;
   // STATE
   // SET THE QUESTIONS IN BASE OF THE COUNTRY
@@ -59,8 +60,6 @@ const GetStartedBuyer = (props: GetStartedType) => {
   useEffect(() => {
     return () => destroyForm();
   }, []);
-
-
 
   // FUNCTION TO SAVE DATA
   const saveData = async (action = '') => {
@@ -115,7 +114,7 @@ const GetStartedBuyer = (props: GetStartedType) => {
       await handleCreateSearchProfile(data);
     } else if (page === 'login') {
       changeFieldValue('register.email', login?.email || '');
-      // IF USER DO THE LOG IN, DO THE LOGIN AND THEN SAVE DIRECTLY THE PAGE
+      // IF USER DO THE LOGIN, DO THE LOGIN AND THEN SAVE DIRECTLY THE PAGE
       // USER DATA
       const userData = {
         username: (login?.email || '').toLowerCase(),
@@ -195,7 +194,7 @@ const GetStartedBuyer = (props: GetStartedType) => {
   // ON CHANGE LANGUAGE RELOAD THE QUESTIONS TRANSLATED
   useEffect(() => {
     setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue, 'GetStarted'));
-  }, [lang]);
+  }, [lang, translations, formValue]);
 
   // GET THE NEXT DATA IN BASE OF CURRENT ANSWER
   useEffect(() => {
