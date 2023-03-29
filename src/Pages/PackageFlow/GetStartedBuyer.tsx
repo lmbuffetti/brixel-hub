@@ -172,15 +172,13 @@ const GetStartedBuyer = (props: GetStartedType) => {
     const companyByUrl = queryString.parse(get(history, 'location.search', ''));
     const companyCookie = cookie.get('brixelStubCompany') || null;
     const channelCookie = cookie.get('brixelChannelSignup') || null;
-    if (get(companyByUrl, 'company', companyCookie)) {
-      let defComp = get(companyByUrl, 'company', companyCookie);
-      if (companyStub && companyStub !== get(questions, '[0].history', null)) defComp = companyStub;
+    let defComp = get(companyByUrl, 'company', companyStub) || companyCookie;
+    if (companyStub && companyStub !== get(questions, '[0].history', null)) defComp = companyStub;
+    if (defComp) {
       handleGetActiveSingleCompany({ stub: defComp || 'default' });
       setCookie('brixelStubCompany', defComp);
-      history.push(`/packageFlow/getStartedBuyer/${defComp}/${get(questions, '[0].history', null)}`);
-    } else {
-      handleGetActiveSingleCompany({ stub: 'default' });
-      // changeFieldValue('location.countryCode', 'all');`
+      changeFieldValue('company', defComp);
+      history.push(`/packageFlow/getStarted/${defComp}/${get(questions, '[0].history', null)}`);
     }
     if (get(companyByUrl, 'channel', channelCookie)) {
       const defChan = get(companyByUrl, 'channel', channelCookie);
