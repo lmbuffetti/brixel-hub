@@ -527,6 +527,10 @@ const App = (props: AppType) => {
     }
   });
 
+  if (Object.keys(translations).length === 0) {
+    return <Loading isLoading={true} />
+  }
+
   return (
     <>
       <Helmet>
@@ -540,7 +544,6 @@ const App = (props: AppType) => {
       </Helmet>
       {
         ((!lang ||
-          Object.keys(translations).length === 0 ||
           (isFlow && !activeSingleCompany.id)
         ) && !history.location.pathname.includes('tokeninput')) && (
           <Loading isLoading={true} />
