@@ -5,7 +5,7 @@ export interface CustomerSatisfactionType {
   handleSaveRate: (data: object) => void;
   handleUpdateUser: (data: object) => void;
   isSmallLoading: {
-    saveData: boolean;
+    saveDataCustomer: boolean;
   }
   lang: string;
   loggedInUser: LoggedUserType;
