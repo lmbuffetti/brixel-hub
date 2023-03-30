@@ -537,7 +537,7 @@ const App = (props: AppType) => {
         <link rel="apple-touch-icon" href={AppleTouch76} />
         <link rel="apple-touch-icon" sizes="76x76" href={AppleTouch76} />
         <link rel="apple-touch-icon" sizes="120x120" href={AppleTouch120} />
-        <link rel="apple-touch-icon" sizes="152x152" href={AppleTouch152} />2
+        <link rel="apple-touch-icon" sizes="152x152" href={AppleTouch152} />
         <link rel="apple-touch-icon" sizes="180x180" href={AppleTouch180} />
         <link rel="icon" sizes="192x192" href={Android192} />
         <title>Brixel Hub</title>
