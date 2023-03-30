@@ -34,7 +34,7 @@ const CustomerSatisfaction = (props: CustomerSatisfactionType) => {
   const [currentStep, setCurrentStep] = useState('rating');
 
   useEffect(() => {
-    if (isSmallLoading.saveData === false) {
+    if (isSmallLoading.saveDataCustomer === false) {
       setCurrentStep('success');
     }
   }, [isSmallLoading]);
@@ -51,8 +51,6 @@ const CustomerSatisfaction = (props: CustomerSatisfactionType) => {
     onClose();
   }
 
-
-
   const onSendData = () => {
     // SAVE THE DATA
     const data = {
@@ -60,13 +58,13 @@ const CustomerSatisfaction = (props: CustomerSatisfactionType) => {
       user: loggedInUser.id,
       message: formValue.message,
       rating: formValue.rating,
-      smallLoader: 'saveData',
+      smallLoader: 'saveDataCustomer',
     }
     handleSaveRate(data);
     const userData = {
       id: get(loggedInUser, 'id', null),
       sentFeedback: -1,
-      smallLoader: 'saveData',
+      smallLoader: 'saveDataCustomer',
     };
     handleUpdateUser(userData);
   }
@@ -181,7 +179,7 @@ const CustomerSatisfaction = (props: CustomerSatisfactionType) => {
                 label={translateTo('Send', lang)}
                 onClick={() => onChangeStep()}
                 rightIcon="send"
-                isLoading={isSmallLoading.saveData}
+                isLoading={isSmallLoading.saveDataCustomer}
               />
             </div>
           )
