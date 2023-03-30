@@ -39,8 +39,7 @@ import type {AppType} from './@types/App';
 import Financing from './Pages/Closing/Financing/Financing';
 import {getActiveSingleCompany} from './actions/CompanyActions';
 import {setCookie} from './utils/helpers';
-// import CustomerSatisfaction from './components/CustomerSatisfaction';
-
+const CustomerSatisfaction = lazy(() => import('./components/CustomerSatisfaction'));
 const SplashScreen = lazy(() => import('./components/SplashScreen'));
 const RemoveTrailingSlash = lazy(() => import('./components/RemoveTrailingSlash'));
 const Support = lazy(() => import('./components/Support'));
@@ -187,7 +186,7 @@ const App = (props: AppType) => {
 
   useEffect(() => {
     let currentLang = urlLang;
-    if (loggedInUser.id && urlLang && (!isEmpty(currentLang) || isEmpty(loggedInUser.language))) {
+    if (loggedInUser.id && urlLang && (!isEmpty(currentLang) || isEmpty(loggedInUser.language)) && currentLang !== loggedInUser.language) {
       if (isEmpty(currentLang) && isEmpty(loggedInUser.language)) currentLang = 'en';
       const userData = {
         id: get(loggedInUser, 'id', null),
@@ -225,33 +224,33 @@ const App = (props: AppType) => {
       }
       if (!isToday) {
         const interval = 60;
-        // let countdown = interval;
+        let countdown = interval;
         if (!localStorage.brixelSatisfactionEndTime) {
           localStorage.brixelSatisfactionEndTime = interval;
         } else {
-          // countdown = localStorage.brixelSatisfactionEndTime;
+          countdown = localStorage.brixelSatisfactionEndTime;
         }
-        // const showCustomer = setInterval(() => {
-        //   countdown -= 1;
-        //   if (countdown === 0) {
-        //     handleSetModal({
-        //       clickOutsideToClose: false,
-        //       hideHeader: true,
-        //       hideClose: true,
-        //       bodyClassColor: 'p-0 dis-fl-col',
-        //       bodyInnerClass: 'h-perc-100 dis-fl-col flex-1',
-        //       state: true,
-        //       small: true,
-        //       layout: 'large',
-        //       component: <CustomerSatisfaction onClose={() => handleSetModal({})} />,
-        //     })
-        //     clearInterval(showCustomer);
-        //     localStorage.brixelSatisfactionEndTime = interval;
-        //   } else if (countdown >= 0) {
-        //     localStorage.brixelSatisfactionEndTime = countdown;
-        //   }
-        // }, 1000);
-        // setShowCustomerSatisfaction(showCustomer);
+        const showCustomer = setInterval(() => {
+          countdown -= 1;
+          if (countdown === 0) {
+            handleSetModal({
+              clickOutsideToClose: false,
+              hideHeader: true,
+              hideClose: true,
+              bodyClassColor: 'p-0 dis-fl-col',
+              bodyInnerClass: 'h-perc-100 dis-fl-col flex-1',
+              state: true,
+              small: true,
+              layout: 'large',
+              component: <CustomerSatisfaction onClose={() => handleSetModal({})} />,
+            })
+            clearInterval(showCustomer);
+            localStorage.brixelSatisfactionEndTime = interval;
+          } else if (countdown >= 0) {
+            localStorage.brixelSatisfactionEndTime = countdown;
+          }
+        }, 1000);
+        setShowCustomerSatisfaction(showCustomer);
       }
     } else if (showCustomerSatisfaction && !history.location.pathname.includes('buy')) {
       clearInterval(showCustomerSatisfaction);
@@ -528,20 +527,23 @@ const App = (props: AppType) => {
     }
   });
 
+  if (Object.keys(translations).length === 0) {
+    return <Loading isLoading={true} />
+  }
+
   return (
     <>
       <Helmet>
         <link rel="apple-touch-icon" href={AppleTouch76} />
         <link rel="apple-touch-icon" sizes="76x76" href={AppleTouch76} />
         <link rel="apple-touch-icon" sizes="120x120" href={AppleTouch120} />
-        <link rel="apple-touch-icon" sizes="152x152" href={AppleTouch152} />2
+        <link rel="apple-touch-icon" sizes="152x152" href={AppleTouch152} />
         <link rel="apple-touch-icon" sizes="180x180" href={AppleTouch180} />
         <link rel="icon" sizes="192x192" href={Android192} />
         <title>Brixel Hub</title>
       </Helmet>
       {
         ((!lang ||
-          Object.keys(translations).length === 0 ||
           (isFlow && !activeSingleCompany.id)
         ) && !history.location.pathname.includes('tokeninput')) && (
           <Loading isLoading={true} />

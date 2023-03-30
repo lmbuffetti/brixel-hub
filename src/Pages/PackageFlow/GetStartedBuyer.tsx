@@ -180,7 +180,7 @@ const GetStartedBuyer = (props: GetStartedType) => {
       handleGetActiveSingleCompany({ stub: defComp || 'default' });
       setCookie('brixelStubCompany', defComp);
       changeFieldValue('company', defComp);
-      history.push(`/packageFlow/getStarted/${defComp}/${get(questions, '[0].history', null)}`);
+      history.push(`/packageFlow/getStartedBuyer/${defComp}/${get(questions, '[0].history', null)}`);
     }
     if (get(companyByUrl, 'channel', channelCookie)) {
       const defChan = get(companyByUrl, 'channel', channelCookie);
