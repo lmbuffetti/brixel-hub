@@ -129,7 +129,7 @@ const CustomerSatisfaction = (props: CustomerSatisfactionType) => {
         {
           currentStep === 'message' && (
             <>
-              <h3 className="ta-c fsize-600 fweight-600 max-w-fix-360 ml-a mr-a">{translateTo('We are sorry! 😕 What can we do to make it better?', lang)}</h3>
+              <h3 className="ta-c fsize-600 fweight-600 max-w-fix-360 ml-a mr-a">{translateTo('We are sorry! 😞 What can we do to make it better?', lang)}</h3>
 
               <div className="w-perc-100 mt-4 mb-2">
                 <BrixelTextArea
