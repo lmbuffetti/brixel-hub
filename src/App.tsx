@@ -186,7 +186,7 @@ const App = (props: AppType) => {
 
   useEffect(() => {
     let currentLang = urlLang;
-    if (loggedInUser.id && urlLang && (!isEmpty(currentLang) || isEmpty(loggedInUser.language))) {
+    if (loggedInUser.id && urlLang && (!isEmpty(currentLang) || isEmpty(loggedInUser.language)) && currentLang !== loggedInUser.language) {
       if (isEmpty(currentLang) && isEmpty(loggedInUser.language)) currentLang = 'en';
       const userData = {
         id: get(loggedInUser, 'id', null),
