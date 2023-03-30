@@ -2,6 +2,7 @@ import {
   LoggedUserType,
   PropertyType,
   SinglePropertyBookingSlotsType,
+  DealsType,
 } from '@brixel/brixel-components/dist/@types/Model';
 
 export interface FormValueType {
@@ -20,11 +21,13 @@ export interface FormValueType {
 }
 
 export interface AddShowingsBuyerType {
+  activeSingleDeal: DealsType,
   activeSingleProperty: PropertyType;
   activeSinglePropertyBookingSlots: SinglePropertyBookingSlotsType[];
   errorValue: object;
   formValue: FormValueType;
   handleCreatePropertyVisitBooking(...args: unknown[]): unknown;
+  handleGetBuyerDeal: (data: object) => void;
   handleGetActiveSingleProperty(...args: unknown[]): unknown;
   handleGetActiveSinglePropertyBookings(...args: unknown[]): unknown;
   initForm(...args: unknown[]): unknown;
