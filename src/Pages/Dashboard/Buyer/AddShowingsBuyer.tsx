@@ -17,17 +17,20 @@ import {QuestionsList} from '../../../resources/SingleProperty/AddShowings';
 import {QuestionsListType} from '@brixel/brixel-components/dist/@types/Model';
 import type {AddShowingsBuyerType} from '../../../@types/Pages/Dashboard/Buyer/AddShowingsBuyer';
 import FlowScreen from '../../../components/FlowScreen';
+import {getBuyerDeal} from '../../../actions/DealActions';
 
 const AddShowingsBuyer = (props: AddShowingsBuyerType) => {
 
   const match = useParams();
   // PROPS
   const {
+    activeSingleDeal,
     activeSingleProperty,
     formValue,
     handleCreatePropertyVisitBooking,
     handleGetActiveSinglePropertyBookings,
     handleGetActiveSingleProperty,
+    handleGetBuyerDeal,
     initForm,
     initialValues,
     lang,
@@ -44,6 +47,15 @@ const AddShowingsBuyer = (props: AddShowingsBuyerType) => {
       initForm(initialValues);
     }
   }, [activeSingleProperty.id, loggedInUser.id]);
+
+  useEffect(() => {
+    if (activeSingleProperty.id && loggedInUser.id) {
+      if (!activeSingleDeal.id && loggedInUser.id) {
+        const actionStub = 'user-schedule';
+        handleGetBuyerDeal({ id: propID, actionStub });
+      }
+    }
+  }, [loggedInUser]);
 
   useEffect(() => {
     setQuestions(QuestionsList(lang))
@@ -117,6 +129,7 @@ const mapStateToProps = (state) => {
   };
   return ({
     activeSingleCompany,
+    activeSingleDeal: get(state, 'deal.activeSingleDeal', {}),
     activeSinglePropertyBookingSlots: get(state, 'property.activeSinglePropertyBookingSlots', []),
     activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
     errorValue: get(state, 'brixelForm.Showings.syncErrors', {}),
@@ -135,6 +148,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleCreatePropertyVisitBooking: bindActionCreators(createPropertyVisitBooking, dispatch),
   handleGetActiveSinglePropertyBookings: bindActionCreators(getActiveSinglePropertyBookings, dispatch),
   handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
+  handleGetBuyerDeal: bindActionCreators(getBuyerDeal, dispatch),
   handleSpinnerSmallOff: bindActionCreators(spinnerSmallOff, dispatch),
 });
 
