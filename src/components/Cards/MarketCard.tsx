@@ -475,7 +475,7 @@ const MarketCard = (props: MarketCardProps) => {
                       onClick={(e) => openCard(e)}
                     >
                       <h6
-                        className="fweight-600 fsize-500 fsize-sm-600 mb-small-4 txtText900 ellipsis two w-perc-100 ta-l mb-2 notranslate"
+                        className="fweight-600 fsize-500 fsize-sm-600 mb-small-4 txtText900 ellipsis two w-perc-100 ta-l mt-2 mt-sm-0 mb-2 notranslate"
                       >
                         {translateTo(get(item, 'title', ''), lang)}
                       </h6>
@@ -887,7 +887,7 @@ const MarketCard = (props: MarketCardProps) => {
                         {
                           item && get(item, 'tags', []).length > 0 && item.tags.includes('pre-market') ? (
                             <>
-                              <p className="pl-1 fsize-300 txtText400" dangerouslySetInnerHTML={{ __html: `<span>${translateTo('Your property is visible on our pre-market.', lang)}</span> <a href="/${get(item,  'id', '')}/marketing" class="fsize-300 fweight-500 txtBlue700 cur-poi ml-1 td-u lh-in btnInline">${translateTo('Learn more.', lang)}</a>` }} />
+                              <p className="pl-0 pl-md-0 pb-1 pb-md-0 fsize-300 txtText400" dangerouslySetInnerHTML={{ __html: `<span>${translateTo('Your property is visible on our pre-market.', lang)}</span> <a href="/${get(item,  'id', '')}/marketing" class="fsize-300 fweight-500 txtBlue700 cur-poi ml-1 td-u lh-in btnInline">${translateTo('Learn more.', lang)}</a>` }} />
                             </>
                           ) : (
                             <>
