@@ -41,10 +41,11 @@ const CustomerSatisfaction = (props: CustomerSatisfactionType) => {
 
 
   const onCloseModal = () => {
+    localStorage.brixelSatisfactionDay = Math.floor(Date.now() / 1000);
     const userData = {
       id: get(loggedInUser, 'id', null),
       sentFeedback: (loggedInUser.sentFeedback || 0) + 1,
-      smallLoader: 'saveData',
+      smallLoader: 'saveUserData',
     };
     handleUpdateUser(userData);
     onClose();
@@ -114,6 +115,7 @@ const CustomerSatisfaction = (props: CustomerSatisfactionType) => {
                     onChange: (val) => setFormValue((prevVal) => ({...prevVal, rating: val})),
                     value: formValue.rating,
                   }}
+                  lang={lang}
                   hideMessage={true}
                   iconSize="large"
                   centered
@@ -127,7 +129,7 @@ const CustomerSatisfaction = (props: CustomerSatisfactionType) => {
         {
           currentStep === 'message' && (
             <>
-              <h3 className="ta-c fsize-600 fweight-600 max-w-fix-360 ml-a mr-a">{translateTo('We are sorry! 😕 What can we do to make it better?', lang)}</h3>
+              <h3 className="ta-c fsize-600 fweight-600 max-w-fix-360 ml-a mr-a">{translateTo('We are sorry! 😞 What can we do to make it better?', lang)}</h3>
 
               <div className="w-perc-100 mt-4 mb-2">
                 <BrixelTextArea

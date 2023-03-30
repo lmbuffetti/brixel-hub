@@ -39,8 +39,7 @@ import type {AppType} from './@types/App';
 import Financing from './Pages/Closing/Financing/Financing';
 import {getActiveSingleCompany} from './actions/CompanyActions';
 import {setCookie} from './utils/helpers';
-import CustomerSatisfaction from './components/CustomerSatisfaction';
-
+const CustomerSatisfaction = lazy(() => import('./components/CustomerSatisfaction'));
 const SplashScreen = lazy(() => import('./components/SplashScreen'));
 const RemoveTrailingSlash = lazy(() => import('./components/RemoveTrailingSlash'));
 const Support = lazy(() => import('./components/Support'));
@@ -157,6 +156,7 @@ const App = (props: AppType) => {
   const [zIndex, setZIndex] = useState(1);
   const [isFlow, setIsFlow] = useState(false);
   const [showFooter, setShowFooter] = useState(false);
+  const [showCustomerSatisfaction, setShowCustomerSatisfaction] = useState<any>();
   // const [extraHeight, setExtraHeight] = useState(0);
 
   // USEREF TO MANAGE DOM ELEMENT
@@ -208,19 +208,32 @@ const App = (props: AppType) => {
     }
   }, [activeSingleProperty.id]);
 
-  // FUCNTION TO INITIALIZE TRANSIFEX AND LOAD THE TRANSLATIONS
   useEffect(() => {
-    let userLang: string | undefined = 'en';
-    if (!urlLang) {
-      if (loggedInUser.id) {
-        if (
-          (loggedInUser?.sentFeedback || 0) < 2 &&
-          (loggedInUser?.sentFeedback || 0) >= 0 &&
-          !isFlow &&
-          history.location.pathname.includes('buy') &&
-          userTypes === 'buyer'
-        ) {
-          setTimeout(() => {
+    if (
+      (loggedInUser?.sentFeedback || 0) < 2 &&
+      (loggedInUser?.sentFeedback || 0) >= 0 &&
+      !isFlow &&
+      history.location.pathname.includes('buy') &&
+      userTypes === 'buyer' &&
+      activeSingleCompany.id &&
+      !showCustomerSatisfaction
+    ) {
+      let isToday = false;
+      const today = Math.floor(Date.now() / 1000);
+      if (localStorage.brixelSatisfactionDay && today === localStorage.brixelSatisfactionDay) {
+        isToday = true;
+      }
+      if (!isToday) {
+        const interval = 60;
+        let countdown = interval;
+        if (!localStorage.brixelSatisfactionEndTime) {
+          localStorage.brixelSatisfactionEndTime = interval;
+        } else {
+          countdown = localStorage.brixelSatisfactionEndTime;
+        }
+        const showCustomer = setInterval(() => {
+          countdown -= 1;
+          if (countdown === 0) {
             handleSetModal({
               clickOutsideToClose: false,
               hideHeader: true,
@@ -232,9 +245,26 @@ const App = (props: AppType) => {
               layout: 'large',
               component: <CustomerSatisfaction onClose={() => handleSetModal({})} />,
             })
-          }, 120000);
-        }
-        //}
+            clearInterval(showCustomer);
+            localStorage.brixelSatisfactionEndTime = interval;
+          } else if (countdown >= 0) {
+            localStorage.brixelSatisfactionEndTime = countdown;
+          }
+        }, 1000);
+        setShowCustomerSatisfaction(showCustomer);
+      }
+    } else if (showCustomerSatisfaction && !history.location.pathname.includes('buy')) {
+      clearInterval(showCustomerSatisfaction);
+      setShowCustomerSatisfaction(undefined);
+    }
+  }, [loggedInUser.language, activeSingleCompany.id, userTypes, isFlow, history.location.pathname]);
+
+
+  // FUCNTION TO INITIALIZE TRANSIFEX AND LOAD THE TRANSLATIONS
+  useEffect(() => {
+    let userLang: string | undefined = 'en';
+    if (!urlLang) {
+      if (loggedInUser.id) {
         userLang = loggedInUser.language === 'en_US' ? 'en' : loggedInUser.language;
         if (isEmpty(userLang)) userLang = 'en';
         handleSetLanguage(userLang || 'en');
@@ -498,20 +528,23 @@ const App = (props: AppType) => {
     }
   });
 
+  if (Object.keys(translations).length === 0) {
+    return <Loading isLoading={true} />
+  }
+
   return (
     <>
       <Helmet>
         <link rel="apple-touch-icon" href={AppleTouch76} />
         <link rel="apple-touch-icon" sizes="76x76" href={AppleTouch76} />
         <link rel="apple-touch-icon" sizes="120x120" href={AppleTouch120} />
-        <link rel="apple-touch-icon" sizes="152x152" href={AppleTouch152} />2
+        <link rel="apple-touch-icon" sizes="152x152" href={AppleTouch152} />
         <link rel="apple-touch-icon" sizes="180x180" href={AppleTouch180} />
         <link rel="icon" sizes="192x192" href={Android192} />
         <title>Brixel Hub</title>
       </Helmet>
       {
         ((!lang ||
-          Object.keys(translations).length === 0 ||
           (isFlow && !activeSingleCompany.id)
         ) && !history.location.pathname.includes('tokeninput')) && (
           <Loading isLoading={true} />

@@ -374,6 +374,7 @@ export const convertLabel = (curVal, field, type: string | null = 'label') => {
 
 export const redirectUrl = (link, options) => {
   let url = localStorage.getItem('backUrl');
+  localStorage.removeItem('backUrl');
   const {
     propID,
     dealID,
@@ -392,7 +393,7 @@ export const redirectUrl = (link, options) => {
     } else {
       return `/buyer/${propID}/closing`;
     }
-  } else if (link.toLowerCase().includes('schedulevisit')) {
+  } else if (link.toLowerCase().includes('buyer')) {
     return `/buyer/${propID}/home`;
   } else if (link.toLowerCase().includes('contactflow')) {
     const BASEURL = isBuyer ? '/buyer' : '';

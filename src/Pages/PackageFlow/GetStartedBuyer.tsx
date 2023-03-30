@@ -61,6 +61,8 @@ const GetStartedBuyer = (props: GetStartedType) => {
     return () => destroyForm();
   }, []);
 
+
+
   // FUNCTION TO SAVE DATA
   const saveData = async (action = '') => {
     if (isLoading || loadingRequest) return false;
@@ -114,7 +116,7 @@ const GetStartedBuyer = (props: GetStartedType) => {
       await handleCreateSearchProfile(data);
     } else if (page === 'login') {
       changeFieldValue('register.email', login?.email || '');
-      // IF USER DO THE LOGIN, DO THE LOGIN AND THEN SAVE DIRECTLY THE PAGE
+      // IF USER DO THE LOG IN, DO THE LOGIN AND THEN SAVE DIRECTLY THE PAGE
       // USER DATA
       const userData = {
         username: (login?.email || '').toLowerCase(),
@@ -178,7 +180,7 @@ const GetStartedBuyer = (props: GetStartedType) => {
       handleGetActiveSingleCompany({ stub: defComp || 'default' });
       setCookie('brixelStubCompany', defComp);
       changeFieldValue('company', defComp);
-      history.push(`/packageFlow/getStarted/${defComp}/${get(questions, '[0].history', null)}`);
+      history.push(`/packageFlow/getStartedBuyer/${defComp}/${get(questions, '[0].history', null)}`);
     }
     if (get(companyByUrl, 'channel', channelCookie)) {
       const defChan = get(companyByUrl, 'channel', channelCookie);

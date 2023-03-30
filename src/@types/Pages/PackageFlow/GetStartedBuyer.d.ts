@@ -19,6 +19,7 @@ export interface GetStartedType {
   handleCreateSearchProfile: (data: object) => void;
   handleDoLogin: (data: object) => void;
   handleGetActiveSingleCompany: (data: object) => void;
+  handleReset: (data: object) => void;
   handleSpinnerOff: () => void;
   handleSpinnerOn: () => void;
   handleValidateUser: (data: object) => void;
@@ -28,5 +29,4 @@ export interface GetStartedType {
   lang?: string;
   loggedInUser: object;
   translations: object;
-  handleReset: (data: object) => void;
 }
