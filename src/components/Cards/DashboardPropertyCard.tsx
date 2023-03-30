@@ -51,7 +51,7 @@ const DashboardPropertyCard: (props: DashboardPropertyCardProps) => JSX.Element 
             }
           </div>
         </div>
-        <div className="pl-sm-3 pl-2 pt-2 pt-sm-0 dis-fl-col jc-b w-perc-100">
+        <div className="pl-sm-3 pl-2 pr-sm-0 pr-2 pt-2 pt-sm-0 dis-fl-col jc-b w-perc-100">
           <div className="">
             <h4 className="txtText900 fweight-600 fsize-sm-600 fsize-500"> {get(activeSingleProperty, 'title', '')} </h4>
             <span className="fsize-300 txtText400"> {get(activeSingleProperty, 'location.city', '')}, {get(activeSingleProperty, 'location.state', '')}  </span>
@@ -79,7 +79,7 @@ const DashboardPropertyCard: (props: DashboardPropertyCardProps) => JSX.Element 
                 {
                   type === 'buy' ? (
                     <div className="dis-fl-col dis-fl-row-sm a-c">
-                      <div className="dis-f w-perc-100 jc-b">
+                      <div className="dis-f flex-1 jc-b">
                         <div className="brdSmallRight brdText100 pr-2">
                           <h6 className="ff-mono txtText400 fsize-300">
                             {translateTo('Living area', lang)}
@@ -108,7 +108,7 @@ const DashboardPropertyCard: (props: DashboardPropertyCardProps) => JSX.Element 
                       </div>
 
                       <BrixelButtonSecondary
-                        className="as-fs mt-2 mt-a-sm mb-a w-auto-sm w-perc-100"
+                        className="as-fs mt-2 ml-sm-2 mt-a-sm mb-a w-auto-sm w-perc-100"
                         rounded
                         label={translateTo('View', lang)}
                         onClick={() => window.open(`${baseByData.pageUrl}${get(activeSingleProperty, 'stub', '')}`, '_blank')}
