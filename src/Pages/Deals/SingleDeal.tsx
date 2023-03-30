@@ -315,7 +315,8 @@ const SingleDeal = (props: SingleDealType) => {
   ).toFormat('yyyy-MM-dd')}
     </span></span>      </br><span>${translateTo('Marital status:', lang)}</span><span class="ml-small-4">${translateTo(get(activeSingleDeal, 'closing.stageOffer.offer.buyer.maritialStatus', ''), lang)} </span>
       </br><span>${translateTo('Place of origin:', lang)}</span><span class="ml-small-4">${translateTo(get(activeSingleDeal, 'closing.stageOffer.offer.buyer.placeOfOrigin', ''), lang)} </span>
-      </br><span>${translateTo('Type of purchase:', lang)}</span><span class="ml-small-4">${translateTo(get(activeSingleDeal, 'closing.stageOffer.offer.buyer.typeOfPurchase', ''), lang)} </span>`;
+      </br><span>${translateTo('Type of purchase:', lang)}</span><span class="ml-small-4">${translateTo(get(activeSingleDeal, 'closing.stageOffer.offer.buyer.typeOfPurchase', ''), lang)} </span>
+      <span class="dis-b"><span>${translateTo('Comment', lang)}<span class="lh-in">:</span> </span><span class="word-b fweight-500">${get(activeSingleDeal, 'closing.stageOffer.offer.noteByBuyer', '')} </span></span></br>`;
     }
     if (get(activeSingleDeal, 'closing.stageOffer.offer.location') && Object.keys(activeSingleDeal.closing.stageOffer.offer.location).length > 0) {
       answerText += `</br></br><span>${translateTo('Buyer location:', lang)}</span></br>
