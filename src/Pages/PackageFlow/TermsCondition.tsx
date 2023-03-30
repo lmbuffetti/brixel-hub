@@ -105,7 +105,7 @@ const TermsCondition = (props: TermsConditionType) => {
   return (
     <FlowScreen
       baseURL={`/termsConditionFlow/${activeSingleCompany.stub}`}
-      formName="GetStarted"
+      formName="TermsCondition"
       onSaveData={(action) => saveData(action)}
       QuestionsList={questions}
     />
@@ -116,30 +116,30 @@ const mapStateToProps = (state) => ({
   activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   activeSingleProperty: get(state, 'property.activeSingleProperty', null),
   company: get(state, 'companies.activeSingleCompany', {}),
-  errorValue: get(state, 'brixelForm.GetStarted.syncErrors', {}),
-  formValue: get(state, 'brixelForm.GetStarted.values', {}),
-  initialValues: get(state, 'brixelForm.GetStarted.initialValues', {}),
+  errorValue: get(state, 'brixelForm.TermsCondition.syncErrors', {}),
+  formValue: get(state, 'brixelForm.TermsCondition.values', {}),
+  initialValues: get(state, 'brixelForm.TermsCondition.initialValues', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
   isLoading: get(state, 'common.isLoading', 0) > 0,
   lang: get(state, 'common.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
   packagesProperty: get(state, 'property.packagesProperty', []),
-  startForm: get(state, 'brixelForm.GetStarted', null),
+  startForm: get(state, 'brixelForm.TermsCondition', null),
   translations: get(state, 'translations', null),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
-    dispatch(change('GetStarted', field, value));
+    dispatch(change('TermsCondition', field, value));
   },
   destroyForm() {
-    dispatch(destroy('GetStarted'));
+    dispatch(destroy('TermsCondition'));
   },
   initForm(value) {
-    dispatch(initializeForm('GetStarted', value));
+    dispatch(initializeForm('TermsCondition', value));
   },
   handleReset(val) {
-    (dispatch(reset('GetStarted', val)));
+    (dispatch(reset('TermsCondition', val)));
   },
   handleCreateActiveSingleProperty: bindActionCreators(createActiveSingleProperty, dispatch),
   handleDoLogin: bindActionCreators(doLogin, dispatch),
