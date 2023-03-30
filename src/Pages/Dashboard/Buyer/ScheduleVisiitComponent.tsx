@@ -116,7 +116,7 @@ const ScheduleVisitComponent = (props: ScheduleVisitComponentType) => {
 
   return (
     <>
-      <div className="formWrapper bgWhite brdRadius w-perc-100 shadow-1dp p-6">
+      <div className="formWrapper bgWhite brdRadius w-perc-100 shadow-1dp p-3 p-sm-5">
         <div className="dis-fl-col a-c scheduleVisit">
           {
             (scheduleVisitFree.length > 0) && (
