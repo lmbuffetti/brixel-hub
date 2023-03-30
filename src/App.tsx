@@ -231,27 +231,27 @@ const App = (props: AppType) => {
         } else {
           countdown = localStorage.brixelSatisfactionEndTime;
         }
-        // const showCustomer = setInterval(() => {
-        //   countdown -= 1;
-        //   if (countdown === 0) {
-        //     handleSetModal({
-        //       clickOutsideToClose: false,
-        //       hideHeader: true,
-        //       hideClose: true,
-        //       bodyClassColor: 'p-0 dis-fl-col',
-        //       bodyInnerClass: 'h-perc-100 dis-fl-col flex-1',
-        //       state: true,
-        //       small: true,
-        //       layout: 'large',
-        //       component: <CustomerSatisfaction onClose={() => handleSetModal({})} />,
-        //     })
-        //     clearInterval(showCustomer);
-        //     localStorage.brixelSatisfactionEndTime = interval;
-        //   } else if (countdown >= 0) {
-        //     localStorage.brixelSatisfactionEndTime = countdown;
-        //   }
-        // }, 1000);
-        // setShowCustomerSatisfaction(showCustomer);
+        const showCustomer = setInterval(() => {
+          countdown -= 1;
+          if (countdown === 0) {
+            handleSetModal({
+              clickOutsideToClose: false,
+              hideHeader: true,
+              hideClose: true,
+              bodyClassColor: 'p-0 dis-fl-col',
+              bodyInnerClass: 'h-perc-100 dis-fl-col flex-1',
+              state: true,
+              small: true,
+              layout: 'large',
+              component: <CustomerSatisfaction onClose={() => handleSetModal({})} />,
+            })
+            clearInterval(showCustomer);
+            localStorage.brixelSatisfactionEndTime = interval;
+          } else if (countdown >= 0) {
+            localStorage.brixelSatisfactionEndTime = countdown;
+          }
+        }, 1000);
+        setShowCustomerSatisfaction(showCustomer);
       }
     } else if (showCustomerSatisfaction && !history.location.pathname.includes('buy')) {
       clearInterval(showCustomerSatisfaction);
