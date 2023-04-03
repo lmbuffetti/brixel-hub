@@ -370,7 +370,7 @@ const SingleDeal = (props: SingleDealType) => {
               activeSingleDeal.id && (
                 <div className="dashboardContainer mt-0 mt-md-3 dis-f jc-b" id="dashboard">
                   <div className="w-perc-100">
-                    <div className="single-deal dis-fl-col">
+                    <div className="single-deal dis-fl-col max-w-fix-1024">
                       {/* top panel */}
                       <div className="actions dis-fl-row jc-b pb-2">
                         <div className="pt-2 pr-1 pr-lg-0 pt-lg-0">
