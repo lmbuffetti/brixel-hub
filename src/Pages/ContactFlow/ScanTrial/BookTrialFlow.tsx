@@ -105,7 +105,6 @@ const BookTrialFlow = (props: BookTrialFlowType) => {
                 onExpand={(val) => setOpenAccordion(val === true ? 'online' : '')}
                 isExpanded={openAccordion === 'online'}
               >
-                {`${DateTime.now().year}-12-${DateTime.now().day + 1}`}
                 <div className="dis-f a-t w-perc-100">
                   <div className="pos-r pr-1 w-perc-100 max-w-perc-50">
                     <ReduxField
