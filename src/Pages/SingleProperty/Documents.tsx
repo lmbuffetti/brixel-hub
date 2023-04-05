@@ -289,16 +289,32 @@ const Documents = (props: DocumentsPageType) => {
               ...updateDoc,
             ];
           }
-          if (list === 'NoFolder' && folderID === -1 && doc.length > 0) {
-            newDoc[0] = [
-              ...updateDoc,
-            ];
-          }
           return [
             ...newDoc,
-          ]
-        })
+          ];
+        });
       }
+    } else if (list && list === 'NoFolder') {
+      setProcessedDocuments((prevState) => {
+        const newDoc: DocumentType[][] = [...prevState];
+        const folderID = prevState.findIndex((dc) => get(dc[0], 'folder') === list);
+        const updateDoc = doc.map((dc) => ({ ...dc, folder: list }));
+        delete updateDoc.chosen;
+        delete updateDoc.selected;
+        if (folderID >= 0) {
+          newDoc[folderID] = [
+            ...updateDoc,
+          ];
+        }
+        if (list === 'NoFolder' && folderID === -1 && doc.length > 0) {
+          newDoc[0] = [
+            ...updateDoc,
+          ];
+        }
+        return [
+          ...newDoc,
+        ];
+      });
     }
   };
 
