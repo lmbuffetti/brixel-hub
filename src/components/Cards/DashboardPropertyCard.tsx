@@ -26,6 +26,9 @@ const DashboardPropertyCard: (props: DashboardPropertyCardProps) => JSX.Element 
     type = 'own',
   } = props;
 
+  const isEstimation = !get(estimation, 'status', null) || !completedBestimate(activeSingleProperty) && get(estimation, 'status', null) === 'processed';
+
+
   return (
     <>
       <div className={`shadow-2dp imgSection bgWhite brdRadius dis-fl-col dis-fl-row-sm ${smallLayout ? 'p-sm-3' : 'p-sm-3 pt-0 pb-2 mb-3'} ov-h`}>
@@ -283,7 +286,7 @@ const DashboardPropertyCard: (props: DashboardPropertyCardProps) => JSX.Element 
                                       {translateTo('Your Bestimate', lang)}
                                     </span>
                                     {
-                                      (!get(estimation, 'status', null) || !completedBestimate(activeSingleProperty) && get(estimation, 'status', null) === 'processed') && (
+                                      isEstimation && (
                                         <Link to={`/${get(activeSingleProperty, 'id', '')}/singleFlow/achievement/bestimate/step1`} className="txtBlue700 fweight-600">
                                           {translateTo('Get Estimation', lang)}
                                         </Link>
@@ -297,7 +300,7 @@ const DashboardPropertyCard: (props: DashboardPropertyCardProps) => JSX.Element 
                                       )
                                     }
                                     {
-                                      get(estimation, 'status', null) === 'processed' && (
+                                      !isEstimation && get(estimation, 'status', null) === 'processed' && (
                                         <button
                                           onClick={() => handleSetModal({
                                             state: true,

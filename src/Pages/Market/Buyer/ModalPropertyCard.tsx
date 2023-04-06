@@ -111,7 +111,7 @@ const ModalPropertyCard = (props: ModalPropertyCardType) => {
           <span className="fsize-300 dis-b txtText400">
             {translateTo('Location', lang)}
           </span>
-          <span className="fsize-300 txtText900 mt-1 notranslate">
+          <span className="fsize-300 txtText900 mt-1">
             {get(property, 'location.zip', '')} {get(property, 'location.city', '')}
             {
               get(property, 'location.countryCode', 'CH') === 'CH' && (
