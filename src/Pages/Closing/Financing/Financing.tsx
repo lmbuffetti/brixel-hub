@@ -384,7 +384,7 @@ const Financing = (props: FinancingType) => {
     if (newQuest[currentIndex] && newQuest[currentIndex].inputs && newQuest[currentIndex]?.inputs?.length === 1 && get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), null) && !isArray(get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), [])) && oldIndex <= currentIndex) {
       changeStep('next', null, 1, true);
     }
-  }, [formValue, get(formValue, 'document', null)]);
+  }, [formValue, get(formValue, 'document', null), lang]);
 
   useEffect(() => {
     if (has(formValue, 'document') && get(formValue, 'document', []).length === 0) {
