@@ -49,7 +49,7 @@ class ApiClient {
   get(requestUrl: string, options: optionsType = {}, params = {}, headers = {}, payload: requestType['data'] = {}) {
     const baseUrlType = options.baseUrlType ? options.baseUrlType : 'baseUrl';
     const type = options.type ? options.type : 'data';
-    this.token = options.token || this.token || window.localStorage.getItem('brixelToken');
+    this.token = options.token || this.token;
     return this.request({
       url: requestUrl,
       method: 'get',
