@@ -211,6 +211,7 @@ const App = (props: AppType) => {
     if (
       (loggedInUser?.sentFeedback || 0) < 2 &&
       (loggedInUser?.sentFeedback || 0) >= 0 &&
+      loggedInUser?.id &&
       !isFlow &&
       history.location.pathname.includes('buy') &&
       userTypes === 'buyer' &&

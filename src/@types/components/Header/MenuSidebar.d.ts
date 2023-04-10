@@ -16,7 +16,6 @@ export interface MenuSidebarType {
   activeSingleDeal: DealType;
   lang: string;
   onClickLink?: () => void;
-  userType?: string;
   windowDimensions: {
     width: number;
     height: number;

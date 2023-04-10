@@ -53,6 +53,7 @@ const MarketCardFavorites = (props: MarketCardEstimationType) => {
       state: true,
       component: React.createElement(BrixelModalConfirm, {
         title: translateTo('Are you sure?', lang),
+        lang: lang,
         message: translateTo('You can confirm to delete this estimation.', lang),
         confirm: () => onConfirmDelete(),
         cancel: () => handleSetModal({ state: false }),

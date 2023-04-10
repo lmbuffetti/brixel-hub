@@ -145,7 +145,7 @@ const VisitFeedback = (props: VisitFeedbackType) => {
                                   onClick={() => history.push(`/packageFlow/${activeSingleProperty.id}/makeOffer`)}
                                   rounded
                                   className="w-fit mx-a mt-3"
-                                  label="Make an offer"
+                                  label={translateTo('Make an offer', lng)}
                                 />
                               </div>
 

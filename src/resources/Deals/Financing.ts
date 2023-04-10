@@ -46,6 +46,7 @@ export const QuestionsList = (changeVal, lang) => {
       className: 'max-w-fix-768 ml-a mr-a brdRadius bgWhite brdSmall brdText50',
       footerWidth: 'max-w-fix-768',
       component: FinancingCalculator,
+      lang: lang,
       country: 'CH',
       propertyPrice: formValue.propertyPrice,
       hideText: true,

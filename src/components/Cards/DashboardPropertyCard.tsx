@@ -56,168 +56,147 @@ const DashboardPropertyCard: (props: DashboardPropertyCardProps) => JSX.Element 
         </div>
         <div className="pl-sm-3 pl-2 pr-sm-0 pr-2 pt-2 pt-sm-0 dis-fl-col jc-b w-perc-100">
           <div className="">
-            <h4 className="txtText900 fweight-600 fsize-sm-600 fsize-500"> {get(activeSingleProperty, 'title', '')} </h4>
-            <span className="fsize-300 txtText400"> {get(activeSingleProperty, 'location.city', '')}, {get(activeSingleProperty, 'location.state', '')}  </span>
+            <h4 className={`txtText900 fweight-600 fsize-sm-600 fsize-500 ${!activeSingleProperty?.title && 'skeletonh4'}`}>
+              {get(activeSingleProperty, 'title', '')}
+            </h4>
+            <span className={`fsize-300 txtText400 ${!activeSingleProperty?.location?.state && 'skeletonSmall dis-b mt-1'}`}>
+              {get(activeSingleProperty, 'location.city', '')}, {get(activeSingleProperty, 'location.state', '')}
+            </span>
 
           </div>
           {
-            (type === 'sold' || type === 'buy') ? (
-              <div className="w-perc-100">
-                <div className="fweight-600 txtBlue700 fsize-500 mb-2">
-                  {
-                    type !== 'sold' && get(activeSingleProperty, 'status', null) === 'on-sale' ? (
-                      <>
-                        <span>{get(activeSingleProperty, 'price.currency', 'CHF')}</span>
-                        <span className="ml-1">
-                          {Helpers.formatNumberValue(get(activeSingleProperty, 'price.total', 0), get(activeSingleProperty, 'price.currency', 'EUR'))}
-                        </span>
-                      </>
-                    ) : (
-                      <span>
-                        {translateTo(convertLabel(get(activeSingleProperty, 'status', 'on-request'), 'propertyStatus'), lang)}
-                      </span>
-                    )
-                  }
-                </div>
-                {
-                  type === 'buy' ? (
-                    <div className="dis-fl-col dis-fl-row-sm a-c">
-                      <div className="dis-f flex-1 jc-b">
-                        <div className="brdSmallRight brdText100 pr-2">
-                          <h6 className="ff-mono txtText400 fsize-300">
-                            {translateTo('Living area', lang)}
-                          </h6>
-                          <p className="fsize-500 fSizePx20">
-                            {get(activeSingleProperty, 'properties.typology.livingArea.value', 0)}m2
-                          </p>
-                        </div>
-                        <div className="ml-2 brdSmallRight brdText100 pr-2">
-                          <h6 className="ff-mono txtText400 fsize-300">
-                            {translateTo('Rooms', lang)}
-                          </h6>
-                          <p className="fsize-500 fSizePx20">
-                            {FormatValue.formatRooms(get(activeSingleProperty, 'properties.typology.bedrooms', 0), get(activeSingleProperty, 'location.countryCode', 'CH'))
-                            }
-                          </p>
-                        </div>
-                        <div className="ml-2 brdSmallRight-sm brdText100 pr-2 mr-1">
-                          <h6 className="ff-mono txtText400 fsize-300">
-                            {translateTo('Year built', lang)}
-                          </h6>
-                          <p className="fsize-500 fSizePx20">
-                            {get(activeSingleProperty, 'properties.building.built', 0)}
-                          </p>
-                        </div>
-                      </div>
-
-                      <BrixelButtonSecondary
-                        className="as-fs mt-2 ml-sm-2 mt-a-sm mb-a w-auto-sm w-perc-100"
-                        rounded
-                        label={translateTo('View', lang)}
-                        onClick={() => window.open(`${baseByData.pageUrl}${get(activeSingleProperty, 'stub', '')}`, '_blank')}
-                      />
-
-                    </div>
-                  ) : (
-                    <div className="dis-f a-c">
-                      {
-                        get(activeSingleProperty, 'virtual', null) && (
-                          <div className="bgBlue200 tourLink">
-                            <button
-                              onClick={() => history.push(`/${get(activeSingleProperty, 'id', '')}/property/tour`)}
-                              className="dis-f a-c"
-                            >
-                              <BrixelIcon
-                                color="Blue"
-                                rounded
-                                saturationTxt={700}
-                                background="Blue"
-                                saturation={100}
-                                icon="tour"
-                                padding="p-small-8"
-                              />
-                              <span className="pl-1 pr-2 txtBlue700 fsize-300">
-                                {translateTo('3D-Tour', lang)}
-                              </span>
-                            </button>
-                          </div>
-                        )
-                      }
-                      {
-                        get(activeSingleProperty, 'photos', null) && get(activeSingleProperty, 'photos', []).length > 0 && (
-                          <div className="ml-1">
-                            <BrixelIcon
-                              color="red"
-                              rounded
-                              saturationTxt={700}
-                              background="red"
-                              saturation={100}
-                              icon="photos"
-                              padding="p-small-10"
-                              onClick={() => history.push(`/${get(activeSingleProperty, 'id', '')}/property/photos`)}
-                            />
-                          </div>
-                        )
-                      }
-                      {
-                        get(activeSingleProperty, 'floorPlans', null) && get(activeSingleProperty, 'floorPlans', []).length > 0 && (
-                          <div className="ml-1">
-                            <BrixelIcon
-                              color="green"
-                              rounded
-                              saturationTxt={700}
-                              background="green"
-                              saturation={100}
-                              icon="plans"
-                              padding="p-small-10"
-                              onClick={() => history.push(`/${get(activeSingleProperty, 'id', '')}/property/floorPlans`)}
-                            />
-                          </div>
-                        )
-                      }
-                    </div>
-                  )
-                }
+            !get(activeSingleProperty, 'status', null) ? (
+              <div>
+                <div className="skeletonh4" />
+                <div className="skeletonh4 mt-1" />
               </div>
             ) : (
               <>
                 {
-                  smallLayout ? (
-                    <div className="dis-fl-col dis-fl-row-sm flex-wrap jc-b a-c w-perc-100">
-                      <div className="dis-f a-c mr-a mr-sm-0">
-                        <BrixelIcon
-                          background="blue"
-                          saturation={100}
-                          color="blue"
-                          saturationTxt={700}
-                          padding="p-small-12"
-                          icon="price"
-                          rounded
-                          iconSize="large"
-                        />
-                        <div className="ml-2 dis-fl-col">
-                          <span className="txtText400 fsize-300">
-                            {translateTo('Your Price', lang)}
-                          </span>
-                          <Link to={`/${get(activeSingleProperty, 'id', '')}/property/price`} className="txtBlue700 fweight-600">
-                            <span>{get(activeSingleProperty, 'price.currency', 0)}</span>
-                            <span className="ml-1">{Helpers.formatNumberValue(get(activeSingleProperty, 'price.total', 0), get(activeSingleProperty, 'price.currency', 'EUR'))}</span>
-                          </Link>
-                        </div>
+                  (type === 'sold' || type === 'buy') ? (
+                    <div className="w-perc-100">
+                      <div className="fweight-600 txtBlue700 fsize-500 mb-2">
+                        {
+                          type !== 'sold' && get(activeSingleProperty, 'status', null) === 'on-sale' ? (
+                            <>
+                              <span>{get(activeSingleProperty, 'price.currency', 'CHF')}</span>
+                              <span className="ml-1">
+                                {Helpers.formatNumberValue(get(activeSingleProperty, 'price.total', 0), get(activeSingleProperty, 'price.currency', 'EUR'))}
+                              </span>
+                            </>
+                          ) : (
+                            <span>
+                              {translateTo(convertLabel(get(activeSingleProperty, 'status', 'on-request'), 'propertyStatus'), lang)}
+                            </span>
+                          )
+                        }
                       </div>
-                      <BrixelButtonPrimary
-                        className="mt-2 mt-sm-0 mr-a mr-sm-0 mb-3 mb-sm-0"
-                        rounded
-                        label={translateTo('Open', lang)}
-                        onClick={() => window.open(`${baseByData.pageUrl}${get(activeSingleProperty, 'stub', '')}`, '_blank')}
-                      />
+                      {
+                        type === 'buy' ? (
+                          <div className="dis-fl-col dis-fl-row-sm a-c">
+                            <div className="dis-f flex-1 jc-b">
+                              <div className="brdSmallRight brdText100 pr-2">
+                                <h6 className="ff-mono txtText400 fsize-300">
+                                  {translateTo('Living area', lang)}
+                                </h6>
+                                <p className="fsize-500 fSizePx20">
+                                  {get(activeSingleProperty, 'properties.typology.livingArea.value', 0)}m2
+                                </p>
+                              </div>
+                              <div className="ml-2 brdSmallRight brdText100 pr-2">
+                                <h6 className="ff-mono txtText400 fsize-300">
+                                  {translateTo('Rooms', lang)}
+                                </h6>
+                                <p className="fsize-500 fSizePx20">
+                                  {FormatValue.formatRooms(get(activeSingleProperty, 'properties.typology.bedrooms', 0), get(activeSingleProperty, 'location.countryCode', 'CH'))
+                                  }
+                                </p>
+                              </div>
+                              <div className="ml-2 brdSmallRight-sm brdText100 pr-2 mr-1">
+                                <h6 className="ff-mono txtText400 fsize-300">
+                                  {translateTo('Year built', lang)}
+                                </h6>
+                                <p className="fsize-500 fSizePx20">
+                                  {get(activeSingleProperty, 'properties.building.built', 0)}
+                                </p>
+                              </div>
+                            </div>
+
+                            <BrixelButtonSecondary
+                              className="as-fs mt-2 ml-sm-2 mt-a-sm mb-a w-auto-sm w-perc-100"
+                              rounded
+                              label={translateTo('View', lang)}
+                              onClick={() => window.open(`${baseByData.pageUrl}${get(activeSingleProperty, 'stub', '')}`, '_blank')}
+                            />
+
+                          </div>
+                        ) : (
+                          <div className="dis-f a-c">
+                            {
+                              get(activeSingleProperty, 'virtual', null) && (
+                                <div className="bgBlue200 tourLink">
+                                  <button
+                                    onClick={() => history.push(`/${get(activeSingleProperty, 'id', '')}/property/tour`)}
+                                    className="dis-f a-c"
+                                  >
+                                    <BrixelIcon
+                                      color="Blue"
+                                      rounded
+                                      saturationTxt={700}
+                                      background="Blue"
+                                      saturation={100}
+                                      icon="tour"
+                                      padding="p-small-8"
+                                    />
+                                    <span className="pl-1 pr-2 txtBlue700 fsize-300">
+                                      {translateTo('3D-Tour', lang)}
+                                    </span>
+                                  </button>
+                                </div>
+                              )
+                            }
+                            {
+                              get(activeSingleProperty, 'photos', null) && get(activeSingleProperty, 'photos', []).length > 0 && (
+                                <div className="ml-1">
+                                  <BrixelIcon
+                                    color="red"
+                                    rounded
+                                    saturationTxt={700}
+                                    background="red"
+                                    saturation={100}
+                                    icon="photos"
+                                    padding="p-small-10"
+                                    onClick={() => history.push(`/${get(activeSingleProperty, 'id', '')}/property/photos`)}
+                                  />
+                                </div>
+                              )
+                            }
+                            {
+                              get(activeSingleProperty, 'floorPlans', null) && get(activeSingleProperty, 'floorPlans', []).length > 0 && (
+                                <div className="ml-1">
+                                  <BrixelIcon
+                                    color="green"
+                                    rounded
+                                    saturationTxt={700}
+                                    background="green"
+                                    saturation={100}
+                                    icon="plans"
+                                    padding="p-small-10"
+                                    onClick={() => history.push(`/${get(activeSingleProperty, 'id', '')}/property/floorPlans`)}
+                                  />
+                                </div>
+                              )
+                            }
+                          </div>
+                        )
+                      }
                     </div>
                   ) : (
                     <>
                       {
-                        get(activeSingleProperty, 'price.total', 0) > 0 ? (
-                          <div className="dis-fl-col">
-                            <div className="dis-f a-c mt-3 mt-sm-0">
+                        smallLayout ? (
+                          <div className="dis-fl-col dis-fl-row-sm flex-wrap jc-b a-c w-perc-100">
+                            <div className="dis-f a-c mr-a mr-sm-0">
                               <BrixelIcon
                                 background="blue"
                                 saturation={100}
@@ -238,88 +217,124 @@ const DashboardPropertyCard: (props: DashboardPropertyCardProps) => JSX.Element 
                                 </Link>
                               </div>
                             </div>
+                            <BrixelButtonPrimary
+                              className="mt-2 mt-sm-0 mr-a mr-sm-0 mb-3 mb-sm-0"
+                              rounded
+                              label={translateTo('Open', lang)}
+                              onClick={() => window.open(`${baseByData.pageUrl}${get(activeSingleProperty, 'stub', '')}`, '_blank')}
+                            />
                           </div>
                         ) : (
                           <>
                             {
-                              get(activeSingleProperty, 'proEstimation.value', 0) > 0 ? (
-                                <div className="dis-f pt-3 pt-sm-2 a-t">
-                                  <BrixelIcon
-                                    background="blue"
-                                    saturation={100}
-                                    color="blue"
-                                    saturationTxt={700}
-                                    padding="p-small-12"
-                                    icon="chart"
-                                    rounded
-                                    iconSize="large"
-                                  />
-                                  <div className="dis-fl-col pl-2 mr-1">
-                                    <span className="txtText400 fsize-300">
-                                      {translateTo('Pro estimation', lang)}
-                                    </span>
-                                    <Link to={`/${get(activeSingleProperty, 'id', '')}/property/price`} className="txtBlue700 no-state fweight-600">
-                                      {get(activeSingleProperty, 'proEstimation.currency', 0)} {Helpers.formatNumberValue(get(activeSingleProperty, 'proEstimation.value', 0), get(activeSingleProperty, 'proEstimation.currency', 'EUR'))}
-                                    </Link>
-                                  </div>
-                                  <div className="tagBg dis-fl-row-sm hide a-c">
-                                    <span className="activeDot" />
-                                    <Link to={`/${get(activeSingleProperty, 'id', '')}/property/price`} className="px-2 no-state txtBlue700">
-                                      {translateTo('Set your price', lang)}
-                                    </Link>
+                              get(activeSingleProperty, 'price.total', 0) > 0 ? (
+                                <div className="dis-fl-col">
+                                  <div className="dis-f a-c mt-3 mt-sm-0">
+                                    <BrixelIcon
+                                      background="blue"
+                                      saturation={100}
+                                      color="blue"
+                                      saturationTxt={700}
+                                      padding="p-small-12"
+                                      icon="price"
+                                      rounded
+                                      iconSize="large"
+                                    />
+                                    <div className="ml-2 dis-fl-col">
+                                      <span className="txtText400 fsize-300">
+                                        {translateTo('Your Price', lang)}
+                                      </span>
+                                      <Link to={`/${get(activeSingleProperty, 'id', '')}/property/price`} className="txtBlue700 fweight-600">
+                                        <span>{get(activeSingleProperty, 'price.currency', 0)}</span>
+                                        <span className="ml-1">{Helpers.formatNumberValue(get(activeSingleProperty, 'price.total', 0), get(activeSingleProperty, 'price.currency', 'EUR'))}</span>
+                                      </Link>
+                                    </div>
                                   </div>
                                 </div>
                               ) : (
-                                <div className="dis-f pt-3 pt-sm-2 a-t">
-                                  <BrixelIcon
-                                    background="blue"
-                                    saturation={100}
-                                    color="blue"
-                                    saturationTxt={700}
-                                    padding="p-small-12"
-                                    icon="chart"
-                                    rounded
-                                    iconSize="large"
-                                  />
-                                  <div className="dis-fl-col pl-2 mr-1">
-                                    <span className="txtText400 fsize-300">
-                                      {translateTo('Your Bestimate', lang)}
-                                    </span>
-                                    {
-                                      isEstimation && (
-                                        <Link to={`/${get(activeSingleProperty, 'id', '')}/singleFlow/achievement/bestimate/step1`} className="txtBlue700 fweight-600">
-                                          {translateTo('Get Estimation', lang)}
-                                        </Link>
-                                      )
-                                    }
-                                    {
-                                      get(estimation, 'status', null) === 'pending' && completedBestimate(activeSingleProperty) && (
-                                        <span className="txtBlue700 fweight-600">
-                                          {translateTo('Pending', lang)}
-                                        </span>
-                                      )
-                                    }
-                                    {
-                                      !isEstimation && get(estimation, 'status', null) === 'processed' && (
-                                        <button
-                                          onClick={() => handleSetModal({
-                                            state: true,
-                                            type: 'bestimate',
-                                          })}
-                                          className="txtBlue700 no-state fweight-600 fsize-400 ml-1-neg"
-                                        >
-                                          {get(estimation, 'result.currency', '')} {Helpers.formatNumberValue(get(estimation, 'result.higherValue', 0), get(estimation, 'result.currency', ''))}
-                                        </button>
-                                      )
-                                    }
-                                  </div>
-                                  <div className="tagBg dis-fl-row-sm hide a-c">
-                                    <span className="activeDot" />
-                                    <Link to={`/${get(activeSingleProperty, 'id', '')}/property/price`} className="px-2 no-state txtBlue700">
-                                      {translateTo('Set your price', lang)}
-                                    </Link>
-                                  </div>
-                                </div>
+                                <>
+                                  {
+                                    get(activeSingleProperty, 'proEstimation.value', 0) > 0 ? (
+                                      <div className="dis-f pt-3 pt-sm-2 a-t">
+                                        <BrixelIcon
+                                          background="blue"
+                                          saturation={100}
+                                          color="blue"
+                                          saturationTxt={700}
+                                          padding="p-small-12"
+                                          icon="chart"
+                                          rounded
+                                          iconSize="large"
+                                        />
+                                        <div className="dis-fl-col pl-2 mr-1">
+                                          <span className="txtText400 fsize-300">
+                                            {translateTo('Pro estimation', lang)}
+                                          </span>
+                                          <Link to={`/${get(activeSingleProperty, 'id', '')}/property/price`} className="txtBlue700 no-state fweight-600">
+                                            {get(activeSingleProperty, 'proEstimation.currency', 0)} {Helpers.formatNumberValue(get(activeSingleProperty, 'proEstimation.value', 0), get(activeSingleProperty, 'proEstimation.currency', 'EUR'))}
+                                          </Link>
+                                        </div>
+                                        <div className="tagBg dis-fl-row-sm hide a-c">
+                                          <span className="activeDot" />
+                                          <Link to={`/${get(activeSingleProperty, 'id', '')}/property/price`} className="px-2 no-state txtBlue700">
+                                            {translateTo('Set your price', lang)}
+                                          </Link>
+                                        </div>
+                                      </div>
+                                    ) : (
+                                      <div className="dis-f pt-3 pt-sm-2 a-t">
+                                        <BrixelIcon
+                                          background="blue"
+                                          saturation={100}
+                                          color="blue"
+                                          saturationTxt={700}
+                                          padding="p-small-12"
+                                          icon="chart"
+                                          rounded
+                                          iconSize="large"
+                                        />
+                                        <div className="dis-fl-col pl-2 mr-1">
+                                          <span className="txtText400 fsize-300">
+                                            {translateTo('Your Bestimate', lang)}
+                                          </span>
+                                          {
+                                            isEstimation && (
+                                              <Link to={`/${get(activeSingleProperty, 'id', '')}/singleFlow/achievement/bestimate/step1`} className="txtBlue700 fweight-600">
+                                                {translateTo('Get Estimation', lang)}
+                                              </Link>
+                                            )
+                                          }
+                                          {
+                                            get(estimation, 'status', null) === 'pending' && completedBestimate(activeSingleProperty) && (
+                                              <span className="txtBlue700 fweight-600">
+                                                {translateTo('Pending', lang)}
+                                              </span>
+                                            )
+                                          }
+                                          {
+                                            !isEstimation && get(estimation, 'status', null) === 'processed' && (
+                                              <button
+                                                onClick={() => handleSetModal({
+                                                  state: true,
+                                                  type: 'bestimate',
+                                                })}
+                                                className="txtBlue700 no-state fweight-600 fsize-400 ml-1-neg"
+                                              >
+                                                {get(estimation, 'result.currency', '')} {Helpers.formatNumberValue(get(estimation, 'result.higherValue', 0), get(estimation, 'result.currency', ''))}
+                                              </button>
+                                            )
+                                          }
+                                        </div>
+                                        <div className="tagBg dis-fl-row-sm hide a-c">
+                                          <span className="activeDot" />
+                                          <Link to={`/${get(activeSingleProperty, 'id', '')}/property/price`} className="px-2 no-state txtBlue700">
+                                            {translateTo('Set your price', lang)}
+                                          </Link>
+                                        </div>
+                                      </div>
+                                    )
+                                  }
+                                </>
                               )
                             }
                           </>

@@ -130,7 +130,7 @@ export const QuestionsList: (lang: string, country: string, changeValue: (field:
           validation: [maxLengthNumRooms, Validation.required],
           step: 0.5,
           placeholder: country === 'PT' ? 'T3' : '3',
-          formatType: country === 'PT' ? 'rooms-pt' : '',
+          formatType: country === 'PT' ? 'rooms-pt' : undefined,
           min: 0,
           max: 30,
           fluid: true,

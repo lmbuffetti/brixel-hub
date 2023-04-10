@@ -1,5 +1,7 @@
+import {PropertyType} from '@brixel/brixel-components/dist/@types/Model';
+
 export interface DashboardPropertyCardProps {
-  activeSingleProperty: object;
+  activeSingleProperty: PropertyType;
   estimation: object;
   handleSetModal(...args: unknown[]): unknown;
   lang: string;
