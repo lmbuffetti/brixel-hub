@@ -50,7 +50,7 @@ const EstimationPropertyList = (props: FavoritesPropertyListType) => {
             </div>
           ) : (
             <div>
-              <div className="dis-fl-row-sm dis-fl-col a-c jc-b my-2my-sm-3">
+              <div className="dis-fl-row-sm dis-fl-col a-c jc-b my-2 my-sm-3">
                 <h4 className="fsize-400 fsize-sm-600 mb-1 mb-sm-0">
                   <span>{translateTo('Your Estimations', lang)}</span>
                   <span className="ml-1">({ownerEstimations.total || '-'})</span>
