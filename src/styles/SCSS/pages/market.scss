@@ -406,3 +406,16 @@ $lightColorNew2: #F0F0F2;
     bottom: 24px;
   }
 }
+
+@media (max-width: $responsive-small) {
+  .market-container {
+    .brixel-tabs.horizontalTabs ul > li {
+      padding-left: 8px !important;
+      padding-right: 8px !important;
+    }
+
+    .brixel-tabs.horizontalTabs ul > li > span {
+      font-size: 14px;
+    }
+  }
+}

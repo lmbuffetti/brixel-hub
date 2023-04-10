@@ -251,7 +251,7 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
                             </div>
                           )
                         }
-                        <div className="max-w-fix-344 w-perc-100 pb-8 pb-md-0 ta-c ta-l-md m-a m-md-0">
+                        <div className="max-w-fix-344 w-perc-100 pb-8 pb-md-0 ta-c ta-l-md m-a m-md-0 mt-8-neg mt-md-0-neg">
                           <h3 className="txtGreen700 fweight-600 mt-4 mt-md-0 mb-1">
                             {translateTo('Create your personalized Search', lang)}
                           </h3>
@@ -284,10 +284,12 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
 
           <div className="container">
             <div className="dis-fl-col dis-fl-row-sm a-c jc-c jc-b-sm my-5">
-              <div className="ta-l mb-2 mb-sm-0">
-                <h4 className="fweight-600 dis-f a-c">
-                  <span className="mr-1">{translateTo('Results', lang)}</span>
-                  <span>({get(buyerProperties, 'total', 0)})</span>
+              <div className="ta-l mb-2 mb-sm-0 w-perc-100">
+                <h4 className="fweight-600 dis-f jc-b jc-fs-sm a-c">
+                  <div className="dis-f">
+                    <span className="mr-1">{translateTo('Results', lang)}</span>
+                    <span>({get(buyerProperties, 'total', 0)})</span>
+                  </div>
                   {
                     buyerProperties.total > 0 && (
                       <div

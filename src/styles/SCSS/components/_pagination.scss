@@ -33,6 +33,11 @@
       justify-content: center;
       align-items: center;
 
+      @media (max-width: $responsive-small) {
+        width: 30px;
+        height: 30px;
+      }
+
       &:hover,
       &.active {
         background: map-get($greenColor, 400);
