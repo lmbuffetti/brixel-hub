@@ -305,7 +305,7 @@ const MarketCardFavorites = (props: MarketCardFavoritesType) => {
                         </span>
                       </div>
                     ) : (
-                      <span className="txtGreen400 fsize-500 ff-mono">
+                      <span className="txtGreen400 fsize-400 fsize-sm-500 ff-mono">
                         {translateTo(convertLabel(get(activeSingleProperty, 'status', ''), 'propertyStatus'), lang)}
                       </span>
                     )
@@ -343,7 +343,7 @@ const MarketCardFavorites = (props: MarketCardFavoritesType) => {
               </div>
             </div>
 
-            <div className="mt-a mb-a ml-a">
+            <div className="mt-a mb-a ml-sm-a">
               {
                 (get(offerDetail, 'offer.status', null) === 'none' || get(offerDetail, 'offer.status', null) === 'rejected') && !isPreMarket() && (
                   <BrixelButtonPrimary

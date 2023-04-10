@@ -114,7 +114,7 @@ const MarketCardFavorites = (props: MarketCardEstimationType) => {
               />
             </div>
             <div className="dis-f jc-b w-perc-100">
-              <div className="dis-f a-c">
+              <div className="dis-f a-c ml-a-sm">
                 <Tags
                   lang={lang}
                   status={get(activeSingleProperty, 'result.available', false) ? 'completed' : 'pending'}

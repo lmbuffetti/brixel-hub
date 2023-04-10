@@ -728,7 +728,7 @@ const MarketCard = (props: MarketCardProps) => {
                 { /* HEADER ICONS / TAGS */ }
                 <div className="dis-f a-c jc-b pos-a-fix x-l-0 x-t-0 w-perc-100 p-2">
                   { /* TAGS LIST */ }
-                  <div>
+                  <div className='dis-f'>
                     {
                       get(item, 'tags', []).length > 0 && (
                         <div className="dis-fl-row a-c jc-b">
@@ -757,7 +757,7 @@ const MarketCard = (props: MarketCardProps) => {
                       )
                     }
                   </div>
-                  <div>
+                  <div className='dis-f'>
                     <BrixelIcon
                       color="green"
                       rounded
@@ -789,9 +789,9 @@ const MarketCard = (props: MarketCardProps) => {
                   </div>
                 </div>
                 <div className="info dis-fl-col jc-b">
-                  <div className="top dis-fl-col notranslate px-3 pt-3">
+                  <div className="top dis-fl-col notranslate px-2 px-sm-3 pt-2 pt-sm-3">
                     <span
-                      className="fsize-400 txtText600 notranslate cur-poi"
+                      className="fsize-300 fsize-sm-400 txtText600 notranslate cur-poi"
                       onClick={() => onOpenCard()}
                     >
                       {get(item, 'location.zip', '')} {get(item, 'location.city', '')}
@@ -810,7 +810,7 @@ const MarketCard = (props: MarketCardProps) => {
                       {get(item, 'title', '')}
                     </span>
                   </div>
-                  <div className="bottom a-c txtText900 px-3 mt-2 mb-2">
+                  <div className="bottom a-c txtText900 px-2 px-sm-3 my-1 my-sm-2">
                     <span className="fsize-300 dis-b txtText400">
                       {translateTo('Price', lang)}
                     </span>
@@ -820,21 +820,21 @@ const MarketCard = (props: MarketCardProps) => {
                           <span className="fsize-300 ff-mono notranslate">
                             {get(item, 'price.currency', '')}
                           </span>
-                          <span className="fsize-500 ff-mono notranslate ml-1">
+                          <span className="fsize-400 fsize-sm-500 ff-mono notranslate ml-1">
                             {Helpers.formatNumberValue(get(item, 'price.total', 0), get(item, 'price.currency', ''))}
                           </span>
                         </div>
                       ) : (
-                        <span className={`ff-mono fsize-500 ${Helpers.statusColorClass(get(item, 'status', null))}`}>
+                        <span className={`ff-mono fsize-400 fsize-sm-500 ${Helpers.statusColorClass(get(item, 'status', null))}`}>
                           {translateTo(convertLabel(get(item, 'status', null), 'propertyStatus'), lang)}
                         </span>
                       )
                     }
                   </div>
-                  <div className="mx-3">
+                  <div className="mx-2 mx-sm-3">
                     <span className="hr lighter" />
                   </div>
-                  <div className="mid dis-fl-row a-c fsize-300 px-3 pt-2 txtText700 pb-2">
+                  <div className="mid dis-fl-row a-c fsize-300 px-2 px-sm-3 pt-2 txtText700 pb-2">
                     <div className="dis-f a-c jc-b flex-wrap w-perc-100">
                       <div>
                         <span className="fsize-300 dis-b txtText400">
