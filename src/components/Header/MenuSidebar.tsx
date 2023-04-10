@@ -21,13 +21,12 @@ const MenuSidebar = (props: MenuSidebarType) => {
     activeSingleDeal,
     lang,
     onClickLink = () => '',
-    userType = 'user',
     windowDimensions,
   } = props;
   // STATE
   const [navigationMenu, setNavigationMenu] = useState<NavigationType[]>();
   // URL PARAMS
-  const propID = userType === 'seller' ? history.location.pathname.split('/')[1] : history.location.pathname.split('/')[2];
+  const propID = !history.location.pathname.includes('buyer') ? history.location.pathname.split('/')[1] : history.location.pathname.split('/')[2];
   const levelUrl = history.location.pathname.split('/');
 
   // FUNCTION TO MAANGE THE TAB CLICK

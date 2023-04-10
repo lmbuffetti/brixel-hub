@@ -171,6 +171,7 @@ const Price = (props: PriceType) => {
                       form="Property"
                       component={BrixelInputText}
                       input={{
+                        disableDelay: false,
                         placeholder: translateTo('700\'000', lang),
                         name: 'price.total',
                         unit: get(formValue, 'price.currency', ''),
