@@ -393,7 +393,7 @@ const checkUser = (store) => (next) => (action) => {
             const splitURL = get(window, 'location.href', '').split('/') || [];
             if (splitURL.length > 0) {
               const page = splitURL[splitURL.length - 1];
-              const cat = splitURL[splitURL.length - 2];
+              const cat = splitURL[splitURL.length - 2].replace(/-/g, '');
               const searchProfileID = get(store.getState(), 'user.activeSearchProfile.id', null);
               const data = {
                 offset: (+page - 1) * 9,
