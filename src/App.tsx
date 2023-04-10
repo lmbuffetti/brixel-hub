@@ -293,13 +293,13 @@ const App = (props: AppType) => {
 
   // FUNCTION TO LOAD THE USER TYPE BUYER OR SELLER
   useEffect(() => {
-    if (((get(activeSingleProperty, 'owner', null) === get(loggedInUser, 'user.id', 'b') || get(activeSingleProperty, 'owner', null) === get(loggedInUser, 'user.id', 'b')) && !get(history, 'location.pathname', '').includes('buyer')) || get(history, 'location.pathname', '').includes('seller')) {
+    if (((get(activeSingleProperty, 'owner', null) === get(loggedInUser, 'id', 'b') || get(activeSingleProperty, 'owner', null) === get(loggedInUser, 'id', 'b')) && !get(history, 'location.pathname', '').includes('buyer')) || get(history, 'location.pathname', '').includes('seller')) {
       handleSetUserTypes('seller');
     } else {
       handleSetUserTypes('buyer');
     }
     if (!activeSingleProperty.documents) handleSetActiveSingleDeal({});
-  }, [activeSingleProperty.id, loggedInUser.id]);
+  }, [activeSingleProperty.id, loggedInUser.id, history.location.pathname]);
 
   const bodyModal = document.getElementById('bodyModalWrapper') as HTMLElement;
   useEffect(() => {

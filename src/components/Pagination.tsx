@@ -54,15 +54,17 @@ const Pagination = (props: PaginationType) => {
 
   return (
     <div className={`dis-f a-c jc-b w-perc-100 pb-5 ${className}`}>
-      <div className="flex-1">
+      <div className="flex-1 dis-fl-col dis-fl-row-sm fsize-300">
         <span className="txtText700">{processResults()}</span>
-        <span className="mx-small-4 txtText700">{translateTo('of', lang)}</span>
-        <strong className="notranslate txtText700">{totalItems}</strong>
-        <span className="ml-small-4 txtText700">{translateTo('total results', lang)}</span>
+        <div className="dis-f">
+          <span className="ml-0 ml-sm-small-4 mr-small-4 txtText700">{translateTo('of', lang)}</span>
+          <strong className="notranslate txtText700">{totalItems}</strong>
+          <span className="ml-small-4 txtText700">{translateTo('results', lang)}</span>
+        </div>
       </div>
       {
         totalItems > 10 && (
-          <nav className="pagination dis-f flex-1 jc-c">
+          <nav className="pagination dis-f flex-1 jc-c jc-sm-fe">
             <ul className="page-number dis-f a-c">
               {
                 activePage !== 0 && (
@@ -162,7 +164,7 @@ const Pagination = (props: PaginationType) => {
           </nav>
         )
       }
-      <div className="flex-1">
+      <div className="flex-1 hide dis-f-sm">
 
       </div>
     </div>

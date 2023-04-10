@@ -140,7 +140,7 @@ const SidebarBuyer = (props: SidebarBuyerType) => {
                     />
                     <div className="pl-2 desc">
                       <p
-                        className="fsize-300 txtText800 dont-break-out"
+                        className="fsize-300 txtText800"
                         dangerouslySetInnerHTML={{ __html: translateTo(parseNote(convertFeedMessage(history.actionStub, 'message', history), typeof history.actionStub === 'undefined'), lang)}}
                       />
                       {
