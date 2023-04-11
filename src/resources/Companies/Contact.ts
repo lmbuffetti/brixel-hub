@@ -1,5 +1,11 @@
 /* eslint-disable max-len */
-import {BrixelCheckbox, BrixelInputText, BrixelSelect, Validation} from '@brixel/brixel-components/dist/form';
+import {
+  BrixelCheckbox,
+  BrixelInputText,
+  BrixelInputPhone,
+  BrixelSelect,
+  Validation,
+} from '@brixel/brixel-components/dist/form';
 import {DateTime} from 'luxon';
 import lazyWithRetry from '../../components/LazyWithRetry';
 
@@ -287,11 +293,10 @@ export const QuestionsList = (lang, company, isBuyer) => {
           options: selectHours,
         },
         {
-          component: BrixelInputText,
+          component: BrixelInputPhone,
           ReduxFieldClass: 'max-w-fix-464 m-a',
           name: 'phone',
           label: translateTo('Phone number', lang),
-          formatType: 'tel',
           large: true,
           pdClass: 'py-3 py-md-5',
           validation: [Validation.required],
