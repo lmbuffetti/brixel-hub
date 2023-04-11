@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import translateTo from '../../utils/translation';
-import {BrixelInputText, BrixelRadioButton, Validation} from '@brixel/brixel-components/dist/form';
+import {BrixelInputPhone, BrixelInputText, BrixelRadioButton, Validation} from '@brixel/brixel-components/dist/form';
 import IntroScanFlow from '../../Pages/ContactFlow/ScanTrial/IntroScanFlow';
 import BookTrialFlow from '../../Pages/ContactFlow/ScanTrial/BookTrialFlow';
 import ResumeTrialFlow from '../../Pages/ContactFlow/ScanTrial/ResumeTrialFlow';
@@ -43,13 +43,12 @@ export const ScanTrialQuestions: (lang: string) => QuestionsListType[] = (lang) 
         large: true,
       },
       {
-        component: BrixelInputText,
+        component: BrixelInputPhone,
         classNameBox: 'max-w-fix-816 ml-a mr-a',
         label: translateTo('Phone', lang),
         name: 'phone',
         pdClass: 'py-3 py-md-5',
         type: 'text',
-        formatType: 'tel',
         large: true,
         validation: [Validation.phoneIfNotEmptyLength, Validation.required],
       },

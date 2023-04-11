@@ -4,6 +4,7 @@ import get from 'lodash/get';
 import {BrixelButtonIcon, BrixelButtonPrimary, FactsOptions} from '@brixel/brixel-components';
 import translateTo from '../../utils/translation';
 import {
+  BrixelInputPhone,
   BrixelInputText,
   BrixelSelect,
   destroy,
@@ -144,10 +145,7 @@ const CreateDeal = (props: CreateDealType) => {
             labels={{
               label: translateTo('Phone', lang),
             }}
-            inputFormat={{
-              formatType: 'tel',
-            }}
-            component={BrixelInputText}
+            component={BrixelInputPhone}
           />
           <ReduxField
             form="CreateDeal"
