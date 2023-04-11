@@ -57,7 +57,7 @@ const Pagination = (props: PaginationType) => {
       <div className="flex-1 dis-fl-col dis-fl-row-sm fsize-300">
         <span className="txtText700">{processResults()}</span>
         <div className="dis-f">
-          <span className="ml-0 ml-sm-small-4 mr-small-4 txtText700">{translateTo('of', lang)}</span>
+          <span className="pl-small-sm-4 mr-small-4 txtText700">{translateTo('of', lang)}</span>
           <strong className="notranslate txtText700">{totalItems}</strong>
           <span className="ml-small-4 txtText700">{translateTo('results', lang)}</span>
         </div>
