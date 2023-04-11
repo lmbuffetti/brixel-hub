@@ -11,6 +11,7 @@ import { connect } from 'react-redux';
 import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import translateTo from '../../utils/translation';
 import type { DashboardPropertyCardSoldProps } from '../../@types/components/Cards/DashboardPropertyCardSold';
+import useImage from '@brixel/brixel-components/dist/hooks/Image';
 
 const DashboardPropertyCardSold = (props: DashboardPropertyCardSoldProps) => {
   const history = {
@@ -24,10 +25,12 @@ const DashboardPropertyCardSold = (props: DashboardPropertyCardSoldProps) => {
     loggedInUser,
   } = props;
 
+  const coverPhoto = useImage(get(activeSingleProperty, 'coverPhoto.url', ''), {size: 'L'})
+
   return (
     <div
       className="p-2 p-sm-5 mb-3 brdRadius h-fix-sm-440 ov-h imgCover imgCenter imgOverGreen"
-      style={{ backgroundImage: `url(${baseByData.shortPath}${get(activeSingleProperty, 'coverPhoto.path', undefined)})` }}
+      style={{ backgroundImage: `url(${coverPhoto})` }}
     >
       <div className="pos-r zIndex2 h-perc-100 dis-fl-col jc-b">
         <h2 className="mb-6 mb-sm-3 txtWhite fweight-600 customFsize">

@@ -18,6 +18,7 @@ import {checkBrowser, tobase64Handler, Truncate} from '../../../utils/helpers';
 import BrixelUpgradeMessage from '../../../components/BrixelUpgradeMessage';
 import type {FloorPlansPageType} from '../../../@types/Pages/SingleProperty/Media/Plans';
 import {PhotosType} from '@brixel/brixel-components/dist/@types/Model';
+import useImage from '@brixel/brixel-components/dist/hooks/Image';
 
 const Plans = (props: FloorPlansPageType) => {
   const history = {
@@ -238,7 +239,7 @@ const Plans = (props: FloorPlansPageType) => {
                                   >
                                     <div
                                       className="w-perc-100 square dis-fl-row imgConver"
-                                      style={{ backgroundImage: `url(${item.tmpPath ? item.tmpPath : `${baseByData.shortPath}${item.galleryThumbnailPath}?${item.updatedAt}`})` }}
+                                      style={{ backgroundImage: `url(${useImage(item.url, {size: 'L'})}`}}
                                     >
                                       <div
                                         className={`photo-action a-c hide dis-f-md ${confirmDelete === i ? 'show' : 'hoverShow'}`}
