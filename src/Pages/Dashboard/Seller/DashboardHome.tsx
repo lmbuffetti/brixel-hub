@@ -650,7 +650,7 @@ const DashboardHome = (props: DashboardHomeType) => {
                       <CoverPropertyImage
                         className="cover w-perc-100"
                         coverPhoto={get(formValue, 'coverPhoto.galleryThumbnailPath', undefined)}
-                        propertyType={get(formValue, 'properties.propertyType', undefined)}
+                        propertyType={get(formValue, 'properties.propertyType', 'Apartment')}
                       />
                       <img
                         loading="lazy"
