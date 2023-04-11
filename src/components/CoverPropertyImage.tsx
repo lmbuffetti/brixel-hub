@@ -30,8 +30,8 @@ const CoverPropertyImage = (props: CoverPropertyImageType) => {
         coverPhoto && !loadDefImg ? (
           <img
             onClick={() => onClick()}
-            onMouseEnter={(e) => onMouseEnter()}
-            onMouseLeave={(e) => onMouseLeave()}
+            onMouseEnter={() => onMouseEnter()}
+            onMouseLeave={() => onMouseLeave()}
             onLoad={() => setTimeout(() => loadedImg(true), 100)}
             onError={() => onErrorLoadImg()}
             className={className}

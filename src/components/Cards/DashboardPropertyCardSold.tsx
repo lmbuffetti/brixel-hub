@@ -8,7 +8,6 @@ import {
 } from '@brixel/brixel-components';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import translateTo from '../../utils/translation';
 import type { DashboardPropertyCardSoldProps } from '../../@types/components/Cards/DashboardPropertyCardSold';
 import useImage from '@brixel/brixel-components/dist/hooks/Image';
