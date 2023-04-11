@@ -2,6 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import {
   BrixelButtonPrimary,
   BrixelButtonSecondary,
+  BrixelImage,
   BrixelIcon,
   FormatValue,
   Helpers,
@@ -249,7 +250,8 @@ const MarketCard = (props: MarketCardProps) => {
           }),
           small: true,
           layout: 'large',
-          bodyClassColor: 'white',
+          bodyClassColor: 'dis-fl-col',
+          bodyInnerClass: 'h-perc-100 dis-fl-col flex-1',
         })
       }
     }
@@ -444,9 +446,10 @@ const MarketCard = (props: MarketCardProps) => {
                 <CoverPropertyImage
                   loadedImg={(val) => setCoverImgLoaded(val)}
                   className={`${isPreMarket() ? 'pre-market' : ''} ${get(item, 'tags', []).join(' ')} cover w-perc-100 ${layout === 'singleOwnCard' ? 'w-fix-sm-184 h-fix-184 mb-sm-0' : 'w-fix-sm-216 h-fix-216'}`}
-                  coverPhoto={isPreMarket() ? undefined : get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
+                  coverPhoto={isPreMarket() ? undefined : get(item, 'coverPhoto.url', undefined)}
                   propertyType={get(item, 'properties.propertyType', undefined)}
                   onClick={() => openCard(null)}
+                  size="S"
                 />
                 {
                   get(item, 'tags', []).length > 0 && layout !== 'singleOwnCard' && (
@@ -703,8 +706,9 @@ const MarketCard = (props: MarketCardProps) => {
                                     key={`itm_${i.toString()}`}
                                     className={`${isPreMarket() ? 'pre-market' : ''} ${get(item, 'tags', []).join(' ')} cover w-perc-100 h-fix-216 h-perc-100 pos-r`}
                                   >
-                                    <img
-                                      src={`${baseByData.shortPath}${photo.path}`}
+                                    <BrixelImage
+                                      url={photo.url}
+                                      size="M"
                                       alt={`Photo ${i.toString()}`}
                                       className="h-perc-100 cover w-perc-100"
                                     />
@@ -717,8 +721,9 @@ const MarketCard = (props: MarketCardProps) => {
                           <CoverPropertyImage
                             loadedImg={(val) => setCoverImgLoaded(val)}
                             className={`${isPreMarket() ? 'pre-market' : ''} ${get(item, 'tags', []).join(' ')} cover w-perc-100 h-perc-100 h-fix-216 pos-r`}
-                            coverPhoto={isPreMarket() ? undefined : get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
+                            coverPhoto={isPreMarket() ? undefined : get(item, 'coverPhoto.url', undefined)}
                             propertyType={get(item, 'properties.propertyType', undefined)}
+                            size="M"
                           />
                         )
                       }

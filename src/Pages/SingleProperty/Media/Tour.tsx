@@ -2,9 +2,8 @@ import React, {useState} from 'react';
 import get from 'lodash/get';
 import {bindActionCreators, compose} from 'redux';
 import {connect} from 'react-redux';
-import {BrixelButtonIcon} from '@brixel/brixel-components';
+import {BrixelButtonIcon, BrixelImage} from '@brixel/brixel-components';
 import translateTo from '../../../utils/translation';
-import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import {setModal} from '../../../actions/CommonActions';
 import BrixelUpgradeMessage from '../../../components/BrixelUpgradeMessage';
 import type {TourType} from '../../../@types/Pages/SingleProperty/Media/Tour';
@@ -57,11 +56,12 @@ const Tour = (props: TourType) => {
                       <div className="pos-r brdRadius ov-h max-h-fix-344">
                         {
                           get(formValue, 'virtual.matterport', null) && (
-                            <img
+                            <BrixelImage
                               loading="lazy"
                               className="dis-b w-perc-100"
-                              src={`${baseByData.shortPath}${get(formValue, 'coverPhoto.path', '')}`}
+                              url={get(formValue, 'coverPhoto.url', '')}
                               alt="Cover"
+                              size="L"
                             />
                           )
                         }

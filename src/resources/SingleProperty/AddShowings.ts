@@ -1,6 +1,6 @@
 /**/
 import translateTo from '../../utils/translation';
-import {BrixelInputText, BrixelTextArea, Validation} from '@brixel/brixel-components/dist/form';
+import {BrixelInputPhone, BrixelInputText, BrixelTextArea, Validation} from '@brixel/brixel-components/dist/form';
 import ScheduleVisitComponent from '../../Pages/Dashboard/Buyer/ScheduleVisiitComponent';
 import scheduleSvg from '../../images/dashboard/scehdule.svg';
 import {QuestionsListType} from '@brixel/brixel-components/dist/@types/Model';
@@ -30,13 +30,12 @@ export const QuestionsList: (lang: string) => QuestionsListType[] = (lang) => [
         pdClass: 'py-3 py-md-5',
       },
       {
-        component: BrixelInputText,
+        component: BrixelInputPhone,
         classNameBox: 'max-w-fix-816 ml-a mr-a',
         label: translateTo('Phone', lang),
         name: 'phone',
         pdClass: 'py-3 py-md-5',
         type: 'text',
-        formatType: 'tel',
         validation: [Validation.phoneIfNotEmptyLength, Validation.required],
       },
       {

@@ -39,8 +39,9 @@ const DashboardPropertyCard: (props: DashboardPropertyCardProps) => JSX.Element 
           >
             <CoverPropertyImage
               className="cover w-perc-100 h-perc-100 negTop brdRadius"
-              coverPhoto={get(activeSingleProperty, 'coverPhoto.galleryThumbnailPath', undefined)}
+              coverPhoto={get(activeSingleProperty, 'coverPhoto.url', undefined)}
               propertyType={get(activeSingleProperty, 'properties.propertyType', undefined)}
+              size="M"
             />
             {
               type !== 'sold' && type !== 'buy' && (
