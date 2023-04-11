@@ -249,7 +249,8 @@ const MarketCard = (props: MarketCardProps) => {
           }),
           small: true,
           layout: 'large',
-          bodyClassColor: 'white',
+          bodyClassColor: 'dis-fl-col',
+          bodyInnerClass: 'h-perc-100 dis-fl-col flex-1',
         })
       }
     }

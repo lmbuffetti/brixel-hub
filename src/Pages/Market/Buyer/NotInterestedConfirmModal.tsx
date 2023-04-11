@@ -33,8 +33,8 @@ const LearnMoreListingsProperty = (props: LearnMoreListingsPropertyType) => {
   }
 
   return (
-    <div>
-      <div className="dis-f a-t jc-b">
+    <>
+      <div className="dis-f a-t jc-b mt-a mt-sm-0">
         <img className="mr-5 pl-2" src={ConfirmIconImg} alt="Pre Image Published" />
         <div>
           <h5 className="mb-2 fweight-600">{translateTo('Are you sure you want to hide this property?', lang)}</h5>
@@ -52,7 +52,7 @@ const LearnMoreListingsProperty = (props: LearnMoreListingsPropertyType) => {
 
         </div>
       </div>
-      <div className="dis-f a-c jc-fe mt-2 pt-2">
+      <div className="dis-f a-c jc-fe mt-a pt-2">
         <BrixelButtonSecondary
           rounded
           label="No, keep it"
@@ -67,7 +67,7 @@ const LearnMoreListingsProperty = (props: LearnMoreListingsPropertyType) => {
         />
       </div>
 
-    </div>
+    </>
   )
 }
 
