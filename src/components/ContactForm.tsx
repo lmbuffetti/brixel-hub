@@ -3,6 +3,7 @@ import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import {BrixelIcon} from '@brixel/brixel-components';
 import {
   BrixelInputText,
+  BrixelInputPhone,
   BrixelTextArea,
   change,
   destroy,
@@ -175,7 +176,7 @@ function ContactForm(props: ContactFormType) {
                       <div className="col-12">
                         <ReduxField
                           form="ContactForm"
-                          component={BrixelInputText}
+                          component={BrixelInputPhone}
                           design={{
                             className: 'mb-1',
                           }}
@@ -183,9 +184,6 @@ function ContactForm(props: ContactFormType) {
                             name: 'userPhone',
                             type: 'text',
                             placeholder: '',
-                          }}
-                          inputFormat={{
-                            formatType: 'tel',
                           }}
                           labels={{
                             label: translateTo('Phone', lang),

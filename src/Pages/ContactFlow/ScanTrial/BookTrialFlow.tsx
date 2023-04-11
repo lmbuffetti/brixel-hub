@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {BrixelButtonPrimary, BrixelIcon, Helpers, useOutsideAlerter} from '@brixel/brixel-components';
 import {
-  BrixelInputDatePicker,
+  BrixelInputDatePicker, BrixelInputPhone,
   BrixelInputText,
   change,
   ReduxField,
@@ -177,7 +177,7 @@ const BookTrialFlow = (props: BookTrialFlowType) => {
                     <div>
                       <ReduxField
                         form="scanFlow"
-                        component={BrixelInputText}
+                        component={BrixelInputPhone}
                         ReduxFieldClass="inputPhone"
                         design={{
                           className: 'mt-3',
@@ -188,9 +188,6 @@ const BookTrialFlow = (props: BookTrialFlowType) => {
                           type: 'text',
                           placeholder: '',
                           validate: [Validation.required],
-                        }}
-                        inputFormat={{
-                          formatType: 'tel',
                         }}
                         labels={{
                           label: '',
