@@ -6,7 +6,7 @@
     "node": ">=16.*"
   },
   "dependencies": {
-    "@brixel/brixel-components": "git+https://brixel_admin:e1C13Nz8THA_psP6pe1e@gitlab.com/brixel/brixel-styleguide-components.git#feature/test",
+    "@brixel/brixel-components": "git+https://brixel_admin:e1C13Nz8THA_psP6pe1e@gitlab.com/brixel/brixel-styleguide-components.git#master",
     "@react-buddy/ide-toolbox": "^2.3.1",
     "deep-object-diff": "^1.1.9",
     "eslint-plugin-jsx-a11y": "^6.7.1",
