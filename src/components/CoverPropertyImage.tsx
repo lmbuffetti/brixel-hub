@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {BrixelImage} from '@brixel/brixel-components';
+import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import resumeApartment from '../images/BrxielComingTown/resumeApartement.svg';
 import resumeHouse from '../images/BrxielComingTown/resumeHouse.svg';
 import type {CoverPropertyImageType} from '../@types/components/CoverPropertyImage';
@@ -28,16 +28,16 @@ const CoverPropertyImage = (props: CoverPropertyImageType) => {
     <>
       {
         coverPhoto && !loadDefImg ? (
-          <BrixelImage
+          <img
             onClick={() => onClick()}
             onMouseEnter={() => onMouseEnter()}
             onMouseLeave={() => onMouseLeave()}
             onLoad={() => setTimeout(() => loadedImg(true), 100)}
             onError={() => onErrorLoadImg()}
             className={className}
-            url={coverPhoto}
+            src={`${baseByData.shortPath}${coverPhoto}`}
             alt={`Cover ${propertyType}`}
-            size={size}
+            width={`${size}px`}
           />
         ) : (
           <img

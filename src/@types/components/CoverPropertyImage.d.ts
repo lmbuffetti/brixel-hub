@@ -8,5 +8,5 @@ export interface CoverPropertyImageType {
   onMouseEnter?: () => void
   onMouseLeave?: () => void
   propertyType?: string;
-  size: ImageType['size'];
+  size?: ImageType['size'];
 }

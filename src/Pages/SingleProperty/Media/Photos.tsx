@@ -10,7 +10,6 @@ import isArray from 'lodash/isArray';
 import {BrixelButtonIcon, BrixelButtonSecondary, BrixelIcon, useOutsideAlerter} from '@brixel/brixel-components';
 import translateTo from '../../../utils/translation';
 import {change} from '@brixel/brixel-components/dist/form';
-import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import {ReactSortable} from 'react-sortablejs';
 import {deleteImg, multiUploadImg, uploadImg} from '../../../actions/UploadActions';
 import DetailMedia from './DetailMedia';
