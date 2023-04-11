@@ -50,7 +50,7 @@ const SearchProfileForm = (props: SearchProfileFormType) => {
         }
       })
       initialValue.locations = get(getCurrentSearchProfile, 'location', []);
-      initialValue.location = get(getCurrentSearchProfile, 'location[0]', []);
+      initialValue.location = get(getCurrentSearchProfile, 'location[0]', {});
       const companyCountryCode = get(activeSingleCompany, 'country.code', '');
       set(initialValue, 'location.countryCode', get(getCurrentSearchProfile, 'location[0].countryCode', companyCountryCode));
       if (idSearchProfile) initialValue.id = idSearchProfile;
