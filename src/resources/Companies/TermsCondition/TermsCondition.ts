@@ -18,7 +18,7 @@ export const QuestionsList = (lang, company, isBuyer) => {
         bulletPoints: {
           title: translateTo('What are my advantages?', lang),
           description: [
-            translateTo('You get CHF 2000 discount', lang),
+            translateTo('You get CHF 6\'000 discount', lang),
             translateTo('You pay only if the sale is successful', lang),
             translateTo('Your selling price is checked', lang),
           ],

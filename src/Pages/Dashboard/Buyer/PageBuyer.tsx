@@ -78,8 +78,8 @@ const PageBuyer = (props: PageBuyerType) => {
                     <div className="image-ratio">
                       <CoverPropertyImage
                         className="cover"
-                        size="56"
-                        coverPhoto={get(activeSingleProperty, 'coverPhoto.path', undefined)}
+                        size="M"
+                        coverPhoto={get(activeSingleProperty, 'coverPhoto.url', undefined)}
                         propertyType={get(activeSingleProperty, 'properties.propertyType', undefined)}
                       />
                     </div>
