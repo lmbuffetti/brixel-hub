@@ -5,7 +5,13 @@ import {connect} from 'react-redux';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
 import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
-import {BrixelButtonIcon, BrixelButtonSecondary, BrixelButtonText, useOutsideAlerter} from '@brixel/brixel-components';
+import {
+  BrixelButtonIcon,
+  BrixelImage,
+  BrixelButtonSecondary,
+  BrixelButtonText,
+  useOutsideAlerter,
+} from '@brixel/brixel-components';
 import translateTo from '../../../utils/translation';
 import {BrixelTextArea, change, ReduxField, reset} from '@brixel/brixel-components/dist/form';
 import Loading from '../../../components/Loading';
@@ -106,11 +112,6 @@ const DetailMedia = (props: DetailMediaType) => {
     func: () => { setConfirmDelete(false); },
   });
 
-  const imgUrl = () => {
-    const url = `${baseByData.shortPath}${formValue[mediaType][idImg].bigPath}??${Math.random().toString(36).slice(2)}`;
-    return url;
-  };
-
   // IF NOT FORM VALUE SHOW THE LOADING
   if (!formValue || !formValue[mediaType]) {
     return (
@@ -138,11 +139,12 @@ const DetailMedia = (props: DetailMediaType) => {
             <div className="pos-r image-ratio ov-h">
               {
                 formValue && formValue[mediaType][idImg] && (
-                  <img
+                  <BrixelImage
                     loading="lazy"
                     className="max-w-perc-100 shadow-2dp brdRadius w-perc-100"
-                    src={imgUrl()}
+                    url={formValue[mediaType][idImg].url}
                     alt="Edit Media"
+                    size="L"
                   />
                 )
               }
@@ -165,7 +167,7 @@ const DetailMedia = (props: DetailMediaType) => {
                     className="mr-1"
                     ghost
                     icon="rotate"
-                    isLoading={isSmallLoading.rotate}
+                    isLoading={isSmallLoading.saveData}
                     onClick={(e) => rotateImage(e)}
                   />
                   {

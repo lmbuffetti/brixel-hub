@@ -238,7 +238,7 @@ const Plans = (props: FloorPlansPageType) => {
                                   >
                                     <div
                                       className="w-perc-100 square dis-fl-row imgConver"
-                                      style={{ backgroundImage: `url(${useImage(item.url, {size: 'L'})}`}}
+                                      style={{ backgroundImage: `url(${useImage(item.url, {size: 'M'})}`}}
                                     >
                                       <div
                                         className={`photo-action a-c hide dis-f-md ${confirmDelete === i ? 'show' : 'hoverShow'}`}
