@@ -1,18 +1,22 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {DateTime} from 'luxon';
-import translateTo from '../../../utils/translation';
+import {useLocation, useNavigate} from 'react-router-dom';
 import get from 'lodash/get';
-import type {AddShowingsBuyerType} from '../../../@types/Pages/Dashboard/Buyer/AddShowingsBuyer';
-import {BrixelButtonPrimary, BrixelButtonText, BrixelButtonIcon} from '@brixel/brixel-components';
+import {compose} from 'redux';
+import {connect} from 'react-redux';
+import {
+  BrixelButtonPrimary,
+  BrixelButtonText,
+  BrixelButtonIcon,
+} from '@brixel/brixel-components';
 import {
   BrixelDatePicker,
   BrixelInputMultiRange,
   BrixelSwitchButton, change,
 } from '@brixel/brixel-components/dist/form';
-import {compose} from 'redux';
-import {connect} from 'react-redux';
+import translateTo from '../../../utils/translation';
+import type {AddShowingsBuyerType} from '../../../@types/Pages/Dashboard/Buyer/AddShowingsBuyer';
 import type {ScheduleVisitComponentType} from '../../../@types/Pages/Dashboard/Buyer/ScheduleVisitComponent';
-import {useLocation, useNavigate} from 'react-router-dom';
 
 const ScheduleVisitComponent = (props: ScheduleVisitComponentType) => {
   const history = {
@@ -31,86 +35,73 @@ const ScheduleVisitComponent = (props: ScheduleVisitComponentType) => {
   const datePicker = useRef(null);
   const hoursRef = useRef(null);
 
+  const [pageStage, setPageStage] = useState('date');
   const [date, setDate] = useState(null);
   const [hours, setHours] = useState({ min: 8, max: 20 });
   const [allDay, setAllDay] = useState(false);
-  const [showResizer, setShowResizer] = useState(false);
-  const [chooseDatesOpen, setChooseDatesOpen] = useState(true);
-  const [recapScreen, setRecapScreen] = useState(false);
-  const [scheduleVisitFree, setScheduleVisitFree] = useState<AddShowingsBuyerType['activeSinglePropertyBookingSlots']>([]);
+  const [scheduleVisit, setScheduleVisit] = useState<AddShowingsBuyerType['activeSinglePropertyBookingSlots']>([]);
 
   useEffect(() => {
 
     if (activeSinglePropertyBookingSlots.length > 0 && get(history, 'location.search', '').split('?')[1] === 'showBookings') {
-      setChooseDatesOpen(false);
-      setScheduleVisitFree(get(activeSinglePropertyBookingSlots[activeSinglePropertyBookingSlots.length - 1], 'slots', []));
-      setRecapScreen(true);
+      setPageStage('resume');
+      setScheduleVisit(get(activeSinglePropertyBookingSlots[activeSinglePropertyBookingSlots.length - 1], 'slots', []));
     }
   }, [activeSinglePropertyBookingSlots]);
 
   const removeEl = (id) => {
     history.push({search: ''});
-    const visit = scheduleVisitFree;
-    scheduleVisitFree.splice(id, 1);
-    setScheduleVisitFree(visit.length === 0 ? [] : [...scheduleVisitFree]);
+    const visit = scheduleVisit;
+    scheduleVisit.splice(id, 1);
+    setScheduleVisit(visit.length === 0 ? [] : [...scheduleVisit]);
     if (visit.length === 0) {
-      setRecapScreen(false);
-      setChooseDatesOpen(true);
+      setPageStage('date');
       setDate(null);
     }
-    setRecapScreen(false);
-    setShowResizer(false);
   };
 
   const handleChangeDate = (day) => {
-    setRecapScreen(false);
+    setPageStage('hour');
     setDate(day);
-    setShowResizer(true);
-    setChooseDatesOpen(false);
   };
 
   const handleChange = (e) => {
-    setRecapScreen(false);
+    // setPageStage('hour');
     setAllDay(e);
     setHours({ min: 8, max: 20 });
   };
 
   const onClickBtn = () => {
-    const newScheduleVisit = scheduleVisitFree.map((visit) => ({
-      ...visit,
-      start: visit.slot && visit.slot.split(' ')[1] ? visit.slot.split(' ')[1] : visit.start,
-      end: visit.slot && visit.slot.split(' ')[2] ? visit.slot.split(' ')[2] : visit.end,
-    }))
-    if (recapScreen) {
+    const newScheduleVisit: AddShowingsBuyerType['activeSinglePropertyBookingSlots'] = [...scheduleVisit];
+    if (pageStage === 'resume') {
       history.push(`/buyer/${activeSingleProperty.id}/home`)
-    } else if (showResizer) {
+    } else if (pageStage === 'hour' && date) {
       history.push({search: ''});
-      setRecapScreen(false);
-      const startFormHour = Math.trunc(hours.min) < 10 ? `0${Math.trunc(hours.min)}` : Math.trunc(hours.min);
-      const startHour = hours.min % 1 !== 0 ? `${startFormHour}:30` : `${startFormHour}:00`;
-      const endFormHour = Math.trunc(hours.max) < 10 ? `0${Math.trunc(hours.max)}` : Math.trunc(hours.max);
-      const endHour = hours.max % 1 !== 0 ? `${endFormHour}:30` : `${endFormHour}:00`;
-      setScheduleVisitFree([
-        ...newScheduleVisit,
-        {
-          start: allDay ? null : startHour,
-          end: allDay ? null : endHour,
-          slot: date ? DateTime.fromMillis(date).toFormat('yyyy-MM-dd', {locale: lang}) : null,
-          date,
-          isAllDay: allDay,
-          normDate: date,
-        },
-      ]);
-      setShowResizer(false);
-      setChooseDatesOpen(false);
+      const startHour = hours.min;
+      const endHour = hours.max;
+      const formattedDate = DateTime.fromMillis(date).toFormat('d LLL yyyy');
+      const startObjDate = DateTime.fromFormat(`${formattedDate}, ${startHour}:00`, 'd LLL yyyy, H:mm', {setZone: true});
+      const startTimestamp = startObjDate.toMillis();
+
+      const endObjDate = DateTime.fromFormat(`${formattedDate}, ${endHour}:00`, 'd LLL yyyy, H:mm', {setZone: true});
+      const endTimestamp = endObjDate.toMillis();
+
+      const objDate = {
+        end: endTimestamp,
+        start: startTimestamp,
+        isAllDay: allDay,
+        timezone: startObjDate.zoneName,
+      };
+      newScheduleVisit.push(objDate);
+      setPageStage('date');
     } else {
-      changeFieldValue('scheduleVisitFree', scheduleVisitFree);
+      changeFieldValue('scheduleVisit', scheduleVisit);
       onClick();
     }
   }
 
   const buttonLabel = () => {
-    if (recapScreen) return 'Close';
+    if (pageStage === 'resume') return 'Close';
     return 'Continue';
   }
 
@@ -119,10 +110,10 @@ const ScheduleVisitComponent = (props: ScheduleVisitComponentType) => {
       <div className="formWrapper bgWhite brdRadius w-perc-100 shadow-1dp p-3 p-sm-5">
         <div className="dis-fl-col a-c scheduleVisit">
           {
-            (scheduleVisitFree.length > 0) && (
+            (scheduleVisit.length > 0) && (
               <div id="recap-date-screen" className="dis-fl-col a-c jc-b">
                 {
-                  scheduleVisitFree.map((val, i) => (
+                  scheduleVisit.map((val, i) => (
                     <div
                       className="date-schedule dis-fl-row bgText50 py-small-4 px-2 mb-1"
                       key={`vst_${i.toString()}`}
@@ -173,17 +164,14 @@ const ScheduleVisitComponent = (props: ScheduleVisitComponentType) => {
                   ))
                 }
                 {
-                  (scheduleVisitFree.length > 0 && scheduleVisitFree.length < 3) && (
+                  (scheduleVisit.length > 0 && scheduleVisit.length < 3) && (
                     <BrixelButtonText
                       themeSat={400}
                       className="mt-1 fsize-300"
                       theme="green"
                       label={translateTo('Choose another date', lang)}
                       rightIcon="calendar"
-                      onClick={() => {
-                        setShowResizer(false);
-                        setChooseDatesOpen(true);
-                      }}
+                      onClick={() => setPageStage('date')}
                     />
                   )
                 }
@@ -191,11 +179,12 @@ const ScheduleVisitComponent = (props: ScheduleVisitComponentType) => {
             )
           }
           {
-            showResizer && (
+            pageStage === 'hour' && (
               <div id="select-time-screen" className="w-perc-100">
                 <div id="rzSlider" className="modalWindow" ref={hoursRef}>
                   <h6>{translateTo('Choose your time', lang)}</h6>
                   <BrixelInputMultiRange
+                    className="mt-5"
                     maxLengthNum={20}
                     minLengthNum={8}
                     step={0.5}
@@ -221,7 +210,7 @@ const ScheduleVisitComponent = (props: ScheduleVisitComponentType) => {
             )
           }
           {
-            chooseDatesOpen && (
+            pageStage === 'date' && (
               <div id="select-date-screen" className="dis-fl-col a-c jc-b">
                 <span className="fsize-400 fweight-400 mb-3">
                   {translateTo('Choose your date', lang)}
@@ -242,7 +231,7 @@ const ScheduleVisitComponent = (props: ScheduleVisitComponentType) => {
         </div>
       </div>
       {
-        !chooseDatesOpen && (
+        pageStage !== 'date' && (
           <div className="mt-3">
             <BrixelButtonPrimary
               className="mr-a ml-a noWrap"
@@ -263,7 +252,7 @@ const ScheduleVisitComponent = (props: ScheduleVisitComponentType) => {
 const mapStateToProps = (state) => {
   return ({
     activeSingleProperty: get(state, 'property.activeSingleProperty', null),
-    activeSinglePropertyBookingSlots: get(state, 'property.activeSinglePropertyBooking', []),
+    activeSinglePropertyBookingSlots: get(state, 'property.activeSinglePropertyBookingss', []),
     lang: get(state, 'common.language', 'en'),
   });
 };
