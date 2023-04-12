@@ -123,8 +123,8 @@ const PropertiesDashboard = (props: PropertiesDashboardType) => {
                         }}
                       >
                         <CoverPropertyImage
-                          size="96"
-                          coverPhoto={get(property, 'coverPhoto.galleryThumbnailPath', undefined)}
+                          size="S"
+                          coverPhoto={get(property, 'coverPhoto.url', undefined)}
                           className="avatar w-fix-96 h-fix-96 pos-r brdRadius"
                         />
                       </Link>

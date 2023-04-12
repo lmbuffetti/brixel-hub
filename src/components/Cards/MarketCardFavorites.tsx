@@ -202,14 +202,14 @@ const MarketCardFavorites = (props: MarketCardFavoritesType) => {
                     get(activeSingleProperty, 'photos', []).slice(0, 5).map((photo, index) => (
                       <React.Fragment key={`itm_${index.toString()}`}>
                         {
-                          photo.path && (
+                          photo.url && (
                             <div
                               key={`itm_${index.toString()}`}
                               className={`${isPreMarket() ? 'pre-market' : ''} ${get(activeSingleProperty, 'tags', []).join(' ')} cover h-fix-208 h-fix-sm-304 h-fix-lg-208 pos-r`}
                             >
                               <BrixelImage
                                 className="cover h-perc-100"
-                                url={photo.path}
+                                url={photo.url}
                                 size="M"
                                 alt={`Property Photos ${index.toString()}`}
                               />
