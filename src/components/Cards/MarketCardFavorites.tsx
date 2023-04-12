@@ -224,7 +224,7 @@ const MarketCardFavorites = (props: MarketCardFavoritesType) => {
             ) : (
               <CoverPropertyImage
                 className={`${isPreMarket() ? 'pre-market' : ''} ${get(activeSingleProperty, 'tags', []).join(' ')} cover w-perc-100 h-fix-208 h-fix-sm-304 h-fix-lg-208 pos-r cur-poi`}
-                coverPhoto={isPreMarket() ? undefined : get(activeSingleProperty, 'coverPhoto.path', undefined)}
+                coverPhoto={isPreMarket() ? undefined : get(activeSingleProperty, 'coverPhoto.url', undefined)}
                 propertyType={get(activeSingleProperty, 'properties.propertyType', undefined)}
                 onClick={() => onOpenCard()}
                 size="M"
