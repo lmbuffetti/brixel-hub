@@ -1,10 +1,12 @@
+import {ImageType} from '@brixel/brixel-components/dist/@types/Models/Media';
+
 export interface CoverPropertyImageType {
   className?: string;
   coverPhoto?: string;
   loadedImg?: (val: boolean) => void
   onClick?: () => void
-  onMouseEnter?: (e: MouseEvent<HTMLImageElement>) => void
-  onMouseLeave?: (e: MouseEvent<HTMLImageElement>) => void
+  onMouseEnter?: () => void
+  onMouseLeave?: () => void
   propertyType?: string;
-  size?: string;
+  size?: ImageType['size'];
 }

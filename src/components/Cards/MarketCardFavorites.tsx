@@ -2,6 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import {
   BrixelButtonPrimary,
   BrixelButtonSecondary,
+  BrixelImage,
   BrixelButtonText,
   BrixelIcon,
   FormatValue,
@@ -199,17 +200,23 @@ const MarketCardFavorites = (props: MarketCardFavoritesType) => {
                 >
                   {
                     get(activeSingleProperty, 'photos', []).slice(0, 5).map((photo, index) => (
-                      <div
-                        key={`itm_${index.toString()}`}
-                        className={`${isPreMarket() ? 'pre-market' : ''} ${get(activeSingleProperty, 'tags', []).join(' ')} cover h-fix-208 h-fix-sm-304 h-fix-lg-208 pos-r`}
-                      >
-                        <img
-                          className="cover h-perc-100"
-                          src={`${baseByData.shortPath}${photo.path}`}
-                          key={`photo${index.toString()}`}
-                          alt={`Property Photos ${index.toString()}`}
-                        />
-                      </div>
+                      <React.Fragment key={`itm_${index.toString()}`}>
+                        {
+                          photo.url && (
+                            <div
+                              key={`itm_${index.toString()}`}
+                              className={`${isPreMarket() ? 'pre-market' : ''} ${get(activeSingleProperty, 'tags', []).join(' ')} cover h-fix-208 h-fix-sm-304 h-fix-lg-208 pos-r`}
+                            >
+                              <BrixelImage
+                                className="cover h-perc-100"
+                                url={photo.url}
+                                size="M"
+                                alt={`Property Photos ${index.toString()}`}
+                              />
+                            </div>
+                          )
+                        }
+                      </React.Fragment>
                     ))
                   }
                 </Slider>
@@ -217,9 +224,10 @@ const MarketCardFavorites = (props: MarketCardFavoritesType) => {
             ) : (
               <CoverPropertyImage
                 className={`${isPreMarket() ? 'pre-market' : ''} ${get(activeSingleProperty, 'tags', []).join(' ')} cover w-perc-100 h-fix-208 h-fix-sm-304 h-fix-lg-208 pos-r cur-poi`}
-                coverPhoto={isPreMarket() ? undefined : get(activeSingleProperty, 'coverPhoto.galleryThumbnailPath', undefined)}
+                coverPhoto={isPreMarket() ? undefined : get(activeSingleProperty, 'coverPhoto.url', undefined)}
                 propertyType={get(activeSingleProperty, 'properties.propertyType', undefined)}
                 onClick={() => onOpenCard()}
+                size="M"
               />
             )
           }

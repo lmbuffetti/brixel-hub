@@ -10,7 +10,6 @@ import isArray from 'lodash/isArray';
 import {BrixelButtonIcon, BrixelButtonSecondary, BrixelIcon, useOutsideAlerter} from '@brixel/brixel-components';
 import translateTo from '../../../utils/translation';
 import {change} from '@brixel/brixel-components/dist/form';
-import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import {ReactSortable} from 'react-sortablejs';
 import {deleteImg, multiUploadImg, uploadImg} from '../../../actions/UploadActions';
 import DetailMedia from './DetailMedia';
@@ -19,6 +18,7 @@ import uploadPhotosEmpty from '../../../images/Upload/upload_photos_empty.svg';
 import BrixelUpgradeMessage from '../../../components/BrixelUpgradeMessage';
 import {PhotosType} from '@brixel/brixel-components/dist/@types/Model';
 import type {PhotosPageType} from '../../../@types/Pages/SingleProperty/Media/Photos';
+import useImage from '@brixel/brixel-components/dist/hooks/Image';
 
 const Photos = (props: PhotosPageType) => {
   const history = {
@@ -242,70 +242,75 @@ const Photos = (props: PhotosPageType) => {
                           >
                             {
                               fixPhotos.map((item, i) => (
-                                <li
-                                  className="cur-poi pos-r"
-                                  key={`pht_${i.toString()}`}
-                                  data-id={JSON.stringify(item)}
-                                >
-                                  <div
-                                    className="square media-image-container dis-fl-row a-c jc-b w-perc-100 shadow-2dp brdRadius ov-h"
-                                    onClick={() => (windowDimensions.width < 1025 ? history.push(`/${propID}/property/photos/${item.id}/edit/photos`) : '')}
-                                  >
-                                    <div className="w-perc-100 square dis-fl-row imgConver" style={{ backgroundImage: `url(${item.tmpPath ? item.tmpPath : `${baseByData.shortPath}${item.galleryThumbnailPath}?${item.updatedAt}`})` }}>
-                                      <div
-                                        className={`photo-action a-c hide dis-f-md ${confirmDelete === i ? 'show' : 'hoverShow'}`}
-                                        ref={wrappImg.current[i]}
-                                      >
-                                        <BrixelButtonSecondary
-                                          rounded
-                                          theme="red"
-                                          rightIcon="bin"
-                                          label={translateTo('delete?', lang)}
-                                          className={`${confirmDelete === i ? '' : 'hide'}`}
-                                          onClick={() => deleteImage(item.id)}
-                                          isLoading={isSmallLoading.deleteMedia && btnActive === 'delete'}
-                                        />
-                                        <BrixelButtonIcon
-                                          ghost
-                                          theme="red"
-                                          icon="bin"
-                                          className={`${confirmDelete === i ? 'hide' : ''}`}
-                                          onClick={() => onConfirmDelete(i)}
-                                        />
-                                        <BrixelButtonIcon
-                                          ghost
-                                          icon="edit"
-                                          className={`ml-1 ${confirmDelete === i ? 'hide' : ''}`}
-                                          onClick={
-                                            () => {
-                                              history.push(`/${propID}/property/photos/${item.id}/edit/photos`);
-                                              scrollToTopEdit();
-                                            }
-                                          }
-                                        />
-                                      </div>
-                                      {
-                                        i === 0 && (
-                                          <div className="fixedActionsBtmRight">
-                                            <BrixelIcon
-                                              icon="star-fill"
-                                              color="primary"
-                                              saturationTxt={400}
-                                              className="fSizePx24"
-                                            />
-                                          </div>
-                                        )
-                                      }
-                                    </div>
-                                  </div>
+                                <>
                                   {
-                                    item.description && (
-                                      <p className="ta-l mt-1 fsize-200 txtText900 w-prec-100">
-                                        {translateTo(Truncate(item.description, 60), lang)}
-                                      </p>
+                                    item.url && (
+                                      <li
+                                        className="cur-poi pos-r"
+                                        key={`pht_${i.toString()}`}
+                                      >
+                                        <div
+                                          className="square media-image-container dis-fl-row a-c jc-b w-perc-100 shadow-2dp brdRadius ov-h"
+                                          onClick={() => (windowDimensions.width < 1025 ? history.push(`/${propID}/property/photos/${item.id}/edit/photos`) : '')}
+                                        >
+                                          <div className="w-perc-100 square dis-fl-row imgConver" style={{ backgroundImage: `url(${useImage(item.url, {size: 'M'})}`}}>
+                                            <div
+                                              className={`photo-action a-c hide dis-f-md ${confirmDelete === i ? 'show' : 'hoverShow'}`}
+                                              ref={wrappImg.current[i]}
+                                            >
+                                              <BrixelButtonSecondary
+                                                rounded
+                                                theme="red"
+                                                rightIcon="bin"
+                                                label={translateTo('delete?', lang)}
+                                                className={`${confirmDelete === i ? '' : 'hide'}`}
+                                                onClick={() => deleteImage(item.id)}
+                                                isLoading={isSmallLoading.deleteMedia && btnActive === 'delete'}
+                                              />
+                                              <BrixelButtonIcon
+                                                ghost
+                                                theme="red"
+                                                icon="bin"
+                                                className={`${confirmDelete === i ? 'hide' : ''}`}
+                                                onClick={() => onConfirmDelete(i)}
+                                              />
+                                              <BrixelButtonIcon
+                                                ghost
+                                                icon="edit"
+                                                className={`ml-1 ${confirmDelete === i ? 'hide' : ''}`}
+                                                onClick={
+                                                  () => {
+                                                    history.push(`/${propID}/property/photos/${item.id}/edit/photos`);
+                                                    scrollToTopEdit();
+                                                  }
+                                                }
+                                              />
+                                            </div>
+                                            {
+                                              i === 0 && (
+                                                <div className="fixedActionsBtmRight">
+                                                  <BrixelIcon
+                                                    icon="star-fill"
+                                                    color="primary"
+                                                    saturationTxt={400}
+                                                    className="fSizePx24"
+                                                  />
+                                                </div>
+                                              )
+                                            }
+                                          </div>
+                                        </div>
+                                        {
+                                          item.description && (
+                                            <p className="ta-l mt-1 fsize-200 txtText900 w-prec-100">
+                                              {translateTo(Truncate(item.description, 60), lang)}
+                                            </p>
+                                          )
+                                        }
+                                      </li>
                                     )
                                   }
-                                </li>
+                                </>
                               ))
                             }
                             {

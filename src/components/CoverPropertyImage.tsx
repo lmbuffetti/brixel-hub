@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
+import {BrixelImage} from '@brixel/brixel-components';
 import resumeApartment from '../images/BrxielComingTown/resumeApartement.svg';
 import resumeHouse from '../images/BrxielComingTown/resumeHouse.svg';
 import type {CoverPropertyImageType} from '../@types/components/CoverPropertyImage';
@@ -28,22 +28,22 @@ const CoverPropertyImage = (props: CoverPropertyImageType) => {
     <>
       {
         coverPhoto && !loadDefImg ? (
-          <img
+          <BrixelImage
             onClick={() => onClick()}
-            onMouseEnter={(e) => onMouseEnter(e)}
-            onMouseLeave={(e) => onMouseLeave(e)}
+            onMouseEnter={() => onMouseEnter()}
+            onMouseLeave={() => onMouseLeave()}
             onLoad={() => setTimeout(() => loadedImg(true), 100)}
             onError={() => onErrorLoadImg()}
             className={className}
-            src={`${baseByData.shortPath}${coverPhoto}`}
+            url={coverPhoto}
             alt={`Cover ${propertyType}`}
-            width={`${size}px`}
+            size={size}
           />
         ) : (
           <img
             onClick={() => onClick()}
-            onMouseEnter={(e) => onMouseEnter(e)}
-            onMouseLeave={(e) => onMouseLeave(e)}
+            onMouseEnter={() => onMouseEnter()}
+            onMouseLeave={() => onMouseLeave()}
             onLoad={() => setTimeout(() => loadedImg(true), 100)}
             onError={() => onErrorLoadImg()}
             className={className}

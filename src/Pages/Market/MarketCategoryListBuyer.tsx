@@ -102,6 +102,7 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
   const onLearnMore = () => {
     handleSetModal({
       bodyClassColor: 'white ov-v',
+      bodyInnerClass: 'h-perc-100',
       title: '',
       layout: 'large',
       small: true,

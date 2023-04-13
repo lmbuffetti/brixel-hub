@@ -189,9 +189,9 @@ const Page = (props: PageType) => {
         >
           <div className="image-ratio">
             <CoverPropertyImage
-              size="56"
+              size="M"
               className="cover"
-              coverPhoto={get(formValue, 'coverPhoto.path', undefined)}
+              coverPhoto={get(formValue, 'coverPhoto.url', undefined)}
               propertyType={get(formValue, 'properties.propertyType', undefined)}
             />
           </div>
