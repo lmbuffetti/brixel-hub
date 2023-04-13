@@ -139,7 +139,7 @@ const MarketCardMap = (props: MarketCardMapType) => {
                 onMouseLeave={() => onHover(null)}
                 loadedImg={(val) => setCoverImgLoaded(val)}
                 className={`${isPreMarket() ? 'pre-market' : ''} cover notranslate brdRadius min-w-perc-100 min-w-fix-sm-304 h-fix-208 cur-poi`}
-                coverPhoto={isPreMarket() ? undefined : get(item, 'coverPhoto.path', undefined)}
+                coverPhoto={isPreMarket() ? undefined : get(item, 'coverPhoto.url', undefined)}
                 propertyType={get(item, 'properties.propertyType', undefined)}
                 size="M"
               />

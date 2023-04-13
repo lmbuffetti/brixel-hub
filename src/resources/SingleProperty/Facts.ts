@@ -87,6 +87,7 @@ export const QuestionsList: (lang: string) => void = (lang) => {
           },
           {
             component: BrixelInputScale,
+            invertScale: true,
             className: '',
             label: translateTo('How is the condition of the apartment?', lang),
             name: 'properties.building.apartmentQuality',
@@ -346,6 +347,7 @@ export const QuestionsList: (lang: string) => void = (lang) => {
           },
           {
             component: BrixelInputScale,
+            invertScale: true,
             className: 'helpLink',
             label: translateTo('In which condition is the property?', lang),
             name: 'properties.building.conditionCode',

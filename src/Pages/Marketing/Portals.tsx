@@ -239,7 +239,9 @@ const Portals = (props) => {
                             href={customPortals[`${key}Url`]}
                             className="dis-f a-c"
                           >
-                            <span className="fsize-300 txtGreen400 td-u">{translateTo(key, lang)}</span>
+                            <span className="fsize-300 txtGreen400 td-u">
+                              {translateTo(key, lang)}
+                            </span>
                             <BrixelStatus
                               color="green"
                             />

@@ -199,7 +199,7 @@ const checkCommon = (store) => (next) => (action) => {
             const plan = store.getState().brixelForm.Property.values.floorPlans || [];
 
             if (uploadAction === 'photos') {
-              if (has(store.getState(), 'brixelForm.Property.values.coverPhoto.path')) {
+              if (has(store.getState(), 'brixelForm.Property.values.coverPhoto.url')) {
                 coverPhoto = get(store.getState(), 'brixelForm.Property.values.coverPhoto', null);
               } else {
                 coverPhoto = res.data;
