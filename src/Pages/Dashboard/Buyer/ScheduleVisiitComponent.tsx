@@ -196,6 +196,7 @@ const ScheduleVisitComponent = (props: ScheduleVisitComponentType) => {
                 <div id="rzSlider" className="modalWindow" ref={hoursRef}>
                   <h6>{translateTo('Choose your time', lang)}</h6>
                   <BrixelInputMultiRange
+                    className="mt-5"
                     maxLengthNum={20}
                     minLengthNum={8}
                     step={0.5}

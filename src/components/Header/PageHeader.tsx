@@ -173,10 +173,10 @@ function PageHeader(props: PageHeaderType) {
       windowDimensions.width > 1024 && (
         (
           !isFlow &&
-        get(activeSingleProperty, 'id', null) &&
-        propID &&
-        propID.length > 9 &&
-        userType === 'seller'
+          get(activeSingleProperty, 'id', null) &&
+          propID &&
+          propID.length > 9 &&
+          userType === 'seller'
         ) || (
           history.location.pathname.includes('welcomeSeller')
         )
