@@ -8,7 +8,6 @@ import get from 'lodash/get';
 import has from 'lodash/has';
 import orderBy from 'lodash/orderBy';
 import React, {useEffect, useRef, useState} from 'react';
-/* eslint-disable react-hooks/exhaustive-deps */
 import {connect} from 'react-redux';
 import {useLocation, useNavigate} from 'react-router-dom';
 import {bindActionCreators} from 'redux';
@@ -436,7 +435,7 @@ function PageHeader(props: PageHeaderType) {
                                       onClick={() => toggleMobileMenu()}
                                     >
                                       <BrixelAvatar
-                                        avatarImg={get(loggedInUser, 'avatar[0]', '') ? baseByData.shortPath + get(loggedInUser, 'avatar[0].thumbnailPath', '') : null}
+                                        avatarImg={get(loggedInUser, 'avatarUrl', undefined)}
                                         name={get(loggedInUser, 'email')}
                                         isIcon
                                         profileId={get(loggedInUser, 'id', '')}
@@ -538,7 +537,7 @@ function PageHeader(props: PageHeaderType) {
                                       >
                                         <div className="dis-f w-perc-100 a-c">
                                           <BrixelAvatar
-                                            avatarImg={get(loggedInUser, 'avatar[0]', '') ? baseByData.shortPath + get(loggedInUser, 'avatar[0].thumbnailPath', '') : null}
+                                            avatarImg={get(loggedInUser, 'avatarUrl', undefined)}
                                             name={get(loggedInUser, 'email')}
                                             isIcon
                                             profileId={get(loggedInUser, 'id', '')}
