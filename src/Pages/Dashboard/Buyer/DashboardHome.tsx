@@ -7,7 +7,6 @@ import {connect} from 'react-redux';
 import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import {bindActionCreators, compose} from 'redux';
 import {setModal, spinnerOff} from '../../../actions/CommonActions';
-import {getActiveSinglePropertyBookings} from '../../../actions/PropertyActions';
 import {getUserSearchProfiles} from '../../../actions/SearchProfileActions';
 import DashboardPropertyCard from '../../../components/Cards/DashboardPropertyCard';
 import ArticlesBox from '../../../components/CraftCMS/ArticlesBox';
@@ -36,7 +35,6 @@ const DashboardHome = (props: ContactType) => {
     activeSingleDeal,
     activeSingleProperty,
     activeSinglePropertyBookingSlots,
-    handleGetActiveSinglePropertyBookings,
     handleSetModal,
     isSmallLoading,
     lang,
@@ -65,46 +63,6 @@ const DashboardHome = (props: ContactType) => {
   useEffect(() => {
     if (activeSingleProperty.sellerStatus === 'success') setProgressState({step: 5});
   }, [activeSingleProperty.sellerStatus, activeSingleProperty.progress]);
-
-  useEffect(() => {
-    if (propID && loggedInUser.id) {
-      const data = {
-        id: propID,
-        data: {
-          user: loggedInUser.id,
-        },
-        smallLoader: 'getBooking',
-      };
-      handleGetActiveSinglePropertyBookings(data);
-    }
-  }, [propID, loggedInUser]);
-
-  /* const formatCalendar = (type) => {
-    switch (type) {
-      case 'location': {
-        if (activeSingleProperty.location) {
-          return `${activeSingleProperty.location.name}, ${activeSingleProperty.location.streetNumber} ${activeSingleProperty.location.zip} ${activeSingleProperty.location.city}`;
-        }
-        break;
-      }
-      case 'start': {
-        if (typeof visitAccepted !== 'string' && visitAccepted?.slot) {
-          const date = DateTime.fromFormat(visitAccepted.slot.split(' ')[0], 'yyyy-LL-dd', {locale: lang}).toFormat('yyyy-LL-dd', {locale: lang});
-          const start = `${visitAccepted.slot.split(' ')[1]}`;
-          return `${date}T${start}`;
-        }
-        break;
-      }
-      case 'end': {
-        if (typeof visitAccepted !== 'string' && visitAccepted?.slot) {
-          const date = DateTime.fromFormat(visitAccepted.slot.split(' ')[0], 'yyyy-LL-dd', {locale: lang}).toFormat('yyyy-LL-dd', {locale: lang});
-          const end = `${visitAccepted.slot.split(' ')[2] ? visitAccepted.slot.split(' ')[2] : visitAccepted.slot.split(' ')[1]}`;
-          return `${date}T${end}`;
-        }
-        break;
-      }
-    }
-  } */
 
   // UNTILE NO PROPERTY OR NO USER TYPE SHOW THE LOADING
   if ((!activeSingleProperty.id && !userTypes) || isSmallLoading.getProperty) {
@@ -339,8 +297,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  handleGetActiveSinglePropertyBookings: bindActionCreators(
-    getActiveSinglePropertyBookings, dispatch),
   handleGetUserSearchProfiles: bindActionCreators(getUserSearchProfiles, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),

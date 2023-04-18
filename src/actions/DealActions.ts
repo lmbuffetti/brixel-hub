@@ -14,6 +14,8 @@ import {
   SET_OFFER_LISTINGS,
   UPDATE_DEALS_ORDER,
   UPDATE_MULTIPLE_DEALS,
+  GET_SCHEDULE_VISIT,
+  SET_SCHEDULE_VISIT,
 } from './types/DealTypes';
 
 export const {
@@ -31,6 +33,8 @@ export const {
   sendVisitFeedback,
   saveClosingIdentification,
   saveFinancingRequest,
+  getScheduleVisit,
+  setScheduleVisit,
 } = createActions({
   [CREATE_DEAL]: (payload) => payload,
   [GET_ACTIVE_SINGLE_DEAL]: (payload) => payload,
@@ -46,4 +50,6 @@ export const {
   [SEND_VISIT_FEEDBACK]: (payload) => payload,
   [SAVE_CLOSING_IDENTIFICATION]: (payload) => payload,
   [SAVE_FINANCING_REQUEST]: (payload) => payload,
+  [GET_SCHEDULE_VISIT]: (payload) => payload,
+  [SET_SCHEDULE_VISIT]: (payload) => payload,
 });

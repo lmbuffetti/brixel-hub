@@ -17,7 +17,7 @@ export interface ContactFormType {
     userEmail: string;
     userPhone: object;
   };
-  handleCreatePropertyVisitBooking: (data: object) => void
+  handleSaveScheduleVisit: (data: object) => void
   handleSendMessage: (data: object) => void
   handleSpinnerSmall: (data: object) => void
   initialValues: object;

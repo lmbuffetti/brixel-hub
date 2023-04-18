@@ -24,6 +24,7 @@ export default {
     reviewOffer: (id) => `/deal/${id}/closing/reviewOffer`,
     singleDeal: (id) => `/deal/${id}`,
     updateMultipleDeals: () => '/deal/updateGroup',
+    scheduleVisit: (id, order, direction) => `/deal/${id}/scheduleVisitRequest?order=${order}&direction=${direction}`,
     visitFeedback: (id, sendSlack) => `/deal/${id}/feedbackVisit?sendSlackMessage=${sendSlack}`,
   },
   estimation: {
@@ -64,11 +65,7 @@ export default {
   },
   property: {
     addPage: () => '/page/',
-    createPropertyVisit: () => '/scheduleVisit',
-    createPropertyVisitSchedule: () => '/schedule',
     estimation: (id) => `/page/${id}/estimation`,
-    getPageVisits: (id) => `/page/${id}/visit`,
-    getPageVisitsBuyer: (id) => `/page/${id}/visit/buyer`,
     packagePage: (id) => `/pageServicePackage/10/0?pageID=${id}&order=createdAt&direction=ASC`,
     pageById: (id) => `/page/${id}`,
     pageByIdPublic: (id) => `/page/${id}/publicpart`,
@@ -76,10 +73,10 @@ export default {
     pageDeals: (id, data) => `/page/${id}/deals${data}`,
     pageDealsCount: (id) => `/page/${id}/dealsCount?countDealsBy=newSeller`,
     portalsReview: (id, status) => `/page/${id}/portalsReview?status=${status}`,
-    propertyVisitById: (id) => `/scheduleVisit/${id}`,
-    propertyVisitScheduleById: (id) => `/schedule/${id}`,
     publishReview: (id, status) => `/page/${id}/publishReview?status=${status}`,
     scanTrial: (id) => `/page/${id}/scanTrial`,
+    scheduleVisit: () => '/scheduleVisitRequest',
+    scheduleVisitId: (id) => `/scheduleVisitRequest/${id}`,
   },
   searchProfile: {
     searchProfileByUserID: (id) => `/user/${id}/searchProfile`,

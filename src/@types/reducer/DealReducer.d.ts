@@ -4,4 +4,7 @@ export interface DealReducerType {
   activeSingleDealNotes: object[],
   activeSingleDealOwnerHistory: object,
   offerListings: object[],
+  scheduleVisit: object[],
+  scheduleVisitData: object[]
+  ,
 }

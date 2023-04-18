@@ -5,9 +5,7 @@ import {phonecode} from '@brixel/brixel-components/dist/constants/CountryCodePho
 import get from 'lodash/get';
 import {connect} from 'react-redux';
 import {useLocation, useNavigate} from 'react-router-dom';
-import {bindActionCreators, compose} from 'redux';
-import {spinnerSmallOff} from '../../../actions/CommonActions';
-import {createPropertyVisitBooking} from '../../../actions/PropertyActions';
+import {compose} from 'redux';
 import ContactForm from '../../../components/ContactForm';
 import translateTo from '../../../utils/translation';
 import type {AddContactBuyerType} from '../../../@types/Pages/Dashboard/Buyer/AddContactBuyer';
@@ -148,11 +146,6 @@ const mapStateToProps = (state) => {
   });
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  handleCreatePropertyVisitBooking: bindActionCreators(createPropertyVisitBooking, dispatch),
-  handleSpinnerSmallOff: bindActionCreators(spinnerSmallOff, dispatch),
-});
-
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(mapStateToProps, null),
 )(AddContactBuyer);

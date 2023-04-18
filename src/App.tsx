@@ -86,7 +86,7 @@ const SingleDocument = lazy(() => import('./Pages/SingleProperty/SingleDocument'
 const CreateDeal = lazy(() => import('./Pages/Deals/CreateDeal'));
 const VisitFeedback = lazy(() => import('./Pages/Deals/VisitFeedback'));
 
-const AddShowingsBuyer = lazy(() => import('./Pages/Dashboard/Buyer/AddShowingsBuyer'));
+const AddShowingsBuyer = lazy(() => import('./Pages/Dashboard/Buyer/ScheduleVisit'));
 
 const AddContactBuyer = lazy(() => import('./Pages/Dashboard/Buyer/AddContactBuyer'));
 

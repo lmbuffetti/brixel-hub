@@ -67,6 +67,11 @@ class Deal extends Base {
     const url = ep.financing.financialCertificate();
     return this.apiClient.post(url, {}, data);
   }
+
+  getScheduleVisit(id, order, direction) {
+    const url = ep.deal.scheduleVisit(id, order, direction);
+    return this.apiClient.get(url);
+  }
 }
 
 export default Deal;

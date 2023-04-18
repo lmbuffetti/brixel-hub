@@ -14,10 +14,10 @@ export interface DashboardType {
   activeSingleProperty: PropertyType;
   errorValue?: object;
   formValue: FormValueType;
-  handleCreatePropertyVisitSchedule: (data: object) => void;
+  handleSaveScheduleVisit: (data: object) => void;
   handleGetActiveSingleCompany: (data: object) => void;
   handleGetActiveSingleProperty: (data: object) => void;
-  handleGetActiveSinglePropertyBookings: (data: object) => void;
+  handleGetScheduleVisit: (data: object) => void;
   handleGetActiveSinglePropertyEstimation: (data: object) => void;
   handleGetImageType: () => void;
   handleGetPackageProperty: (data: object) => void;

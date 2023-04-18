@@ -14,13 +14,12 @@ import {bindActionCreators, compose} from 'redux';
 import {setModal, setPageData, setScreenNotification, spinnerOff, spinnerOn} from '../../../actions/CommonActions';
 import {getActiveSingleCompany} from '../../../actions/CompanyActions';
 import {
-  createPropertyVisitSchedule,
+  saveScheduleVisit,
   getActiveSingleProperty,
-  getActiveSinglePropertyBookings,
+  getScheduleVisit,
   getEstimation,
   getPackageProperty,
   saveActiveSingleProperty,
-  savePropertyVisitBooking,
   savePropertyVisitSchedule,
 } from '../../../actions/PropertyActions';
 import {deleteDocument, getImageType, uploadDocument} from '../../../actions/UploadActions';
@@ -62,10 +61,10 @@ const Dashboard = (props: DashboardType) => {
     activeSingleProperty,
     errorValue,
     formValue,
-    handleCreatePropertyVisitSchedule,
+    handleSaveScheduleVisit,
     handleGetActiveSingleCompany,
     handleGetActiveSingleProperty,
-    handleGetActiveSinglePropertyBookings,
+    handleGetScheduleVisit,
     handleGetActiveSinglePropertyEstimation,
     handleGetImageType,
     handleGetPackageProperty,
@@ -146,7 +145,7 @@ const Dashboard = (props: DashboardType) => {
         }
         if (get(activeSingleProperty, 'owner', null) === get(loggedInUser, 'user.id', '')) {
           // handleGetActiveSingleProperty({ fullVersion: true, id: propID });
-          handleGetActiveSinglePropertyBookings({ id: propID });
+          handleGetScheduleVisit({ id: propID });
         }
         if (imageType.length === 0) handleGetImageType();
       } else {
@@ -180,7 +179,7 @@ const Dashboard = (props: DashboardType) => {
             page: formValue.id,
             slots: formValue.schedule.slots,
           };
-          handleCreatePropertyVisitSchedule(data);
+          handleSaveScheduleVisit(data);
         }
       } else {
         const objToSave = {};
@@ -416,17 +415,16 @@ const mapDispatchToProps = (dispatch) => ({
   handleReset(data) {
     (dispatch(reset('Property', data)));
   },
-  handleCreatePropertyVisitSchedule: bindActionCreators(createPropertyVisitSchedule, dispatch),
+  handleSaveScheduleVisit: bindActionCreators(saveScheduleVisit, dispatch),
   handleDeleteDocument: bindActionCreators(deleteDocument, dispatch),
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
   handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
-  handleGetActiveSinglePropertyBookings: bindActionCreators(getActiveSinglePropertyBookings, dispatch),
+  handleGetScheduleVisit: bindActionCreators(getScheduleVisit, dispatch),
   handleGetActiveSinglePropertyEstimation: bindActionCreators(getEstimation, dispatch),
   handleGetImageType: bindActionCreators(getImageType, dispatch),
   handleGetPackageProperty: bindActionCreators(getPackageProperty, dispatch),
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
   handleSaveData: bindActionCreators(setPageData, dispatch),
-  handleSavePropertyVisitBooking: bindActionCreators(savePropertyVisitBooking, dispatch),
   handleSavePropertyVisitSchedule: bindActionCreators(savePropertyVisitSchedule, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
   handleSetScreenNotification: bindActionCreators(setScreenNotification, dispatch),

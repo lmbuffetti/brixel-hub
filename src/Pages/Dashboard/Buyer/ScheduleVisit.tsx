@@ -9,17 +9,17 @@ import {useParams} from 'react-router-dom';
 import {bindActionCreators, compose} from 'redux';
 import {spinnerSmallOff} from '../../../actions/CommonActions';
 import {
-  createPropertyVisitBooking,
+  saveScheduleVisit,
   getActiveSingleProperty,
-  getActiveSinglePropertyBookings,
+  getScheduleVisit,
 } from '../../../actions/PropertyActions';
-import {QuestionsList} from '../../../resources/SingleProperty/AddShowings';
+import {QuestionsList} from '../../../resources/SingleProperty/ScheduleVisit';
 import {QuestionsListType} from '@brixel/brixel-components/dist/@types/Model';
-import type {AddShowingsBuyerType} from '../../../@types/Pages/Dashboard/Buyer/AddShowingsBuyer';
+import type {ScheduleVisitType} from '../../../@types/Pages/Dashboard/Buyer/ScheduleVisit';
 import FlowScreen from '../../../components/FlowScreen';
 import {getBuyerDeal} from '../../../actions/DealActions';
 
-const AddShowingsBuyer = (props: AddShowingsBuyerType) => {
+const ScheduleVisit = (props: ScheduleVisitType) => {
 
   const match = useParams();
   // PROPS
@@ -27,8 +27,8 @@ const AddShowingsBuyer = (props: AddShowingsBuyerType) => {
     activeSingleDeal,
     activeSingleProperty,
     formValue,
-    handleCreatePropertyVisitBooking,
-    handleGetActiveSinglePropertyBookings,
+    hanldeSaveScheduleVisit,
+    hanldeGetScheduleVisit,
     handleGetActiveSingleProperty,
     handleGetBuyerDeal,
     initForm,
@@ -43,10 +43,10 @@ const AddShowingsBuyer = (props: AddShowingsBuyerType) => {
   const propID = get(match, 'propID', null);
 
   useEffect(() => {
-    if (activeSingleProperty.id) {
+    if (activeSingleProperty.id && activeSingleDeal.id) {
       initForm(initialValues);
     }
-  }, [activeSingleProperty.id, loggedInUser.id]);
+  }, [activeSingleProperty.id, loggedInUser.id, activeSingleDeal.id]);
 
   useEffect(() => {
     if (activeSingleProperty.id && loggedInUser.id) {
@@ -62,17 +62,16 @@ const AddShowingsBuyer = (props: AddShowingsBuyerType) => {
   }, [formValue, lang, translations]);
 
   useEffect(() => {
-    if (propID && loggedInUser.id) {
+    if (activeSingleDeal.id && loggedInUser.id) {
       const data2 = {
-        id: propID,
-        data: {
-          user: loggedInUser.id,
-        },
+        id: activeSingleDeal.id,
+        order: 'createdAt',
+        direction: 'DESC',
         smallLoader: 'getBooking',
       };
-      handleGetActiveSinglePropertyBookings(data2);
+      hanldeGetScheduleVisit(data2);
     }
-  }, [propID, loggedInUser]);
+  }, [activeSingleDeal]);
 
 
   useEffect(() => {
@@ -88,25 +87,20 @@ const AddShowingsBuyer = (props: AddShowingsBuyerType) => {
 
   const saveData = () => {
     const data = {
-      page: activeSingleProperty.id,
-      slots: formValue.scheduleVisitFree,
-      buyer: {
-        name: formValue.name,
-        phone: formValue.phone,
-        email: formValue.email,
-        language: lang,
+      data: {
+        deal: formValue.deal,
+        buyerAvailability: formValue.scheduleVisit,
+        byuerMessage: formValue.message,
       },
-      getByUser: loggedInUser.id,
-      message: formValue.message,
       smallLoader: 'sendData',
     };
-    handleCreatePropertyVisitBooking(data);
+    hanldeSaveScheduleVisit(data);
   };
 
   return (
     <FlowScreen
       baseURL={`/buyer/${activeSingleProperty.id}/scheduleVisit`}
-      formName="Showings"
+      formName="ScheduleVisit"
       onSaveData={() => saveData()}
       QuestionsList={questions}
     />
@@ -119,21 +113,16 @@ const mapStateToProps = (state) => {
   const activeSingleCompany = get(state, 'companies.activeSingleCompany', {});
   activeSingleCompany.defaultDialCode = countryPhoneCode?.dial_code;
   const initialValues = {
-    ...get(state, 'brixelForm.Showings.values', {}),
-    name: get(state, 'user.loggedInUser.user.name', null),
-    phone: {
-      prefix: get(state, 'user.loggedInUser.user.phone.prefix', countryPhoneCode?.dial_code) || countryPhoneCode?.dial_code,
-      number: get(state, 'user.loggedInUser.user.phone.number', ''),
-    },
-    email: get(state, 'user.loggedInUser.user.email', null),
+    ...get(state, 'deal.scheduleVisitData', []),
+    deal: get(state, 'deal.activeSingleDeal.id', null),
   };
   return ({
     activeSingleCompany,
+    activeScheduleVisit: get(state, 'deal.scheduleVisit', []),
     activeSingleDeal: get(state, 'deal.activeSingleDeal', {}),
-    activeSinglePropertyBookingSlots: get(state, 'property.activeSinglePropertyBookingSlots', []),
     activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
-    errorValue: get(state, 'brixelForm.Showings.syncErrors', {}),
-    formValue: get(state, 'brixelForm.Showings.values', {}),
+    errorValue: get(state, 'brixelForm.ScheduleVisit.syncErrors', {}),
+    formValue: get(state, 'brixelForm.ScheduleVisit.values', {}),
     initialValues,
     lang: get(state, 'common.language', 'en'),
     loggedInUser: get(state, 'user.loggedInUser.user', {}),
@@ -143,10 +132,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
   initForm(value) {
-    dispatch(initializeForm('Showings', value));
+    dispatch(initializeForm('ScheduleVisit', value));
   },
-  handleCreatePropertyVisitBooking: bindActionCreators(createPropertyVisitBooking, dispatch),
-  handleGetActiveSinglePropertyBookings: bindActionCreators(getActiveSinglePropertyBookings, dispatch),
+  hanldeSaveScheduleVisit: bindActionCreators(saveScheduleVisit, dispatch),
+  hanldeGetScheduleVisit: bindActionCreators(getScheduleVisit, dispatch),
   handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
   handleGetBuyerDeal: bindActionCreators(getBuyerDeal, dispatch),
   handleSpinnerSmallOff: bindActionCreators(spinnerSmallOff, dispatch),
@@ -154,4 +143,4 @@ const mapDispatchToProps = (dispatch) => ({
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-)(AddShowingsBuyer);
+)(ScheduleVisit);

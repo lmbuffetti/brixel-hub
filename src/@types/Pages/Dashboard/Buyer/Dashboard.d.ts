@@ -7,6 +7,7 @@ export interface DashboardType {
   handleGetActiveSingleCompany: ({id: string}) => void
   handleGetActiveSingleProperty: (data: object) => void;
   handleGetBuyerDeal: ({id: string, actionStub: string}) => void;
+  handleGetScheduleVisit: ({id: string, direction: string, order: string}) => void;
   handleGetFavoritesProperties: (data: object) => void;
   handleSetUserTypes: (val: string) => void;
   handleSpinnerOff: () => void

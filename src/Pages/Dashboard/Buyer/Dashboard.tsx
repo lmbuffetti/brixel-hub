@@ -6,7 +6,7 @@ import {Navigate, Route, Routes, useLocation, useNavigate, useParams} from 'reac
 import {bindActionCreators, compose} from 'redux';
 import {spinnerOff} from '../../../actions/CommonActions';
 import {getActiveSingleCompany} from '../../../actions/CompanyActions';
-import {getBuyerDeal} from '../../../actions/DealActions';
+import {getBuyerDeal, getScheduleVisit} from '../../../actions/DealActions';
 import {getFavoritesProperties} from '../../../actions/MarketActions';
 import {getActiveSingleProperty} from '../../../actions/PropertyActions';
 import {setUserTypes} from '../../../actions/UserActions';
@@ -37,6 +37,7 @@ const Dashboard = (props: DashboardType) => {
     activeSingleDeal,
     handleGetFavoritesProperties,
     handleGetActiveSingleProperty,
+    handleGetScheduleVisit,
     handleGetActiveSingleCompany,
     handleSpinnerOff,
     handleGetBuyerDeal,
@@ -68,7 +69,7 @@ const Dashboard = (props: DashboardType) => {
       handleSetUserTypes('buyer');
       handleSpinnerOff();
     }
-  }, []);
+  }, [loggedInUser.id]);
 
   useEffect(() => {
     if (activeSingleProperty.id && loggedInUser.id) {
@@ -88,6 +89,17 @@ const Dashboard = (props: DashboardType) => {
       }
     }
   }, [activeSingleProperty.id, loggedInUser, activeSingleCompany?.id]);
+
+  useEffect(() => {
+    if (activeSingleDeal.id) {
+      handleGetScheduleVisit({
+        id: activeSingleDeal.id,
+        order: 'createdAt',
+        direction: 'DESC',
+      })
+    }
+  }, [activeSingleDeal.id]);
+
 
   useEffect(() => {
     if (propID && propID !== 'propertyLists') {
@@ -159,6 +171,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleGetFavoritesProperties: bindActionCreators(getFavoritesProperties, dispatch),
   handleSetUserTypes: bindActionCreators(setUserTypes, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
+  handleGetScheduleVisit: bindActionCreators(getScheduleVisit, dispatch),
 });
 
 export default compose(

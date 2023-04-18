@@ -13,6 +13,7 @@ import {
 } from '../actions/types/CommonTypes';
 
 import {
+  GET_SCHEDULE_VISIT,
   CREATE_DEAL,
   GET_ACTIVE_SINGLE_DEAL,
   GET_BUYER_DEAL,
@@ -27,6 +28,8 @@ import {
   SET_OFFER_LISTINGS,
   UPDATE_DEALS_ORDER,
   UPDATE_MULTIPLE_DEALS,
+  SET_SCHEDULE_VISIT,
+  SET_SCHEDULE_VISIT_DATA,
 } from '../actions/types/DealTypes';
 
 import {GET_HISTORY_LISTINGS, SET_DEAL_OWNER_HISTORY_LISTINGS} from '../actions/types/HistoryTypes';
@@ -952,6 +955,64 @@ const checkCommon = (store) => (next) => (action) => {
           // eslint-disable-next-line no-console
           console.error(err);
         });
+      break;
+    }
+    // GET SCHEDULE VISIT
+    case GET_SCHEDULE_VISIT: {
+      const { id, order, direction, smallLoader } = action.payload;
+      if (smallLoader) {
+        store.dispatch({
+          type: SPINNER_SMALL,
+          payload: {
+            [smallLoader]: true,
+          },
+        });
+      } else {
+        store.dispatch({
+          type: SPINNER_ON,
+        });
+      }
+      delete action.payload.smallLoader;
+      api.deal.getScheduleVisit(id, order, direction)
+        .then((res) => {
+          if (res.data) {
+            const buyerAvailability: object[] = [];
+            res.data.forEach((buyDate) => {
+              buyDate.buyerAvailability.forEach((subRes) => {
+                buyerAvailability.push({
+                  ...subRes,
+                  buyerMessage: buyDate.buyerMessage,
+                  buyerStatus: buyDate.buyerStatus,
+                  createdAt: buyDate.createdAt,
+                  deal: buyDate.deal,
+                  sellerStatus: buyDate.sellerStatus,
+                  updatedAt: buyDate.updatedAt,
+                  visitDate: buyDate.visitDate,
+                });
+              })
+            })
+            store.dispatch({
+              type: SET_SCHEDULE_VISIT,
+              payload: buyerAvailability,
+            });
+            store.dispatch({
+              type: SET_SCHEDULE_VISIT_DATA,
+              payload: res.data,
+            });
+          }
+          if (smallLoader) {
+            store.dispatch({
+              type: SPINNER_SMALL,
+              payload: {
+                [smallLoader]: false,
+              },
+            });
+          } else {
+            store.dispatch({
+              type: SPINNER_OFF,
+            });
+          }
+        })
       break;
     }
     default:
