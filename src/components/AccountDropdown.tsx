@@ -121,8 +121,7 @@ const AccountDropdown = (props: AccountDropdownType) => {
                 // @ts-ignore
                 component: BrixelAvatar,
                 props: {
-                  // @ts-ignore
-                  baseURL: (baseByData.shortPath).toString(),
+                  avatarImg: get(loggedInUser, 'avatarUrl', undefined),
                   profileId: get(loggedInUser, 'user.id', ''),
                   name: get(loggedInUser, 'user.firstName', ''),
                   isIcon: true,

@@ -826,10 +826,9 @@ const DashboardHome = (props: DashboardHomeType) => {
                             onClick={() => history.push(`/${activeSingleProperty.id}/prospect/${visit.id}`)}
                           >
                             <BrixelAvatar
-                              baseURL={get(baseByData, 'shortPath', '')}
-                              profileId={get(visit, 'user.id', '')}
+                              avatarImg={get(loggedInUser, 'avatarUrl', undefined)}
                               name={get(visit, 'user.name', '') ? get(visit, 'user.name', '') : 'No Name'}
-                              size="large"
+                              size="M"
                             />
                             <p className="ml-2">
                               {get(visit, 'user.name', '')}

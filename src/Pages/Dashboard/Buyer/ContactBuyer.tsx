@@ -12,7 +12,6 @@ import {
   Helpers,
 } from '@brixel/brixel-components';
 import translateTo from '../../../utils/translation';
-import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import type {ContactBuyerType} from '../../../@types/Pages/Dashboard/Buyer/ContactBuyer';
 
 const ContactBuyer = (props: ContactBuyerType) => {
@@ -42,10 +41,9 @@ const ContactBuyer = (props: ContactBuyerType) => {
             <div className="dis-f jc-b">
               <div className="dis-f a-t">
                 <BrixelAvatar
-                  baseURL={get(baseByData, 'shortPath', '')}
-                  avatarImg={get(contacts, 'avatar.thumbnailPath', null) ? `${baseByData.shortPath}${get(contacts, 'avatar.thumbnailPath', '')}` : null}
+                  avatarImg={get(contacts, 'avatarUrl', undefined)}
                   name={get(contacts, 'name', '') ? get(contacts, 'name', '') : 'No Name'}
-                  size="large"
+                  size="M"
                 />
                 <div>
                   <h5 className="ml-3 mb-0">
