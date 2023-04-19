@@ -1,10 +1,9 @@
 import {
   LoggedUserType,
   PropertyType,
-  // SinglePropertyBookingSlotsType,
+  ScheduleVisitSlotType,
   DealsType,
 } from '@brixel/brixel-components/dist/@types/Model';
-import type {ScheduleVisitSlotType} from './ScheduleVisitComponent';
 
 export interface FormValueType {
   scheduleVisit: ScheduleVisitSlotType[];

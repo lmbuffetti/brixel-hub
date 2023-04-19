@@ -15,7 +15,8 @@ import {
   BrixelSwitchButton, change,
 } from '@brixel/brixel-components/dist/form';
 import translateTo from '../../../utils/translation';
-import type {ScheduleVisitComponentType, ScheduleVisitSlotType} from '../../../@types/Pages/Dashboard/Buyer/ScheduleVisitComponent';
+import type {ScheduleVisitComponentType} from '../../../@types/Pages/Dashboard/Buyer/ScheduleVisitComponent';
+import {ScheduleVisitSlotType} from '@brixel/brixel-components/dist/@types/Model';
 
 const ScheduleVisitComponent = (props: ScheduleVisitComponentType) => {
   const history = {

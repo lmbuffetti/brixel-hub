@@ -8,7 +8,6 @@ import {configureStore} from '../../store';
 import get from 'lodash/get';
 
 export const QuestionsList: (lang: string) => QuestionsListType[] = (lang) => {
-  const store: any = configureStore.getState();
   const formValue = get(configureStore.getState(), 'brixelForm.ScheduleVisit.values', []);
   const dataQuest: QuestionsListType[] = [
     {

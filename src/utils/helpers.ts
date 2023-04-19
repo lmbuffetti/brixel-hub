@@ -381,7 +381,6 @@ export const redirectUrl = (link, options) => {
     isBuyer,
     userType,
   } = options;
-  console.log(url, link);
   if (url) return url;
   if (
     link.toLowerCase().includes('getstartedbuyer') ||
