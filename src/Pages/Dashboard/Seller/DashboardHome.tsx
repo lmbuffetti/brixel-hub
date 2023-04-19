@@ -856,7 +856,7 @@ const DashboardHome = (props: DashboardHomeType) => {
                                   event={{
                                     title: 'My Title',
                                     description: 'My Description',
-                                    startTime: DateTime.fromMillis(visit.visit).toISO(),
+                                    startTime: DateTime.fromMillis(visit.visit).toISO() || '',
                                     // endTime: '2018-10-07T12:00:00+10:00',
                                     location: get(activeSingleProperty, 'location.address', ''),
                                     attendees: [

@@ -122,6 +122,7 @@
     "react-redux/connect-prefer-named-arguments": 2,
     "react-redux/prefer-separate-component-file": 0,
     "cypress/no-unnecessary-waiting": 0,
+    "@typescript-eslint/no-unused-vars": ["error"],
     "react/forbid-prop-types": [
       "error",
       {

@@ -86,7 +86,7 @@ const ScheduleVisitComponent = (props: ScheduleVisitComponentType) => {
         end: endTimestamp,
         start: startTimestamp,
         isAllDay: allDay,
-        timezone: startObjDate.zoneName,
+        timezone: startObjDate.zoneName || '',
       };
       newScheduleVisit.push(objDate);
       changeFieldValue('scheduleVisit', newScheduleVisit);
