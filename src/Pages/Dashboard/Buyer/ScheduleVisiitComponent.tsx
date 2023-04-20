@@ -179,9 +179,13 @@ const ScheduleVisitComponent = (props: ScheduleVisitComponentType) => {
                   ))
                 }
                 {
+                  (formValue?.scheduleVisit || []).length > 0 && (
+                    <h6 className="mt-3">Booking date</h6>
+                  )
+                }
+                {
                   (formValue?.scheduleVisit || []).map((val, i) => (
                     <React.Fragment key={`dateCard${i.toString()}`}>
-                      <h6 className="mt-3">Booking date</h6>
                       <SingleDateComponent
                         index={i}
                         val={val}

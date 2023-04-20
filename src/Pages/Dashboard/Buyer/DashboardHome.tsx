@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import { BrixelButtonPrimary, BrixelButtonSecondary} from '@brixel/brixel-components';
 import get from 'lodash/get';
-import isNaN from 'lodash/isNaN';
 import {DateTime} from 'luxon';
 import {connect} from 'react-redux';
 import {useLocation, useNavigate, useParams} from 'react-router-dom';
@@ -20,7 +19,7 @@ import schedulePendingSvg from '../../../images/dashboard/schedulePending.svg';
 import {getCookie, setCookie} from '../../../utils/helpers';
 import translateTo from '../../../utils/translation';
 import type {ContactType} from '../../../@types/Pages/Dashboard/Buyer/DashboardHome';
-import {SinglePropertyBookingSlotsType} from '@brixel/brixel-components/dist/@types/Model';
+import {ScheduleVisitRequestType} from '@brixel/brixel-components/dist/@types/Model';
 import ModalAddToCalendar from '../../../components/ModalAddToCalendar';
 
 const DashboardHome = (props: ContactType) => {
@@ -32,18 +31,18 @@ const DashboardHome = (props: ContactType) => {
   // PROPS
   const {
     activeSingleCompany,
-    activeSingleDeal,
     activeSingleProperty,
     activeSinglePropertyBookingSlots,
     handleSetModal,
     isSmallLoading,
     lang,
     loggedInUser,
+    scheduleVisit,
     userTypes = 'user',
   } = props;
   // STATE
   const [progressState, setProgressState] = useState({step: 1});
-  const [visitAccepted, setVisitAccepted] = useState<SinglePropertyBookingSlotsType | string>();
+  const [visitAccepted, setVisitAccepted] = useState<ScheduleVisitRequestType>();
   const [showFirstWelcomMessage, setShowFirstWelcomMessage] = useState(false);
   const propID = get(match, 'propID', null);
 
@@ -55,10 +54,11 @@ const DashboardHome = (props: ContactType) => {
   }, []);
 
   useEffect(() => {
-    if (activeSingleDeal?.visit && !isNaN(+get(activeSingleDeal, 'visit', 0))) {
-      setVisitAccepted(get(activeSingleDeal, 'visit', 0).toString());
+    if (scheduleVisit.length > 0) {
+      const acceptedVisits = scheduleVisit.find((vst) => vst.sellerStatus === 'accepted' && vst.buyerStatus === 'accepted' && vst.visit.date);
+      setVisitAccepted(acceptedVisits);
     }
-  }, [activeSingleDeal]);
+  }, [scheduleVisit]);
 
   useEffect(() => {
     if (activeSingleProperty.sellerStatus === 'success') setProgressState({step: 5});
@@ -82,15 +82,6 @@ const DashboardHome = (props: ContactType) => {
         }
         <span className="ml-small-4"> {loggedInUser && (<>{loggedInUser.firstName}</>)} 👋 </span>
       </h4>
-      <div className="dis-f a-c w-perc-100 mt-1">
-        {
-          typeof visitAccepted !== 'string' && visitAccepted?.slot && visitAccepted.slot.split( ' ')[0] && (
-            <h5 className="pr-2 txtGreen400 fweight-600">
-              {DateTime.fromMillis(activeSingleDeal.visit).toFormat('dd LLL yyyy, hh:mm', { locale: lang})}
-            </h5>
-          )
-        }
-      </div>
 
       <div className="max-w-fix-1024 dis-fl-col pr-md-2">
 
@@ -115,12 +106,12 @@ const DashboardHome = (props: ContactType) => {
                       </h5>
                       <div className="dis-f a-c max-w-perc-80 mt-1">
                         <h5 className="pr-2 txtGreen400 fweight-600 mb-3">
-                          {typeof visitAccepted === 'string' && !isNaN(+visitAccepted) ? DateTime.fromMillis(+visitAccepted.toString()).toFormat('dd LLL yyyy, hh:mm', { locale: lang}) : visitAccepted.toString()}
+                          {DateTime.fromMillis(visitAccepted.visit.date).toFormat('dd LLL yyyy, hh:mm', { locale: lang})}
                         </h5>
                       </div>
 
                       {
-                        !isNaN(+visitAccepted) && (
+                        visitAccepted?.visit?.date && (
                           <div className="mt-a">
                             <BrixelButtonPrimary
                               label={translateTo('Show details', lang)}
@@ -293,6 +284,7 @@ const mapStateToProps = (state) => ({
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
   lang: get(state, 'common.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
+  scheduleVisit: get(state, 'deal.scheduleVisit', []),
   searchProfile: get(state, 'user.userSearchProfiles[0]', {}),
 });
 

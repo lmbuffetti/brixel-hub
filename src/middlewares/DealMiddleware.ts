@@ -978,18 +978,22 @@ const checkCommon = (store) => (next) => (action) => {
           if (res.data) {
             const buyerAvailability: object[] = [];
             res.data.forEach((buyDate) => {
-              buyDate.buyerAvailability.forEach((subRes) => {
-                buyerAvailability.push({
-                  ...subRes,
-                  buyerMessage: buyDate.buyerMessage,
-                  buyerStatus: buyDate.buyerStatus,
-                  createdAt: buyDate.createdAt,
-                  deal: buyDate.deal,
-                  sellerStatus: buyDate.sellerStatus,
-                  updatedAt: buyDate.updatedAt,
-                  visitDate: buyDate.visitDate,
-                });
-              })
+              if (buyDate.buyerAvailability.length === 0) {
+                buyerAvailability.push(buyDate);
+              } else {
+                buyDate.buyerAvailability.forEach((subRes) => {
+                  buyerAvailability.push({
+                    ...subRes,
+                    buyerMessage: buyDate.buyerMessage,
+                    buyerStatus: buyDate.buyerStatus,
+                    createdAt: buyDate.createdAt,
+                    deal: buyDate.deal,
+                    sellerStatus: buyDate.sellerStatus,
+                    updatedAt: buyDate.updatedAt,
+                    visitDate: buyDate.visitDate,
+                  });
+                })
+              }
             })
             store.dispatch({
               type: SET_SCHEDULE_VISIT,
