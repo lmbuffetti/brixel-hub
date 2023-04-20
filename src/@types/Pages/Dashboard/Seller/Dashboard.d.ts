@@ -14,7 +14,6 @@ export interface DashboardType {
   activeSingleProperty: PropertyType;
   errorValue?: object;
   formValue: FormValueType;
-  handleSaveScheduleVisit: (data: object) => void;
   handleGetActiveSingleCompany: (data: object) => void;
   handleGetActiveSingleProperty: (data: object) => void;
   handleGetScheduleVisit: (data: object) => void;
@@ -23,7 +22,6 @@ export interface DashboardType {
   handleGetPackageProperty: (data: object) => void;
   handleReset: (data: object) => void;
   handleSaveActiveSingleProperty: (data: object) => void;
-  handleSavePropertyVisitSchedule: (data: object) => void;
   handleSetScreenNotification: (data: object) => void;
   handleSetUserTypes: (val: string) => void;
   handleSpinnerOff: () => void;

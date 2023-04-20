@@ -14,13 +14,11 @@ import {bindActionCreators, compose} from 'redux';
 import {setModal, setPageData, setScreenNotification, spinnerOff, spinnerOn} from '../../../actions/CommonActions';
 import {getActiveSingleCompany} from '../../../actions/CompanyActions';
 import {
-  saveScheduleVisit,
   getActiveSingleProperty,
   getScheduleVisit,
   getEstimation,
   getPackageProperty,
   saveActiveSingleProperty,
-  savePropertyVisitSchedule,
 } from '../../../actions/PropertyActions';
 import {deleteDocument, getImageType, uploadDocument} from '../../../actions/UploadActions';
 import {setUserTypes} from '../../../actions/UserActions';
@@ -61,7 +59,6 @@ const Dashboard = (props: DashboardType) => {
     activeSingleProperty,
     errorValue,
     formValue,
-    handleSaveScheduleVisit,
     handleGetActiveSingleCompany,
     handleGetActiveSingleProperty,
     handleGetScheduleVisit,
@@ -69,7 +66,6 @@ const Dashboard = (props: DashboardType) => {
     handleGetImageType,
     handleGetPackageProperty,
     handleSaveActiveSingleProperty,
-    handleSavePropertyVisitSchedule,
     handleSetScreenNotification,
     handleSetUserTypes,
     handleSpinnerOff,
@@ -162,44 +158,22 @@ const Dashboard = (props: DashboardType) => {
   const saveData = () => {
     const changeObj = diff(initialValues, formValue);
     if (Object.keys(changeObj).length > 0) {
-      if (get(changeObj, 'schedule', null)) {
-        // Update schedule
-        if (has(formValue, 'schedule.id')) {
-          const data = {
-            scheduleId: formValue.schedule.id,
-            data: {
-              page: formValue.id,
-              slots: formValue.schedule.slots,
-            },
-          };
-          handleSavePropertyVisitSchedule(data);
-        } else {
-          // Create schedule
-          const data = {
-            page: formValue.id,
-            slots: formValue.schedule.slots,
-          };
-          handleSaveScheduleVisit(data);
-        }
-      } else {
-        const objToSave = {};
-        Object.keys(changeObj).map((key) => {
-          objToSave[key] = get(formValue, key, {});
-          return null;
-        });
-        if (get(changeObj, 'photos', null)) {
-          set(objToSave , 'coverPhoto', get(formValue, 'photos', [])[0]);
-        }
-        set(objToSave, 'inputSheet', get(formValue, 'inputSheet', {}));
-        const data = {
-          id: propID,
-          smallLoader: 'saveData',
-          setSuccessNotification: true,
-          ...objToSave,
-        };
-        handleSaveActiveSingleProperty(data);
-        // const inputSheet = get(formValue, 'inputSheet', {}) || {};
+      const objToSave = {};
+      Object.keys(changeObj).map((key) => {
+        objToSave[key] = get(formValue, key, {});
+        return null;
+      });
+      if (get(changeObj, 'photos', null)) {
+        set(objToSave , 'coverPhoto', get(formValue, 'photos', [])[0]);
       }
+      set(objToSave, 'inputSheet', get(formValue, 'inputSheet', {}));
+      const data = {
+        id: propID,
+        smallLoader: 'saveData',
+        setSuccessNotification: true,
+        ...objToSave,
+      };
+      handleSaveActiveSingleProperty(data);
     }
   };
 
@@ -415,7 +389,6 @@ const mapDispatchToProps = (dispatch) => ({
   handleReset(data) {
     (dispatch(reset('Property', data)));
   },
-  handleSaveScheduleVisit: bindActionCreators(saveScheduleVisit, dispatch),
   handleDeleteDocument: bindActionCreators(deleteDocument, dispatch),
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
   handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
@@ -425,7 +398,6 @@ const mapDispatchToProps = (dispatch) => ({
   handleGetPackageProperty: bindActionCreators(getPackageProperty, dispatch),
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
   handleSaveData: bindActionCreators(setPageData, dispatch),
-  handleSavePropertyVisitSchedule: bindActionCreators(savePropertyVisitSchedule, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
   handleSetScreenNotification: bindActionCreators(setScreenNotification, dispatch),
   handleSetUserTypes: bindActionCreators(setUserTypes, dispatch),
