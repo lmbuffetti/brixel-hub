@@ -492,6 +492,7 @@ const FlowScreen = (props: FlowScreenType) => {
                 </div>
               </div>
             </div>
+            {redirectUrl(history.location.pathname, {propID})}
             {
               get(quest, 'history', null) !== 'createProfile' && get(quest, 'hideFooter', null) !== true && (
                 <div
@@ -499,6 +500,7 @@ const FlowScreen = (props: FlowScreenType) => {
                 >
                   <div className="pos-r">
                     <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-c">
+
                       {
                         (
                           currentIndex !== questions.length - 2 &&
@@ -539,7 +541,7 @@ const FlowScreen = (props: FlowScreenType) => {
                                   label={translateTo('Close', lang)}
                                   isLoading={isSmallLoading.sendData}
                                   rightIcon="arrow-right-small"
-                                  onClick={() => history.push(closeLink || '../../')}
+                                  onClick={() => closeWindow()}
                                   onShowError={() => setShowError(true)}
                                   type="submit"
                                 />

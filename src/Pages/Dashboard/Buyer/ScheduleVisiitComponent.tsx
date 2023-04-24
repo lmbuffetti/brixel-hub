@@ -127,13 +127,24 @@ const ScheduleVisitComponent = (props: ScheduleVisitComponentType) => {
                 </span>
               ) : (
                 <>
-                  <span>
-                    {DateTime.fromMillis(val.start).toFormat('HH:mm')}
-                  </span>
-                  <span className="mx-small-4">-</span>
-                  <span>
-                    {DateTime.fromMillis(val.end).toFormat('HH:mm')}
-                  </span>
+                  {
+                    val.start && (
+                      <span>
+                        {DateTime.fromMillis(val.start).toFormat('HH:mm')}
+                      </span>
+                    )
+                  }
+
+                  {
+                    val.end && (
+                      <>
+                        <span className="mx-small-4">-</span>
+                        <span>
+                          {DateTime.fromMillis(val.end).toFormat('HH:mm')}
+                        </span>
+                      </>
+                    )
+                  }
                 </>
               )
             }
