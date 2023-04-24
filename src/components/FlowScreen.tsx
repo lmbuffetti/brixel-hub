@@ -249,7 +249,7 @@ const FlowScreen = (props: FlowScreenType) => {
   // FUNCTION TO CLOSE
   const closeWindow = () => {
     handleReset(formName, initialValues);
-    const linkToRedirect = redirectUrl(history.location.pathname, {propID});
+    const linkToRedirect = closeLink || redirectUrl(history.location.pathname, {propID});
     history.push(linkToRedirect);
   };
 
