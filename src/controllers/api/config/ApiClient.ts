@@ -1,19 +1,26 @@
 import getConfigEnv from '@brixel/brixel-components/dist/configuration/Settings';
 import axios, {AxiosRequestConfig} from 'axios';
+import { setupCache, buildWebStorage } from 'axios-cache-interceptor';
 import get from 'lodash/get';
 import Cookies from 'universal-cookie';
 import {failureHandler, successHandler} from '../utils/api.helper';
 
 const cookies = new Cookies();
 
+const axiosCached = setupCache(axios, {
+  // As localStorage is a public storage, you can add a prefix
+  // to all keys to avoid collisions with other code.
+  storage: buildWebStorage(localStorage, 'axios-cache:'),
+});
+
 // Add a request interceptor
-axios.interceptors.request.use(
+axiosCached.interceptors.request.use(
   (request) => request,
   (error) => Promise.reject(error),
 );
 
 // Add a response interceptor
-axios.interceptors.response.use(
+axiosCached.interceptors.response.use(
   (response) => response,
   (error) => Promise.reject(error),
 );
@@ -166,7 +173,7 @@ class ApiClient {
       withCredentials: false,
       data,
     };
-    return axios(config)
+    return axiosCached(config)
       .then((res) => successHandler(res, id))
       .catch(failureHandler);
   }

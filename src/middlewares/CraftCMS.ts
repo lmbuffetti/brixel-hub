@@ -41,6 +41,10 @@ const checkCommon = (store) => (next) => (action) => {
               type: SPINNER_OFF,
             });
           }
+        })
+        .catch((err) => {
+          // eslint-disable-next-line no-console
+          console.log(err);
         });
       break;
     }

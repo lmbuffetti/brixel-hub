@@ -34,7 +34,7 @@ const BannerBox = (props: BannerBoxType) => {
       };
       api.craftCMS.getHubContent(data)
         .then((res) => {
-          setBanner(get(res, 'data.data.bannersEntries[0]', {}))
+          setBanner(get(res, 'data.bannersEntries[0]', {}))
         })
         .catch((error) => {
           // eslint-disable-next-line no-console
