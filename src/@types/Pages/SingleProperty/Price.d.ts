@@ -13,5 +13,5 @@ export interface PriceType {
   proEstimation?: {
     document: DocumentType;
   };
-  setSplashScreen: (val: string | object) => void;
+  handleSetModal: (val: object) => void;
 }
