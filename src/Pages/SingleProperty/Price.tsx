@@ -15,7 +15,7 @@ import {bindActionCreators, compose} from 'redux';
 import {connect} from 'react-redux';
 import {factsOptions} from '@brixel/brixel-components/dist/constants/Facts';
 import {DateTime} from 'luxon';
-import {setHistory, setSplashType} from '../../actions/CommonActions';
+import {setHistory, setModal} from '../../actions/CommonActions';
 import {InputSheets} from '../../resources/SingleProperty/inputSheets';
 import {calcPercentageProEstimation, completedBestimate} from '../../utils/helpers';
 
@@ -39,12 +39,12 @@ const Price = (props: PriceType) => {
     changeFieldValue,
     estimation,
     formValue,
-    handleGetEstimation,
     handleGenerateBestimate,
+    handleGetEstimation,
     handleSetHistory,
+    handleSetModal,
     lang,
     proEstimation,
-    setSplashScreen,
   } = props;
 
   // STATE
@@ -107,18 +107,17 @@ const Price = (props: PriceType) => {
   }, [formValue]);
 
   const openBestimate = () => {
-    setSplashScreen({
-      component: BestimateCardOverlay,
-      props: {
-        clearEstimation: false,
-        lang: lang,
-      },
+    handleSetModal({
+      component: <BestimateCardOverlay activeSinglePropertyId={activeSingleProperty.id} clearEstimation={false} lang={lang} />,
+      state: true,
+      small: true,
+      layout: 'xxlarge',
     });
   };
 
   const onBestimateFlow = () => {
     history.push(`/${activeSingleProperty.id}/singleFlow/achievement/bestimate/step1?url=/${activeSingleProperty.id}/property/price`);
-    setSplashScreen('');
+    handleSetModal({});
     handleSetHistory({ source: `/${activeSingleProperty.id}/property/price` });
   };
 
@@ -439,7 +438,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleGetEstimation: bindActionCreators(getEstimation, dispatch),
   handleGenerateBestimate: bindActionCreators(generateEstimation, dispatch),
   handleSetHistory: bindActionCreators(setHistory, dispatch),
-  setSplashScreen: bindActionCreators(setSplashType, dispatch),
+  handleSetModal: bindActionCreators(setModal, dispatch),
 });
 
 export default compose(
