@@ -10,6 +10,7 @@ import {completedBestimate, convertLabel} from '../../utils/helpers';
 import translateTo from '../../utils/translation';
 import CoverPropertyImage from '../CoverPropertyImage';
 import type {DashboardPropertyCardProps} from '../../@types/components/Cards/DashboardPropertyCard';
+import BestimateCardOverlay from '../BestimateCardOverlay';
 
 const DashboardPropertyCard: (props: DashboardPropertyCardProps) => JSX.Element = (props: DashboardPropertyCardProps) => {
   const history = {
@@ -317,7 +318,9 @@ const DashboardPropertyCard: (props: DashboardPropertyCardProps) => JSX.Element 
                                               <button
                                                 onClick={() => handleSetModal({
                                                   state: true,
-                                                  type: 'bestimate',
+                                                  small: true,
+                                                  component: <BestimateCardOverlay activeSinglePropertyId={activeSingleProperty.id} lang={lang} />,
+                                                  layout: 'xlarge',
                                                 })}
                                                 className="txtBlue700 no-state fweight-600 fsize-400 ml-1-neg"
                                               >

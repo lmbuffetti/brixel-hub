@@ -5,7 +5,7 @@ export const PackagesComparePlansTable = [
       basic: { color: 'green' },
       private: { color: 'blue' },
       premium: { color: 'red' },
-      one: { color: 'dark' },
+      one: { color: 'text' },
     },
   },
   {
@@ -14,7 +14,7 @@ export const PackagesComparePlansTable = [
       basic: { color: 'green' },
       private: { color: 'blue' },
       premium: { color: 'red' },
-      one: { color: 'dark' },
+      one: { color: 'text' },
     },
   },
   {
@@ -23,7 +23,7 @@ export const PackagesComparePlansTable = [
       basic: { color: 'green' },
       private: { color: 'blue' },
       premium: { color: 'red' },
-      one: { color: 'dark' },
+      one: { color: 'text' },
     },
   },
   {
@@ -32,7 +32,7 @@ export const PackagesComparePlansTable = [
       basic: { color: 'green', desc: 'Online' },
       private: { color: 'blue', desc: 'Online' },
       premium: { color: 'red', desc: 'Backoffice' },
-      one: { color: 'dark', desc: 'Expert' },
+      one: { color: 'text', desc: 'Expert' },
     },
   },
   {
@@ -40,7 +40,7 @@ export const PackagesComparePlansTable = [
     td: {
       private: { color: 'blue', desc: '3 months listings' },
       premium: { color: 'red', desc: '6 months listings' },
-      one: { color: 'dark', desc: '12 months listings' },
+      one: { color: 'text', desc: '12 months listings' },
     },
   },
   {
@@ -48,7 +48,7 @@ export const PackagesComparePlansTable = [
     td: {
       private: null,
       premium: { color: 'red' },
-      one: { color: 'dark' },
+      one: { color: 'text' },
     },
   },
   {
@@ -56,7 +56,7 @@ export const PackagesComparePlansTable = [
     td: {
       private: null,
       premium: { color: 'red' },
-      one: { color: 'dark' },
+      one: { color: 'text' },
     },
   },
   {
@@ -64,7 +64,7 @@ export const PackagesComparePlansTable = [
     td: {
       private: null,
       premium: { color: 'red' },
-      one: { color: 'dark' },
+      one: { color: 'text' },
     },
   },
   {
@@ -72,7 +72,7 @@ export const PackagesComparePlansTable = [
     td: {
       private: null,
       premium: { color: 'red' },
-      one: { color: 'dark' },
+      one: { color: 'text' },
     },
   },
   {
@@ -80,7 +80,7 @@ export const PackagesComparePlansTable = [
     td: {
       private: null,
       premium: { color: 'red' },
-      one: { color: 'dark' },
+      one: { color: 'text' },
     },
   },
   {
@@ -88,7 +88,7 @@ export const PackagesComparePlansTable = [
     td: {
       private: null,
       premium: { color: 'red' },
-      one: { color: 'dark' },
+      one: { color: 'text' },
     },
   },
   {
@@ -96,7 +96,7 @@ export const PackagesComparePlansTable = [
     td: {
       private: null,
       premium: null,
-      one: { color: 'dark' },
+      one: { color: 'text' },
     },
   },
   {
@@ -104,7 +104,7 @@ export const PackagesComparePlansTable = [
     td: {
       private: null,
       premium: null,
-      one: { color: 'dark' },
+      one: { color: 'text' },
     },
   },
   {
@@ -112,7 +112,7 @@ export const PackagesComparePlansTable = [
     td: {
       private: null,
       premium: null,
-      one: { color: 'dark' },
+      one: { color: 'text' },
     },
   },
   {
@@ -120,7 +120,7 @@ export const PackagesComparePlansTable = [
     td: {
       private: null,
       premium: null,
-      one: { color: 'dark', desc: 'Paid add-on' },
+      one: { color: 'text', desc: 'Paid add-on' },
     },
   },
 ];
