@@ -35,10 +35,10 @@
     > div {
       @media (min-width: $responsive-medium) {
         .secondLevel {
-          margin-right: calc($step * 1).5;
+          margin-right: calc($step * 1.5);
         }
         .thirdLevel {
-          margin-left: calc($step * 1).5;
+          margin-left: calc($step * 1.5);
         }
       }
     }
