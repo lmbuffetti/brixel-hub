@@ -122,7 +122,7 @@ function RightHeaderFlow(props: RightHeaderFlowType) {
             <BrixelDropdown
               noBorder
               className="langMenu"
-              color="dark"
+              color="text"
               saturationTxt={700}
               keyType="label"
               selected={currentLang || 'en'}

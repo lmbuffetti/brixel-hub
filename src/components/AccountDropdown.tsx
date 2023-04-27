@@ -114,8 +114,8 @@ const AccountDropdown = (props: AccountDropdownType) => {
               alignmentDropList="right"
               bgTransparent
               noBorder
-              color="dark"
-              saturationTxt={400}
+              color="text"
+              saturationTxt={700}
               closeDropDown={closeDropDown}
               selectedComponent={{
                 // @ts-ignore

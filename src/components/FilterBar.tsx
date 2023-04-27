@@ -89,7 +89,7 @@ const FilterBar = (props: FilterBarType) => {
             <div className="deals-filter pos-r as-fe dis-f" ref={propertyFilterRef}>
               <BrixelButtonText
                 className="ml-2"
-                theme="Dark"
+                theme="black"
                 rounded
                 label={translateTo(`${getLabel()}`, lang)}
                 leftIcon="filter"
@@ -103,8 +103,7 @@ const FilterBar = (props: FilterBarType) => {
                       <BrixelIcon
                         className="pos-a x-r cur-poi mt-2 mr-2 fsize-400"
                         icon="close"
-                        color="dark"
-                        saturationTxt={700}
+                        color="text"
                         onClick={() => setFilterMenu(!filterMenu)}
                       />
                     </div>

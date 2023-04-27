@@ -349,7 +349,7 @@ const Documents = (props: DocumentsPageType) => {
                                     mandatoryDocumentExists(element) === true && (
                                       <BrixelIcon
                                         icon="check-small-fill"
-                                        color="dark"
+                                        color="text"
                                         className="mr-3"
                                       />
                                     )

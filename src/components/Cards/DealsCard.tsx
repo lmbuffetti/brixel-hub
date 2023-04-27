@@ -134,7 +134,7 @@ const DealsCard = (props: DealsCardProps) => {
                   <div className="dis-fl-row a-c">
                     <BrixelIcon
                       icon="calendar-add"
-                      color="dark"
+                      color="text"
                       className="mr-1"
                       iconWidth="w-fix-16"
                     />
@@ -177,7 +177,7 @@ const DealsCard = (props: DealsCardProps) => {
                       <>
                         <BrixelIcon
                           icon="money"
-                          color="dark"
+                          color="text"
                           saturationTxt={200}
                           className="mr-1"
                           iconWidth="w-fix-16"
