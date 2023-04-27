@@ -107,7 +107,7 @@ const ModalPropertyEstimation = (props: ModalPropertyEstimationType) => {
             rounded
             background="white"
             saturation={0}
-            color="altGrey"
+            color="text"
             className="pos-a-fix x-r-2 x-t-2"
             icon="close-small"
             onClick={() => onClose()}
@@ -413,7 +413,8 @@ const ModalPropertyEstimation = (props: ModalPropertyEstimationType) => {
 
         <div className="dis-f a-c jc-b mb-4 px-3">
           <BrixelButtonText
-            theme="altGrey"
+            theme="text"
+            themeSat={500}
             bgTransparent
             label={translateTo('Close', lang)}
             onClick={() => onClose()}

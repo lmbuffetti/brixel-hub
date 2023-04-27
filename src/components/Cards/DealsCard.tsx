@@ -68,7 +68,7 @@ const DealsCard = (props: DealsCardProps) => {
   };
 
   const getColor = () => {
-    if (visit < +new Date().setHours(0, 0, 0, 0)) return 'dark';
+    if (visit < +new Date().setHours(0, 0, 0, 0)) return 'text';
     return 'green';
   };
 
@@ -91,7 +91,7 @@ const DealsCard = (props: DealsCardProps) => {
     if (get(offer, 'offer.status', null) === 'pending') return 'Yellow';
     if (get(offer, 'offer.status', null) === 'accepted') return 'Green';
     if (get(offer, 'offer.status', null) === 'rejected') return 'Red';
-    return 'Dark';
+    return 'Text';
   };
 
   const getFeedback = () => {

@@ -139,7 +139,7 @@ function RightHeaderFlow(props: RightHeaderFlowType) {
             <BrixelButtonIcon
               ghost
               className="zIndex11"
-              theme="altGrey"
+              theme="text"
               icon="close-small"
               onClick={() => closeOverlay()}
             />

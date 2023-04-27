@@ -420,8 +420,8 @@ const Financing = (props: FinancingType) => {
               className="brdRadius"
               saturation={500}
               color="green"
-              barBackground="light"
-              backgroundSaturation={200}
+              barBackground="text"
+              backgroundSaturation={100}
               progressValue={progressBarCalc()}
             />
           )

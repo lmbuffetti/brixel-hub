@@ -188,8 +188,8 @@ const Facts = (props: FactsType) => {
                               <BrixelIcon
                                 className="fsize-400 mr-1 onHover"
                                 icon="arrow-simple-right"
-                                color="light"
-                                saturationTxt={400}
+                                color="text"
+                                saturationTxt={200}
                               />
                             </div>
 

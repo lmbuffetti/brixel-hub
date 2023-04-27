@@ -126,7 +126,7 @@ const BrixelClosingTree = (props: BrixelClosingTreeType) => {
     default: {
       icon: 'check-small',
       label: translateTo('', lang),
-      color: 'dark',
+      color: 'text',
       colorText: 'txtText700',
     },
   };
