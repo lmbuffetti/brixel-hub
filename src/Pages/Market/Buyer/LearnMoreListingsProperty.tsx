@@ -34,7 +34,7 @@ const LearnMoreListingsProperty = (props: LearnMoreListingsPropertyType) => {
         </p>
         <div className="mt-3 mb-5">
           <BrixelProgressBar
-            barBackground="altGrey"
+            barBackground="text"
             rounded
             progressValue={(step * 100) / stepsNumber}
           />

@@ -122,7 +122,7 @@ function RightHeaderFlow(props: RightHeaderFlowType) {
             <BrixelDropdown
               noBorder
               className="langMenu"
-              color="dark"
+              color="text"
               saturationTxt={700}
               keyType="label"
               selected={currentLang || 'en'}
@@ -139,7 +139,7 @@ function RightHeaderFlow(props: RightHeaderFlowType) {
             <BrixelButtonIcon
               ghost
               className="zIndex11"
-              theme="altGrey"
+              theme="text"
               icon="close-small"
               onClick={() => closeOverlay()}
             />

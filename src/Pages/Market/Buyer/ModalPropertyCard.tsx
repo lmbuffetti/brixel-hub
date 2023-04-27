@@ -131,7 +131,7 @@ const ModalPropertyCard = (props: ModalPropertyCardType) => {
           <BrixelButtonText
             className="td-u"
             bgTransparent
-            theme="altGrey"
+            theme="text"
             label={translateTo('Close', lang)}
             onClick={() => onClose()}
           />

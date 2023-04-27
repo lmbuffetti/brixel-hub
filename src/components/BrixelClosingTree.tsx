@@ -126,7 +126,7 @@ const BrixelClosingTree = (props: BrixelClosingTreeType) => {
     default: {
       icon: 'check-small',
       label: translateTo('', lang),
-      color: 'dark',
+      color: 'text',
       colorText: 'txtText700',
     },
   };
@@ -244,7 +244,7 @@ const BrixelClosingTree = (props: BrixelClosingTreeType) => {
                   get(activeSingleClosing, 'stageOffer.active', null) === false ? (
                     <BrixelIcon
                       icon="locked"
-                      color="dark"
+                      color="text"
                       className="mb-1"
                     />
                   ) : (
@@ -268,7 +268,7 @@ const BrixelClosingTree = (props: BrixelClosingTreeType) => {
                             <BrixelIcon
                               icon="check-small"
                               className="mr-1"
-                              color="altGrey"
+                              color="text"
                               iconWidth="w-fix-24"
                             />
                             <span>{translateTo('Buyer', lang)}</span>
@@ -324,7 +324,7 @@ const BrixelClosingTree = (props: BrixelClosingTreeType) => {
                       <span>{translateTo('Buyer', lang)}</span>
                       <BrixelIcon
                         icon="locked"
-                        color="dark"
+                        color="text"
                         iconWidth="w-fix-24"
                       />
                     </div>
@@ -343,7 +343,7 @@ const BrixelClosingTree = (props: BrixelClosingTreeType) => {
                             ) : (
                               <BrixelIcon
                                 icon="check-small"
-                                color="altGrey"
+                                color="text"
                                 className="mr-1"
                                 iconWidth="w-fix-24"
                               />
@@ -422,7 +422,7 @@ const BrixelClosingTree = (props: BrixelClosingTreeType) => {
                     <div>
                       <BrixelIcon
                         icon={get(activeSingleClosing, `${stage}.buyer.status`, null) ? 'check-small-fill' : 'check-small'}
-                        color={get(activeSingleClosing, `${stage}.buyer.status`, null) ? 'green' : 'altGrey'}
+                        color={get(activeSingleClosing, `${stage}.buyer.status`, null) ? 'green' : 'text'}
                         className="mr-1"
                         iconWidth="w-fix-24"
                       />
@@ -441,7 +441,7 @@ const BrixelClosingTree = (props: BrixelClosingTreeType) => {
                     <span>{translateTo('Buyer', lang)}</span>
                     <BrixelIcon
                       icon={get(activeSingleClosing, `${stage}.active`, null) ? 'check-small' : 'locked'}
-                      color="dark"
+                      color="text"
                       iconWidth="w-fix-24"
                     />
                   </>
@@ -462,7 +462,7 @@ const BrixelClosingTree = (props: BrixelClosingTreeType) => {
                     <div>
                       <BrixelIcon
                         icon={get(activeSingleClosing, `${stage}.buyer.status`, null) ? 'check-small-fill' : 'check-small'}
-                        color={get(activeSingleClosing, `${stage}.buyer.status`, null) ? 'green' : 'altGrey'}
+                        color={get(activeSingleClosing, `${stage}.buyer.status`, null) ? 'green' : 'text'}
                         className="mr-1"
                         iconWidth="w-fix-24"
                       />
@@ -494,7 +494,7 @@ const BrixelClosingTree = (props: BrixelClosingTreeType) => {
                     <span>{translateTo('Buyer', lang)}</span>
                     <BrixelIcon
                       icon={get(activeSingleClosing, `${stage}.active`, null) ? 'check-small' : 'locked'}
-                      color="dark"
+                      color="text"
                       iconWidth="w-fix-24"
                     />
                   </div>
@@ -519,7 +519,7 @@ const BrixelClosingTree = (props: BrixelClosingTreeType) => {
                   get(activeSingleClosing, 'stageOffer.active', null) === false ? (
                     <BrixelIcon
                       icon="locked"
-                      color="dark"
+                      color="text"
                       iconWidth="w-fix-16"
                     />
                   ) : (
@@ -529,7 +529,7 @@ const BrixelClosingTree = (props: BrixelClosingTreeType) => {
                           <BrixelIcon
                             icon="check-small"
                             className="mr-1"
-                            color="altGrey"
+                            color="text"
                             iconWidth="w-fix-24"
                           />
                           <span>{translateTo('Seller', lang)}</span>
@@ -563,7 +563,7 @@ const BrixelClosingTree = (props: BrixelClosingTreeType) => {
                   <div className="collExBtn p-2 dis-f a-c brdSmallLeft brdText50">
                     <BrixelIcon
                       icon={collapsed['stageOffer'] ? 'dropdown-open' : 'dropdown-close'}
-                      color="altGrey"
+                      color="text"
                       onClick={()=> onCollapse('stageOffer')}
                     />
                   </div>
@@ -619,7 +619,7 @@ const BrixelClosingTree = (props: BrixelClosingTreeType) => {
                       <span>{translateTo('Seller', lang)}</span>
                       <BrixelIcon
                         icon="locked"
-                        color="dark"
+                        color="text"
                         iconWidth="w-fix-24"
                       />
                     </div>
@@ -683,7 +683,7 @@ const BrixelClosingTree = (props: BrixelClosingTreeType) => {
               <div className="collExBtn p-2 dis-f a-c brdSmallLeft brdText50">
                 <BrixelIcon
                   icon={collapsed['stageIdentification'] ? 'dropdown-open' : 'dropdown-close'}
-                  color="altGrey"
+                  color="text"
                   onClick={()=> onCollapse('stageIdentification')}
                 />
               </div>
@@ -728,7 +728,7 @@ const BrixelClosingTree = (props: BrixelClosingTreeType) => {
                         <div>
                           <BrixelIcon
                             icon={get(activeSingleClosing, `${stage}.seller.status`, null) ? 'check-small-fill' : 'check-small'}
-                            color={get(activeSingleClosing, `${stage}.seller.status`, null) ? 'green' : 'altGrey'}
+                            color={get(activeSingleClosing, `${stage}.seller.status`, null) ? 'green' : 'text'}
                             className="mr-1"
                             iconWidth="w-fix-24"
                           />
@@ -747,7 +747,7 @@ const BrixelClosingTree = (props: BrixelClosingTreeType) => {
                         <span>{translateTo('Seller', lang)}</span>
                         <BrixelIcon
                           icon={get(activeSingleClosing, `${stage}.active`, null) ? 'check-small' : 'locked'}
-                          color="dark"
+                          color="text"
                           iconWidth="w-fix-24"
                         />
                       </>
@@ -758,7 +758,7 @@ const BrixelClosingTree = (props: BrixelClosingTreeType) => {
               <div className="collExBtn p-2 dis-f a-c brdSmallLeft brdText50">
                 <BrixelIcon
                   icon={collapsed[stage] ? 'dropdown-open' : 'dropdown-close'}
-                  color="altGrey"
+                  color="text"
                   onClick={()=> onCollapse(stage)}
                 />
               </div>
@@ -779,7 +779,7 @@ const BrixelClosingTree = (props: BrixelClosingTreeType) => {
                         <div>
                           <BrixelIcon
                             icon={get(activeSingleClosing, `${stage}.seller.status`, null) ? 'check-small-fill' : 'check-small'}
-                            color={get(activeSingleClosing, `${stage}.seller.status`, null) ? 'green' : 'altGrey'}
+                            color={get(activeSingleClosing, `${stage}.seller.status`, null) ? 'green' : 'text'}
                             className="mr-1"
                             iconWidth="w-fix-24"
                           />
@@ -798,7 +798,7 @@ const BrixelClosingTree = (props: BrixelClosingTreeType) => {
                         <span>{translateTo('Seller', lang)}</span>
                         <BrixelIcon
                           icon={get(activeSingleClosing, `${stage}.active`, null) ? 'check-small' : 'locked'}
-                          color="dark"
+                          color="text"
                           iconWidth="w-fix-24"
                         />
                       </>
@@ -811,7 +811,7 @@ const BrixelClosingTree = (props: BrixelClosingTreeType) => {
                   <div className="collExBtn p-2 dis-f a-c brdSmallLeft brdText50">
                     <BrixelIcon
                       icon={collapsed[stage] ? 'dropdown-open' : 'dropdown-close'}
-                      color="altGrey"
+                      color="text"
                       onClick={()=> onCollapse(stage)}
                     />
                   </div>
@@ -867,7 +867,7 @@ const BrixelClosingTree = (props: BrixelClosingTreeType) => {
                               windowDimensions.width < 1026 && (
                                 <BrixelIcon
                                   icon="locked"
-                                  color="dark"
+                                  color="text"
                                   iconWidth="w-fix-24"
                                 />
                               )

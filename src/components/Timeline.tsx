@@ -322,7 +322,7 @@ const Timeline = (props: TimelineType) => {
                       icon={get(event, 'icon', '')}
                       background={getEventColor(get(event, 'icon', ''))}
                       saturation={100}
-                      color={get(event, 'icon', null) === 'mail' ? 'Dark' : getEventColor(get(event, 'icon', ''))}
+                      color={get(event, 'icon', null) === 'mail' ? 'text' : getEventColor(get(event, 'icon', ''))}
                       saturationTxt={700}
                       className="mr-2 historyIcons"
                     />

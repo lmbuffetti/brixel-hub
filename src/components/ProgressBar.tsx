@@ -162,7 +162,7 @@ const ProgressBar = (props: ProgressBarType) => {
                   <span className="fweight-600 txtText25 fsize-200 mr-1">{translateTo(item, lang)}</span>
                   <BrixelIcon
                     icon="close"
-                    color="light"
+                    color="text"
                     saturationTxt={100}
                     className="cur-poi p-small-6 fsize-200"
                     onClick={(e) => updateProgressBarClose(e, item)}

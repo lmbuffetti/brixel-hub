@@ -95,7 +95,7 @@ const BookTrialFlow = (props: BookTrialFlowType) => {
             <h2 className="mb-3 mb-sm-6 ta-c fweight-600 fsize-600 fsize-sm-800">{translateTo('When do you want us to visit?', lang)}</h2>
             <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText50">
               <Accordion
-                color="dark"
+                color="text"
                 saturationTxt={400}
                 title={translateTo('Book online', lang)}
                 titleClass="fsize-500 w-perc-100 jc-b py-3 px-2 px-sm-5"
@@ -168,7 +168,7 @@ const BookTrialFlow = (props: BookTrialFlowType) => {
                     <BrixelIcon
                       className="pos-a-fix x-r-1 hour-book x-t-1"
                       icon="clock"
-                      color="dark"
+                      color="text"
                     />
                   </div>
                 </div>
