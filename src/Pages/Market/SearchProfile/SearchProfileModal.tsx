@@ -15,7 +15,7 @@ import {QuestionsList} from '../../../resources/Flows/onBoardingBuyer';
 import translateTo from '../../../utils/translation';
 import SearchProfileForm from './SearchProfileForm';
 import SearchProfileList from './SearchProfileList';
-import type {SearchProfileModalType} from '../../../@types/Pages/Market/SearchProfile/SearchProfileModal';
+import type {SearchProfileModalType, SearchProfileMultiActions} from '../../../@types/Pages/Market/SearchProfile/SearchProfileModal';
 import {QuestionInputType} from '@brixel/brixel-components/dist/@types/Model';
 
 const SearchProfileModal = (props: SearchProfileModalType) => {
@@ -125,26 +125,27 @@ const SearchProfileModal = (props: SearchProfileModalType) => {
     }
   }
 
-  const multiActions = () => {
+  const multiActions: () => SearchProfileMultiActions[] = () => {
     const diffForm: { changeCountry?: string, location?: object } = diff(initialValues, formValue);
     switch(history.location.pathname) {
       case '/buy/searchProfile/list':
         return ([
           {
-            round: true,
             btnType: 'Secondary',
             className: 'mr-1',
-            name: translateTo('Cancel', lang),
+            clr: 'primary',
             func: () => history.push('/buy'),
+            name: translateTo('Cancel', lang),
+            round: true,
           },
           {
-            round: true,
-            clr: 'primary',
-            name: translateTo('Apply search profile', lang),
             btnType: 'Primary',
+            clr: 'primary',
             disabled: activeSearchProfile?.id === userActiveSearchProfileId,
             func: () => saveChangeSearchProfile(),
             isLoading: isSmallLoading.saveData,
+            name: translateTo('Apply search profile', lang),
+            round: true,
           },
         ])
       case '/buy/searchProfile/list/create':
@@ -152,6 +153,7 @@ const SearchProfileModal = (props: SearchProfileModalType) => {
         delete diffForm.location;
         return ([
           {
+            clr: 'primary',
             round: true,
             btnType: 'Secondary',
             className: 'mr-1',
@@ -173,6 +175,7 @@ const SearchProfileModal = (props: SearchProfileModalType) => {
         delete diffForm.location;
         return ([
           {
+            clr: 'primary',
             round: true,
             btnType: 'Secondary',
             className: 'mr-1',
