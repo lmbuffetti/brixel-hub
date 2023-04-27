@@ -84,6 +84,7 @@
     "babel-loader": "^9.1.2",
     "babel-plugin-istanbul": "^6.1.1",
     "babel-plugin-require-context-hook": "^1.0.0",
+    "cheerio": "^1.0.0-rc.12",
     "clean-webpack-plugin": "^4.0.0",
     "compression-webpack-plugin": "^10.0.0",
     "copy-webpack-plugin": "^11.0.0",

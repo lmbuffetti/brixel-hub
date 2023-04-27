@@ -3,12 +3,11 @@ import {useLocation, useNavigate} from 'react-router-dom';
 import {bindActionCreators, compose} from 'redux';
 import get from 'lodash/get';
 import {connect} from 'react-redux';
-import {BrixelButtonIcon, BrixelButtonPrimary, Helpers} from '@brixel/brixel-components';
+import {BrixelButtonPrimary, Helpers} from '@brixel/brixel-components';
 import translateTo from '../utils/translation';
 import has from 'lodash/has';
-import {setModal, setSplashType} from '../actions/CommonActions';
+import {setModal} from '../actions/CommonActions';
 import Loading from './Loading';
-import SplashScreen from './SplashScreen';
 import {setCookie} from '../utils/helpers';
 import {setEstimation} from '../actions/PropertyActions';
 import startBestimate from '../images/Bestimate/startBestimate.svg';
@@ -27,16 +26,13 @@ const BestimateCardOverlay = (props: BestimateCardOverlayType) => {
     lang,
     setBestimateMessage,
     setPropertyEstimation,
-    setSplashScreen,
-    type = 'splashScreen',
   } = props;
 
   const onCloseBestimateResult = () => {
     setCookie('brixelMarketBestimate', true);
     if (setBestimateMessage) setBestimateMessage(true);
     if (clearEstimation) setPropertyEstimation({});
-    if (type === 'modal' && handleSetModal) handleSetModal({});
-    else setSplashScreen('');
+    handleSetModal({});
   };
 
   const openSupport = (e) => {
@@ -46,18 +42,9 @@ const BestimateCardOverlay = (props: BestimateCardOverlayType) => {
 
   return (
     <>
-      <SplashScreen
+      <div
         className="result-popup centered"
-        closeOutside={false}
       >
-        <div className="dis-f jc-fe">
-          <BrixelButtonIcon
-            ghost
-            theme="text"
-            icon="close-small"
-            onClick={() => onCloseBestimateResult()}
-          />
-        </div>
         <div className="dis-fl-col jc-c a-c pb-2 pos-r">
           {
             !has(bestimate, 'higherValue') && (
@@ -140,7 +127,7 @@ const BestimateCardOverlay = (props: BestimateCardOverlayType) => {
             )
           }
         </div>
-      </SplashScreen>
+      </div>
     </>
   );
 };
@@ -152,7 +139,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   handleSetModal: bindActionCreators(setModal, dispatch),
   setPropertyEstimation: bindActionCreators(setEstimation, dispatch),
-  setSplashScreen: bindActionCreators(setSplashType, dispatch),
 });
 
 export default compose(
