@@ -252,7 +252,7 @@ const SingleDeal = (props: SingleDealType) => {
   };
 
   const getColor = () => {
-    if (activeSingleDeal.visit < +new Date().setHours(0, 0, 0, 0)) return 'dark';
+    if (activeSingleDeal.visit < +new Date().setHours(0, 0, 0, 0)) return 'text';
     return 'green';
   };
 
@@ -282,7 +282,7 @@ const SingleDeal = (props: SingleDealType) => {
     if (get(activeSingleDeal, 'closing.stageOffer.offer.status') === 'accepted') return 'green';
     if (get(activeSingleDeal, 'closing.stageOffer.offer.status') === 'pending') return 'yellow';
     if (get(activeSingleDeal, 'closing.stageOffer.offer.status') === 'rejected') return 'red';
-    return 'dark';
+    return 'text';
   };
 
   const getOfferSaturation = () => {

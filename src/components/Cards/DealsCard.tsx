@@ -68,7 +68,7 @@ const DealsCard = (props: DealsCardProps) => {
   };
 
   const getColor = () => {
-    if (visit < +new Date().setHours(0, 0, 0, 0)) return 'dark';
+    if (visit < +new Date().setHours(0, 0, 0, 0)) return 'text';
     return 'green';
   };
 
@@ -91,7 +91,7 @@ const DealsCard = (props: DealsCardProps) => {
     if (get(offer, 'offer.status', null) === 'pending') return 'Yellow';
     if (get(offer, 'offer.status', null) === 'accepted') return 'Green';
     if (get(offer, 'offer.status', null) === 'rejected') return 'Red';
-    return 'Dark';
+    return 'Text';
   };
 
   const getFeedback = () => {
@@ -134,7 +134,7 @@ const DealsCard = (props: DealsCardProps) => {
                   <div className="dis-fl-row a-c">
                     <BrixelIcon
                       icon="calendar-add"
-                      color="dark"
+                      color="text"
                       className="mr-1"
                       iconWidth="w-fix-16"
                     />
@@ -177,7 +177,7 @@ const DealsCard = (props: DealsCardProps) => {
                       <>
                         <BrixelIcon
                           icon="money"
-                          color="dark"
+                          color="text"
                           saturationTxt={200}
                           className="mr-1"
                           iconWidth="w-fix-16"

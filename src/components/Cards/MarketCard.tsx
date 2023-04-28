@@ -662,7 +662,7 @@ const MarketCard = (props: MarketCardProps) => {
                                 background="white"
                                 saturation={0}
                                 saturationTxt={600}
-                                color="altGrey"
+                                color="text"
                                 icon="arrow-simple-left"
                                 className="pos-a y-c zIndex2 ml-1"
                                 onClick={(e) => slideImg(e, 'prev')}
@@ -673,7 +673,7 @@ const MarketCard = (props: MarketCardProps) => {
                                 background="white"
                                 saturation={0}
                                 saturationTxt={600}
-                                color="altGrey"
+                                color="text"
                                 icon="arrow-simple-right"
                                 className="pos-a y-c x-r zIndex2 mr-1"
                                 iconSize="small"

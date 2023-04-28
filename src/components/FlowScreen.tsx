@@ -328,8 +328,8 @@ const FlowScreen = (props: FlowScreenType) => {
                 className="brdRadius"
                 saturation={500}
                 color="green"
-                barBackground="light"
-                backgroundSaturation={200}
+                barBackground="text"
+                backgroundSaturation={100}
                 progressValue={progressBarCalc()}
               />
             </div>
@@ -553,7 +553,8 @@ const FlowScreen = (props: FlowScreenType) => {
                       {
                         history.location.pathname.includes('termsConditionFlow') && (
                           <BrixelButtonText
-                            theme="light"
+                            theme="text"
+                            themeSat={200}
                             className="pos-a-sm x-r"
                             label={translateTo('Skip', lang)}
                             onClick={() => onSaveData('skip')}

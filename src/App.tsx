@@ -1,5 +1,5 @@
 import React, {Fragment, lazy, Suspense, useCallback, useEffect, useRef, useState} from 'react';
-import {BrixelIcon, BrixelModal, BrixelModalConfirm, BrixelNotification, Helpers} from '@brixel/brixel-components';
+import {BrixelIcon, BrixelModal, BrixelModalConfirm, BrixelNotification} from '@brixel/brixel-components';
 import BrixelPage500 from '@brixel/brixel-components/dist/components/BrixelPage500';
 import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import {reset} from '@brixel/brixel-components/dist/form';
@@ -797,7 +797,7 @@ const App = (props: AppType) => {
               >
                 {
                   modal.body && (
-                    <div className={modal.bodyInnerClass} dangerouslySetInnerHTML={{ __html: Helpers.sanitizeText(Helpers.sanitizeText(modal.body)) }} />
+                    <div className={modal.bodyInnerClass} dangerouslySetInnerHTML={{ __html: modal.body }} />
                   )
                 }
                 {
@@ -839,7 +839,6 @@ const App = (props: AppType) => {
                 lang={lang}
                 activeSinglePropertyId={activeSingleProperty.id}
                 clearEstimation={false}
-                type="modal"
               />
             )
           }

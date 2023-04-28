@@ -1,6 +1,16 @@
 import {LoggedUserType, SearchProfileType} from '@brixel/brixel-components/dist/@types/Model';
 import type {FromValueType} from './SearchProfileForm';
 
+export class SearchProfileMultiActions {
+  btnType: 'Primary' | 'Secondary';
+  className?: string;
+  clr: ThemeType['theme'];
+  func: () => void;
+  name: string;
+  round: boolean;
+}
+
+
 export interface SearchProfileModalType {
   activeSearchProfile: SearchProfileType;
   formValue: FromValueType;

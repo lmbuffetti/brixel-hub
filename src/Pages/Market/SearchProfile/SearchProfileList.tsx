@@ -265,7 +265,7 @@ const SearchProfileList = (props: SearchProfileListType) => {
 
                     <div className={`hide-md dis-f jc-fe brdSmallTop ${userActiveSearchProfileId === searchProfile.id ? 'brdBlue200' : 'brdText100'} mt-3 pt-2`}>
                       <BrixelButtonText
-                        theme="Red"
+                        theme="red"
                         rounded
                         label={translateTo('Delete', lang)}
                         onClick={() => onDeleteSearchProfile(searchProfile)}
