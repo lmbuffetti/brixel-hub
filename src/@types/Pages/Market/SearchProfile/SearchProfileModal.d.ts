@@ -1,5 +1,6 @@
 import {LoggedUserType, SearchProfileType} from '@brixel/brixel-components/dist/@types/Model';
 import type {FromValueType} from './SearchProfileForm';
+import {ThemeType} from '@brixel/brixel-components/dist/@types/General/ColorStyle';
 
 export class SearchProfileMultiActions {
   btnType: 'Primary' | 'Secondary';

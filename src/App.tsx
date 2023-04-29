@@ -86,8 +86,6 @@ const SingleDocument = lazy(() => import('./Pages/SingleProperty/SingleDocument'
 const CreateDeal = lazy(() => import('./Pages/Deals/CreateDeal'));
 const VisitFeedback = lazy(() => import('./Pages/Deals/VisitFeedback'));
 
-const AddShowingsBuyer = lazy(() => import('./Pages/Dashboard/Buyer/ScheduleVisit'));
-
 const AddContactBuyer = lazy(() => import('./Pages/Dashboard/Buyer/AddContactBuyer'));
 
 const SingleDeal = lazy(() => import('./Pages/Deals/SingleDeal'));
@@ -325,7 +323,7 @@ const App = (props: AppType) => {
       gtag('event', 'page_view', {
         page_title: 'Hub',
         page_location: window.location.href,
-        send_to: baseByData.googleAnalyticsId,
+        send_to: baseByData?.googleAnalyticsId,
       })
     }
     const splittedURL = get(history, 'location.pathname', '').split('/');
@@ -362,7 +360,6 @@ const App = (props: AppType) => {
     if (
       history.location.pathname.includes('packageFlow') ||
       history.location.pathname.includes('Flow') ||
-      history.location.pathname.includes('scheduleVisit') ||
       history.location.pathname.includes('visitFeedback') ||
       history.location.pathname.includes('onBoarding') ||
       history.location.pathname.includes('upgrade') ||
@@ -372,7 +369,6 @@ const App = (props: AppType) => {
       if (
         history.location.pathname.includes('packageFlow') ||
         history.location.pathname.includes('Flow') ||
-        history.location.pathname.includes('scheduleVisit') ||
         history.location.pathname.includes('visitFeedback')
       ) {
         setClassMain('flowContainer packageFlow w-perc-100');
@@ -384,7 +380,7 @@ const App = (props: AppType) => {
     } else {
       if (history.location.pathname.includes('home')) {
         setClassMain('w-perc-100 pos-r hubContainer rewardsTop withTopBar sellerHub');
-      } else if (history.location.pathname.includes('property') || history.location.pathname.includes('closing') || history.location.pathname.includes('docubox') || history.location.pathname.includes('prospects') || history.location.pathname.includes('prospect') || history.location.pathname.includes('financing')) {
+      } else if (history.location.pathname.includes('property') || history.location.pathname.includes('closing') || history.location.pathname.includes('docubox') || history.location.pathname.includes('prospects') || history.location.pathname.includes('prospect') || history.location.pathname.includes('financing') || history.location.pathname.includes('scheduleVisit')) {
         if (history.location.pathname.includes('buyer')) {
           setClassMain('w-perc-100 pos-r hubContainer buyerHub propertyTop');
         } else {
@@ -415,6 +411,7 @@ const App = (props: AppType) => {
       (
         history.location.pathname.includes('property/') ||
         history.location.pathname.includes('marketing/') ||
+        history.location.pathname.includes('scheduleVisit') ||
         history.location.pathname.includes('rewards/') ||
         history.location.pathname.includes('closing/')
       ) &&
@@ -475,7 +472,6 @@ const App = (props: AppType) => {
       if (
         !history.location.pathname.includes('packageFlow') &&
         !history.location.pathname.includes('Flow') &&
-        !history.location.pathname.includes('scheduleVisit') &&
         !history.location.pathname.includes('visitFeedback') &&
         !history.location.pathname.includes('onBoarding')
       ) data = { hideLoad: true };
@@ -614,7 +610,6 @@ const App = (props: AppType) => {
                       <Route path="/packageFlow/:propID/WelcomeSeller/*" element={<ProtectedRoute><WelcomeSeller /></ProtectedRoute>} />
                       <Route path="/packageFlow/testDrive/*" element={<ScanTrialFlow />} />
                       <Route path="/visitFeedback/:dealID/:pageID" element={<VisitFeedback />} />
-                      <Route path="/buyer/:propID/scheduleVisit/*" element={<ProtectedRoute><AddShowingsBuyer /></ProtectedRoute>} />
                       <Route path="/buyer/:id/financingFlow/*" element={<ProtectedRoute><Financing /></ProtectedRoute>} />
 
                       { /* PARTNER CONTACT FLOW */}
@@ -632,7 +627,6 @@ const App = (props: AppType) => {
                       {
                         !history.location.pathname.includes('packageFlow') &&
                         !history.location.pathname.includes('Flow') &&
-                        !history.location.pathname.includes('scheduleVisit') &&
                         !history.location.pathname.includes('visitFeedback') &&
                         !history.location.pathname.includes('onBoarding') &&
                         !history.location.pathname.includes('buyer') &&
@@ -661,7 +655,6 @@ const App = (props: AppType) => {
                       {
                         !history.location.pathname.includes('packageFlow') &&
                         !history.location.pathname.includes('Flow') &&
-                        !history.location.pathname.includes('scheduleVisit') &&
                         !history.location.pathname.includes('visitFeedback') &&
                         !history.location.pathname.includes('onBoarding') &&
                         (
@@ -711,7 +704,7 @@ const App = (props: AppType) => {
                                 teamAvatars.map((imgTeam, i) => (
                                   <img loading="lazy"
                                     key={`avt_${i.toString()}`}
-                                    src={`${baseByData.shortPath}${imgTeam.path}`}
+                                    src={`${baseByData?.shortPath}${imgTeam.path}`}
                                     alt="Support Team"
                                     className="w-fix-32 mr-1-neg square brdLarge brdWhite brdCircle"
                                   />

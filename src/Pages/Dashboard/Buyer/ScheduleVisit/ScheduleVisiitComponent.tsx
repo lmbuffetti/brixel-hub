@@ -14,8 +14,8 @@ import {
   BrixelInputMultiRange,
   BrixelSwitchButton, change,
 } from '@brixel/brixel-components/dist/form';
-import translateTo from '../../../utils/translation';
-import type {ScheduleVisitComponentType} from '../../../@types/Pages/Dashboard/Buyer/ScheduleVisitComponent';
+import translateTo from '../../../../utils/translation';
+import type {ScheduleVisitComponentType} from '../../../../@types/Pages/Dashboard/Buyer/ScheduleVisitComponent';
 import {ScheduleVisitSlotType} from '@brixel/brixel-components/dist/@types/Model';
 
 const ScheduleVisitComponent = (props: ScheduleVisitComponentType) => {

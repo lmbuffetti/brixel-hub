@@ -480,19 +480,19 @@ function PageHeader(props: PageHeaderType) {
                                     </div>
                                     <a
                                       className="link txtText900 fweight-500 fsize-300 mb-2"
-                                      href={`${baseByData.loginBasePath}/account/account?url=${get(window, 'location.href', '')}`}
+                                      href={`${baseByData?.loginBasePath}/account/account?url=${get(window, 'location.href', '')}`}
                                     >
                                       {translateTo('Password', lang)}
                                     </a>
                                     <a
                                       className="link txtText900 fweight-500 fsize-300 mb-2"
-                                      href={`${baseByData.loginBasePath}/account/preferences?url=${get(window, 'location.href', '')}`}
+                                      href={`${baseByData?.loginBasePath}/account/preferences?url=${get(window, 'location.href', '')}`}
                                     >
                                       {translateTo('Preferences', lang)}
                                     </a>
                                     <a
                                       className="link txtText900 fweight-500 fsize-300"
-                                      href={`${baseByData.loginBasePath}/logout?url=${get(window, 'location.href', '')}`}
+                                      href={`${baseByData?.loginBasePath}/logout?url=${get(window, 'location.href', '')}`}
                                     >
                                       {translateTo('Logout', lang)}
                                     </a>
@@ -562,19 +562,19 @@ function PageHeader(props: PageHeaderType) {
                                       </div>
                                       <a
                                         className="link txtText900 fweight-500 fsize-300 mb-2"
-                                        href={`${baseByData.loginBasePath}/account/account?url=${get(window, 'location.href', '')}`}
+                                        href={`${baseByData?.loginBasePath}/account/account?url=${get(window, 'location.href', '')}`}
                                       >
                                         {translateTo('Password', lang)}
                                       </a>
                                       <a
                                         className="link txtText900 fweight-500 fsize-300 mb-2"
-                                        href={`${baseByData.loginBasePath}/account/preferences?url=${get(window, 'location.href', '')}`}
+                                        href={`${baseByData?.loginBasePath}/account/preferences?url=${get(window, 'location.href', '')}`}
                                       >
                                         {translateTo('Preferences', lang)}
                                       </a>
                                       <a
                                         className="link txtText900 fweight-500 fsize-300"
-                                        href={`${baseByData.loginBasePath}/logout?url=${get(window, 'location.href', '')}`}
+                                        href={`${baseByData?.loginBasePath}/logout?url=${get(window, 'location.href', '')}`}
                                       >
                                         {translateTo('Logout', lang)}
                                       </a>

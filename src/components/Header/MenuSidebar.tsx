@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useState} from 'react';
 import {BrixelIcon} from '@brixel/brixel-components';
 import translateTo from '../../utils/translation';

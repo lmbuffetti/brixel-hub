@@ -18,6 +18,8 @@ const DashboardHome = lazyWithRetry(() => import('./DashboardHome'));
 
 const PropertyBuyerDashboard = lazy(() => import('./PropertyBuyerDashboard'));
 
+const ScheduleVisit = lazy(() => import('./ScheduleVisit/ScheduleVisit'));
+
 const DealsDashboardBuyer = lazy(() => import('./DealsDashboardBuyer'));
 
 const Documents = lazy(() => import('../../SingleProperty/Documents'));
@@ -37,6 +39,7 @@ const Dashboard = (props: DashboardType) => {
     activeSingleDeal,
     handleGetFavoritesProperties,
     handleGetActiveSingleProperty,
+    hanldeGetScheduleVisit,
     handleGetScheduleVisit,
     handleGetActiveSingleCompany,
     handleSpinnerOff,
@@ -97,7 +100,17 @@ const Dashboard = (props: DashboardType) => {
         order: 'createdAt',
         direction: 'DESC',
       })
+
+      const data2 = {
+        id: activeSingleDeal.id,
+        order: 'createdAt',
+        direction: 'DESC',
+        smallLoader: 'getBooking',
+      };
+      hanldeGetScheduleVisit(data2);
+
     }
+
   }, [activeSingleDeal.id]);
 
 
@@ -130,6 +143,7 @@ const Dashboard = (props: DashboardType) => {
               { /* SECTION: ROUTES FOR ONLY LOGGED USER - MAIN HUB PAGES  */ }
               <Route path="/home" element={<DashboardHome />} />
               <Route path="/property/*" element={<PropertyBuyerDashboard />} />
+              <Route path="/scheduleVisit" element={<ScheduleVisit />} />
               <Route path="/docubox" element={<Documents />} />
               <Route path="/financing" element={<Financing />} />
               <Route path="/closing/*" element={<DealsDashboardBuyer />} />
@@ -166,6 +180,7 @@ const mapDispatchToProps = (dispatch) => ({
     (dispatch(reset('Property', data)));
   },
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
+  hanldeGetScheduleVisit: bindActionCreators(getScheduleVisit, dispatch),
   handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
   handleGetBuyerDeal: bindActionCreators(getBuyerDeal, dispatch),
   handleGetFavoritesProperties: bindActionCreators(getFavoritesProperties, dispatch),

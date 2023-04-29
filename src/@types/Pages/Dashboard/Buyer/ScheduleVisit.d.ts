@@ -17,9 +17,7 @@ export interface ScheduleVisitType {
   errorValue: object;
   formValue: FormValueType;
   hanldeSaveScheduleVisit: (data: object) => void;
-  handleGetBuyerDeal: (data: object) => void;
-  handleGetActiveSingleProperty: (data: object) => void;
-  hanldeGetScheduleVisit: (data: object) => void;
+  handleSetModal: (data: object) => void;
   initForm: (data: object) => void;
   initialValues: FormValueType;
   lang: string;
