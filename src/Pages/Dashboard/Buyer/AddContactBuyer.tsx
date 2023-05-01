@@ -102,7 +102,7 @@ const AddContactBuyer = (props: AddContactBuyerType) => {
                     <span>{translateTo('Make sure you visited the', lang)}</span>&nbsp;
                     <span
                       className="txtPrimary400 cur-poi"
-                      onClick={() => window.open(`${baseByData.pageUrl}${activeSingleProperty.stub}/explore/tour`, '_blank')}
+                      onClick={() => window.open(`${baseByData?.pageUrl}${activeSingleProperty.stub}/explore/tour`, '_blank')}
                     >
                       <span>{translateTo('3D Tour', lang)}</span>
                     </span>

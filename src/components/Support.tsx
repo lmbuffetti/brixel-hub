@@ -88,7 +88,7 @@ const Support = (props: SupportType) => {
                               <img
                                 loading="lazy"
                                 key={`rmAvt_${i.toString()}`}
-                                src={`${baseByData.shortPath}${get(imgTeam, 'path', '')}`}
+                                src={`${baseByData?.shortPath}${get(imgTeam, 'path', '')}`}
                                 alt="Support Team"
                                 className="w-fix-40 mr-1-neg square brdLarge brdWhite brdCircle"
                               />
@@ -142,7 +142,7 @@ const Support = (props: SupportType) => {
                         <img
                           loading="lazy"
                           key={`tmAvt_${i.toString()}`}
-                          src={`${baseByData.shortPath}${get(imgTeam, 'path', '')}`}
+                          src={`${baseByData?.shortPath}${get(imgTeam, 'path', '')}`}
                           alt="Support Team"
                           className="w-fix-40 mr-1-neg square brdLarge brdWhite brdCircle"
                         />

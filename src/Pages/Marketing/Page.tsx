@@ -75,10 +75,10 @@ const Page = (props: PageType) => {
   const onClickPreview = () => {
     let url;
     if (formValue.published) {
-      url = `${baseByData.pageUrl}${activeSingleProperty.stub}`;
+      url = `${baseByData?.pageUrl}${activeSingleProperty.stub}`;
       window.open(url, '_blank');
     } else {
-      url = `${baseByData.pageUrl}preview/${activeSingleProperty.stub}?hubUrl=${get(window, 'location.href', '')}`;
+      url = `${baseByData?.pageUrl}preview/${activeSingleProperty.stub}?hubUrl=${get(window, 'location.href', '')}`;
       window.location.assign(url);
     }
   };
@@ -153,7 +153,7 @@ const Page = (props: PageType) => {
                 <h6>{translateTo('Share your page', lang)}</h6>
                 <div className="dis-f jc-c a-c">
                   <a
-                    href={`https://www.facebook.com/sharer/sharer.php?u=${baseByData.pageUrl}${formValue.stub}`}
+                    href={`https://www.facebook.com/sharer/sharer.php?u=${baseByData?.pageUrl}${formValue.stub}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="dis-b ml-2"
@@ -165,7 +165,7 @@ const Page = (props: PageType) => {
                     />
                   </a>
                   <a
-                    href={`https://twitter.com/share?url=${baseByData.pageUrl}${formValue.stub}`}
+                    href={`https://twitter.com/share?url=${baseByData?.pageUrl}${formValue.stub}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="dis-b ml-2"

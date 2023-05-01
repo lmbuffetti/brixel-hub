@@ -91,7 +91,7 @@ const MarketCard = (props: MarketCardProps) => {
     centerPadding: '8px',
     arrows: false,
     dots: false,
-    beforeChange: (oldIndex, newIndex) => {
+    beforeChange: (_oldIndex, newIndex) => {
       setActiveSlide(newIndex);
     },
   };
@@ -148,10 +148,10 @@ const MarketCard = (props: MarketCardProps) => {
           type === 'new' || checkTag.includes('new')
         ) && type !== 'favorite' && type !== 'wishlist' && !history.location.pathname.includes('sell'))
       ) {
-        window.open(`${baseByData.pageUrl}${get(item, 'stub', '')}`, '_blank');
+        window.open(`${baseByData?.pageUrl}${get(item, 'stub', '')}`, '_blank');
       } else if (type === 'favorite' || type === 'wishlist') {
         history.push(`/buyer/${get(item,  'id', '')}/home`, { state: { section: 'Market' }} );
-      } else window.open(`${baseByData.pageUrl}${get(item, 'stub', '')}`, '_blank');
+      } else window.open(`${baseByData?.pageUrl}${get(item, 'stub', '')}`, '_blank');
       // TODO: Estimation opens overlay
     }
   };
@@ -277,7 +277,7 @@ const MarketCard = (props: MarketCardProps) => {
         hideClose: true,
       })
     } else {
-      window.open(`${baseByData.pageUrl}${get(item, 'stub', '')}`, '_blank');
+      window.open(`${baseByData?.pageUrl}${get(item, 'stub', '')}`, '_blank');
     }
   }
 
@@ -685,7 +685,7 @@ const MarketCard = (props: MarketCardProps) => {
                               className="slick-dots pos-a x-c ta-c zIndex2 bt mb-1"
                             >
                               {
-                                item && item.photos.slice(0, 5).map((photo, i) => (
+                                item && item.photos.slice(0, 5).map((_photo, i) => (
                                   <li
                                     key={`dots${i.toString()}`}
                                     className={activeSlide === i ? 'slick-active' : ''}

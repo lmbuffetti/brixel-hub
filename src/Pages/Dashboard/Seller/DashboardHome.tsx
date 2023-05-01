@@ -159,10 +159,10 @@ const DashboardHome = (props: DashboardHomeType) => {
           step: 6,
         });
       }
-      if (documentConfig.mandatoryDocuments[get(activeSingleProperty, 'location.countryCode')]) {
-        setMandatoryDocuments(documentConfig.mandatoryDocuments[get(activeSingleProperty, 'location.countryCode')][get(activeSingleProperty, 'properties.propertyType')]);
+      if (documentConfig.mandatoryDocuments[get(activeSingleProperty, 'location.countryCode', '')]) {
+        setMandatoryDocuments(documentConfig.mandatoryDocuments[get(activeSingleProperty, 'location.countryCode', '')][get(activeSingleProperty, 'properties.propertyType')]);
       } else {
-        setMandatoryDocuments(documentConfig.mandatoryDocuments.EN[get(activeSingleProperty, 'properties.propertyType')]);
+        setMandatoryDocuments(documentConfig.mandatoryDocuments.EN[get(activeSingleProperty, 'properties.propertyType', '')]);
       }
     }
   }, [activeSingleProperty.id]);
@@ -193,9 +193,9 @@ const DashboardHome = (props: DashboardHomeType) => {
   const openBrixelPage = () => {
     if (progressState?.id && progressState.id > 0) {
       if (activeSingleProperty.published) {
-        window.open(`${baseByData.pageUrl}${activeSingleProperty.stub}`, '_blank');
+        window.open(`${baseByData?.pageUrl}${activeSingleProperty.stub}`, '_blank');
       } else {
-        window.location.assign(`${baseByData.pageUrl}preview/${activeSingleProperty.stub}?hubUrl=${get(window, 'location.href', '')}`);
+        window.location.assign(`${baseByData?.pageUrl}preview/${activeSingleProperty.stub}?hubUrl=${get(window, 'location.href', '')}`);
       }
     } else if (get(activeSingleProperty, 'location.countryCode', '') === 'PT') {
       window.location.assign(`https://page.brixel.io/preview/Apartamento-T2-Renovado-Bairro-dos-Actores-Lisboa?hubUrl=${get(window, 'location.href', '')}`);

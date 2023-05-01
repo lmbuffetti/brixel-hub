@@ -214,7 +214,7 @@ const ReviewOffer = (props: ReviewOfferType) => {
                     {
                       get(activeSingleOffer, 'offer.documents[0].name', null) && (
                         <div
-                          onClick={() => window.open(`${baseByData.shortPath}${get(activeSingleOffer, 'offer.documents[0].path', '')}`, '_blank')}
+                          onClick={() => window.open(`${baseByData?.shortPath}${get(activeSingleOffer, 'offer.documents[0].path', '')}`, '_blank')}
                           className="cur-poi"
                         >
                           <h6 className="fsize-200 pb-1 pt-3">{translateTo('Proof of financing from bank', lang)}</h6>
@@ -295,7 +295,7 @@ const ReviewOffer = (props: ReviewOfferType) => {
               {
                 get(activeSingleOffer, 'offer.documents[0].name', null) && (
                   <div
-                    onClick={() => window.open(`${baseByData.shortPath}${get(activeSingleOffer, 'offer.documents[0].path', '')}`, '_blank')}
+                    onClick={() => window.open(`${baseByData?.shortPath}${get(activeSingleOffer, 'offer.documents[0].path', '')}`, '_blank')}
                     className="cur-poi"
                   >
                     <h6 className="fsize-200 pb-1 pt-3">{translateTo('Proof of financing from bank', lang)}</h6>

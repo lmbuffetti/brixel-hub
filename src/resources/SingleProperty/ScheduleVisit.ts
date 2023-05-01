@@ -1,6 +1,6 @@
 import translateTo from '../../utils/translation';
 import {BrixelTextArea} from '@brixel/brixel-components/dist/form';
-import ScheduleVisitComponent from '../../Pages/Dashboard/Buyer/ScheduleVisiitComponent';
+import ScheduleVisitComponent from '../../Pages/Dashboard/Buyer/ScheduleVisit/ScheduleVisiitComponent';
 import scheduleSvg from '../../images/dashboard/scehdule.svg';
 import {QuestionsListType} from '@brixel/brixel-components/dist/@types/Model';
 import ClipboardImg from '../../images/scanTrial/clipboard.png';

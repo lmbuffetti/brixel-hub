@@ -83,7 +83,7 @@ const CarouselWrapper = (props: CarouselWrapperType) => {
       setTimeout(() => setPreventClick(false), 1000);
     },
     afterChange: () => setPreventClick(false),
-    beforeChange: (prev, next) => {
+    beforeChange: (_prev, next) => {
       setActiveSlide(next);
     },
   }), [type, windowDimensions.width]);

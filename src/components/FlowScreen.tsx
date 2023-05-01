@@ -249,7 +249,7 @@ const FlowScreen = (props: FlowScreenType) => {
   // FUNCTION TO CLOSE
   const closeWindow = () => {
     handleReset(formName, initialValues);
-    const linkToRedirect = closeLink || redirectUrl(history.location.pathname, {propID});
+    const linkToRedirect = closeLink || redirectUrl(history.location.pathname, {propID: propID || ''});
     history.push(linkToRedirect);
   };
 
@@ -492,7 +492,6 @@ const FlowScreen = (props: FlowScreenType) => {
                 </div>
               </div>
             </div>
-            {redirectUrl(history.location.pathname, {propID})}
             {
               get(quest, 'history', null) !== 'createProfile' && get(quest, 'hideFooter', null) !== true && (
                 <div

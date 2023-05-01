@@ -257,7 +257,7 @@ const MarketList = (props: MarketListType) => {
       setMarketOverlayProperty(item);
     } else if (catName === 'favorite' || catName === 'wishlist') {
       history.push(`/buyer/${item.id}/property/page`, { state: { section: 'Market' }});
-    } else window.open(`${baseByData.pageUrl}${item.stub}`, '_blank');
+    } else window.open(`${baseByData?.pageUrl}${item.stub}`, '_blank');
   };
 
   const getCompanyStub = () => {

@@ -20,7 +20,7 @@ describe('viewport testing', () => {
 
   describe(`company: ${singleCompany}`, () => {
 
-    linkToVisit.forEach((link, f) => {
+    linkToVisit.forEach((link) => {
       devices.forEach((device) => {
         it('get data', () => {
           const token = cookie.get('brixelToken');

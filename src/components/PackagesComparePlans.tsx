@@ -214,7 +214,7 @@ export const PackagesComparePlans = (props: PackagesComparePlansType) => {
               <tr key={`tbl_${i.toString()}`}>
                 <th>{translateTo(table.title, lang)}</th>
                 {
-                  extractTable('basic').map((pkg, f) => (
+                  extractTable('basic').map((_pkg, f) => (
                     <td key={`bsc_${f.toString()}`}>
                       {
                         table.td.basic && (
@@ -231,7 +231,7 @@ export const PackagesComparePlans = (props: PackagesComparePlansType) => {
                   ))
                 }
                 {
-                  extractTable('private').map((pkg, f) => (
+                  extractTable('private').map((_pkg, f) => (
                     <td key={`prv_${f.toString()}`}>
                       {
                         table.td.private && (
@@ -247,7 +247,7 @@ export const PackagesComparePlans = (props: PackagesComparePlansType) => {
                   ))
                 }
                 {
-                  extractTable('premium').map((pkg, f) => (
+                  extractTable('premium').map((_pkg, f) => (
                     <td key={`prm_${f.toString()}`}>
                       {
                         table.td.premium && (
@@ -263,7 +263,7 @@ export const PackagesComparePlans = (props: PackagesComparePlansType) => {
                   ))
                 }
                 {
-                  extractTable('one').map((pkg, f) => (
+                  extractTable('one').map((_pkg, f) => (
                     <td key={`one_${f.toString()}`}>
                       {
                         table.td.one && (

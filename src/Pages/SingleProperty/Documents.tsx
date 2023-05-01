@@ -64,10 +64,10 @@ const Documents = (props: DocumentsPageType) => {
 
   useEffect(() => {
     if (has(formValue, 'location.countryCode')) {
-      if (documentConfig.mandatoryDocuments[get(formValue, 'location.countryCode')]) {
-        setMandatoryDocuments(documentConfig.mandatoryDocuments[get(formValue, 'location.countryCode')][get(formValue, 'properties.propertyType')]);
+      if (documentConfig.mandatoryDocuments[get(formValue, 'location.countryCode', '')]) {
+        setMandatoryDocuments(documentConfig.mandatoryDocuments[get(formValue, 'location.countryCode', '')][get(formValue, 'properties.propertyType')]);
       } else {
-        setMandatoryDocuments(documentConfig.mandatoryDocuments.EN[get(formValue, 'properties.propertyType')]);
+        setMandatoryDocuments(documentConfig.mandatoryDocuments.EN[get(formValue, 'properties.propertyType', '')]);
       }
     }
   }, [formValue]);

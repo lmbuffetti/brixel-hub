@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import {FactsOptions} from '@brixel/brixel-components';
 import translateTo from '../../utils/translation';
 import {
@@ -15,7 +14,7 @@ import {QuestionsListType} from '@brixel/brixel-components/dist/@types/Model';
 
 const { factsOptions } = FactsOptions;
 
-export const BestimatePT = (type = null, propertyType, lang) => {
+export const BestimatePT = (type = null, _propertyType, lang) => {
   const conditionStatus = factsOptions.conditionStatus.map((item) => ({
     ...item,
     label: translateTo(item.label, lang),

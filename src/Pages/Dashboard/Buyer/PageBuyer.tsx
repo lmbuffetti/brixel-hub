@@ -22,10 +22,10 @@ const PageBuyer = (props: PageBuyerType) => {
   const onClickPreview = () => {
     let url;
     if (activeSingleProperty.published) {
-      url = `${baseByData.pageUrl}${activeSingleProperty.stub}`;
+      url = `${baseByData?.pageUrl}${activeSingleProperty.stub}`;
       window.open(url, '_blank');
     } else {
-      url = `${baseByData.pageUrl}preview/${activeSingleProperty.stub}?hubUrl=${get(window, 'location.href', '')}`;
+      url = `${baseByData?.pageUrl}preview/${activeSingleProperty.stub}?hubUrl=${get(window, 'location.href', '')}`;
       window.location.assign(url);
     }
   };

@@ -185,7 +185,7 @@ const Key4Registration = (props: Key4RegistrationType) => {
                               getSellerBrochure()?.path && (
                                 <a
                                   className="ml-small-4 txtText900 td-u"
-                                  href={`${baseByData.shortPath}${getSellerBrochure()?.path}`}
+                                  href={`${baseByData?.shortPath}${getSellerBrochure()?.path}`}
                                   target="_blank"
                                   rel="noreferrer"
                                 >

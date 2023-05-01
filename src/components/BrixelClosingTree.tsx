@@ -168,7 +168,7 @@ const BrixelClosingTree = (props: BrixelClosingTreeType) => {
         <div className="body dis-fl-row">
           <div className="phases dis-fl-col h-perc-100 w-perc-100">
             {
-              sectionNumber.map((item, i) => (
+              sectionNumber.map((_item, i) => (
                 <div
                   key={`sctNm_${i.toString()}`}
                   className={`offer-container ${get(activeSingleClosing, 'stageOffer.active', null) ? 'active' : 'locked'}`}

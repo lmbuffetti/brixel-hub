@@ -167,7 +167,7 @@ const Financing = (props: FinancingType) => {
   const saveData = () => {
     const doc: DocumentType[] = get(formValue, 'document', []);
     const docs: DocumentType[] = get(formValue, 'documents', doc);
-    docs.forEach((item, i) => set(docs[i], 'user', get(loggedInUser, 'id', undefined)));
+    docs.forEach((_item, i) => set(docs[i], 'user', get(loggedInUser, 'id', undefined)));
     const dataDocuments = {
       allImgs: docs,
       actions: 'documents',

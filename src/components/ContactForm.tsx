@@ -118,7 +118,7 @@ function ContactForm(props: ContactFormType) {
       onChangeAction('isLoading');
     } else {
       const data = {
-        messageType: type ? baseByData.messageTypeID[type] : 0,
+        messageType: type ? baseByData?.messageTypeID[type] : 0,
         page: activeSingleProperty.id,
         title: 'Page',
         message: formValue.userMessage,
