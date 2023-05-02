@@ -50,11 +50,12 @@ if (url.indexOf('dev') !== -1 || url.indexOf('localhost') !== -1 || url.indexOf(
 else if (url.indexOf('stag') !== -1) env = 'STAGING';
 else env = 'PROD';
 let configUrl = getConfigEnvWeb(env);
+
 if (typeof window !== 'undefined') {
   configUrl = getConfigEnv;
 }
 
 export default apiFactory({
-  baseURL: configUrl?.apiRoot,
-  // baseURL: 'http://localhost:46071/api/v3/',
+  baseURL: configUrl.apiRoot,
+  //baseURL: 'http://localhost:46071/api/v3/',
 });

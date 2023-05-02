@@ -20,7 +20,6 @@ function apiFactory({ baseURL }: {baseURL: string}) {
 
 const url = process.env.NODE_ENV;
 let env;
-
 if (url.indexOf('dev') !== -1 || url.indexOf('localhost') !== -1) env = 'PROD';
 else if (url.indexOf('stag') !== -1) env = 'STAGING';
 else env = 'PROD';
@@ -31,5 +30,5 @@ if (typeof window !== 'undefined') {
 }
 
 export default apiFactory({
-  baseURL: configUrl?.craftCMS,
+  baseURL: configUrl.craftCMS,
 });
