@@ -786,7 +786,8 @@ const App = (props: AppType) => {
                 title={modal.title}
                 bodyInnerClass={modal.bodyInnerClass}
                 titleImg={modal.titleImg}
-                onClose={() => modal.hideClose !== true ? handleSetModal({ state: false }) : ''}
+                titleTop={modal.titleTop}
+                onClose={() => modal.hideClose !== true ? handleSetModal({ state: false }) : modal.onClose || ''}
               >
                 {
                   modal.body && (

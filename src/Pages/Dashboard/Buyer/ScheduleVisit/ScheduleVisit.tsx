@@ -9,12 +9,19 @@ import {
 import get from 'lodash/get';
 import {connect} from 'react-redux';
 import {bindActionCreators, compose} from 'redux';
+import {useLocation, useNavigate} from 'react-router-dom';
 import {setModal} from '../../../../actions/CommonActions';
 import {saveScheduleVisit} from '../../../../actions/PropertyActions';
-import type {ScheduleVisitType} from '../../../../@types/Pages/Dashboard/Buyer/ScheduleVisit';
+import ScheduleVisitComponent from './ScheduleVisitComponent';
 import translateTo from '../../../../utils/translation';
+import Calendar from '../../../../images/dashboard/calendarState.svg';
+import type {ScheduleVisitType} from '../../../../@types/Pages/Dashboard/Buyer/ScheduleVisit';
 
 const ScheduleVisit = (props: ScheduleVisitType) => {
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
   // PROPS
   const {
     activeSingleDeal,
@@ -28,11 +35,36 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
     loggedInUser,
   } = props;
 
+  const lastPart = history.location.pathname.split('/').filter(e => e).slice(-1);
+  if (lastPart[0] && lastPart[0] !== 'addDate') history.push('../scheduleVisit');
+  const isNewDate = lastPart[0] === 'addDate';
+
+  const openModalDate = () => {
+    history.push('./addDate');
+    handleSetModal({
+      state: true,
+      layout: 'xlarge',
+      small: true,
+      component: <ScheduleVisitComponent onClick={() => ''} />,
+      title: 'Add date',
+      titleTop: true,
+      hideClose: true,
+      onClose: () => console.log('test');
+    })
+  };
+
   useEffect(() => {
     if (activeSingleProperty.id && activeSingleDeal.id) {
       initForm(initialValues);
     }
   }, [activeSingleProperty.id, loggedInUser.id, activeSingleDeal.id]);
+
+  useEffect(() => {
+    if (isNewDate) {
+      openModalDate();
+    }
+  }, [isNewDate]);
+
 
   const saveData = () => {
     const data = {
@@ -46,44 +78,42 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
     hanldeSaveScheduleVisit(data);
   };
 
-  const openModalDate = () => {
-    handleSetModal({
-      state: true,
-      layout: 'xlarge',
-      small: true,
-    })
-  };
-
   return (
     <div className="rewards-container" id="rewardsDashboard">
 
-      <h4 className="mb-3 hide dis-b-lg fweight-600">
-        Add your availability dates
-      </h4>
-
-
       <div>
-        <h5>{translateTo('No visits scheduled!', lang)}</h5>
+        <h4 className="mb-3 hide dis-b-lg fweight-600">
+          Visit
+        </h4>
         <p>
-          {translateTo('Request a visit to your favorite property to follow the progress here.', lang)}
+
+        </p>
+      </div>
+
+
+      <div className="ta-c bgWhite brdRadius p-4">
+        <img src={Calendar} alt="Calendar" />
+        <h5>{translateTo('No availability dates added.', lang)}</h5>
+        <p className="max-width-440 mx-a">
+          {translateTo('Tell us when you would be available to visit your favorite property. The property owner will be informed in real time of your request.', lang)}
         </p>
         <BrixelButtonPrimary
-          className="mt-3"
+          className="mt-3 mx-a"
           rounded
-          label="Add new dates"
-          rightIcon="arrow-right"
+          label="Add dates"
+          rightIcon="plus"
           onClick={() => openModalDate()}
         />
 
-
-        <BrixelButtonPrimary
-          className="mt-3"
-          rounded
-          label="Save"
-          rightIcon="arrow-right"
-          onClick={() => saveData()}
-        />
       </div>
+
+      <BrixelButtonPrimary
+        className="mt-3 mr-0"
+        rounded
+        label="Save"
+        rightIcon="arrow-right"
+        onClick={() => saveData()}
+      />
 
     </div>
   );

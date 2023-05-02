@@ -36,7 +36,6 @@ const PATHS = {
 };
 
 const clientConfig = (env) => {
-  console.log(baseByData);
   const testMode = env.TEST;
   const config = ({
     mode: mode,
