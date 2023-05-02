@@ -159,10 +159,10 @@ const DashboardHome = (props: DashboardHomeType) => {
           step: 6,
         });
       }
-      if (documentConfig.mandatoryDocuments[get(activeSingleProperty, 'location.countryCode')]) {
-        setMandatoryDocuments(documentConfig.mandatoryDocuments[get(activeSingleProperty, 'location.countryCode')][get(activeSingleProperty, 'properties.propertyType')]);
+      if (documentConfig.mandatoryDocuments[get(activeSingleProperty, 'location.countryCode', '')]) {
+        setMandatoryDocuments(documentConfig.mandatoryDocuments[get(activeSingleProperty, 'location.countryCode', '')][get(activeSingleProperty, 'properties.propertyType')]);
       } else {
-        setMandatoryDocuments(documentConfig.mandatoryDocuments.EN[get(activeSingleProperty, 'properties.propertyType')]);
+        setMandatoryDocuments(documentConfig.mandatoryDocuments.EN[get(activeSingleProperty, 'properties.propertyType', '')]);
       }
     }
   }, [activeSingleProperty.id]);
@@ -856,7 +856,7 @@ const DashboardHome = (props: DashboardHomeType) => {
                                   event={{
                                     title: 'My Title',
                                     description: 'My Description',
-                                    startTime: DateTime.fromMillis(visit.visit).toISO(),
+                                    startTime: DateTime.fromMillis(visit.visit).toISO() || '',
                                     // endTime: '2018-10-07T12:00:00+10:00',
                                     location: get(activeSingleProperty, 'location.address', ''),
                                     attendees: [

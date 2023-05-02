@@ -128,7 +128,7 @@ const AccountDropdown = (props: AccountDropdownType) => {
                 },
               }}
               options={dropdownAccount()}
-              onSelect={(e, keys) => {
+              onSelect={(_e, keys) => {
                 if (preventExit) {
                   setUnsavedModal({
                     state: true,

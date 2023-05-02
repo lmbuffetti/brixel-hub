@@ -8,7 +8,7 @@ class ApiClient {
     this.baseURL = baseURL;
   }
 
-  post(requestUrl, payload = {}) {
+  post(_requestUrl, payload = {}) {
     return this.request({
       url: '/graphql',
       method: 'post',

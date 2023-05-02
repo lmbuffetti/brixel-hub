@@ -144,7 +144,7 @@ const Deals = (props: DealsType) => {
     handleSaveDeal(data);
   };
 
-  const archiveDeal = (id, stage, parent) => {
+  const archiveDeal = (id, _stage, parent) => {
     if (processedDeals) {
       const deals = cloneDeep(processedDeals[parent]);
 
@@ -189,7 +189,7 @@ const Deals = (props: DealsType) => {
     }
   }, [movedList]);
 
-  const applyFilter = (text, type, direction, company, filterModal) => {
+  const applyFilter = (_text, _type, _direction, _company, filterModal) => {
     if (processedDeals) {
       const filterDeals = processedDeals || {};
       const selected = {};

@@ -53,7 +53,7 @@ const BookTrialFlow = (props: BookTrialFlowType) => {
     }).toFormat('dd-LL-yyyy'));
     changeFieldValue('fullDate', DateTime.fromMillis(day, {
       locale: lang,
-    }).toISO());
+    }).toISO() || '');
   };
 
   useEffect(() => {

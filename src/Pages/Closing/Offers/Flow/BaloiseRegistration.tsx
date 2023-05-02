@@ -60,7 +60,7 @@ const BaloiseRegistration = (props: BaloiseRegistrationType) => {
     setDocumentUploading(newFiles);
   }
 
-  const removeFiles = (file, name) => {
+  const removeFiles = (_file, name) => {
     const newFiles = {...documentUploading};
     delete newFiles[name];
     setDocumentUploading(newFiles);
