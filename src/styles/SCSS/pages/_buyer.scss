@@ -140,3 +140,15 @@ $responsive-desktop: map-get($grid-breakpoints, xl );
     margin-bottom: calc($step * 3);
   }
 }
+
+.schedule-visit-modal {
+  #wrapDatePicker .react-datepicker {
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
+  }
+
+  .modal-footer {
+    justify-content: space-between;
+  }
+}

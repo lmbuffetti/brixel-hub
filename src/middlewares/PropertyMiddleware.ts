@@ -44,6 +44,7 @@ import api from '../controllers/api/config';
 
 import ActionStubs from '../resources/Utilities/timelineActionStubs';
 import {DealType} from '@brixel/brixel-components/dist/@types/Model';
+import {SET_SCHEDULE_VISIT} from '../actions/types/DealTypes';
 
 const checkCommon = (store) => (next) => (action) => {
   switch (action.type) {
@@ -813,12 +814,16 @@ const checkCommon = (store) => (next) => (action) => {
         });
       }
       api.property.saveScheduleVisit(data)
-        .then(() => {
+        .then((res) => {
+          store.dispatch({
+            type: SET_SCHEDULE_VISIT,
+            payload: [res.data],
+          });
           if (smallLoader) {
             store.dispatch({
               type: SPINNER_SMALL,
               payload: {
-                [smallLoader]: false,
+                [smallLoader]: 'saved',
               },
             });
           } else {

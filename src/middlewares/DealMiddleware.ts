@@ -991,6 +991,7 @@ const checkCommon = (store) => (next) => (action) => {
                     sellerStatus: buyDate.sellerStatus,
                     updatedAt: buyDate.updatedAt,
                     visitDate: buyDate.visitDate,
+                    id: buyDate.id,
                   });
                 })
               }

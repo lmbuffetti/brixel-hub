@@ -773,21 +773,22 @@ const App = (props: AppType) => {
           {
             modal.state && !modal.type && modal.small && (
               <BrixelModal
-                hideHeader={modal.hideHeader}
                 bodyActionsClass={modal.bodyActionsClass}
                 bodyClassColor={modal.bodyClassColor}
+                bodyInnerClass={modal.bodyInnerClass}
                 classContainer={modal.classContainer}
                 classImg={modal.classImg}
+                className={modal.className}
                 classTitle={modal.classTitle}
+                hideHeader={modal.hideHeader}
                 layout={modal.layout}
-                showLogoHeader={modal.showLogoHeader}
                 multiActions={modal.multiActions}
                 multiBodyActions={modal.multiBodyActions}
+                showLogoHeader={modal.showLogoHeader}
+                onClose={modal.hideClose !== true ? () => handleSetModal({ state: false }) : modal.onClose}
                 title={modal.title}
-                bodyInnerClass={modal.bodyInnerClass}
                 titleImg={modal.titleImg}
                 titleTop={modal.titleTop}
-                onClose={() => modal.hideClose !== true ? handleSetModal({ state: false }) : modal.onClose || ''}
               >
                 {
                   modal.body && (
