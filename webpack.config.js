@@ -3,8 +3,8 @@ process.env.BABEL_ENV = process.argv[process.argv.length - 1];
 const path = require('path');
 const webpack = require('webpack');
 const glob = require('glob-all');
-const baseByData = require('@brixel/brixel-components/dist/configuration/SettingsWebpack');
-const companyData = require('@brixel/brixel-components/dist/configuration/CompanyInfo');
+const {default: baseByData} = require('@brixel/brixel-components/dist/configuration/SettingsWebpack.js');
+const {default: companyData} = require('@brixel/brixel-components/dist/configuration/CompanyInfo.js');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 // const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
@@ -270,10 +270,10 @@ const clientConfig = (env) => {
         inject: true,
         filename: './index.html',
         template: './public/index.html',
-        title: companyData.hub.title,
+        title: companyData?.hub?.title,
         cache: true,
         meta: {
-          keywords: companyData.hub.keywords,
+          keywords: companyData?.hub?.keywords,
         },
         minify: {
           collapseWhitespace: true,
@@ -283,8 +283,8 @@ const clientConfig = (env) => {
           removeStyleLinkTypeAttributes: true,
           useShortDoctype: true,
         },
-        transifexKey: baseByData(getEnvBuild).transifexIdHub,
-        googleAnalyticsId: baseByData(getEnvBuild).googleAnalyticsIdHub,
+        transifexKey: baseByData(getEnvBuild)?.transifexIdHub,
+        googleAnalyticsId: baseByData(getEnvBuild)?.googleAnalyticsIdHub,
       }),
     )
   }
