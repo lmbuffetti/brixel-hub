@@ -14,6 +14,6 @@ export interface ContactType {
   };
   lang: string;
   loggedInUser: LoggedUserType;
-  scheduleVisit: ScheduleVisitRequestType | null;
+  scheduleVisit: ScheduleVisitRequestType[] | null;
   userTypes?: string;
 }

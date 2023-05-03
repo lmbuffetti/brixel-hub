@@ -80,8 +80,9 @@ const DashboardHome = (props: ContactType) => {
           <div className="dis-fl-col dis-fl-row-sm">
 
             <button
-              className={`shadow-2dp brdRadius dis-f jc-b pt-2 px-2 px-sm-3 mr-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi ta-l ${!scheduleVisit?.visit?.date && scheduleVisit?.buyerAvailability ? 'bgWhite' : 'bgGreen100'}`}
+              className={`shadow-2dp brdRadius dis-f jc-b pt-2 px-2 px-sm-3 mr-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi ta-l ${scheduleVisit && scheduleVisit[0]?.visit?.date && scheduleVisit[0]?.buyerAvailability ? 'bgWhite' : 'bgGreen100'}`}
             >
+              {console.log('scheduleVisit')}
               {
                 !scheduleVisit && (
                   <div className="dis-fl-col ">
@@ -92,7 +93,7 @@ const DashboardHome = (props: ContactType) => {
                 )
               }
               {
-                scheduleVisit?.visit?.date && (
+                scheduleVisit && scheduleVisit[0]?.visit?.date && (
                   <div
                     className="cardWithBg"
                     style={{ backgroundImage: `url(${scheduleAcceptedSvg})` }}
@@ -103,7 +104,7 @@ const DashboardHome = (props: ContactType) => {
                       </h5>
                       <div className="dis-f a-c max-w-perc-80 mt-1">
                         <h5 className="pr-2 txtGreen400 fweight-600 mb-3">
-                          {DateTime.fromMillis(scheduleVisit.visit.date).toFormat('dd LLL yyyy, hh:mm', { locale: lang})}
+                          {DateTime.fromMillis(scheduleVisit[0].visit.date).toFormat('dd LLL yyyy, hh:mm', { locale: lang})}
                         </h5>
                       </div>
 
@@ -119,7 +120,7 @@ const DashboardHome = (props: ContactType) => {
                 )
               }
               {
-                !scheduleVisit?.visit?.date && scheduleVisit?.buyerAvailability && (
+                scheduleVisit && !scheduleVisit[0]?.visit?.date && scheduleVisit[0]?.buyerAvailability && (
                   <div
                     className="cardWithBg"
                     style={{ backgroundImage: `url(${scheduleSvg})` }}
@@ -145,7 +146,7 @@ const DashboardHome = (props: ContactType) => {
                 )
               }
               {
-                scheduleVisit && !scheduleVisit?.visit?.date && !scheduleVisit?.buyerAvailability && (
+                scheduleVisit && !scheduleVisit[0]?.visit?.date && !scheduleVisit[0]?.buyerAvailability && (
                   <div
                     className="cardWithBg"
                     style={{backgroundImage: `url(${PropertyCalendarSvg})` }}
@@ -268,7 +269,7 @@ const mapStateToProps = (state) => ({
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
   lang: get(state, 'common.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
-  scheduleVisit: get(state, 'deal.scheduleVisit[0]', null),
+  scheduleVisit: get(state, 'deal.scheduleVisit', null),
   searchProfile: get(state, 'user.userSearchProfiles[0]', {}),
 });
 

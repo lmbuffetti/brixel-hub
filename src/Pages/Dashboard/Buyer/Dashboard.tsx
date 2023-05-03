@@ -94,6 +94,7 @@ const Dashboard = (props: DashboardType) => {
   }, [activeSingleProperty.id, loggedInUser, activeSingleCompany?.id]);
 
   useEffect(() => {
+    console.log(activeSingleDeal)
     if (activeSingleDeal.id) {
       handleGetScheduleVisit({
         id: activeSingleDeal.id,
