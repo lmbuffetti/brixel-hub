@@ -4,7 +4,6 @@ import {
   SET_ACTIVE_SINGLE_DEAL,
   SET_OFFER_LISTINGS,
   SET_SCHEDULE_VISIT,
-  SET_SCHEDULE_VISIT_DATA,
 } from '../actions/types/DealTypes';
 
 import {SET_DEAL_NOTE_LISTINGS} from '../actions/types/NoteTypes';
@@ -21,8 +20,7 @@ export const defaultState: DealReducerType = {
   activeSingleDealNotes: [],
   activeSingleDealOwnerHistory: {},
   offerListings: [],
-  scheduleVisit: [],
-  scheduleVisitData: [],
+  scheduleVisit: null,
 };
 
 export default handleActions<any>(
@@ -50,10 +48,6 @@ export default handleActions<any>(
     [SET_SCHEDULE_VISIT]: (state, action) => ({
       ...state,
       scheduleVisit: action.payload,
-    }),
-    [SET_SCHEDULE_VISIT_DATA]: (state, action) => ({
-      ...state,
-      scheduleVisitData: action.payload,
     }),
   },
   defaultState,

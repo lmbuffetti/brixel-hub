@@ -29,7 +29,6 @@ import {
   UPDATE_DEALS_ORDER,
   UPDATE_MULTIPLE_DEALS,
   SET_SCHEDULE_VISIT,
-  SET_SCHEDULE_VISIT_DATA,
 } from '../actions/types/DealTypes';
 
 import {GET_HISTORY_LISTINGS, SET_DEAL_OWNER_HISTORY_LISTINGS} from '../actions/types/HistoryTypes';
@@ -976,32 +975,8 @@ const checkCommon = (store) => (next) => (action) => {
       api.deal.getScheduleVisit(id, order, direction)
         .then((res) => {
           if (res.data) {
-            const buyerAvailability: object[] = [];
-            res.data.forEach((buyDate) => {
-              if (buyDate.buyerAvailability.length === 0) {
-                buyerAvailability.push(buyDate);
-              } else {
-                buyDate.buyerAvailability.forEach((subRes) => {
-                  buyerAvailability.push({
-                    ...subRes,
-                    buyerMessage: buyDate.buyerMessage,
-                    buyerStatus: buyDate.buyerStatus,
-                    createdAt: buyDate.createdAt,
-                    deal: buyDate.deal,
-                    sellerStatus: buyDate.sellerStatus,
-                    updatedAt: buyDate.updatedAt,
-                    visitDate: buyDate.visitDate,
-                    id: buyDate.id,
-                  });
-                })
-              }
-            })
             store.dispatch({
               type: SET_SCHEDULE_VISIT,
-              payload: buyerAvailability,
-            });
-            store.dispatch({
-              type: SET_SCHEDULE_VISIT_DATA,
               payload: res.data,
             });
           }

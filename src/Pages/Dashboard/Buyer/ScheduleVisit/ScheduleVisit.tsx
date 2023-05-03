@@ -34,6 +34,7 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
   // PROPS
   const {
     activeScheduleVisit,
+    activeScheduleVisits,
     activeSingleDeal,
     activeSingleProperty,
     changeFieldValue,
@@ -49,10 +50,12 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
   } = props;
   // STATE
   const [hideModale, setHideModal] = useState(false);
+  const [SectionPage, setSectionPage] = useState<'confirmed' | 'buyerRequest' | 'create'>('create');
 
   const lastPart = history.location.pathname.split('/').filter(e => e).slice(-1);
   const isNewDate = lastPart[0] === 'addDate';
 
+  // REDIRECT TO SHCEDULE VISIT PAGE FOR SUB ROUTE
   useEffect(() => {
     if (!isEmpty(lastPart[0]) && lastPart[0] !== 'scheduleVisit' && lastPart[0] !== 'addDate') {
       history.push('../scheduleVisit');
@@ -65,6 +68,7 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
     handleSetModal({});
   };
 
+  // STORE CURRENT VISIT TO REDUX
   const storeDate = () => {
     const schuduleVisits: ScheduleVisitSlotType[] = get(formValue, 'scheduleVisits', []);
     schuduleVisits.push(formValue.scheduleVisit)
@@ -72,6 +76,8 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
     handleSetModal({});
     setHideModal(true);
   }
+
+  // UPDATE MODAL ACTIONS (SAVE AND DISABLE BUTTONS
   useEffect(() => {
     if (modalData.multiActions && modalData.multiActions?.length > 0 && !hideModale) {
       handleSetModal({
@@ -88,6 +94,13 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
     }
   }, [formValue.scheduleVisit]);
 
+  useEffect(() => {
+    if (activeScheduleVisit?.buyerAvailability) setSectionPage('buyerRequest');
+    if (activeScheduleVisit?.visit?.date) setSectionPage('confirmed');
+  }, [activeScheduleVisit]);
+
+
+  // OPEN MODAL FOR ADD DATE
   const openModalDate = () => {
     history.push('../scheduleVisit/addDate');
     setHideModal(false);
@@ -123,19 +136,21 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
     });
   };
 
+  // INIT FORM
   useEffect(() => {
     if (activeSingleProperty.id && activeSingleDeal.id) {
       initForm(initialValues);
     }
   }, [activeSingleProperty.id, loggedInUser.id, activeSingleDeal.id]);
 
+  // OPEN MODAL FOR ADD DATE BY ROUTE
   useEffect(() => {
     if (isNewDate) {
       openModalDate();
     }
   }, [isNewDate]);
 
-
+  // SAVE FUNCTION
   const saveData = () => {
     const data = {
       data: {
@@ -148,12 +163,14 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
     hanldeSaveScheduleVisit(data);
   };
 
+  // REMOVE VISIT ON CREATEION MODE
   const removeVisit = (index: number) => {
     const schuduleVisits: ScheduleVisitSlotType[] = get(formValue, 'scheduleVisits', []);
     schuduleVisits.splice(index, 1);
     changeFieldValue('scheduleVisits', schuduleVisits);
   };
 
+  // FUNCTION TO FORMAT DATA FOR ADD TO CALENDAR
   const formatCalendar = (type) => {
     switch (type) {
       case 'location': {
@@ -189,51 +206,58 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
           Visit
         </h4>
       </div>
-
+      {/* CONDITION TO SHOW DATA ONLY AFTER API CALL */}
       {
-        (activeScheduleVisit?.visit?.date) ? (
-          <>
-            <div className="bgGreen100 brdRadius px-4 pt-4">
-              <div className="dis-f jc-b a-b">
-                <div className="mb-4">
-                  <h5 className="mb-1">Your visit is confirmed!</h5>
-
-                  <h4 className="txtGreen400">
-                    <span>
-                      {DateTime.fromMillis(activeScheduleVisit.visit.date).toFormat('dd MMM yyyy', {locale: lang})}
-                    </span>
-                    <span className="mr-small-4">,</span>
-                    <span>
-                      {DateTime.fromMillis(activeScheduleVisit.visit.date, { locale: lang }).toFormat('HH:mm')}
-                    </span>
-                  </h4>
-                </div>
-
-                <img
-                  src={PropertyconfirmedVisitImg}
-                  alt="Confirmed Visit"
-                />
-              </div>
-            </div>
-
-            <div className="mt-4 dis-f jc-fe">
-              <AddToCalendar
-                lang={lang}
-                timestamp={activeScheduleVisit.visit.date}
-                title={translateTo(`Visit ${activeSingleProperty.title}`, lang)}
-                location={formatCalendar('location')}
-              />
-            </div>
-          </>
+        !activeScheduleVisits ? (
+          <div>
+            Loading...
+          </div>
         ) : (
           <>
-            {/* IF NOT EXIST ANY CONFIRMATION DATE */}
             {
-              activeScheduleVisit?.buyerAvailability ? (
+              SectionPage === 'confirmed' && activeScheduleVisit && (
+                <>
+                  <div className="bgGreen100 brdRadius px-4 pt-4">
+                    <div className="dis-f jc-b a-b">
+                      <div className="mb-4">
+                        <h5 className="mb-1">Your visit is confirmed!</h5>
+
+                        <h4 className="txtGreen400">
+                          <span>
+                            {DateTime.fromMillis(activeScheduleVisit.visit.date).toFormat('dd MMM yyyy', {locale: lang})}
+                          </span>
+                          <span className="mr-small-4">,</span>
+                          <span>
+                            {DateTime.fromMillis(activeScheduleVisit.visit.date, { locale: lang }).toFormat('HH:mm')}
+                          </span>
+                        </h4>
+                      </div>
+
+                      <img
+                        src={PropertyconfirmedVisitImg}
+                        alt="Confirmed Visit"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="mt-4 dis-f jc-fe">
+                    <AddToCalendar
+                      lang={lang}
+                      timestamp={activeScheduleVisit.visit.date}
+                      title={translateTo(`Visit ${activeSingleProperty.title}`, lang)}
+                      location={formatCalendar('location')}
+                    />
+                  </div>
+                </>
+              )
+            }
+
+            {
+              SectionPage === 'buyerRequest' && (
                 <div className="brdRadius bgWhite p-4">
                   {/* IF EXIST BUYER AVAILABILITY DATE */}
                   {
-                    activeScheduleVisit.buyerAvailability.map((visit, i) => (
+                    activeScheduleVisit?.buyerAvailability && activeScheduleVisit.buyerAvailability.map((visit, i) => (
                       <div
                         key={`visit${i.toString()}`}
                         className="mb-4 dis-f jc-b brdSmallBottom brdText100 pb-4"
@@ -255,16 +279,26 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
                       </div>
                     ))
                   }
-                  <div>
-                    <h6>
-                      {translateTo('Your message for the seller', lang)}
-                    </h6>
-                    <p>
-                      {activeScheduleVisit.buyerMessage}
-                    </p>
-                  </div>
+
+                  {
+                    activeScheduleVisit?.buyerMessage && (
+                      <div>
+                        <h6>
+                          {translateTo('Your message for the seller', lang)}
+                        </h6>
+                        <p>
+                          {activeScheduleVisit.buyerMessage}
+                        </p>
+                      </div>
+                    )
+                  }
                 </div>
-              ) : (
+              )
+            }
+
+
+            {
+              SectionPage === 'create' && (
                 <>
                   {/* ADD NEW DATE */}
                   {
@@ -371,21 +405,13 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
                           />
 
                         </div>
-
-                        <BrixelButtonPrimary
-                          className="mt-3 mr-0"
-                          rounded
-                          label="Save"
-                          rightIcon="arrow-right"
-                          onClick={() => saveData()}
-                          isLoading={isSmallLoading.sendData === true}
-                        />
                       </div>
                     )
                   }
                 </>
               )
             }
+
           </>
         )
       }
@@ -395,25 +421,12 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
 
 const mapStateToProps = (state) => {
   const initialValues = {
-    ...get(state, 'deal.scheduleVisitData', []),
+    ...get(state, 'deal.scheduleVisit[0]', []),
     deal: get(state, 'deal.activeSingleDeal.id', null),
-    scheduleVisits: [
-      {
-        'end': 1685300400000,
-        'start': 1685257200000,
-        'isAllDay': false,
-        'timezone': 'Europe/Lisbon',
-      },
-      {
-        'end': 1685559600000,
-        'start': 1685516400000,
-        'isAllDay': false,
-        'timezone': 'Europe/Lisbon',
-      },
-    ],
   };
   return ({
-    activeScheduleVisit: get(state, 'deal.scheduleVisitData[0]', {}),
+    activeScheduleVisit: get(state, 'deal.scheduleVisit[0]', {}),
+    activeScheduleVisits: get(state, 'deal.scheduleVisit', null),
     activeSingleDeal: get(state, 'deal.activeSingleDeal', {}),
     activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
     errorValue: get(state, 'brixelForm.ScheduleVisit.syncErrors', {}),

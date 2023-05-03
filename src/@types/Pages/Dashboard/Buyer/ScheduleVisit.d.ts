@@ -16,7 +16,8 @@ export interface FormValueType {
 
 export interface ScheduleVisitType {
   activeSingleDeal: DealsType,
-  activeScheduleVisit: ScheduleVisitRequestType,
+  activeScheduleVisit: ScheduleVisitRequestType | null,
+  activeScheduleVisits: ScheduleVisitRequestType[] | null,
   activeSingleProperty: PropertyType;
   errorValue: object;
   formValue: FormValueType;
