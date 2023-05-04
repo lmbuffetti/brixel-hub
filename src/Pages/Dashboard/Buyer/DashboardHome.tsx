@@ -80,9 +80,8 @@ const DashboardHome = (props: ContactType) => {
           <div className="dis-fl-col dis-fl-row-sm">
 
             <button
-              className={`shadow-2dp brdRadius dis-f jc-b pt-2 px-2 px-sm-3 mr-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi ta-l ${scheduleVisit && scheduleVisit[0]?.visit?.date && scheduleVisit[0]?.buyerAvailability ? 'bgWhite' : 'bgGreen100'}`}
+              className={`shadow-2dp brdRadius dis-f jc-b pt-2 px-2 px-sm-3 mr-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi ta-l ${((scheduleVisit && scheduleVisit[0]?.visit?.date && scheduleVisit[0]?.buyerAvailability) || !scheduleVisit) ? 'bgGreen100' : 'bgWhite'}`}
             >
-              {console.log('scheduleVisit')}
               {
                 !scheduleVisit && (
                   <div className="dis-fl-col ">
@@ -136,6 +135,7 @@ const DashboardHome = (props: ContactType) => {
                       </div>
 
                       <BrixelButtonSecondary
+                        bgTransparent
                         onClick={() => history.push(`/buyer/${propID}/scheduleVisit`)}
                         className="mt-a as-fs"
                         rounded

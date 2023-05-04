@@ -108,7 +108,7 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
     handleSetModal({
       state: true,
       small: true,
-      component: <ScheduleVisitComponent onClick={() => ''} />,
+      component: <ScheduleVisitComponent />,
       title: 'Add date',
       titleTop: true,
       hideClose: true,
@@ -273,9 +273,21 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
             {
               SectionPage === 'confirmed' && activeScheduleVisit && (
                 <>
-                  <div className="bgGreen100 brdRadius px-4 pt-4">
+                  <div className="bgGreen50 brdRadius px-4 pt-4">
                     <div className="dis-f jc-b a-b">
                       <div className="mb-4">
+                        <BrixelSingleTag
+                          className="mb-2"
+                          lang={lang}
+                          message={{
+                            lang: lang,
+                            accepted: 'Visit confirmed',
+                          }}
+                          status="accepted"
+                          text="Visit confirmed"
+                        />
+
+
                         <h5 className="mb-1">Your visit is confirmed!</h5>
 
                         <h4 className="txtGreen400">
