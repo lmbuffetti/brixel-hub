@@ -75,7 +75,7 @@ const EstimationPropertyList = (props: FavoritesPropertyListType) => {
           skeleton.estimation ? (
             <>
               {
-                [...Array(3)].map((x, i) => (
+                [...Array(3)].map((_x, i) => (
                   <div
                     key={`skeleton${i.toString()}`}
                     className="w-perc-100 pb-2"

@@ -336,7 +336,7 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
               <div>
                 <BrixelDropdown
                   selected={translateTo(activeTab.label || '', lang)}
-                  onSelect={(e, val) => onChangeFilter(val)}
+                  onSelect={(_e, val) => onChangeFilter(val)}
                   options={filterPropType}
                 />
               </div>
@@ -346,7 +346,7 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
                 skeleton.buyerProperties === 'CardImageTextVertical' ? (
                   <>
                     {
-                      [...Array(3)].map((x, i) => (
+                      [...Array(3)].map((_x, i) => (
                         <div
                           key={`skeleton${i.toString()}`}
                           className="w-perc-100 ov-h brdRadius pb-2"
@@ -384,7 +384,7 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
                 totalItems={buyerProperties.total || 0}
                 itemsPerPage={9}
                 activePage={(+page - 1) * 9}
-                paginate={(resultsPerPage, skip, pageNumber) => history.push(`/buy/searchProfile/${cat}/${pageNumber}`)}
+                paginate={(_resultsPerPage, _skip, pageNumber) => history.push(`/buy/searchProfile/${cat}/${pageNumber}`)}
                 lang={lang}
               />
             </div>

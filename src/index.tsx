@@ -37,7 +37,7 @@ if (container) {
     }
 
     // eslint-disable-next-line max-params
-    const onRender = (id, phase, actualDuration, baseDuration, startTime, commitTime, interactions) => {
+    const onRender = (id, _phase, actualDuration, baseDuration, startTime, commitTime, interactions) => {
       // eslint-disable-next-line no-console
       console.warn(`ID: ${id}, actual time: ${actualDuration}, baseDuration: ${baseDuration}, startTime: ${startTime}, commitTime: ${commitTime}, interactions: ${interactions}`);
     };
