@@ -9,7 +9,6 @@ import translateTo from '../utils/translation';
 import get from 'lodash/get';
 import {connect} from 'react-redux';
 import {bindActionCreators, compose} from 'redux';
-import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import {BrixelTextArea} from '@brixel/brixel-components/dist/form';
 import {sendSupportMessage} from '../actions/CommonActions';
 import type {SupportType} from '../@types/components/Support';
