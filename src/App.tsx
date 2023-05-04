@@ -1,5 +1,11 @@
 import React, {Fragment, lazy, Suspense, useCallback, useEffect, useRef, useState} from 'react';
-import {BrixelIcon, BrixelModal, BrixelModalConfirm, BrixelNotification} from '@brixel/brixel-components';
+import {
+  BrixelIcon,
+  BrixelModal,
+  BrixelModalConfirm,
+  BrixelNotification,
+  BrixelImage,
+} from '@brixel/brixel-components';
 import BrixelPage500 from '@brixel/brixel-components/dist/components/BrixelPage500';
 import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import {reset} from '@brixel/brixel-components/dist/form';
@@ -709,9 +715,11 @@ const App = (props: AppType) => {
                             <div className="dis-f jc-b a-c">
                               {
                                 teamAvatars.map((imgTeam, i) => (
-                                  <img loading="lazy"
+                                  <BrixelImage
+                                    loading="lazy"
                                     key={`avt_${i.toString()}`}
-                                    src={`${baseByData.shortPath}${imgTeam.path}`}
+                                    url={imgTeam.url}
+                                    size={'XS'}
                                     alt="Support Team"
                                     className="w-fix-32 mr-1-neg square brdLarge brdWhite brdCircle"
                                   />

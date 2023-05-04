@@ -58,7 +58,7 @@ export const successHandler = (response, id) => {
   const store = configureStore;
   const currentFeatureFlags = get(store.getState(), 'common.featureFlags');
   if (response.headers['feature-flags']) {
-    const requestFlags = JSON.parse(response.headers['feature-flags'], (key, value) => value === 'true' ? true : value === 'false' ? false : value);
+    const requestFlags = JSON.parse(response.headers['feature-flags'], (_key, value) => value === 'true' ? true : value === 'false' ? false : value);
     const checkDiff = diff(currentFeatureFlags, requestFlags);
 
     if (Object.keys(checkDiff).length > 0) {

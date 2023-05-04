@@ -175,7 +175,7 @@ const MarketBuyer = (props: MarketBuyerType) => {
         <Routes>
           <Route path="/searchProfile/list/*" element={<SearchProfileModal />} />
           {
-            filterPropType.map((nav, i) => (
+            filterPropType.map((_nav, i) => (
               <Route
                 key={`route${i.toString()}`}
                 path={'/searchProfile/:cat/:page'}

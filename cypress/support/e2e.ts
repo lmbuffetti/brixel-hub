@@ -17,9 +17,9 @@
 import '@cypress/code-coverage/support';
 import './commands';
 
-module.exports = (on, config) => {
+module.exports = (_on, config) => {
   // add other tasks to be registered here
-  
+
   // IMPORTANT to return the config object
   // with the any changed environment variables
   return config

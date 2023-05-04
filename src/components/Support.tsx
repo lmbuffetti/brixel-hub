@@ -1,10 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import {BrixelButtonIcon, BrixelIcon, Helpers} from '@brixel/brixel-components';
+import {
+  BrixelButtonIcon,
+  BrixelIcon,
+  Helpers,
+  BrixelImage,
+} from '@brixel/brixel-components';
 import translateTo from '../utils/translation';
 import get from 'lodash/get';
 import {connect} from 'react-redux';
 import {bindActionCreators, compose} from 'redux';
-import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import {BrixelTextArea} from '@brixel/brixel-components/dist/form';
 import {sendSupportMessage} from '../actions/CommonActions';
 import type {SupportType} from '../@types/components/Support';
@@ -85,12 +89,13 @@ const Support = (props: SupportType) => {
                         <div className="dis-f jc-fs a-t">
                           {
                             teamAvatars.map((imgTeam, i) => (
-                              <img
+                              <BrixelImage
                                 loading="lazy"
-                                key={`rmAvt_${i.toString()}`}
-                                src={`${baseByData.shortPath}${get(imgTeam, 'path', '')}`}
+                                key={`avt_${i.toString()}`}
+                                url={imgTeam.url}
+                                size={'XS'}
                                 alt="Support Team"
-                                className="w-fix-40 mr-1-neg square brdLarge brdWhite brdCircle"
+                                className="w-fix-32 mr-1-neg square brdLarge brdWhite brdCircle"
                               />
                             ))
                           }
@@ -139,10 +144,11 @@ const Support = (props: SupportType) => {
                   <div className="dis-f jc-fs a-t">
                     {
                       teamAvatars.map((imgTeam, i) => (
-                        <img
+                        <BrixelImage
                           loading="lazy"
-                          key={`tmAvt_${i.toString()}`}
-                          src={`${baseByData.shortPath}${get(imgTeam, 'path', '')}`}
+                          key={`avt_${i.toString()}`}
+                          url={imgTeam.url}
+                          size={'XS'}
                           alt="Support Team"
                           className="w-fix-40 mr-1-neg square brdLarge brdWhite brdCircle"
                         />

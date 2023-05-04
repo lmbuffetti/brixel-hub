@@ -91,7 +91,7 @@ const MarketCard = (props: MarketCardProps) => {
     centerPadding: '8px',
     arrows: false,
     dots: false,
-    beforeChange: (oldIndex, newIndex) => {
+    beforeChange: (_oldIndex, newIndex) => {
       setActiveSlide(newIndex);
     },
   };
@@ -685,7 +685,7 @@ const MarketCard = (props: MarketCardProps) => {
                               className="slick-dots pos-a x-c ta-c zIndex2 bt mb-1"
                             >
                               {
-                                item && item.photos.slice(0, 5).map((photo, i) => (
+                                item && item.photos.slice(0, 5).map((_photo, i) => (
                                   <li
                                     key={`dots${i.toString()}`}
                                     className={activeSlide === i ? 'slick-active' : ''}

@@ -52,7 +52,7 @@ const MarketCardFavorites = (props: MarketCardFavoritesType) => {
     slidesToScroll: 1,
     arrows: false,
     dots: false,
-    beforeChange: (oldIndex, newIndex) => {
+    beforeChange: (_oldIndex, newIndex) => {
       setActiveSlide(newIndex);
     },
   };
@@ -182,7 +182,7 @@ const MarketCardFavorites = (props: MarketCardFavoritesType) => {
                     className="slick-dots pos-a x-c ta-c zIndex2 bt mb-1"
                   >
                     {
-                      get(activeSingleProperty, 'photos', []).slice(0, 5).map((photo, i) => (
+                      get(activeSingleProperty, 'photos', []).slice(0, 5).map((_photo, i) => (
                         <li
                           key={`dots${i.toString()}`}
                           className={activeSlide === i ? 'slick-active' : ''}

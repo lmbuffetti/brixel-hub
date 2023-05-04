@@ -147,7 +147,7 @@ const MakeOffer = (props: MakeOfferType) => {
     const doc = get(formValue, 'document', []);
     const docs = get(formValue, 'documents', doc);
     // eslint-disable-next-line no-return-assign
-    docs.forEach((item, i) => set(docs[i], 'user', get(loggedInUser, 'id', undefined)));
+    docs.forEach((_item, i) => set(docs[i], 'user', get(loggedInUser, 'id', undefined)));
     const dataDocuments = {
       allImgs: docs,
       actions: 'documents',
