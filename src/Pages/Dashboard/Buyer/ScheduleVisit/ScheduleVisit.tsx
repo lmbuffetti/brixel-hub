@@ -246,7 +246,7 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
             }
 
             {
-              (activeScheduleVisit?.buyerAvailability && !activeScheduleVisit?.visit?.date) && (
+              (isSmallLoading.sendData !== 'saved' && activeScheduleVisit?.buyerAvailability && !activeScheduleVisit?.visit?.date) && (
                 <div className="bgWhite brdRadius px-4 pt-4 mb-4 dis-f a-b jc-b ov-h">
                   <div className="mb-4">
                     <BrixelSingleTag
