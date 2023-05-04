@@ -80,11 +80,11 @@ const DashboardHome = (props: ContactType) => {
           <div className="dis-fl-col dis-fl-row-sm">
 
             <button
-              className={`shadow-2dp brdRadius dis-f jc-b pt-2 px-2 px-sm-3 mr-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi ta-l ${((scheduleVisit && scheduleVisit[0]?.visit?.date && scheduleVisit[0]?.buyerAvailability) || !scheduleVisit) ? 'bgGreen100' : 'bgWhite'}`}
+              className={`shadow-2dp brdRadius dis-f jc-b pt-2 px-2 px-sm-3 mr-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi ta-l ${((scheduleVisit && scheduleVisit[0]?.visit?.date && scheduleVisit[0]?.buyerAvailability) || (scheduleVisit && !scheduleVisit[0])) ? 'bgGreen100' : 'bgWhite'}`}
             >
               {
-                !scheduleVisit && (
-                  <div className="dis-fl-col ">
+                (!scheduleVisit) && (
+                  <div className="dis-fl-col w-perc-100">
                     <div className="skeletonh4" />
                     <div className="skeletonh4 mt-1" />
                     <div className="skeletonSmall mt-2" />
