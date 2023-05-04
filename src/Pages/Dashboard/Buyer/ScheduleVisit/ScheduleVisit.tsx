@@ -52,6 +52,7 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
   // STATE
   const [hideModale, setHideModal] = useState(false);
   const [SectionPage, setSectionPage] = useState<'confirmed' | 'buyerRequest' | 'create'>('create');
+  const [activeModalID, setActiveModalID] = useState(-1);
 
   const lastPart = history.location.pathname.split('/').filter(e => e).slice(-1);
   const isNewDate = lastPart[0] === 'addDate';
@@ -72,7 +73,11 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
   // STORE CURRENT VISIT TO REDUX
   const storeDate = () => {
     const schuduleVisits: ScheduleVisitSlotType[] = get(formValue, 'scheduleVisits', []);
-    schuduleVisits.push(formValue.scheduleVisit)
+    if (activeModalID > -1) {
+      schuduleVisits[activeModalID] = formValue.scheduleVisit
+    } else {
+      schuduleVisits.push(formValue.scheduleVisit)
+    }
     changeFieldValue('scheduleVisits', schuduleVisits);
     handleSetModal({});
     setHideModal(true);
@@ -102,14 +107,15 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
 
 
   // OPEN MODAL FOR ADD DATE
-  const openModalDate = () => {
+  const openModalDate = (index = -1) => {
+    setActiveModalID(index);
     history.push('../scheduleVisit/addDate');
     setHideModal(false);
     handleSetModal({
       state: true,
       small: true,
-      component: <ScheduleVisitComponent />,
-      title: 'Add date',
+      component: <ScheduleVisitComponent formValue={formValue?.scheduleVisits ? formValue?.scheduleVisits[index] : undefined} />,
+      title: formValue?.scheduleVisits ? 'Edit date' : 'Add date',
       titleTop: true,
       hideClose: true,
       onClose: () => closeModalDate(),
@@ -413,6 +419,12 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
                                     </div>
                                     <div>
                                       <BrixelIcon
+                                        className="mr-2"
+                                        color="green"
+                                        icon="edit"
+                                        onClick={() => openModalDate(i)}
+                                      />
+                                      <BrixelIcon
                                         color="red"
                                         icon="bin"
                                         onClick={() => removeVisit(i)}
@@ -497,14 +509,6 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
 const mapStateToProps = (state) => {
   const initialValues = {
     ...get(state, 'deal.scheduleVisit[0]', []),
-    scheduleVisits: [
-      {
-        'end': 1685041200000,
-        'start': 1684998000000,
-        'isAllDay': false,
-        'timezone': 'Europe/Lisbon',
-      },
-    ],
     deal: get(state, 'deal.activeSingleDeal.id', null),
   };
   return ({

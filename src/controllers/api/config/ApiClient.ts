@@ -1,5 +1,5 @@
 import getConfigEnv from '@brixel/brixel-components/dist/configuration/Settings';
-import axios, {Axios, AxiosRequestConfig, setupCache, buildWebStorage } from 'axios';
+import axios, {AxiosRequestConfig } from 'axios';
 import get from 'lodash/get';
 import Cookies from 'universal-cookie';
 import {failureHandler, successHandler} from '../utils/api.helper';

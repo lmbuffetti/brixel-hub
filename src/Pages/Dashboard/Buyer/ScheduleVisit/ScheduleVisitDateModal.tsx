@@ -15,13 +15,14 @@ import type {ScheduleVisitComponentType} from '../../../../@types/Pages/Dashboar
 const ScheduleVisitDateModal = (props: ScheduleVisitComponentType) => {
   const {
     changeFieldValue,
+    formValue,
     lang,
   } = props;
 
   const calendarRef = useRef(null);
   const datePicker = useRef(null);
 
-  const [date, setDate] = useState(null);
+  const [date, setDate] = useState<number>();
   const [hours, setHours] = useState({ min: 8, max: 20 });
   const [allDay, setAllDay] = useState(false);
 
@@ -29,6 +30,21 @@ const ScheduleVisitDateModal = (props: ScheduleVisitComponentType) => {
     setHours({ min: 8, max: 20 });
   }, [allDay]);
 
+  useEffect(() => {
+    let start = hours.min;
+    let end = hours.max;
+    if (formValue?.start) {
+      setDate(formValue.start);
+      start = +DateTime.fromMillis(formValue.start, { locale: lang }).toFormat('H')
+    }
+    if (formValue?.end) {
+      end = +DateTime.fromMillis(formValue.end, { locale: lang }).toFormat('H')
+    }
+    if (formValue?.isAllDay) {
+      setAllDay(formValue.isAllDay);
+    }
+    setHours({ min: start, max: end });
+  }, [formValue]);
 
   useEffect(() => {
     if (date) {
@@ -116,8 +132,6 @@ const mapStateToProps = (state) => {
   return ({
     activeScheduleVisit: get(state, 'deal.scheduleVisit', []),
     activeSingleProperty: get(state, 'property.activeSingleProperty', null),
-    formValue: get(state, 'brixelForm.ScheduleVisit.values', {}),
-    initalValue: get(state, 'brixelForm.ScheduleVisit.initalValues', {}),
     lang: get(state, 'common.language', 'en'),
   });
 };
