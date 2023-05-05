@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import get from 'lodash/get';
 import has from 'lodash/has';
-import getConfigEnv from '@brixel/brixel-components/dist/configuration/Settings';
 import {BrixelAvatar, BrixelButtonIcon, BrixelIcon, BrixelStatus, Helpers} from '@brixel/brixel-components';
 import translateTo from '../../utils/translation';
 import {useParams} from 'react-router-dom';
@@ -26,6 +25,7 @@ const DealsCard = (props: DealsCardProps) => {
     offer= {},
     parentOnClick= () => '',
     profileId= '',
+    avatarUrl = '',
     stage= '',
     visit= 0,
   } = props;
@@ -108,7 +108,7 @@ const DealsCard = (props: DealsCardProps) => {
       >
         <div className="leftPanel pr-2">
           <BrixelAvatar
-            baseURL={get(getConfigEnv, 'shortPath', '')}
+            avatarImg={avatarUrl}
             name={name}
             profileId={profileId}
             className="notranslate"

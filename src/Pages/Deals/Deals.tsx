@@ -343,6 +343,7 @@ const Deals = (props: DealsType) => {
                                           className="list-item pos-r"
                                         >
                                           <DealsCard
+                                            avatarUrl={singleDeal.user.avatarUrl}
                                             archOnClick={() => archiveDeal(singleDeal.id, singleDeal.stage, key)}
                                             archived={!singleDeal.active}
                                             className={`${!singleDeal.active ? 'bgText25' : 'bgWhite'} dealCard`}
@@ -384,6 +385,7 @@ const Deals = (props: DealsType) => {
                                         className="list-item pos-r archived"
                                       >
                                         <DealsCard
+                                          avatarUrl={singleDeal.user.avatarUrl}
                                           archOnClick={() => archiveDeal(singleDeal.id, singleDeal.stage, key)}
                                           archived={!singleDeal.active}
                                           className={`${!singleDeal.active ? 'bgText25' : 'bgWhite'} dealCard`}
