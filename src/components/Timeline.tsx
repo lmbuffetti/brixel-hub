@@ -352,8 +352,7 @@ const Timeline = (props: TimelineType) => {
                         (editNote.id === get(event, 'id', null) && editNote.active) ? (
                           <div className="dis-f">
                             <BrixelAvatar
-                              // @ts-ignore
-                              avatarImg={event.history?.author?.avatarUrl}
+                              avatarImg={get(event, 'history.author.avatarUrl')}
                               name={get(find(get(event, 'history', ''), (el) => (get(el, 'type', null) === 'create')), 'author.name', '')}
                               profileId={get(find(get(event, 'history', ''), (el) => (get(el, 'type', null) === 'create')), 'author.user_id', '')}
                             />
