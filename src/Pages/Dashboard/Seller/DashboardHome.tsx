@@ -649,7 +649,7 @@ const DashboardHome = (props: DashboardHomeType) => {
                       <div className="pos-a-fix x-l-0 x-t-0 w-perc-100 h-fix-16 bgText700 zIndex1" />
                       <CoverPropertyImage
                         className="cover w-perc-100"
-                        coverPhoto={get(formValue, 'coverPhoto.galleryThumbnailPath', undefined)}
+                        coverPhoto={formValue.coverPhoto?.url}
                         propertyType={get(formValue, 'properties.propertyType', undefined)}
                         size="M"
                       />

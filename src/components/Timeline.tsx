@@ -276,7 +276,7 @@ const Timeline = (props: TimelineType) => {
         <div ref={noteWrapperRef} className="add-note-container p-2 bgWhite brdRadius brdSmall brdText100 w-perc-100 dis-fl-col pb-2 mb-2 md-lg-4">
           <div className="text-container dis-fl-row">
             <BrixelAvatar
-              avatarImg={get(loggedInUser, 'avatar[0]', '') ? getConfigEnv.shortPath + get(loggedInUser, 'avatar[0].thumbnailPath', '') : null}
+              avatarImg={loggedInUser.avatarUrl}
               name={get(loggedInUser, 'name', loggedInUser.email)}
               profileId={get(loggedInUser, 'id', '')}
             />

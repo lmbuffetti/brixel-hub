@@ -296,7 +296,7 @@ const Plans = (props: FloorPlansPageType) => {
                                       <div
                                         className="square media-image-container dis-fl-row a-c jc-b w-perc-100 shadow-2dp brdRadius ov-h"
                                       >
-                                        <div className="perc-r w-perc-100 square dis-fl-row imgConver" style={{ backgroundImage: `url(${upImg.galleryThumbnailPath})` }} />
+                                        <div className="perc-r w-perc-100 square dis-fl-row imgConver" style={{ backgroundImage: `url(${useImage(upImg.url, {size: 'M'})})` }} />
                                       </div>
                                     )
                                   }
