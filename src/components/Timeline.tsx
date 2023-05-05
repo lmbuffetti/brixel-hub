@@ -22,7 +22,6 @@ import forEach from 'lodash/forEach';
 import last from 'lodash/last';
 import flatten from 'lodash/flatten';
 import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/BrixelButtonSecondary';
-import getConfigEnv from '@brixel/brixel-components/dist/configuration/Settings';
 import {DateTime} from 'luxon';
 import {createNote, saveActiveSingleNote} from '../actions/NoteActions';
 import Loading from './Loading';
@@ -276,7 +275,7 @@ const Timeline = (props: TimelineType) => {
         <div ref={noteWrapperRef} className="add-note-container p-2 bgWhite brdRadius brdSmall brdText100 w-perc-100 dis-fl-col pb-2 mb-2 md-lg-4">
           <div className="text-container dis-fl-row">
             <BrixelAvatar
-              avatarImg={get(loggedInUser, 'avatar[0]', '') ? getConfigEnv.shortPath + get(loggedInUser, 'avatar[0].thumbnailPath', '') : null}
+              avatarImg={loggedInUser.avatarUrl}
               name={get(loggedInUser, 'name', loggedInUser.email)}
               profileId={get(loggedInUser, 'id', '')}
             />
@@ -353,7 +352,8 @@ const Timeline = (props: TimelineType) => {
                         (editNote.id === get(event, 'id', null) && editNote.active) ? (
                           <div className="dis-f">
                             <BrixelAvatar
-                              baseURL={get(getConfigEnv, 'shortPath', '')}
+                              // @ts-ignore
+                              avatarImg={event.history?.author?.avatarUrl}
                               name={get(find(get(event, 'history', ''), (el) => (get(el, 'type', null) === 'create')), 'author.name', '')}
                               profileId={get(find(get(event, 'history', ''), (el) => (get(el, 'type', null) === 'create')), 'author.user_id', '')}
                             />

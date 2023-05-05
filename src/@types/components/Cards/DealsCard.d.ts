@@ -17,6 +17,7 @@ export interface DealsCardProps {
   };
   parentOnClick?: () => void;
   profileId?: string;
+  avatarUrl?: string;
   stage?: string;
   visit?: number;
 }
