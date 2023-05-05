@@ -9,7 +9,6 @@ import {
   Helpers,
   useOutsideAlerter,
 } from '@brixel/brixel-components';
-import getConfigEnv from '@brixel/brixel-components/dist/configuration/Settings';
 import {change} from '@brixel/brixel-components/dist/form';
 import cloneDeep from 'lodash/cloneDeep';
 import filter from 'lodash/filter';
@@ -386,7 +385,7 @@ const SingleDeal = (props: SingleDealType) => {
                       <div className="top dis-fl-row jc-b mb-0 mb-lg-4 pb-3">
                         <div className="user dis-fl-row col-md-7">
                           <BrixelAvatar
-                            baseURL={get(getConfigEnv, 'shortPath', '')}
+                            avatarImg={activeSingleDeal.user?.avatarUrl}
                             name={Helpers.userNameVal(get(activeSingleDeal, 'user.firstName', ''), get(activeSingleDeal, 'user.lastName', ''), get(activeSingleDeal, 'user.name', '')) === 'No Name' ? get(activeSingleDeal, 'user.email', '') : Helpers.userNameVal(get(activeSingleDeal, 'user.firstName', ''), get(activeSingleDeal, 'user.lastName', ''), get(activeSingleDeal, 'user.name', ''))}
                             profileId={get(activeSingleDeal.user, 'id', '')}
                           />
