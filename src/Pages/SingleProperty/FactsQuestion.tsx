@@ -12,6 +12,7 @@ import {InputSheets} from '../../resources/SingleProperty/inputSheets';
 import {keyify} from '../../utils/helpers';
 import translateTo from '../../utils/translation';
 import type {FactsQuestionType} from '../../@types/Pages/SingleProperty/FactsQuestion';
+import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 
 const FactsQuestion = (props: FactsQuestionType) => {
   const history = {
@@ -94,6 +95,7 @@ const FactsQuestion = (props: FactsQuestionType) => {
         formValue={formValue}
         inputs={quest?.inputs}
         onClick={() => ''}
+        baseByData={baseByData}
       />
     </div>
   );
