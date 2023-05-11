@@ -112,7 +112,7 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
           {
             ...modalLearnMoreSrchPrf.multiActions[0],
             name: stepLearnMoreSrchPrf === 5 ? 'Restart' : 'Skip',
-            rightIcon: stepLearnMoreSrchPrf === 5 ? 'update' : '',
+            rightIcon: stepLearnMoreSrchPrf === 5 ? 'restart' : '',
             func: () => {
               if (stepLearnMoreSrchPrf === 5) setStepLearnMoreSrchPrf(1);
               else handleSetModal({})
@@ -157,7 +157,7 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
         {
           round: true,
           clr: 'text',
-          rigthIcon: stepLearnMoreSrchPrf === 5 ? 'update' : '',
+          rigthIcon: stepLearnMoreSrchPrf === 5 ? 'restart' : '',
           btnType: 'Tertiary',
           className: 'mr-a ml-0',
           name: stepLearnMoreSrchPrf === 5 ? 'Restart' : 'Skip',
