@@ -1,4 +1,9 @@
-import {LoggedUserType, PropertyType, SearchProfileType} from '@brixel/brixel-components/dist/@types/Model';
+import {
+  LoggedUserType,
+  ModalDataType,
+  PropertyType,
+  SearchProfileType,
+} from '@brixel/brixel-components/dist/@types/Model';
 
 export interface MarketCategoryListBuyerType {
   activeSearchProfile?: SearchProfileType;
@@ -16,6 +21,7 @@ export interface MarketCategoryListBuyerType {
   handleSetModal: (data: object) => void;
   lang: string;
   loggedInUser: LoggedUserType;
+  modalLearnMoreSrchPrf: ModalDataType,
   setSplashScreen: (val: string) => void;
   skeleton: {
     buyerProperties: string;
