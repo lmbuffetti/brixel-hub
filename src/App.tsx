@@ -298,9 +298,22 @@ const App = (props: AppType) => {
 
   // FUNCTION TO LOAD THE USER TYPE BUYER OR SELLER
   useEffect(() => {
-    if (((get(activeSingleProperty, 'owner', null) === get(loggedInUser, 'id', 'b') || get(activeSingleProperty, 'owner', null) === get(loggedInUser, 'id', 'b')) && !get(history, 'location.pathname', '').includes('buyer')) || get(history, 'location.pathname', '').includes('seller')) {
+    console.log(activeSingleProperty?.id, get(activeSingleProperty, 'owner', null) === get(loggedInUser, 'id', 'b') ||
+          get(activeSingleProperty, 'owner', null) === get(loggedInUser, 'id', 'b'), !get(history, 'location.pathname', '').includes('buyer'), get(history, 'location.pathname', '').includes('seller'));
+    if (
+      activeSingleProperty?.id && (
+        (
+          get(activeSingleProperty, 'owner', null) === get(loggedInUser, 'id', 'b') ||
+          get(activeSingleProperty, 'owner.id', null) === get(loggedInUser, 'id', 'b')
+        ) &&
+        !get(history, 'location.pathname', '').includes('buyer')
+      ) ||
+      get(history, 'location.pathname', '').includes('seller')
+    ) {
+      console.log('seller');
       handleSetUserTypes('seller');
     } else {
+      console.log('buyer');
       handleSetUserTypes('buyer');
     }
     if (!activeSingleProperty.documents) handleSetActiveSingleDeal({});

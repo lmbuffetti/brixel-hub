@@ -38,7 +38,7 @@ const SingleDocument = (props: SingleDocumentType) => {
   } = props;
 
   const [activeDocument, setActiveDocument] = useState<DocumentType>({});
-  const [docuementsType, setDocumentsType] = useState<{label: string, value: string}[]>([]);
+  const [documentsType, setDocumentsType] = useState<{label: string, value: string}[]>([]);
 
   const docID = get(match, 'docID', null);
 
@@ -47,6 +47,7 @@ const SingleDocument = (props: SingleDocumentType) => {
   useEffect(() => {
     if (activeSingleProperty.documents) {
       const currentDoc = activeSingleProperty.documents.find((doc) => doc.id === docID);
+      console.log(currentDoc)
       if (currentDoc) {
         currentDoc.isPrivate = currentDoc?.isPrivate ? 1 : 2;
         initForm(currentDoc);
@@ -96,7 +97,7 @@ const SingleDocument = (props: SingleDocumentType) => {
       id: activeDocument.id,
       body: {
         name: formValue.name,
-        isPrivate: formValue.isPrivate === 1,
+        isPrivate: formValue.isPrivate === 1 ? true : false,
         folder: formValue.folder,
         path: activeDocument.path,
         type: formValue.type,
@@ -159,7 +160,7 @@ const SingleDocument = (props: SingleDocumentType) => {
                   }}
                   input={{
                     name: 'type',
-                    options: docuementsType,
+                    options: documentsType,
                   }}
                   labels={{
                     label: translateTo('Type of document', lang),
