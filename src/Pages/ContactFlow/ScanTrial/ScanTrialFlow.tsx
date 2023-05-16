@@ -75,7 +75,7 @@ const ScanTrialFlow = (props: ScanTrialFlowType) => {
   useEffect(() => {
     setIsEnter(true);
     if (questions[currentIndex].history && !get(urlParams, 'url', null)) {
-      history.push(`/${propID}/trialRequest/${questions[currentIndex].history}`);
+      // history.push(`/${propID}/trialRequest/${questions[currentIndex].history}`);
     }
   }, [currentIndex]);
 
@@ -324,7 +324,7 @@ const ScanTrialFlow = (props: ScanTrialFlowType) => {
     return label;
   };
 
-  if (activeSingleScanTrial === null) return <div />
+  {console.log(questions, quest)}
 
   return (
     <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'background', '')} ${get(quest, 'classWrapper', '')} ${showBookedTrial ? 'bgGreen50' : ''}`}>
@@ -486,7 +486,7 @@ const ScanTrialFlow = (props: ScanTrialFlowType) => {
                             ) : (
                               <>
                                 {
-                                  (questions[currentIndex].history !== 'BookTrialFlow' && get(formValue, 'analysis', null) !== 'remote') && (
+                                  (questions[currentIndex].history !== 'BookTrialFlow' && (
                                     <>
                                       {
                                         questions[currentIndex].history === 'introScanTrial' && (
