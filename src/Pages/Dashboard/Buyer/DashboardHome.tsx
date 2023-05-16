@@ -44,7 +44,7 @@ const DashboardHome = (props: ContactType) => {
   useEffect(() => {
     if (getCookie('brixelFirstTime') === 'true') {
       setShowFirstWelcomMessage(true);
-      setCookie('brixelFirstTime', false);
+      setCookie('brixelFirstTime', 'false');
     }
   }, []);
 
@@ -80,11 +80,11 @@ const DashboardHome = (props: ContactType) => {
           <div className="dis-fl-col dis-fl-row-sm">
 
             <button
-              className={`shadow-2dp brdRadius dis-f jc-b pt-2 px-2 px-sm-3 mr-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi ta-l ${((scheduleVisit && scheduleVisit[0]?.visit?.date && scheduleVisit[0]?.buyerAvailability) || (scheduleVisit && !scheduleVisit[0])) ? 'bgGreen100' : 'bgWhite'}`}
+              className={`shadow-2dp brdRadius dis-f jc-b pt-2 pl-2 pl-sm-3 mr-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi ta-l ${((scheduleVisit && scheduleVisit[0]?.visit?.date && scheduleVisit[0]?.buyerAvailability) || (scheduleVisit && !scheduleVisit[0])) ? 'bgGreen100' : 'bgWhite'}`}
             >
               {
                 (!scheduleVisit) && (
-                  <div className="dis-fl-col w-perc-100">
+                  <div className="dis-fl-col w-perc-100 pr-2 pr-sm-3">
                     <div className="skeletonh4" />
                     <div className="skeletonh4 mt-1" />
                     <div className="skeletonSmall mt-2" />
@@ -103,7 +103,7 @@ const DashboardHome = (props: ContactType) => {
                       </h5>
                       <div className="dis-f a-c max-w-perc-80 mt-1">
                         <h5 className="pr-2 txtGreen400 fweight-600 mb-3">
-                          {DateTime.fromMillis(scheduleVisit[0].visit.date).toFormat('dd LLL yyyy, hh:mm', { locale: lang})}
+                          {DateTime.fromMillis(scheduleVisit[0].visit.date).toFormat('dd LLL yyyy, HH:mm', { locale: lang})}
                         </h5>
                       </div>
 
@@ -129,7 +129,7 @@ const DashboardHome = (props: ContactType) => {
                         {translateTo('Thank you for your request', lang)}
                       </h5>
                       <div className="dis-f a-c max-w-perc-70 mt-1 mb-3">
-                        <p className="pr-2 fsize-300">
+                        <p className="pr-2 fsize-300 txtText700">
                           {translateTo('We will contact you shortly to confirm your visit.', lang)}
                         </p>
                       </div>
@@ -156,8 +156,8 @@ const DashboardHome = (props: ContactType) => {
                         {translateTo('Request a visit', lang)}
                       </h5>
                       <div className="dis-f a-c max-w-perc-70 mt-1 mb-3">
-                        <p className="pr-2 fsize-300">
-                          {translateTo('Share your availability to visit your favorite property.', lang)}
+                        <p className="pr-2 txtText700 fsize-300">
+                          {translateTo('Share your availability to visit your favourite property.', lang)}
                         </p>
                       </div>
 
@@ -187,7 +187,7 @@ const DashboardHome = (props: ContactType) => {
                     {translateTo('Check financing', lang)}
                   </h5>
                   <div className="dis-f a-c w-perc-100 mt-1 mb-3">
-                    <p className="pr-2 fsize-300">
+                    <p className="pr-2 fsize-300 txtText700">
                       {translateTo('Assess whether you can afford your desired property.', lang)}
                     </p>
                   </div>

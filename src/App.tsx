@@ -478,7 +478,6 @@ const App = (props: AppType) => {
       if (
         !history.location.pathname.includes('packageFlow') &&
         !history.location.pathname.includes('Flow') &&
-        !history.location.pathname.includes('scheduleVisit') &&
         !history.location.pathname.includes('visitFeedback') &&
         !history.location.pathname.includes('onBoarding')
       ) data = { hideLoad: true };
@@ -617,7 +616,6 @@ const App = (props: AppType) => {
                       <Route path="/packageFlow/:propID/WelcomeSeller/*" element={<ProtectedRoute><WelcomeSeller /></ProtectedRoute>} />
                       <Route path="/packageFlow/testDrive/*" element={<ScanTrialFlow />} />
                       <Route path="/visitFeedback/:dealID/:pageID" element={<VisitFeedback />} />
-                      <Route path="/buyer/:propID/scheduleVisit/*" element={<ProtectedRoute><AddShowingsBuyer /></ProtectedRoute>} />
                       <Route path="/buyer/:id/financingFlow/*" element={<ProtectedRoute><Financing /></ProtectedRoute>} />
 
                       { /* PARTNER CONTACT FLOW */}
@@ -635,7 +633,6 @@ const App = (props: AppType) => {
                       {
                         !history.location.pathname.includes('packageFlow') &&
                         !history.location.pathname.includes('Flow') &&
-                        !history.location.pathname.includes('scheduleVisit') &&
                         !history.location.pathname.includes('visitFeedback') &&
                         !history.location.pathname.includes('onBoarding') &&
                         !history.location.pathname.includes('buyer') &&
@@ -664,7 +661,6 @@ const App = (props: AppType) => {
                       {
                         !history.location.pathname.includes('packageFlow') &&
                         !history.location.pathname.includes('Flow') &&
-                        !history.location.pathname.includes('scheduleVisit') &&
                         !history.location.pathname.includes('visitFeedback') &&
                         !history.location.pathname.includes('onBoarding') &&
                         (
@@ -785,22 +781,23 @@ const App = (props: AppType) => {
           {
             modal.state && !modal.type && modal.small && (
               <BrixelModal
-                hideHeader={modal.hideHeader}
                 bodyActionsClass={modal.bodyActionsClass}
                 bodyClassColor={modal.bodyClassColor}
+                bodyInnerClass={modal.bodyInnerClass}
                 classContainer={modal.classContainer}
                 classImg={modal.classImg}
+                className={modal.className}
                 classTitle={modal.classTitle}
+                hideHeader={modal.hideHeader}
                 layout={modal.layout}
-                showLogoHeader={modal.showLogoHeader}
                 multiActions={modal.multiActions}
                 multiBodyActions={modal.multiBodyActions}
+                onClose={() => modal.hideClose !== true || !modal.onClose ? handleSetModal({ state: false }) : modal.onClose()}
+                showLogoHeader={modal.showLogoHeader}
                 title={modal.title}
+                titleImg={modal.titleImg}
                 titleTop={modal.titleTop}
                 titleTopClass={modal.titleTopClass}
-                bodyInnerClass={modal.bodyInnerClass}
-                titleImg={modal.titleImg}
-                onClose={() => modal.hideClose !== true ? handleSetModal({ state: false }) : ''}
               >
                 {
                   modal.body && (

@@ -24,7 +24,11 @@ const ScheduleVisitDateModal = (props: ScheduleVisitComponentType) => {
 
   const [date, setDate] = useState<number>();
   const [hours, setHours] = useState({ min: 8, max: 20 });
-  const [allDay, setAllDay] = useState(false);
+  const [allDay, setAllDay] = useState(formValue?.isAllDay);
+
+  useEffect(() => {
+    setAllDay(formValue?.isAllDay);
+  }, [formValue]);
 
   useEffect(() => {
     setHours({ min: 8, max: 20 });
@@ -76,9 +80,9 @@ const ScheduleVisitDateModal = (props: ScheduleVisitComponentType) => {
   };
 
   return (
-    <div className="modalScheduleVisit">
-
-      <div className="h-fix-280">
+    <div className="modalScheduleVisit px-2">
+      <p className='mt-2 mt-sm-5 pb-2 fsize-300'>{translateTo('Add dates', lang)}</p>
+      <div className="h-fix-312 brdRadius w-fix-248 w-fix-sm-352 pr-5 pr-sm-6 pt-4 brdSmall brdText100 p-1">
         <BrixelDatePicker
           hideInput
           ref1={datePicker}
@@ -92,14 +96,15 @@ const ScheduleVisitDateModal = (props: ScheduleVisitComponentType) => {
         />
       </div>
 
-      <div>
-
-        <div className="dis-f a-c mt-4 mb-lg-0">
+      <div className='mt-5 mb-5'>
+        <p className='pb-2 fsize-300'>{translateTo('Choose your time slot', lang)}</p>
+        <div className="dis-f a-c">
           <BrixelSwitchButton
             label={translateTo('I\'m available all day', lang)}
             input={{
               name: 'allDay',
               onChange: (e) => onToggleAllDay(e),
+              value: allDay,
             }}
           />
         </div>
@@ -107,7 +112,7 @@ const ScheduleVisitDateModal = (props: ScheduleVisitComponentType) => {
         {
           !allDay && (
             <BrixelInputMultiRange
-              className="mt-5"
+              className="mt-6 ml-2-neg"
               maxLengthNum={20}
               minLengthNum={8}
               step={0.5}

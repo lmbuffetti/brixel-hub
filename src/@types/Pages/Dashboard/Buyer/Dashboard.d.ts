@@ -9,6 +9,7 @@ export interface DashboardType {
   handleGetBuyerDeal: ({id: string, actionStub: string}) => void;
   handleGetFavoritesProperties: (data: object) => void;
   handleGetScheduleVisit: ({id: string, direction: string, order: string}) => void;
+  hanldeSetScheduleVisit: (data: object | null) => void;
   handleSetUserTypes: (val: string) => void;
   handleSpinnerOff: () => void
   hanldeGetScheduleVisit: (data: object) => void;

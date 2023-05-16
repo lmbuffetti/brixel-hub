@@ -6,7 +6,7 @@ import {Navigate, Route, Routes, useLocation, useNavigate, useParams} from 'reac
 import {bindActionCreators, compose} from 'redux';
 import {spinnerOff} from '../../../actions/CommonActions';
 import {getActiveSingleCompany} from '../../../actions/CompanyActions';
-import {getBuyerDeal, getScheduleVisit} from '../../../actions/DealActions';
+import {getBuyerDeal, getScheduleVisit, setScheduleVisit} from '../../../actions/DealActions';
 import {getFavoritesProperties} from '../../../actions/MarketActions';
 import {getActiveSingleProperty} from '../../../actions/PropertyActions';
 import {setUserTypes} from '../../../actions/UserActions';
@@ -40,6 +40,7 @@ const Dashboard = (props: DashboardType) => {
     handleGetFavoritesProperties,
     handleGetActiveSingleProperty,
     hanldeGetScheduleVisit,
+    hanldeSetScheduleVisit,
     handleGetScheduleVisit,
     handleGetActiveSingleCompany,
     handleSpinnerOff,
@@ -56,6 +57,13 @@ const Dashboard = (props: DashboardType) => {
   const [currentPage] = useState(0);
   const [sortOrderType] = useState('updatedAt');
   const [sortDirection] = useState('DESC');
+
+  useEffect(() => {
+    return () => {
+      hanldeSetScheduleVisit(null);
+    };
+  }, []);
+
 
   // FUNCTION TO LOAD THE PROPERTY BY ID OR LOAD THE DEFAULT
   useEffect(() => {
@@ -181,6 +189,7 @@ const mapDispatchToProps = (dispatch) => ({
   },
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
   hanldeGetScheduleVisit: bindActionCreators(getScheduleVisit, dispatch),
+  hanldeSetScheduleVisit: bindActionCreators(setScheduleVisit, dispatch),
   handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
   handleGetBuyerDeal: bindActionCreators(getBuyerDeal, dispatch),
   handleGetFavoritesProperties: bindActionCreators(getFavoritesProperties, dispatch),

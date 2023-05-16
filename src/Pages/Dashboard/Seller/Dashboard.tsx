@@ -212,7 +212,6 @@ const Dashboard = (props: DashboardType) => {
 
   // FUNCTION TO SHOW/HIDE THE NOTIFICATION BAR TO SAVE
   useEffect(() => {
-    // eslint-disable-next-line consistent-return
     if (!get(history, 'location.pathname', '').includes('formFlow')) {
       const docsList = get(diff(initialValues, formValue), 'documents', []);
       const isDocEdit = find(docsList, (el) => {

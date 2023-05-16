@@ -16,7 +16,7 @@ const Financing = (props: FinancingType) => {
   } = props;
   return (
     <>
-      <h3 className="mb-3 hide dis-b-lg">{translateTo('Financing', lang)}</h3>
+      <h3 className="mb-3 hide dis-b-lg  fweight-600">{translateTo('Financing', lang)}</h3>
       <div className="dis-f h-perc-lg-100">
         <div className="dis-fl-col w-perc-100 h-perc-lg-100">
           <div className="dis-fl-col backPanel hide-lg">

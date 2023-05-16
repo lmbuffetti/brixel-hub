@@ -34,7 +34,7 @@ const PageBuyer = (props: PageBuyerType) => {
     <>
       <div className="hide dis-f-lg jc-b max-w-fix-1024">
 
-        <h3 className="mb-3 hide dis-b-lg">{translateTo('Brixel Page', lang)}</h3>
+        <h3 className="mb-3 hide dis-b-lg  fweight-600">{translateTo('Brixel Page', lang)}</h3>
         <div className="">
           <BrixelButtonPrimary
             leftIcon="eye"

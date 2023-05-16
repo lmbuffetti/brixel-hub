@@ -19,6 +19,7 @@ export interface ScheduleVisitType {
   activeScheduleVisit: ScheduleVisitRequestType | null,
   activeScheduleVisits: ScheduleVisitRequestType[] | null,
   activeSingleProperty: PropertyType;
+  destroyForm: () => void;
   errorValue: object;
   formValue: FormValueType;
   changeFieldValue: (data: string, value: any) => void;
