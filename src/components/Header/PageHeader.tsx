@@ -261,7 +261,7 @@ function PageHeader(props: PageHeaderType) {
     } else if (currentPathName === getCurrentRoute().name) {
       history.push(`/${get(activeSingleProperty, 'id', '')}/home`);
     } else if (getCurrentRoute().path.includes(':propID')) {
-      history.push(`${getCurrentRoute().path.replace(':propID', get(activeSingleProperty, 'id', ''))}`);
+      history.push(`/${getCurrentRoute().path.replace(':propID', get(activeSingleProperty, 'id', ''))}`);
     }
   };
 
