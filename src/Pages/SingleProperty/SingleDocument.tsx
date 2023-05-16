@@ -47,7 +47,6 @@ const SingleDocument = (props: SingleDocumentType) => {
   useEffect(() => {
     if (activeSingleProperty.documents) {
       const currentDoc = activeSingleProperty.documents.find((doc) => doc.id === docID);
-      console.log(currentDoc)
       if (currentDoc) {
         currentDoc.isPrivate = currentDoc?.isPrivate ? 1 : 2;
         initForm(currentDoc);

@@ -298,8 +298,6 @@ const App = (props: AppType) => {
 
   // FUNCTION TO LOAD THE USER TYPE BUYER OR SELLER
   useEffect(() => {
-    console.log(activeSingleProperty?.id, get(activeSingleProperty, 'owner', null) === get(loggedInUser, 'id', 'b') ||
-          get(activeSingleProperty, 'owner', null) === get(loggedInUser, 'id', 'b'), !get(history, 'location.pathname', '').includes('buyer'), get(history, 'location.pathname', '').includes('seller'));
     if (
       activeSingleProperty?.id && (
         (
@@ -310,10 +308,8 @@ const App = (props: AppType) => {
       ) ||
       get(history, 'location.pathname', '').includes('seller')
     ) {
-      console.log('seller');
       handleSetUserTypes('seller');
     } else {
-      console.log('buyer');
       handleSetUserTypes('buyer');
     }
     if (!activeSingleProperty.documents) handleSetActiveSingleDeal({});
