@@ -222,7 +222,7 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
               >
                 <div className="dis-f jc-fe mb-2">
                   <BrixelButtonIcon
-                    ghost
+                    bgTransparent
                     theme="text"
                     icon="close-small"
                     onClick={() => onCloseWelcome()}

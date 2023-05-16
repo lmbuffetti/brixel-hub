@@ -206,7 +206,7 @@ const Facts = (props: FactsType) => {
                     <BrixelButtonIcon
                       className="hide dis-b-md"
                       icon="arrow-left-small"
-                      ghost
+                      bgTransparent
                       theme="text"
                       onClick={() => history.push(`/${propID}/property/facts`)}
                     />

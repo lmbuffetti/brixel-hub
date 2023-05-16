@@ -288,7 +288,7 @@ const Bestimate = (props: BestimateType) => {
                       className={`backBtn ${currentIndex === 0 ? 'hide' : ''}`}
                       icon="arrow-simple-left"
                       onClick={() => changeStep('back')}
-                      ghost
+                      bgTransparent
                     />
                   )
                 }

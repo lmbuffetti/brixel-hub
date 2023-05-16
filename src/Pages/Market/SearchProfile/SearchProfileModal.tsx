@@ -212,7 +212,7 @@ const SearchProfileModal = (props: SearchProfileModalType) => {
         showBackIcon() && (
           <BrixelButtonIcon
             icon='dropdown-open'
-            ghost
+            bgTransparent
             theme='text'
             className='backIcon'
             onClick={() => onBack()}

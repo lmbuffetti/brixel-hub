@@ -197,7 +197,6 @@ const SearchProfileList = (props: SearchProfileListType) => {
                           icon="options-vertical"
                           className="ml-a"
                           theme="text"
-                          ghost
                           bgTransparent
                           onClick={() => setIsOptionsOpen({
                             id: isOptionsOpen.id === searchProfile.id ? undefined : searchProfile.id,

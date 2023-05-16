@@ -352,7 +352,7 @@ function PageHeader(props: PageHeaderType) {
                     className="dis-b hide-lg"
                     icon="arrow-left-small"
                     theme="text"
-                    ghost
+                    bgTransparent
                     onClick={() => urlBackAction()}
                   />
                 </div>

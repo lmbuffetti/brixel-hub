@@ -254,14 +254,14 @@ const Plans = (props: FloorPlansPageType) => {
                                           isLoading={isSmallLoading.deleteMedia && btnActive === 'delete'}
                                         />
                                         <BrixelButtonIcon
-                                          ghost
+                                          bgTransparent
                                           theme="red"
                                           icon="bin"
                                           className={`${confirmDelete === i ? 'hide' : ''}`}
                                           onClick={() => onConfirmDelete(i)}
                                         />
                                         <BrixelButtonIcon
-                                          ghost
+                                          bgTransparent
                                           icon="edit"
                                           className={`ml-1 ${confirmDelete === i ? 'hide' : ''}`}
                                           onClick={

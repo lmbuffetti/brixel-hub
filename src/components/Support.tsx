@@ -115,7 +115,7 @@ const Support = (props: SupportType) => {
                 !isFixed && !hideClose && (
                   <BrixelButtonIcon
                     icon="close-small"
-                    ghost
+                    bgTransparent
                     onClick={() => onClose()}
                   />
                 )
@@ -125,7 +125,7 @@ const Support = (props: SupportType) => {
                   <BrixelButtonIcon
                     icon="close-small"
                     theme="green"
-                    ghost
+                    bgTransparent
                     onClick={() => onClose()}
                   />
                 )
@@ -255,10 +255,9 @@ const Support = (props: SupportType) => {
                     <BrixelButtonIcon
                       icon="send"
                       theme="white"
-                      ghost
+                      bgTransparent
                       disabled={supportMessage.length === 0}
                       isLoading={isSmallLoading.supportMessage}
-                      bgTransparent
                       onClick={() => sendMessage()}
                     />
                   </>

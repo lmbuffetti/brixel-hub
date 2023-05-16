@@ -395,7 +395,7 @@ const Timeline = (props: TimelineType) => {
                         get(event, 'content', '') && get(event, 'content', '').length > 62 && !editNote.active && (
                           <BrixelButtonIcon
                             className="as-fe"
-                            ghost
+                            bgTransparent
                             theme="text"
                             icon={`${showFullNote.id === i && showFullNote.active ? 'arrow-simple-up' : 'arrow-simple-down'}`}
                             onClick={(e) => {
@@ -450,7 +450,7 @@ const Timeline = (props: TimelineType) => {
                                   get(event, 'pinned', null) && (
                                     <BrixelButtonIcon
                                       small
-                                      ghost
+                                      bgTransparent
                                       icon="pin-filled"
                                       theme="red"
                                       className="mr-1"
@@ -469,7 +469,7 @@ const Timeline = (props: TimelineType) => {
                                     <BrixelButtonIcon
                                       small
                                       theme="text"
-                                      ghost
+                                      bgTransparent
                                       icon="options-vertical"
                                       onClick={() => {
                                         setEditNote({

@@ -207,7 +207,7 @@ const SingleDeal = (props: SingleDealType) => {
             icon="options-vertical"
             className={`ml-a ${btnClass}`}
             theme="text"
-            ghost
+            bgTransparent
             onClick={() => {
               setOptionsOpen(!optionsOpen);
             }}
@@ -375,7 +375,7 @@ const SingleDeal = (props: SingleDealType) => {
                         <div className="pt-2 pr-1 pr-lg-0 pt-lg-0">
                           <BrixelButtonIcon
                             icon="arrow-left-small"
-                            ghost
+                            bgTransparent
                             theme="text"
                             onClick={() => history.push(`/${activeSingleProperty.id}/prospects`)}
                           />
@@ -601,7 +601,7 @@ const SingleDeal = (props: SingleDealType) => {
             <div className="pb-2">
               <BrixelButtonIcon
                 icon="arrow-left-small"
-                ghost
+                bgTransparent
                 theme="text"
                 onClick={() => history.push(`/${activeSingleProperty.id}/prospects`)}
               />

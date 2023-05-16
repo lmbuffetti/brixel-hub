@@ -178,7 +178,7 @@ const ReviewOffer = (props: ReviewOfferType) => {
                       icon="arrow-left-small"
                       theme="text"
                       onClick={() => setSuccess(null)}
-                      ghost
+                      bgTransparent
                     />
                     <BrixelButtonPrimary
                       rounded

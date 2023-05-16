@@ -49,7 +49,7 @@ const OfferDetail = (props: OfferDetailType) => {
                   className="hide dis-b-md mb-2"
                   icon="arrow-left-small"
                   theme="text"
-                  ghost
+                  bgTransparent
                   onClick={() => history.push(`/${propID}/closing`)}
                 />
                 <div className="offer-info dis-f a-c mb-1">

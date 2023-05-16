@@ -146,7 +146,7 @@ const MapsWithModalManual = (props: MapsWithModalManualType) => {
             <div className="addressInner pos-r">
               <BrixelButtonIcon
                 className="pos-a-fix x-r-2 x-t-2 zIndex2"
-                ghost
+                bgTransparent
                 small
                 icon="close"
                 theme="text"

@@ -212,7 +212,7 @@ const ProEstimationFlow = (props: ProEstimationFlowType) => {
                 <div className="pos-a max-w-fix-768 w-perc-100 x-c jc-fe dis-f pr-2 pt-2 pr-md-3 pt-md-3">
                   <BrixelButtonIcon
                     icon="close-small"
-                    ghost
+                    bgTransparent
                     theme="text"
                     onClick={() => closeWindow()}
                   />

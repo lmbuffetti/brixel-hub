@@ -125,7 +125,7 @@ const SingleDocument = (props: SingleDocumentType) => {
                 </h4>
                 <BrixelButtonIcon
                   icon="close"
-                  ghost
+                  bgTransparent
                   className='pos-a-fix x-r-2'
                   theme="black"
                   onClick={() => {

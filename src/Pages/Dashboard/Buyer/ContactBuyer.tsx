@@ -63,7 +63,6 @@ const ContactBuyer = (props: ContactBuyerType) => {
                 <BrixelButtonIcon
                   icon="close"
                   theme="text"
-                  ghost
                   bgTransparent
                   className="as-c"
                   onClick={() => history.push(-1)}

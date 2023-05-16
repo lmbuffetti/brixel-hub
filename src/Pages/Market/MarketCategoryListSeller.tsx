@@ -249,7 +249,7 @@ const MarketCategoryListSeller = (props: MarketCategoryListSellerType) => {
                 <>
                   <div className="dis-f jc-fe mb-2">
                     <BrixelButtonIcon
-                      ghost
+                      bgTransparent
                       theme="text"
                       icon="close-small"
                       onClick={() => onCloseBestimateTeaser()}
@@ -282,7 +282,7 @@ const MarketCategoryListSeller = (props: MarketCategoryListSellerType) => {
                 <>
                   <div className="dis-f jc-fe mb-2 mb-sm-1 my-1">
                     <BrixelButtonIcon
-                      ghost
+                      bgTransparent
                       theme="text"
                       icon="close-small"
                       onClick={() => onCloseBestimateTeaser()}
@@ -332,7 +332,7 @@ const MarketCategoryListSeller = (props: MarketCategoryListSellerType) => {
           >
             <div className="dis-f jc-fe mb-2">
               <BrixelButtonIcon
-                ghost
+                bgTransparent
                 theme="text"
                 icon="close-small"
                 onClick={() => onCloseBestimateResult()}

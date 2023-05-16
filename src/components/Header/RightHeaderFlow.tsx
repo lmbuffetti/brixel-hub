@@ -137,7 +137,7 @@ function RightHeaderFlow(props: RightHeaderFlowType) {
         loggedInUser?.id && (
           <div className="ml-1">
             <BrixelButtonIcon
-              ghost
+              bgTransparent
               className="zIndex11"
               theme="text"
               icon="close-small"

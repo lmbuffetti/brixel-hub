@@ -366,7 +366,7 @@ const MarketList = (props: MarketListType) => {
             {
               windowDimensions.width <= 1024 && !activeProperty && (
                 <BrixelButtonIcon
-                  ghost
+                  bgTransparent
                   theme="text"
                   onClick={() => handleMapClose()}
                   icon="close-small"

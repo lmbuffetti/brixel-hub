@@ -129,7 +129,7 @@ const DetailMedia = (props: DetailMediaType) => {
               </h5>
               <div className="">
                 <BrixelButtonIcon
-                  ghost
+                  bgTransparent
                   icon="close-small"
                   onClick={() => history.push(`/${propID}/property/${mediaType}`)}
                 />
@@ -164,7 +164,7 @@ const DetailMedia = (props: DetailMediaType) => {
                 <div className="dis-f ml-a">
                   <BrixelButtonIcon
                     className="mr-1"
-                    ghost
+                    bgTransparent
                     icon="rotate"
                     isLoading={isSmallLoading.saveData}
                     onClick={(e) => rotateImage(e)}
@@ -183,7 +183,7 @@ const DetailMedia = (props: DetailMediaType) => {
                       </div>
                     ) : (
                       <BrixelButtonIcon
-                        ghost
+                        bgTransparent
                         icon="bin"
                         theme="red"
                         onClick={() => setConfirmDelete(true)}

@@ -46,7 +46,7 @@ const WarningScreen = (props: WarningScreenType) => {
         <div className="modal-header dis-f jc-fe a-c">
           <BrixelButtonIcon
             icon="close-small"
-            ghost
+            bgTransparent
             theme="text"
             onClick={() => handleSetModal({ state: false })}
           />
