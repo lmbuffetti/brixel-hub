@@ -9,6 +9,14 @@
     width: calc(100% - 50px);
   }
 
+  .document-folder {
+    .single-document {
+      .name {
+        width: calc(100% - 74px);
+      }
+    }
+  }
+
   .single-document {
     border-bottom: 1px solid map-get($textColor, 50);
     cursor: grab;

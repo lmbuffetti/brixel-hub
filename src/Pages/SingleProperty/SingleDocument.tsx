@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import get from 'lodash/get';
-import set from 'lodash/set';
 import find from 'lodash/find';
 import has from 'lodash/has';
 import {diff} from 'deep-object-diff';
@@ -48,7 +47,10 @@ const SingleDocument = (props: SingleDocumentType) => {
   useEffect(() => {
     if (activeSingleProperty.documents) {
       const currentDoc = activeSingleProperty.documents.find((doc) => doc.id === docID);
-      if (currentDoc) initForm(currentDoc);
+      if (currentDoc) {
+        currentDoc.isPrivate = currentDoc?.isPrivate ? 1 : 2;
+        initForm(currentDoc);
+      }
     }
   }, [activeSingleProperty.id]);
 
@@ -74,19 +76,11 @@ const SingleDocument = (props: SingleDocumentType) => {
     if (docID) {
       find(activeSingleProperty.documents, (el) => {
         if (el.id === docID) {
-          if (el.isPrivate === true) set(el, 'isPrivate', 'Private');
-          else if (el.isPrivate === false) set(el, 'isPrivate', 'Public');
           setActiveDocument(el);
         }
       });
     }
   }, [activeSingleProperty.updatedAt, formValue]);
-
-  useEffect(() => {
-    if (has(activeDocument, 'id')) {
-      changeFieldValue('documents.isPrivate', get(activeDocument, 'isPrivate', false));
-    }
-  }, [activeDocument]);
 
   useEffect(() => {
     if (isSmallLoading.saveData === false && isRequestDone) {
@@ -102,10 +96,9 @@ const SingleDocument = (props: SingleDocumentType) => {
       id: activeDocument.id,
       body: {
         name: formValue.name,
-        isPrivate: formValue.isPrivate,
+        isPrivate: formValue.isPrivate === 1,
         folder: formValue.folder,
         path: activeDocument.path,
-        mimeType: activeDocument.mimeType,
         type: formValue.type,
       },
       smallLoader: 'saveData',
@@ -114,15 +107,7 @@ const SingleDocument = (props: SingleDocumentType) => {
   };
 
   const checkDisabled = () => {
-    const isDocEdit = find(diff(initialValues, formValue), (el) => {
-      if (history.location.pathname.includes('docubox') &&
-        (has(el, 'isPrivate') || has(el, 'name') || has(el, 'type') || has(el, 'folder')) &&
-        !has(el, 'id')) {
-        return true;
-      }
-      return false;
-    });
-
+    const isDocEdit = diff(initialValues, formValue);
     if (has(isDocEdit, 'name') || has(isDocEdit, 'isPrivate') || has(isDocEdit, 'type') || has(isDocEdit, 'folder')) return false;
     return true;
   };
@@ -192,11 +177,11 @@ const SingleDocument = (props: SingleDocumentType) => {
                     name: 'isPrivate',
                     options: [{
                       label: translateTo('Private', lang),
-                      value: 'Private',
+                      value: 1,
                     },
                     {
                       label: translateTo('Public', lang),
-                      value: 'Public',
+                      value: 2,
                     }],
                   }}
                   labels={{

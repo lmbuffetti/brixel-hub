@@ -388,10 +388,10 @@ export const redirectUrl = (link, options) => {
   ) {
     return '/buy';
   } else if (link.toLowerCase().includes('makeoffer') || link.toLowerCase().includes('closing')) {
-    if (userType === 'seller') {
-      return `/${propID}/closing/${dealID}`;
-    } else {
+    if (userType === 'buyer' || link.toLowerCase().includes('buyer')) {
       return `/buyer/${propID}/closing`;
+    } else {
+      return `/${propID}/closing/${dealID}`;
     }
   } else if (link.toLowerCase().includes('buyer')) {
     return `/buyer/${propID}/home`;
