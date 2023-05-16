@@ -139,7 +139,7 @@ const SellerSidebar = (props: SellerSidebarType) => {
           {
             fullUpdates.map((history, i) => (
               <div
-                className={`update-item brdRadius brdSmall p-2 dis-f mb-2 ${convertFeedMessage(history.actionStub, 'className', history)}`}
+                className={`update-item brdRadius p-2 dis-f mb-2 ${convertFeedMessage(history.actionStub, 'className', history)}`}
                 key={`fllUpd_${i.toString()}`}
               >
                 <BrixelIcon

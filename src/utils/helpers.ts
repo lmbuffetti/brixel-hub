@@ -208,7 +208,7 @@ export const toBase64 = (file) => new Promise((resolve, reject) => {
   reader.onerror = (error) => reject(error);
 });
 
-export const tobase64Handler = async (files, user, action, pageID, imgType, docType = '') => {
+export const tobase64Handler = async (files, user, action, pageID, imgType = '', docType = '') => {
   const filePathsPromises = [];
   await files.forEach((file) => {
     // @ts-ignore

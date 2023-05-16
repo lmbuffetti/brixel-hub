@@ -1,0 +1,17 @@
+.documents-container {
+  .sortable-chosen {
+    border: 1px solid map-get($greenColor, 200);
+    background-color: $brx-white;
+    opacity: 1;
+    border-radius: $step;
+    opacity: 0.7;
+  }
+  .sortable-ghost {
+    padding: 0;
+    height: 0px !important;
+    overflow: hidden !important;
+    border: 0;
+    border-top: 1px solid map-get($greenColor, 400);
+    border-radius: $step;
+  }
+}

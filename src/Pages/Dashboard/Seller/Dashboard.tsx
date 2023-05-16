@@ -226,7 +226,7 @@ const Dashboard = (props: DashboardType) => {
       if (formValue.id && initialValues.id) {
         let changeObj = diff(initialValues, formValue);
         const checkIsValid = Object.keys(changeObj).find((key) => typeof changeObj[key] !== 'undefined');
-        changeObj = omit(changeObj, ['inputSheet']);
+        changeObj = omit(changeObj, ['inputSheet', 'documents']);
         const getIndexNotification = notification.findIndex((item) => item.type === 'save');
         if (Object.keys(changeObj).length === 0 && get(notification, 'label', '').toLowerCase().includes('changes')) {
           handleSetScreenNotification({

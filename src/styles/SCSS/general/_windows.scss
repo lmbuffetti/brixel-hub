@@ -31,8 +31,11 @@
       .dashboardContainer {
         padding-bottom: 50px;
         flex: 1;
+        &.docubox {
+          padding-bottom: 120px;
+        }
         @media (max-width: $responsive-medium) {
-          padding-bottom: $step;
+          padding-bottom: $step * 3;
         }
       }
     }

@@ -88,6 +88,7 @@ const ProEstimationFlow = lazy(() => import('./Pages/SingleProperty/ProEstimatio
 const BrixelModalFullScreen = lazy(() => import('./components/BrixelModalFullScreen'));
 
 const SingleDocument = lazy(() => import('./Pages/SingleProperty/SingleDocument'));
+const SingleFolder = lazy(() => import('./Pages/SingleProperty/SingleFolder'));
 
 const CreateDeal = lazy(() => import('./Pages/Deals/CreateDeal'));
 const VisitFeedback = lazy(() => import('./Pages/Deals/VisitFeedback'));
@@ -912,6 +913,10 @@ const App = (props: AppType) => {
             <Route
               path="/:propID/docubox/:docID/editDocument"
               element={<SingleDocument />}
+            />
+            <Route
+              path="/:propID/docubox/:docID/addToFolder"
+              element={<SingleFolder />}
             />
             <Route path="/:propID/prospects/newDeal" element={<CreateDeal />} />
             <Route path="*" element={null} />

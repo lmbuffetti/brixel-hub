@@ -1,4 +1,4 @@
-import {PropertyType} from '@brixel/brixel-components/dist/@types/Model';
+import {DocumentType, PropertyType} from '@brixel/brixel-components/dist/@types/Model';
 
 export interface SingleDocumentType {
   activeSingleProperty: PropertyType;
@@ -9,7 +9,8 @@ export interface SingleDocumentType {
     saveData: boolean;
   };
   setRequestDone: (val: boolean) => void;
+  initForm: (val: object) => void;
   changeFieldValue: (field: string, val: string | null | boolean | string[] | object | number) => void;
-  formValue: PropertyType;
+  formValue: DocumentType;
   lang: string;
 }
