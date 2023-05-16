@@ -46,10 +46,8 @@ function PageHeader(props: PageHeaderType) {
     activeSingleProperty,
     changeZIndex = () => 1,
     handleSaveActiveSingleUser,
-    handleSetActiveSingleProperty,
     handleSetActiveSinglePropertyActivePackage,
     handleSetLanguage,
-    handleSetUserTypes,
     isFlow = false,
     lang = 'en',
     languages,
@@ -72,8 +70,6 @@ function PageHeader(props: PageHeaderType) {
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [showProgressStage, setShowProgressStage] = useState(false);
   const [stepIndexProgrss, setIndexProgrss] = useState(0);
-
-  const isBuyer = history.location.pathname.includes('buyer');
 
   // REF
   const profileMenu = useRef(null);
@@ -249,12 +245,16 @@ function PageHeader(props: PageHeaderType) {
 
   const urlBackAction = () => {
     if (get(history, 'location.pathname', '').includes('buyer')) {
-      if (get(history, 'location.pathname', '').includes('docubox')) {
-        history.push(`/buyer/${get(activeSingleProperty, 'id', '')}/property`);
+      if (
+        get(history, 'location.pathname', '').includes('docubox') ||
+        get(history, 'location.pathname', '').includes('scheduleVisit') ||
+        get(history, 'location.pathname', '').includes('property') ||
+        get(history, 'location.pathname', '').includes('financing') ||
+        get(history, 'location.pathname', '').includes('closing')
+      ) {
+        history.push(`/buyer/${get(activeSingleProperty, 'id', '')}/home`);
       } else if (currentPathName === getCurrentRoute().name) {
         history.push('/buy');
-      } else if (get(history, 'location.pathname', '').includes('closing')) {
-        history.push(`/buyer/${get(activeSingleProperty, 'id', '')}/property`);
       } else {
         history.push(`/buyer${getCurrentRoute().path.replace(':propID', get(activeSingleProperty, 'id', ''))}`);
       }
@@ -294,11 +294,6 @@ function PageHeader(props: PageHeaderType) {
                     <div className={`${isFlow ? '' : 'brdSmallRight brdText100'} min-w-88 w-perc-100 h-fix-72 dis-f a-c pr-2`}>
                       <img
                         loading="lazy"
-                        onClick={() => {
-                          handleSetUserTypes('seller');
-                          handleSetActiveSingleProperty({});
-                          history.push(isBuyer ? '/buy' : '/sell');
-                        }}
                         className={`${windowDimensions.width <= 590 || (propID !== 'buy' && propID !== 'sell') ? 'max-w-fix-32' : ''} pos-r cur-poi`}
                         src={windowDimensions.width <= 590 || (propID !== 'buy' && propID !== 'sell') ? logoMobile : logo}
                         alt="Brixel Logo"
