@@ -486,7 +486,7 @@ const ScanTrialFlow = (props: ScanTrialFlowType) => {
                             ) : (
                               <>
                                 {
-                                  (questions[currentIndex].history !== 'BookTrialFlow' && (
+                                  questions[currentIndex].history !== 'BookTrialFlow' && (
                                     <>
                                       {
                                         questions[currentIndex].history === 'introScanTrial' && (
