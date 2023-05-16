@@ -33,6 +33,7 @@ const SingleDocument = (props: SingleFolderType) => {
   const match = useParams();
   const {
     activeSingleProperty,
+    changeFieldValue,
     formValue,
     handleUpdateDocument,
     initialValues,
@@ -52,11 +53,15 @@ const SingleDocument = (props: SingleFolderType) => {
   useEffect(() => () => setRequestDone(false), []);
 
   useEffect(() => {
+    changeFieldValue('id', docID);
+  }, [docID]);
+
+
+  useEffect(() => {
     if (activeSingleProperty.documents) {
       const currentDoc = activeSingleProperty.documents.find((doc) => doc.id === docID);
       if (currentDoc) {
-        if (folderAction === 'newFolder') currentDoc.folder = '';
-        initForm(currentDoc);
+        if (!initialValues) initForm(currentDoc);
       }
     }
   }, [activeSingleProperty.id, folderAction]);
@@ -82,7 +87,9 @@ const SingleDocument = (props: SingleFolderType) => {
             id: value.toLowerCase(),
           };
         });
-        const uniq = uniqBy(array, 'id');
+        let uniq = uniqBy(array, 'id');
+        //@ts-ignore
+        uniq = uniq.filter((el) => el.value !== '' && el.value.toLowerCase() !== 'nofolder')
         setDocumentFolders(uniq);
       }
     }
@@ -101,12 +108,7 @@ const SingleDocument = (props: SingleFolderType) => {
       pageID: activeSingleProperty.id,
       id: activeDocument.id,
       body: {
-        name: formValue.name,
-        isPrivate: formValue.isPrivate,
-        folder: formValue.folder,
-        path: activeDocument.path,
-        mimeType: activeDocument.mimeType,
-        type: formValue.type,
+        folder: formValue.folder || '',
       },
       smallLoader: 'saveData',
     };
@@ -144,61 +146,95 @@ const SingleDocument = (props: SingleFolderType) => {
 
               {/* middle panel */}
               <div className="mid dis-fl-col mb-10 px-3">
-                <BrixelRadioButton
-                  input={{
-                    onChange: (val) => setFolderAction(val),
-                    value: folderAction,
-                    name: 'folderAction',
-                  }}
-                  options={
-                    documentFolders.length > 0 ? [{
+
+                <div>
+                  <BrixelRadioButton
+                    disableDelay
+                    input={{
+                      onChange: (val) => setFolderAction(val),
+                      value: folderAction,
+                      name: 'folderAction',
+                    }}
+                    options={[{
                       label: 'Create new folder',
                       value: 'newFolder',
-                    }, {
-                      label: 'Add to existing folder',
-                      value: 'addToFolder',
-                    }] : [{
-                      label: 'Create new folder',
-                      value: 'newFolder',
+                      index: 0,
                     }]}
-                />
-                <div className="dis-fl-row mt-3">
+                  />
+
                   {
-                    folderAction === 'newFolder' ? (
+                    folderAction === 'newFolder' && (
                       <ReduxField
                         form="SingleDoc"
                         design={{
-                          className: 'mr-2 zIndex1 w-fix-248',
+                          className: 'mt-2 zIndex1 w-fix-248',
                         }}
                         input={{
                           name: 'folder',
                           placeholder: 'New folder name',
                         }}
-                        labels={{
-                          label: translateTo('New folder', lang),
-                        }}
                         component={BrixelInputText}
                       />
-                    ) : (
-                      documentFolders.length > 0 && (
-                        <ReduxField
-                          form="SingleDoc"
-                          design={{
-                            className: 'mr-2 zIndex1 w-fix-248',
-                          }}
-                          input={{
-                            name: 'folder',
-                            options: documentFolders,
-                          }}
-                          labels={{
-                            label: 'Choose a folder',
-                          }}
-                          component={BrixelSelect}
-                        />
-                      )
                     )
                   }
                 </div>
+
+
+
+                {
+                  documentFolders.length > 0 && (
+                    <div className="mt-2">
+                      <BrixelRadioButton
+                        disableDelay
+                        input={{
+                          onChange: (val) => setFolderAction(val),
+                          value: folderAction,
+                          name: 'folderAction',
+                        }}
+                        options={[{
+                          label: 'Add to existing folder',
+                          value: 'addToFolder',
+                          index: 1,
+                        }]}
+                      />
+                      {
+                        folderAction === 'addToFolder' && (
+                          <ReduxField
+                            form="SingleDoc"
+                            design={{
+                              className: 'mt-2 zIndex1 w-fix-248',
+                            }}
+                            input={{
+                              name: 'folder',
+                              options: documentFolders,
+                            }}
+                            component={BrixelSelect}
+                          />
+                        )
+                      }
+                    </div>
+                  )
+                }
+
+                {
+                  (activeDocument.folder && activeDocument.folder?.toLowerCase() !== 'nofolder') && (
+                    <BrixelRadioButton
+                      className="mt-2"
+                      disableDelay
+                      input={{
+                        onChange: (val) => setFolderAction(val),
+                        value: folderAction,
+                        name: 'folderAction',
+                      }}
+                      options={[{
+                        label: 'Remove from folder',
+                        value: '',
+                        index: 2,
+                      }]}
+                    />
+                  )
+                }
+
               </div>
               {/* bottom panel */}
               <div className="bottom dis-fl-row jc-b brdSmallTop brdLight400 w-perc-100 a-c px-3 py-3 h-fix-80">

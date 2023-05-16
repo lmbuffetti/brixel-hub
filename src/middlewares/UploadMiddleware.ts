@@ -577,6 +577,7 @@ const checkCommon = (store) => (next) => (action) => {
       delete action.payload.pageID;
       delete action.payload.saveAction;
       delete action.payload.smallLaoder;
+      delete action.payload.body.mimeType;
       if (smallLoader) {
         store.dispatch({
           type: SPINNER_SMALL,
