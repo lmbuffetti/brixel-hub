@@ -135,7 +135,7 @@ const SingleDocument = (props: SingleFolderType) => {
                   icon="close"
                   ghost
                   className='pos-a-fix x-r-2'
-                  theme="dark"
+                  theme="black"
                   onClick={() => {
                     history.push(`/${activeSingleProperty.id}/docubox`);
                   }}
@@ -204,7 +204,7 @@ const SingleDocument = (props: SingleFolderType) => {
               <div className="bottom dis-fl-row jc-b brdSmallTop brdLight400 w-perc-100 a-c px-3 py-3 h-fix-80">
                 <BrixelButtonText
                   className="edit mr-2"
-                  theme="dark"
+                  theme="black"
                   rounded
                   label={translateTo('Cancel', lang)}
                   onClick={() => {
