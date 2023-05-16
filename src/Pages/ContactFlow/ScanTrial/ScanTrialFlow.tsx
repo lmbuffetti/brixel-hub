@@ -324,8 +324,6 @@ const ScanTrialFlow = (props: ScanTrialFlowType) => {
     return label;
   };
 
-  {console.log(questions, quest)}
-
   return (
     <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'background', '')} ${get(quest, 'classWrapper', '')} ${showBookedTrial ? 'bgGreen50' : ''}`}>
 

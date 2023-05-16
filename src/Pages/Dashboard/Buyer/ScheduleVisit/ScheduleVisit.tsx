@@ -24,6 +24,7 @@ import {DateTime} from 'luxon';
 import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/BrixelButtonSecondary';
 import PropertyPendingImg from '../../../../images/dashboard/PropertyPendingVisit.svg';
 import PropertyconfirmedVisit2Img from '../../../../images/dashboard/PropertyConfimedVisit2.svg';
+import PropertyVisitedImg from '../../../../images/dashboard/propertyVisited.svg';
 import isEmpty from 'lodash/isEmpty';
 import BrixelSingleTag from '@brixel/brixel-components/dist/components/BrixelSingleTag';
 
@@ -80,6 +81,7 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
 
   // STORE CURRENT VISIT TO REDUX
   const storeDate = () => {
+    setSectionPage('create');
     const schuduleVisits: ScheduleVisitSlotType[] = get(formValue, 'scheduleVisits', []);
     if (activeModalID > -1) {
       schuduleVisits[activeModalID] = formValue.scheduleVisit
@@ -164,7 +166,7 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
   // OPEN MODAL FOR ADD DATE BY ROUTE
   useEffect(() => {
     if (isNewDate && activeScheduleVisits) {
-      if (!activeScheduleVisit?.buyerAvailability && !activeScheduleVisit?.visit?.date && !activeModalID && activeModalID !== 0) {
+      if ((!activeScheduleVisit?.buyerAvailability && !activeScheduleVisit?.visit?.date && !activeModalID && activeModalID !== 0) || (activeScheduleVisit?.visit?.date && activeScheduleVisit?.visit?.date < new Date().valueOf())) {
         openModalDate();
       }
     }
@@ -306,49 +308,101 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
             {
               SectionPage === 'confirmed' && activeScheduleVisit && (
                 <>
-                  <div className="bgGreen50 brdRadius shadow-1dp mb-4 a-c py-3 py-sm-5 px-2 px-sm-4">
-                    <div className="dis-fl-col-rev dis-fl-row-sm">
-                      <div className="">
-                        <BrixelSingleTag
-                          className="mb-2"
-                          lang={lang}
-                          message={{
-                            lang: lang,
-                            accepted: 'Visit confirmed',
-                          }}
-                          status="accepted"
-                          text="Visit confirmed"
-                        />
-                        <h4 className="fweight-600 mb-2 txtPrimary400">
-                          <span>
-                            {DateTime.fromMillis(activeScheduleVisit.visit.date).toFormat('dd MMM yyyy', {locale: lang})}
-                          </span>
-                          <span className="mr-small-4">,</span>
-                          <span>
-                            {DateTime.fromMillis(activeScheduleVisit.visit.date, { locale: lang }).toFormat('HH:mm')}
-                          </span>
-                        </h4>
-                        <p className='txtText700'>
-                          {translateTo('Great news! Your visit has been confirmed.', lang)}
-                        </p>
-                      </div>
+                  {
+                    // CONFIRMED VISIT IN THE FUTURE
+                    activeScheduleVisit.visit.date > new Date().valueOf() ? (
+                      <>
+                        <div className="bgGreen50 brdRadius shadow-1dp mb-4 a-c py-3 py-sm-5 px-2 px-sm-4">
+                          <div className="dis-fl-col-rev dis-fl-row-sm">
+                            <div className="">
+                              <BrixelSingleTag
+                                className="mb-2"
+                                lang={lang}
+                                message={{
+                                  lang: lang,
+                                  accepted: 'Visit confirmed',
+                                }}
+                                status="accepted"
+                                text="Visit confirmed"
+                              />
+                              <h4 className="fweight-600 mb-2 txtPrimary400">
+                                <span>
+                                  {DateTime.fromMillis(activeScheduleVisit.visit.date).toFormat('dd MMM yyyy', {locale: lang})}
+                                </span>
+                                <span className="mr-small-4">,</span>
+                                <span>
+                                  {DateTime.fromMillis(activeScheduleVisit.visit.date, { locale: lang }).toFormat('HH:mm')}
+                                </span>
+                              </h4>
+                              <p className='txtText700'>
+                                {translateTo('Great news! Your visit has been confirmed.', lang)}
+                              </p>
+                            </div>
 
-                      <img
-                        src={PropertyconfirmedVisit2Img}
-                        alt="Confirmed Visit"
-                        className="ml-a h-fix-96 h-fix-sm-140"
-                      />
-                    </div>
-                  </div>
+                            <img
+                              src={PropertyconfirmedVisit2Img}
+                              alt="Confirmed Visit"
+                              className="ml-a h-fix-96 h-fix-sm-140"
+                            />
+                          </div>
+                        </div>
 
-                  <div className="mt-4 dis-f jc-fe">
-                    <AddToCalendar
-                      lang={lang}
-                      timestamp={activeScheduleVisit.visit.date}
-                      title={translateTo(`Visit ${activeSingleProperty.title}`, lang)}
-                      location={formatCalendar('location')}
-                    />
-                  </div>
+                        <div className="mt-4 dis-f jc-fe">
+                          <AddToCalendar
+                            lang={lang}
+                            timestamp={activeScheduleVisit.visit.date}
+                            title={translateTo(`Visit ${activeSingleProperty.title}`, lang)}
+                            location={formatCalendar('location')}
+                          />
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        {/* CONFIRMED VISIT IN THE PAST */}
+                        <div className="bgBlue50 brdRadius shadow-1dp mb-4 a-c py-3 py-sm-5 px-2 px-sm-4">
+                          <div className="dis-fl-col-rev dis-fl-row-sm">
+                            <div className="">
+                              <BrixelSingleTag
+                                className="mb-2"
+                                lang={lang}
+                                message={{
+                                  lang: lang,
+                                  visited: 'Visited',
+                                }}
+                                status="visited"
+                                text="Visited"
+                              />
+                              <h4 className="fweight-600 mb-2">
+                                <span>
+                                  You visited the property
+                                </span>
+                              </h4>
+                              <p className='txtText700'>
+                                {translateTo('We hope you had a great experience.', lang)}
+                              </p>
+                            </div>
+
+                            <img
+                              src={PropertyVisitedImg}
+                              alt="Property Visited"
+                              className="ml-a h-fix-120"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="mt-4 dis-f jc-fe">
+                          <BrixelButtonSecondary
+                            rounded
+                            bgTransparent
+                            label="Add new dates"
+                            leftIcon="plus"
+                            onClick={() => openModalDate()}
+                          />
+                        </div>
+                      </>
+                    )
+                  }
+
                 </>
 
               )

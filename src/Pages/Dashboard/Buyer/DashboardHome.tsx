@@ -16,6 +16,7 @@ import financingSvg from '../../../images/dashboard/financingDashboard.svg';
 import scheduleSvg from '../../../images/dashboard/PropertyVisit.svg';
 import scheduleAcceptedSvg from '../../../images/dashboard/PropertyConfimedVisit.svg';
 import PropertyCalendarSvg from '../../../images/dashboard/PropertyCalendar.svg';
+import PropertyVisitedSvg from '../../../images/dashboard/propertyVisited.svg';
 import {getCookie, setCookie} from '../../../utils/helpers';
 import translateTo from '../../../utils/translation';
 import type {ContactType} from '../../../@types/Pages/Dashboard/Buyer/DashboardHome';
@@ -52,6 +53,23 @@ const DashboardHome = (props: ContactType) => {
     if (activeSingleProperty.sellerStatus === 'success') setProgressState({step: 5});
   }, [activeSingleProperty.sellerStatus, activeSingleProperty.progress]);
 
+  const colorBgCard = (visitDate) => {
+    let cl = 'white';
+    if (visitDate?.visit?.date && visitDate?.buyerAvailability) cl = 'green';
+    if (!visitDate) cl = 'green';
+    if (visitDate?.visit?.date < new Date().valueOf()) cl = 'blue';
+    switch (cl) {
+      case 'white':
+        return 'bgWhite';
+      case 'blue':
+        return 'bgBlue100';
+      case 'green':
+        return 'bgGreen100';
+      default:
+        return 'bgWhite';
+    }
+  }
+
   // UNTILE NO PROPERTY OR NO USER TYPE SHOW THE LOADING
   if ((!activeSingleProperty.id && !userTypes) || isSmallLoading.getProperty) {
     return <Loading />;
@@ -80,7 +98,7 @@ const DashboardHome = (props: ContactType) => {
           <div className="dis-fl-col dis-fl-row-sm">
 
             <button
-              className={`shadow-2dp brdRadius dis-f jc-b pt-2 pl-2 pl-sm-3 mr-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi ta-l ${((scheduleVisit && scheduleVisit[0]?.visit?.date && scheduleVisit[0]?.buyerAvailability) || (scheduleVisit && !scheduleVisit[0])) ? 'bgGreen100' : 'bgWhite'}`}
+              className={`shadow-2dp brdRadius dis-f jc-b pt-2 pl-2 pl-sm-3 mr-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi ta-l ${colorBgCard(scheduleVisit ? scheduleVisit[0] : {})}`}
             >
               {
                 (!scheduleVisit) && (
@@ -93,29 +111,61 @@ const DashboardHome = (props: ContactType) => {
               }
               {
                 scheduleVisit && scheduleVisit[0]?.visit?.date && (
-                  <div
-                    className="cardWithBg"
-                    style={{ backgroundImage: `url(${scheduleAcceptedSvg})` }}
-                  >
-                    <div className="dis-fl-col max-w-perc-100">
-                      <h5 className="fweight-600">
-                        {translateTo('Your visit is confirmed', lang)}
-                      </h5>
-                      <div className="dis-f a-c max-w-perc-80 mt-1">
-                        <h5 className="pr-2 txtGreen400 fweight-600 mb-3">
-                          {DateTime.fromMillis(scheduleVisit[0].visit.date).toFormat('dd LLL yyyy, HH:mm', { locale: lang})}
-                        </h5>
-                      </div>
+                  <>
+                    {
+                      scheduleVisit[0]?.visit?.date > new Date().valueOf() ? (
+                        <div
+                          className="cardWithBg"
+                          style={{ backgroundImage: `url(${scheduleAcceptedSvg})` }}
+                        >
+                          <div className="dis-fl-col max-w-perc-100">
+                            <h5 className="fweight-600">
+                              {translateTo('Your visit is confirmed', lang)}
+                            </h5>
+                            <div className="dis-f a-c max-w-perc-80 mt-1">
+                              <h5 className="pr-2 txtGreen400 fweight-600 mb-3">
+                                {DateTime.fromMillis(scheduleVisit[0].visit.date).toFormat('dd LLL yyyy, HH:mm', { locale: lang})}
+                              </h5>
+                            </div>
 
-                      <div className="mt-a">
-                        <BrixelButtonPrimary
-                          label={translateTo('View details', lang)}
-                          rounded
-                          onClick={() => history.push(`/buyer/${propID}/scheduleVisit`)}
-                        />
-                      </div>
-                    </div>
-                  </div>
+                            <div className="mt-a">
+                              <BrixelButtonPrimary
+                                label={translateTo('View details', lang)}
+                                rounded
+                                onClick={() => history.push(`/buyer/${propID}/scheduleVisit`)}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        <div
+                          className="cardWithBg rightPosBg"
+                          style={{ backgroundImage: `url(${PropertyVisitedSvg})` }}
+                        >
+                          <div className="dis-fl-col max-w-perc-100">
+                            <h5 className="fweight-600">
+                              {translateTo('You visited the property', lang)}
+                            </h5>
+                            <div className="dis-f a-c max-w-perc-80 mt-1">
+                              <p className="pr-2 mb-3">
+                                {translateTo('We hope you had a great experience.', lang)}
+                              </p>
+                            </div>
+
+                            <div className="mt-a">
+                              <BrixelButtonSecondary
+                                bgTransparent
+                                label={translateTo('Add new dates', lang)}
+                                leftIcon="plus"
+                                rounded
+                                onClick={() => history.push(`/buyer/${propID}/scheduleVisit/addDate`)}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      )
+                    }
+                  </>
                 )
               }
               {
