@@ -13,7 +13,6 @@ const OfferListings = (props: OfferListingsType) => {
   const {
     activeSingleProperty,
     data,
-    getConfigEnv,
     lang,
     onChangeLocation,
   } = props;
@@ -78,7 +77,7 @@ const OfferListings = (props: OfferListingsType) => {
                                         <img loading="lazy" width="40" alt="female avatar" src={femaleAvatar} />
                                       ) : (
                                         <BrixelAvatar
-                                          baseURL={getConfigEnv.shortPath}
+                                          avatarImg={offer.user?.avatarUrl}
                                           name={get(offer, 'user.name', null) ? get(offer, 'user.name', '') : get(offer, 'user.email', '')}
                                           profileId={get(offer, 'user.id', '')}
                                         />

@@ -649,7 +649,7 @@ const DashboardHome = (props: DashboardHomeType) => {
                       <div className="pos-a-fix x-l-0 x-t-0 w-perc-100 h-fix-16 bgText700 zIndex1" />
                       <CoverPropertyImage
                         className="cover w-perc-100"
-                        coverPhoto={get(formValue, 'coverPhoto.url', '')}
+                        coverPhoto={formValue.coverPhoto?.url}
                         propertyType={get(formValue, 'properties.propertyType', undefined)}
                         size="M"
                       />
@@ -826,7 +826,7 @@ const DashboardHome = (props: DashboardHomeType) => {
                             onClick={() => history.push(`/${activeSingleProperty.id}/prospect/${visit.id}`)}
                           >
                             <BrixelAvatar
-                              avatarImg={get(loggedInUser, 'avatarUrl', undefined)}
+                              avatarImg={get(visit, 'user.avatarUrl', undefined)}
                               name={get(visit, 'user.name', '') ? get(visit, 'user.name', '') : 'No Name'}
                               size="M"
                             />
