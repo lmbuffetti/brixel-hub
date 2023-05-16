@@ -105,9 +105,12 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
     if (modalLearnMoreSrchPrf.multiActions) {
       const NextLabel = stepLearnMoreSrchPrf === 5 ? 'Got it' : 'Next';
       const NextIcon = stepLearnMoreSrchPrf === 5 ? 'tick' : 'arrow-right';
+      const step1Translate = translateTo('Step', lang);
+      const step2Translate = translateTo('of', lang);
       handleSetModal({
         ...modalLearnMoreSrchPrf,
         component: React.createElement(LearnMoreListingsProperty, {lang, step: stepLearnMoreSrchPrf}),
+        title: `${step1Translate} ${stepLearnMoreSrchPrf} ${step2Translate} 5`,
         multiActions: [
           {
             ...modalLearnMoreSrchPrf.multiActions[0],
@@ -144,15 +147,20 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
   const onLearnMore = () => {
     const NextLabel = stepLearnMoreSrchPrf === 5 ? 'Got it' : 'Next';
     const NextIcon = stepLearnMoreSrchPrf === 5 ? 'tick' : 'arrow-right';
+    const step1Translate = translateTo('Step', lang);
+    const step2Translate = translateTo('of', lang);
+    const title = `${step1Translate} 1 ${step2Translate} 5`;
     handleSetModal({
       className: 'modal-learn-more',
       bodyClassColor: 'white',
       bodyInnerClass: 'h-perc-100',
-      title: '',
       layout: 'large',
       small: true,
       component: React.createElement(LearnMoreListingsProperty, {lang, step: stepLearnMoreSrchPrf}),
       state: true,
+      titleTop: true,
+      titleTopClass: 'p-0',
+      title: title,
       multiActions: [
         {
           round: true,

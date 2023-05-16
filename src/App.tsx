@@ -799,6 +799,8 @@ const App = (props: AppType) => {
                 multiActions={modal.multiActions}
                 multiBodyActions={modal.multiBodyActions}
                 title={modal.title}
+                titleTop={modal.titleTop}
+                titleTopClass={modal.titleTopClass}
                 bodyInnerClass={modal.bodyInnerClass}
                 titleImg={modal.titleImg}
                 onClose={() => modal.hideClose !== true ? handleSetModal({ state: false }) : ''}
