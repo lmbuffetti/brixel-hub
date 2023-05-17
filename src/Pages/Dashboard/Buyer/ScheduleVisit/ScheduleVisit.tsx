@@ -122,7 +122,6 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
     setActiveModalID(index);
     history.push('../scheduleVisit/addDate');
     setHideModal(false);
-    console.log(index);
     handleSetModal({
       state: true,
       small: true,
