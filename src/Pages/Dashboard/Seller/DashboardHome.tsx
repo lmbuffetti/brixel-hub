@@ -754,7 +754,7 @@ const DashboardHome = (props: DashboardHomeType) => {
                     color="blue"
                   />
                   <h6 className="mt-xs-2 fweight-400">
-                    {translateTo('Visits', lang)}
+                    {translateTo('Visit', lang)}
                   </h6>
                   <div className={`lh-50 mt-xs-3 fSizePx64 fweight-600 txtRed700 ${!visitLists ? 'h-fix-48 w-fix-40 skeletonBg' : ''}`}>
                     {get(activeSinglePropertyDealsCount, 'Visit.total', '')}
@@ -770,7 +770,7 @@ const DashboardHome = (props: DashboardHomeType) => {
                     color="primary"
                   />
                   <h6 className="mt-xs-2 fweight-400">
-                    {translateTo('Offers', lang)}
+                    {translateTo('Offer', lang)}
                   </h6>
                   <div className={`lh-50 mt-xs-3 fSizePx64 fweight-600 txtRed700 ${!visitLists ? 'h-fix-48 w-fix-40 skeletonBg' : ''}`}>
                     {get(activeSinglePropertyDealsCount, 'Offer.total', '')}
