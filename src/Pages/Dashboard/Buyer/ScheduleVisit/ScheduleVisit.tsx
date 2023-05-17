@@ -55,6 +55,7 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
   const [hideModale, setHideModal] = useState(false);
   const [SectionPage, setSectionPage] = useState<'confirmed' | 'buyerRequest' | 'create'>('create');
   const [activeModalID, setActiveModalID] = useState(-1);
+  const [openedModal, setOpenedModal] = useState(false);
 
   const lastPart = history.location.pathname.split('/').filter(e => e).slice(-1);
   const isNewDate = lastPart[0] === 'addDate';
@@ -121,12 +122,13 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
     setActiveModalID(index);
     history.push('../scheduleVisit/addDate');
     setHideModal(false);
+    console.log(index);
     handleSetModal({
       state: true,
       small: true,
       layout: 'large',
       component: <ScheduleVisitComponent formValue={formValue?.scheduleVisits ? formValue?.scheduleVisits[index] : undefined} />,
-      title: formValue?.scheduleVisits ? 'Edit date' : 'Add date',
+      title: index > -1 ? 'Edit date' : 'Add date',
       titleTop: true,
       titleTopClass: 'py-1 py-sm-2 fweight-600 fsize-500 fsize-md-600 brdSmallBottom brdText100 ta-c',
       hideClose: true,
@@ -165,9 +167,10 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
 
   // OPEN MODAL FOR ADD DATE BY ROUTE
   useEffect(() => {
-    if (isNewDate && activeScheduleVisits) {
+    if (isNewDate && activeScheduleVisits && !openedModal) {
       if ((!activeScheduleVisit?.buyerAvailability && !activeScheduleVisit?.visit?.date && !activeModalID && activeModalID !== 0) || (activeScheduleVisit?.visit?.date && activeScheduleVisit?.visit?.date < new Date().valueOf())) {
         openModalDate();
+        setOpenedModal(true);
       }
     }
   }, [isNewDate, activeScheduleVisits]);
