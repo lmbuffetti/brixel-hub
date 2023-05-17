@@ -68,7 +68,7 @@ const Tour = (props: TourType) => {
                         <div className="pos-a w-perc-100 h-perc-100 bgBlack opacity5" />
                         <div className="pos-a xy-c">
                           <BrixelButtonIcon
-                            bgTransparent
+                            ghost
                             icon="play-fill"
                             className="m-a opacity8"
                             onClick={() => open3dTour(null)}

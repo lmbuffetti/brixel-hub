@@ -268,14 +268,14 @@ const Photos = (props: PhotosPageType) => {
                                                 isLoading={isSmallLoading.deleteMedia && btnActive === 'delete'}
                                               />
                                               <BrixelButtonIcon
-                                                bgTransparent
+                                                ghost
                                                 theme="red"
                                                 icon="bin"
                                                 className={`${confirmDelete === i ? 'hide' : ''}`}
                                                 onClick={() => onConfirmDelete(i)}
                                               />
                                               <BrixelButtonIcon
-                                                bgTransparent
+                                                ghost
                                                 icon="edit"
                                                 className={`ml-1 ${confirmDelete === i ? 'hide' : ''}`}
                                                 onClick={

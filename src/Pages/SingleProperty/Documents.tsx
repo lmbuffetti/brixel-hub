@@ -663,57 +663,59 @@ const Documents = (props: DocumentsPageType) => {
                                               }
                                               {
                                                 !isBuyer && (
-                                                  <BrixelButtonIcon
-                                                    bgTransparent
-                                                    theme="black"
-                                                    icon="options-vertical"
-                                                    onClick={() => {
-                                                      setDocumentOptionsOpen({
-                                                        id: doc.id,
-                                                        active: !documentOptionsOpen.active,
-                                                      });
-                                                      setDocumentId(i);
-                                                    }}
-                                                  />
-                                                )
-                                              }
-                                              {
-                                                (documentOptionsOpen.id === doc.id && documentOptionsOpen.active) && (
-                                                  <>
-                                                    <BrixelDropdownMini
-                                                      topOffset={40}
-                                                      rightAligned
-                                                      links={userType !== 'buyer' ?
-                                                        [
-                                                          {
-                                                            label: translateTo('View', lang),
-                                                            clickFunc: (e) => openDocument(e, doc.id),
-                                                          },
-                                                          {
-                                                            label: translateTo('Edit', lang),
-                                                            clickFunc: (e) => {
-                                                              manageDocument(e, doc.id);
-                                                            },
-                                                          },
-                                                          {
-                                                            label: translateTo('Add to folder', lang),
-                                                            clickFunc: (e) => {
-                                                              manageDocument(e, doc.id, 'folder');
-                                                            },
-                                                          },
-                                                          {
-                                                            label: translateTo('Remove', lang),
-                                                            className: 'txtRed400',
-                                                            clickFunc: (e) => deleteDocs(e, doc.id),
-                                                          },
-                                                        ] : [
-                                                          {
-                                                            label: translateTo('View', lang),
-                                                            clickFunc: (e) => openDocument(e, doc.id),
-                                                          },
-                                                        ]}
+                                                  <div ref={documentRef}>
+                                                    <BrixelButtonIcon
+                                                      bgTransparent
+                                                      theme="black"
+                                                      icon="options-vertical"
+                                                      onClick={() => {
+                                                        setDocumentOptionsOpen({
+                                                          id: doc.id,
+                                                          active: !documentOptionsOpen.active,
+                                                        });
+                                                        setDocumentId(i);
+                                                      }}
                                                     />
-                                                  </>
+                                                    {
+                                                      (documentOptionsOpen.id === doc.id && documentOptionsOpen.active) && (
+                                                        <>
+                                                          <BrixelDropdownMini
+                                                            topOffset={40}
+                                                            rightAligned
+                                                            links={userType !== 'buyer' ?
+                                                              [
+                                                                {
+                                                                  label: translateTo('View', lang),
+                                                                  clickFunc: (e) => openDocument(e, doc.id),
+                                                                },
+                                                                {
+                                                                  label: translateTo('Edit', lang),
+                                                                  clickFunc: (e) => {
+                                                                    manageDocument(e, doc.id);
+                                                                  },
+                                                                },
+                                                                {
+                                                                  label: translateTo('Add to folder', lang),
+                                                                  clickFunc: (e) => {
+                                                                    manageDocument(e, doc.id, 'folder');
+                                                                  },
+                                                                },
+                                                                {
+                                                                  label: translateTo('Remove', lang),
+                                                                  className: 'txtRed400',
+                                                                  clickFunc: (e) => deleteDocs(e, doc.id),
+                                                                },
+                                                              ] : [
+                                                                {
+                                                                  label: translateTo('View', lang),
+                                                                  clickFunc: (e) => openDocument(e, doc.id),
+                                                                },
+                                                              ]}
+                                                          />
+                                                        </>
+                                                      )
+                                                    }
+                                                  </div>
                                                 )
                                               }
                                             </div>
@@ -837,29 +839,31 @@ const Documents = (props: DocumentsPageType) => {
                                                       />
                                                       {
                                                         !isBuyer && (
-                                                          <BrixelButtonIcon
-                                                            bgTransparent
-                                                            theme="black"
-                                                            icon="options-vertical"
-                                                            onClick={() => {
-                                                              setDocumentOptionsOpen({
-                                                                id: doc.id,
-                                                                active: !documentOptionsOpen.active,
-                                                              });
-                                                              setDocumentId(i);
-                                                            }}
-                                                          />
-                                                        )
-                                                      }
-                                                      {
-                                                        (documentOptionsOpen.id === doc.id && documentOptionsOpen.active) && (
-                                                          <>
-                                                            <BrixelDropdownMini
-                                                              topOffset={40}
-                                                              rightAligned
-                                                              links={dropdownActionDoc(doc)}
+                                                          <div ref={documentRef}>
+                                                            <BrixelButtonIcon
+                                                              bgTransparent
+                                                              theme="black"
+                                                              icon="options-vertical"
+                                                              onClick={() => {
+                                                                setDocumentOptionsOpen({
+                                                                  id: doc.id,
+                                                                  active: !documentOptionsOpen.active,
+                                                                });
+                                                                setDocumentId(i);
+                                                              }}
                                                             />
-                                                          </>
+                                                            {
+                                                              (documentOptionsOpen.id === doc.id && documentOptionsOpen.active) && (
+                                                                <>
+                                                                  <BrixelDropdownMini
+                                                                    topOffset={40}
+                                                                    rightAligned
+                                                                    links={dropdownActionDoc(doc)}
+                                                                  />
+                                                                </>
+                                                              )
+                                                            }
+                                                          </div>
                                                         )
                                                       }
                                                     </div>

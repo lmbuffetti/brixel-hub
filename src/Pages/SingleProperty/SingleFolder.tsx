@@ -33,7 +33,6 @@ const SingleDocument = (props: SingleFolderType) => {
   const match = useParams();
   const {
     activeSingleProperty,
-    changeFieldValue,
     formValue,
     handleUpdateDocument,
     initialValues,
@@ -53,15 +52,11 @@ const SingleDocument = (props: SingleFolderType) => {
   useEffect(() => () => setRequestDone(false), []);
 
   useEffect(() => {
-    changeFieldValue('id', docID);
-  }, [docID]);
-
-
-  useEffect(() => {
     if (activeSingleProperty.documents) {
       const currentDoc = activeSingleProperty.documents.find((doc) => doc.id === docID);
-      if (currentDoc) {
-        if (!initialValues) initForm(currentDoc);
+      if (currentDoc && currentDoc.id !== formValue.id) {
+        if (currentDoc.folder && currentDoc.folder.toString() !== 'nofolder') setFolderAction('addToFolder');
+        initForm(currentDoc);
       }
     }
   }, [activeSingleProperty.id, folderAction]);
@@ -165,7 +160,7 @@ const SingleDocument = (props: SingleFolderType) => {
                   {
                     folderAction === 'newFolder' && (
                       <ReduxField
-                        form="SingleDoc"
+                        form="SingleFolder"
                         design={{
                           className: 'mt-2 zIndex1 w-fix-248',
                         }}
@@ -200,7 +195,7 @@ const SingleDocument = (props: SingleFolderType) => {
                       {
                         folderAction === 'addToFolder' && (
                           <ReduxField
-                            form="SingleDoc"
+                            form="SingleFolder"
                             design={{
                               className: 'mt-2 zIndex1 w-fix-248',
                             }}
@@ -268,8 +263,8 @@ const SingleDocument = (props: SingleFolderType) => {
 
 const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
-  formValue: get(state, 'brixelForm.SingleDoc.values', {}),
-  initialValues: get(state, 'brixelForm.SingleDoc.initialValues', {}),
+  formValue: get(state, 'brixelForm.SingleFolder.values', {}),
+  initialValues: get(state, 'brixelForm.SingleFolder.initialValues', {}),
   isRequestDone: get(state, 'common.requestDone', false),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
   lang: get(state, 'common.language', 'en'),
@@ -277,10 +272,10 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
-    dispatch(change('SingleDoc', field, value));
+    dispatch(change('SingleFolder', field, value));
   },
   initForm(value) {
-    dispatch(initializeForm('SingleDoc', value));
+    dispatch(initializeForm('SingleFolder', value));
   },
   handleUpdateDocument: bindActionCreators(updateDocument, dispatch),
   setRequestDone: bindActionCreators(requestDone, dispatch),
