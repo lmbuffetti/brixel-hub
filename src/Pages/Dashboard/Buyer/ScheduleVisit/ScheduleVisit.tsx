@@ -254,10 +254,10 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
                       lang={lang}
                       message={{
                         lang: lang,
-                        pending: 'Pending',
+                        pending: translateTo('Pending', lang),
                       }}
                       status="pending"
-                      text="Pending"
+                      text={translateTo('Pending', lang)}
                     />
                     <h5 className="fweight-600 mb-2">
                       {translateTo('Thank you for your request!', lang)}
@@ -285,10 +285,10 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
                       lang={lang}
                       message={{
                         lang: lang,
-                        pending: 'Pending',
+                        pending: translateTo('Pending', lang),
                       }}
                       status="pending"
-                      text="Pending"
+                      text={translateTo('Pending', lang)}
                     />
                     <h5 className="fweight-600 mb-2">
                       {translateTo('Thank you for your request!', lang)}
@@ -322,7 +322,7 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
                                 lang={lang}
                                 message={{
                                   lang: lang,
-                                  accepted: 'Visit confirmed',
+                                  accepted: translateTo('Visit confirmed', lang),
                                 }}
                                 status="accepted"
                                 text={translateTo('Visit confirmed', lang)}
@@ -599,7 +599,7 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
                           <BrixelButtonPrimary
                             className="mt-3 mx-a"
                             rounded
-                            label="Add dates"
+                            label={translateTo('Add dates', lang)}
                             leftIcon="plus"
                             onClick={() => openModalDate()}
                           />
