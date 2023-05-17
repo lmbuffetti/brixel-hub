@@ -128,7 +128,7 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
       small: true,
       layout: 'large',
       component: <ScheduleVisitComponent formValue={formValue?.scheduleVisits ? formValue?.scheduleVisits[index] : undefined} />,
-      title: index > -1 ? 'Edit date' : 'Add date',
+      title: translateTo(index > -1 ? 'Edit date' : 'Add date', lang),
       titleTop: true,
       titleTopClass: 'py-1 py-sm-2 fweight-600 fsize-500 fsize-md-600 brdSmallBottom brdText100 ta-c',
       hideClose: true,
