@@ -16,10 +16,10 @@ build site:
     FOLDER: $CI_COMMIT_REF_NAME
   script:
     - npm -v;
-    - npm install
-    - if [ "$FOLDER" == "SEL-264-Schedule_Visit" ]; then npm run build-dev; fi
-    - if [ "$FOLDER" == "staging" ]; then npm run build-stage; fi
-    - if [ "$FOLDER" == "master" ]; then npm run build-prod; fi
+    - yarn install
+    - if [ "$FOLDER" == "SEL-264-Schedule_Visit" ]; then yarn build-dev; fi
+    - if [ "$FOLDER" == "staging" ]; then yarn build-stage; fi
+    - if [ "$FOLDER" == "master" ]; then yarn build-prod; fi
   artifacts:
     expire_in: 5 days
     paths:
