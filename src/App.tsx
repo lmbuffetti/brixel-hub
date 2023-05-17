@@ -558,7 +558,7 @@ const App = (props: AppType) => {
         ((!lang ||
           (isFlow && !activeSingleCompany.id)
         ) && !history.location.pathname.includes('tokeninput')) && (
-          <Loading isLoading={true} />
+          <Loading isLoading={true} isSmall />
         )
       }
       {

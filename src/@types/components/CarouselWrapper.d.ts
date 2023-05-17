@@ -8,7 +8,6 @@ export interface CarouselWrapperType {
   layout?: string;
   loggedInUser: object;
   onSetActiveProperty?: (val: string) => void
-  setActiveSingleCompany?: (val: object) => void
   ownerProperties: {
     total: number;
     data: PropertyListType;

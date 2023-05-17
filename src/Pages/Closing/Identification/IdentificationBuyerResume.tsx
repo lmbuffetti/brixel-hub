@@ -115,7 +115,7 @@ const IdentificationBuyerResume = (props: IdentificationBuyerResumeType) => {
                       onClick={stepForm === 1 ? () => setStepForm(0) : () => setStepResume('resume')}
                       theme="text"
                       themeSat={300}
-                      secondary
+                      ghost
                     />
                     <BrixelButtonPrimary
                       rounded
@@ -246,7 +246,7 @@ const IdentificationBuyerResume = (props: IdentificationBuyerResumeType) => {
                       onClick={() => onBack()}
                       theme="text"
                       themeSat={300}
-                      secondary
+                      ghost
                     />
                     <BrixelButtonPrimary
                       rounded
@@ -396,7 +396,7 @@ const IdentificationBuyerResume = (props: IdentificationBuyerResumeType) => {
                       onClick={() => setStepResume('resume')}
                       theme="text"
                       themeSat={300}
-                      secondary
+                      ghost
                     />
                     <BrixelButtonPrimary
                       rounded

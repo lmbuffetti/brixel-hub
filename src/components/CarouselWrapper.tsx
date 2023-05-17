@@ -26,7 +26,6 @@ const CarouselWrapper = (props: CarouselWrapperType) => {
     loggedInUser,
     onSetActiveProperty = () => '',
     ownerProperties = () => '',
-    setActiveSingleCompany = () => '',
     setPropertyId,
     slideToGo = 0,
     subtitle,
@@ -139,7 +138,6 @@ const CarouselWrapper = (props: CarouselWrapperType) => {
     if (items && layout === 'singleOwnCard') {
       const activeCompanyId = items[activeSlide].company;
       if (activeCompanyId && (activeSlide > 0 || slideToGo < 0)) {
-        setActiveSingleCompany(activeCompanyId);
         if (setPropertyId) setPropertyId(get(items[activeSlide], 'id', ''));
       }
     }

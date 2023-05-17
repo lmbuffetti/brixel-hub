@@ -24,7 +24,6 @@ import flatten from 'lodash/flatten';
 import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/BrixelButtonSecondary';
 import {DateTime} from 'luxon';
 import {createNote, saveActiveSingleNote} from '../actions/NoteActions';
-import Loading from './Loading';
 import {createTimelineEntry} from '../resources/Deals/createTimelineEntry';
 import {Truncate} from '../utils/helpers';
 import type {TimelineType} from '../@types/components/Timeline';
@@ -261,12 +260,6 @@ const Timeline = (props: TimelineType) => {
       if (notBtnEl) notBtnEl.classList.remove('clicked');
     },
   });
-
-  if (!activeProperty) {
-    return (
-      <Loading />
-    );
-  }
 
   return (
     <div className={`timeline dis-fl-col ${className}`}>

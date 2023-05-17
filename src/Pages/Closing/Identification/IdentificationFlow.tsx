@@ -16,6 +16,8 @@ import {getActiveSingleDeal, saveClosingIdentification} from '../../../actions/D
 import {spinnerOff, spinnerSmall} from '../../../actions/CommonActions';
 import type {IdentificationFlowType} from '../../../@types/Pages/Closing/Identification/IdentificationFlow';
 import {QuestionsListType} from '@brixel/brixel-components/dist/@types/Model';
+import {getActiveSingleCompany} from '../../../actions/CompanyActions';
+import {getActiveSingleProperty} from '../../../actions/PropertyActions';
 
 const IdentificationFlow = (props: IdentificationFlowType) => {
   const history = {
@@ -25,6 +27,7 @@ const IdentificationFlow = (props: IdentificationFlowType) => {
   const match = useParams();
   // PROPS
   const {
+    activeSingleCompany,
     activeSingleDeal,
     activeSingleProperty,
     destroyForm,
@@ -33,6 +36,8 @@ const IdentificationFlow = (props: IdentificationFlowType) => {
     handleDeleteDocument,
     handleGetActiveSingleDeal,
     handleSaveClosingIdentification,
+    handleGetActiveSingleCompany,
+    handleGetActiveSingleProperty,
     handleMultiUploadDocument,
     handleChangeSmallLoading,
     handleSpinnerOff,
@@ -69,6 +74,9 @@ const IdentificationFlow = (props: IdentificationFlowType) => {
     if (userType !== 'buyer' && userType !== 'seller') {
       history.push(`/buyer/${propID}/closing/${dealID}`);
     }
+    if (!activeSingleProperty.id) {
+      handleGetActiveSingleProperty({ id: propID });
+    }
     return () => {
       const loader = cloneDeep(isSmallLoading);
       loader.sendDataSent = false;
@@ -84,6 +92,13 @@ const IdentificationFlow = (props: IdentificationFlowType) => {
   useEffect(() => {
     setIsEnter(true);
   }, [currentIndex]);
+
+  useEffect(() => {
+    if (!activeSingleCompany.id && activeSingleProperty.id) {
+      handleGetActiveSingleCompany({id: activeSingleProperty.company});
+    }
+  }, [activeSingleProperty]);
+
 
   // FUNCTION TO SAVE DATA
   const saveData = async () => {
@@ -237,12 +252,11 @@ const IdentificationFlow = (props: IdentificationFlowType) => {
   useEffect(() => {
     initForm(initialValues);
     if (activeSingleDeal.id && get(activeSingleDeal, 'closing.stageIdentification.active', false) !== true) {
-      if (userType === 'seller') history.push(`/${propID}/closing`);
+      if (userType === 'seller') history.push(`/${propID}/closing/${dealID}`);
       else history.push(`/buyer/${propID}/closing`);
     } else if (get(activeSingleProperty, 'owner', null)) {
-      let ownerProp: string | null = get(activeSingleProperty, 'owner.id', null);
-      if (!ownerProp && typeof activeSingleProperty.owner === 'string') ownerProp = activeSingleProperty.owner;
-      if (userType === 'seller' && ownerProp !== loggedInUser.id) {
+      const ownerProp: string | null = get(activeSingleProperty, 'owner', null);
+      if (ownerProp && loggedInUser.id && userType === 'seller' && ownerProp !== loggedInUser.id) {
         history.push(`/${propID}/closing`);
       }
 
@@ -498,7 +512,7 @@ const IdentificationFlow = (props: IdentificationFlowType) => {
                           onClick={() => changeStep('back')}
                           theme="text"
                           themeSat={300}
-                          secondary
+                          ghost
                         />
                       )
                     }
@@ -549,6 +563,7 @@ const mapStateToProps = (state) => {
     }];
   }
   return ({
+    activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
     activeSingleDeal: get(state, 'deal.activeSingleDeal', null),
     activeSingleProperty: get(state, 'property.activeSingleProperty', null),
     company: get(state, 'companies.activeSingleCompany', {}),
@@ -577,6 +592,8 @@ const mapDispatchToProps = (dispatch) => ({
     (dispatch(reset('Identification', data)));
   },
   handleGetActiveSingleDeal: bindActionCreators(getActiveSingleDeal, dispatch),
+  handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
+  handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
   handleMultiUploadDocument: bindActionCreators(multiUploadDocument, dispatch),
   handleSaveClosingIdentification: bindActionCreators(saveClosingIdentification, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
