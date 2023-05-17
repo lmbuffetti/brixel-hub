@@ -103,7 +103,11 @@ const SingleDocument = (props: SingleFolderType) => {
       pageID: activeSingleProperty.id,
       id: activeDocument.id,
       body: {
-        folder: formValue.folder || '',
+        name: formValue.name,
+        isPrivate: formValue.isPrivate,
+        folder: formValue.folder,
+        path: activeDocument.path,
+        type: formValue.type,
       },
       smallLoader: 'saveData',
     };

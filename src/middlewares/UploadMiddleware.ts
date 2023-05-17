@@ -604,6 +604,8 @@ const checkCommon = (store) => (next) => (action) => {
                 docList[index] = res.data;
               }
             });
+            const existdoc = docList.find((el) => el.id !== res.data.id);
+            if (!existdoc) docList.push(res.data);
             const data = {
               id: pageID,
               documents: docList,

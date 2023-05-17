@@ -56,6 +56,7 @@ const Documents = (props: DocumentsPageType) => {
     handleSetScreenNotification,
   } = props;
   const [documentOptionsOpen, setDocumentOptionsOpen] = useState<{id?: string | null, active: boolean}>({ id: null, active: false });
+  const [folderOptionsOpen, setFolderOptionsOpen] = useState<{id?: string | null, active: boolean}>({ id: null, active: false });
   const [documentId, setDocumentId] = useState(0);
   const [processedDocuments, setProcessedDocuments] = useState<DocumentTypePage[][]>([]);
   const [showFullFolder, setShowFullFolder] = useState<number[]>([]);
@@ -86,7 +87,7 @@ const Documents = (props: DocumentsPageType) => {
     if (docs.length > 0) {
       const newDoc = new Map();
       docs.forEach((doc) => {
-        const folderName = doc.folder || 'NoFolder';
+        const folderName = doc.folder || '';
         if (newDoc.get(folderName)) {
           const activeDoc = newDoc.get(folderName);
           activeDoc.push(doc);
@@ -97,7 +98,7 @@ const Documents = (props: DocumentsPageType) => {
       const defDocs: DocumentTypePage[][] = [];
       // eslint-disable-next-line no-unused-vars
       for (const [key, value] of newDoc) {
-        if (key ==='NoFolder') defDocs.unshift(value);
+        if (key ==='NoFolder' || key === '') defDocs.unshift(value);
         else defDocs.push(value);
       }
       setProcessedDocuments(defDocs);
@@ -108,6 +109,10 @@ const Documents = (props: DocumentsPageType) => {
   const manageDocument = (e, id, type = 'docs') => {
     if (e) e.preventDefault();
     setDocumentOptionsOpen({
+      id: null,
+      active: false,
+    });
+    setFolderOptionsOpen({
       id: null,
       active: false,
     });
@@ -132,10 +137,12 @@ const Documents = (props: DocumentsPageType) => {
 
   // REF
   const documentRef = useRef(null);
+  const folderRef = useRef(null);
 
   useEffect(() => {
     if (!isSmallLoading.uploadMedia) {
       setDocumentOptionsOpen({ id: null, active: false });
+      setFolderOptionsOpen({ id: null, active: false });
     }
   }, [isSmallLoading]);
 
@@ -217,6 +224,7 @@ const Documents = (props: DocumentsPageType) => {
   const deleteDocs = (e, idDocs) => {
     if (e) e.preventDefault();
     setDocumentOptionsOpen({ id: null, active: false });
+    setFolderOptionsOpen({ id: null, active: false });
     const data = {
       id: idDocs,
       pageID: formValue.id,
@@ -385,6 +393,13 @@ const Documents = (props: DocumentsPageType) => {
       setDocumentOptionsOpen({ id: null, active: false });
     },
   });
+  useOutsideAlerter(folderRef, {
+    id: documentId,
+    action: 'function',
+    func: () => {
+      setFolderOptionsOpen({ id: null, active: false });
+    },
+  });
 
   return (
     <>
@@ -403,12 +418,16 @@ const Documents = (props: DocumentsPageType) => {
           </>
         ) : (
           <div className={`h-perc-lg-100 ${isBuyer ? 'secondLevel' : ''}`}>
-            <h3 className="mb-3 hide dis-b-lg">{translateTo('Docubox', lang)}</h3>
+            <h3 className="mb-3 hide dis-b-lg">
+              {translateTo('Docubox', lang)}
+            </h3>
             {
               isBuyer && (
                 <div className="pos-r hide-lg">
                   <div className="dis-f backPanel">
-                    <h5 className="sectionTitle">{translateTo('Docubox', lang)}</h5>
+                    <h5 className="sectionTitle">
+                      {translateTo('Docubox', lang)}
+                    </h5>
                   </div>
                 </div>
               )
@@ -499,9 +518,18 @@ const Documents = (props: DocumentsPageType) => {
                 {
                   processedDocuments && processedDocuments.length < 1 && userType === 'buyer' && (
                     <div className="pt-5">
-                      <img loading="lazy" className="h-fix-120" src={buyerDocumentsEmpty} alt="Empty Documents" />
-                      <h5 className="mt-3 mb-2 ta-c">{translateTo('No documents available.', lang)}</h5>
-                      <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300 mb-5">{translateTo('Please contact the seller for further documents about this property.', lang)}</p>
+                      <img
+                        loading="lazy"
+                        className="h-fix-120"
+                        src={buyerDocumentsEmpty}
+                        alt="Empty Documents"
+                      />
+                      <h5 className="mt-3 mb-2 ta-c">
+                        {translateTo('No documents available.', lang)}
+                      </h5>
+                      <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300 mb-5">
+                        {translateTo('Please contact the seller for further documents about this property.', lang)}
+                      </p>
                     </div>
                   )
                 }
@@ -511,8 +539,12 @@ const Documents = (props: DocumentsPageType) => {
                       {
                         (documents && documents.length !== 0) && (
                           <div className="docubox-info mb-3 dis-fl-col a-c as-fs">
-                            <h5 className="as-fs fSizePx20 fweight-600">{translateTo('Drag to move and reorder documents', lang)}</h5>
-                            <span className="as-fs txtDark200 fsize-300">{translateTo('The order will be the same as seen on your Brixel Page.', lang)}</span>
+                            <h5 className="as-fs fSizePx20 fweight-600">
+                              {translateTo('Drag to move and reorder documents', lang)}
+                            </h5>
+                            <span className="as-fs txtDark200 fsize-300">
+                              {translateTo('The order will be the same as seen on your Brixel Page.', lang)}
+                            </span>
                           </div>
                         )
                       }
@@ -523,16 +555,31 @@ const Documents = (props: DocumentsPageType) => {
                         <input {...getInputProps()} />
 
                         <div>
-                          <img loading="lazy" className={`${(!processedDocuments || (processedDocuments.length === 0)) ? 'h-fix-120' : 'h-fix-64' }  ml-a mr-a`} src={uploadDocumentsEmpty} alt="Empty Documents" />
+                          <img
+                            loading="lazy"
+                            className={`${(!processedDocuments || (processedDocuments.length === 0)) ? 'h-fix-120' : 'h-fix-64' }  ml-a mr-a`}
+                            src={uploadDocumentsEmpty}
+                            alt="Empty Documents"
+                          />
                           <p className="mt-2 dis-b w-fix-304 txtGreen400">
                             {
                               (!processedDocuments || (processedDocuments.length === 0)) ? (
                                 <>
-                                  <span className='td-u fweight-500'>{translateTo('Click to upload', lang)}</span> <span>{translateTo('your first document or drag and drop.', lang)}</span>
+                                  <span className='td-u fweight-500 cur-poi'>
+                                    {translateTo('Click to upload', lang)}
+                                  </span>
+                                  <span className="ml-small-4">
+                                    {translateTo('your first document or drag and drop.', lang)}
+                                  </span>
                                 </>
                               ) : (
                                 <>
-                                  <span className='td-u fweight-600'>{translateTo('Click to upload files', lang)}</span> <span>{translateTo('or drag and drop.', lang)}</span>
+                                  <span className='td-u fweight-600 cur-poi'>
+                                    {translateTo('Click to upload files', lang)}
+                                  </span>
+                                  <span className="ml-small-4">
+                                    {translateTo('or drag and drop.', lang)}
+                                  </span>
                                 </>
                               )
                             }
@@ -540,11 +587,13 @@ const Documents = (props: DocumentsPageType) => {
                         </div>
                         {
                           (!processedDocuments || (processedDocuments.length === 0)) && (
-                            <span className='brdSmallTop brdAltGrey200 w-fix-104 my-2'></span>
+                            <span className='brdSmallTop brdAltGrey200 w-fix-104 my-2' />
                           )
                         }
 
-                        <span className="body2 txtAltGrey400 max-w-fix-288">{translateTo('Choose .pdf .jpg .png with max. 10 MB size', lang)}</span>
+                        <span className="body2 txtAltGrey400 max-w-fix-288">
+                          {translateTo('Choose .pdf .jpg .png with max. 10 MB size', lang)}
+                        </span>
                       </div>
                     </>
                   )
@@ -556,355 +605,366 @@ const Documents = (props: DocumentsPageType) => {
                         <div
                           className="folder-list pos-r"
                         >
-                          <span className='fsize-300 fweight-600 dis-b mb-2'>Files</span>
-                          <ReactSortable
-                            disabled={isBuyer}
-                            handle=".folderHandle"
-                            group="folder"
-                            tag="div"
-                            // @ts-ignore
-                            list={cloneDeep(processedDocuments)}
-                            setList={(newState) => dragDocuments(newState, 0, 'folderList')}
-                          >
+                          <>
                             {
-                              filterDocsByFodler(processedDocuments, 'NoFolder').length === 0 ? (
-                                <ReactSortable
-                                  disabled={isBuyer}
-                                  handle=".docsHandle"
-                                  delay={2}
-                                  group="groupName"
-                                  list={[]}
-                                  className=""
-                                  setList={(order) => dragDocuments(order, 0, 'NoFolder')}
-                                  onStart={() => setIsMovingFolder(true)}
-                                  onEnd={() => setIsMovingFolder(false)}
-                                >
-                                  <div className="shadow-1dp dis-fl-col py-3 a-c mb-2 brdRadius txtAltGrey400">
-                                    Drag and drop single files here
-                                  </div>
-                                </ReactSortable>
-                              ) : (
-                                filterDocsByFodler(processedDocuments, 'NoFolder').map((docList, i) => (
-                                  <div
-                                    className='noFolderWrapper shadow-1dp dis-fl-col p-1 mb-2 brdRadius'
-                                    key={`noFolderDoc${i.toString()}`}
-                                  >
-                                    <ReactSortable
-                                      disabled={isBuyer}
-                                      key={`prcDcc_${i.toString()}`}
-                                      handle=".docsHandle"
-                                      delayOnTouchStart={true}
-                                      delay={2}
-                                      group="groupName"
-                                      // @ts-ignore
-                                      list={cloneDeep(docList)}
-                                      className=""
-                                      setList={(order) => dragDocuments(order, i, 'NoFolder')}
-                                      onStart={() => setIsMovingFolder(true)}
-                                      onEnd={() => setIsMovingFolder(false)}
-                                    >
-                                      {
-                                        docList.map((doc, k) => (
-                                          <div
-                                            id={`nofolderDocs${doc.id}`}
-                                            key={`prcDocs_${k.toString()}`}
-                                            className="single-document-folder dis-fl-row a-c jc-b p-1"
-                                          >
-
-                                            <div className="name dis-fl-row a-c pr-1 pr-sm-0">
-                                              {
-                                                !isBuyer && (
-                                                  <div className="icon-container brdRadius dis-f w-fix-24 h-fix-40 jc-c a-c ml-1 mr-1">
-                                                    <img
-                                                      alt="Drag Icon"
-                                                      width={18}
-                                                      className='cur-grab docsHandle'
-                                                      src={dragIcon}
-                                                    />
-                                                  </div>
-                                                )
-                                              }
-                                              <div className="dis-fl-col docDetails cur-poi" onClick={(e) => openDocument(e, doc.id)}>
-                                                <span className="document-title fweight-500 fsize-400 txtDark700">{doc.name}</span>
-                                                <span className="body2 txtGreen400 dont-break-out">
-                                                  {translateTo(doc.type || '', lang)}
-                                                </span>
-                                                {
-                                                  doc?.createdAt ? (
-                                                    <span className="date fsize-200 txtLight400 pt-small-4">
-                                                      {
-                                                        !isNaN(+doc.createdAt) ? (
-                                                          <>{DateTime.fromMillis(doc.createdAt, { locale: lang }).toFormat('dd LLL yyyy, H:mm')}</>
-                                                        ) : (
-                                                          <>{DateTime.fromISO(doc.createdAt.toString(), { locale: lang }).toFormat('dd LLL yyyy, H:mm')}</>
-                                                        )
-                                                      }
-                                                    </span>
-                                                  ) : (
-                                                    <span className="date fsize-200 txtDark200">-</span>
-                                                  )
-                                                }
-                                              </div>
-                                            </div>
-
-                                            <div className="pos-r dis-fl-row a-c">
-                                              {
-                                                userType !== 'buyer' && (
-                                                  <>
-                                                    <BrixelTooltip
-                                                      description={`${translateTo('This document is set to', lang)} ${translateTo(`${doc.isPrivate === true ? 'private' : 'public'}`, lang)}. ${translateTo('Edit to change.', lang)}`}
-                                                      width="200"
-                                                      iconColor={`${doc.isPrivate === true ? 'red' : 'green'}`}
-                                                      icon={`${doc.isPrivate === true ? 'locked' : 'eye'}`}
-                                                      className="mr-1"
-                                                    />
-                                                  </>
-                                                )
-                                              }
-                                              {
-                                                !isBuyer && (
-                                                  <div ref={documentRef}>
-                                                    <BrixelButtonIcon
-                                                      bgTransparent
-                                                      theme="black"
-                                                      icon="options-vertical"
-                                                      onClick={() => {
-                                                        setDocumentOptionsOpen({
-                                                          id: doc.id,
-                                                          active: !documentOptionsOpen.active,
-                                                        });
-                                                        setDocumentId(i);
-                                                      }}
-                                                    />
-                                                    {
-                                                      (documentOptionsOpen.id === doc.id && documentOptionsOpen.active) && (
-                                                        <>
-                                                          <BrixelDropdownMini
-                                                            topOffset={40}
-                                                            rightAligned
-                                                            links={userType !== 'buyer' ?
-                                                              [
-                                                                {
-                                                                  label: translateTo('View', lang),
-                                                                  clickFunc: (e) => openDocument(e, doc.id),
-                                                                },
-                                                                {
-                                                                  label: translateTo('Edit', lang),
-                                                                  clickFunc: (e) => {
-                                                                    manageDocument(e, doc.id);
-                                                                  },
-                                                                },
-                                                                {
-                                                                  label: translateTo('Add to folder', lang),
-                                                                  clickFunc: (e) => {
-                                                                    manageDocument(e, doc.id, 'folder');
-                                                                  },
-                                                                },
-                                                                {
-                                                                  label: translateTo('Remove', lang),
-                                                                  className: 'txtRed400',
-                                                                  clickFunc: (e) => deleteDocs(e, doc.id),
-                                                                },
-                                                              ] : [
-                                                                {
-                                                                  label: translateTo('View', lang),
-                                                                  clickFunc: (e) => openDocument(e, doc.id),
-                                                                },
-                                                              ]}
-                                                          />
-                                                        </>
-                                                      )
-                                                    }
-                                                  </div>
-                                                )
-                                              }
-                                            </div>
-                                          </div>
-                                        ))
-                                      }
-                                    </ReactSortable>
-                                  </div>
-                                ))
+                              filterDocsByFodler(processedDocuments, 'NoFolder').length > 0 || !isBuyer && (
+                                <span className='fsize-300 fweight-600 dis-b mb-2'>
+                                  {translateTo('Files', lang)}
+                                </span>
                               )
                             }
-                            <>
+                            <ReactSortable
+                              disabled={isBuyer}
+                              handle=".folderHandle"
+                              group="folder"
+                              tag="div"
+                              // @ts-ignore
+                              list={cloneDeep(processedDocuments)}
+                              setList={(newState) => dragDocuments(newState, 0, 'folderList')}
+                            >
                               {
-                                (!isBuyer || filterDocsByFodler(processedDocuments, 'folder').length > 0) && (
-                                  <span className='fsize-300 fweight-600 dis-b pt-1 mb-2'>Folders</span>
-                                )
-                              }
-                            </>
-                            <>
-                              {
-                                filterDocsByFodler(processedDocuments, 'folder').length > 0 ? (
-                                  <>
-                                    {
-                                      filterDocsByFodler(processedDocuments, 'folder').map((docList, i) => (
-                                        <div key={`folderDoc${i.toString()}`}>
-                                          <div
-                                            className="document-folder shadow-1dp dis-fl-col p-1 mb-2 brdRadius"
-                                            key={`prcDcc_${i.toString()}`}
-                                          >
-                                            <div className="dis-fl-row jc-b a-c">
-                                              <div
-                                                className={`dis-fl-row a-c p-1 ${(index(i) !== -1 || isMovingFolder) ? '' : ''}`}
-                                                onClick={(e) => onExpandFolder(e, i)}
-                                              >
-                                                <img width={18} className='cur-grab docsHandle' src={dragIcon} />
-                                                <BrixelIcon
-                                                  icon="folder"
-                                                  color="green"
-                                                  saturationTxt={400}
-                                                  saturation={100}
-                                                  background="green"
-                                                  className="mx-1"
-                                                  isLoading={isSmallLoading.deleteMedia}
-                                                />
-                                                <h6 className='fweight-600'>{docList[0].folder}</h6>
-                                              </div>
-                                              <BrixelButtonIcon
-                                                bgTransparent
-                                                className={`${(index(i) !== -1) ? '' : ''}`}
-                                                theme="black"
-                                                icon={`${(index(i) !== -1) ? 'arrow-simple-up' : 'arrow-simple-down'}`}
-                                                onClick={(e) => {
-                                                  e.preventDefault();
-                                                  const clone = cloneDeep(showFullFolder);
-                                                  if (index(i) === -1) {
-                                                    clone.push(i);
-                                                  } else if (index(i) !== -1) {
-                                                    clone.splice(index(i), 1);
-                                                  }
-                                                  setShowFullFolder(clone);
-                                                }}
-                                              />
-                                            </div>
-
-                                            <ReactSortable
-                                              disabled={isBuyer}
-                                              handle=".docsHandle"
-                                              delayOnTouchStart={true}
-                                              delay={2}
-                                              group="groupName"
-                                              // @ts-ignore
-                                              list={cloneDeep(docList)}
-                                              className={(index(i) !== -1 || isMovingFolder) ? 'mt-1 pt-0' : ''}
-                                              setList={(order) => dragDocuments(order, i, get(docList[0], 'folder', null))}
-                                              onStart={() => setIsMovingFolder(true)}
-                                              onEnd={() => setIsMovingFolder(false)}
+                                !isBuyer && filterDocsByFodler(processedDocuments, 'NoFolder').length === 0 ? (
+                                  <ReactSortable
+                                    disabled={isBuyer}
+                                    handle=".docsHandle"
+                                    delay={2}
+                                    group="groupName"
+                                    list={[]}
+                                    className=""
+                                    setList={(order) => dragDocuments(order, 0, 'NoFolder')}
+                                    onStart={() => setIsMovingFolder(true)}
+                                    onEnd={() => setIsMovingFolder(false)}
+                                  >
+                                    <div className="shadow-1dp dis-fl-col py-3 a-c mb-2 brdRadius txtAltGrey400">
+                                      {translateTo('Drag and drop single files here', lang)}
+                                    </div>
+                                  </ReactSortable>
+                                ) : (
+                                  filterDocsByFodler(processedDocuments, 'NoFolder').map((docList, i) => (
+                                    <div
+                                      className='noFolderWrapper shadow-1dp dis-fl-col p-1 mb-2 brdRadius'
+                                      key={`noFolderDoc${i.toString()}`}
+                                      ref={documentRef}
+                                    >
+                                      <ReactSortable
+                                        disabled={isBuyer}
+                                        key={`prcDcc_${i.toString()}`}
+                                        handle=".docsHandle"
+                                        delayOnTouchStart={true}
+                                        delay={2}
+                                        group="groupName"
+                                        // @ts-ignore
+                                        list={cloneDeep(docList)}
+                                        className=""
+                                        setList={(order) => dragDocuments(order, i, 'NoFolder')}
+                                        onStart={() => setIsMovingFolder(true)}
+                                        onEnd={() => setIsMovingFolder(false)}
+                                      >
+                                        {
+                                          docList.map((doc, k) => (
+                                            <div
+                                              id={`nofolderDocs${doc.id}`}
+                                              key={`prcDocs_${k.toString()}`}
+                                              className="single-document-folder dis-fl-row a-c jc-b p-1"
                                             >
-                                              {
-                                                (index(i) !== -1 || isMovingFolder) && docList.map((doc, k) => (
-                                                  <li
-                                                    key={`prcDocs_${k.toString()}`}
-                                                    className="single-document pl-2 dis-fl-row a-c jc-b py-1"
-                                                  >
-                                                    <div className="name w-fix-184 w-fix-lg-352 dis-fl-row a-c pr-1 pr-sm-0">
-                                                      {
-                                                        !isBuyer && (
-                                                          <div className="icon-container brdRadius dis-f w-fix-24 h-fix-40 jc-c a-c mr-1">
-                                                            <img width={18} className='cur-grab docsHandle' src={dragIcon} />
-                                                          </div>
-                                                        )
-                                                      }
-                                                      <div className="dis-fl-col docDetails cur-poi" onClick={(e) => openDocument(e, doc.id)}>
-                                                        <span className="document-title max-w-fix-168 max-w-perc-lg-100 fweight-500 dont-break-out">{doc.name}</span>
-                                                        <span className="body2 txtGreen400 dont-break-out">{doc.type}</span>
+
+                                              <div className="name dis-fl-row a-c pr-1 pr-sm-0">
+                                                {
+                                                  !isBuyer && (
+                                                    <div className="icon-container brdRadius dis-f w-fix-24 h-fix-40 jc-c a-c ml-1 mr-1">
+                                                      <img
+                                                        alt="Drag Icon"
+                                                        width={18}
+                                                        className='cur-grab docsHandle'
+                                                        src={dragIcon}
+                                                      />
+                                                    </div>
+                                                  )
+                                                }
+                                                <div className="dis-fl-col docDetails cur-poi" onClick={(e) => openDocument(e, doc.id)}>
+                                                  <span className="document-title fweight-500 fsize-400 txtDark700">{doc.name}</span>
+                                                  <span className="body2 txtGreen400 dont-break-out">
+                                                    {translateTo(doc.type || '', lang)}
+                                                  </span>
+                                                  {
+                                                    doc?.createdAt ? (
+                                                      <span className="date fsize-200 txtLight400 pt-small-4">
                                                         {
-                                                          doc?.createdAt ? (
-                                                            <span className="date fsize-200 txtLight400 pt-small-4">
-                                                              {
-                                                                !isNaN(+doc.createdAt) ? (
-                                                                  <>{DateTime.fromMillis(doc.createdAt, { locale: lang }).toFormat('dd LLL yyyy, H:mm')}</>
-                                                                ) : (
-                                                                  <>{DateTime.fromISO(doc.createdAt.toString(), { locale: lang }).toFormat('dd LLL yyyy, H:mm')}</>
-                                                                )
-                                                              }
-                                                            </span>
+                                                          !isNaN(+doc.createdAt) ? (
+                                                            <>{DateTime.fromMillis(doc.createdAt, { locale: lang }).toFormat('dd LLL yyyy, H:mm')}</>
                                                           ) : (
-                                                            <span className="date fsize-200 txtLight400 pt-small-4">-</span>
+                                                            <>{DateTime.fromISO(doc.createdAt.toString(), { locale: lang }).toFormat('dd LLL yyyy, H:mm')}</>
                                                           )
                                                         }
-                                                      </div>
-                                                    </div>
+                                                      </span>
+                                                    ) : (
+                                                      <span className="date fsize-200 txtDark200">-</span>
+                                                    )
+                                                  }
+                                                </div>
+                                              </div>
 
-                                                    <div className="pos-r dis-fl-row a-c">
-
+                                              <div className="pos-r dis-fl-row a-c">
+                                                {
+                                                  userType !== 'buyer' && (
+                                                    <>
                                                       <BrixelTooltip
-                                                        className="mr-1"
                                                         description={`${translateTo('This document is set to', lang)} ${translateTo(`${doc.isPrivate === true ? 'private' : 'public'}`, lang)}. ${translateTo('Edit to change.', lang)}`}
                                                         width="200"
                                                         iconColor={`${doc.isPrivate === true ? 'red' : 'green'}`}
                                                         icon={`${doc.isPrivate === true ? 'locked' : 'eye'}`}
+                                                        className="mr-1"
+                                                      />
+                                                    </>
+                                                  )
+                                                }
+                                                {
+                                                  !isBuyer && (
+                                                    <div>
+                                                      <BrixelButtonIcon
+                                                        bgTransparent
+                                                        theme="black"
+                                                        icon="options-vertical"
+                                                        onClick={() => {
+                                                          setDocumentOptionsOpen({
+                                                            id: doc.id,
+                                                            active: !documentOptionsOpen.active,
+                                                          });
+                                                          setDocumentId(i);
+                                                        }}
                                                       />
                                                       {
-                                                        !isBuyer && (
-                                                          <div ref={documentRef}>
-                                                            <BrixelButtonIcon
-                                                              bgTransparent
-                                                              theme="black"
-                                                              icon="options-vertical"
-                                                              onClick={() => {
-                                                                setDocumentOptionsOpen({
-                                                                  id: doc.id,
-                                                                  active: !documentOptionsOpen.active,
-                                                                });
-                                                                setDocumentId(i);
-                                                              }}
+                                                        (documentOptionsOpen.id === doc.id && documentOptionsOpen.active) && (
+                                                          <>
+                                                            <BrixelDropdownMini
+                                                              topOffset={40}
+                                                              rightAligned
+                                                              links={userType !== 'buyer' ?
+                                                                [
+                                                                  {
+                                                                    label: translateTo('View', lang),
+                                                                    clickFunc: (e) => openDocument(e, doc.id),
+                                                                  },
+                                                                  {
+                                                                    label: translateTo('Edit', lang),
+                                                                    clickFunc: (e) => {
+                                                                      manageDocument(e, doc.id);
+                                                                    },
+                                                                  },
+                                                                  {
+                                                                    label: translateTo('Add to folder', lang),
+                                                                    clickFunc: (e) => {
+                                                                      manageDocument(e, doc.id, 'folder');
+                                                                    },
+                                                                  },
+                                                                  {
+                                                                    label: translateTo('Remove', lang),
+                                                                    className: 'txtRed400',
+                                                                    clickFunc: (e) => deleteDocs(e, doc.id),
+                                                                  },
+                                                                ] : [
+                                                                  {
+                                                                    label: translateTo('View', lang),
+                                                                    clickFunc: (e) => openDocument(e, doc.id),
+                                                                  },
+                                                                ]}
                                                             />
-                                                            {
-                                                              (documentOptionsOpen.id === doc.id && documentOptionsOpen.active) && (
-                                                                <>
-                                                                  <BrixelDropdownMini
-                                                                    topOffset={40}
-                                                                    rightAligned
-                                                                    links={dropdownActionDoc(doc)}
-                                                                  />
-                                                                </>
-                                                              )
-                                                            }
-                                                          </div>
+                                                          </>
                                                         )
                                                       }
                                                     </div>
-                                                  </li>
-                                                ))
-                                              }
-                                            </ReactSortable>
-                                          </div>
-                                        </div>
-                                      ))
-                                    }
-                                  </>
-                                ) : (
-                                  <>
-                                    {
-                                      !isBuyer && (
-                                        <div className="shadow-1dp dis-fl-col p-1 mb-2 brdRadius">
-                                          <ReactSortable
-                                            disabled={isBuyer}
-                                            handle=".docsHandle"
-                                            delay={2}
-                                            group="groupName"
-                                            list={[]}
-                                            className={(index(0) !== -1 || isMovingFolder) ? 'mt-1 pt-0' : ''}
-                                            setList={(order) => get(order, '[0].id', null) ? history.push(`/${activeSingleProperty.id}/docubox/${get(order, '[0].id', null)}/addToFolder`) : ''}
-                                            onStart={() => setIsMovingFolder(true)}
-                                            onEnd={() => setIsMovingFolder(false)}
-                                          >
-                                            <div className='dis-fl-col py-3 a-c brdRadius txtAltGrey400'>
-                                              To keep things organized, drag and drop file to create a folder.
+                                                  )
+                                                }
+                                              </div>
                                             </div>
-                                          </ReactSortable>
-                                        </div>
-                                      )
-                                    }
-
-                                  </>
+                                          ))
+                                        }
+                                      </ReactSortable>
+                                    </div>
+                                  ))
                                 )
                               }
-                            </>
-                          </ReactSortable>
+                              <>
+                                {
+                                  (!isBuyer || filterDocsByFodler(processedDocuments, 'folder').length > 0) && (
+                                    <span className='fsize-300 fweight-600 dis-b pt-1 mb-2'>
+                                      {translateTo('Folders', lang)}
+                                    </span>
+                                  )
+                                }
+                              </>
+                              <>
+                                {
+                                  filterDocsByFodler(processedDocuments, 'folder').length > 0 ? (
+                                    <>
+                                      {
+                                        filterDocsByFodler(processedDocuments, 'folder').map((docList, i) => (
+                                          <div key={`folderDoc${i.toString()}`} ref={folderRef}>
+                                            <div
+                                              className="document-folder shadow-1dp dis-fl-col p-1 mb-2 brdRadius"
+                                              key={`prcDcc_${i.toString()}`}
+                                            >
+                                              <div className="dis-fl-row jc-b a-c">
+                                                <div
+                                                  className={`dis-fl-row a-c p-1 ${(index(i) !== -1 || isMovingFolder) ? '' : ''}`}
+                                                  onClick={(e) => onExpandFolder(e, i)}
+                                                >
+                                                  <img width={18} className='cur-grab docsHandle' src={dragIcon} />
+                                                  <BrixelIcon
+                                                    icon="folder"
+                                                    color="green"
+                                                    saturationTxt={400}
+                                                    saturation={100}
+                                                    background="green"
+                                                    className="mx-1"
+                                                    isLoading={isSmallLoading.deleteMedia}
+                                                  />
+                                                  <h6 className='fweight-600'>{docList[0].folder}</h6>
+                                                </div>
+                                                <BrixelButtonIcon
+                                                  bgTransparent
+                                                  className={`${(index(i) !== -1) ? '' : ''}`}
+                                                  theme="black"
+                                                  icon={`${(index(i) !== -1) ? 'arrow-simple-up' : 'arrow-simple-down'}`}
+                                                  onClick={(e) => {
+                                                    e.preventDefault();
+                                                    const clone = cloneDeep(showFullFolder);
+                                                    if (index(i) === -1) {
+                                                      clone.push(i);
+                                                    } else if (index(i) !== -1) {
+                                                      clone.splice(index(i), 1);
+                                                    }
+                                                    setShowFullFolder(clone);
+                                                  }}
+                                                />
+                                              </div>
+
+                                              <ReactSortable
+                                                disabled={isBuyer}
+                                                handle=".docsHandle"
+                                                delayOnTouchStart={true}
+                                                delay={2}
+                                                group="groupName"
+                                                // @ts-ignore
+                                                list={cloneDeep(docList)}
+                                                className={(index(i) !== -1 || isMovingFolder) ? 'mt-1 pt-0' : ''}
+                                                setList={(order) => dragDocuments(order, i, get(docList[0], 'folder', null))}
+                                                onStart={() => setIsMovingFolder(true)}
+                                                onEnd={() => setIsMovingFolder(false)}
+                                              >
+                                                {
+                                                  (index(i) !== -1 || isMovingFolder) && docList.map((doc, k) => (
+                                                    <li
+                                                      key={`prcDocs_${k.toString()}`}
+                                                      className="single-document pl-2 dis-fl-row a-c jc-b py-1"
+                                                    >
+                                                      <div className="name w-fix-184 w-fix-lg-352 dis-fl-row a-c pr-1 pr-sm-0">
+                                                        {
+                                                          !isBuyer && (
+                                                            <div className="icon-container brdRadius dis-f w-fix-24 h-fix-40 jc-c a-c mr-1">
+                                                              <img width={18} className='cur-grab docsHandle' src={dragIcon} />
+                                                            </div>
+                                                          )
+                                                        }
+                                                        <div className="dis-fl-col docDetails cur-poi" onClick={(e) => openDocument(e, doc.id)}>
+                                                          <span className="document-title max-w-fix-168 max-w-perc-lg-100 fweight-500 dont-break-out">{doc.name}</span>
+                                                          <span className="body2 txtGreen400 dont-break-out">{doc.type}</span>
+                                                          {
+                                                            doc?.createdAt ? (
+                                                              <span className="date fsize-200 txtLight400 pt-small-4">
+                                                                {
+                                                                  !isNaN(+doc.createdAt) ? (
+                                                                    <>{DateTime.fromMillis(doc.createdAt, { locale: lang }).toFormat('dd LLL yyyy, H:mm')}</>
+                                                                  ) : (
+                                                                    <>{DateTime.fromISO(doc.createdAt.toString(), { locale: lang }).toFormat('dd LLL yyyy, H:mm')}</>
+                                                                  )
+                                                                }
+                                                              </span>
+                                                            ) : (
+                                                              <span className="date fsize-200 txtLight400 pt-small-4">-</span>
+                                                            )
+                                                          }
+                                                        </div>
+                                                      </div>
+
+                                                      <div className="pos-r dis-fl-row a-c">
+
+                                                        <BrixelTooltip
+                                                          className="mr-1"
+                                                          description={`${translateTo('This document is set to', lang)} ${translateTo(`${doc.isPrivate === true ? 'private' : 'public'}`, lang)}. ${translateTo('Edit to change.', lang)}`}
+                                                          width="200"
+                                                          iconColor={`${doc.isPrivate === true ? 'red' : 'green'}`}
+                                                          icon={`${doc.isPrivate === true ? 'locked' : 'eye'}`}
+                                                        />
+                                                        {
+                                                          !isBuyer && (
+                                                            <div>
+                                                              <BrixelButtonIcon
+                                                                bgTransparent
+                                                                theme="black"
+                                                                icon="options-vertical"
+                                                                onClick={() => {
+                                                                  setFolderOptionsOpen({
+                                                                    id: doc.id,
+                                                                    active: !folderOptionsOpen.active,
+                                                                  });
+                                                                  setDocumentId(i);
+                                                                }}
+                                                              />
+                                                              {
+                                                                (folderOptionsOpen.id === doc.id && folderOptionsOpen.active) && (
+                                                                  <>
+                                                                    <BrixelDropdownMini
+                                                                      topOffset={40}
+                                                                      rightAligned
+                                                                      links={dropdownActionDoc(doc)}
+                                                                    />
+                                                                  </>
+                                                                )
+                                                              }
+                                                            </div>
+                                                          )
+                                                        }
+                                                      </div>
+                                                    </li>
+                                                  ))
+                                                }
+                                              </ReactSortable>
+                                            </div>
+                                          </div>
+                                        ))
+                                      }
+                                    </>
+                                  ) : (
+                                    <>
+                                      {
+                                        !isBuyer && (
+                                          <div className="shadow-1dp dis-fl-col p-1 mb-2 brdRadius">
+                                            <ReactSortable
+                                              disabled={isBuyer}
+                                              handle=".docsHandle"
+                                              delay={2}
+                                              group="groupName"
+                                              list={[]}
+                                              className={(index(0) !== -1 || isMovingFolder) ? 'mt-1 pt-0' : ''}
+                                              setList={(order) => get(order, '[0].id', null) ? history.push(`/${activeSingleProperty.id}/docubox/${get(order, '[0].id', null)}/addToFolder`) : ''}
+                                              onStart={() => setIsMovingFolder(true)}
+                                              onEnd={() => setIsMovingFolder(false)}
+                                            >
+                                              <div className='dis-fl-col py-3 a-c brdRadius txtAltGrey400'>
+                                                {translateTo('To keep things organized, drag and drop file to create a folder.', lang)}
+                                              </div>
+                                            </ReactSortable>
+                                          </div>
+                                        )
+                                      }
+
+                                    </>
+                                  )
+                                }
+                              </>
+                            </ReactSortable>
+                          </>
                         </div>
                       </div>
                     </>
