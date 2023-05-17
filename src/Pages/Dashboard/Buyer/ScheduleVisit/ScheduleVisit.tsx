@@ -323,7 +323,7 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
                                   accepted: 'Visit confirmed',
                                 }}
                                 status="accepted"
-                                text="Visit confirmed"
+                                text={translateTo('Visit confirmed', lang)}
                               />
                               <h4 className="fweight-600 mb-2 txtPrimary400">
                                 <span>
@@ -367,14 +367,14 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
                                 lang={lang}
                                 message={{
                                   lang: lang,
-                                  visited: 'Visited',
+                                  visited: translateTo('Visited', lang),
                                 }}
                                 status="visited"
-                                text="Visited"
+                                text={translateTo('Visited', lang)}
                               />
                               <h4 className="fweight-600 mb-2">
                                 <span>
-                                  You visited the property
+                                  {translateTo('You visited the property', lang)}
                                 </span>
                               </h4>
                               <p className='txtText700'>
@@ -394,7 +394,7 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
                           <BrixelButtonSecondary
                             rounded
                             bgTransparent
-                            label="Add new dates"
+                            label={translateTo('Add new dates', lang)}
                             leftIcon="plus"
                             onClick={() => openModalDate()}
                           />
@@ -433,7 +433,7 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
                                 visit.isAllDay ? (
                                   <div className="txtBlue700">
                                     <p className='txtBlue700'>
-                                      All day
+                                      {translateTo('All day', lang)}
                                     </p>
                                   </div>
                                 ) : (
@@ -508,7 +508,7 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
                                         visit.isAllDay ? (
                                           <div className="txtBlue700">
                                             <p className='txtBlue700'>
-                                              All day
+                                              {translateTo('All day', lang)}
                                             </p>
                                           </div>
                                         ) : (
@@ -544,7 +544,7 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
                                 rounded
                                 disabled={formValue.scheduleVisits.length >= 3}
                                 bgTransparent
-                                label="Add new date"
+                                label={translateTo('Add new date', lang)}
                                 leftIcon="plus"
                                 className='mt-4'
                                 onClick={() => openModalDate()}
@@ -572,7 +572,7 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
                           <BrixelButtonPrimary
                             rounded
                             className="mr-0 mt-4"
-                            label="Send request"
+                            label={translateTo('Send request', lang)}
                             isLoading={isSmallLoading.sendData === true}
                             rightIcon="send"
                             onClick={() => saveData()}

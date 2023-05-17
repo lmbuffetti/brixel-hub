@@ -57,7 +57,6 @@ const SingleDocument = (props: SingleFolderType) => {
       if (currentDoc && currentDoc.id !== formValue.id) {
         if (currentDoc.folder && currentDoc.folder.toLowerCase() !== 'nofolder') setFolderAction('addToFolder');
         if (currentDoc.folder && currentDoc.folder.toLowerCase() === 'nofolder') currentDoc.folder = '';
-        console.log(currentDoc);
         initForm(currentDoc);
       }
     }

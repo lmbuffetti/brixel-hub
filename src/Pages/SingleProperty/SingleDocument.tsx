@@ -185,7 +185,7 @@ const SingleDocument = (props: SingleDocumentType) => {
                     }],
                   }}
                   labels={{
-                    label: 'Visibility',
+                    label: translateTo('Visibility', lang),
                   }}
                   component={BrixelSelect}
                 />
