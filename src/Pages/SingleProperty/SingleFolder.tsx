@@ -55,7 +55,9 @@ const SingleDocument = (props: SingleFolderType) => {
     if (activeSingleProperty.documents) {
       const currentDoc = activeSingleProperty.documents.find((doc) => doc.id === docID);
       if (currentDoc && currentDoc.id !== formValue.id) {
-        if (currentDoc.folder && currentDoc.folder.toString() !== 'nofolder') setFolderAction('addToFolder');
+        if (currentDoc.folder && currentDoc.folder.toLowerCase() !== 'nofolder') setFolderAction('addToFolder');
+        if (currentDoc.folder && currentDoc.folder.toLowerCase() === 'nofolder') currentDoc.folder = '';
+        console.log(currentDoc);
         initForm(currentDoc);
       }
     }
@@ -155,7 +157,7 @@ const SingleDocument = (props: SingleFolderType) => {
                       name: 'folderAction',
                     }}
                     options={[{
-                      label: 'Create new folder',
+                      label: translateTo('Create new folder', lang),
                       value: 'newFolder',
                       index: 0,
                     }]}
@@ -170,7 +172,7 @@ const SingleDocument = (props: SingleFolderType) => {
                         }}
                         input={{
                           name: 'folder',
-                          placeholder: 'New folder name',
+                          placeholder: translateTo('New folder name', lang),
                         }}
                         component={BrixelInputText}
                       />
@@ -191,7 +193,7 @@ const SingleDocument = (props: SingleFolderType) => {
                           name: 'folderAction',
                         }}
                         options={[{
-                          label: 'Add to existing folder',
+                          label: translateTo('Add to existing folder', lang),
                           value: 'addToFolder',
                           index: 1,
                         }]}
@@ -226,7 +228,7 @@ const SingleDocument = (props: SingleFolderType) => {
                         name: 'folderAction',
                       }}
                       options={[{
-                        label: 'Remove from folder',
+                        label: translateTo('Remove from folder', lang),
                         value: '',
                         index: 2,
                       }]}
