@@ -471,7 +471,7 @@ const Contact = (props: ContactType) => {
                                 onClick={() => changeStep('back')}
                                 theme="text"
                                 themeSat={300}
-                                secondary
+                                ghost
                               />
                             )
                           }

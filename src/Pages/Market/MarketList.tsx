@@ -302,7 +302,7 @@ const MarketList = (props: MarketListType) => {
             <div className="mb-3 dis-fl-col">
               <div className="dis-fl-col pos-r">
                 <BrixelButtonIcon
-                  secondary
+                  ghost
                   small
                   theme="text"
                   themeSat={300}

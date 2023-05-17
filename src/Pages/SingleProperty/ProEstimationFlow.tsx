@@ -267,7 +267,7 @@ const ProEstimationFlow = (props: ProEstimationFlowType) => {
                         !isSmallLoading.saveData && !savedBtn && (
                           <>
                             <BrixelButtonIcon
-                              secondary
+                              ghost
                               className="hide-sm mr-2"
                               theme="red"
                               icon="close-small"

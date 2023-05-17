@@ -512,7 +512,7 @@ const FlowScreen = (props: FlowScreenType) => {
                             onClick={() => changeStep('back')}
                             theme="text"
                             themeSat={300}
-                            secondary
+                            ghost
                           />
                         )
                       }

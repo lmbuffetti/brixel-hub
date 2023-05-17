@@ -329,7 +329,7 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
                             }
                             <BrixelButtonIcon
                               icon="edit-setting"
-                              secondary
+                              ghost
                               className="bgWhite"
                               onClick={() => history.push(`/buy/searchProfile/list/edit/${activeSearchProfile.id}`, {state: { url: `/buy/searchProfile/${cat}/${page}` }})}
                             />

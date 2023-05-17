@@ -29,9 +29,9 @@ const IntroScanFlow = (props: IntroScanFlowType) => {
     arrows: true,
     slidesToScroll: 1,
     nextArrow: <BrixelButtonIcon theme="text"
-      themeSat={300} secondary bgTransparent icon="arrow-simple-right" />,
+      themeSat={300} ghost bgTransparent icon="arrow-simple-right" />,
     prevArrow: <BrixelButtonIcon theme="text"
-      themeSat={300} secondary bgTransparent icon="arrow-simple-left" />,
+      themeSat={300} ghost bgTransparent icon="arrow-simple-left" />,
     responsive: [
       {
         breakpoint: 600,

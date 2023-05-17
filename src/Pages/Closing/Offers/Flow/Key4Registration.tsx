@@ -108,7 +108,7 @@ const Key4Registration = (props: Key4RegistrationType) => {
                   onClick={() => onCloseGoBack()}
                   theme="text"
                   themeSat={300}
-                  secondary
+                  ghost
                 />
 
                 <BrixelButtonPrimary
