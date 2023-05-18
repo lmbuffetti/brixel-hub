@@ -83,6 +83,11 @@ class Property extends Base {
     const url = ep.user.scanTrial();
     return this.apiClient.post(url, {}, data);
   }
+
+  getUserProfile(id) {
+    const url = ep.user.userByIdProfile(id);
+    return this.apiClient.get(url, {});
+  }
 }
 
 export default Property;

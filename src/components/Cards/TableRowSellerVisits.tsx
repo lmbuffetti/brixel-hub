@@ -27,7 +27,7 @@ const TableRowSellerVisits = (props: TableRowSellerVisitsType) => {
 
   useEffect(() => {
     if (visit.user) {
-      api.user.getUser(visit.user)
+      api.user.getUserProfile(visit.user)
         .then((res) => {
           setUser(res.data);
         });

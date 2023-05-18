@@ -106,6 +106,7 @@ export default {
     removeWishlist: (id) => `/user/wishlist/page/${id}/remove`,
     scanTrial: () => '/user/scanTrial',
     userById: (userId) => `/user/${userId}`,
+    userByIdProfile: (userId) => `/user/${userId}/profile`,
     userByToken: () => '/user/',
     validateToken: () => '/authentication/validateToken',
     validateUser: (email) => `/user/validate/${email}`,
