@@ -399,7 +399,7 @@ const Deals = (props: DealsType) => {
                                           parentOnClick={() => openDeal(singleDeal.id)}
                                           profileId={get(singleDeal, 'user.id', '')}
                                           stage={singleDeal.stage}
-                                          visit={singleDeal.visit}
+                                          visit={singleDeal?.visit?.date}
                                         />
                                       </div>
                                     </React.Fragment>

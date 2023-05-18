@@ -129,7 +129,6 @@ const DealsCard = (props: DealsCardProps) => {
             }
             {
               stage === 'Visit' && (
-                // eslint-disable-next-line no-nested-ternary
                 visit === null || visit === 0 ? (
                   <div className="dis-fl-row a-c">
                     <BrixelIcon
