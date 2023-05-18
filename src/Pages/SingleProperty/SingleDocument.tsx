@@ -59,12 +59,12 @@ const SingleDocument = (props: SingleDocumentType) => {
     if (has(activeSingleProperty, 'location.countryCode')) {
       const docsConfig = documentConfig.mandatoryDocuments[get(activeSingleProperty, 'location.countryCode', '')][get(activeSingleProperty, 'properties.propertyType')];
       const docsOptions = [{
-        label: 'Generic',
+        label: translateTo('Generic', lang),
         value: 'Generic',
       }];
       docsConfig.forEach((doc) => {
         docsOptions.push({
-          label: doc,
+          label: translateTo(doc, lang),
           value: doc,
         });
       });
