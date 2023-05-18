@@ -140,6 +140,7 @@ const TableRowSellerVisits = (props: TableRowSellerVisitsType) => {
       <p className={`${classWidthTable(4)} ta-r ta-l-md order-5`}>
         <BrixelButtonText
           label={translateTo('View details', lang)}
+          onClick={() => history.push(`/${activeSingleProperty.id}/prospect/${visit.deal}`)}
         />
       </p>
     </div>
