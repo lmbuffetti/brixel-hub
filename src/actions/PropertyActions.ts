@@ -25,6 +25,8 @@ import {
   SAVE_SCHEDULE_VISIT,
   GET_SCHEDULE_VISIT,
   SET_SCHEDULE_VISIT,
+  GET_ACTIVE_SINGLE_PROPERTY_VISITS,
+  SET_ACTIVE_SINGLE_PROPERTY_VISITS,
 } from './types/PropertyTypes';
 
 export const {
@@ -55,6 +57,8 @@ export const {
   saveScheduleVisit,
   getScheduleVisit,
   setScheduleVisit,
+  getActiveSinglePropertyVisits,
+  setActiveSinglePropertyVisits,
 } = createActions({
   [CREATE_ACTIVE_SINGLE_PROPERTY]: (payload) => payload,
   [GET_ACTIVE_MARKET_OVERLAY_PROPERTY]: (payload) => payload,
@@ -83,4 +87,6 @@ export const {
   [SAVE_SCHEDULE_VISIT]: (payload) => payload,
   [GET_SCHEDULE_VISIT]: (payload) => payload,
   [SET_SCHEDULE_VISIT]: (payload) => payload,
+  [GET_ACTIVE_SINGLE_PROPERTY_VISITS]: (payload) => payload,
+  [SET_ACTIVE_SINGLE_PROPERTY_VISITS]: (payload) => payload,
 });

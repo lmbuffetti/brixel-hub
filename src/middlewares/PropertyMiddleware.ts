@@ -37,6 +37,8 @@ import {
   UPDATE_PORTALS_REVIEW,
   UPDATE_PUBLISHED_REVIEW,
   SAVE_SCHEDULE_VISIT,
+  GET_ACTIVE_SINGLE_PROPERTY_VISITS,
+  SET_ACTIVE_SINGLE_PROPERTY_VISITS,
 } from '../actions/types/PropertyTypes';
 import {SAVE_ACTIVE_SINGLE_USER} from '../actions/types/UserTypes';
 
@@ -818,6 +820,42 @@ const checkCommon = (store) => (next) => (action) => {
           store.dispatch({
             type: SET_SCHEDULE_VISIT,
             payload: [res.data],
+          });
+          if (smallLoader) {
+            store.dispatch({
+              type: SPINNER_SMALL,
+              payload: {
+                [smallLoader]: 'saved',
+              },
+            });
+          } else {
+            store.dispatch({
+              type: SPINNER_OFF,
+            });
+          }
+        })
+      break;
+    }
+    // GET VISITS BY PAGE
+    case GET_ACTIVE_SINGLE_PROPERTY_VISITS: {
+      const { id, smallLoader } = action.payload;
+      if (smallLoader) {
+        store.dispatch({
+          type: SPINNER_SMALL,
+          payload: {
+            [smallLoader]: true,
+          },
+        });
+      } else {
+        store.dispatch({
+          type: SPINNER_ON,
+        });
+      }
+      api.property.getPropertyVisits(id)
+        .then((res) => {
+          store.dispatch({
+            type: SET_ACTIVE_SINGLE_PROPERTY_VISITS,
+            payload: res.data,
           });
           if (smallLoader) {
             store.dispatch({

@@ -10,6 +10,7 @@ import {
   SET_PACKAGES_PROPERTY,
   SET_PAGE_DEALS,
   SET_SCHEDULE_VISIT,
+  SET_ACTIVE_SINGLE_PROPERTY_VISITS,
 } from '../actions/types/PropertyTypes';
 
 import {SET_PROPERTY_HISTORY_LISTINGS, SET_PROPERTY_OWNER_HISTORY_LISTINGS} from '../actions/types/HistoryTypes';
@@ -18,6 +19,7 @@ export const defaultState = {
   activeMarketOverlayProperty: {},
   activeMarketOverlayPropertyLists: null,
   activeScheduleVisit: {},
+  activeSinglePropertyVisits: [],
   activeSingleProperty: {},
   activeSinglePropertyActivePackage: {},
   activeSinglePropertyDeals: null,
@@ -79,6 +81,10 @@ export default handleActions<any>(
     [SET_SCHEDULE_VISIT]: (state, action) => ({
       ...state,
       activeScheduleVisit: action.payload,
+    }),
+    [SET_ACTIVE_SINGLE_PROPERTY_VISITS]: (state, action) => ({
+      ...state,
+      activeSinglePropertyVisits: action.payload,
     }),
   },
   defaultState,

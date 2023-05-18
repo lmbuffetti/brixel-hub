@@ -77,6 +77,7 @@ export default {
     scanTrial: (id) => `/page/${id}/scanTrial`,
     scheduleVisit: () => '/scheduleVisitRequest',
     scheduleVisitId: (id) => `/scheduleVisitRequest/${id}`,
+    visitsList: (id, order, direction, quantity, offset) => `/page/${id}/visits/${quantity}/${offset}?order=${order}&direction=${direction}`,
   },
   searchProfile: {
     searchProfileByUserID: (id) => `/user/${id}/searchProfile`,
