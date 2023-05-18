@@ -808,7 +808,7 @@ const DashboardHome = (props: DashboardHomeType) => {
                       )
                     }
                     {
-                      activeSinglePropertyVisits && activeSinglePropertyVisits?.data.map((visit, i) => (
+                      activeSinglePropertyVisits && activeSinglePropertyVisits?.data?.map((visit, i) => (
                         <TableRowSellerVisits
                           key={`vst_${i.toString()}`}
                           lang={lang}
