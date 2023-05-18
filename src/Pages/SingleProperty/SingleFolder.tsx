@@ -108,7 +108,7 @@ const SingleDocument = (props: SingleFolderType) => {
       docs: docList,
       body: {
         name: formValue.name,
-        isPrivate: formValue.isPrivate,
+        isPrivate: formValue.isPrivate === 1 ? true : false,
         folder: formValue.folder,
         path: activeDocument.path,
         type: formValue.type,

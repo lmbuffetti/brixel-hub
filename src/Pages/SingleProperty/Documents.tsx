@@ -614,7 +614,6 @@ const Documents = (props: DocumentsPageType) => {
                               )
                             }
                             <ReactSortable
-                              disabled={isBuyer}
                               handle=".folderHandle"
                               group="folder"
                               tag="div"
@@ -625,7 +624,6 @@ const Documents = (props: DocumentsPageType) => {
                               {
                                 !isBuyer && filterDocsByFodler(processedDocuments, 'NoFolder').length === 0 ? (
                                   <ReactSortable
-                                    disabled={isBuyer}
                                     handle=".docsHandle"
                                     delay={2}
                                     group="groupName"
@@ -647,7 +645,6 @@ const Documents = (props: DocumentsPageType) => {
                                       ref={documentRef}
                                     >
                                       <ReactSortable
-                                        disabled={isBuyer}
                                         key={`prcDcc_${i.toString()}`}
                                         handle=".docsHandle"
                                         delayOnTouchStart={true}
@@ -809,7 +806,6 @@ const Documents = (props: DocumentsPageType) => {
                                                   className={`dis-fl-row a-c p-1 ${(index(i) !== -1 || isMovingFolder) ? '' : ''}`}
                                                   onClick={(e) => onExpandFolder(e, i)}
                                                 >
-                                                  <img width={18} className='cur-grab docsHandle' src={dragIcon} />
                                                   <BrixelIcon
                                                     icon="folder"
                                                     color="green"
@@ -817,7 +813,6 @@ const Documents = (props: DocumentsPageType) => {
                                                     saturation={100}
                                                     background="green"
                                                     className="mx-1"
-                                                    isLoading={isSmallLoading.deleteMedia}
                                                   />
                                                   <h6 className='fweight-600'>{docList[0].folder}</h6>
                                                 </div>
@@ -840,7 +835,6 @@ const Documents = (props: DocumentsPageType) => {
                                               </div>
 
                                               <ReactSortable
-                                                disabled={isBuyer}
                                                 handle=".docsHandle"
                                                 delayOnTouchStart={true}
                                                 delay={2}
@@ -942,7 +936,6 @@ const Documents = (props: DocumentsPageType) => {
                                         !isBuyer && (
                                           <div className="shadow-1dp dis-fl-col p-1 mb-2 brdRadius">
                                             <ReactSortable
-                                              disabled={isBuyer}
                                               handle=".docsHandle"
                                               delay={2}
                                               group="groupName"
