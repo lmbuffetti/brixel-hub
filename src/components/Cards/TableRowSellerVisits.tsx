@@ -47,35 +47,35 @@ const TableRowSellerVisits = (props: TableRowSellerVisitsType) => {
       case 'accepted':
         return {
           text: 'Confirmed',
-          txtColor: 'txtGreen400',
+          txtColor: 'txtGreen600',
           bg: 'bgGreen100',
           status: 'accepted',
         }
       case 'pending':
         return {
           text: 'Pending',
-          txtColor: 'txtYellow400',
+          txtColor: 'txtYellow600',
           bg: 'bgGreen100',
           status: 'pending',
         }
       case 'rejected':
         return {
           text: 'Cancelled',
-          txtColor: 'txtRed400',
+          txtColor: 'txtRed600',
           bg: 'bgRed100',
           status: 'rejected',
         }
       case 'visited':
         return {
           text: 'Visited',
-          txtColor: 'txtBlue400',
+          txtColor: 'txtBlue600',
           bg: 'bgBlue100',
           status: 'visited',
         }
       default:
         return {
           text: '',
-          txtColor: 'txtText400',
+          txtColor: 'txtText600',
           bg: '',
           status: '',
         }
