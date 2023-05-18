@@ -37,7 +37,8 @@ const TableRowSellerVisits = (props: TableRowSellerVisitsType) => {
   const statusVisit = () => {
     let status = 'pending';
     if (visit.buyerStatus === 'accepted' && visit.sellerStatus === 'accepted') {
-      status = 'accepted';
+      if (visit.visit.date < +new Date().setHours(0, 0, 0, 0)) {status = 'visited';}
+      else status = 'accepted';
     }
     if (visit.buyerStatus === 'rejected' || visit.sellerStatus === 'rejected') {
       status = 'rejected';
@@ -63,6 +64,13 @@ const TableRowSellerVisits = (props: TableRowSellerVisitsType) => {
           txtColor: 'txtRed400',
           bg: 'bgRed100',
           status: 'rejected',
+        }
+      case 'visited':
+        return {
+          text: 'Visited',
+          txtColor: 'txtBlue400',
+          bg: 'bgBlue100',
+          status: 'visited',
         }
       default:
         return {
