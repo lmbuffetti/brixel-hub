@@ -33,6 +33,7 @@ const SingleDocument = (props: SingleFolderType) => {
   const match = useParams();
   const {
     activeSingleProperty,
+    changeFieldValue,
     formValue,
     handleUpdateDocument,
     initialValues,
@@ -100,9 +101,11 @@ const SingleDocument = (props: SingleFolderType) => {
   // UPDATE DOCUMENTS
   const updateDoc = (e) => {
     e.preventDefault();
+    const docList = activeSingleProperty.documents;
     const data = {
       pageID: activeSingleProperty.id,
       id: activeDocument.id,
+      docs: docList,
       body: {
         name: formValue.name,
         isPrivate: formValue.isPrivate,
@@ -222,7 +225,10 @@ const SingleDocument = (props: SingleFolderType) => {
                       className="mt-2"
                       disableDelay
                       input={{
-                        onChange: (val) => setFolderAction(val),
+                        onChange: (val) => {
+                          changeFieldValue('folder', 'NoFolder');
+                          setFolderAction(val)
+                        },
                         value: folderAction,
                         name: 'folderAction',
                       }}

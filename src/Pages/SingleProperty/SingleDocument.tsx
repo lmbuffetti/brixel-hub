@@ -91,9 +91,11 @@ const SingleDocument = (props: SingleDocumentType) => {
   // UPDATE DOCUMENTS
   const updateDoc = (e) => {
     e.preventDefault();
+    const docList = activeSingleProperty.documents;
     const data = {
       pageID: activeSingleProperty.id,
       id: activeDocument.id,
+      docs: docList,
       body: {
         name: formValue.name,
         isPrivate: formValue.isPrivate === 1 ? true : false,

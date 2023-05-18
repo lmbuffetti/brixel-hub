@@ -87,7 +87,7 @@ const Documents = (props: DocumentsPageType) => {
     if (docs.length > 0) {
       const newDoc = new Map();
       docs.forEach((doc) => {
-        const folderName = doc.folder || '';
+        const folderName = doc.folder || 'NoFolder';
         if (newDoc.get(folderName)) {
           const activeDoc = newDoc.get(folderName);
           activeDoc.push(doc);
@@ -868,7 +868,8 @@ const Documents = (props: DocumentsPageType) => {
                                                         }
                                                         <div className="dis-fl-col docDetails cur-poi" onClick={(e) => openDocument(e, doc.id)}>
                                                           <span className="document-title max-w-fix-168 max-w-perc-lg-100 fweight-500 dont-break-out">{doc.name}</span>
-                                                          <span className="body2 txtGreen400 dont-break-out">{doc.type}</span>
+                                                          <span className="body2 txtGreen400 dont-break-out">
+                                                            {translateTo(doc.type || '', lang)}</span>
                                                           {
                                                             doc?.createdAt ? (
                                                               <span className="date fsize-200 txtLight400 pt-small-4">
