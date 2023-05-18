@@ -19,7 +19,7 @@ export const defaultState = {
   activeMarketOverlayProperty: {},
   activeMarketOverlayPropertyLists: null,
   activeScheduleVisit: {},
-  activeSinglePropertyVisits: [],
+  activeSinglePropertyVisits: {},
   activeSingleProperty: {},
   activeSinglePropertyActivePackage: {},
   activeSinglePropertyDeals: null,

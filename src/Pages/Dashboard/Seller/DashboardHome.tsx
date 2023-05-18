@@ -797,7 +797,7 @@ const DashboardHome = (props: DashboardHomeType) => {
                       </div>
                     </div>
                     {
-                      visitLists.length === 0 && (
+                      visitLists.length === 0 && get(activeSinglePropertyVisits, 'data', []).length === 0 && (
                         <div
                           className="dis-f jc-b a-c w-perc-100 brdSmallTop py-4 brdText50 px-2 flex-wrap"
                         >
@@ -979,7 +979,7 @@ const DashboardHome = (props: DashboardHomeType) => {
 };
 
 const mapStateToProps = (state) => ({
-  activeSinglePropertyVisits: get(state, 'property.activeSinglePropertyVisits', []),
+  activeSinglePropertyVisits: get(state, 'property.activeSinglePropertyVisits', {}),
   activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   activeSinglePropertyDeals: get(state, 'property.activeSinglePropertyDeals', []),
