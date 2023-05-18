@@ -68,7 +68,7 @@ class Deal extends Base {
     return this.apiClient.post(url, {}, data);
   }
 
-  getScheduleVisit(id, order, direction) {
+  getScheduleVisit(id, order = 'createdAt', direction = 'DESC') {
     const url = ep.deal.scheduleVisit(id, order, direction);
     return this.apiClient.get(url);
   }

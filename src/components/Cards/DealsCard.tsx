@@ -1,61 +1,73 @@
-import React, {useEffect, useState} from 'react';
+import { BrixelAvatar, BrixelButtonIcon, BrixelIcon, BrixelStatus, Helpers } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import has from 'lodash/has';
-import {BrixelAvatar, BrixelButtonIcon, BrixelIcon, BrixelStatus, Helpers} from '@brixel/brixel-components';
-import translateTo from '../../utils/translation';
-import {useParams} from 'react-router-dom';
-import {DateTime} from 'luxon';
-import TimelineActionStubs from '../../resources/Utilities/timelineActionStubs';
+import { DateTime } from 'luxon';
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { compose } from 'redux';
 import api from '../../controllers/api/config';
-import type {DealsCardProps} from '../../@types/components/Cards/DealsCard';
-import {HistoryType} from '@brixel/brixel-components/dist/@types/Model';
+import timelineActionStubs from '../../resources/Utilities/timelineActionStubs';
+import translateTo from '../../utils/translation';
+
+import type { DealsCardProps } from '../../@types/components/Cards/DealsCard';
+import { HistoryType, ScheduleVisitRequestType } from '@brixel/brixel-components/dist/@types/Model';
 
 const DealsCard = (props: DealsCardProps) => {
   const match = useParams();
   const {
-    archOnClick= () => '',
-    archived= false,
-    className= '',
-    date= '',
-    feedback= {},
-    isNew= false,
-    isWinner= false,
-    lang= 'en',
-    name= '',
-    offer= {},
-    parentOnClick= () => '',
-    profileId= '',
-    avatarUrl = '',
-    stage= '',
-    visit= 0,
+    archOnClick = () => '',
+    archived,
+    avatarImg,
+    className,
+    date,
+    feedback,
+    id,
+    isNew,
+    isWinner,
+    lang,
+    name,
+    offer,
+    parentOnClick = () => '',
+    profileId,
+    stage,
   } = props;
 
-  const [lastAction, setLastAction] = useState<HistoryType>({})
+  const [lastAction, setLastAction] = useState<HistoryType>({});
+  const [visitData, setVisitData] = useState<ScheduleVisitRequestType['visit']>();
 
   const propID = get(match, 'propID', null);
 
   const returnMessage = () => {
-    if (Object.keys(lastAction).length > 0) {
-      if (lastAction.actionStub === 'default') return translateTo('Default', lang);
-      if (lastAction.actionStub === 'user-add-favorite') return translateTo('Marked page as favorite', lang);
-      if (lastAction.actionStub === 'user-schedule') return translateTo('Requested showing', lang);
-      if (lastAction.actionStub === 'user-get-document') return translateTo('Requested documents', lang);
-      if (lastAction.actionStub === 'user-phone-call') return translateTo('Made a phone call', lang);
-      if (lastAction.actionStub === 'user-portal-create-deal') return translateTo('Interacted through portal', lang);
-      if (lastAction.actionStub === 'user-portal') return translateTo('Interacted through portal', lang);
-      if (lastAction.actionStub === 'user-message') return translateTo('Sent a message', lang);
-      if (lastAction.actionStub === 'user-portal-create-message') return `<span><span>${translateTo('Sent new message on', lang)}</span> <span>${get(lastAction, 'meta.portal', '')}</span></span>`;
-      if (lastAction.actionStub === 'user-send-message') {
-        return translateTo(`"${get(lastAction, 'meta.message', '')}"`, lang);
+    if (lastAction && Object.keys(lastAction).length > 0) {
+      if (get(lastAction, 'actionStub') === 'default') return translateTo('Default', lang);
+      if (get(lastAction, 'actionStub') === 'user-add-favorite') return translateTo('Marked page as favorite', lang);
+      if (get(lastAction, 'actionStub') === 'user-schedule') return translateTo('Requested showing', lang);
+      if (get(lastAction, 'actionStub') === 'user-get-document') return translateTo('Requested documents', lang);
+      if (get(lastAction, 'actionStub') === 'user-phone-call') return translateTo('Made a phone call', lang);
+      if (get(lastAction, 'actionStub') === 'user-portal-create-deal') return translateTo('Interacted through portal', lang);
+      if (get(lastAction, 'actionStub') === 'user-portal') return translateTo('Interacted through portal', lang);
+      if (get(lastAction, 'actionStub') === 'user-message') return translateTo('Sent a message', lang);
+      if (get(lastAction, 'actionStub') === 'user-portal-create-message') return `<span><span>${translateTo('Sent new message on', lang)}</span> <span>${get(lastAction, 'meta.portal')}</span></span>`;
+      if (get(lastAction, 'actionStub') === 'user-send-message') {
+        return `"${get(lastAction, 'meta.message')}"`;
       }
-    } else if (!offer) return translateTo('Made an offer', lang);
+    } else if (offer === '') return translateTo('Made an offer', lang);
     return '';
   };
 
   useEffect(() => {
-    if (stage === 'Interested') {
+    if (id && stage === 'Visit') {
+      api.deal.getScheduleVisit(id).then((res) => {
+        setVisitData(res?.data[0]?.visit || {});
+      })
+    }
+  }, [id]);
+
+  useEffect(() => {
+    if (stage === 'Interested' && propID) {
       const queryParams = `?parent=${profileId}&child=${propID}&order=DESC&direction=createdAt&historyType=user`;
-      api.history.getHistoryList(1, 0, queryParams, TimelineActionStubs.DealLastAction)
+      api.history.getHistoryList(1, 0, queryParams, timelineActionStubs.DealLastAction)
         .then((res) => {
           setLastAction(get(res, 'data.data.[0]', {}));
         });
@@ -63,41 +75,42 @@ const DealsCard = (props: DealsCardProps) => {
   }, [profileId]);
 
   const getIcon = () => {
-    if (visit < +new Date().setHours(0, 0, 0, 0)) return 'calendar-check';
+    if (visitData && visitData.date < +new Date().setHours(0, 0, 0, 0)) return 'calendar-check';
     return 'calendar';
   };
 
   const getColor = () => {
-    if (visit < +new Date().setHours(0, 0, 0, 0)) return 'text';
+    if (visitData && visitData.date < +new Date().setHours(0, 0, 0, 0)) return 'text';
     return 'green';
   };
 
   const getSaturation = () => {
-    if (visit < +new Date().setHours(0, 0, 0, 0)) return 700;
+    if (visitData && visitData.date < +new Date().setHours(0, 0, 0, 0)) return 700;
     return 400;
   };
 
   const getTextColor = () => {
-    if (visit < +new Date().setHours(0, 0, 0, 0)) return 'Text900';
+    if (visitData && visitData.date < +new Date().setHours(0, 0, 0, 0)) return 'Text900';
     return 'Green400';
   };
 
   const getVisit = () => {
-    if (visit < +new Date().setHours(0, 0, 0, 0)) return translateTo('Visited', lang);
-    return DateTime.fromMillis(visit, { locale: lang }).toFormat('d LLL yyyy, H:mm');
+    if (visitData && visitData.date < +new Date().setHours(0, 0, 0, 0)) return translateTo('Visited', lang);
+    if (visitData) return DateTime.fromMillis(visitData.date, { locale: lang }).toFormat('d LLL yyyy, H:mm');
+    return 'No dates';
   };
 
   const getOfferColor = () => {
-    if (get(offer, 'offer.status', null) === 'pending') return 'Yellow';
-    if (get(offer, 'offer.status', null) === 'accepted') return 'Green';
-    if (get(offer, 'offer.status', null) === 'rejected') return 'Red';
-    return 'Text';
+    if (get(offer, 'offer.status') === 'pending') return 'Yellow';
+    if (get(offer, 'offer.status') === 'accepted') return 'Green';
+    if (get(offer, 'offer.status') === 'rejected') return 'Red';
+    return 'Dark';
   };
 
   const getFeedback = () => {
-    if (get(feedback, 'isInterested', null) === true) return translateTo('Still interested 👍', lang);
-    if (get(feedback, 'isInterested', null) === false) return translateTo('Not interested anymore 👎', lang);
-    return 'Visited';
+    if (get(feedback, 'isInterested') === true) return translateTo('Still interested 👍', lang);
+    if (get(feedback, 'isInterested') === false) return translateTo('Not interested anymore 👎', lang);
+    return translateTo('Visited', lang);
   };
 
   return (
@@ -108,7 +121,7 @@ const DealsCard = (props: DealsCardProps) => {
       >
         <div className="leftPanel pr-2">
           <BrixelAvatar
-            avatarImg={avatarUrl}
+            avatarImg={avatarImg}
             name={name}
             profileId={profileId}
             className="notranslate"
@@ -120,16 +133,16 @@ const DealsCard = (props: DealsCardProps) => {
             {
               stage === 'Interested' && (
                 <span
-                  className="metaMessage fsize-300 txtText900 dis-b"
+                  className={`metaMessage fsize-300 txtText900 dis-b ${!lastAction ? 'isLoadingDiv' : ''}`}
                   dangerouslySetInnerHTML={{
-                    __html: returnMessage(),
+                    __html: Helpers.sanitizeText(returnMessage()),
                   }}
                 />
               )
             }
             {
               stage === 'Visit' && (
-                visit === null || visit === 0 ? (
+                !visitData?.date ? (
                   <div className="dis-fl-row a-c">
                     <BrixelIcon
                       icon="calendar-add"
@@ -170,7 +183,7 @@ const DealsCard = (props: DealsCardProps) => {
                           className="mr-1"
                           iconWidth="w-fix-16"
                         />
-                        <span className={`txt${getOfferColor()}400 fsize-300`}>{get(offer, 'offer.currency', '')} {Helpers.formatNumberValue(get(offer, 'offer.amount', 0), get(offer, 'offer.currency', 'EUR'))}</span>
+                        <span className={`txt${getOfferColor()}400 fsize-300`}>{get(offer, 'offer.currency', '')} {Helpers.formatNumberValue(get(offer, 'offer.amount', 0), get(offer, 'offer.currency', ''))}</span>
                       </>
                     ) : (
                       <>
@@ -209,7 +222,7 @@ const DealsCard = (props: DealsCardProps) => {
             }
             {
               isWinner && (
-                <span className="cardTag green ml-1">{translateTo('Winner', lang)}</span>
+                <span className="cardTag green ml-1"> {translateTo('Winner', lang)} </span>
               )
             }
           </div>
@@ -217,16 +230,21 @@ const DealsCard = (props: DealsCardProps) => {
       </div>
       <BrixelButtonIcon
         theme="text"
-        bgTransparent
+        ghost
         icon="archive"
-        className="archiveBtn pos-a bt x-r mr-1 mb-4"
+        className="archiveBtn pos-a bt x-r mr-1 mb-1"
         onClick={(e) => {
           e.preventDefault();
           archOnClick();
         }}
+        label={archived ? translateTo('Unarchive', lang) : translateTo('Archive', lang)}
       />
     </>
   );
 };
 
-export default DealsCard;
+const mapStateToProps = (state) => ({
+  lang: get(state, 'common.language', 'en'),
+});
+
+export default compose(connect(mapStateToProps, null))(DealsCard);

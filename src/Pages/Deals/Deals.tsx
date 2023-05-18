@@ -343,7 +343,8 @@ const Deals = (props: DealsType) => {
                                           className="list-item pos-r"
                                         >
                                           <DealsCard
-                                            avatarUrl={singleDeal.user.avatarUrl}
+                                            id={singleDeal.id}
+                                            avatarImg={singleDeal.user.avatarUrl}
                                             archOnClick={() => archiveDeal(singleDeal.id, singleDeal.stage, key)}
                                             archived={!singleDeal.active}
                                             className={`${!singleDeal.active ? 'bgText25' : 'bgWhite'} dealCard`}
@@ -351,13 +352,11 @@ const Deals = (props: DealsType) => {
                                             feedback={get(singleDeal, 'visitFeedback')}
                                             isNew={get(singleDeal, 'newSeller')}
                                             isWinner={get(singleDeal, 'winner')}
-                                            lang={lang}
                                             name={Helpers.userNameVal(singleDeal.user.firstName, singleDeal.user.lastName, singleDeal.user.name) === 'No Name' ? get(singleDeal.user, 'email', '') : Helpers.userNameVal(singleDeal.user.firstName, singleDeal.user.lastName, singleDeal.user.name)}
                                             offer={has(singleDeal, 'closing.stageOffer') ? singleDeal.closing.stageOffer : {}}
                                             parentOnClick={() => openDeal(singleDeal.id)}
                                             profileId={get(singleDeal, 'user.id', '')}
                                             stage={singleDeal.stage}
-                                            visit={singleDeal.visit}
                                           />
                                         </div>
                                       </div>
@@ -385,7 +384,8 @@ const Deals = (props: DealsType) => {
                                         className="list-item pos-r archived"
                                       >
                                         <DealsCard
-                                          avatarUrl={singleDeal.user.avatarUrl}
+                                          id={singleDeal.id}
+                                          avatarImg={singleDeal.user.avatarUrl}
                                           archOnClick={() => archiveDeal(singleDeal.id, singleDeal.stage, key)}
                                           archived={!singleDeal.active}
                                           className={`${!singleDeal.active ? 'bgText25' : 'bgWhite'} dealCard`}
@@ -393,13 +393,11 @@ const Deals = (props: DealsType) => {
                                           feedback={get(singleDeal, 'visitFeedback')}
                                           isNew={get(singleDeal, 'newSeller')}
                                           isWinner={get(singleDeal, 'winner')}
-                                          lang={lang}
                                           name={Helpers.userNameVal(singleDeal.user.firstName, singleDeal.user.lastName, singleDeal.user.name) === 'No Name' ? get(singleDeal.user, 'email', '') : Helpers.userNameVal(singleDeal.user.firstName, singleDeal.user.lastName, singleDeal.user.name)}
                                           offer={has(singleDeal, 'closing.stageOffer') ? singleDeal.closing.stageOffer : {}}
                                           parentOnClick={() => openDeal(singleDeal.id)}
                                           profileId={get(singleDeal, 'user.id', '')}
                                           stage={singleDeal.stage}
-                                          visit={singleDeal?.visit?.date}
                                         />
                                       </div>
                                     </React.Fragment>

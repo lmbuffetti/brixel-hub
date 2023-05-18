@@ -1,23 +1,17 @@
 export interface DealsCardProps {
   archOnClick?: () => void;
   archived?: boolean;
+  avatarImg?: string;
   className?: string;
   date?: string;
-  feedback?: {
-    isInterested: boolean;
-  };
+  id?: string;
   isNew?: boolean;
   isWinner?: boolean;
-  lang?: string;
+  feedback?: object;
   name?: string;
-  offer?: {
-    offer: {
-      status: string;
-    }
-  };
+  offer?: string;
   parentOnClick?: () => void;
   profileId?: string;
-  avatarUrl?: string;
   stage?: string;
-  visit?: number;
+  lang: string;
 }
