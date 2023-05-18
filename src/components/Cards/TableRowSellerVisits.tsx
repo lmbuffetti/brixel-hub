@@ -35,30 +35,41 @@ const TableRowSellerVisits = (props: TableRowSellerVisitsType) => {
   }, [visit.user]);
 
   const statusVisit = () => {
-    switch (visit.buyerStatus) {
+    let status = 'pending';
+    if (visit.buyerStatus === 'accepted' && visit.sellerStatus === 'accepted') {
+      status = 'accepted';
+    }
+    if (visit.buyerStatus === 'rejected' || visit.sellerStatus === 'rejected') {
+      status = 'rejected';
+    }
+    switch (status) {
       case 'accepted':
         return {
           text: 'Confirmed',
           txtColor: 'txtGreen400',
           bg: 'bgGreen100',
+          status: 'accepted',
         }
       case 'pending':
         return {
           text: 'Pending',
           txtColor: 'txtYellow400',
           bg: 'bgGreen100',
+          status: 'pending',
         }
       case 'rejected':
         return {
           text: 'Cancelled',
           txtColor: 'txtRed400',
           bg: 'bgRed100',
+          status: 'rejected',
         }
       default:
         return {
           text: '',
           txtColor: 'txtText400',
           bg: '',
+          status: '',
         }
     }
   }
@@ -120,9 +131,9 @@ const TableRowSellerVisits = (props: TableRowSellerVisitsType) => {
           lang={lang}
           message={{
             lang: lang,
-            [visit.buyerStatus]: statusVisit().text,
+            [statusVisit().status]: statusVisit().text,
           }}
-          status={visit.buyerStatus}
+          status={statusVisit().status}
           text={statusVisit().text}
         />
       </p>
