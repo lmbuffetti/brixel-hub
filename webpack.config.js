@@ -13,10 +13,8 @@ const CopyPlugin = require('copy-webpack-plugin');
 const { PurgeCSSPlugin } = require('purgecss-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const safelistClass = require('./webapckSafelistClass');
-const CompressionPlugin = require("compression-webpack-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 // const TerserPlugin = require('terser-webpack-plugin');
-const zlib = require("zlib");
 const { GenerateSW } = require('workbox-webpack-plugin');
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
@@ -297,23 +295,6 @@ const clientConfig = (env) => {
           `${PATHS.dist}/**/*`,
         ], { nodir: true }),
         safelist: safelistClass,
-      }),
-      new CompressionPlugin({
-        filename: "[path][base].gz",
-        algorithm: "gzip",
-        threshold: 10240,
-        minRatio: 0.8,
-      }),
-      new CompressionPlugin({
-        filename: "[path][base].br",
-        algorithm: "brotliCompress",
-        compressionOptions: {
-          params: {
-            [zlib.constants.BROTLI_PARAM_QUALITY]: 11,
-          },
-        },
-        threshold: 10240,
-        minRatio: 0.8,
       }),
       new GenerateSW({
         swDest: 'service-worker-brixel.js',
