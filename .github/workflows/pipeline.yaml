@@ -11,8 +11,8 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18.15.0
-      - run: npm run install-styleguide
-      - run: npm run build-prod
+      - run: yarn install
+      - run: yarn build-prod
       - uses: actions/upload-artifact@v3
         with:
           name: dist
