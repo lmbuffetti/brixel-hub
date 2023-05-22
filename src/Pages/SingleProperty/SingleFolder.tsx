@@ -25,7 +25,7 @@ import translateTo from '../../utils/translation';
 import type {SingleFolderType} from '../../@types/Pages/SingleProperty/SingleFolder';
 import {DocumentType} from '@brixel/brixel-components/dist/@types/Model';
 
-const SingleDocument = (props: SingleFolderType) => {
+const SingleFolder = (props: SingleFolderType) => {
   const history = {
     push: useNavigate(),
     location: useLocation(),
@@ -108,7 +108,7 @@ const SingleDocument = (props: SingleFolderType) => {
       docs: docList,
       body: {
         name: formValue.name,
-        isPrivate: formValue.isPrivate === 1 ? true : false,
+        isPrivate: (formValue.isPrivate === 1 || formValue.isPrivate === true) ? true : false,
         folder: formValue.folder,
         path: activeDocument.path,
         type: formValue.type,
@@ -294,4 +294,4 @@ const mapDispatchToProps = (dispatch) => ({
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-)(SingleDocument);
+)(SingleFolder);
