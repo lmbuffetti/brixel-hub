@@ -883,14 +883,19 @@ const Documents = (props: DocumentsPageType) => {
                                                       </div>
 
                                                       <div className="pos-r dis-fl-row a-c">
-
-                                                        <BrixelTooltip
-                                                          className="mr-1"
-                                                          description={`${translateTo('This document is set to', lang)} ${translateTo(`${doc.isPrivate === true ? 'private' : 'public'}`, lang)}. ${translateTo('Edit to change.', lang)}`}
-                                                          width="200"
-                                                          iconColor={`${doc.isPrivate === true ? 'red' : 'green'}`}
-                                                          icon={`${doc.isPrivate === true ? 'locked' : 'eye'}`}
-                                                        />
+                                                        {
+                                                          userType !== 'buyer' && (
+                                                            <>
+                                                              <BrixelTooltip
+                                                                className="mr-1"
+                                                                description={`${translateTo('This document is set to', lang)} ${translateTo(`${doc.isPrivate === true ? 'private' : 'public'}`, lang)}. ${translateTo('Edit to change.', lang)}`}
+                                                                width="200"
+                                                                iconColor={`${doc.isPrivate === true ? 'red' : 'green'}`}
+                                                                icon={`${doc.isPrivate === true ? 'locked' : 'eye'}`}
+                                                              />
+                                                            </>
+                                                          )
+                                                        }
                                                         {
                                                           !isBuyer && (
                                                             <div>
