@@ -108,7 +108,7 @@ const Key4Registration = (props: Key4RegistrationType) => {
                   onClick={() => onCloseGoBack()}
                   theme="text"
                   themeSat={300}
-                  secondary
+                  ghost
                 />
 
                 <BrixelButtonPrimary
@@ -185,7 +185,7 @@ const Key4Registration = (props: Key4RegistrationType) => {
                               getSellerBrochure()?.path && (
                                 <a
                                   className="ml-small-4 txtText900 td-u"
-                                  href={`${baseByData.shortPath}${getSellerBrochure()?.path}`}
+                                  href={`${baseByData?.shortPath}${getSellerBrochure()?.path}`}
                                   target="_blank"
                                   rel="noreferrer"
                                 >

@@ -1,22 +1,19 @@
 import {
   CompanyType,
-  DealType,
   LoggedUserType,
-  PropertyType,
+  PropertyType, ScheduleVisitRequestType,
   SinglePropertyBookingSlotsType,
 } from '@brixel/brixel-components/dist/@types/Model';
 
 export interface ContactType {
   activeSingleCompany: CompanyType;
-  activeSingleDeal: DealType;
   activeSingleProperty: PropertyType;
-  activeSinglePropertyBookingSlots: SinglePropertyBookingSlotsType[];
-  handleGetActiveSinglePropertyBookings: (data: object) => void;
-  handleSetModal: (data: object) => void;
+  handleGetScheduleVisit: (data: object) => void;
   isSmallLoading: {
     getProperty: boolean;
   };
   lang: string;
   loggedInUser: LoggedUserType;
+  scheduleVisit: ScheduleVisitRequestType[] | null;
   userTypes?: string;
 }

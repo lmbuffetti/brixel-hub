@@ -95,7 +95,7 @@ const CreateDeal = (props: CreateDealType) => {
           <h5>{translateTo('Create new deal', lang)}</h5>
           <div>
             <BrixelButtonIcon
-              ghost
+              bgTransparent
               theme="text"
               icon="close-small"
               onClick={() => history.push(`/${activeSingleProperty.id}/prospects`)}

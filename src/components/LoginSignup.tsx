@@ -243,7 +243,7 @@ const LoginSignup = (props: LoginSignupType) => {
                           )
                         }
                         <BrixelRegister
-                          baseURL={baseByData.apiRoot}
+                          baseURL={baseByData?.apiRoot}
                           showGeneratePassword={false}
                           company={company}
                           formName="GetStarted"

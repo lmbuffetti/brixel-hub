@@ -6,7 +6,7 @@ import {Navigate, Route, Routes, useLocation, useNavigate, useParams} from 'reac
 import {bindActionCreators, compose} from 'redux';
 import {spinnerOff} from '../../../actions/CommonActions';
 import {getActiveSingleCompany} from '../../../actions/CompanyActions';
-import {getBuyerDeal} from '../../../actions/DealActions';
+import {getBuyerDeal, getScheduleVisit, setScheduleVisit} from '../../../actions/DealActions';
 import {getFavoritesProperties} from '../../../actions/MarketActions';
 import {getActiveSingleProperty} from '../../../actions/PropertyActions';
 import {setUserTypes} from '../../../actions/UserActions';
@@ -17,6 +17,8 @@ import type {DashboardType} from '../../../@types/Pages/Dashboard/Buyer/Dashboar
 const DashboardHome = lazyWithRetry(() => import('./DashboardHome'));
 
 const PropertyBuyerDashboard = lazy(() => import('./PropertyBuyerDashboard'));
+
+const ScheduleVisit = lazy(() => import('./ScheduleVisit/ScheduleVisit'));
 
 const DealsDashboardBuyer = lazy(() => import('./DealsDashboardBuyer'));
 
@@ -37,6 +39,9 @@ const Dashboard = (props: DashboardType) => {
     activeSingleDeal,
     handleGetFavoritesProperties,
     handleGetActiveSingleProperty,
+    hanldeGetScheduleVisit,
+    hanldeSetScheduleVisit,
+    handleGetScheduleVisit,
     handleGetActiveSingleCompany,
     handleSpinnerOff,
     handleGetBuyerDeal,
@@ -53,6 +58,13 @@ const Dashboard = (props: DashboardType) => {
   const [sortOrderType] = useState('updatedAt');
   const [sortDirection] = useState('DESC');
 
+  useEffect(() => {
+    return () => {
+      hanldeSetScheduleVisit(null);
+    };
+  }, []);
+
+
   // FUNCTION TO LOAD THE PROPERTY BY ID OR LOAD THE DEFAULT
   useEffect(() => {
     if (loggedInUser.id) {
@@ -68,7 +80,7 @@ const Dashboard = (props: DashboardType) => {
       handleSetUserTypes('buyer');
       handleSpinnerOff();
     }
-  }, []);
+  }, [loggedInUser.id]);
 
   useEffect(() => {
     if (activeSingleProperty.id && loggedInUser.id) {
@@ -88,6 +100,27 @@ const Dashboard = (props: DashboardType) => {
       }
     }
   }, [activeSingleProperty.id, loggedInUser, activeSingleCompany?.id]);
+
+  useEffect(() => {
+    if (activeSingleDeal.id) {
+      handleGetScheduleVisit({
+        id: activeSingleDeal.id,
+        order: 'createdAt',
+        direction: 'DESC',
+      })
+
+      const data2 = {
+        id: activeSingleDeal.id,
+        order: 'createdAt',
+        direction: 'DESC',
+        smallLoader: 'getBooking',
+      };
+      hanldeGetScheduleVisit(data2);
+
+    }
+
+  }, [activeSingleDeal.id]);
+
 
   useEffect(() => {
     if (propID && propID !== 'propertyLists') {
@@ -118,7 +151,8 @@ const Dashboard = (props: DashboardType) => {
               { /* SECTION: ROUTES FOR ONLY LOGGED USER - MAIN HUB PAGES  */ }
               <Route path="/home" element={<DashboardHome />} />
               <Route path="/property/*" element={<PropertyBuyerDashboard />} />
-              <Route path="/docubox" element={<Documents />} />
+              <Route path="/scheduleVisit/*" element={<ScheduleVisit />} />
+              <Route path="/docubox" element={<Documents isBuyer={true} />} />
               <Route path="/financing" element={<Financing />} />
               <Route path="/closing/*" element={<DealsDashboardBuyer />} />
               <Route path="*" element={<Navigate to={`/buyer/${propID}/home`} />} />
@@ -154,11 +188,14 @@ const mapDispatchToProps = (dispatch) => ({
     (dispatch(reset('Property', data)));
   },
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
+  hanldeGetScheduleVisit: bindActionCreators(getScheduleVisit, dispatch),
+  hanldeSetScheduleVisit: bindActionCreators(setScheduleVisit, dispatch),
   handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
   handleGetBuyerDeal: bindActionCreators(getBuyerDeal, dispatch),
   handleGetFavoritesProperties: bindActionCreators(getFavoritesProperties, dispatch),
   handleSetUserTypes: bindActionCreators(setUserTypes, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
+  handleGetScheduleVisit: bindActionCreators(getScheduleVisit, dispatch),
 });
 
 export default compose(

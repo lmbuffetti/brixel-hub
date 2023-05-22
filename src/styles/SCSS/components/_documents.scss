@@ -6,7 +6,16 @@
 
   .name div:nth-child(2) {
     min-height: 50px;
-    width: calc(100% - 50px);
+    // width: calc(100% - 50px);
+    width: 90%;
+  }
+
+  .document-folder {
+    .single-document {
+      .name {
+        width: calc(100% - 74px);
+      }
+    }
   }
 
   .single-document {

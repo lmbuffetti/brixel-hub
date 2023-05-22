@@ -541,7 +541,7 @@ const Financing = (props: FinancingType) => {
                           onClick={() => changeStep('back')}
                           theme="text"
                           themeSat={300}
-                          secondary
+                          ghost
                         />
                       )
                     }

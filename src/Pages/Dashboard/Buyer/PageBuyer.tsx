@@ -22,10 +22,10 @@ const PageBuyer = (props: PageBuyerType) => {
   const onClickPreview = () => {
     let url;
     if (activeSingleProperty.published) {
-      url = `${baseByData.pageUrl}${activeSingleProperty.stub}`;
+      url = `${baseByData?.pageUrl}${activeSingleProperty.stub}`;
       window.open(url, '_blank');
     } else {
-      url = `${baseByData.pageUrl}preview/${activeSingleProperty.stub}?hubUrl=${get(window, 'location.href', '')}`;
+      url = `${baseByData?.pageUrl}preview/${activeSingleProperty.stub}?hubUrl=${get(window, 'location.href', '')}`;
       window.location.assign(url);
     }
   };
@@ -34,7 +34,7 @@ const PageBuyer = (props: PageBuyerType) => {
     <>
       <div className="hide dis-f-lg jc-b max-w-fix-1024">
 
-        <h3 className="mb-3 hide dis-b-lg">{translateTo('Brixel Page', lang)}</h3>
+        <h3 className="mb-3 hide dis-b-lg  fweight-600">{translateTo('Brixel Page', lang)}</h3>
         <div className="">
           <BrixelButtonPrimary
             leftIcon="eye"

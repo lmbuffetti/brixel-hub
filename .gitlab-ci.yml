@@ -9,17 +9,17 @@ build site:
   stage: build
   only:
     refs:
-      - develop
+      - SEL-264-Schedule_Visit
       - staging
       - master
   variables:
     FOLDER: $CI_COMMIT_REF_NAME
   script:
     - npm -v;
-    - npm install
-    - if [ "$FOLDER" == "develop" ]; then npm run build-dev; fi
-    - if [ "$FOLDER" == "staging" ]; then npm run build-stage; fi
-    - if [ "$FOLDER" == "master" ]; then npm run build-prod; fi
+    - yarn install
+    - if [ "$FOLDER" == "SEL-264-Schedule_Visit" ]; then yarn build-dev; fi
+    - if [ "$FOLDER" == "staging" ]; then yarn build-stage; fi
+    - if [ "$FOLDER" == "master" ]; then yarn build-prod; fi
   artifacts:
     expire_in: 5 days
     paths:
@@ -31,7 +31,7 @@ test integration:
   stage: test
   only:
     refs:
-      - develop
+      - SEL-264-Schedule_Visit
       - staging
       - master
   variables:
@@ -53,7 +53,7 @@ test integration:
     - chmod 600 ~/.ssh/id_dsa;
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config;
     - scp -r cypress/ ubuntu@3.124.80.14:/srv/development/brixel-hub/cypress;
-    - if [ "$FOLDER" == "develop" ]; then ssh ubuntu@3.124.80.14 'cd /srv/development/brixel-api; export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+    - if [ "$FOLDER" == "SEL-264-Schedule_Visit" ]; then ssh ubuntu@3.124.80.14 'cd /srv/development/brixel-api; export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
       [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"; nvm use 16; NODE_ENV=development node scripts/dataManagement/cleanJestTestsData.js delete'; fi
     - if [ "$FOLDER" == "staging" ]; then ssh ubuntu@3.124.80.14 'cd /srv/staging/brixel-api; export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
       [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"; nvm use 16; NODE_ENV=staging node scripts/dataManagement/cleanJestTestsData.js delete'; fi
@@ -65,7 +65,7 @@ deploy_dev:
   image: alpine
   stage: deploy
   only:
-    - develop
+    - SEL-264-Schedule_Visit
   script:
     - apk add --no-cache rsync openssh
     - mkdir -p ~/.ssh

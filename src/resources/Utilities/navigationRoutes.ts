@@ -97,7 +97,7 @@ export const sidebarNavigationBuyer = [
   },
   {
     title: 'Visit',
-    name: 'visit',
+    name: 'scheduleVisit',
     icon: 'calendar',
     path: '/buyer/:propID/scheduleVisit',
   },

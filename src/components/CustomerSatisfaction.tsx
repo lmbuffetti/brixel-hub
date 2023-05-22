@@ -92,7 +92,7 @@ const CustomerSatisfaction = (props: CustomerSatisfactionType) => {
     <div className='dis-fl-col flex-1 h-perc-100 jc-b'>
       <div className="dis-f jc-fe a-c p-2">
         <BrixelButtonIcon
-          ghost
+          bgTransparent
           className="zIndex11"
           theme="text"
           themeSat={400}

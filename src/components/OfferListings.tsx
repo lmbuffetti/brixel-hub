@@ -4,7 +4,7 @@ import {DateTime} from 'luxon';
 import React, {Fragment, useCallback} from 'react';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
-import emptyOffer from '../images/empty-offer-skekeleton.svg';
+import emptyOffer from '../images/empty-offer-skeleton.svg';
 import femaleAvatar from '../images/female-avatar.png';
 import translateTo from '../utils/translation';
 import type {OfferListingsType} from '../@types/components/OfferListings';

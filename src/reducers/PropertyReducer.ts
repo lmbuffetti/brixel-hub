@@ -4,13 +4,13 @@ import {
   SET_ACTIVE_MARKET_OVERLAY_PROPERTY_LISTS,
   SET_ACTIVE_SINGLE_PROPERTY,
   SET_ACTIVE_SINGLE_PROPERTY_ACTIVE_PACKAGE,
-  SET_ACTIVE_SINGLE_PROPERTY_BOOKINGS,
-  SET_ACTIVE_SINGLE_PROPERTY_BOOKINGS_SLOTS,
   SET_ACTIVE_SINGLE_PROPERTY_DEALS_COUNT,
   SET_ESTIMATION,
   SET_PACKAGE_PROPERTY,
   SET_PACKAGES_PROPERTY,
   SET_PAGE_DEALS,
+  SET_SCHEDULE_VISIT,
+  SET_ACTIVE_SINGLE_PROPERTY_VISITS,
 } from '../actions/types/PropertyTypes';
 
 import {SET_PROPERTY_HISTORY_LISTINGS, SET_PROPERTY_OWNER_HISTORY_LISTINGS} from '../actions/types/HistoryTypes';
@@ -18,10 +18,10 @@ import {SET_PROPERTY_HISTORY_LISTINGS, SET_PROPERTY_OWNER_HISTORY_LISTINGS} from
 export const defaultState = {
   activeMarketOverlayProperty: {},
   activeMarketOverlayPropertyLists: null,
+  activeScheduleVisit: {},
+  activeSinglePropertyVisits: {},
   activeSingleProperty: {},
   activeSinglePropertyActivePackage: {},
-  activeSinglePropertyBooking: [],
-  activeSinglePropertyBookingSlots: [],
   activeSinglePropertyDeals: null,
   activeSinglePropertyDealsCount: {},
   activeSinglePropertyHistory: {},
@@ -50,14 +50,6 @@ export default handleActions<any>(
       ...state,
       activeMarketOverlayPropertyLists: action.payload,
     }),
-    [SET_ACTIVE_SINGLE_PROPERTY_BOOKINGS]: (state, action) => ({
-      ...state,
-      activeSinglePropertyBooking: action.payload,
-    }),
-    [SET_ACTIVE_SINGLE_PROPERTY_BOOKINGS_SLOTS]: (state, action) => ({
-      ...state,
-      activeSinglePropertyBookingSlots: action.payload,
-    }),
     [SET_PACKAGES_PROPERTY]: (state, action) => ({
       ...state,
       packagesProperty: action.payload,
@@ -85,6 +77,14 @@ export default handleActions<any>(
     [SET_ACTIVE_SINGLE_PROPERTY_ACTIVE_PACKAGE]: (state, action) => ({
       ...state,
       activeSinglePropertyActivePackage: action.payload,
+    }),
+    [SET_SCHEDULE_VISIT]: (state, action) => ({
+      ...state,
+      activeScheduleVisit: action.payload,
+    }),
+    [SET_ACTIVE_SINGLE_PROPERTY_VISITS]: (state, action) => ({
+      ...state,
+      activeSinglePropertyVisits: action.payload,
     }),
   },
   defaultState,

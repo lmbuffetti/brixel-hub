@@ -17,7 +17,7 @@ import {connect} from 'react-redux';
 import {useLocation, useNavigate} from 'react-router-dom';
 import {bindActionCreators, compose} from 'redux';
 import {sendMessage, spinnerSmall} from '../actions/CommonActions';
-import {createPropertyVisitBooking} from '../actions/PropertyActions';
+import {saveScheduleVisit} from '../actions/PropertyActions';
 import translateTo from '../utils/translation';
 import type {ContactFormType} from '../@types/components/ContactForm';
 
@@ -35,7 +35,7 @@ function ContactForm(props: ContactFormType) {
     destroyForm,
     errorValue,
     formValue,
-    handleCreatePropertyVisitBooking,
+    handleSaveScheduleVisit,
     handleSendMessage,
     handleSpinnerSmall,
     initialValues,
@@ -114,11 +114,11 @@ function ContactForm(props: ContactFormType) {
         message: formValue.userMessage,
         smallLoader: 'sendMessage',
       };
-      handleCreatePropertyVisitBooking(data);
+      handleSaveScheduleVisit(data);
       onChangeAction('isLoading');
     } else {
       const data = {
-        messageType: type ? baseByData.messageTypeID[type] : 0,
+        messageType: type ? baseByData?.messageTypeID[type] : 0,
         page: activeSingleProperty.id,
         title: 'Page',
         message: formValue.userMessage,
@@ -317,7 +317,7 @@ const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
     dispatch(change('ContactForm', field, value));
   },
-  handleCreatePropertyVisitBooking: bindActionCreators(createPropertyVisitBooking, dispatch),
+  handleSaveScheduleVisit: bindActionCreators(saveScheduleVisit, dispatch),
   handleSpinnerSmall: bindActionCreators(spinnerSmall, dispatch),
   handleSendMessage: bindActionCreators(sendMessage, dispatch),
 });

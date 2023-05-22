@@ -262,7 +262,7 @@ const MarketCardFavorites = (props: MarketCardFavoritesType) => {
                   if (get(activeSingleProperty, 'tags', []).includes('pre-market')) {
                     onOpenCard();
                   } else {
-                    window.open(`${baseByData.pageUrl}${activeSingleProperty.stub}`, '_blank')
+                    window.open(`${baseByData?.pageUrl}${activeSingleProperty.stub}`, '_blank')
                   }
                 }}
               />

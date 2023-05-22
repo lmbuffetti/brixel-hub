@@ -85,19 +85,19 @@ const AccountDropdown = (props: AccountDropdownType) => {
         },
       },
       {
-        href: `${baseByData.loginBasePath}/account/profile?url=${get(window, 'location.href', '')}`,
+        href: `${baseByData?.loginBasePath}/account/profile?url=${get(window, 'location.href', '')}`,
         label: translateTo('Personal Information', lang),
       },
       {
-        href: `${baseByData.loginBasePath}/account/account?url=${get(window, 'location.href', '')}`,
+        href: `${baseByData?.loginBasePath}/account/account?url=${get(window, 'location.href', '')}`,
         label: translateTo('Password', lang),
       },
       {
-        href: `${baseByData.loginBasePath}/account/preferences?url=${get(window, 'location.href', '')}`,
+        href: `${baseByData?.loginBasePath}/account/preferences?url=${get(window, 'location.href', '')}`,
         label: translateTo('Preferences', lang),
       },
       {
-        href: `${baseByData.loginBasePath}/logout?url=${get(window, 'location.href', '')}`,
+        href: `${baseByData?.loginBasePath}/logout?url=${get(window, 'location.href', '')}`,
         label: translateTo('Logout', lang),
       },
     ]

@@ -208,7 +208,7 @@ export const toBase64 = (file) => new Promise((resolve, reject) => {
   reader.onerror = (error) => reject(error);
 });
 
-export const tobase64Handler = async (files, user, action, pageID, imgType, docType = '') => {
+export const tobase64Handler = async (files, user, action, pageID, imgType = '', docType = '') => {
   const filePathsPromises = [];
   await files.forEach((file) => {
     // @ts-ignore
@@ -388,10 +388,10 @@ export const redirectUrl = (link, options) => {
   ) {
     return '/buy';
   } else if (link.toLowerCase().includes('makeoffer') || link.toLowerCase().includes('closing')) {
-    if (userType === 'seller') {
-      return `/${propID}/closing/${dealID}`;
-    } else {
+    if (userType === 'buyer' || link.toLowerCase().includes('buyer')) {
       return `/buyer/${propID}/closing`;
+    } else {
+      return `/${propID}/closing/${dealID}`;
     }
   } else if (link.toLowerCase().includes('buyer')) {
     return `/buyer/${propID}/home`;

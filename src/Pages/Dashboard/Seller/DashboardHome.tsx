@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import {
-  BrixelAvatar,
   BrixelButtonPrimary,
   BrixelButtonSecondary,
   BrixelButtonText,
@@ -15,12 +14,16 @@ import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import get from 'lodash/get';
 import orderBy from 'lodash/orderBy';
 import {DateTime} from 'luxon';
-import ICalendarLink from 'react-icalendar-link';
 import {connect} from 'react-redux';
 import {Link, useLocation, useNavigate, useParams} from 'react-router-dom';
 import {bindActionCreators, compose} from 'redux';
 import {setModal, spinnerOff} from '../../../actions/CommonActions';
-import {getActiveSinglePropertyDealsCount, getEstimation, getPageDeals} from '../../../actions/PropertyActions';
+import {
+  getActiveSinglePropertyDealsCount,
+  getActiveSinglePropertyVisits,
+  getEstimation,
+  getPageDeals,
+} from '../../../actions/PropertyActions';
 import BestimateCardOverlay from '../../../components/BestimateCardOverlay';
 import DashboardPropertyCard from '../../../components/Cards/DashboardPropertyCard';
 import DashboardPropertyCardSold from '../../../components/Cards/DashboardPropertyCardSold';
@@ -44,6 +47,7 @@ import {calcPercentageFacts, calcPercentageProEstimation} from '../../../utils/h
 import translateTo from '../../../utils/translation';
 import type {DashboardHomeType} from '../../../@types/Pages/Dashboard/Seller/DashboardHome';
 import {DealType, HistoryType} from '@brixel/brixel-components/dist/@types/Model';
+import TableRowSellerVisits from '../../../components/Cards/TableRowSellerVisits';
 
 const { factsOptions } = FactsOptions;
 
@@ -83,6 +87,7 @@ const DashboardHome = (props: DashboardHomeType) => {
   const match = useParams();
   // PROPS
   const {
+    activeSinglePropertyVisits,
     activeSingleCompany,
     activeSingleProperty,
     activeSinglePropertyDeals = null,
@@ -92,6 +97,7 @@ const DashboardHome = (props: DashboardHomeType) => {
     estimation,
     formValue,
     handleGetActiveSinglePropertyDealsCount,
+    handleGetActiveSinglePropertyVisits,
     handleGetEstimation,
     handleGetPageDeals,
     handleSetModal,
@@ -108,6 +114,9 @@ const DashboardHome = (props: DashboardHomeType) => {
   const propID = get(match, 'propID', null);
 
   useEffect(() => {
+    if (progressState.step === 3) {
+      handleGetActiveSinglePropertyVisits({id: propID, smallLoader: 'visits' });
+    }
     if (progressState.step === 3 || progressState.step === 4 || progressState.step === 5) {
       handleGetActiveSinglePropertyDealsCount({ id: propID });
       handleGetPageDeals({ id: propID });
@@ -120,7 +129,8 @@ const DashboardHome = (props: DashboardHomeType) => {
       handleGetEstimation(payload);
       handleGetPageDeals({ id: propID });
     }
-  }, [progressState.step]);
+  }, [progressState.step, propID]);
+
 
   useEffect(() => {
     if (activeSinglePropertyDeals?.visit) {
@@ -193,9 +203,9 @@ const DashboardHome = (props: DashboardHomeType) => {
   const openBrixelPage = () => {
     if (progressState?.id && progressState.id > 0) {
       if (activeSingleProperty.published) {
-        window.open(`${baseByData.pageUrl}${activeSingleProperty.stub}`, '_blank');
+        window.open(`${baseByData?.pageUrl}${activeSingleProperty.stub}`, '_blank');
       } else {
-        window.location.assign(`${baseByData.pageUrl}preview/${activeSingleProperty.stub}?hubUrl=${get(window, 'location.href', '')}`);
+        window.location.assign(`${baseByData?.pageUrl}preview/${activeSingleProperty.stub}?hubUrl=${get(window, 'location.href', '')}`);
       }
     } else if (get(activeSingleProperty, 'location.countryCode', '') === 'PT') {
       window.location.assign(`https://page.brixel.io/preview/Apartamento-T2-Renovado-Bairro-dos-Actores-Lisboa?hubUrl=${get(window, 'location.href', '')}`);
@@ -211,14 +221,6 @@ const DashboardHome = (props: DashboardHomeType) => {
       }
     }
     return false;
-  };
-
-  const classWidthTable = (id) => {
-    if (id === 0) return 'w-perc-60 w-perc-md-35';
-    if (id === 1) return 'w-perc-40 w-perc-md-25 mt-1 mt-md-0';
-    // if (id === 2) return 'w-perc-40 w-perc-md-20';
-    if (id === 3) return 'w-perc-20 w-perc-md-7 mt-1 mt-md-0';
-    return 'w-perc-40 w-perc-md-13 mt-1 mt-md-0';
   };
 
   const boxScanTrial = () => (
@@ -754,7 +756,7 @@ const DashboardHome = (props: DashboardHomeType) => {
                     color="blue"
                   />
                   <h6 className="mt-xs-2 fweight-400">
-                    {translateTo('Visits', lang)}
+                    {translateTo('Visit', lang)}
                   </h6>
                   <div className={`lh-50 mt-xs-3 fSizePx64 fweight-600 txtRed700 ${!visitLists ? 'h-fix-48 w-fix-40 skeletonBg' : ''}`}>
                     {get(activeSinglePropertyDealsCount, 'Visit.total', '')}
@@ -770,7 +772,7 @@ const DashboardHome = (props: DashboardHomeType) => {
                     color="primary"
                   />
                   <h6 className="mt-xs-2 fweight-400">
-                    {translateTo('Offers', lang)}
+                    {translateTo('Offer', lang)}
                   </h6>
                   <div className={`lh-50 mt-xs-3 fSizePx64 fweight-600 txtRed700 ${!visitLists ? 'h-fix-48 w-fix-40 skeletonBg' : ''}`}>
                     {get(activeSinglePropertyDealsCount, 'Offer.total', '')}
@@ -782,7 +784,7 @@ const DashboardHome = (props: DashboardHomeType) => {
                 visitLists ? (
                   <div className="brdRadius bgWhite shadow-2dp">
                     <div className="dis-f jc-b a-c px-2 pt-2">
-                      <div className="dis-f a-c w-perc-100 mr-2 pb-2">
+                      <div className="dis-f a-c w-perc-100 mr-2">
                         <BrixelIcon
                           iconWidth="w-fix-32"
                           icon="visited"
@@ -790,22 +792,12 @@ const DashboardHome = (props: DashboardHomeType) => {
                           saturationTxt={400}
                         />
                         <h5 className="ml-2 ml-sm-3 fsize-500">
-                          {translateTo('Confirmed visits', lang)}
+                          {translateTo('Visits overview', lang)}
                         </h5>
                       </div>
-                      {
-                        visitLists.length > 0 && (
-                          <BrixelButtonPrimary
-                            className="ml-a ml-sm-0"
-                            rounded
-                            label={translateTo('All', lang)}
-                            onClick={() => history.push('')}
-                          />
-                        )
-                      }
                     </div>
                     {
-                      visitLists.length === 0 && (
+                      visitLists.length === 0 && get(activeSinglePropertyVisits, 'data', []).length === 0 && (
                         <div
                           className="dis-f jc-b a-c w-perc-100 brdSmallTop py-4 brdText50 px-2 flex-wrap"
                         >
@@ -816,67 +808,14 @@ const DashboardHome = (props: DashboardHomeType) => {
                       )
                     }
                     {
-                      visitLists.map((visit, i) => (
-                        <div
+                      activeSinglePropertyVisits && activeSinglePropertyVisits?.data?.map((visit, i) => (
+                        <TableRowSellerVisits
                           key={`vst_${i.toString()}`}
-                          className="dis-f jc-b a-c w-perc-100 brdSmallTop my-2 pt-2 brdText50 px-2 flex-wrap"
-                        >
-                          <div
-                            className={`dis-f a-c ${classWidthTable(0)} order-1 cur-poi`}
-                            onClick={() => history.push(`/${activeSingleProperty.id}/prospect/${visit.id}`)}
-                          >
-                            <BrixelAvatar
-                              avatarImg={get(visit, 'user.avatarUrl', undefined)}
-                              name={get(visit, 'user.name', '') ? get(visit, 'user.name', '') : 'No Name'}
-                              size="M"
-                            />
-                            <p className="ml-2">
-                              {get(visit, 'user.name', '')}
-                            </p>
-                          </div>
-                          <p
-                            className={`${classWidthTable(1)} ${!get(visit, 'past', null) ? 'txtPrimary400' : 'txtText400'} order-3 order-md-2 cur-poi`}
-                            onClick={() => history.push(`/${activeSingleProperty.id}/prospect/${visit.id}`)}
-                          >
-                            {DateTime.fromMillis(visit.visit, { locale: lang }).toFormat('d LLL yyyy, H:mm')}
-                          </p>
-                          <p className={`${classWidthTable(2)} ta-r ta-l-md order-2 order-md-3`}>
-                            {
-                              visit.visit > DateTime.now().toMillis() ? (
-                                <span className="txtText900">{translateTo('Upcoming', lang)}</span>
-                              ) : (
-                                <span className="txtText400">{translateTo('Past', lang)}</span>
-                              )
-                            }
-                          </p>
-                          <p className={`${classWidthTable(3)} order-4`}>
-                            {
-                              !get(visit, 'past', null) && (
-                                <ICalendarLink
-                                  event={{
-                                    title: 'My Title',
-                                    description: 'My Description',
-                                    startTime: DateTime.fromMillis(visit.visit).toISO() || '',
-                                    // endTime: '2018-10-07T12:00:00+10:00',
-                                    location: get(activeSingleProperty, 'location.address', ''),
-                                    attendees: [
-                                      `${loggedInUser.name} <${loggedInUser.email}>`,
-                                    ],
-                                  }}
-                                />
-                              )
-                            }
-                          </p>
-                          <p className={`${classWidthTable(4)} ta-r ta-l-md order-5`}>
-                            <button
-                              type="button"
-                              className="ml-a ml-md-0 txtText400 fsize-400"
-                              onClick={() => history.push(`/${activeSingleProperty.id}/prospects/${visit.id}/deal`)}
-                            >
-                              {translateTo(visit.visit > DateTime.now().toMillis() ? 'View' : 'Review', lang)}
-                            </button>
-                          </p>
-                        </div>
+                          lang={lang}
+                          activeSingleProperty={activeSingleProperty}
+                          loggedInUser={loggedInUser}
+                          visit={visit}
+                        />
                       ))
                     }
                   </div>
@@ -1040,6 +979,7 @@ const DashboardHome = (props: DashboardHomeType) => {
 };
 
 const mapStateToProps = (state) => ({
+  activeSinglePropertyVisits: get(state, 'property.activeSinglePropertyVisits', {}),
   activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   activeSinglePropertyDeals: get(state, 'property.activeSinglePropertyDeals', []),
@@ -1057,6 +997,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   handleGetActiveSinglePropertyDealsCount: bindActionCreators(getActiveSinglePropertyDealsCount, dispatch),
+  handleGetActiveSinglePropertyVisits: bindActionCreators(getActiveSinglePropertyVisits, dispatch),
   handleGetPageDeals: bindActionCreators(getPageDeals, dispatch),
   handleGetEstimation: bindActionCreators(getEstimation, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),

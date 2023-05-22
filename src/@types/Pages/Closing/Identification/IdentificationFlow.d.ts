@@ -25,16 +25,19 @@ export interface FormValueType extends StageIdentificationType {
 }
 
 export interface IdentificationFlowType {
+  activeSingleCompany: CompaniesType;
   activeSingleDeal: DealType;
   activeSingleProperty: PropertyType;
   destroyForm: () => void
   errorValue: object;
   formValue: FormValueType;
+  handleChangeSmallLoading: (data: object) => void
   handleDeleteDocument: (data: object) => void
   handleGetActiveSingleDeal: (data: object) => void
+  handleGetActiveSingleCompany: (data: object) => void
+  handleGetActiveSingleProperty: (data: object) => void
   handleMultiUploadDocument: (data: object) => void
   handleSaveClosingIdentification: (data: object) => void
-  handleChangeSmallLoading: (data: object) => void
   handleSpinnerOff: () => void
   initForm: (data: object) => void
   initialValues: object;

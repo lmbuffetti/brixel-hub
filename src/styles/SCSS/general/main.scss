@@ -1145,6 +1145,7 @@ input::-webkit-date-and-time-value {
       padding-left: calc($step * 2);
     }
   }
+  margin-bottom: 0px !important;
 }
 
 .w-100-vw {
@@ -1164,4 +1165,14 @@ input::-webkit-date-and-time-value {
       fill: map-get($textColor, 900) !important;
     }
   }
+}
+
+.brixel-text-area-container .brixel-text-area.large {
+  min-height: 100%;
+}
+
+.update-item {
+  border-color: lightgrey;
+  border-width: 1px;
+  border-style: solid;
 }

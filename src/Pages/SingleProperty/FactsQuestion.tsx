@@ -80,7 +80,7 @@ const FactsQuestion = (props: FactsQuestionType) => {
         }
         <BrixelButtonIcon
           icon="close-small"
-          ghost
+          bgTransparent
           onClick={() => history.push(`/${propID}/property/facts`)}
         />
       </div>

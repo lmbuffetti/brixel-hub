@@ -249,7 +249,7 @@ const FlowScreen = (props: FlowScreenType) => {
   // FUNCTION TO CLOSE
   const closeWindow = () => {
     handleReset(formName, initialValues);
-    const linkToRedirect = redirectUrl(history.location.pathname, {propID});
+    const linkToRedirect = closeLink || redirectUrl(history.location.pathname, {propID: propID || ''});
     history.push(linkToRedirect);
   };
 
@@ -499,6 +499,7 @@ const FlowScreen = (props: FlowScreenType) => {
                 >
                   <div className="pos-r">
                     <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-c">
+
                       {
                         (
                           currentIndex !== questions.length - 2 &&
@@ -511,7 +512,7 @@ const FlowScreen = (props: FlowScreenType) => {
                             onClick={() => changeStep('back')}
                             theme="text"
                             themeSat={300}
-                            secondary
+                            ghost
                           />
                         )
                       }
@@ -539,7 +540,7 @@ const FlowScreen = (props: FlowScreenType) => {
                                   label={translateTo('Close', lang)}
                                   isLoading={isSmallLoading.sendData}
                                   rightIcon="arrow-right-small"
-                                  onClick={() => history.push(closeLink || '../../')}
+                                  onClick={() => closeWindow()}
                                   onShowError={() => setShowError(true)}
                                   type="submit"
                                 />

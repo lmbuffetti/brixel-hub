@@ -1,6 +1,7 @@
 import {
   DealType,
   PropertyType,
+  ScheduleVisitRequestType,
 } from '@brixel/brixel-components/dist/@types/Model';
 
 export interface ModalAddToCalendarType {
@@ -8,4 +9,5 @@ export interface ModalAddToCalendarType {
   activeSingleProperty: PropertyType;
   handleSetModal: (data: object) => void;
   lang: string;
+  scheduleVisit: ScheduleVisitRequestType[];
 }

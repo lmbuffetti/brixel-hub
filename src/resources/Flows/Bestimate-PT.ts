@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import {FactsOptions} from '@brixel/brixel-components';
 import translateTo from '../../utils/translation';
 import {

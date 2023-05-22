@@ -410,7 +410,6 @@ const ModalPropertyEstimation = (props: ModalPropertyEstimationType) => {
         </div>
 
         <hr className="mt-2 mb-4 lighter" />
-
         <div className="dis-f a-c jc-b mb-4 px-3">
           <BrixelButtonText
             theme="text"

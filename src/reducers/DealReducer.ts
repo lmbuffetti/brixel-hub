@@ -1,10 +1,17 @@
 import {handleActions} from 'redux-actions';
 
-import {SET_ACTIVE_SINGLE_DEAL, SET_OFFER_LISTINGS} from '../actions/types/DealTypes';
+import {
+  SET_ACTIVE_SINGLE_DEAL,
+  SET_OFFER_LISTINGS,
+  SET_SCHEDULE_VISIT,
+} from '../actions/types/DealTypes';
 
 import {SET_DEAL_NOTE_LISTINGS} from '../actions/types/NoteTypes';
 
-import {SET_DEAL_HISTORY_LISTINGS, SET_DEAL_OWNER_HISTORY_LISTINGS} from '../actions/types/HistoryTypes';
+import {
+  SET_DEAL_HISTORY_LISTINGS,
+  SET_DEAL_OWNER_HISTORY_LISTINGS,
+} from '../actions/types/HistoryTypes';
 import type {DealReducerType} from '../@types/reducer/DealReducer';
 
 export const defaultState: DealReducerType = {
@@ -13,6 +20,7 @@ export const defaultState: DealReducerType = {
   activeSingleDealNotes: [],
   activeSingleDealOwnerHistory: {},
   offerListings: [],
+  scheduleVisit: null,
 };
 
 export default handleActions<any>(
@@ -36,6 +44,10 @@ export default handleActions<any>(
     [SET_OFFER_LISTINGS]: (state, action) => ({
       ...state,
       offerListings: action.payload,
+    }),
+    [SET_SCHEDULE_VISIT]: (state, action) => ({
+      ...state,
+      scheduleVisit: action.payload,
     }),
   },
   defaultState,

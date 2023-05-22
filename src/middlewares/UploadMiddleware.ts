@@ -562,12 +562,13 @@ const checkCommon = (store) => (next) => (action) => {
     case UPDATE_DOCUMENT: {
       next(action);
       const {
-        saveAction,
+        dealID,
+        docs,
         formValue,
         indexDoc,
         indexPerson,
-        dealID,
         pageID,
+        saveAction,
         smallLoader,
       } = action.payload;
       delete action.payload.dealID;
@@ -577,6 +578,7 @@ const checkCommon = (store) => (next) => (action) => {
       delete action.payload.pageID;
       delete action.payload.saveAction;
       delete action.payload.smallLaoder;
+      delete action.payload.body.mimeType;
       if (smallLoader) {
         store.dispatch({
           type: SPINNER_SMALL,
@@ -597,12 +599,10 @@ const checkCommon = (store) => (next) => (action) => {
             data.id = dealID;
             store.dispatch({ type: SAVE_CLOSING_IDENTIFICATION, payload: data });
           } else {
-            const docList = store.getState().brixelForm.Property.values.documents;
-            docList.forEach((el, index) => {
-              if (el.id === res.data.id) {
-                docList[index] = res.data;
-              }
-            });
+            const docList = docs || store.getState().brixelForm.Property.values.documents;
+            const docIndex = docList.findIndex((el) => el.id === res.data.id);
+            if (docIndex > -1) docList[docIndex] = res.data;
+            else docList.push(res.data);
             const data = {
               id: pageID,
               documents: docList,

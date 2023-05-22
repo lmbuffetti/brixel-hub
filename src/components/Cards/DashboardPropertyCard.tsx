@@ -128,7 +128,7 @@ const DashboardPropertyCard: (props: DashboardPropertyCardProps) => JSX.Element 
                               className="as-fs mt-2 ml-sm-2 mt-a-sm mb-a w-auto-sm w-perc-100"
                               rounded
                               label={translateTo('View', lang)}
-                              onClick={() => window.open(`${baseByData.pageUrl}${get(activeSingleProperty, 'stub', '')}`, '_blank')}
+                              onClick={() => window.open(`${baseByData?.pageUrl}${get(activeSingleProperty, 'stub', '')}`, '_blank')}
                             />
 
                           </div>
@@ -223,7 +223,7 @@ const DashboardPropertyCard: (props: DashboardPropertyCardProps) => JSX.Element 
                               className="mt-2 mt-sm-0 mr-a mr-sm-0 mb-3 mb-sm-0"
                               rounded
                               label={translateTo('Open', lang)}
-                              onClick={() => window.open(`${baseByData.pageUrl}${get(activeSingleProperty, 'stub', '')}`, '_blank')}
+                              onClick={() => window.open(`${baseByData?.pageUrl}${get(activeSingleProperty, 'stub', '')}`, '_blank')}
                             />
                           </div>
                         ) : (

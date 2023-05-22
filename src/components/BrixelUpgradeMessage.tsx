@@ -66,7 +66,7 @@ const BrixelUpgradeMessage = (props: BrixelUpgradeMessageType) => {
           <div className="dis-f hide-md a-c mb-3">
             <BrixelButtonIcon
               icon="arrow-simple-left"
-              ghost
+              bgTransparent
               onClick={() => onClose()}
             />
           </div>
@@ -127,7 +127,7 @@ const BrixelUpgradeMessage = (props: BrixelUpgradeMessageType) => {
                     <div className="pos-a w-perc-100 h-perc-100 bgBlack opacity5" />
                     <div className="pos-a xy-c">
                       <BrixelButtonIcon
-                        ghost
+                        bgTransparent
                         icon="play-fill"
                         className="m-a opacity8"
                         onClick={() => onOpentour ? onOpentour(virtualTour) : ''}

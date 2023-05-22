@@ -148,10 +148,10 @@ const MarketCard = (props: MarketCardProps) => {
           type === 'new' || checkTag.includes('new')
         ) && type !== 'favorite' && type !== 'wishlist' && !history.location.pathname.includes('sell'))
       ) {
-        window.open(`${baseByData.pageUrl}${get(item, 'stub', '')}`, '_blank');
+        window.open(`${baseByData?.pageUrl}${get(item, 'stub', '')}`, '_blank');
       } else if (type === 'favorite' || type === 'wishlist') {
         history.push(`/buyer/${get(item,  'id', '')}/home`, { state: { section: 'Market' }} );
-      } else window.open(`${baseByData.pageUrl}${get(item, 'stub', '')}`, '_blank');
+      } else window.open(`${baseByData?.pageUrl}${get(item, 'stub', '')}`, '_blank');
       // TODO: Estimation opens overlay
     }
   };
@@ -277,7 +277,7 @@ const MarketCard = (props: MarketCardProps) => {
         hideClose: true,
       })
     } else {
-      window.open(`${baseByData.pageUrl}${get(item, 'stub', '')}`, '_blank');
+      window.open(`${baseByData?.pageUrl}${get(item, 'stub', '')}`, '_blank');
     }
   }
 

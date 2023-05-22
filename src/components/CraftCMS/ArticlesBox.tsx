@@ -33,15 +33,14 @@ const ArticlesBox = (props: ArticlesBoxPropsType) => {
       };
       api.craftCMS.getHubContent(data)
         .then((res) => {
-          setPlacement(get(res, 'data.data.placementEntries[0]', []));
-          setArticles(get(res, 'data.data.placementEntries[0].placementContent', []));
+          setPlacement(get(res, 'data.placementEntries[0]', []));
+          setArticles(get(res, 'data.placementEntries[0].placementContent', []));
           setIsLoading(false)
         })
         .catch(() => {
           setIsLoading(false)
         });
     }
-
   }, [activeSingleCompany, lang]);
 
   const onClickBanner = (url, target) => {

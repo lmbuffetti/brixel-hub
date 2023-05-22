@@ -187,7 +187,7 @@ const MarketCardMap = (props: MarketCardMapType) => {
                 <BrixelButtonIcon
                   theme="red"
                   small
-                  ghost
+                  bgTransparent
                   icon={checkFavorite() && !isUnFavorite ? 'favorite-fill' : 'favorite'}
                   onClick={() => onChangeFavorite()}
                   isLoading={isSmallLoading[`favorite-${item.id}`]}

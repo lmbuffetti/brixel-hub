@@ -257,7 +257,7 @@ const MarketList = (props: MarketListType) => {
       setMarketOverlayProperty(item);
     } else if (catName === 'favorite' || catName === 'wishlist') {
       history.push(`/buyer/${item.id}/property/page`, { state: { section: 'Market' }});
-    } else window.open(`${baseByData.pageUrl}${item.stub}`, '_blank');
+    } else window.open(`${baseByData?.pageUrl}${item.stub}`, '_blank');
   };
 
   const getCompanyStub = () => {
@@ -302,7 +302,7 @@ const MarketList = (props: MarketListType) => {
             <div className="mb-3 dis-fl-col">
               <div className="dis-fl-col pos-r">
                 <BrixelButtonIcon
-                  secondary
+                  ghost
                   small
                   theme="text"
                   themeSat={300}
@@ -366,7 +366,7 @@ const MarketList = (props: MarketListType) => {
             {
               windowDimensions.width <= 1024 && !activeProperty && (
                 <BrixelButtonIcon
-                  ghost
+                  bgTransparent
                   theme="text"
                   onClick={() => handleMapClose()}
                   icon="close-small"

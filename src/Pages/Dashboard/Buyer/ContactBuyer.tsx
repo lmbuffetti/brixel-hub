@@ -30,7 +30,7 @@ const ContactBuyer = (props: ContactBuyerType) => {
 
   return (
     <>
-      <h3 className="mb-3 hide dis-b-lg">
+      <h3 className="mb-3 hide dis-b-lg  fweight-600">
         {translateTo('Contact', lang)}</h3>
       <div className="dis-f h-perc-lg-100">
         <div className="secondLevel dis-fl-col w-perc-100 h-perc-lg-100">
@@ -63,7 +63,6 @@ const ContactBuyer = (props: ContactBuyerType) => {
                 <BrixelButtonIcon
                   icon="close"
                   theme="text"
-                  ghost
                   bgTransparent
                   className="as-c"
                   onClick={() => history.push(-1)}

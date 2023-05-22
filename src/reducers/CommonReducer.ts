@@ -40,7 +40,7 @@ export const defaultState: CommonReducerType = {
   // @ts-ignore
   isTest: typeof window?.Cypress !== 'undefined',
   language: null,
-  languages: getConfigEnv.languages || [],
+  languages: getConfigEnv?.languages || [],
   modal: {
     state: false, title: '', body: '', action: {}, multiActions: [],
   },

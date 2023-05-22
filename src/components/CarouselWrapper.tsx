@@ -26,7 +26,6 @@ const CarouselWrapper = (props: CarouselWrapperType) => {
     loggedInUser,
     onSetActiveProperty = () => '',
     ownerProperties = () => '',
-    setActiveSingleCompany = () => '',
     setPropertyId,
     slideToGo = 0,
     subtitle,
@@ -139,7 +138,6 @@ const CarouselWrapper = (props: CarouselWrapperType) => {
     if (items && layout === 'singleOwnCard') {
       const activeCompanyId = items[activeSlide].company;
       if (activeCompanyId && (activeSlide > 0 || slideToGo < 0)) {
-        setActiveSingleCompany(activeCompanyId);
         if (setPropertyId) setPropertyId(get(items[activeSlide], 'id', ''));
       }
     }
@@ -199,7 +197,7 @@ const CarouselWrapper = (props: CarouselWrapperType) => {
                       icon="arrow-simple-left"
                       theme="text"
                       themeSat={300}
-                      secondary
+                      ghost
                     />
                     <BrixelButtonIcon
                       onClick={() => moveSlide('next')}
@@ -207,7 +205,7 @@ const CarouselWrapper = (props: CarouselWrapperType) => {
                       icon="arrow-simple-right"
                       theme="text"
                       themeSat={300}
-                      secondary
+                      ghost
                     />
                   </>
                 )
@@ -242,7 +240,7 @@ const CarouselWrapper = (props: CarouselWrapperType) => {
                     icon="arrow-simple-left"
                     theme="text"
                     themeSat={300}
-                    secondary
+                    ghost
                   />
                   <div className="fsize-300 txtPrimary400 ml-3 mr-3">
                     <span>{activeSlide + 1}</span>
@@ -255,7 +253,7 @@ const CarouselWrapper = (props: CarouselWrapperType) => {
                     icon="arrow-simple-right"
                     theme="text"
                     themeSat={300}
-                    secondary
+                    ghost
                   />
                 </div>
               )
@@ -293,7 +291,7 @@ const CarouselWrapper = (props: CarouselWrapperType) => {
                     icon="arrow-simple-left"
                     theme="text"
                     themeSat={300}
-                    secondary
+                    ghost
                   />
                   <BrixelButtonIcon
                     onClick={() => moveSlide('next')}
@@ -301,7 +299,7 @@ const CarouselWrapper = (props: CarouselWrapperType) => {
                     icon="arrow-simple-right"
                     theme="text"
                     themeSat={300}
-                    secondary
+                    ghost
                   />
                 </>
               )

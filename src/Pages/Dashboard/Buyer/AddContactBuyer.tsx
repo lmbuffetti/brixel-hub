@@ -5,9 +5,7 @@ import {phonecode} from '@brixel/brixel-components/dist/constants/CountryCodePho
 import get from 'lodash/get';
 import {connect} from 'react-redux';
 import {useLocation, useNavigate} from 'react-router-dom';
-import {bindActionCreators, compose} from 'redux';
-import {spinnerSmallOff} from '../../../actions/CommonActions';
-import {createPropertyVisitBooking} from '../../../actions/PropertyActions';
+import {compose} from 'redux';
 import ContactForm from '../../../components/ContactForm';
 import translateTo from '../../../utils/translation';
 import type {AddContactBuyerType} from '../../../@types/Pages/Dashboard/Buyer/AddContactBuyer';
@@ -104,7 +102,7 @@ const AddContactBuyer = (props: AddContactBuyerType) => {
                     <span>{translateTo('Make sure you visited the', lang)}</span>&nbsp;
                     <span
                       className="txtPrimary400 cur-poi"
-                      onClick={() => window.open(`${baseByData.pageUrl}${activeSingleProperty.stub}/explore/tour`, '_blank')}
+                      onClick={() => window.open(`${baseByData?.pageUrl}${activeSingleProperty.stub}/explore/tour`, '_blank')}
                     >
                       <span>{translateTo('3D Tour', lang)}</span>
                     </span>
@@ -148,11 +146,6 @@ const mapStateToProps = (state) => {
   });
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  handleCreatePropertyVisitBooking: bindActionCreators(createPropertyVisitBooking, dispatch),
-  handleSpinnerSmallOff: bindActionCreators(spinnerSmallOff, dispatch),
-});
-
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(mapStateToProps, null),
 )(AddContactBuyer);

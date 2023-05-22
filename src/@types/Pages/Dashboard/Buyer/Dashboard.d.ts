@@ -8,7 +8,10 @@ export interface DashboardType {
   handleGetActiveSingleProperty: (data: object) => void;
   handleGetBuyerDeal: ({id: string, actionStub: string}) => void;
   handleGetFavoritesProperties: (data: object) => void;
+  handleGetScheduleVisit: ({id: string, direction: string, order: string}) => void;
+  hanldeSetScheduleVisit: (data: object | null) => void;
   handleSetUserTypes: (val: string) => void;
   handleSpinnerOff: () => void
+  hanldeGetScheduleVisit: (data: object) => void;
   loggedInUser: LoggedUserType;
 }

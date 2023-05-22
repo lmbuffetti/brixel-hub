@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, {Suspense, useEffect} from 'react';
 import {Navigate, Route, Routes, useLocation, useNavigate, useParams} from 'react-router-dom';
 import get from 'lodash/get';
@@ -153,7 +152,7 @@ const PropertyBuyerDashboard = (props: PropertyBuyerDashboardType) => {
           }
           <div className={`backButton jc-c mb-2 ${openCloseColumn() === 'closed' ? 'dis-b' : 'hide'}`}>
             <BrixelButtonIcon
-              ghost
+              bgTransparent
               icon="arrow-simple-left"
               onClick={() => history.push('../page')}
             />

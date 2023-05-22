@@ -1,5 +1,4 @@
-import axios, {AxiosRequestConfig} from 'axios';
-import {failureHandler, successHandler} from '../utils/api.helper';
+import {failureHandler} from '../utils/api.helper';
 import {articlesQuery, bannersQuery} from './query.costants';
 
 class ApiClient {
@@ -52,16 +51,12 @@ class ApiClient {
         },
       } );
     }
-    const config: AxiosRequestConfig = {
-      url,
-      method,
-      baseURL: baseUrl,
-      params : {},
+    return fetch(`${baseUrl}${url}`, {
+      method: method,
       headers: head,
-      data: body,
-    };
-    return axios(config)
-      .then((res) => successHandler(res, null))
+      body: body,
+    })
+      .then(res => res.json(), null)
       .catch(failureHandler);
   }
 }

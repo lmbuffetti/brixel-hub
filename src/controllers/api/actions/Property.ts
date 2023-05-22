@@ -38,49 +38,14 @@ class Property extends Base {
     return this.apiClient.get(url, {});
   }
 
-  createPropertyVisitSchedule(data) {
-    const url = ep.property.createPropertyVisitSchedule();
+  saveScheduleVisit(data) {
+    const url = ep.property.scheduleVisit();
     return this.apiClient.post(url, {}, data);
   }
 
   getPropertyVisitSchedule(id) {
-    const url = ep.property.propertyVisitScheduleById(id);
+    const url = ep.property.scheduleVisitId(id);
     return this.apiClient.get(url, {});
-  }
-
-  getPageVisitsBuyer(id) {
-    const url = ep.property.getPageVisitsBuyer(id);
-    return this.apiClient.get(url, {});
-  }
-
-  updatePropertyVisitSchedule(id, data) {
-    const url = ep.property.propertyVisitScheduleById(id);
-    return this.apiClient.put(url, {}, data);
-  }
-
-  createPropertyVisit(data) {
-    const url = ep.property.createPropertyVisit();
-    return this.apiClient.post(url, {}, data);
-  }
-
-  deletePropertyVisit(id) {
-    const url = ep.property.propertyVisitById(id);
-    return this.apiClient.delete(url, {});
-  }
-
-  getPropertyVisit(id) {
-    const url = ep.property.propertyVisitById(id);
-    return this.apiClient.get(url, {});
-  }
-
-  updatePropertyVisit(id, data) {
-    const url = ep.property.propertyVisitById(id);
-    return this.apiClient.put(url, {}, data);
-  }
-
-  getPageVisits(id, data) {
-    const url = ep.property.getPageVisits(id);
-    return this.apiClient.get(url, {}, data);
   }
 
   changePublishReview(id, status) {
@@ -110,6 +75,11 @@ class Property extends Base {
 
   getPageDealsCount(id) {
     const url = ep.property.pageDealsCount(id);
+    return this.apiClient.get(url, {});
+  }
+
+  getPropertyVisits(id, order = 'createdAt', direction = 'DESC', quantity = 50, offset = 0) {
+    const url = ep.property.visitsList(id, order, direction, quantity, offset);
     return this.apiClient.get(url, {});
   }
 }

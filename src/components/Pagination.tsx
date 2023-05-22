@@ -70,7 +70,7 @@ const Pagination = (props: PaginationType) => {
                 activePage !== 0 && (
                   <span onClick={() => processPagination(pageNumbers[(activePage / itemsPerPage)] - 1, 'page')} className="first-link mr-1">
                     <BrixelButtonIcon
-                      ghost
+                      bgTransparent
                       small
                       theme="text"
                       icon="arrow-simple-left"
@@ -152,10 +152,9 @@ const Pagination = (props: PaginationType) => {
                   <span onClick={() => processPagination(pageNumbers[(activePage / itemsPerPage)] + 1, 'page')} className="last-link">
                     <BrixelButtonIcon
                       small
-                      ghost
+                      bgTransparent
                       theme="text"
                       icon="arrow-simple-right"
-                      bgTransparent
                     />
                   </span>
                 )

@@ -36,6 +36,7 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
     handleSetModal,
     lang,
     loggedInUser,
+    modalLearnMoreSrchPrf,
     setSplashScreen,
     skeleton,
     splashScreenType,
@@ -45,6 +46,7 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
   // STATE
   const [fieldsSearchProfile, setFieldsSearchProfile] = useState<string[]>([]);
   const [activeTab, setActiveTab] = useState(filterPropType[0]);
+  const [stepLearnMoreSrchPrf, setStepLearnMoreSrchPrf] = useState(1);
   // URL PARAMS
   const cat = get(match, 'cat', null);
   const page = get(match, 'page', 0);
@@ -99,15 +101,106 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
     if (fltProp) setActiveTab(fltProp);
   }, [cat]);
 
+  useEffect(() => {
+    if (modalLearnMoreSrchPrf.multiActions) {
+      const NextLabel = stepLearnMoreSrchPrf === 5 ? 'Got it' : 'Next';
+      const NextIcon = stepLearnMoreSrchPrf === 5 ? 'tick' : 'arrow-right';
+      const step1Translate = translateTo('Step', lang);
+      const step2Translate = translateTo('of', lang);
+      handleSetModal({
+        ...modalLearnMoreSrchPrf,
+        component: React.createElement(LearnMoreListingsProperty, {lang, step: stepLearnMoreSrchPrf}),
+        title: `${step1Translate} ${stepLearnMoreSrchPrf} ${step2Translate} 5`,
+        multiActions: [
+          {
+            ...modalLearnMoreSrchPrf.multiActions[0],
+            name: stepLearnMoreSrchPrf === 5 ? 'Restart' : 'Skip',
+            rightIcon: stepLearnMoreSrchPrf === 5 ? 'restart' : '',
+            func: () => {
+              if (stepLearnMoreSrchPrf === 5) setStepLearnMoreSrchPrf(1);
+              else handleSetModal({})
+            },
+          },
+          {
+            ...modalLearnMoreSrchPrf.multiActions[1],
+            disabled: stepLearnMoreSrchPrf === 1,
+            btnType: windowDimensions.width < 768 ? 'Icon' : 'Secondary',
+            leftIcon: windowDimensions.width < 768 ? 'arrow-left' : '',
+            name: windowDimensions.width < 768 ? '' : 'Back',
+          },
+          {
+            ...modalLearnMoreSrchPrf.multiActions[2],
+            leftIcon: windowDimensions.width < 768 ? NextIcon : '',
+            rightIcon: NextIcon,
+            btnType: windowDimensions.width < 768 ? 'Icon' : 'Primary',
+            name: windowDimensions.width < 768 ? '' : NextLabel,
+            func: () => {
+              if (stepLearnMoreSrchPrf < 5) setStepLearnMoreSrchPrf((prev) => prev + 1);
+              else handleSetModal({});
+            },
+          },
+        ],
+      })
+    }
+  }, [stepLearnMoreSrchPrf, windowDimensions]);
+
   const onLearnMore = () => {
+    const NextLabel = stepLearnMoreSrchPrf === 5 ? 'Got it' : 'Next';
+    const NextIcon = stepLearnMoreSrchPrf === 5 ? 'tick' : 'arrow-right';
+    const step1Translate = translateTo('Step', lang);
+    const step2Translate = translateTo('of', lang);
+    const title = `${step1Translate} 1 ${step2Translate} 5`;
     handleSetModal({
-      bodyClassColor: 'white ov-v',
+      className: 'modal-learn-more',
+      bodyClassColor: 'white',
       bodyInnerClass: 'h-perc-100',
-      title: '',
       layout: 'large',
       small: true,
-      component: React.createElement(LearnMoreListingsProperty, {lang}),
+      component: React.createElement(LearnMoreListingsProperty, {lang, step: stepLearnMoreSrchPrf}),
       state: true,
+      titleTop: true,
+      titleTopClass: 'p-0',
+      title: title,
+      multiActions: [
+        {
+          round: true,
+          clr: 'text',
+          rigthIcon: stepLearnMoreSrchPrf === 5 ? 'restart' : '',
+          btnType: 'Tertiary',
+          className: 'mr-a ml-0',
+          name: stepLearnMoreSrchPrf === 5 ? 'Restart' : 'Skip',
+          func: () => {
+            if (stepLearnMoreSrchPrf === 5) setStepLearnMoreSrchPrf(1);
+            else handleSetModal({})
+          },
+        },
+        {
+          showBrd: true,
+          bgTransparent: true,
+          round: true,
+          clr: 'primary',
+          btnType: windowDimensions.width < 768 ? 'Icon' : 'Secondary',
+          className: 'mr-1',
+          name: windowDimensions.width < 768 ? '' : 'Back',
+          leftIcon: windowDimensions.width < 768 ? 'arrow-left' : '',
+          disabled: stepLearnMoreSrchPrf === 1,
+          func: () => {
+            if (stepLearnMoreSrchPrf === 5) setStepLearnMoreSrchPrf((prev) => prev - 1);
+          },
+        },
+        {
+          round: true,
+          clr: 'primary',
+          name: windowDimensions.width < 768 ? '' : NextLabel,
+          rightIcon: NextIcon,
+          leftIcon: windowDimensions.width < 768 ? NextIcon : '',
+          btnType: windowDimensions.width < 768 ? 'Icon' : 'Primary',
+          func: () => {
+            if (stepLearnMoreSrchPrf < 5) setStepLearnMoreSrchPrf((prev) => prev + 1);
+            else handleSetModal({});
+          },
+        },
+      ],
     })
   }
 
@@ -129,7 +222,7 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
               >
                 <div className="dis-f jc-fe mb-2">
                   <BrixelButtonIcon
-                    ghost
+                    bgTransparent
                     theme="text"
                     icon="close-small"
                     onClick={() => onCloseWelcome()}
@@ -236,7 +329,7 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
                             }
                             <BrixelButtonIcon
                               icon="edit-setting"
-                              secondary
+                              ghost
                               className="bgWhite"
                               onClick={() => history.push(`/buy/searchProfile/list/edit/${activeSearchProfile.id}`, {state: { url: `/buy/searchProfile/${cat}/${page}` }})}
                             />
@@ -401,6 +494,7 @@ const mapStateToProps = (state) => ({
   estimation: get(state, 'property.estimation', {}),
   lang: get(state, 'common.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
+  modalLearnMoreSrchPrf: get(state, 'common.modal', {}),
   ownerEstimations: get(state, 'market.ownerEstimations', {}),
   preMarketStats: get(state, 'market.preMarketStats', {}),
   premiumEuropeProperties: get(state, 'market.premiumEuropeProperties', {}),

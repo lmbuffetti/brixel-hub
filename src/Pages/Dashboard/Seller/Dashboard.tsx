@@ -14,14 +14,11 @@ import {bindActionCreators, compose} from 'redux';
 import {setModal, setPageData, setScreenNotification, spinnerOff, spinnerOn} from '../../../actions/CommonActions';
 import {getActiveSingleCompany} from '../../../actions/CompanyActions';
 import {
-  createPropertyVisitSchedule,
   getActiveSingleProperty,
-  getActiveSinglePropertyBookings,
+  getScheduleVisit,
   getEstimation,
   getPackageProperty,
   saveActiveSingleProperty,
-  savePropertyVisitBooking,
-  savePropertyVisitSchedule,
 } from '../../../actions/PropertyActions';
 import {deleteDocument, getImageType, uploadDocument} from '../../../actions/UploadActions';
 import {setUserTypes} from '../../../actions/UserActions';
@@ -62,15 +59,13 @@ const Dashboard = (props: DashboardType) => {
     activeSingleProperty,
     errorValue,
     formValue,
-    handleCreatePropertyVisitSchedule,
     handleGetActiveSingleCompany,
     handleGetActiveSingleProperty,
-    handleGetActiveSinglePropertyBookings,
+    handleGetScheduleVisit,
     handleGetActiveSinglePropertyEstimation,
     handleGetImageType,
     handleGetPackageProperty,
     handleSaveActiveSingleProperty,
-    handleSavePropertyVisitSchedule,
     handleSetScreenNotification,
     handleSetUserTypes,
     handleSpinnerOff,
@@ -146,7 +141,7 @@ const Dashboard = (props: DashboardType) => {
         }
         if (get(activeSingleProperty, 'owner', null) === get(loggedInUser, 'user.id', '')) {
           // handleGetActiveSingleProperty({ fullVersion: true, id: propID });
-          handleGetActiveSinglePropertyBookings({ id: propID });
+          handleGetScheduleVisit({ id: propID });
         }
         if (imageType.length === 0) handleGetImageType();
       } else {
@@ -163,44 +158,22 @@ const Dashboard = (props: DashboardType) => {
   const saveData = () => {
     const changeObj = diff(initialValues, formValue);
     if (Object.keys(changeObj).length > 0) {
-      if (get(changeObj, 'schedule', null)) {
-        // Update schedule
-        if (has(formValue, 'schedule.id')) {
-          const data = {
-            scheduleId: formValue.schedule.id,
-            data: {
-              page: formValue.id,
-              slots: formValue.schedule.slots,
-            },
-          };
-          handleSavePropertyVisitSchedule(data);
-        } else {
-          // Create schedule
-          const data = {
-            page: formValue.id,
-            slots: formValue.schedule.slots,
-          };
-          handleCreatePropertyVisitSchedule(data);
-        }
-      } else {
-        const objToSave = {};
-        Object.keys(changeObj).map((key) => {
-          objToSave[key] = get(formValue, key, {});
-          return null;
-        });
-        if (get(changeObj, 'photos', null)) {
-          set(objToSave , 'coverPhoto', get(formValue, 'photos', [])[0]);
-        }
-        set(objToSave, 'inputSheet', get(formValue, 'inputSheet', {}));
-        const data = {
-          id: propID,
-          smallLoader: 'saveData',
-          setSuccessNotification: true,
-          ...objToSave,
-        };
-        handleSaveActiveSingleProperty(data);
-        // const inputSheet = get(formValue, 'inputSheet', {}) || {};
+      const objToSave = {};
+      Object.keys(changeObj).map((key) => {
+        objToSave[key] = get(formValue, key, {});
+        return null;
+      });
+      if (get(changeObj, 'photos', null)) {
+        set(objToSave , 'coverPhoto', get(formValue, 'photos', [])[0]);
       }
+      set(objToSave, 'inputSheet', get(formValue, 'inputSheet', {}));
+      const data = {
+        id: propID,
+        smallLoader: 'saveData',
+        setSuccessNotification: true,
+        ...objToSave,
+      };
+      handleSaveActiveSingleProperty(data);
     }
   };
 
@@ -239,7 +212,6 @@ const Dashboard = (props: DashboardType) => {
 
   // FUNCTION TO SHOW/HIDE THE NOTIFICATION BAR TO SAVE
   useEffect(() => {
-    // eslint-disable-next-line consistent-return
     if (!get(history, 'location.pathname', '').includes('formFlow')) {
       const docsList = get(diff(initialValues, formValue), 'documents', []);
       const isDocEdit = find(docsList, (el) => {
@@ -253,7 +225,7 @@ const Dashboard = (props: DashboardType) => {
       if (formValue.id && initialValues.id) {
         let changeObj = diff(initialValues, formValue);
         const checkIsValid = Object.keys(changeObj).find((key) => typeof changeObj[key] !== 'undefined');
-        changeObj = omit(changeObj, ['inputSheet']);
+        changeObj = omit(changeObj, ['inputSheet', 'documents']);
         const getIndexNotification = notification.findIndex((item) => item.type === 'save');
         if (Object.keys(changeObj).length === 0 && get(notification, 'label', '').toLowerCase().includes('changes')) {
           handleSetScreenNotification({
@@ -416,18 +388,15 @@ const mapDispatchToProps = (dispatch) => ({
   handleReset(data) {
     (dispatch(reset('Property', data)));
   },
-  handleCreatePropertyVisitSchedule: bindActionCreators(createPropertyVisitSchedule, dispatch),
   handleDeleteDocument: bindActionCreators(deleteDocument, dispatch),
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
   handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
-  handleGetActiveSinglePropertyBookings: bindActionCreators(getActiveSinglePropertyBookings, dispatch),
+  handleGetScheduleVisit: bindActionCreators(getScheduleVisit, dispatch),
   handleGetActiveSinglePropertyEstimation: bindActionCreators(getEstimation, dispatch),
   handleGetImageType: bindActionCreators(getImageType, dispatch),
   handleGetPackageProperty: bindActionCreators(getPackageProperty, dispatch),
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
   handleSaveData: bindActionCreators(setPageData, dispatch),
-  handleSavePropertyVisitBooking: bindActionCreators(savePropertyVisitBooking, dispatch),
-  handleSavePropertyVisitSchedule: bindActionCreators(savePropertyVisitSchedule, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
   handleSetScreenNotification: bindActionCreators(setScreenNotification, dispatch),
   handleSetUserTypes: bindActionCreators(setUserTypes, dispatch),

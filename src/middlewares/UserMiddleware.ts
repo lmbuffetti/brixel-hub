@@ -67,7 +67,7 @@ const checkUser = (store) => (next) => (action) => {
             if ((get(window, 'location.hostname', '').includes('localhost') || get(window, 'location.hostname', '').includes('192.168'))) {
               removeCookie('brixelToken');
               window.location.assign('/tokeninput');
-            } else window.location.assign(`${baseByData.logoutUrl}?url=${get(window, 'location.href', '')}`);
+            } else window.location.assign(`${baseByData?.logoutUrl}?url=${get(window, 'location.href', '')}`);
             if (!hideLoad) store.dispatch({ type: SPINNER_OFF });
           }
         })
@@ -78,7 +78,7 @@ const checkUser = (store) => (next) => (action) => {
           if ((get(window, 'location.hostname', '').includes('localhost') || get(window, 'location.hostname', '').includes('192.168'))) {
             removeCookie('brixelToken');
             window.location.assign('/tokeninput');
-          } else window.location.assign(`${baseByData.logoutUrl}?url=${get(window, 'location.href', '')}`);
+          } else window.location.assign(`${baseByData?.logoutUrl}?url=${get(window, 'location.href', '')}`);
           if (!hideLoad) store.dispatch({ type: SPINNER_OFF });
           store.dispatch({ type: SPINNER_OFF });
         });

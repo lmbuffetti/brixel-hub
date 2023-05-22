@@ -25,7 +25,7 @@ const ProtectedRoute = (props: ProtectedRouteType) => {
     if (!getCookie('brixelToken')) {
       if ((history.location.pathname.includes('buyer') && activeSingleCompany.id) || !history.location.pathname.includes('buyer')) {
         const companyURL = activeSingleCompany.id ? `/${activeSingleCompany.stub}` : '';
-        const redirectURL = `${baseByData.loginUrl}${companyURL}?url=${get(window, 'location.href', '')}`;
+        const redirectURL = `${baseByData?.loginUrl}${companyURL}?url=${get(window, 'location.href', '')}`;
         if ((get(window, 'location.hostname', '').includes('localhost') || get(window, 'location.hostname', '').includes('192.168'))) {
           history.push('/tokeninput');
         } else if (!isTest) {
