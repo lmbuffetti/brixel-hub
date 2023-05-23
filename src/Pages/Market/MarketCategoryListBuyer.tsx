@@ -166,7 +166,7 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
       component: React.createElement(LearnMoreListingsProperty, {lang, step: stepLearnMoreSrchPrf}),
       state: true,
       titleTop: true,
-      titleTopClass: 'p-0',
+      titleTopClass: 'ml-2 ml-sm-0 p-sm-0',
       title: title,
       multiActions: [
         {
