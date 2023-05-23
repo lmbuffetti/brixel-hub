@@ -801,7 +801,7 @@ const App = (props: AppType) => {
                 layout={modal.layout}
                 multiActions={modal.multiActions}
                 multiBodyActions={modal.multiBodyActions}
-                onClose={() => modal.hideClose !== true || !modal.onClose ? handleSetModal({ state: false }) : modal.onClose()}
+                onClose={() => modal.hideClose !== true && !modal.onClose ? handleSetModal({ state: false }) : modal.onClose && modal.onClose()}
                 showLogoHeader={modal.showLogoHeader}
                 title={modal.title}
                 titleImg={modal.titleImg}
