@@ -505,7 +505,7 @@ const checkCommon = (store) => (next) => (action) => {
       const { dealID, smallLoader, saveAction, indexPerson } = action.payload;
       delete action.payload.dealID;
       delete action.payload.saveAction;
-      delete action.payload.smallLaoder;
+      delete action.payload.smallLoader;
       delete action.payload.indexPerson;
       if (smallLoader) {
         store.dispatch({
@@ -577,7 +577,7 @@ const checkCommon = (store) => (next) => (action) => {
       delete action.payload.indexPerson;
       delete action.payload.pageID;
       delete action.payload.saveAction;
-      delete action.payload.smallLaoder;
+      delete action.payload.smallLoader;
       delete action.payload.body.mimeType;
       if (smallLoader) {
         store.dispatch({
