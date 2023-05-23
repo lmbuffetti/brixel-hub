@@ -136,7 +136,10 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
             name: windowDimensions.width < 768 ? '' : NextLabel,
             func: () => {
               if (stepLearnMoreSrchPrf < 5) setStepLearnMoreSrchPrf((prev) => prev + 1);
-              else handleSetModal({});
+              else {
+                setStepLearnMoreSrchPrf(1);
+                handleSetModal({});
+              }
             },
           },
         ],
@@ -155,6 +158,10 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
       bodyClassColor: 'white',
       bodyInnerClass: 'h-perc-100',
       layout: 'large',
+      onClose: () =>  {
+        setStepLearnMoreSrchPrf(1);
+        handleSetModal({});
+      },
       small: true,
       component: React.createElement(LearnMoreListingsProperty, {lang, step: stepLearnMoreSrchPrf}),
       state: true,
