@@ -1,13 +1,11 @@
 import {Helpers} from '@brixel/brixel-components';
 import translateTo from '../../utils/translation';
-import has from 'lodash/has';
-import tail from 'lodash/tail';
 import get from 'lodash/get';
 import {DateTime} from 'luxon';
 
-const offerText = (offerMeta, _currency, activeSingleProperty, lang) => {
+const offerText = (offerMeta, currency = '', activeSingleProperty, lang) => {
   let answerText = '';
-  const defaultCurrency = get(activeSingleProperty, 'price.currency', '');
+  const defaultCurrency = get(activeSingleProperty, 'price.currency', currency);
   answerText += `<span>${translateTo('You made an offer of', lang)}</span> <span class="fweight-500 ml-small-4">${get(offerMeta, 'offer.currency', defaultCurrency)} ${Helpers.formatNumberValue(get(offerMeta, 'offer.amount', 0), get(offerMeta, 'offer.currency', defaultCurrency))}</br></span>`;
   return answerText || translateTo('Created offer', lang);
 }
@@ -17,11 +15,24 @@ export const feedMessage = (user, history, packages, activeSingleProperty, lang)
   if (get(history, 'meta.servicePackage', null)) filtPackages = packages.find((item) => history.meta.servicePackage === item.id);
   let dates = '';
   if (get(history, 'meta.schedule', null)) {
-    const scheduleArray = tail(get(history, 'meta.schedule', '').split('•'));
+    const scheduleArray = get(history, 'meta.schedule', '');
     scheduleArray.forEach((date) => {
-      dates += `<span class="tidy-dates">•${date}</span>`;
+      const dateFormatted = DateTime.fromMillis(date.start).toFormat('dd MMM yyyy', {locale: lang});
+      const startHourFormatted = DateTime.fromMillis(date.start).toFormat('HH:mm', {locale: lang});
+      const endDateFormatted = DateTime.fromMillis(date.end).toFormat('HH:mm', {locale: lang});
+      if (date.isAllDay) {
+        dates += `
+            <span class="tidy-dates">
+                <span>• ${dateFormatted},<span><span class="ml-small-4">${translateTo('All day', lang)}</span>
+            </span>`;
+      } else {
+        dates += `
+            <span class="tidy-dates">
+                • ${dateFormatted}, ${startHourFormatted} - ${endDateFormatted}
+            </span>`;
+      }
     });
-    if (has(history, 'meta.message')) {
+    if (get(history, 'meta.message', null)) {
       dates += `<span>${translateTo('Message:', lang)}</span><span class="ml-small-4">${history.meta.message.replace(/&lt;br&gt;/g,' ')}</span>`;
     }
   }
@@ -104,7 +115,7 @@ export const feedMessage = (user, history, packages, activeSingleProperty, lang)
       colorBgIcon: 'Blue',
       colorIconSat: 100,
       colorBgIconSat: 400,
-      colorIcon: 'AltBlue',
+      colorIcon: 'Blue',
       message: translateTo('Pro Estimation completed', lang),
       icon: 'chart',
     },
@@ -180,16 +191,16 @@ export const feedMessage = (user, history, packages, activeSingleProperty, lang)
       message: translateTo('You sent a message', lang),
       icon: 'mail-open',
     },
-    'update-deal': {
+    'schedule-visit-confirm': {
       className: 'brdGreen200',
       colorIcon: 'Green',
       colorBgIcon: 'Green',
       colorIconSat: 100,
       colorBgIconSat: 400,
-      message: `<span><span>${translateTo('Your visit is confirmed', lang)}</span><span class="ml-small-4"></br><span>${get(history, 'meta.state', null) ? DateTime.fromMillis(get(history, 'meta.state', 0)).toFormat('dd LLL yyyy, hh:mm', user.language) : 0}</span>`,
+      message: `<span><span>${translateTo('Your visit is confirmed', lang)}</span><span class="ml-small-4"></br><span>${DateTime.fromMillis(get(history, 'meta.newValue.date', 0)).toFormat('dd LLL yyyy, HH:mm', user.language)}</span>`,
       icon: 'calendar',
     },
-    'user-schedule': {
+    'schedule-visit-request': {
       className: 'brdGreen200',
       colorIcon: 'Green',
       colorBgIcon: 'Green',

@@ -66,6 +66,30 @@ export const createTimelineEntry = (item, userLang) => {
         }
         return `<span>${translateTo('Requested showing', userLang)}</span></br></br><span>${dates}</span>`;
       }
+      if (item.actionStub === 'schedule-visit-request') {
+        let dates = '';
+        const scheduleArray = get(item, 'meta.schedule', '');
+        scheduleArray.forEach((date) => {
+          const dateFormatted = DateTime.fromMillis(date.start).toFormat('dd MMM yyyy', {locale: userLang});
+          const startHourFormatted = DateTime.fromMillis(date.start).toFormat('HH:mm', {locale: userLang});
+          const endDateFormatted = DateTime.fromMillis(date.end).toFormat('HH:mm', {locale: userLang});
+          if (date.isAllDay) {
+            dates += `
+            <span class="tidy-dates">
+                <span>• ${dateFormatted},<span><span class="ml-small-4">${translateTo('All day', userLang)}</span>
+            </span>`;
+          } else {
+            dates += `
+            <span class="tidy-dates">
+                • ${dateFormatted}, ${startHourFormatted} - ${endDateFormatted}
+            </span>`;
+          }
+        });
+        if (has(item, 'meta.message')) {
+          dates += `</br><span>${translateTo('Message:', userLang)}</span><span class="ml-small-4">${item.meta.message}</span>`;
+        }
+        return `<span>${translateTo('Requested showing', userLang)}</span></br></br><span>${dates}</span>`;
+      }
       if (item.actionStub === 'user-get-document') return translateTo('Requested documents', userLang);
       if (item.actionStub === 'user-phone-call') return translateTo('Made a phone call', userLang);
       if (item.actionStub === 'user-send-message') return translateTo(`"${item.meta.message}"`, userLang);
@@ -138,6 +162,8 @@ export const createTimelineEntry = (item, userLang) => {
       if (item.actionStub === 'page-upgrade-plan-request') return 'shopping-cart';
       if (item.actionStub === 'user-register' || item.actionStub === 'user-recover-password') return 'mail';
       if (item.actionStub === 'user-schedule') return 'calendar';
+      if (item.actionStub === 'schedule-visit-confirm') return 'calendar';
+      if (item.actionStub === 'schedule-visit-request') return 'calendar';
       if (item.actionStub === 'user-send-message') return 'message';
       if (item.actionStub === 'deal-feedback-visit') return 'message';
       if (item.actionStub === 'user-add-favorite') return 'favorite-fill';
