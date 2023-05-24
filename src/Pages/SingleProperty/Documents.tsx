@@ -708,6 +708,7 @@ const Documents = (props: DocumentsPageType) => {
                                                       <BrixelTooltip
                                                         description={`${translateTo('This document is set to', lang)} ${translateTo(`${doc.isPrivate === true ? 'private' : 'public'}`, lang)}. ${translateTo('Edit to change.', lang)}`}
                                                         width="200"
+                                                        lang={lang}
                                                         iconColor={`${doc.isPrivate === true ? 'red' : 'green'}`}
                                                         icon={`${doc.isPrivate === true ? 'locked' : 'eye'}`}
                                                         className="mr-1"
@@ -890,6 +891,7 @@ const Documents = (props: DocumentsPageType) => {
                                                                 className="mr-1"
                                                                 description={`${translateTo('This document is set to', lang)} ${translateTo(`${doc.isPrivate === true ? 'private' : 'public'}`, lang)}. ${translateTo('Edit to change.', lang)}`}
                                                                 width="200"
+                                                                lang={lang}
                                                                 iconColor={`${doc.isPrivate === true ? 'red' : 'green'}`}
                                                                 icon={`${doc.isPrivate === true ? 'locked' : 'eye'}`}
                                                               />
