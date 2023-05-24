@@ -5,17 +5,14 @@ const TimelineStubs = {
     'deal-feedback-visit',
     'user-add-favorite',
     'user-message',
-    'user-schedule',
     'user-get-document',
     'user-phone-call',
   ],
   DealOwner: [
     'user-portal-create-message',
-    'user-schedule',
   ],
   DealLastAction: [
     'user-add-favorite',
-    'user-schedule',
     'user-phone-call',
     'user-portal-create-deal',
     'user-portal',
@@ -25,7 +22,6 @@ const TimelineStubs = {
   ],
   BuyerSidebarPage: [
     'user-send-message',
-    'user-schedule',
   ],
   BuyerSidebarUser: [
     'user-register',
@@ -38,6 +34,8 @@ const TimelineStubs = {
     'deal-make-offer',
     'deal-review-offer',
     'update-deal',
+    'schedule-visit-confirm',
+    'schedule-visit-request',
   ],
   SellerSidebar: [
     'page-create',
