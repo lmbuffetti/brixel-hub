@@ -706,7 +706,7 @@ const Documents = (props: DocumentsPageType) => {
                                                   userType !== 'buyer' && (
                                                     <>
                                                       <BrixelTooltip
-                                                        description={`This document is set to ${doc.isPrivate === true ? 'private' : 'public'}. Edit to change`}
+                                                        description={`${doc.isPrivate === true ? translateTo('This document is set to private. Edit to change', lang) : translateTo('This document is set to public. Edit to change', lang)}`}
                                                         width="200"
                                                         lang={lang}
                                                         iconColor={`${doc.isPrivate === true ? 'red' : 'green'}`}
@@ -889,7 +889,7 @@ const Documents = (props: DocumentsPageType) => {
                                                             <>
                                                               <BrixelTooltip
                                                                 className="mr-1"
-                                                                description={`${translateTo('This document is set to', lang)} ${translateTo(`${doc.isPrivate === true ? 'private' : 'public'}`, lang)}. ${translateTo('Edit to change.', lang)}`}
+                                                                description={`${doc.isPrivate === true ? translateTo('This document is set to private. Edit to change', lang) : translateTo('This document is set to public. Edit to change', lang)}`}
                                                                 width="200"
                                                                 lang={lang}
                                                                 iconColor={`${doc.isPrivate === true ? 'red' : 'green'}`}
