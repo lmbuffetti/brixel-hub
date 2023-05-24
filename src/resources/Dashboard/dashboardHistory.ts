@@ -197,7 +197,7 @@ export const feedMessage = (user, history, packages, activeSingleProperty, lang)
       colorBgIcon: 'Green',
       colorIconSat: 100,
       colorBgIconSat: 400,
-      message: `<span><span>${translateTo('Your visit is confirmed', lang)}</span><span class="ml-small-4"></br><span>${DateTime.fromMillis(get(history, 'meta.newValue.date', 0)).toFormat('dd LLL yyyy, HH:mm', user.language)}</span>`,
+      message: `<span><span>${translateTo('Your visit is confirmed', lang)}</span><span class="ml-small-4"></br><span>${DateTime.fromMillis(get(history, 'meta.visit.date', 0), { zone: get(history, 'meta.visit.timezone') }).toFormat('dd LLL yyyy, HH:mm', user.language)}</span>`,
       icon: 'calendar',
     },
     'schedule-visit-request': {
