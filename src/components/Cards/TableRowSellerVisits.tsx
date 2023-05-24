@@ -130,7 +130,7 @@ const TableRowSellerVisits = (props: TableRowSellerVisitsType) => {
               {DateTime.fromMillis(visit.visit.date, { locale: lang }).toFormat('d LLL yyyy, H:mm')}
             </span>
           ) : (
-            <span>Awaiting confirmation</span>
+            <span>{translateTo('Awaiting confirmation', lang)}</span>
           )
         }
       </p>
