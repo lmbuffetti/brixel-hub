@@ -103,7 +103,7 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
 
   useEffect(() => {
     if (modalLearnMoreSrchPrf.multiActions) {
-      const NextLabel = stepLearnMoreSrchPrf === 5 ? 'Got it' : 'Next';
+      const NextLabel = stepLearnMoreSrchPrf === 5 ? translateTo('Got it', lang) : translateTo('Next', lang);
       const NextIcon = stepLearnMoreSrchPrf === 5 ? 'tick' : 'arrow-right';
       const step1Translate = translateTo('Step', lang);
       const step2Translate = translateTo('of', lang);
@@ -114,7 +114,7 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
         multiActions: [
           {
             ...modalLearnMoreSrchPrf.multiActions[0],
-            name: stepLearnMoreSrchPrf === 5 ? 'Restart' : 'Skip',
+            name: stepLearnMoreSrchPrf === 5 ? translateTo('Restart', lang) : translateTo('Skip', lang),
             rightIcon: stepLearnMoreSrchPrf === 5 ? 'restart' : '',
             func: () => {
               if (stepLearnMoreSrchPrf === 5) setStepLearnMoreSrchPrf(1);
@@ -126,7 +126,7 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
             disabled: stepLearnMoreSrchPrf === 1,
             btnType: windowDimensions.width < 768 ? 'Icon' : 'Secondary',
             leftIcon: windowDimensions.width < 768 ? 'arrow-left' : '',
-            name: windowDimensions.width < 768 ? '' : 'Back',
+            name: windowDimensions.width < 768 ? '' : translateTo('Back', lang),
           },
           {
             ...modalLearnMoreSrchPrf.multiActions[2],
@@ -148,7 +148,7 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
   }, [stepLearnMoreSrchPrf, windowDimensions]);
 
   const onLearnMore = () => {
-    const NextLabel = stepLearnMoreSrchPrf === 5 ? 'Got it' : 'Next';
+    const NextLabel = stepLearnMoreSrchPrf === 5 ? translateTo('Got it', lang) : translateTo('Next', lang);
     const NextIcon = stepLearnMoreSrchPrf === 5 ? 'tick' : 'arrow-right';
     const step1Translate = translateTo('Step', lang);
     const step2Translate = translateTo('of', lang);
@@ -175,7 +175,7 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
           rigthIcon: stepLearnMoreSrchPrf === 5 ? 'restart' : '',
           btnType: 'Tertiary',
           className: 'mr-a ml-0',
-          name: stepLearnMoreSrchPrf === 5 ? 'Restart' : 'Skip',
+          name: stepLearnMoreSrchPrf === 5 ? translateTo('Restart', lang) : translateTo('Skip', lang),
           func: () => {
             if (stepLearnMoreSrchPrf === 5) setStepLearnMoreSrchPrf(1);
             else handleSetModal({})
@@ -188,7 +188,7 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
           clr: 'primary',
           btnType: windowDimensions.width < 768 ? 'Icon' : 'Secondary',
           className: 'mr-1',
-          name: windowDimensions.width < 768 ? '' : 'Back',
+          name: windowDimensions.width < 768 ? '' : translateTo('Back', lang),
           leftIcon: windowDimensions.width < 768 ? 'arrow-left' : '',
           disabled: stepLearnMoreSrchPrf === 1,
           func: () => {
