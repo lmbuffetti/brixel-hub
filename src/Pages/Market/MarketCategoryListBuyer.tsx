@@ -117,8 +117,8 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
             name: stepLearnMoreSrchPrf === 5 ? translateTo('Restart', lang) : translateTo('Skip', lang),
             rightIcon: stepLearnMoreSrchPrf === 5 ? 'restart' : '',
             func: () => {
-              if (stepLearnMoreSrchPrf === 5) setStepLearnMoreSrchPrf(1);
-              else handleSetModal({})
+              setStepLearnMoreSrchPrf(1);
+              handleSetModal({})
             },
           },
           {
@@ -127,6 +127,9 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
             btnType: windowDimensions.width < 768 ? 'Icon' : 'Secondary',
             leftIcon: windowDimensions.width < 768 ? 'arrow-left' : '',
             name: windowDimensions.width < 768 ? '' : translateTo('Back', lang),
+            func: () => {
+              if (stepLearnMoreSrchPrf > 1 && stepLearnMoreSrchPrf <= 5) setStepLearnMoreSrchPrf((prev) => prev - 1);
+            },
           },
           {
             ...modalLearnMoreSrchPrf.multiActions[2],
@@ -177,8 +180,8 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
           className: 'mr-a ml-0',
           name: stepLearnMoreSrchPrf === 5 ? translateTo('Restart', lang) : translateTo('Skip', lang),
           func: () => {
-            if (stepLearnMoreSrchPrf === 5) setStepLearnMoreSrchPrf(1);
-            else handleSetModal({})
+            setStepLearnMoreSrchPrf(1);
+            handleSetModal({})
           },
         },
         {
@@ -192,7 +195,7 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
           leftIcon: windowDimensions.width < 768 ? 'arrow-left' : '',
           disabled: stepLearnMoreSrchPrf === 1,
           func: () => {
-            if (stepLearnMoreSrchPrf === 5) setStepLearnMoreSrchPrf((prev) => prev - 1);
+            if (stepLearnMoreSrchPrf > 1 && stepLearnMoreSrchPrf <= 5) setStepLearnMoreSrchPrf((prev) => prev - 1);
           },
         },
         {
