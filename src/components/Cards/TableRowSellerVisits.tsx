@@ -46,28 +46,28 @@ const TableRowSellerVisits = (props: TableRowSellerVisitsType) => {
     switch (status) {
       case 'accepted':
         return {
-          text: 'Confirmed',
+          text: translateTo('Confirmed', lang),
           txtColor: 'txtGreen600',
           bg: 'bgGreen100',
           status: 'accepted',
         }
       case 'pending':
         return {
-          text: 'Pending',
+          text: translateTo('Pending', lang),
           txtColor: 'txtYellow600',
           bg: 'bgGreen100',
           status: 'pending',
         }
       case 'rejected':
         return {
-          text: 'Cancelled',
+          text: translateTo('Cancelled', lang),
           txtColor: 'txtRed600',
           bg: 'bgRed100',
           status: 'rejected',
         }
       case 'visited':
         return {
-          text: 'Visited',
+          text: translateTo('Visited', lang),
           txtColor: 'txtBlue600',
           bg: 'bgBlue100',
           status: 'visited',
