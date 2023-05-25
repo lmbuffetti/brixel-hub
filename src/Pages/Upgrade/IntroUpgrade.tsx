@@ -238,7 +238,7 @@ const IntroUpgrade = (props: IntroUpgradeType) => {
                           {
                             get(pkg, 'price.total', 0) > 0 ? (
                               <>
-                                <div className="min-h-fix-sm-80 dis-fl-col jc-fe mb-1">
+                                <div className="min-h-fix-sm-80 dis-fl-col jc-fe my-1">
                                   {
                                     get(pkg, 'price.discountTotal', 0) > 0 && (
                                       <>
@@ -403,7 +403,7 @@ const IntroUpgrade = (props: IntroUpgradeType) => {
                                 {
                                   get(pkg, 'price.total', 0) > 0 ? (
                                     <>
-                                      <div className="min-h-fix-sm-80 dis-fl-col jc-fe mb-1">
+                                      <div className="min-h-fix-sm-80 dis-fl-col jc-fe my-1">
                                         {
                                           get(pkg, 'price.discountTotal', 0) > 0 && (
                                             <>
@@ -548,7 +548,7 @@ const IntroUpgrade = (props: IntroUpgradeType) => {
       <section className="max-w-fix-1200 container contact-section py-3 py-md-6">
         <h3 className="ta-c fweight-600 fsize-600 fsize-sm-700">{translateTo('Do you want to upgrade or change plans?', lang)}</h3>
 
-        <div className="dis-fl-col dis-fl-row-md a-fs jc-b mt-8 max-w-fix-928 m-a">
+        <div className="dis-fl-col dis-fl-row-md a-fs jc-b mt-3 mt-sm-8 max-w-fix-928 m-a">
           {
             propID !== 'company' && (
               <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0 ta-c-md">

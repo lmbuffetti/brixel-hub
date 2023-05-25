@@ -119,20 +119,20 @@
         margin-right: $step  * 3;
       }
     }
-
+    .mobilePos {
+      @media (max-width: $responsive-small) {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+    }
     &.packageTwo {
       display: flex;
       flex-direction: row;
       max-width: 800px;
 
-      .mobilePos {
-        @media (max-width: $responsive-small) {
-          position: absolute;
-          top: 0;
-          left: 50%;
-          transform: translate(-50%, -50%);
-        }
-      }
+
 
       @media (max-width: $responsive-small) {
         max-width: 400px;
