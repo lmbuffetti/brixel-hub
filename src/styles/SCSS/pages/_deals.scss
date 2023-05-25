@@ -78,7 +78,7 @@ body .dashboardContainer.prospects {
     height: 100%;
 
     @media (min-width: $responsive-large) {
-      height: calc(100vh - 285px);
+      height: calc(100vh - 368px);
     }
     @media (max-width: $responsive-large) {
       max-height: calc(100vh - 270px);
