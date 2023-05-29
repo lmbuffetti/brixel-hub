@@ -219,6 +219,7 @@ const App = (props: AppType) => {
       loggedInUser?.id &&
       !isFlow &&
       history.location.pathname.includes('buy') &&
+      !history.location.pathname.includes('scheduleVisit') &&
       userTypes === 'buyer' &&
       activeSingleCompany.id &&
       !showCustomerSatisfaction
