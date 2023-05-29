@@ -6,7 +6,6 @@ import {change, destroy, initializeForm, MultiFileldsReduxForm, reset} from '@br
 import cloneDeep from 'lodash/cloneDeep';
 import get from 'lodash/get';
 import has from 'lodash/has';
-import isArray from 'lodash/isArray';
 import {DateTime} from 'luxon';
 import queryString from 'query-string';
 import {connect} from 'react-redux';
@@ -54,7 +53,6 @@ const ScanTrialFlow = (props: ScanTrialFlowType) => {
   const [isEnter, setIsEnter] = useState(true);
   const [showError, setShowError] = useState(false);
   const [saved, setSaved] = useState(false);
-  const [oldIndex, setOldIndex] = useState(0);
   const [showBookedTrial, setShowBookedTrial] = useState(false);
   // GET URL PARAMS
   const propID = get(match, 'propID', null);
@@ -203,7 +201,6 @@ const ScanTrialFlow = (props: ScanTrialFlowType) => {
     if (e) e.preventDefault();
     let newIndex = currentIndex;
     setShowError(false);
-    setOldIndex(currentIndex);
     if (act === 'back') {
       newIndex -= step;
     } else {
@@ -288,7 +285,6 @@ const ScanTrialFlow = (props: ScanTrialFlowType) => {
 
   // ON CHANGE FORM VALUE CALC THE CONDITION TO SHOW/HIDE QUESTIONS AND STEP
   useEffect(() => {
-    setOldIndex(currentIndex);
     const newQuest: QuestionsListType[] = [];
     if (formValue) {
       ScanTrialQuestions(lang).map((quests) => {
@@ -308,9 +304,6 @@ const ScanTrialFlow = (props: ScanTrialFlowType) => {
       });
       setQuest(newQuest[currentIndex]);
       setQuestions(newQuest);
-    }
-    if (get(newQuest, `[${currentIndex + 1}].inputs`, []).length === 1 && get(newQuest[currentIndex], 'inputs[0].options', []).length > 0 && get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), null) && !isArray(get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), [])) && oldIndex <= currentIndex) {
-      changeStep('next', null, 1, true);
     }
     if (currentIndex === 0 && formValue.analysis === 'remote') changeStep();
   }, [formValue]);
@@ -467,7 +460,7 @@ const ScanTrialFlow = (props: ScanTrialFlowType) => {
                 <div className="pos-r">
                   <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-c mb-3 h-fix-40">
                     {
-                      (get(quest, 'inputs', []).length > 1 || get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton') && (
+                      (get(quest, 'inputs', []).length > 0 || questions[currentIndex].history === 'introScanTrial') && (
                         <>
                           {
                             buttonLabel().toLowerCase() === 'skip' ? (
