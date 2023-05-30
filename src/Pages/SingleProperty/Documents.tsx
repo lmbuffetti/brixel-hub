@@ -812,7 +812,7 @@ const Documents = (props: DocumentsPageType) => {
                                               <div className={`dis-fl-row jc-b a-c p-1 ${(index(i) !== -1) ? 'brdSmallBottom brdText100' : ''}`}>
 
                                                 <div
-                                                  className={`dis-fl-row a-c p-1 flex-1 ${(index(i) !== -1 || isMovingFolder) ? '' : ''}`}
+                                                  className="dis-fl-row a-c p-1 flex-1"
                                                   onClick={(e) => onExpandFolder(e, i)}
                                                 >
                                                   <BrixelIcon
@@ -827,7 +827,6 @@ const Documents = (props: DocumentsPageType) => {
                                                 </div>
                                                 <BrixelButtonIcon
                                                   bgTransparent
-                                                  className={`${(index(i) !== -1) ? '' : ''}`}
                                                   theme="text"
                                                   themeSat={600}
                                                   icon={`${(index(i) !== -1) ? 'arrow-simple-up' : 'arrow-simple-down'}`}
