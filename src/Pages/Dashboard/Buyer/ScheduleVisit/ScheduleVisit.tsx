@@ -53,7 +53,7 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
   } = props;
   // STATE
   const [hideModale, setHideModal] = useState(false);
-  const [SectionPage, setSectionPage] = useState<'confirmed' | 'buyerRequest' | 'create'>('create');
+  const [SectionPage, setSectionPage] = useState<'confirmed' | 'buyerRequest' | 'create' | 'rejected'>('create');
   const [activeModalID, setActiveModalID] = useState(-1);
   const [openedModal, setOpenedModal] = useState(false);
 
@@ -113,7 +113,8 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
 
   useEffect(() => {
     if (activeScheduleVisit?.buyerAvailability) setSectionPage('buyerRequest');
-    if (activeScheduleVisit?.visit?.date) setSectionPage('confirmed');
+    if (activeScheduleVisit?.visit?.date && activeScheduleVisit?.sellerStatus === 'accepted' && activeScheduleVisit?.buyerStatus === 'accepted') setSectionPage('confirmed');
+    if (activeScheduleVisit?.sellerStatus === 'rejected' || activeScheduleVisit?.buyerStatus === 'rejected') setSectionPage('rejected');
   }, [activeScheduleVisit]);
 
 
@@ -276,7 +277,7 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
             }
 
             {
-              (isSmallLoading.sendData !== 'saved' && activeScheduleVisit?.buyerAvailability && !activeScheduleVisit?.visit?.date) && (
+              (isSmallLoading.sendData !== 'saved' && activeScheduleVisit?.buyerAvailability && (!activeScheduleVisit?.visit?.date || (activeScheduleVisit?.sellerStatus !== 'accepted' || activeScheduleVisit?.buyerStatus !== 'accepted')) && SectionPage !== 'rejected') && (
                 <div className="bgWhite brdRadius shadow-1dp mb-4 a-c py-3 py-sm-5 px-2 px-sm-4 dis-fl-col-rev dis-fl-row-sm">
 
                   <div className="mb-4">
@@ -303,7 +304,37 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
                     alt="Visit Requested"
                   />
                 </div>
+              )
+            }
 
+            {
+              SectionPage === 'rejected' && (
+                <div className="bgWhite brdRadius shadow-1dp mb-4 a-c py-3 py-sm-5 px-2 px-sm-4 dis-fl-col-rev dis-fl-row-sm">
+
+                  <div className="mb-4">
+                    <BrixelSingleTag
+                      className="mb-2"
+                      lang={lang}
+                      message={{
+                        lang: lang,
+                        rejected: translateTo('Canceled', lang),
+                      }}
+                      status="rejected"
+                      text={translateTo('Pending', lang)}
+                    />
+                    <h5 className="fweight-600 txtRed700 mb-2">
+                      {translateTo('Your requested is canceled', lang)}
+                    </h5>
+                    <p className='txtText600 max-w-perc-sm-80'>
+                      {translateTo('Your suggested dates have been sent. Our team will contact you shortly to clarify any questions and to proceed with the next steps.', lang)}
+                    </p>
+                  </div>
+                  <img
+                    className="ml-a h-fix-120 h-fix-sm-160"
+                    src={PropertyPendingImg}
+                    alt="Visit Requested"
+                  />
+                </div>
               )
             }
 
@@ -481,7 +512,7 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
 
 
             {
-              SectionPage === 'create' && (
+              (SectionPage === 'create' || SectionPage === 'rejected') && (
                 <>
                   {/* ADD NEW DATE */}
                   {

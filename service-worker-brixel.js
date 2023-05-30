@@ -147,8 +147,6 @@ self.addEventListener('message', event => {
   if (event.data && event.data.type === 'PREPARE_CACHES_FOR_UPDATE') {
     prepareCachesForUpdate().then();
   }
-  
-  self.postMessage("secret", "*");
   /* End of Custom Logic */
 });
 
