@@ -114,7 +114,7 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
   useEffect(() => {
     if (activeScheduleVisit?.buyerAvailability) setSectionPage('buyerRequest');
     if (activeScheduleVisit?.visit?.date && activeScheduleVisit?.sellerStatus === 'accepted' && activeScheduleVisit?.buyerStatus === 'accepted') setSectionPage('confirmed');
-    if (activeScheduleVisit?.sellerStatus === 'rejected' || activeScheduleVisit?.buyerStatus === 'rejected') setSectionPage('rejected');
+    if (activeScheduleVisit?.sellerStatus === 'rejected' || activeScheduleVisit?.buyerStatus === 'rejected') setSectionPage('create');
   }, [activeScheduleVisit]);
 
 
