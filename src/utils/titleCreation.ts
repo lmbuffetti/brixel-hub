@@ -217,18 +217,19 @@ export const titleProperty = (location, propertyType, lang, formValue) => {
   if (getCountry === 'PT') {
     const bedrooms = get(formValue, 'properties.typology.bedrooms', null);
     const livingSpace = get(formValue, 'properties.typology.grossArea.value', get(formValue, 'properties.typology.livingArea.value', null));
-    
+
     const curLocation = get(formValue, 'location', null);
     if (bedrooms >= 0 && livingSpace && curLocation) {
       const typology = FormatValue.formatRooms(bedrooms, 'pt');
       pageTitle = `${translatedPropertyType} ${typology} com ${livingSpace}m2, ${curLocation.city}`;
     }
   } else if (getCountry && propertyType) {
+    const randomMthNr = Math.random() || 0;
     if (adjective[lang]) {
-      const randomNumber = Math.floor(Math.random() * adjective[lang].length);
+      const randomNumber = Math.floor(randomMthNr * adjective[lang].length);
       pageTitle = adjective[lang] ? `${adjective[lang][randomNumber]} ${translatedPropertyType}` : `${adjective.en[randomNumber]} ${translatedPropertyType}`;
     } else {
-      const randomNumber = Math.floor(Math.random() * adjective.en.length);
+      const randomNumber = Math.floor(randomMthNr * adjective.en.length);
       pageTitle = `${adjective.en[randomNumber]} ${translatedPropertyType}`;
       pageTitle = adjective[lang] ? `${adjective[lang][randomNumber]} ${translatedPropertyType}` : `${adjective.en[randomNumber]} ${translatedPropertyType}`;
     }

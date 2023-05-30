@@ -38,13 +38,13 @@ function atcb_init() {
       // get their JSON content first
       if (schema && schema.innerHTML) {
         // get schema.org event markup and flatten the event block
-        atcbConfig = JSON.parse(schema.innerHTML.replace(/(\r\n|\n|\r)/gm, '').replace(/(<(?!br)([^>]+)>)/gi, '')); // remove real code line breaks before parsing. Use <br> or \n explicitely in the description to create a line break. Also strip HTML tags (especially since stupid Safari adds stuff).
+        atcbConfig = JSON.parse(schema.innerHTML.replace(/(\r\n|\n|\r)/gm, '').replace(/<br\s*\/?>/gi, '')); // remove real code line breaks before parsing. Use <br> or \n explicitely in the description to create a line break. Also strip HTML tags (especially since stupid Safari adds stuff).
         atcbConfig = atcb_parse_schema_json(atcbConfig);
         // set flag to not delete HTML content later
         atcbConfig['deleteJSON'] = false;
       } else {
         // get JSON from HTML block
-        atcbConfig = JSON.parse(atcButtons[i].innerHTML.replace(/(\r\n|\n|\r)/gm, '').replace(/(<(?!br)([^>]+)>)/gi, '')); // remove real code line breaks before parsing. Use <br> or \n explicitely in the description to create a line break. Also strip HTML tags (especially since stupid Safari adds stuff).
+        atcbConfig = JSON.parse(atcButtons[i].innerHTML.replace(/(\r\n|\n|\r)/gm, '').replace(/<br\s*\/?>/gi, '')); // remove real code line breaks before parsing. Use <br> or \n explicitely in the description to create a line break. Also strip HTML tags (especially since stupid Safari adds stuff).
         // set flag to delete HTML content later
         atcbConfig['deleteJSON'] = true;
       }
