@@ -58,7 +58,12 @@ const Plans = (props: FloorPlansPageType) => {
       setNewImages([]);
       setConfirmDelete(null);
       setBtnActive(undefined);
-      setFixPhotos(floorPlans ? cloneDeep(floorPlans) : []);
+      let defPhotos = (floorPlans ? cloneDeep(floorPlans) : []);
+      defPhotos = defPhotos.map((val) => ({
+        ...val,
+        url: useImage(val.url, {size: 'M'}),
+      }));
+      setFixPhotos(defPhotos);
     }
   }, [floorPlans, isSmallLoading]);
 
@@ -238,7 +243,7 @@ const Plans = (props: FloorPlansPageType) => {
                                   >
                                     <div
                                       className="w-perc-100 square dis-fl-row imgConver"
-                                      style={{ backgroundImage: `url(${useImage(item.url, {size: 'M'})}`}}
+                                      style={{ backgroundImage: `url(${item.url}`}}
                                     >
                                       <div
                                         className={`photo-action a-c hide dis-f-md ${confirmDelete === i ? 'show' : 'hoverShow'}`}
@@ -296,7 +301,7 @@ const Plans = (props: FloorPlansPageType) => {
                                       <div
                                         className="square media-image-container dis-fl-row a-c jc-b w-perc-100 shadow-2dp brdRadius ov-h"
                                       >
-                                        <div className="perc-r w-perc-100 square dis-fl-row imgConver" style={{ backgroundImage: `url(${useImage(upImg.url, {size: 'M'})})` }} />
+                                        <div className="perc-r w-perc-100 square dis-fl-row imgConver" style={{ backgroundImage: upImg.url }} />
                                       </div>
                                     )
                                   }

@@ -72,7 +72,7 @@ const SearchProfileField = (props: SearchProfileFieldType) => {
       if (numExtraFeatures > 0) {
         return (
           <>
-            {numExtraFeatures && <><span>{numExtraFeatures}</span><span className="ml-1">{translateTo('Amenities', lang)}</span></>}
+            {Boolean(numExtraFeatures) && <><span>{numExtraFeatures}</span><span className="ml-1">{translateTo('Amenities', lang)}</span></>}
           </>
         )
       }

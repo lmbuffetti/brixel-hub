@@ -20,8 +20,6 @@ export default {
   fourDigits: /^\d{4}$/,
   postcode: /(^([A-Z]{1,2})([0-9]{2,3})([A-Z]{2})$)|(^([A-Z]{1,2})([0-9])([A-Z])([0-9])([A-Z]{2})$)|(^GIR0AA$)/i,
   hasNumber: /\d/,
-  hasUppercaseLetter: /\w*[A-Z]\w*/,
-  hasLowercaseLetter: /\w*[a-z]\w*/,
   hasSpecialCharacter: /[!@#$%^&*(),.?":{}|<>]/,
   nin: /^[A-CEGHJ-NOPR-TW-Z]{1}[A-CEGHJ-NPR-TW-Z]{1}[0-9]{6}[A-D\s]{1}/i,
   nin_exp: /(^GB)|(^BG)|(^NK)|(^KN)|(^TN)|(^NT)|(^ZZ).+/i,
