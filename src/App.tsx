@@ -408,8 +408,6 @@ const App = (props: AppType) => {
       } else if (history.location.pathname.includes('marketing')) {
         setClassMain('w-perc-100 pos-r hubContainer marketingTop withTopBar sellerHub');
         // eslint-disable-next-line no-dupe-else-if
-      } else if (history.location.pathname.includes('prospects') || history.location.pathname.includes('closing')) {
-        setClassMain('w-perc-100 pos-r hubContainer dealsTop withTopBar sellerHub');
       } else if (history.location.pathname.includes('/sell') || history.location.pathname.includes('/buy')) {
         if (history.location.pathname.includes('/buy/favorites/map')) {
           setClassMain('w-perc-100 pos-r ov-h marketHome mapView');
@@ -524,10 +522,10 @@ const App = (props: AppType) => {
   }, [window]);
 
   const overflowClass = useCallback(() => {
-    if (history.location.pathname.includes('prospects') && !history.location.pathname.includes('offers')) {
-      // if (windowDimensions.width <= 1024) return 'ov-y-a ov-x-h';
-      return 'ov-y-a ov-x-h';
-    }
+    // if (history.location.pathname.includes('prospects') && !history.location.pathname.includes('offers')) {
+    //   // if (windowDimensions.width <= 1024) return 'ov-y-a ov-x-h';
+    //   return 'ov-y-a ov-x-h';
+    // }
     return 'ov-y-a ov-x-h';
   }, []);
 
