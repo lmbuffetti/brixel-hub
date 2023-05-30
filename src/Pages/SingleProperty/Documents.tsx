@@ -552,7 +552,7 @@ const Documents = (props: DocumentsPageType) => {
                         )
                       }
                       <div
-                        className={`${(!processedDocuments || (processedDocuments.length === 0)) ? 'emptyState my-3 my-sm-5' : 'hasImages py-2 py-lg-3'} upload-container dis-fl-col a-c ta-c w-perc-100 ${!processedDocuments || (processedDocuments.length === 0) ? '' : 'bgGreen50'}`}
+                        className={`${(!processedDocuments || (processedDocuments.length === 0)) ? 'emptyState my-3 my-sm-5' : 'hasImages py-2 py-lg-4'} upload-container dis-fl-col a-c ta-c w-perc-100 ${!processedDocuments || (processedDocuments.length === 0) ? '' : 'bgGreen50'}`}
                         {...getRootProps()}
                       >
                         <input {...getInputProps()} />
@@ -564,7 +564,7 @@ const Documents = (props: DocumentsPageType) => {
                             src={uploadDocumentsEmpty}
                             alt="Empty Documents"
                           />
-                          <p className="mt-2 dis-b w-fix-304 txtGreen400">
+                          <p className="mt-2 dis-b txtGreen400">
                             {
                               (!processedDocuments || (processedDocuments.length === 0)) ? (
                                 <>
@@ -594,7 +594,7 @@ const Documents = (props: DocumentsPageType) => {
                           )
                         }
 
-                        <span className="body2 txtText600 max-w-fix-288">
+                        <span className="body2 txtText600">
                           {translateTo('Choose .pdf .jpg .png with max. 10 MB size', lang)}
                         </span>
                       </div>
@@ -726,7 +726,7 @@ const Documents = (props: DocumentsPageType) => {
                                                   !isBuyer && (
                                                     <div>
                                                       <BrixelButtonIcon
-                                                        bgTransparent
+                                                        ghost
                                                         theme="text"
                                                         themeSat={600}
                                                         icon="options-vertical"
@@ -742,7 +742,7 @@ const Documents = (props: DocumentsPageType) => {
                                                         (documentOptionsOpen.id === doc.id && documentOptionsOpen.active) && (
                                                           <>
                                                             <BrixelDropdownMini
-                                                              topOffset={40}
+                                                              topOffset={50}
                                                               rightAligned
                                                               links={userType !== 'buyer' ?
                                                                 [
@@ -826,8 +826,7 @@ const Documents = (props: DocumentsPageType) => {
                                                   <h6 className='fweight-600'>{docList[0].folder}</h6>
                                                 </div>
                                                 <BrixelButtonIcon
-                                                  bgTransparent
-                                                  className=""
+                                                  ghost
                                                   theme="text"
                                                   themeSat={600}
                                                   icon={`${(index(i) !== -1) ? 'arrow-simple-up' : 'arrow-simple-down'}`}
@@ -915,7 +914,7 @@ const Documents = (props: DocumentsPageType) => {
                                                           !isBuyer && (
                                                             <div>
                                                               <BrixelButtonIcon
-                                                                bgTransparent
+                                                                ghost
                                                                 theme="text"
                                                                 themeSat={600}
                                                                 icon="options-vertical"
@@ -931,7 +930,7 @@ const Documents = (props: DocumentsPageType) => {
                                                                 (folderOptionsOpen.id === doc.id && folderOptionsOpen.active) && (
                                                                   <>
                                                                     <BrixelDropdownMini
-                                                                      topOffset={40}
+                                                                      topOffset={50}
                                                                       rightAligned
                                                                       links={dropdownActionDoc(doc)}
                                                                     />
@@ -966,7 +965,7 @@ const Documents = (props: DocumentsPageType) => {
                                               onStart={() => setIsMovingFolder(true)}
                                               onEnd={() => setIsMovingFolder(false)}
                                             >
-                                              <div className='dis-fl-col py-3 a-c brdRadius txtText400 fsize-300 max-w-fix-232 ml-a mr-a'>
+                                              <div className='dis-fl-col py-3 a-c brdRadius txtText400 fsize-300 max-w-fix-304 ta-c ml-a mr-a'>
                                                 {translateTo('To keep things organized, drag and drop file to create a folder.', lang)}
                                               </div>
                                             </ReactSortable>
