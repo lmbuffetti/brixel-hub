@@ -193,7 +193,6 @@
       }
       padding: 0;
       padding-left: calc($step * 4);
-      display: flex;
       margin-top: $step;
 
       span {
@@ -241,78 +240,6 @@
     }
 
   }
-/*
-  .basic {
-    border-color: map-get($greenColor, 700);
-    h4 {
-      color: map-get($greenColor, 700);
-    }
-    h6:not([class*=bg]) {
-      background-color: map-get($greenColor, 700);
-    }
-
-    ul.checked {
-      li {
-        &:before {
-          background-color: map-get($greenColor, 700);
-        }
-      }
-    }
-  }
-
-  .private {
-    border-color: map-get($blueColor, 400);
-    h4 {
-      color: map-get($blueColor, 400);
-    }
-    h6:not([class*=bg]) {
-      background-color: map-get($blueColor, 400);
-    }
-
-    ul.checked {
-      li {
-        &:before {
-          background-color: map-get($blueColor, 400);
-        }
-      }
-    }
-  }
-
-  .premium {
-    border-color: map-get($redColor, 400);
-    h4 {
-      color: map-get($redColor, 400);
-    }
-    h6:not([class*=bg]) {
-      background-color: map-get($redColor, 400);
-    }
-
-    ul.checked {
-      li {
-        &:before {
-          background-color: map-get($redColor, 400);
-        }
-      }
-    }
-  }
-
-  .one {
-    border-color: map-get($textColor, 900);
-    h4 {
-      color: map-get($textColor, 900);
-    }
-    h6:not([class*=bg]) {
-      background-color: map-get($textColor, 900);
-    }
-
-    ul.checked {
-      li {
-        &:before {
-          background-color: map-get($textColor, 900);
-        }
-      }
-    }
-  } */
 
   span {
     &.basic {
@@ -353,14 +280,12 @@
       }
 
       list-style: none;
-      margin-top: 0;
       margin-bottom: 0;
       &:not([class*='ml']) {
         margin-left: 0;
       }
       padding: 0;
       padding-left: calc($step * 4);
-      display: flex;
       margin-top: calc($step * 2);
 
       span {

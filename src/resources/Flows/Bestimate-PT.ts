@@ -204,7 +204,7 @@ export const BestimatePT = (type = null, _propertyType, lang) => {
           className: 'extraFeature',
           component: BrixelCheckbox,
           icons: false,
-          label: translateTo(type === 'getStarted' ? '' : '', lang),
+          label: '',
           name: 'properties.extraFeaturesBestimatePT',
           pdClass: 'p-1',
           iconClass: 'p-small-17 fSizePx22 bgPrimary400 txtWhite brdRadius mr-1',

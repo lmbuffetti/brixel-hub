@@ -879,7 +879,7 @@ const MarketCard = (props: MarketCardProps) => {
               <span className="hr mt-3 lighter mb-1" />
 
               <div
-                className={`dis-fl-col dis-fl-row-sm a-c-sm jc-b-sm flex-wrap ${has(item, 'published') && get(item, 'published', null) === false ? '' : ''}`}
+                className="dis-fl-col dis-fl-row-sm a-c-sm jc-b-sm flex-wrap"
               >
 
                 {

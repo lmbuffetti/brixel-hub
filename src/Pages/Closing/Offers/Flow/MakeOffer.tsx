@@ -189,20 +189,18 @@ const MakeOffer = (props: MakeOfferType) => {
   useEffect(() => {
     const newQuest: QuestionsListType[] = [];
     if (formValue) {
-      MakeOfferQuestions((name, value) => changeFieldValue(name, value), (id) => setCurrentIndex(id), (data) => handleSetModal(data), lang).map((quests) => {
+      MakeOfferQuestions((name, value) => changeFieldValue(name, value), (id) => setCurrentIndex(id), (data) => handleSetModal(data), lang).forEach((quests) => {
         if (quests.condition) {
           let isValid = true;
           quests.condition.map((item) => {
             if (item.name && get(formValue, item.name, null) !== item.value) {
               isValid = false;
             }
-            return null;
           });
           if (isValid) newQuest.push(quests);
         } else {
           newQuest.push(quests);
         }
-        return null;
       });
       setQuestions(newQuest);
     }

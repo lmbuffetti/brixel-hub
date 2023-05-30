@@ -1,7 +1,6 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {useLocation, useNavigate} from 'react-router-dom';
 import get from 'lodash/get';
-import has from 'lodash/has';
 import Slider from 'react-slick';
 import {BrixelButtonIcon, BrixelButtonText} from '@brixel/brixel-components';
 import translateTo from '../utils/translation';
@@ -211,7 +210,7 @@ const CarouselWrapper = (props: CarouselWrapperType) => {
                 )
               }
             </div>
-            <div className={`mt-1 dis-fl-col-sm a-c jc-c ${items && has(items[activeSlide], 'published') && get(items[activeSlide], 'published', null) === false ? '' : ''}`}>
+            <div className="mt-1 dis-fl-col-sm a-c jc-c">
 
               <div className="dis-fl-row-sm hide a-c jc-c pt-1">
                 <BrixelButtonText

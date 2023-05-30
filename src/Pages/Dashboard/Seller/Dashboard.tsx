@@ -159,9 +159,8 @@ const Dashboard = (props: DashboardType) => {
     const changeObj = diff(initialValues, formValue);
     if (Object.keys(changeObj).length > 0) {
       const objToSave = {};
-      Object.keys(changeObj).map((key) => {
+      Object.keys(changeObj).forEach((key) => {
         objToSave[key] = get(formValue, key, {});
-        return null;
       });
       if (get(changeObj, 'photos', null)) {
         set(objToSave , 'coverPhoto', get(formValue, 'photos', [])[0]);
@@ -183,21 +182,19 @@ const Dashboard = (props: DashboardType) => {
     const allVal: string[] = [];
     let isValid = true;
     const extractKey = (obj, parent: string | null = null) => {
-      Object.keys(obj).map((key) => {
+      Object.keys(obj).forEach((key) => {
         if (isObject(obj[key])) {
           const newKey = parent ? `${parent}.${key}` : key;
           extractKey(obj[key], newKey);
         } else {
           allVal.push(`${parent}.${key}`);
         }
-        return null;
       });
     };
     extractKey(changeObj);
-    allVal.map((name) => {
+    allVal.forEach((name) => {
       const getError = get(errorValue, name, null);
       if (getError !== true && getError !== null && isValid) isValid = false;
-      return null;
     });
     return isValid;
   };

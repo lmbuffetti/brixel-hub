@@ -158,7 +158,7 @@ const Bestimate = (props: BestimateType) => {
     if (formValue.id) {
       const newQuest: object[] = [];
       let numQuest = 0;
-      BestimateQuestions(null, '', get(formValue, 'properties.propertyType', ''), lang).map((questData) => {
+      BestimateQuestions(null, '', get(formValue, 'properties.propertyType', ''), lang).forEach((questData) => {
         if (questData.condition) {
           let isValid = true;
           questData.condition.map((item) => {
@@ -175,7 +175,6 @@ const Bestimate = (props: BestimateType) => {
           if (questData.inputs) numQuest += 1;
           newQuest.push(questData);
         }
-        return null;
       });
       setNumberQuestions(numQuest);
       setQuestions(newQuest);

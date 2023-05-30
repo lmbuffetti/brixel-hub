@@ -37,13 +37,11 @@ const Portals = (props) => {
   // GET PORTALS STATUS
   const checkPortalsOnline = () => {
     let isOnline = false;
-    Object.keys(portals).map((key) => {
+    Object.keys(portals).forEach((key) => {
       if (portals[key] && get(customPortals, `${key}`, true) && !isOnline && !key.includes('Url')) isOnline = true;
-      return null;
     });
-    Object.keys(customPortals).map((key) => {
+    Object.keys(customPortals).forEach((key) => {
       if (customPortals[key] && !isOnline && !key.includes('Url')) isOnline = true;
-      return null;
     });
     return isOnline;
   };

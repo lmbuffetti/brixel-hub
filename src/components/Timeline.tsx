@@ -383,7 +383,7 @@ const Timeline = (props: TimelineType) => {
                         )
                       }
                     </div>
-                    <div className={`actions dis-fl-col jc-b pos-r ${editNote.id === get(event, 'id', null) && editNote.active ? '' : ''}`}>
+                    <div className="actions dis-fl-col jc-b pos-r">
                       {
                         get(event, 'content', '') && get(event, 'content', '').length > 62 && !editNote.active && (
                           <BrixelButtonIcon

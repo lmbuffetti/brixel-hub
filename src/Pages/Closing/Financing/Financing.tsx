@@ -363,20 +363,18 @@ const Financing = (props: FinancingType) => {
     const newQuest: QuestionsListType[] = [];
     setOldIndex(currentIndex);
     if (formValue) {
-      QuestionsList((name, value) => changeFieldValue(name, value), lang).map((quests) => {
+      QuestionsList((name, value) => changeFieldValue(name, value), lang).forEach((quests) => {
         if (quests.condition) {
           let isValid = true;
           quests.condition.map((item) => {
             if (get(formValue, item.name, null) !== item.value) {
               isValid = false;
             }
-            return null;
           });
           if (isValid) newQuest.push(quests);
         } else {
           newQuest.push(quests);
         }
-        return null;
       });
       setQuest(newQuest[currentIndex]);
       setQuestions(newQuest);
@@ -428,7 +426,7 @@ const Financing = (props: FinancingType) => {
         }
       </div>
 
-      <div className={`bodyModal dis-fl-col upgradeModal container ${get(quest, 'history', '')} ${get(quest, 'background', '') ? '' : ''} ${get(quest, 'vCentered', null) ? 'jc-c vCentered' : ''} stepNo${currentIndex}`}>
+      <div className={`bodyModal dis-fl-col upgradeModal container ${get(quest, 'history', '')} ${get(quest, 'vCentered', null) ? 'jc-c vCentered' : ''} stepNo${currentIndex}`}>
         <form
           id="multiStepForm"
           autoComplete="off"

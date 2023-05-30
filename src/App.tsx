@@ -466,15 +466,7 @@ const App = (props: AppType) => {
   const headerCalc = useCallback(() => {
     let contentHeight;
     if (!isFlow) {
-      if (windowDimensions.width <= 1024) {
-        if ((history.location.pathname.includes('buy') && !history.location.pathname.includes('buyer')) || history.location.pathname.includes('sell')) {
-          contentHeight = windowDimensions.height;
-        } else {
-          contentHeight = windowDimensions.height;
-        }
-      } else {
-        contentHeight = windowDimensions.height;
-      }
+      contentHeight = windowDimensions.height;
     } else {
       contentHeight = 'auto';
     }
@@ -712,7 +704,7 @@ const App = (props: AppType) => {
                       {
                         !showSupport && (
                           <div
-                            className={`supportBubble dis-f jc-b a-c cur-poi bgWhite p-1 brdFullRadius zIndex1 pr-2 shadow-2dp ${windowDimensions.width > 1024 ? '' : ''}`}
+                            className="supportBubble dis-f jc-b a-c cur-poi bgWhite p-1 brdFullRadius zIndex1 pr-2 shadow-2dp"
                             onClick={() => setShowSupport(!showSupport)}
                           >
                             <div className="dis-f jc-b a-c">

@@ -119,13 +119,12 @@ function PageHeader(props: PageHeaderType) {
   // GET LANGUAGE LISTS
   useEffect(() => {
     const langHeader: OptionsType[] = [];
-    languages.map((lng: LanguagesType) => {
+    languages.forEach((lng: LanguagesType) => {
       langHeader.push({
         value: lng.code,
         shortLabel: lng.code,
         label: lng.name,
       })
-      return null;
     });
     setLangMenu(langHeader);
   }, [languages]);
@@ -393,7 +392,7 @@ function PageHeader(props: PageHeaderType) {
                     windowDimensions.width > 1024 && (
                       <>
                         <div
-                          className={`dis-f-md a-c cur-poi pos-r ${propID !== 'sell' && propID !== 'buy' ? '' : ''} zIndex0`}
+                          className="dis-f-md a-c cur-poi pos-r zIndex0"
                           onClick={() => setShowProfileMenu(!showProfileMenu)}
                           ref={profileMenu}
                         >

@@ -145,7 +145,6 @@ const DashboardHome = (props: DashboardHomeType) => {
           past: true,
         }));
         mergedFeedNew = orderBy(mergedFeedNew, ['visit'], ['asc']);
-        2
         mergedFeedPast = orderBy(mergedFeedPast, ['visit'], ['desc']);
         setVisitLists([...mergedFeedNew, ...mergedFeedPast]);
       }
