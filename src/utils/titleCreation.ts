@@ -224,12 +224,13 @@ export const titleProperty = (location, propertyType, lang, formValue) => {
       pageTitle = `${translatedPropertyType} ${typology} com ${livingSpace}m2, ${curLocation.city}`;
     }
   } else if (getCountry && propertyType) {
-    const randomMthNr = Math.random() || 0;
+    const array = new Uint8Array(256);
+    const randomMthNr = crypto.getRandomValues(array);
     if (adjective[lang]) {
-      const randomNumber = Math.floor(randomMthNr * adjective[lang].length);
+      const randomNumber = randomMthNr.find(r => r < adjective[lang].length) || 0;
       pageTitle = adjective[lang] ? `${adjective[lang][randomNumber]} ${translatedPropertyType}` : `${adjective.en[randomNumber]} ${translatedPropertyType}`;
     } else {
-      const randomNumber = Math.floor(randomMthNr * adjective.en.length);
+      const randomNumber = randomMthNr.find(r => r < adjective.en.length) || 0;
       pageTitle = `${adjective.en[randomNumber]} ${translatedPropertyType}`;
       pageTitle = adjective[lang] ? `${adjective[lang][randomNumber]} ${translatedPropertyType}` : `${adjective.en[randomNumber]} ${translatedPropertyType}`;
     }
