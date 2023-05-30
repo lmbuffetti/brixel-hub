@@ -17,7 +17,7 @@ import {checkBrowser, tobase64Handler, Truncate} from '../../../utils/helpers';
 import BrixelUpgradeMessage from '../../../components/BrixelUpgradeMessage';
 import type {FloorPlansPageType} from '../../../@types/Pages/SingleProperty/Media/Plans';
 import {PhotosType} from '@brixel/brixel-components/dist/@types/Model';
-import useImage from '@brixel/brixel-components/dist/hooks/Image';
+import getUrlImg from '@brixel/brixel-components/dist/utils/ImageUrl';
 
 const Plans = (props: FloorPlansPageType) => {
   const history = {
@@ -58,7 +58,12 @@ const Plans = (props: FloorPlansPageType) => {
       setNewImages([]);
       setConfirmDelete(null);
       setBtnActive(undefined);
-      setFixPhotos(floorPlans ? cloneDeep(floorPlans) : []);
+      let defPhotos = (floorPlans ? cloneDeep(floorPlans) : []);
+      defPhotos = defPhotos.map((val) => ({
+        ...val,
+        url: getUrlImg(val.url, {size: 'M'}),
+      }));
+      setFixPhotos(defPhotos);
     }
   }, [floorPlans, isSmallLoading]);
 
@@ -238,7 +243,7 @@ const Plans = (props: FloorPlansPageType) => {
                                   >
                                     <div
                                       className="w-perc-100 square dis-fl-row imgConver"
-                                      style={{ backgroundImage: `url(${useImage(item.url, {size: 'M'})}`}}
+                                      style={{ backgroundImage: `url(${item.url}`}}
                                     >
                                       <div
                                         className={`photo-action a-c hide dis-f-md ${confirmDelete === i ? 'show' : 'hoverShow'}`}
@@ -296,7 +301,7 @@ const Plans = (props: FloorPlansPageType) => {
                                       <div
                                         className="square media-image-container dis-fl-row a-c jc-b w-perc-100 shadow-2dp brdRadius ov-h"
                                       >
-                                        <div className="perc-r w-perc-100 square dis-fl-row imgConver" style={{ backgroundImage: `url(${useImage(upImg.url, {size: 'M'})})` }} />
+                                        <div className="perc-r w-perc-100 square dis-fl-row imgConver" style={{ backgroundImage: upImg.url }} />
                                       </div>
                                     )
                                   }

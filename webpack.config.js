@@ -236,7 +236,7 @@ const clientConfig = (env) => {
     config.plugins.push(
       new HtmlWebpackPlugin({
         filename: './index.html',
-        template: './public/index.html',
+        template: './index.html',
       }),
     )
   }
@@ -267,7 +267,7 @@ const clientConfig = (env) => {
         hash: true,
         inject: true,
         filename: './index.html',
-        template: './public/index.html',
+        template: './index.html',
         title: companyData?.hub?.title,
         cache: true,
         meta: {

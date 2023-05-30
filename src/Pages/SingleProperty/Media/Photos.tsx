@@ -18,7 +18,7 @@ import uploadPhotosEmpty from '../../../images/Upload/upload_photos_empty.svg';
 import BrixelUpgradeMessage from '../../../components/BrixelUpgradeMessage';
 import {PhotosType} from '@brixel/brixel-components/dist/@types/Model';
 import type {PhotosPageType} from '../../../@types/Pages/SingleProperty/Media/Photos';
-import useImage from '@brixel/brixel-components/dist/hooks/Image';
+import getUrlImg from '@brixel/brixel-components/dist/utils/ImageUrl';
 
 const Photos = (props: PhotosPageType) => {
   const history = {
@@ -62,7 +62,12 @@ const Photos = (props: PhotosPageType) => {
       setNewImages([]);
       setConfirmDelete(null);
       setBtnActive(undefined);
-      setFixPhotos(photos);
+      let defPhotos = (photos ? cloneDeep(photos) : []);
+      defPhotos = defPhotos.map((val) => ({
+        ...val,
+        url: getUrlImg(val.url, {size: 'M'}),
+      }));
+      setFixPhotos(defPhotos);
     }
   }, [photos, isSmallLoading]);
 
@@ -253,7 +258,7 @@ const Photos = (props: PhotosPageType) => {
                                           className="square media-image-container dis-fl-row a-c jc-b w-perc-100 shadow-2dp brdRadius ov-h"
                                           onClick={() => (windowDimensions.width < 1025 ? history.push(`/${propID}/property/photos/${item.id}/edit/photos`) : '')}
                                         >
-                                          <div className="w-perc-100 square dis-fl-row imgConver" style={{ backgroundImage: `url(${useImage(item.url, {size: 'M'})}`}}>
+                                          <div className="w-perc-100 square dis-fl-row imgConver" style={{ backgroundImage: `url(${item.url})`}}>
                                             <div
                                               className={`photo-action a-c hide dis-f-md ${confirmDelete === i ? 'show' : 'hoverShow'}`}
                                               ref={wrappImg.current[i]}
@@ -325,7 +330,7 @@ const Photos = (props: PhotosPageType) => {
                                       <div
                                         className="square media-image-container dis-fl-row a-c jc-b w-perc-100 shadow-2dp brdRadius ov-h"
                                       >
-                                        <div className="perc-r w-perc-100 square dis-fl-row imgConver" style={{ backgroundImage: `url(${useImage(upImg.url, {size: 'M'})})` }} />
+                                        <div className="perc-r w-perc-100 square dis-fl-row imgConver" style={{ backgroundImage: `url(${upImg.url})` }} />
                                       </div>
                                     )
                                   }

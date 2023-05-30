@@ -3,6 +3,7 @@ const express = require("express");
 const path = require("path");
 // create server
 const app = express();
+app.disable("x-powered-by");
 
 const PORT = 5000;
 const BUILD_FOLDER = "dist";
