@@ -22,7 +22,7 @@ if (container) {
 
   // INITILAIZE THE REACT DOM APP
   const AppDOM = () => {
-    if (typeof window !== 'undefined' && window.location.href.includes('.brixel.io')) {
+    if (typeof window !== 'undefined') {
       serviceWorkerRegistration.register({
         onUpdate: registration => {
           if (registration && registration.waiting) {
