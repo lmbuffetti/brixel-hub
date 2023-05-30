@@ -126,6 +126,9 @@ const prepareCachesForUpdate = async () => {
 // This allows the web app to trigger skipWaiting via
 // registration.waiting.postMessage({type: 'SKIP_WAITING'})
 self.addEventListener('message', event => {
+  if (event.origin !== "http://dev-hub.brixel.io" || event.origin !== "http://stage-hub.brixel.io" || event.origin !== "http://hub.brixel.io") // Compliant
+    return;
+  
   if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();
   }
@@ -144,6 +147,8 @@ self.addEventListener('message', event => {
   if (event.data && event.data.type === 'PREPARE_CACHES_FOR_UPDATE') {
     prepareCachesForUpdate().then();
   }
+  
+  self.postMessage("secret", "*");
   /* End of Custom Logic */
 });
 
