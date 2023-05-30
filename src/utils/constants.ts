@@ -26,8 +26,6 @@ export const colorChartsQuality = [
   '#111820',
 ];
 
-export const APIGoogle = 'AIzaSyD4tV7awt_UqVqk0vhyk3_zKi_RN--br5w';
-
 export const mapStyles = [
   {
     elementType: 'labels.icon',

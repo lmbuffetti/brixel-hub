@@ -6,6 +6,7 @@ import {
   SET_USER_PAGES_DEALS,
   SET_USER_PROPERTIES,
   SET_USER_TYPES,
+  SET_USER_RATE,
 } from '../actions/types/UserTypes';
 import type {UserReducerType} from '../@types/reducer/UserReducer';
 
@@ -16,6 +17,7 @@ export const defaultState: UserReducerType = {
   userProperties: [],
   userSearchProfiles: null,
   userTypes: '',
+  userRate: null,
 };
 
 export default handleActions<any>(
@@ -43,6 +45,10 @@ export default handleActions<any>(
     [SET_USER_ACTIVE_SEARCH_PROFILE]: (state, action) => ({
       ...state,
       activeSearchProfile: action.payload,
+    }),
+    [SET_USER_RATE]: (state, action) => ({
+      ...state,
+      userRate: action.payload,
     }),
   },
   defaultState,
