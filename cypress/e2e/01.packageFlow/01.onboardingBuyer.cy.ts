@@ -3,10 +3,43 @@ import { testData } from '../../helpers/constants';
 const { devices, companies } = testData;
 
 const userTest = Cypress.env('userTest');
+const partner = ['ubs', 'baloise'];
 
 describe('Buyer Onboarding', () => {
 
   Cypress.Cookies.debug(true);
+
+  const userRegistered = () => {
+    cy.get('body', {timeout: 10000}).then($body => {
+      if ($body.find('p.txtRed400').length > 0) {
+        cy.get('input[name="login.password"]').type(userTest.buyer.password);
+        cy.wait(1000).then(() => {
+          cy.get('button[type="submit"]').click();
+        })
+      }
+    });
+  }
+
+  const registerUser = (res, email) => {
+    if (res) {
+      cy.get('input[name="login.email"]').type(email);
+      cy.get('input[name="login.password"]').type(userTest.buyer.password);
+      cy.wait(1000).then(() => {
+        cy.get('button[type="submit"]').click();
+      })
+    } else {
+      cy.get('input[name="register.name"]').type('Test Automated');
+      cy.get('input[name="register.email"]').type(email);
+      cy.get('input[name="register.password"]').type(userTest.buyer.password);
+      cy.get('input[name="register.privacy"]').check({force: true});
+      cy.wait(1000).then(() => {
+        cy.get('button[type="submit"]').click();
+      })
+      cy.wait(1000).then(() => {
+        userRegistered();
+      });
+    }
+  }
 
   //for each company do the onboarding
   Object.keys(companies).forEach((key) => {
@@ -63,34 +96,10 @@ describe('Buyer Onboarding', () => {
           cy.getCookie('brixelToken')
             .then((res) => {
               let {email} = userTest.buyer;
-              if (key === 'ubs' || key === 'baloise') {
+              if (partner.includes(key)) {
                 email = email.replace(':partner', key);
               }
-              if (res) {
-                cy.get('input[name="login.email"]').type(email);
-                cy.get('input[name="login.password"]').type(userTest.buyer.password);
-                cy.wait(1000).then(() => {
-                  cy.get('button[type="submit"]').click();
-                })
-              } else {
-                cy.get('input[name="register.name"]').type('Test Automated');
-                cy.get('input[name="register.email"]').type(email);
-                cy.get('input[name="register.password"]').type(userTest.buyer.password);
-                cy.get('input[name="register.privacy"]').check({force: true});
-                cy.wait(1000).then(() => {
-                  cy.get('button[type="submit"]').click();
-                })
-                cy.wait(1000).then(() => {
-                  cy.get('body', {timeout: 10000}).then($body => {
-                    if ($body.find('p.txtRed400').length > 0) {
-                      cy.get('input[name="login.password"]').type(userTest.buyer.password);
-                      cy.wait(1000).then(() => {
-                        cy.get('button[type="submit"]').click();
-                      })
-                    }
-                  });
-                });
-              }
+              registerUser(res, email)
             })
         })
 
