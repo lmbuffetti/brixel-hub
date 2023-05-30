@@ -27,6 +27,7 @@ import Cookies from 'universal-cookie';
 const cookie = new Cookies();
 import ep from '../../src/controllers/endPoints.constant';
 import compareSnapshot from 'cypress-image-diff-js/dist/command';
+import Cookie = Cypress.Cookie;
 
 compareSnapshot();
 
@@ -73,4 +74,48 @@ Cypress.Commands.add('reduxValue', (state: string, field: string) => {
     .invoke('getState')
     .its(state)
     .its(field)
+})
+
+Cypress.Commands.add('register', (data: Cookie | null, company: string) => {
+
+  const partner = ['ubs', 'baloise'];
+
+  const userRegistered = () => {
+    cy.get('body', {timeout: 10000}).then($body => {
+      if ($body.find('p.txtRed400').length > 0) {
+        cy.get('input[name="login.password"]').type(userTest.buyer.password);
+        cy.wait(1000).then(() => {
+          cy.get('button[type="submit"]').click();
+        })
+      }
+    });
+  }
+
+  const registerUser = (res, email) => {
+    if (res) {
+      cy.get('input[name="login.email"]').type(email);
+      cy.get('input[name="login.password"]').type(userTest.buyer.password);
+      cy.wait(1000).then(() => {
+        cy.get('button[type="submit"]').click();
+      })
+    } else {
+      cy.get('input[name="register.name"]').type('Test Automated');
+      cy.get('input[name="register.email"]').type(email);
+      cy.get('input[name="register.password"]').type(userTest.buyer.password);
+      cy.get('input[name="register.privacy"]').check({force: true});
+      cy.wait(1000).then(() => {
+        cy.get('button[type="submit"]').click();
+      })
+      cy.wait(1000).then(() => {
+        userRegistered();
+      });
+    }
+  }
+
+
+  let {email} = userTest.buyer;
+  if (partner.includes(company)) {
+    email = email.replace(':partner', company);
+  }
+  registerUser(data, email)
 })
