@@ -18,7 +18,7 @@ import uploadPhotosEmpty from '../../../images/Upload/upload_photos_empty.svg';
 import BrixelUpgradeMessage from '../../../components/BrixelUpgradeMessage';
 import {PhotosType} from '@brixel/brixel-components/dist/@types/Model';
 import type {PhotosPageType} from '../../../@types/Pages/SingleProperty/Media/Photos';
-import useImage from '@brixel/brixel-components/dist/hooks/Image';
+import getUrlImg from '@brixel/brixel-components/dist/utils/ImageUrl';
 
 const Photos = (props: PhotosPageType) => {
   const history = {
@@ -65,7 +65,7 @@ const Photos = (props: PhotosPageType) => {
       let defPhotos = (photos ? cloneDeep(photos) : []);
       defPhotos = defPhotos.map((val) => ({
         ...val,
-        url: useImage(val.url, {size: 'M'}),
+        url: getUrlImg(val.url, {size: 'M'}),
       }));
       setFixPhotos(defPhotos);
     }

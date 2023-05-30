@@ -17,7 +17,7 @@ import {checkBrowser, tobase64Handler, Truncate} from '../../../utils/helpers';
 import BrixelUpgradeMessage from '../../../components/BrixelUpgradeMessage';
 import type {FloorPlansPageType} from '../../../@types/Pages/SingleProperty/Media/Plans';
 import {PhotosType} from '@brixel/brixel-components/dist/@types/Model';
-import useImage from '@brixel/brixel-components/dist/hooks/Image';
+import getUrlImg from '@brixel/brixel-components/dist/utils/ImageUrl';
 
 const Plans = (props: FloorPlansPageType) => {
   const history = {
@@ -61,7 +61,7 @@ const Plans = (props: FloorPlansPageType) => {
       let defPhotos = (floorPlans ? cloneDeep(floorPlans) : []);
       defPhotos = defPhotos.map((val) => ({
         ...val,
-        url: useImage(val.url, {size: 'M'}),
+        url: getUrlImg(val.url, {size: 'M'}),
       }));
       setFixPhotos(defPhotos);
     }
