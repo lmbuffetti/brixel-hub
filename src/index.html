@@ -11,7 +11,7 @@
     <link rel="manifest" href="/manifest.json">
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=<%= googleAnalyticsId %>"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=<%= googleAnalyticsId %>" integrity="<%= googleAnalyticsId %>"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
@@ -25,12 +25,12 @@
     </script>
 `
     <!-- TRANSIFEX - e86c750b39de4c7e8c36a3b1ab7f98af -->
-    <script type="text/javascript" src="//cdn.transifex.com/live.js"></script>
+    <script type="text/javascript" src="//cdn.transifex.com/live.js" integrity="<%= transifexKey %>"></script>
     <script type="text/javascript">window.liveSettings = {
       api_key: '<%= transifexKey %>',
       picker: "#transifex-selector",
     };</script>
-    <script async src="https://www.googleoptimize.com/optimize.js?id=GTM-PL9SRFG"></script>
+    <script async src="https://www.googleoptimize.com/optimize.js?id=GTM-PL9SRFG" integrity="GTM-PL9SRFG"></script>
   </head>
   <body class="txlive">
     <noscript>You need to enable JavaScript to run this app.</noscript>
