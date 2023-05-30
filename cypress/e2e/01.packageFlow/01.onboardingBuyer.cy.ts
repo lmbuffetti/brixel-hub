@@ -62,12 +62,12 @@ describe('Buyer Onboarding', () => {
           cy.viewport(device);
           cy.getCookie('brixelToken')
             .then((res) => {
+              let {email} = userTest.buyer;
+              if (key === 'ubs' || key === 'baloise') {
+                email = userTest.buyerPartner.email.replace(':partner', key);
+              }
               if (!res) {
                 cy.get('input[name="register.name"]').type('Test Automated');
-                let {email} = userTest.buyer;
-                if (key === 'ubs' || key === 'baloise') {
-                  email = userTest.buyerPartner.email.replace(':partner', key);
-                }
                 cy.get('input[name="register.email"]').type(email);
                 cy.get('input[name="register.password"]').type(userTest.buyer.password);
                 cy.get('input[name="register.privacy"]').check({force: true});
