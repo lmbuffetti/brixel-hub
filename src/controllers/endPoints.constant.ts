@@ -100,6 +100,7 @@ export default {
     getPropertiesOfUser: (owner, limit = 0) => `/page/${limit}/0?owner=${owner}`,
     getToken: () => '/authentication/getToken',
     getUserByEmail: (email) => `/user/email/${email}`,
+    rate: (user) => `/rate/${user}`,
     recoverPassword: (email) => `/user/recoverPassword/${email}`,
     removeAsNotInterested: (pageId) => `/user/notInterested/page/${pageId}/remove`,
     removeFavorite: (id) => `/user/favorite/page/${id}/remove`,
