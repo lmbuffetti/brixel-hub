@@ -35,7 +35,7 @@ const Support = (props: SupportType) => {
   const teamAvatars = get(activeSingleCompany, 'teamAvatars', []);
   const companyLegalName = get(activeSingleCompany, 'name', get(activeSingleCompany, 'name', null));
   // COLOR
-  const colorLinkTextInfo = layout === 'onboarding' ? 'txtText900' : 'txtText900';
+  const colorLinkTextInfo = 'txtText900';
 
   const [openDetail, setOpenDetail] = useState(expanded);
   const [supportMessage, setSupportMessage] = useState('');

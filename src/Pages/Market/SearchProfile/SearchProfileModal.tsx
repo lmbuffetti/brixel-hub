@@ -87,13 +87,7 @@ const SearchProfileModal = (props: SearchProfileModalType) => {
 
   const onClose = () => {
     const url = get(history, 'location.state.url', null);
-    switch(history.location.pathname) {
-      case '/buy/searchProfile/list':
-        history.push(url || '/buy');
-        break;
-      default:
-        history.push(url || '/buy');
-    }
+    history.push(url || '/buy');
   }
 
   const onBack = () => {

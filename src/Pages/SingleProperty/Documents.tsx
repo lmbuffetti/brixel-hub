@@ -827,6 +827,7 @@ const Documents = (props: DocumentsPageType) => {
                                                 </div>
                                                 <BrixelButtonIcon
                                                   bgTransparent
+                                                  className=""
                                                   theme="text"
                                                   themeSat={600}
                                                   icon={`${(index(i) !== -1) ? 'arrow-simple-up' : 'arrow-simple-down'}`}

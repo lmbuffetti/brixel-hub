@@ -179,7 +179,7 @@ const Deals = (props: DealsType) => {
         visit: 'Visit',
       }
       const activeDealsCopy = cloneDeep(filteredDeals);
-      Object.keys(activeDealsCopy).map((key) => {
+      Object.keys(activeDealsCopy).forEach((key) => {
         let dealToSave = [...activeDealsCopy[key]];
         dealToSave = dealToSave.map((deal) => ({ id: deal.id, stage: convertKey[key] }));
         if (dealToSave.length > activeSinglePropertyDeals[key].total) {

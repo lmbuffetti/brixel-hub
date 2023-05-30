@@ -256,20 +256,18 @@ const FlowScreen = (props: FlowScreenType) => {
   // GET THE NEXT DATA IN BASE OF CURRENT ANSWER
   useEffect(() => {
     const newQuest: QuestionsListType[] = [];
-    QuestionsList.map((qst) => {
+    QuestionsList.forEach((qst) => {
       if (qst.condition) {
         let isValid = true;
-        qst.condition.map((item) => {
+        qst.condition.forEach((item) => {
           if (item.name && get(formValue, item.name, null) !== item.value) {
             isValid = false;
           }
-          return null;
         });
         if (isValid && !qst.hideOnFlow) newQuest.push(qst);
       } else {
         if (!qst.hideOnFlow) newQuest.push(qst);
       }
-      return null;
     });
     setQuestions(newQuest);
   }, [formValue, QuestionsList, lang]);
@@ -339,7 +337,7 @@ const FlowScreen = (props: FlowScreenType) => {
 
         <div
           id={`step-${quest?.history || 'default'}`}
-          className={`bodyModal container ${currentIndex ? '' : ''} ${get(quest, 'history', '')}`}
+          className={`bodyModal container ${get(quest, 'history', '')}`}
         >
 
           <form

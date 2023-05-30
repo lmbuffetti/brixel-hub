@@ -466,15 +466,7 @@ const App = (props: AppType) => {
   const headerCalc = useCallback(() => {
     let contentHeight;
     if (!isFlow) {
-      if (windowDimensions.width <= 1024) {
-        if ((history.location.pathname.includes('buy') && !history.location.pathname.includes('buyer')) || history.location.pathname.includes('sell')) {
-          contentHeight = windowDimensions.height;
-        } else {
-          contentHeight = windowDimensions.height;
-        }
-      } else {
-        contentHeight = windowDimensions.height;
-      }
+      contentHeight = windowDimensions.height;
     } else {
       contentHeight = 'auto';
     }
@@ -520,14 +512,6 @@ const App = (props: AppType) => {
       calcHeaderHeight();
     });
   }, [window]);
-
-  const overflowClass = useCallback(() => {
-    // if (history.location.pathname.includes('prospects') && !history.location.pathname.includes('offers')) {
-    //   // if (windowDimensions.width <= 1024) return 'ov-y-a ov-x-h';
-    //   return 'ov-y-a ov-x-h';
-    // }
-    return 'ov-y-a ov-x-h';
-  }, []);
 
   // add class to body when loading enabled
   useEffect(() => {
@@ -586,7 +570,7 @@ const App = (props: AppType) => {
               >
                 <div
                   id="bodyScroll"
-                  className={`content dis-fl-col ${!isFlow ? `hubDasContent ${overflowClass()}` : 'flowContent'} ${notification[0] && notification[0].state ? 'saveActionOn' : ''}`}
+                  className={`content dis-fl-col ${!isFlow ? 'hubDasContent ov-y-a ov-x-h' : 'flowContent'} ${notification[0] && notification[0].state ? 'saveActionOn' : ''}`}
                   style={isSecLevel ? { height: '100%' } : { height: headerCalc() }}
                   ref={dashContentRef}
                 >
@@ -712,7 +696,7 @@ const App = (props: AppType) => {
                       {
                         !showSupport && (
                           <div
-                            className={`supportBubble dis-f jc-b a-c cur-poi bgWhite p-1 brdFullRadius zIndex1 pr-2 shadow-2dp ${windowDimensions.width > 1024 ? '' : ''}`}
+                            className="supportBubble dis-f jc-b a-c cur-poi bgWhite p-1 brdFullRadius zIndex1 pr-2 shadow-2dp"
                             onClick={() => setShowSupport(!showSupport)}
                           >
                             <div className="dis-f jc-b a-c">

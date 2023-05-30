@@ -1,6 +1,8 @@
-import { testData, userTest } from '../../helpers/constants';
+import { testData } from '../../helpers/constants';
 
 const { devices, companies } = testData;
+
+const userTest = Cypress.env('userTest');
 
 describe('Seller Onboarding', () => {
 

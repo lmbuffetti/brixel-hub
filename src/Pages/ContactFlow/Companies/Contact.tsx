@@ -261,20 +261,18 @@ const Contact = (props: ContactType) => {
     setOldIndex(currentIndex);
     const newQuest: QuestionsListType[] = [];
     if (formValue && activeSingleCompany.stub) {
-      QuestionsList(lang, activeSingleCompany, isBuyer).map((quests) => {
+      QuestionsList(lang, activeSingleCompany, isBuyer).forEach((quests) => {
         if (quests.condition) {
           let isValid = true;
           quests.condition.map((item) => {
             if (item.name && get(formValue, item.name, null) !== item.value) {
               isValid = false;
             }
-            return null;
           });
           if (isValid) newQuest.push(quests);
         } else {
           newQuest.push(quests);
         }
-        return null;
       });
 
       setQuest(newQuest[currentIndex]);
@@ -319,7 +317,7 @@ const Contact = (props: ContactType) => {
     <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'background', '')} ${get(quest, 'classWrapper', '')}  `}>
       {
         quest.history && (
-          <div className={`bodyModal dis-fl-col upgradeModal container ${get(quest, 'history', '')} ${get(quest, 'background', '') ? '' : ''} ${get(quest, 'vCentered', null) ? 'jc-c vCentered' : ''} stepNo${currentIndex}`}>
+          <div className={`bodyModal dis-fl-col upgradeModal container ${get(quest, 'history', '')} ${get(quest, 'vCentered', null) ? 'jc-c vCentered' : ''} stepNo${currentIndex}`}>
             <form
               id="multiStepForm"
               autoComplete="off"

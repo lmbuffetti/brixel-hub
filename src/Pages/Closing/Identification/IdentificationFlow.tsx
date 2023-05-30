@@ -295,20 +295,18 @@ const IdentificationFlow = (props: IdentificationFlowType) => {
   useEffect(() => {
     if (formValue) {
       const newQuest: object[] = [];
-      IdentificationQuestions(false, userType, lang).map((questData: QuestionsListType) => {
+      IdentificationQuestions(false, userType, lang).forEach((questData: QuestionsListType) => {
         if (questData.condition) {
           let isValid = true;
           questData.condition.map((item) => {
             if (item.name && get(formValue, item.name, null) !== item.value) {
               isValid = false;
             }
-            return null;
           });
           if (isValid) newQuest.push(questData);
         } else {
           newQuest.push(questData);
         }
-        return null;
       });
       const checkDiff = diff(quest, newQuest);
       if (Object.keys(checkDiff).length > 0) setQuestions(newQuest);
@@ -379,7 +377,7 @@ const IdentificationFlow = (props: IdentificationFlowType) => {
         )
       }
 
-      <div className={`bodyModal dis-fl-col upgradeModal container ${get(quest, 'history', '')} ${get(quest, 'background', '') ? '' : ''} ${get(quest, 'vCentered', null) ? 'jc-c vCentered' : ''} stepNo${currentIndex}`}>
+      <div className={`bodyModal dis-fl-col upgradeModal container ${get(quest, 'history', '')} ${get(quest, 'vCentered', null) ? 'jc-c vCentered' : ''} stepNo${currentIndex}`}>
         <form
           id="multiStepForm"
           autoComplete="off"

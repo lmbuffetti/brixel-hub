@@ -18,20 +18,19 @@ export const calcPercentageFacts = (form = 'Property', value = {}) => {
   const formValue = get(configureStore.getState(), `brixelForm[${form}].values`, value);
   const lang = get(configureStore.getState(), 'user.loggedInUser.user.language', 'en');
   const Questions: QuestionsListType[] = InputSheets(formValue, lang, () => '');
-  Questions.map((val) => {
+  Questions.forEach((val) => {
     if (val.inputs) {
-      val.inputs.map((item) => {
+      val.inputs.forEach((item) => {
         const name = get(item, 'condition.name', '');
         const valA = get(formValue, name, 'a');
         if (item.conditions) {
-          item.conditions.map((cond) => {
+          item.conditions.forEach((cond) => {
             let valB;
             if (cond.name) valB = get(formValue, cond.name, 'a');
             if (item.name && valB === cond.value && (get(formValue, item.name, 'ayc') !== 'ayc' || get(formValue, item.name, 'ayc') !== null)) {
               countTotal += 1;
               countDone += 1;
             }
-            return null;
           });
         } else if (!item.condition || (item.condition && valA === get(item, 'condition.value', null))) {
           if (get(formValue, `inputSheet.skipSection[${item.name}]`, false)) {
@@ -44,10 +43,8 @@ export const calcPercentageFacts = (form = 'Property', value = {}) => {
             countTotal += 1;
           }
         }
-        return null;
       });
     }
-    return null;
   });
   // const inputSheet = cloneDeep(get(formValue, 'inputSheet', {}) || {});
   const calPerc = Math.floor((countDone * 100) / countTotal);

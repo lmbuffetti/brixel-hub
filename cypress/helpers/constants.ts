@@ -25,36 +25,3 @@ export const testData: any = {
     'macbook-15',
   ],
 }
-
-export const userTest = {
-  buyer: {
-    email: 'jesttest+buyer@brixel.io',
-    username: 'jesttest+buyer@brixel.io',
-    password: '123456789',
-  },
-  estimation: {
-    email: 'jesttest+estimation@brixel.io',
-    username: 'jesttest+estimation@brixel.io',
-    password: '123456789',
-  },
-  seller: {
-    email: 'jesttest+seller@brixel.io',
-    username: 'jesttest+seller@brixel.io',
-    password: '123456789',
-  },
-  buyerPartner: {
-    email: 'jesttest+buyer:partner@brixel.io',
-    username: 'jesttest+buyer@brixel.io',
-    password: '123456789',
-  },
-  estimationPartner: {
-    email: 'jesttest+estimation:partner@brixel.io',
-    username: 'jesttest+estimation@brixel.io',
-    password: '123456789',
-  },
-  sellerPartner: {
-    email: 'jesttest+seller:partner@brixel.io',
-    username: 'jesttest+seller@brixel.io',
-    password: '123456789',
-  },
-}

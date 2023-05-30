@@ -52,7 +52,7 @@ const BrixelUpgradeMessage = (props: BrixelUpgradeMessageType) => {
     else onUpgrade();
   };
 
-  const bgColor = showUnlockMessage ? 'bgBlue50' : 'bgBlue50';
+  const bgColor = 'bgBlue50';
 
   if (!isEligible(activeSingleProperty) && trialRequest) {
     return <span />;

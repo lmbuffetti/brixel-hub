@@ -47,7 +47,7 @@ const BaloiseRegistration = (props: BaloiseRegistrationType) => {
 
   useEffect(() => {
     const uploadingFile: object[] = [];
-    Object.keys(documentUploading).map((key) => {
+    Object.keys(documentUploading).forEach((key) => {
       uploadingFile.push(documentUploading[key]);
     })
     changeFieldValue('documents', uploadingFile);

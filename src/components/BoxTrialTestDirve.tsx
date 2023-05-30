@@ -48,7 +48,7 @@ const BoxTrialTestDirve = (props: BoxTrialTestDirveType) => {
           <img
             loading="lazy"
             className={windowDimensions.width <= 590 ? 'dis-b mx-a' : ''}
-            width={windowDimensions.width <= 590 ? 300 : 300}
+            width={300}
             src={testDrive}
             alt=""
           />

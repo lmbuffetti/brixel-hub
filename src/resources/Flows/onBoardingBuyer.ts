@@ -87,7 +87,7 @@ export const QuestionsList: (lang: string, type: string, changeField: (field: st
       successMessage: translateTo('Ok. Got it.', lang),
     },
     {
-      title: translateTo(type === 'searchProfile' ? 'How big should it be?' : 'How big should it be?', lang),
+      title: translateTo('How big should it be?', lang),
       history: 'tipology',
       vCentered: true,
       classWrap: type === 'searchProfile' ? 'brdSmallBottom brdText50 pb-2 pb-md-4 inputRangeWrap' : 'inputRangeWrap',
@@ -132,7 +132,7 @@ export const QuestionsList: (lang: string, type: string, changeField: (field: st
       classWrap: type === 'searchProfile' ? 'brdSmallBottom brdText50 pb-2 pb-md-4' : '',
       inputs: [
         {
-          className: type === 'searchProfile' ? 'extraFeature' : 'extraFeature',
+          className: 'extraFeature',
           component: BrixelExtraFeature,
           name: 'characteristics.extraFeatures',
           extraFeatureCustomList: newExtraFeature,
