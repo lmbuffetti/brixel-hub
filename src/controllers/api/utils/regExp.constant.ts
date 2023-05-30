@@ -10,7 +10,6 @@ export default {
   personName: /^[a-zA-Z0-9.'_]{2,}$/,
   password: /^(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])((?=.*[a-zA-Z])|(?=.*\d+)).*$/,
   image: /\.(gif|jpg|jpeg|tiff|png)$/i,
-  thousandsDelimiter: /\B(?=(\d{3})+(?!\d))/g,
   browserLangDelimiter: /[_-]+/,
   positiveNumber: /^\+?(0|[1-9]\d*)$/,
   characterAndNumber: /^[a-zA-Z0-9]+$/,

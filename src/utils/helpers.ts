@@ -188,7 +188,7 @@ export const removeCookie = (key) => {
 export const Truncate = (text, limit, showAllDescription = false) => {
   let txt = text;
   if (txt.length > limit && !showAllDescription) {
-    txt = `${txt.substr(0, limit).replace(/\s+$/, '')}...`;
+    txt = `${txt.substr(0, limit).replace(/\s/g, '')}...`;
   } else if (txt.length > limit && showAllDescription) {
     txt = `${txt}`;
   }

@@ -7,7 +7,7 @@ const RemoveTrailingSlash = ({...rest}) => {
   // If the last character of the url is '/'
   if (location.pathname.match('/.*/$')) {
     return <Navigate replace {...rest} to={{
-      pathname: location.pathname.replace(/\/+$/, ''),
+      pathname: location.pathname.substr(0, location.pathname.length - 1),
       search: location.search,
     }}/>
   } else return null
