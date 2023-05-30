@@ -23,13 +23,14 @@
 //
 // -- This will overwrite an existing command --
 
-import { userTest } from '../helpers/constants';
 import Cookies from 'universal-cookie';
 const cookie = new Cookies();
 import ep from '../../src/controllers/endPoints.constant';
 import compareSnapshot from 'cypress-image-diff-js/dist/command';
 
 compareSnapshot();
+
+const userTest = Cypress.env('userTest');
 
 Cypress.Commands.add('loginViaApi', (type = 'seller') => {
   const auth = btoa(`${userTest.seller.email}:${userTest[type].password}`);
