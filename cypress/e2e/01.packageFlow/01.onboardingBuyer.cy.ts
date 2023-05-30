@@ -64,9 +64,15 @@ describe('Buyer Onboarding', () => {
             .then((res) => {
               let {email} = userTest.buyer;
               if (key === 'ubs' || key === 'baloise') {
-                email = userTest.buyerPartner.email.replace(':partner', key);
+                email = email.replace(':partner', key);
               }
-              if (!res) {
+              if (res) {
+                cy.get('input[name="login.email"]').type(email);
+                cy.get('input[name="login.password"]').type(userTest.buyer.password);
+                cy.wait(1000).then(() => {
+                  cy.get('button[type="submit"]').click();
+                })
+              } else {
                 cy.get('input[name="register.name"]').type('Test Automated');
                 cy.get('input[name="register.email"]').type(email);
                 cy.get('input[name="register.password"]').type(userTest.buyer.password);
@@ -84,10 +90,8 @@ describe('Buyer Onboarding', () => {
                     }
                   });
                 });
-              } else {
-                cy.get('body', {timeout: 10000}).should('be.visible');
               }
-            });
+            })
         })
 
       });
