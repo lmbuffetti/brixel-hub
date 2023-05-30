@@ -513,14 +513,6 @@ const App = (props: AppType) => {
     });
   }, [window]);
 
-  const overflowClass = useCallback(() => {
-    // if (history.location.pathname.includes('prospects') && !history.location.pathname.includes('offers')) {
-    //   // if (windowDimensions.width <= 1024) return 'ov-y-a ov-x-h';
-    //   return 'ov-y-a ov-x-h';
-    // }
-    return 'ov-y-a ov-x-h';
-  }, []);
-
   // add class to body when loading enabled
   useEffect(() => {
     const loadingClass = document.getElementsByClassName('elem-loader')[0];
@@ -578,7 +570,7 @@ const App = (props: AppType) => {
               >
                 <div
                   id="bodyScroll"
-                  className={`content dis-fl-col ${!isFlow ? `hubDasContent ${overflowClass()}` : 'flowContent'} ${notification[0] && notification[0].state ? 'saveActionOn' : ''}`}
+                  className={`content dis-fl-col ${!isFlow ? 'hubDasContent ov-y-a ov-x-h' : 'flowContent'} ${notification[0] && notification[0].state ? 'saveActionOn' : ''}`}
                   style={isSecLevel ? { height: '100%' } : { height: headerCalc() }}
                   ref={dashContentRef}
                 >
