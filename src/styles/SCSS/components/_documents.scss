@@ -35,6 +35,9 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      @media (max-width: $responsive-small) {
+        max-width: 190px;
+      }
     }
   }
 

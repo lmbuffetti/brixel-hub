@@ -783,7 +783,7 @@ const DashboardHome = (props: DashboardHomeType) => {
               {
                 visitLists ? (
                   <div className="brdRadius bgWhite shadow-2dp">
-                    <div className="dis-f jc-b a-c px-2 pt-2">
+                    <div className="dis-f jc-b a-c px-2 py-2">
                       <div className="dis-f a-c w-perc-100 mr-2">
                         <BrixelIcon
                           iconWidth="w-fix-32"

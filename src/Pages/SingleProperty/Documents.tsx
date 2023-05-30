@@ -448,7 +448,7 @@ const Documents = (props: DocumentsPageType) => {
                         {
                           mandatoryDocuments.map((element, j) => (
                             <div className="dis-fl-col max-w-perc-100 max-w-fix-768" key={`mndDoc_${j.toString()}`}>
-                              <div className="dis-fl-row a-c jc-b py-small-12 pl-2">
+                              <div className="dis-fl-row a-c jc-b py-small-12 pl-1 pl-sm-2">
                                 <div className="dis-fl-row a-c">
                                   {
                                     mandatoryDocumentExists(element) !== false && (
@@ -643,7 +643,7 @@ const Documents = (props: DocumentsPageType) => {
                                 ) : (
                                   filterDocsByFodler(processedDocuments, 'NoFolder').map((docList, i) => (
                                     <div
-                                      className='noFolderWrapper brdSmall brdText100 dis-fl-col pt-1 px-2 mb-2 brdRadius'
+                                      className='noFolderWrapper brdSmall brdText100 dis-fl-col pt-1 px-sm-2 px-1 mb-2 brdRadius'
                                       key={`noFolderDoc${i.toString()}`}
                                       ref={documentRef}
                                     >
@@ -665,19 +665,21 @@ const Documents = (props: DocumentsPageType) => {
                                             <div
                                               id={`nofolderDocs${doc.id}`}
                                               key={`prcDocs_${k.toString()}`}
-                                              className="single-document dis-fl-row a-c jc-b p-1"
+                                              className="single-document dis-fl-row a-c jc-b py-1 pr-0 pl-0 pl-sm-1"
                                             >
 
                                               <div className="name dis-fl-row a-c pr-1 pr-sm-0">
                                                 {
                                                   !isBuyer && (
-                                                    <div className="icon-container brdRadius dis-f w-fix-24 h-fix-40 jc-c a-c ml-1 mr-1">
-                                                      <img
-                                                        alt="Drag Icon"
-                                                        width={18}
-                                                        className='cur-grab docsHandle'
-                                                        src={dragIcon}
-                                                      />
+                                                    <div className="icon-container brdRadius dis-f w-fix-24 h-fix-40 jc-c a-c mr-1">
+                                                      <div className="w-fix-16">
+                                                        <img
+                                                          alt="Drag Icon"
+                                                          width={18}
+                                                          className='cur-grab docsHandle'
+                                                          src={dragIcon}
+                                                        />
+                                                      </div>
                                                     </div>
                                                   )
                                                 }
@@ -715,7 +717,7 @@ const Documents = (props: DocumentsPageType) => {
                                                         theme='blue'
                                                         iconColor={`${doc.isPrivate === true ? 'red' : 'green'}`}
                                                         icon={`${doc.isPrivate === true ? 'locked' : 'eye'}`}
-                                                        className="mr-1"
+                                                        className="mr-0"
                                                       />
                                                     </>
                                                   )
@@ -819,7 +821,7 @@ const Documents = (props: DocumentsPageType) => {
                                                     saturationTxt={400}
                                                     saturation={100}
                                                     background="green"
-                                                    className="mx-1"
+                                                    className="mr-1"
                                                   />
                                                   <h6 className='fweight-600'>{docList[0].folder}</h6>
                                                 </div>
@@ -858,13 +860,16 @@ const Documents = (props: DocumentsPageType) => {
                                                   (index(i) !== -1 || isMovingFolder) && docList.map((doc, k) => (
                                                     <li
                                                       key={`prcDocs_${k.toString()}`}
-                                                      className="single-document pl-2 dis-fl-row a-c jc-b py-1"
+                                                      className="single-document dis-fl-row a-c jc-b py-1"
                                                     >
                                                       <div className="name w-fix-184 w-fix-lg-352 dis-fl-row a-c pr-1 pr-sm-0">
                                                         {
                                                           !isBuyer && (
                                                             <div className="icon-container brdRadius dis-f w-fix-24 h-fix-40 jc-c a-c mr-1">
-                                                              <img width={18} className='cur-grab docsHandle' src={dragIcon} />
+                                                              <div className="min-w-fix-16">
+
+                                                                <img width={18} className='cur-grab docsHandle' src={dragIcon} />
+                                                              </div>
                                                             </div>
                                                           )
                                                         }
@@ -895,7 +900,8 @@ const Documents = (props: DocumentsPageType) => {
                                                           userType !== 'buyer' && (
                                                             <>
                                                               <BrixelTooltip
-                                                                className="mr-1"
+                                                                className="mr-0"
+                                                                theme='blue'
                                                                 description={`${doc.isPrivate === true ? translateTo('This document is set to private. Edit to change', lang) : translateTo('This document is set to public. Edit to change', lang)}`}
                                                                 width="200"
                                                                 lang={lang}
@@ -955,7 +961,7 @@ const Documents = (props: DocumentsPageType) => {
                                               delay={2}
                                               group="groupName"
                                               list={[]}
-                                              className={(index(0) !== -1 || isMovingFolder) ? 'mt-1 pt-0 px-2' : ''}
+                                              className={(index(0) !== -1 || isMovingFolder) ? 'mt-1 pt-0 px-1 px-sm-2' : ''}
                                               setList={(order) => get(order, '[0].id', null) ? history.push(`/${activeSingleProperty.id}/docubox/${get(order, '[0].id', null)}/addToFolder`) : ''}
                                               onStart={() => setIsMovingFolder(true)}
                                               onEnd={() => setIsMovingFolder(false)}
