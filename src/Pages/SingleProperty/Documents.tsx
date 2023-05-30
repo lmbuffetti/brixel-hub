@@ -726,7 +726,7 @@ const Documents = (props: DocumentsPageType) => {
                                                   !isBuyer && (
                                                     <div>
                                                       <BrixelButtonIcon
-                                                        bgTransparent
+                                                        ghost
                                                         theme="text"
                                                         themeSat={600}
                                                         icon="options-vertical"
@@ -742,7 +742,7 @@ const Documents = (props: DocumentsPageType) => {
                                                         (documentOptionsOpen.id === doc.id && documentOptionsOpen.active) && (
                                                           <>
                                                             <BrixelDropdownMini
-                                                              topOffset={40}
+                                                              topOffset={50}
                                                               rightAligned
                                                               links={userType !== 'buyer' ?
                                                                 [
@@ -826,8 +826,7 @@ const Documents = (props: DocumentsPageType) => {
                                                   <h6 className='fweight-600'>{docList[0].folder}</h6>
                                                 </div>
                                                 <BrixelButtonIcon
-                                                  bgTransparent
-                                                  className=""
+                                                  ghost
                                                   theme="text"
                                                   themeSat={600}
                                                   icon={`${(index(i) !== -1) ? 'arrow-simple-up' : 'arrow-simple-down'}`}
@@ -915,7 +914,7 @@ const Documents = (props: DocumentsPageType) => {
                                                           !isBuyer && (
                                                             <div>
                                                               <BrixelButtonIcon
-                                                                bgTransparent
+                                                                ghost
                                                                 theme="text"
                                                                 themeSat={600}
                                                                 icon="options-vertical"
@@ -931,7 +930,7 @@ const Documents = (props: DocumentsPageType) => {
                                                                 (folderOptionsOpen.id === doc.id && folderOptionsOpen.active) && (
                                                                   <>
                                                                     <BrixelDropdownMini
-                                                                      topOffset={40}
+                                                                      topOffset={50}
                                                                       rightAligned
                                                                       links={dropdownActionDoc(doc)}
                                                                     />
