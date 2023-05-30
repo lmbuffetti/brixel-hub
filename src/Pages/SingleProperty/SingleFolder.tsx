@@ -130,9 +130,9 @@ const SingleFolder = (props: SingleFolderType) => {
       {
         activeDocument.id && (
           <SplashScreen closeOutside={false} className="edit-document">
-            <div className="single-document dis-fl-col">
+            <div className="single-document dis-fl-col flex-1">
               {/* top panel */}
-              <div className="top dis-fl-row a-c jc-b py-3 max-h-fix-80 px-3 brdSmallBottom brdLight400 mb-3 pos-r">
+              <div className="top dis-fl-row a-c jc-b py-3 max-h-fix-80 px-3 brdSmallBottom brdText100 mb-3 pos-r">
                 <h4 className="name dis-b fweight-600 ml-a mr-a">
                   {translateTo('Add to folder', lang)}
                 </h4>
@@ -243,10 +243,11 @@ const SingleFolder = (props: SingleFolderType) => {
 
               </div>
               {/* bottom panel */}
-              <div className="bottom dis-fl-row jc-b brdSmallTop brdLight400 w-perc-100 a-c px-3 py-3 h-fix-80">
+              <div className="bottom dis-fl-row jc-b brdSmallTop brdText100 w-perc-100 a-c px-3 py-3 h-fix-80 mt-a">
                 <BrixelButtonText
                   className="edit mr-2"
-                  theme="black"
+                  theme="text"
+                  themeSat={800}
                   rounded
                   label={translateTo('Cancel', lang)}
                   onClick={() => {

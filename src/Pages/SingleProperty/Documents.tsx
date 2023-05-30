@@ -448,7 +448,7 @@ const Documents = (props: DocumentsPageType) => {
                         {
                           mandatoryDocuments.map((element, j) => (
                             <div className="dis-fl-col max-w-perc-100 max-w-fix-768" key={`mndDoc_${j.toString()}`}>
-                              <div className="dis-fl-row a-c jc-b py-2 pl-2">
+                              <div className="dis-fl-row a-c jc-b py-small-12 pl-2">
                                 <div className="dis-fl-row a-c">
                                   {
                                     mandatoryDocumentExists(element) !== false && (
@@ -464,6 +464,9 @@ const Documents = (props: DocumentsPageType) => {
                                       <BrixelIcon
                                         icon="document"
                                         className="mr-3"
+                                        iconSize='w-fix-24'
+                                        color="text"
+                                        saturationTxt={400}
                                       />
                                     )
                                   }
@@ -503,7 +506,7 @@ const Documents = (props: DocumentsPageType) => {
                                   )
                                 }
                               </div>
-                              <hr className="lighter" />
+                              <hr className='brdText100' />
                             </div>
                           ))
                         }
@@ -542,14 +545,14 @@ const Documents = (props: DocumentsPageType) => {
                             <h5 className="as-fs fSizePx20 fweight-600">
                               {translateTo('Drag to move and reorder documents', lang)}
                             </h5>
-                            <span className="as-fs txtDark200 fsize-300">
+                            <span className="as-fs txtText600 fsize-300">
                               {translateTo('The order will be the same as seen on your Brixel Page.', lang)}
                             </span>
                           </div>
                         )
                       }
                       <div
-                        className={`${(!processedDocuments || (processedDocuments.length === 0)) ? 'emptyState my-3 my-sm-5' : 'hasImages py-2 py-lg-3'} upload-container dis-fl-col a-c ta-c w-perc-100`}
+                        className={`${(!processedDocuments || (processedDocuments.length === 0)) ? 'emptyState my-3 my-sm-5' : 'hasImages py-2 py-lg-3'} upload-container dis-fl-col a-c ta-c w-perc-100 ${!processedDocuments || (processedDocuments.length === 0) ? '' : 'bgGreen50'}`}
                         {...getRootProps()}
                       >
                         <input {...getInputProps()} />
@@ -587,11 +590,11 @@ const Documents = (props: DocumentsPageType) => {
                         </div>
                         {
                           (!processedDocuments || (processedDocuments.length === 0)) && (
-                            <span className='brdSmallTop brdAltGrey200 w-fix-104 my-2' />
+                            <span className='brdSmallTop brdText100 w-fix-104 my-2' />
                           )
                         }
 
-                        <span className="body2 txtAltGrey400 max-w-fix-288">
+                        <span className="body2 txtText600 max-w-fix-288">
                           {translateTo('Choose .pdf .jpg .png with max. 10 MB size', lang)}
                         </span>
                       </div>
@@ -607,7 +610,7 @@ const Documents = (props: DocumentsPageType) => {
                         >
                           <>
                             {
-                              filterDocsByFodler(processedDocuments, 'NoFolder').length > 0 || !isBuyer && (
+                              !isBuyer && (
                                 <span className='fsize-300 fweight-600 dis-b mb-2'>
                                   {translateTo('Files', lang)}
                                 </span>
@@ -633,14 +636,14 @@ const Documents = (props: DocumentsPageType) => {
                                     onStart={() => setIsMovingFolder(true)}
                                     onEnd={() => setIsMovingFolder(false)}
                                   >
-                                    <div className="shadow-1dp dis-fl-col py-3 a-c mb-2 brdRadius txtAltGrey400">
+                                    <div className="brdSmall brdText100 dis-fl-col py-3 a-c mb-2 brdRadius fsize-300 txtText400">
                                       {translateTo('Drag and drop single files here', lang)}
                                     </div>
                                   </ReactSortable>
                                 ) : (
                                   filterDocsByFodler(processedDocuments, 'NoFolder').map((docList, i) => (
                                     <div
-                                      className='noFolderWrapper shadow-1dp dis-fl-col p-1 mb-2 brdRadius'
+                                      className='noFolderWrapper brdSmall brdText100 dis-fl-col pt-1 px-2 mb-2 brdRadius'
                                       key={`noFolderDoc${i.toString()}`}
                                       ref={documentRef}
                                     >
@@ -662,7 +665,7 @@ const Documents = (props: DocumentsPageType) => {
                                             <div
                                               id={`nofolderDocs${doc.id}`}
                                               key={`prcDocs_${k.toString()}`}
-                                              className="single-document-folder dis-fl-row a-c jc-b p-1"
+                                              className="single-document dis-fl-row a-c jc-b p-1"
                                             >
 
                                               <div className="name dis-fl-row a-c pr-1 pr-sm-0">
@@ -685,7 +688,7 @@ const Documents = (props: DocumentsPageType) => {
                                                   </span>
                                                   {
                                                     doc?.createdAt ? (
-                                                      <span className="date fsize-200 txtLight400 pt-small-4">
+                                                      <span className="date fsize-200 txtText400 pt-small-4">
                                                         {
                                                           !isNaN(+doc.createdAt) ? (
                                                             <>{DateTime.fromMillis(doc.createdAt, { locale: lang }).toFormat('dd LLL yyyy, H:mm')}</>
@@ -709,6 +712,7 @@ const Documents = (props: DocumentsPageType) => {
                                                         description={`${doc.isPrivate === true ? translateTo('This document is set to private. Edit to change', lang) : translateTo('This document is set to public. Edit to change', lang)}`}
                                                         width="200"
                                                         lang={lang}
+                                                        theme='blue'
                                                         iconColor={`${doc.isPrivate === true ? 'red' : 'green'}`}
                                                         icon={`${doc.isPrivate === true ? 'locked' : 'eye'}`}
                                                         className="mr-1"
@@ -721,7 +725,8 @@ const Documents = (props: DocumentsPageType) => {
                                                     <div>
                                                       <BrixelButtonIcon
                                                         bgTransparent
-                                                        theme="black"
+                                                        theme="text"
+                                                        themeSat={600}
                                                         icon="options-vertical"
                                                         onClick={() => {
                                                           setDocumentOptionsOpen({
@@ -799,12 +804,13 @@ const Documents = (props: DocumentsPageType) => {
                                         filterDocsByFodler(processedDocuments, 'folder').map((docList, i) => (
                                           <div key={`folderDoc${i.toString()}`} ref={folderRef}>
                                             <div
-                                              className="document-folder shadow-1dp dis-fl-col p-1 mb-2 brdRadius"
+                                              className="document-folder brdSmall brdText100 dis-fl-col mb-2 brdRadius"
                                               key={`prcDcc_${i.toString()}`}
                                             >
-                                              <div className="dis-fl-row jc-b a-c">
+                                              <div className={`dis-fl-row jc-b a-c p-1 ${(index(i) !== -1) ? 'brdSmallBottom brdText100' : ''}`}>
+
                                                 <div
-                                                  className={`dis-fl-row a-c p-1 ${(index(i) !== -1 || isMovingFolder) ? '' : ''}`}
+                                                  className={`dis-fl-row a-c p-1 flex-1 ${(index(i) !== -1 || isMovingFolder) ? '' : ''}`}
                                                   onClick={(e) => onExpandFolder(e, i)}
                                                 >
                                                   <BrixelIcon
@@ -820,7 +826,8 @@ const Documents = (props: DocumentsPageType) => {
                                                 <BrixelButtonIcon
                                                   bgTransparent
                                                   className={`${(index(i) !== -1) ? '' : ''}`}
-                                                  theme="black"
+                                                  theme="text"
+                                                  themeSat={600}
                                                   icon={`${(index(i) !== -1) ? 'arrow-simple-up' : 'arrow-simple-down'}`}
                                                   onClick={(e) => {
                                                     e.preventDefault();
@@ -842,7 +849,7 @@ const Documents = (props: DocumentsPageType) => {
                                                 group="groupName"
                                                 // @ts-ignore
                                                 list={cloneDeep(docList)}
-                                                className={(index(i) !== -1 || isMovingFolder) ? 'mt-1 pt-0' : ''}
+                                                className={(index(i) !== -1 || isMovingFolder) ? 'mt-1 pt-0 px-2' : ''}
                                                 setList={(order) => dragDocuments(order, i, get(docList[0], 'folder', null))}
                                                 onStart={() => setIsMovingFolder(true)}
                                                 onEnd={() => setIsMovingFolder(false)}
@@ -867,7 +874,7 @@ const Documents = (props: DocumentsPageType) => {
                                                             {translateTo(doc.type || '', lang)}</span>
                                                           {
                                                             doc?.createdAt ? (
-                                                              <span className="date fsize-200 txtLight400 pt-small-4">
+                                                              <span className="date fsize-200 txtText400 pt-small-4">
                                                                 {
                                                                   !isNaN(+doc.createdAt) ? (
                                                                     <>{DateTime.fromMillis(doc.createdAt, { locale: lang }).toFormat('dd LLL yyyy, H:mm')}</>
@@ -903,7 +910,8 @@ const Documents = (props: DocumentsPageType) => {
                                                             <div>
                                                               <BrixelButtonIcon
                                                                 bgTransparent
-                                                                theme="black"
+                                                                theme="text"
+                                                                themeSat={600}
                                                                 icon="options-vertical"
                                                                 onClick={() => {
                                                                   setFolderOptionsOpen({
@@ -941,18 +949,18 @@ const Documents = (props: DocumentsPageType) => {
                                     <>
                                       {
                                         !isBuyer && (
-                                          <div className="shadow-1dp dis-fl-col p-1 mb-2 brdRadius">
+                                          <div className="brdSmall brdText100 dis-fl-col p-1 mb-2 brdRadius">
                                             <ReactSortable
                                               handle=".docsHandle"
                                               delay={2}
                                               group="groupName"
                                               list={[]}
-                                              className={(index(0) !== -1 || isMovingFolder) ? 'mt-1 pt-0' : ''}
+                                              className={(index(0) !== -1 || isMovingFolder) ? 'mt-1 pt-0 px-2' : ''}
                                               setList={(order) => get(order, '[0].id', null) ? history.push(`/${activeSingleProperty.id}/docubox/${get(order, '[0].id', null)}/addToFolder`) : ''}
                                               onStart={() => setIsMovingFolder(true)}
                                               onEnd={() => setIsMovingFolder(false)}
                                             >
-                                              <div className='dis-fl-col py-3 a-c brdRadius txtAltGrey400'>
+                                              <div className='dis-fl-col py-3 a-c brdRadius txtText400 fsize-300 max-w-fix-232 ml-a mr-a'>
                                                 {translateTo('To keep things organized, drag and drop file to create a folder.', lang)}
                                               </div>
                                             </ReactSortable>
