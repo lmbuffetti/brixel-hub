@@ -5,6 +5,8 @@ import {
   CREATE_USER,
   DO_LOGIN,
   GET_USER_PROPERTIES,
+  GET_USER_RATE,
+  SET_USER_RATE,
   RECOVER_PASSWORD,
   REMOVE_NOT_INTERESTED,
   SAVE_ACTIVE_SINGLE_USER,
@@ -33,6 +35,8 @@ export const {
   addNotInterested,
   removeNotInterested,
   sendUserScanTrial,
+  setUserRate,
+  getUserRate,
 } = createActions({
   [CHECK_TOKEN]: (payload) => payload,
   [CREATE_USER]: (payload) => payload,
@@ -50,4 +54,6 @@ export const {
   [REMOVE_NOT_INTERESTED]: (payload) => payload,
   [RECOVER_PASSWORD]: (payload) => payload,
   [SEND_USER_SCAN_TRIAL]: (payload) => payload,
+  [SET_USER_RATE]: (payload) => payload,
+  [GET_USER_RATE]: (payload) => payload,
 });

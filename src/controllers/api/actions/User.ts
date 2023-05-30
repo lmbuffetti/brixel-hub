@@ -88,6 +88,11 @@ class Property extends Base {
     const url = ep.user.userByIdProfile(id);
     return this.apiClient.get(url, {});
   }
+
+  getUserRate(user) {
+    const url = ep.user.rate(user);
+    return this.apiClient.get(url, {});
+  }
 }
 
 export default Property;

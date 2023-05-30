@@ -21,7 +21,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18.15.0
-      - run: yarn install-styleguide
+      - run: yarn install-styleguide-git
       - run: yarn build-prod
       - uses: actions/upload-artifact@v3
         with:

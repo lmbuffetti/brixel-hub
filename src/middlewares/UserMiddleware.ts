@@ -30,7 +30,7 @@ import {
   SAVE_ACTIVE_SINGLE_USER,
   SEND_USER_SCAN_TRIAL,
   SET_LOGGED_IN_USER,
-  SET_USER_PROPERTIES,
+  SET_USER_PROPERTIES, SET_USER_RATE,
   UPDATE_FAVORITE,
   VALIDATE_USER,
 } from '../actions/types/UserTypes';
@@ -60,6 +60,10 @@ const checkUser = (store) => (next) => (action) => {
                     if (get(res2, 'data.user.language', '').includes('en')) res2.data.language = 'en';
                     store.dispatch({ type: SET_LOGGED_IN_USER, payload: {user: res2.data} });
                     if (!hideLoad) store.dispatch({ type: SPINNER_OFF });
+                    api.user.getUserRate(res2.data.id)
+                      .then((res3) => {
+                        store.dispatch({ type: SET_USER_RATE, payload: res3.data });
+                      })
                   });
               });
             store.dispatch({ type: SPINNER_OFF });

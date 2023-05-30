@@ -145,6 +145,7 @@ const App = (props: AppType) => {
     splashScreenType,
     teamAvatars,
     translations,
+    userRate,
     userTypes,
     windowDimensions,
   } = props;
@@ -214,6 +215,7 @@ const App = (props: AppType) => {
 
   useEffect(() => {
     if (
+      userRate!== null && !userRate.rating &&
       (loggedInUser?.sentFeedback || 0) < 2 &&
       (loggedInUser?.sentFeedback || 0) >= 0 &&
       loggedInUser?.id &&
@@ -953,6 +955,7 @@ const mapStateToProps = (state) => ({
   splashScreenType: get(state, 'common.splashScreenType', ''),
   teamAvatars: get(state, 'companies.activeSingleCompany.teamAvatars', get(state, 'user.loggedInUser.user.company.teamAvatars', [])),
   userTypes: get(state, 'user.userTypes', null),
+  userRate: get(state, 'user.userRate', null),
   translations: get(state, 'translations', {}),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });

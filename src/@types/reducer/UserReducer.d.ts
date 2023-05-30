@@ -5,4 +5,5 @@ export interface UserReducerType {
   userProperties: object[],
   userSearchProfiles: null | object[],
   userTypes: string,
+  userRate: null | object,
 }
