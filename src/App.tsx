@@ -152,7 +152,6 @@ const App = (props: AppType) => {
   // STATE
   // CONSTANT TO PREVENT TRANSIFEX ERROR
   const [langURL, setLangURL] = useState<string | null>(null);
-  const [classMain, setClassMain] = useState('w-perc-100 pos-r hubContainer');
   const [urlLang, setUrlLang] = useState<string>();
 
   const [isSecLevel, setIsSecLevel] = useState(false);
@@ -398,32 +397,39 @@ const App = (props: AppType) => {
 
     setIsFlow(false);
     setZIndex(1);
+
+    let classMain;
+
     if (isFlowClass) {
-      setClassMain('flowContainer packageFlow w-perc-100');
+      classMain ='flowContainer packageFlow w-perc-100';
       setIsFlow(true);
       setZIndex(6);
     } else if (history.location.pathname.includes('home')) {
-      setClassMain('w-perc-100 pos-r hubContainer rewardsTop withTopBar sellerHub');
+      classMain ='w-perc-100 pos-r hubContainer rewardsTop withTopBar sellerHub';
     } else if (isMainClass && isBuyer) {
-      setClassMain('w-perc-100 pos-r hubContainer buyerHub propertyTop');
+      classMain ='w-perc-100 pos-r hubContainer buyerHub propertyTop';
     } else if (isMainClass) {
-      setClassMain('w-perc-100 pos-r hubContainer propertyTop withTopBar sellerHub');
+      classMain ='w-perc-100 pos-r hubContainer propertyTop withTopBar sellerHub';
     } else if (history.location.pathname.includes('marketing')) {
-      setClassMain('w-perc-100 pos-r hubContainer marketingTop withTopBar sellerHub');
+      classMain = 'w-perc-100 pos-r hubContainer marketingTop withTopBar sellerHub';
     } else if (isHomesClass && isMapHomeView) {
-      setClassMain('w-perc-100 pos-r ov-h marketHome mapView');
+      classMain = 'w-perc-100 pos-r ov-h marketHome mapView';
     } else if (isHomesClass) {
-      setClassMain('w-perc-100 pos-r ov-h marketHome');
+      classMain = 'w-perc-100 pos-r ov-h marketHome';
     } else if (history.location.pathname.includes('offers')) {
-      setClassMain('w-perc-100 pos-r hubContainer offersTop withTopBar sellerHub');
+      classMain = 'w-perc-100 pos-r hubContainer offersTop withTopBar sellerHub';
     } else {
-      setClassMain('w-perc-100 pos-r hubContainer ov-h');
+      classMain = 'w-perc-100 pos-r hubContainer ov-h';
     }
+
+    if (history.location.pathname.includes('property/') || history.location.pathname.includes('deal')) classMain += 'dealsPage'
+    if (isSecLevel) classMain += 'fixedLayout';
+
+    return classMain;
   }
 
   // FUCNTION TO SEPARATE THE DESIGN IN BASE OF HISTORY LOCATION (packageFLow, onBoarding, upgrade)
   useEffect(() => {
-    mainClass();
 
     const isBuyer = history.location.pathname.includes('buyer');
 
@@ -522,18 +528,42 @@ const App = (props: AppType) => {
     }
   });
 
-  const mainClasses = () => {
+  const mainClassBlock = () => {
     let classes = '';
-    if (!isFlow) classes += 'hubDashboard h-perc-100'
-    else classes += 'flowWrapper'
-    if (history.location.pathname.includes('upgrade/packages')) classes += 'upgradePackages'
+    if (!isFlow) classes += 'hubDashboard h-perc-100';
+    else classes += 'flowWrapper';
+    if (history.location.pathname.includes('upgrade/packages')) classes += 'upgradePackages';
     if (showFooter) classes += 'activeFooter';
     if (!isOpenTransifex) classes += 'notranslate';
     return classes;
   }
 
+  const dashContentClass = () => {
+    let classes = '';
+    if (!isFlow) classes += 'hubDasContent ov-y-a ov-x-h';
+    else classes += 'flowContent';
+    if (notification[0]?.state) classes += 'saveActionOn';
+    return classes;
+  }
+
   const showLoading = () => {
     return (!lang || (isFlow && !activeSingleCompany.id)) && !history.location.pathname.includes('tokeninput') && Object.keys(translations).length === 0;
+  }
+
+  const showMenuSideBar = () => {
+    return !isFlow &&
+      !history.location.pathname.includes('sell') &&
+      (!history.location.pathname.includes('buy') || history.location.pathname.includes('buyer')) &&
+      loggedInUser &&
+      windowDimensions.width > 1024;
+  }
+
+  const showSellerPropertySection = () => {
+    return (get(history, 'location.pathname', '').split('/')[1] !== 'sell' &&
+        get(history, 'location.pathname', '').split('/')[1] !== 'buy' &&
+        get(history, 'location.pathname', '').split('/')[1].length > 18) ||
+      get(history, 'location.pathname', '').split('/')[1] === 'company';
+
   }
 
 
@@ -562,13 +592,13 @@ const App = (props: AppType) => {
         )
       }
       <main
-        className={`${mainClasses()} dis-fl-row jc-b`}
+        className={`${mainClassBlock()} dis-fl-row jc-b`}
         ref={dashWrapperRef}
       >
         <Loading isLoading={isLoading} />
         <Suspense fallback={<Loading isLoading />}>
           <div
-            className={`${classMain} ${history.location.pathname.includes('property/') || history.location.pathname.includes('deal') ? 'dealsPage' : ''} ${isSecLevel ? 'fixedLayout' : ''}`}
+            className={mainClass()}
           >
             <div className="dis-f">
               <div
@@ -577,7 +607,7 @@ const App = (props: AppType) => {
               >
                 <div
                   id="bodyScroll"
-                  className={`content dis-fl-col ${!isFlow ? 'hubDasContent ov-y-a ov-x-h' : 'flowContent'} ${notification[0] && notification[0].state ? 'saveActionOn' : ''}`}
+                  className={`content dis-fl-col ${dashContentClass()}`}
                   style={isSecLevel ? { height: '100%' } : { height: headerCalc() }}
                   ref={dashContentRef}
                 >
@@ -587,12 +617,7 @@ const App = (props: AppType) => {
                     isFlow={isFlow}
                   />
                   {
-                    !isFlow &&
-                    !history.location.pathname.includes('sell') &&
-                    (!history.location.pathname.includes('buy') || history.location.pathname.includes('buyer')) &&
-                    loggedInUser &&
-                    windowDimensions.width > 1024 &&
-                    (
+                    showMenuSideBar() && (
                       <MenuSidebar />
                     )
                   }
@@ -642,10 +667,7 @@ const App = (props: AppType) => {
                             <Route path="/sell/*" element={<ProtectedRoute><MarketSeller /></ProtectedRoute>} />
                             <Route path="/buy/*" element={<ProtectedRoute><MarketBuyer /></ProtectedRoute>} />
                             {
-                              ((get(history, 'location.pathname', '').split('/')[1] !== 'sell' &&
-                                  get(history, 'location.pathname', '').split('/')[1] !== 'buy' &&
-                                  get(history, 'location.pathname', '').split('/')[1].length > 18) ||
-                                get(history, 'location.pathname', '').split('/')[1] === 'company') && (
+                              showSellerPropertySection() && (
 
                                 <>
                                   <Route path="/:propID/*" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
