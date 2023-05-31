@@ -385,12 +385,20 @@ const App = (props: AppType) => {
   // FUCNTION TO SEPARATE THE DESIGN IN BASE OF HISTORY LOCATION (packageFLow, onBoarding, upgrade)
   useEffect(() => {
     const flowClass = ['packageFlow', 'visitFeedback', 'upgrade', 'trialRequest', 'contactFlow'];
-    const isFlowClass = flowClass.some((flow) => history.location.pathname.includes(flow));
+    const isFlowClass = flowClass.some((url) => history.location.pathname.includes(url));
 
     const mainPropertyClass = ['property', 'closing', 'docubox', 'prospects', 'prospect', 'financing', 'scheduleVisit'];
-    const isMainClass = mainPropertyClass.some((flow) => history.location.pathname.includes(flow));
+    const isMainClass = mainPropertyClass.some((url) => history.location.pathname.includes(url));
 
     const isBuyer = history.location.pathname.includes('buyer');
+
+    const homesClass = ['sell', 'buy'];
+    const isHomesClass = homesClass.some((url) => history.location.pathname.includes(url));
+
+    const isMapHomeView = history.location.pathname.includes('/buy/favorites/map');
+
+    const secondLevelClass = ['property/', 'closing/'];
+    const isSecondLevelClass = secondLevelClass.some((url) => history.location.pathname.includes(url));
 
     setIsFlow(false);
     setZIndex(1);
@@ -406,29 +414,18 @@ const App = (props: AppType) => {
       setClassMain('w-perc-100 pos-r hubContainer propertyTop withTopBar sellerHub');
     } else if (history.location.pathname.includes('marketing')) {
       setClassMain('w-perc-100 pos-r hubContainer marketingTop withTopBar sellerHub');
-    } else if (history.location.pathname.includes('/sell') || history.location.pathname.includes('/buy')) {
-      if (history.location.pathname.includes('/buy/favorites/map')) {
-        setClassMain('w-perc-100 pos-r ov-h marketHome mapView');
-      } else {
-        setClassMain('w-perc-100 pos-r ov-h marketHome');
-      }
-    }  else if (history.location.pathname.includes('offers')) {
+    } else if (isHomesClass && isMapHomeView) {
+      setClassMain('w-perc-100 pos-r ov-h marketHome mapView');
+    } else if (isHomesClass) {
+      setClassMain('w-perc-100 pos-r ov-h marketHome');
+    } else if (history.location.pathname.includes('offers')) {
       setClassMain('w-perc-100 pos-r hubContainer offersTop withTopBar sellerHub');
     } else {
       setClassMain('w-perc-100 pos-r hubContainer ov-h');
     }
 
     // add class to container when secondlevel visible on mobile
-    if (
-      (
-        history.location.pathname.includes('property/') ||
-        history.location.pathname.includes('marketing/') ||
-        history.location.pathname.includes('rewards/') ||
-        history.location.pathname.includes('closing/')
-      ) &&
-      windowDimensions.width <= 1024 &&
-      !history.location.pathname.includes('buyer')
-    ) {
+    if (isSecondLevelClass && windowDimensions.width <= 1024 && !isBuyer) {
       setIsSecLevel(true);
       if ([...el].length > 0 && dashWrapperEl) {
         dashWrapperEl.classList.add('secondLevelActive');
