@@ -4,6 +4,8 @@ const { devices, companies } = testData;
 
 describe('seller Onboarding', () => {
 
+  const partner = ['ubs', 'baloise'];
+
   Cypress.Cookies.debug(true);
 
   before(() => {
@@ -12,6 +14,7 @@ describe('seller Onboarding', () => {
 
   //for each company do the onboarding
   Object.keys(companies).forEach((key: any) => {
+    const isPartner = partner.includes(key);
     //This gives you some feedback in the Cypress side bar console on what URL you're at
     describe(`company: ${key}`, () => {
 
@@ -68,7 +71,7 @@ describe('seller Onboarding', () => {
         })
 
         it('condition property', () => {
-          if (key !== 'ubs' && key !== 'baloise') {
+          if (!isPartner) {
             cy.viewport(device);
             cy.wrap('#step-propertyCondition').compareSnapshot(`sellerCondition${key}`, 0.05);
             cy.get('[type="radio"]').first().check({force: true});
@@ -98,7 +101,7 @@ describe('seller Onboarding', () => {
         })
 
         it('Welcome seller screen', () => {
-          if (key === 'ubs' || key === 'baloise') {
+          if (isPartner) {
             cy.get('.rewards-container', { timeout: 10000 }).should('be.visible');
           } else {
             cy.get('.welcomeSellerBody', {timeout: 10000}).should('be.visible');
