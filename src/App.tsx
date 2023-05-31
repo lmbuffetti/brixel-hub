@@ -425,6 +425,8 @@ const App = (props: AppType) => {
   useEffect(() => {
     mainClass();
 
+    const isBuyer = history.location.pathname.includes('buyer');
+
     const secondLevelClass = ['property/', 'closing/'];
     const isSecondLevelClass = secondLevelClass.some((url) => history.location.pathname.includes(url));
 
@@ -520,8 +522,8 @@ const App = (props: AppType) => {
     }
   });
 
-  if (Object.keys(translations).length === 0) {
-    return <Loading isLoading={true} />
+  const showLoading = () => {
+    return (!lang || (isFlow && !activeSingleCompany.id)) && !history.location.pathname.includes('tokeninput') && Object.keys(translations).length === 0;
   }
 
   return (
@@ -536,9 +538,7 @@ const App = (props: AppType) => {
         <title>Brixel Hub</title>
       </Helmet>
       {
-        ((!lang ||
-          (isFlow && !activeSingleCompany.id)
-        ) && !history.location.pathname.includes('tokeninput')) && (
+        (showLoading()) && (
           <Loading isLoading={true} isSmall />
         )
       }
