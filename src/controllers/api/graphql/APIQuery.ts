@@ -23,7 +23,7 @@ class ApiClient {
     const siteHandle = `${ data.partner }${ data.language[ 0 ] ? data.language[ 0 ].toUpperCase() : '' }${ data.language.slice( 1 ).toLowerCase() }`;
     const { bannerSlug, placementSlug, queryType } = data;
     const baseUrl = this.baseURL;
-    let query = articlesQuery;
+    let query;
     switch (queryType) {
       case 'banners':
         query = bannersQuery;
