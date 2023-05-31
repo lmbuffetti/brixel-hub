@@ -90,7 +90,8 @@ describe('seller Onboarding', () => {
           if (key === 'ubs') {
             cy.url().should('include', 'termsConditionFlow')
             cy.get('button[type="submit"]', { timeout: 10000 }).click();
-          } else if (key === 'baloise') {
+          }
+          if (key === 'baloise') {
             cy.url().should('include', 'termsConditionFlow');
             cy.get('[type="radio"]').first().check({force: true});
             cy.get('button[type="submit"]', {timeout: 10000}).click();

@@ -382,9 +382,6 @@ const App = (props: AppType) => {
   }, [redirectTo]);
 
   const mainClass = () => {
-    const flowClass = ['packageFlow', 'visitFeedback', 'upgrade', 'trialRequest', 'contactFlow'];
-    const isFlowClass = flowClass.some((url) => history.location.pathname.includes(url));
-
     const mainPropertyClass = ['property', 'closing', 'docubox', 'prospects', 'prospect', 'financing', 'scheduleVisit'];
     const isMainClass = mainPropertyClass.some((url) => history.location.pathname.includes(url));
 
@@ -395,15 +392,10 @@ const App = (props: AppType) => {
 
     const isMapHomeView = history.location.pathname.includes('/buy/favorites/map');
 
-    setIsFlow(false);
-    setZIndex(1);
-
     let classMain;
 
-    if (isFlowClass) {
+    if (isFlow) {
       classMain ='flowContainer packageFlow w-perc-100';
-      setIsFlow(true);
-      setZIndex(6);
     } else if (history.location.pathname.includes('home')) {
       classMain ='w-perc-100 pos-r hubContainer rewardsTop withTopBar sellerHub';
     } else if (isMainClass && isBuyer) {
@@ -430,6 +422,16 @@ const App = (props: AppType) => {
 
   // FUCNTION TO SEPARATE THE DESIGN IN BASE OF HISTORY LOCATION (packageFLow, onBoarding, upgrade)
   useEffect(() => {
+    const flowClass = ['packageFlow', 'visitFeedback', 'upgrade', 'trialRequest', 'contactFlow'];
+    const isFlowClass = flowClass.some((url) => history.location.pathname.includes(url));
+
+    setIsFlow(false);
+    setZIndex(1);
+
+    if (isFlowClass) {
+      setIsFlow(true);
+      setZIndex(6);
+    }
 
     const isBuyer = history.location.pathname.includes('buyer');
 
@@ -460,7 +462,7 @@ const App = (props: AppType) => {
       setShowFooter(false);
     }
 
-  }, [history.location.pathname, dashWrapperEl, [...el].length]);
+  }, [history.location.pathname]);
 
   const calcHeaderHeight = useCallback(() => {
     const head = document.getElementsByClassName('hubDasHeader') as HTMLCollectionOf<HTMLDivElement>;
