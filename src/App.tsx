@@ -522,9 +522,20 @@ const App = (props: AppType) => {
     }
   });
 
+  const mainClasses = () => {
+    let classes = '';
+    if (!isFlow) classes += 'hubDashboard h-perc-100'
+    else classes += 'flowWrapper'
+    if (history.location.pathname.includes('upgrade/packages')) classes += 'upgradePackages'
+    if (showFooter) classes += 'activeFooter';
+    if (!isOpenTransifex) classes += 'notranslate';
+    return classes;
+  }
+
   const showLoading = () => {
     return (!lang || (isFlow && !activeSingleCompany.id)) && !history.location.pathname.includes('tokeninput') && Object.keys(translations).length === 0;
   }
+
 
   return (
     <>
@@ -551,7 +562,7 @@ const App = (props: AppType) => {
         )
       }
       <main
-        className={`${!isFlow ? 'hubDashboard h-perc-100' : 'flowWrapper'} dis-fl-row jc-b ${history.location.pathname.includes('upgrade/packages') ? 'upgradePackages' : ''} ${showFooter ? 'activeFooter' : ''} ${isOpenTransifex ? '' : 'notranslate'}`}
+        className={`${mainClasses()} dis-fl-row jc-b`}
         ref={dashWrapperRef}
       >
         <Loading isLoading={isLoading} />
