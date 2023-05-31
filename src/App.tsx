@@ -382,8 +382,7 @@ const App = (props: AppType) => {
     }
   }, [redirectTo]);
 
-  // FUCNTION TO SEPARATE THE DESIGN IN BASE OF HISTORY LOCATION (packageFLow, onBoarding, upgrade)
-  useEffect(() => {
+  const mainClass = () => {
     const flowClass = ['packageFlow', 'visitFeedback', 'upgrade', 'trialRequest', 'contactFlow'];
     const isFlowClass = flowClass.some((url) => history.location.pathname.includes(url));
 
@@ -396,9 +395,6 @@ const App = (props: AppType) => {
     const isHomesClass = homesClass.some((url) => history.location.pathname.includes(url));
 
     const isMapHomeView = history.location.pathname.includes('/buy/favorites/map');
-
-    const secondLevelClass = ['property/', 'closing/'];
-    const isSecondLevelClass = secondLevelClass.some((url) => history.location.pathname.includes(url));
 
     setIsFlow(false);
     setZIndex(1);
@@ -423,6 +419,14 @@ const App = (props: AppType) => {
     } else {
       setClassMain('w-perc-100 pos-r hubContainer ov-h');
     }
+  }
+
+  // FUCNTION TO SEPARATE THE DESIGN IN BASE OF HISTORY LOCATION (packageFLow, onBoarding, upgrade)
+  useEffect(() => {
+    mainClass();
+
+    const secondLevelClass = ['property/', 'closing/'];
+    const isSecondLevelClass = secondLevelClass.some((url) => history.location.pathname.includes(url));
 
     // add class to container when secondlevel visible on mobile
     if (isSecondLevelClass && windowDimensions.width <= 1024 && !isBuyer) {
