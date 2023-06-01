@@ -187,6 +187,19 @@ const Bestimate = (props: BestimateType) => {
   }, [formValue]);
 
   // CHECK IF FIELD IS VALID
+  const checkCondition = (input, valid, err) => {
+    let isValid = valid;
+    if (input.condition) {
+      input.condition.forEach((item) => {
+        if (item?.name && get(formValue, item.name, null) === item.value) {
+          if (err !== true && err !== false && isValid) isValid = false;
+        }
+      });
+    } else if (input.validation) {
+      if (err !== true && err !== false && isValid) isValid = false;
+    }
+    return isValid;
+  };
   const checkValidateField = (act: string | null = null) => {
     let isValid = true;
     let isNotEmpty = false;
@@ -195,16 +208,8 @@ const Bestimate = (props: BestimateType) => {
         if (input?.name) {
           const err = get(errorValue, input.name, null);
           const noEmpty = get(formValue, input.name, 'ayc');
-          if (noEmpty !== 'ayc') isNotEmpty = true;
-          if (input.condition) {
-            input.condition.forEach((item) => {
-              if (item?.name && get(formValue, item.name, null) === item.value) {
-                if (err !== true && err !== false && isValid) isValid = false;
-              }
-            });
-          } else if (input.validation) {
-            if (err !== true && err !== false && isValid) isValid = false;
-          }
+          isNotEmpty = noEmpty !== 'ayc';
+          isValid = checkCondition(input, isValid, err);
         }
       });
     }
