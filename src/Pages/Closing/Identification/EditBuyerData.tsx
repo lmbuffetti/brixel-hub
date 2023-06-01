@@ -89,36 +89,37 @@ const EditBuyerData = (props: EditBuyerDataType) => {
 
 
   // GET THE NEXT DATA IN BASE OF CURRENT ANSWER
-  useEffect(() => {
-    const newQuest: QuestionInputType[] = [];
-    formData.map((quest) => {
-      let isValid = true;
-      if (quest.condition) {
-        quest.condition.map((item) => {
-          if (item?.name && get(formValue, item.name, null) !== item.value) {
-            isValid = false;
-          }
-          return null;
-        });
-        if (isValid) newQuest.push(quest);
-      } else if (quest.conditionsOr) {
-        isValid = false;
-        quest.conditionsOr.map((item) => {
-          if (has(item, 'value')) {
-            if (item?.name && ((item.value === 'isPositive' && get(formValue, item.name, 0) > 0) || get(formValue, item.name, 'a') === item.value)) {
-              isValid = true;
-            }
-          }
-          if (item.name && item.noValue && get(formValue, item.name, null) !== item.noValue) {
+  const checkCondition = (quest, newQuest) => {
+    let isValid = true;
+    if (quest.condition) {
+      quest.condition.map((item) => {
+        if (item?.name && get(formValue, item.name, null) !== item.value) {
+          isValid = false;
+        }
+        return null;
+      });
+      if (isValid) newQuest.push(quest);
+    } else if (quest.conditionsOr) {
+      isValid = false;
+      quest.conditionsOr.map((item) => {
+        if (has(item, 'value')) {
+          if (item?.name && ((item.value === 'isPositive' && get(formValue, item.name, 0) > 0) || get(formValue, item.name, 'a') === item.value)) {
             isValid = true;
           }
-          return null;
-        });
-        if (isValid) newQuest.push(quest);
-      } else {
-        newQuest.push(quest);
-      }
-      return null;
+        }
+        if (item.name && item.noValue && get(formValue, item.name, null) !== item.noValue) {
+          isValid = true;
+        }
+        return null;
+      });
+    }
+    return isValid;
+  }
+  useEffect(() => {
+    const newQuest: QuestionInputType[] = [];
+    formData.forEach((quest) => {
+      const isValid = checkCondition(quest, newQuest);
+      if (!isValid) newQuest.push(quest);
     });
     setFilteredForm(newQuest);
   }, [formValue, forceStep, formData]);
