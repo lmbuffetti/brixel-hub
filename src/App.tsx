@@ -532,19 +532,19 @@ const App = (props: AppType) => {
 
   const mainClassBlock = () => {
     let classes = '';
-    if (!isFlow) classes += 'hubDashboard h-perc-100';
-    else classes += 'flowWrapper';
-    if (history.location.pathname.includes('upgrade/packages')) classes += 'upgradePackages';
-    if (showFooter) classes += 'activeFooter';
-    if (!isOpenTransifex) classes += 'notranslate';
+    if (!isFlow) classes += ' hubDashboard h-perc-100';
+    else classes += ' flowWrapper';
+    if (history.location.pathname.includes('upgrade/packages')) classes += ' upgradePackages';
+    if (showFooter) classes += ' activeFooter';
+    if (!isOpenTransifex) classes += ' notranslate';
     return classes;
   }
 
   const dashContentClass = () => {
     let classes = '';
-    if (!isFlow) classes += 'hubDasContent ov-y-a ov-x-h';
-    else classes += 'flowContent';
-    if (notification[0]?.state) classes += 'saveActionOn';
+    if (!isFlow) classes += ' hubDasContent ov-y-a ov-x-h';
+    else classes += ' flowContent';
+    if (notification[0]?.state) classes += ' saveActionOn';
     return classes;
   }
 

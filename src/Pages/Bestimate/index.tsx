@@ -230,8 +230,8 @@ const Bestimate = (props: BestimateType) => {
 
   const singleStepClasses = () => {
     let classes = quest.background || '';
-    if (isEnter) classes += 'fade-enter-active'
-    else classes += 'fade-enter'
+    if (isEnter) classes += ' fade-enter-active'
+    else classes += ' fade-enter'
     return classes;
   }
 

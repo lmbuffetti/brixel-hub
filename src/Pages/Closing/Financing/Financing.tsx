@@ -411,6 +411,14 @@ const Financing = (props: FinancingType) => {
     }
   }
 
+  const footerClass = () => {
+    let classes = questions[currentIndex]?.footerWidth;
+    if (quest?.history === 'resume') classes += ' hide';
+    classes += !checkValidateField() ? ' disabledNext' : ' normStep';
+    if (checkValidateField('value')) classes += ' successNext';
+    return classes;
+  }
+
   return (
     <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'background', '')} ${get(quest, 'classWrapper', '')} trialRequest`}>
       <div className="pos-r">
@@ -531,7 +539,7 @@ const Financing = (props: FinancingType) => {
           {
             get(quest, 'history', null) !== 'createProfile' && !get(quest, 'hideActionsButton', false) && (
               <div
-                className={`footerAction flowFooter ${questions[currentIndex] && questions[currentIndex].footerWidth} ${get(quest, 'history', null) === 'resume' ? 'hide' : ''} ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
+                className={`footerAction flowFooter ${footerClass()}`}
               >
                 <div className="pos-r">
                   <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-c mb-3 h-fix-40">
