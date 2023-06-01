@@ -49,13 +49,11 @@ const Financing = (props: FinancingType) => {
     lang,
     loggedInUser,
   } = props;
-  let lowCountry = get(formValue, 'propertyLocation.countryCode', '');
-  lowCountry = lowCountry ? lowCountry.toLowerCase() : '';
-  const maxLoanRatio = lowCountry === 'pt' ? 90 : 80;
+  const lowCountry = get(formValue, 'propertyLocation.countryCode', '');
+  const maxLoanRatio = lowCountry?.toLowerCase() === 'pt' ? 90 : 80;
   const affordability = get(formValue, 'affordability', 0);
   const loanToValueRatio = get(formValue, 'loanToValueRatio', 0);
   // STATE
-  // const [position, setPosition] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [quest, setQuest] = useState<QuestionsListType>(QuestionsList((name, value) => changeFieldValue(name, value), lang)[0]);
   const [questions, setQuestions] = useState<QuestionsListType[]>(QuestionsList((name, value) => changeFieldValue(name, value), lang));
@@ -84,9 +82,6 @@ const Financing = (props: FinancingType) => {
   }, []);
 
   useEffect(() => {
-    if (activeSingleDeal.id && (get(activeSingleDeal, 'closing.stageOffer.offer.status', null) && (get(activeSingleDeal, 'closing.stageOffer.offer.amount', 0) === 0 || get(activeSingleDeal, 'closing.stageOffer.offer.status', '') !== 'rejected'))) {
-      //history.push({ pathname: `/buyer/${propID}/closing/${activeSingleDeal.id}` });
-    }
     if (get(activeSingleProperty, 'company', null)) {
       const defComp = get(activeSingleProperty, 'company', 'default');
       handleGetActiveSingleCompany({ id: defComp });
@@ -213,11 +208,7 @@ const Financing = (props: FinancingType) => {
         if (item.conditions) {
           item.conditions.forEach((cond) => {
             const val = get(formValue, cond.name || '', null);
-            if (cond.value && val === cond.value) {
-              num += 1;
-            } else if (cond.noValue && val !== cond.noValue) {
-              num += 1;
-            }
+            if ((cond.value && val === cond.value) || (cond.noValue && val !== cond.noValue)) num += 1;
           });
         } else {
           num += 1;
@@ -251,6 +242,24 @@ const Financing = (props: FinancingType) => {
   };
 
   // CHECK IF FIELDS IS VALID TO ENABLE NEXT BUTTON
+  const checkConditionField = (input, valid, err) => {
+    let isValid = valid;
+    if (input.condition) {
+      input.condition.forEach((item) => {
+        if (item?.name) {
+          if (item.value && get(formValue, item.name, null) === item.value) {
+            if (err !== true && err !== false && err !== null && isValid) isValid = false;
+          }
+          if (item.noValue && get(formValue, item.name, null) !== item.noValue) {
+            if (err !== true && err !== false && isValid) isValid = false;
+          }
+        }
+      });
+    } else if (isValid) {
+      isValid = get(errorValue, input.name, null) === true || get(errorValue, input.name, 'ayc') === 'ayc';
+    }
+    return isValid;
+  };
   const checkValidateField = (act = '') => {
     let isValid = true;
     let isNotEmpty = false;
@@ -260,20 +269,7 @@ const Financing = (props: FinancingType) => {
           const err = get(errorValue, input.name, null);
           const noEmpty = get(formValue, input.name, 'ayc');
           if (noEmpty !== 'ayc') isNotEmpty = true;
-          if (input.condition) {
-            input.condition.forEach((item) => {
-              if (item?.name) {
-                if (item.value && get(formValue, item.name, null) === item.value) {
-                  if (err !== true && err !== false && err !== null && isValid) isValid = false;
-                }
-                if (item.noValue && get(formValue, item.name, null) !== item.noValue) {
-                  if (err !== true && err !== false && isValid) isValid = false;
-                }
-              }
-            });
-          } else if (isValid) {
-            isValid = get(errorValue, input.name, null) === true || get(errorValue, input.name, 'ayc') === 'ayc';
-          }
+          isValid = checkConditionField(input, isValid, err);
         }
       });
     }
@@ -288,6 +284,36 @@ const Financing = (props: FinancingType) => {
   const multiStepSlidesEl = multiStepSlidesRef.current;
 
   // FUNCTION TO GO TO NEXT STEP
+  const fakeInputField = (newQuest, defId) => {
+    if (newQuest.history !== 'createProfile') {
+      if (newQuest.inputs && !newQuest.inputs[0].options && !newQuest.inputs[0].startFrom) {
+        const fakeInput = document.createElement('input') as HTMLInputElement;
+        fakeInput.setAttribute('type', 'text');
+        fakeInput.setAttribute('id', 'fakeInput');
+        fakeInput.style.position = 'absolute';
+        fakeInput.style.opacity = '0';
+        fakeInput.style.height = '0';
+        fakeInput.style.fontSize = '16px'; // disable auto zoom
+        // zoom/scroll behavior
+        document.body.prepend(fakeInput);
+        fakeInput.focus();
+      }
+
+      setTimeout(() => {
+        const fakeInput = document.getElementById('fakeInput');
+        const getCurStep = document.getElementById(`step-${defId}`);
+        if (getCurStep && getCurStep.querySelector('input[type="number"]')) {
+          const inputNumber = getCurStep.querySelector('input[type="number"]') as HTMLInputElement;
+          if (inputNumber) inputNumber.focus();
+        } else if (getCurStep && getCurStep.querySelector('input[type="text"]')) {
+          const inputText = getCurStep.querySelector('input[type="text"]') as HTMLInputElement;
+          if (inputText) inputText.focus();
+        }
+        // cleanup
+        if (fakeInput) fakeInput.remove();
+      }, 500);
+    }
+  }
   const changeStep = (act = 'next', e: null | React.FormEvent = null, step = 1, skipValidation = false) => {
     if (e) e.preventDefault();
     let newIndex = currentIndex;
@@ -308,7 +334,6 @@ const Financing = (props: FinancingType) => {
       let defId = checkCondition(newIndex, act);
       if (defId !== newIndex) defId = checkCondition(defId, act);
       if (questions[defId]) {
-        // setPosition(newIndex);
         if (questions[defId].toSave) {
           saveData();
         } else {
@@ -317,34 +342,7 @@ const Financing = (props: FinancingType) => {
           };
           setQuest(newQuest);
           setCurrentIndex(defId);
-          if (newQuest.history !== 'createProfile') {
-            if (newQuest.inputs && !newQuest.inputs[0].options && !newQuest.inputs[0].startFrom) {
-              const fakeInput = document.createElement('input') as HTMLInputElement;
-              fakeInput.setAttribute('type', 'text');
-              fakeInput.setAttribute('id', 'fakeInput');
-              fakeInput.style.position = 'absolute';
-              fakeInput.style.opacity = '0';
-              fakeInput.style.height = '0';
-              fakeInput.style.fontSize = '16px'; // disable auto zoom
-              // zoom/scroll behavior
-              document.body.prepend(fakeInput);
-              fakeInput.focus();
-            }
-
-            setTimeout(() => {
-              const fakeInput = document.getElementById('fakeInput');
-              const getCurStep = document.getElementById(`step-${defId}`);
-              if (getCurStep && getCurStep.querySelector('input[type="number"]')) {
-                const inputNumber = getCurStep.querySelector('input[type="number"]') as HTMLInputElement;
-                if (inputNumber) inputNumber.focus();
-              } else if (getCurStep && getCurStep.querySelector('input[type="text"]')) {
-                const inputText = getCurStep.querySelector('input[type="text"]') as HTMLInputElement;
-                if (inputText) inputText.focus();
-              }
-              // cleanup
-              if (fakeInput) fakeInput.remove();
-            }, 500);
-          }
+          fakeInputField(newQuest, defId);
           if (questions[defId].history) {
             history.push(`/buyer/${propID}/financingFlow/${questions[defId].history}`, { state: get(history, 'location.state', {}) });
           }
@@ -407,6 +405,12 @@ const Financing = (props: FinancingType) => {
     else closeWindow();
   };
 
+  const enterEffectClass = () => {
+    if (currentIndex < 5) {
+      return isEnter ? 'fade-enter-active' : 'fade-enter' ;
+    }
+  }
+
   return (
     <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'background', '')} ${get(quest, 'classWrapper', '')} trialRequest`}>
       <div className="pos-r">
@@ -434,7 +438,7 @@ const Financing = (props: FinancingType) => {
           onSubmit={() => changeStep()}
         >
           <div ref={multiStepSlidesRef} className="multiStepSlides">
-            <div ref={singleStepRef} className={`singleStep zIndex1 pt-5 jc-c ${currentIndex < 5 ? isEnter ? 'fade-enter-active' : 'fade-enter' : ''}`}>
+            <div ref={singleStepRef} className={`singleStep zIndex1 pt-5 jc-c ${enterEffectClass()}`}>
               <div className="subcontainer m-a">
                 {
                   get(quest, 'inputs', null) && !get(quest, 'cardType', null) && (
