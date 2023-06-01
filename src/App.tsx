@@ -152,7 +152,6 @@ const App = (props: AppType) => {
   // STATE
   // CONSTANT TO PREVENT TRANSIFEX ERROR
   const [langURL, setLangURL] = useState<string | null>(null);
-  const [classMain, setClassMain] = useState('w-perc-100 pos-r hubContainer');
   const [urlLang, setUrlLang] = useState<string>();
 
   const [isSecLevel, setIsSecLevel] = useState(false);
@@ -162,7 +161,6 @@ const App = (props: AppType) => {
   const [isFlow, setIsFlow] = useState(false);
   const [showFooter, setShowFooter] = useState(false);
   const [showCustomerSatisfaction, setShowCustomerSatisfaction] = useState<any>();
-  // const [extraHeight, setExtraHeight] = useState(0);
 
   // USEREF TO MANAGE DOM ELEMENT
   const dashContentRef = useRef() as React.MutableRefObject<HTMLDivElement>;
@@ -213,79 +211,93 @@ const App = (props: AppType) => {
     }
   }, [activeSingleProperty.id]);
 
-  useEffect(() => {
-    if (
-      userRate!== null && !userRate.rating &&
-      (loggedInUser?.sentFeedback || 0) < 2 &&
-      (loggedInUser?.sentFeedback || 0) >= 0 &&
+  const isTodayFunc = () => {
+    let isToday = false;
+    const today = Math.floor(Date.now() / 1000);
+    if (localStorage.brixelSatisfactionDay && today === localStorage.brixelSatisfactionDay) {
+      isToday = true;
+    }
+    return isToday;
+  }
+
+  const showCustomerSatisfactionFunc = () => {
+    return !!(userRate !== null &&
+      !userRate.rating &&
       loggedInUser?.id &&
       !isFlow &&
       history.location.pathname.includes('buy') &&
       !history.location.pathname.includes('scheduleVisit') &&
       userTypes === 'buyer' &&
-      activeSingleCompany.id &&
-      !showCustomerSatisfaction
-    ) {
-      let isToday = false;
-      const today = Math.floor(Date.now() / 1000);
-      if (localStorage.brixelSatisfactionDay && today === localStorage.brixelSatisfactionDay) {
-        isToday = true;
+      activeSingleCompany.id);
+  }
+
+  const satisfationFunc = () => {
+    if (!showCustomerSatisfaction && !isTodayFunc()) {
+      const interval = 60;
+      let countdown = interval;
+      if (!localStorage.brixelSatisfactionEndTime) {
+        localStorage.brixelSatisfactionEndTime = interval;
+      } else {
+        countdown = localStorage.brixelSatisfactionEndTime;
       }
-      if (!isToday) {
-        const interval = 60;
-        let countdown = interval;
-        if (!localStorage.brixelSatisfactionEndTime) {
+      const showCustomer = setInterval(() => {
+        countdown -= 1;
+        if (countdown === 0) {
+          handleSetModal({
+            clickOutsideToClose: false,
+            hideHeader: true,
+            hideClose: true,
+            bodyClassColor: 'p-0 dis-fl-col',
+            bodyInnerClass: 'h-perc-100 dis-fl-col flex-1',
+            state: true,
+            small: true,
+            layout: 'large',
+            component: <CustomerSatisfaction onClose={() => handleSetModal({})} />,
+          })
+          clearInterval(showCustomer);
           localStorage.brixelSatisfactionEndTime = interval;
-        } else {
-          countdown = localStorage.brixelSatisfactionEndTime;
+        } else if (countdown >= 0) {
+          localStorage.brixelSatisfactionEndTime = countdown;
         }
-        const showCustomer = setInterval(() => {
-          countdown -= 1;
-          if (countdown === 0) {
-            handleSetModal({
-              clickOutsideToClose: false,
-              hideHeader: true,
-              hideClose: true,
-              bodyClassColor: 'p-0 dis-fl-col',
-              bodyInnerClass: 'h-perc-100 dis-fl-col flex-1',
-              state: true,
-              small: true,
-              layout: 'large',
-              component: <CustomerSatisfaction onClose={() => handleSetModal({})} />,
-            })
-            clearInterval(showCustomer);
-            localStorage.brixelSatisfactionEndTime = interval;
-          } else if (countdown >= 0) {
-            localStorage.brixelSatisfactionEndTime = countdown;
-          }
-        }, 1000);
-        setShowCustomerSatisfaction(showCustomer);
-      }
+      }, 1000);
+      setShowCustomerSatisfaction(showCustomer);
     } else if (showCustomerSatisfaction && !history.location.pathname.includes('buy')) {
       clearInterval(showCustomerSatisfaction);
       setShowCustomerSatisfaction(undefined);
     }
-  }, [loggedInUser.language, activeSingleCompany.id, userTypes, isFlow, history.location.pathname]);
+  }
+
+  useEffect(() => {
+    if (showCustomerSatisfactionFunc()) {
+      satisfationFunc();
+    } else if (showCustomerSatisfaction && !history.location.pathname.includes('buy')) {
+      clearInterval(showCustomerSatisfaction);
+      setShowCustomerSatisfaction(undefined);
+    }
+  },
+  [loggedInUser.language, activeSingleCompany.id, userTypes, isFlow, history.location.pathname]);
 
 
   // FUCNTION TO INITIALIZE TRANSIFEX AND LOAD THE TRANSLATIONS
-  useEffect(() => {
+  const loadLang = () => {
     let userLang: string | undefined = 'en';
-    if (!urlLang) {
-      if (loggedInUser.id) {
-        userLang = loggedInUser.language === 'en_US' ? 'en' : loggedInUser.language;
-        if (isEmpty(userLang)) userLang = 'en';
-        handleSetLanguage(userLang || 'en');
-      } else if (activeSingleCompany.id && !loggedInUser.id) {
-        if (cookies.get('brixelLang') && cookies.get('brixelLang') !== 'undefined') {
-          userLang = cookies.get('brixelLang');
-        } else {
-          userLang = langURL || activeSingleCompany.language.code || 'en';
-        }
-        if (isEmpty(userLang)) userLang = 'en';
-        setCookie('brixelLang', userLang);
-        if (userLang) handleSetLanguage(userLang);
+    if (loggedInUser.id) {
+      userLang = loggedInUser.language === 'en_US' ? 'en' : loggedInUser.language;
+      handleSetLanguage(userLang || 'en');
+    } else if (activeSingleCompany.id && !loggedInUser.id) {
+      if (cookies.get('brixelLang') && cookies.get('brixelLang') !== 'undefined') {
+        userLang = cookies.get('brixelLang');
+      } else {
+        userLang = langURL || activeSingleCompany.language.code || 'en';
       }
+      if (isEmpty(userLang)) userLang = 'en';
+      setCookie('brixelLang', userLang);
+      if (userLang) handleSetLanguage(userLang);
+    }
+  }
+  useEffect(() => {
+    if (!urlLang) {
+      loadLang();
     }
   }, [loggedInUser.language, activeSingleCompany.id, userTypes]);
 
@@ -363,77 +375,71 @@ const App = (props: AppType) => {
     if (redirectTo && get(redirectTo, 'history', null)) {
       if (get(redirectTo, 'history.pathname', null)) {
         history.push(get(redirectTo, 'history.pathname', ''), { state: get(redirectTo, 'history.state', {}) });
-      } else if (redirectTo.history.includes('home')) {
-        // window.location.assign(redirectTo.history);
       } else {
         history.push(redirectTo.history);
       }
     }
-    if (redirectTo && get(redirectTo, 'url', null)) {
-      // window.location.assign(redirectTo.url);
-    }
   }, [redirectTo]);
+
+  const mainClass = () => {
+    const mainPropertyClass = ['property', 'closing', 'docubox', 'prospects', 'prospect', 'financing', 'scheduleVisit'];
+    const isMainClass = mainPropertyClass.some((url) => history.location.pathname.includes(url));
+
+    const isBuyer = history.location.pathname.includes('buyer');
+
+    const homesClass = ['sell', 'buy'];
+    const isHomesClass = homesClass.some((url) => history.location.pathname.includes(url));
+
+    const isMapHomeView = history.location.pathname.includes('/buy/favorites/map');
+
+    let classMain;
+
+    if (isFlow) {
+      classMain ='flowContainer packageFlow w-perc-100';
+    } else if (history.location.pathname.includes('home')) {
+      classMain ='w-perc-100 pos-r hubContainer rewardsTop withTopBar sellerHub';
+    } else if (isMainClass && isBuyer) {
+      classMain ='w-perc-100 pos-r hubContainer buyerHub propertyTop';
+    } else if (isMainClass) {
+      classMain ='w-perc-100 pos-r hubContainer propertyTop withTopBar sellerHub';
+    } else if (history.location.pathname.includes('marketing')) {
+      classMain = 'w-perc-100 pos-r hubContainer marketingTop withTopBar sellerHub';
+    } else if (isHomesClass && isMapHomeView) {
+      classMain = 'w-perc-100 pos-r ov-h marketHome mapView';
+    } else if (isHomesClass) {
+      classMain = 'w-perc-100 pos-r ov-h marketHome';
+    } else if (history.location.pathname.includes('offers')) {
+      classMain = 'w-perc-100 pos-r hubContainer offersTop withTopBar sellerHub';
+    } else {
+      classMain = 'w-perc-100 pos-r hubContainer ov-h';
+    }
+
+    if (history.location.pathname.includes('property/') || history.location.pathname.includes('deal')) classMain += 'dealsPage'
+    if (isSecLevel) classMain += 'fixedLayout';
+
+    return classMain;
+  }
 
   // FUCNTION TO SEPARATE THE DESIGN IN BASE OF HISTORY LOCATION (packageFLow, onBoarding, upgrade)
   useEffect(() => {
-    if (
-      history.location.pathname.includes('packageFlow') ||
-      history.location.pathname.includes('Flow') ||
-      history.location.pathname.includes('visitFeedback') ||
-      history.location.pathname.includes('onBoarding') ||
-      history.location.pathname.includes('upgrade') ||
-      history.location.pathname.includes('trialRequest') ||
-      history.location.pathname.includes('contactFlow') ||
-      history.location.pathname.includes('upgrade')    ) {
-      if (
-        history.location.pathname.includes('packageFlow') ||
-        history.location.pathname.includes('Flow') ||
-        history.location.pathname.includes('visitFeedback')
-      ) {
-        setClassMain('flowContainer packageFlow w-perc-100');
-      } else {
-        setClassMain('flowContainer w-perc-100');
-      }
+    const flowClass = ['packageFlow', 'visitFeedback', 'upgrade', 'trialRequest', 'contactFlow'];
+    const isFlowClass = flowClass.some((url) => history.location.pathname.includes(url));
+
+    setIsFlow(false);
+    setZIndex(1);
+
+    if (isFlowClass) {
       setIsFlow(true);
       setZIndex(6);
-    } else {
-      if (history.location.pathname.includes('home')) {
-        setClassMain('w-perc-100 pos-r hubContainer rewardsTop withTopBar sellerHub');
-      } else if (history.location.pathname.includes('property') || history.location.pathname.includes('closing') || history.location.pathname.includes('docubox') || history.location.pathname.includes('prospects') || history.location.pathname.includes('prospect') || history.location.pathname.includes('financing') || history.location.pathname.includes('scheduleVisit')) {
-        if (history.location.pathname.includes('buyer')) {
-          setClassMain('w-perc-100 pos-r hubContainer buyerHub propertyTop');
-        } else {
-          setClassMain('w-perc-100 pos-r hubContainer propertyTop withTopBar sellerHub');
-        }
-      } else if (history.location.pathname.includes('marketing')) {
-        setClassMain('w-perc-100 pos-r hubContainer marketingTop withTopBar sellerHub');
-        // eslint-disable-next-line no-dupe-else-if
-      } else if (history.location.pathname.includes('/sell') || history.location.pathname.includes('/buy')) {
-        if (history.location.pathname.includes('/buy/favorites/map')) {
-          setClassMain('w-perc-100 pos-r ov-h marketHome mapView');
-        } else {
-          setClassMain('w-perc-100 pos-r ov-h marketHome');
-        }
-      }  else if (history.location.pathname.includes('offers')) {
-        setClassMain('w-perc-100 pos-r hubContainer offersTop withTopBar sellerHub');
-      } else {
-        setClassMain('w-perc-100 pos-r hubContainer ov-h');
-      }
-      setIsFlow(false);
-      setZIndex(1);
     }
 
+    const isBuyer = history.location.pathname.includes('buyer');
+
+    const secondLevelClass = ['property/', 'closing/'];
+    const isSecondLevelClass = secondLevelClass.some((url) => history.location.pathname.includes(url));
+
     // add class to container when secondlevel visible on mobile
-    if (
-      (
-        history.location.pathname.includes('property/') ||
-        history.location.pathname.includes('marketing/') ||
-        history.location.pathname.includes('rewards/') ||
-        history.location.pathname.includes('closing/')
-      ) &&
-      windowDimensions.width <= 1024 &&
-      !history.location.pathname.includes('buyer')
-    ) {
+    if (isSecondLevelClass && windowDimensions.width <= 1024 && !isBuyer) {
       setIsSecLevel(true);
       if ([...el].length > 0 && dashWrapperEl) {
         dashWrapperEl.classList.add('secondLevelActive');
@@ -456,7 +462,7 @@ const App = (props: AppType) => {
       setShowFooter(false);
     }
 
-  }, [history.location.pathname, dashWrapperEl, [...el].length]);
+  }, [history.location.pathname]);
 
   const calcHeaderHeight = useCallback(() => {
     const head = document.getElementsByClassName('hubDasHeader') as HTMLCollectionOf<HTMLDivElement>;
@@ -524,9 +530,44 @@ const App = (props: AppType) => {
     }
   });
 
-  if (Object.keys(translations).length === 0) {
-    return <Loading isLoading={true} />
+  const mainClassBlock = () => {
+    let classes = '';
+    if (!isFlow) classes += ' hubDashboard h-perc-100';
+    else classes += ' flowWrapper';
+    if (history.location.pathname.includes('upgrade/packages')) classes += ' upgradePackages';
+    if (showFooter) classes += ' activeFooter';
+    if (!isOpenTransifex) classes += ' notranslate';
+    return classes;
   }
+
+  const dashContentClass = () => {
+    let classes = '';
+    if (!isFlow) classes += ' hubDasContent ov-y-a ov-x-h';
+    else classes += ' flowContent';
+    if (notification[0]?.state) classes += ' saveActionOn';
+    return classes;
+  }
+
+  const showLoading = () => {
+    return (!lang || (isFlow && !activeSingleCompany.id)) && !history.location.pathname.includes('tokeninput') && Object.keys(translations).length === 0;
+  }
+
+  const showMenuSideBar = () => {
+    return !isFlow &&
+      !history.location.pathname.includes('sell') &&
+      (!history.location.pathname.includes('buy') || history.location.pathname.includes('buyer')) &&
+      loggedInUser &&
+      windowDimensions.width > 1024;
+  }
+
+  const showSellerPropertySection = () => {
+    return (get(history, 'location.pathname', '').split('/')[1] !== 'sell' &&
+        get(history, 'location.pathname', '').split('/')[1] !== 'buy' &&
+        get(history, 'location.pathname', '').split('/')[1].length > 18) ||
+      get(history, 'location.pathname', '').split('/')[1] === 'company';
+
+  }
+
 
   return (
     <>
@@ -540,9 +581,7 @@ const App = (props: AppType) => {
         <title>Brixel Hub</title>
       </Helmet>
       {
-        ((!lang ||
-          (isFlow && !activeSingleCompany.id)
-        ) && !history.location.pathname.includes('tokeninput')) && (
+        (showLoading()) && (
           <Loading isLoading={true} isSmall />
         )
       }
@@ -555,13 +594,13 @@ const App = (props: AppType) => {
         )
       }
       <main
-        className={`${!isFlow ? 'hubDashboard h-perc-100' : 'flowWrapper'} dis-fl-row jc-b ${history.location.pathname.includes('upgrade/packages') ? 'upgradePackages' : ''} ${showFooter ? 'activeFooter' : ''} ${isOpenTransifex ? '' : 'notranslate'}`}
+        className={`${mainClassBlock()} dis-fl-row jc-b`}
         ref={dashWrapperRef}
       >
         <Loading isLoading={isLoading} />
         <Suspense fallback={<Loading isLoading />}>
           <div
-            className={`${classMain} ${history.location.pathname.includes('property/') || history.location.pathname.includes('deal') ? 'dealsPage' : ''} ${isSecLevel ? 'fixedLayout' : ''}`}
+            className={mainClass()}
           >
             <div className="dis-f">
               <div
@@ -570,7 +609,7 @@ const App = (props: AppType) => {
               >
                 <div
                   id="bodyScroll"
-                  className={`content dis-fl-col ${!isFlow ? 'hubDasContent ov-y-a ov-x-h' : 'flowContent'} ${notification[0] && notification[0].state ? 'saveActionOn' : ''}`}
+                  className={`content dis-fl-col ${dashContentClass()}`}
                   style={isSecLevel ? { height: '100%' } : { height: headerCalc() }}
                   ref={dashContentRef}
                 >
@@ -580,12 +619,7 @@ const App = (props: AppType) => {
                     isFlow={isFlow}
                   />
                   {
-                    !isFlow &&
-                    !history.location.pathname.includes('sell') &&
-                    (!history.location.pathname.includes('buy') || history.location.pathname.includes('buyer')) &&
-                    loggedInUser &&
-                    windowDimensions.width > 1024 &&
-                    (
+                    showMenuSideBar() && (
                       <MenuSidebar />
                     )
                   }
@@ -635,10 +669,7 @@ const App = (props: AppType) => {
                             <Route path="/sell/*" element={<ProtectedRoute><MarketSeller /></ProtectedRoute>} />
                             <Route path="/buy/*" element={<ProtectedRoute><MarketBuyer /></ProtectedRoute>} />
                             {
-                              ((get(history, 'location.pathname', '').split('/')[1] !== 'sell' &&
-                                  get(history, 'location.pathname', '').split('/')[1] !== 'buy' &&
-                                  get(history, 'location.pathname', '').split('/')[1].length > 18) ||
-                                get(history, 'location.pathname', '').split('/')[1] === 'company') && (
+                              showSellerPropertySection() && (
 
                                 <>
                                   <Route path="/:propID/*" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />

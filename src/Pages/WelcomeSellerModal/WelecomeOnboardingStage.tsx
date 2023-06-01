@@ -72,7 +72,6 @@ const WelecomeOnboardingStage = (props: WelecomeOnboardingStageType) => {
       default:
         return null;
     }
-    return null;
   };
 
   switch (step) {

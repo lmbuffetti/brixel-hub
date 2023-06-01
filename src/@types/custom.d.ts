@@ -33,5 +33,6 @@ declare namespace Cypress {
     loginViaApi(type?: 'seller' | 'buyer' | 'estimation'): Chainable<any>;
     propertyListings(comapny: null | string): Chainable<any>;
     reduxValue(state: string, field: string): Chainable<any>;
+    register(data: Cookie | null, company: string): Chainable<any>;
   }
 }

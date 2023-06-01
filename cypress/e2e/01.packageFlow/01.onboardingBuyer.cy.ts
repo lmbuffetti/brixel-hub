@@ -2,8 +2,6 @@ import { testData } from '../../helpers/constants';
 
 const { devices, companies } = testData;
 
-const userTest = Cypress.env('userTest');
-
 describe('Buyer Onboarding', () => {
 
   Cypress.Cookies.debug(true);
@@ -62,32 +60,8 @@ describe('Buyer Onboarding', () => {
           cy.viewport(device);
           cy.getCookie('brixelToken')
             .then((res) => {
-              if (!res) {
-                cy.get('input[name="register.name"]').type('Test Automated');
-                let {email} = userTest.buyer;
-                if (key === 'ubs' || key === 'baloise') {
-                  email = userTest.buyerPartner.email.replace(':partner', key);
-                }
-                cy.get('input[name="register.email"]').type(email);
-                cy.get('input[name="register.password"]').type(userTest.buyer.password);
-                cy.get('input[name="register.privacy"]').check({force: true});
-                cy.wait(1000).then(() => {
-                  cy.get('button[type="submit"]').click();
-                })
-                cy.wait(1000).then(() => {
-                  cy.get('body', {timeout: 10000}).then($body => {
-                    if ($body.find('p.txtRed400').length > 0) {
-                      cy.get('input[name="login.password"]').type(userTest.buyer.password);
-                      cy.wait(1000).then(() => {
-                        cy.get('button[type="submit"]').click();
-                      })
-                    }
-                  });
-                });
-              } else {
-                cy.get('body', {timeout: 10000}).should('be.visible');
-              }
-            });
+              cy.register(res, key);
+            })
         })
 
       });

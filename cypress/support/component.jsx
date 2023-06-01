@@ -6,7 +6,7 @@ import { mount } from 'cypress/react18';
 import React from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
-import { configureStore } from '../../src/store';
+import store from '../../src/store';
 import '../../src/styles/SCSS/general/componentsLoad.scss';
 // Import commands.js using ES2015 syntax:
 import '../../src/styles/SCSS/general/main.scss';
@@ -19,8 +19,6 @@ import '../../src/styles/SCSS/styleguide/mainStyleguide.scss';
 import '../../src/styles/SCSS/styleguide/spacing.scss';
 
 import './commands';
-
-const store = configureStore;
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')

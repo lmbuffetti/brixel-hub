@@ -25,6 +25,7 @@ import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/Bri
 import PropertyPendingImg from '../../../../images/dashboard/PropertyPendingVisit.svg';
 import PropertyconfirmedVisit2Img from '../../../../images/dashboard/PropertyConfimedVisit2.svg';
 import PropertyVisitedImg from '../../../../images/dashboard/propertyVisited.svg';
+import PropertyCanceledImg from '../../../../images/dashboard/scheduleCanceled.svg';
 import isEmpty from 'lodash/isEmpty';
 import BrixelSingleTag from '@brixel/brixel-components/dist/components/BrixelSingleTag';
 
@@ -114,7 +115,7 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
   useEffect(() => {
     if (activeScheduleVisit?.buyerAvailability) setSectionPage('buyerRequest');
     if (activeScheduleVisit?.visit?.date && activeScheduleVisit?.sellerStatus === 'accepted' && activeScheduleVisit?.buyerStatus === 'accepted') setSectionPage('confirmed');
-    if (activeScheduleVisit?.sellerStatus === 'rejected' || activeScheduleVisit?.buyerStatus === 'rejected') setSectionPage('create');
+    if (activeScheduleVisit?.sellerStatus === 'rejected' || activeScheduleVisit?.buyerStatus === 'rejected') setSectionPage('rejected');
   }, [activeScheduleVisit]);
 
 
@@ -309,32 +310,43 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
 
             {
               SectionPage === 'rejected' && (
-                <div className="bgWhite brdRadius shadow-1dp mb-4 a-c py-3 py-sm-5 px-2 px-sm-4 dis-fl-col-rev dis-fl-row-sm">
+                <>
+                  <div className="bgRed50 brdRadius shadow-1dp mb-4 a-c py-3 py-sm-5 px-2 px-sm-4 dis-fl-col-rev dis-fl-row-sm">
 
-                  <div className="mb-4">
-                    <BrixelSingleTag
-                      className="mb-2"
-                      lang={lang}
-                      message={{
-                        lang: lang,
-                        rejected: translateTo('Canceled', lang),
-                      }}
-                      status="rejected"
-                      text={translateTo('Pending', lang)}
+                    <div className="mb-4">
+                      <BrixelSingleTag
+                        className="mb-2"
+                        lang={lang}
+                        message={{
+                          lang: lang,
+                          rejected: translateTo('Canceled', lang),
+                        }}
+                        status="rejected"
+                        text={translateTo('Pending', lang)}
+                      />
+                      <h5 className="fweight-600 mb-2">
+                        {translateTo('Your visit has been cancelled', lang)}
+                      </h5>
+                      <p className='txtText600 max-w-perc-sm-80'>
+                        {translateTo('Get in touch with our team to know more details. Feel free to schedule another visit if your still interested.', lang)}
+                      </p>
+                    </div>
+                    <img
+                      className="ml-a h-fix-120 h-fix-sm-160"
+                      src={PropertyCanceledImg}
+                      alt="Visit Requested"
                     />
-                    <h5 className="fweight-600 txtRed700 mb-2">
-                      {translateTo('Your requested is canceled', lang)}
-                    </h5>
-                    <p className='txtText600 max-w-perc-sm-80'>
-                      {translateTo('Your suggested dates have been sent. Our team will contact you shortly to clarify any questions and to proceed with the next steps.', lang)}
-                    </p>
                   </div>
-                  <img
-                    className="ml-a h-fix-120 h-fix-sm-160"
-                    src={PropertyPendingImg}
-                    alt="Visit Requested"
-                  />
-                </div>
+                  <div className="mt-4 dis-f jc-fe">
+                    <BrixelButtonSecondary
+                      rounded
+                      bgTransparent
+                      label={translateTo('New visit request', lang)}
+                      leftIcon="plus"
+                      onClick={() => openModalDate()}
+                    />
+                  </div>
+                </>
               )
             }
 
@@ -444,50 +456,54 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
             {
               SectionPage === 'buyerRequest' && (
                 <div className="dis-fl-col dis-fl-row-md jc-b mt-1">
-                  <div className="w-perc-md-50 mr-sm-1">
-                    <h6 className="mb-2 fweight-600">
-                      {translateTo('Your suggested dates', lang)}
-                    </h6>
-                    <div className="brdRadius bgWhite p-2 p-sm-4 shadow-1dp h-perc-90">
-                      {/* IF EXIST BUYER AVAILABILITY DATE */}
-                      {
-                        activeScheduleVisit?.buyerAvailability && activeScheduleVisit.buyerAvailability.map((visit, i, arr) => (
-                          <div
-                            key={`visit${i.toString()}`}
-                            className={`dis-f jc-b a-c  ${i === arr.length - 1 ? '' : 'brdSmallBottom brdText100 pb-2 mb-2'}`}
-                          >
-                            <div className='dis-f a-c'>
-                              <span
-                                className="bgBlue50 txtBlue700 fweight-600 py-1 px-2 brdRadius mr-2 dis-ib"
+                  {
+                    activeScheduleVisit && activeScheduleVisit?.buyerAvailability.length > 0 && (
+                      <div className="w-perc-md-50 mr-sm-1">
+                        <h6 className="mb-2 fweight-600">
+                          {translateTo('Your suggested dates', lang)}
+                        </h6>
+                        <div className="brdRadius bgWhite p-2 p-sm-4 shadow-1dp h-perc-90">
+                          {/* IF EXIST BUYER AVAILABILITY DATE */}
+                          {
+                            activeScheduleVisit.buyerAvailability.map((visit, i, arr) => (
+                              <div
+                                key={`visit${i.toString()}`}
+                                className={`dis-f jc-b a-c  ${i === arr.length - 1 ? '' : 'brdSmallBottom brdText100 pb-2 mb-2'}`}
                               >
-                                {DateTime.fromMillis(visit.start).toFormat('dd MMM yyyy', {locale: lang})}
-                              </span>
-                              {
-                                visit.isAllDay ? (
-                                  <div className="txtBlue700">
-                                    <p className='txtBlue700'>
-                                      {translateTo('All day', lang)}
-                                    </p>
-                                  </div>
-                                ) : (
-                                  <div className="txtBlue700">
-                                    <span>
-                                      {DateTime.fromMillis(visit.start, { locale: lang }).toFormat('HH:mm')}
-                                    </span>
-                                    <span className="mx-1">-</span>
-                                    <span>
-                                      {DateTime.fromMillis(visit.end, { locale: lang }).toFormat('HH:mm')}
-                                    </span>
-                                  </div>
-                                )
-                              }
-                            </div>
-                          </div>
-                        ))
-                      }
+                                <div className='dis-f a-c'>
+                                  <span
+                                    className="bgBlue50 txtBlue700 fweight-600 py-1 px-2 brdRadius mr-2 dis-ib"
+                                  >
+                                    {DateTime.fromMillis(visit.start).toFormat('dd MMM yyyy', {locale: lang})}
+                                  </span>
+                                  {
+                                    visit.isAllDay ? (
+                                      <div className="txtBlue700">
+                                        <p className='txtBlue700'>
+                                          {translateTo('All day', lang)}
+                                        </p>
+                                      </div>
+                                    ) : (
+                                      <div className="txtBlue700">
+                                        <span>
+                                          {DateTime.fromMillis(visit.start, { locale: lang }).toFormat('HH:mm')}
+                                        </span>
+                                        <span className="mx-1">-</span>
+                                        <span>
+                                          {DateTime.fromMillis(visit.end, { locale: lang }).toFormat('HH:mm')}
+                                        </span>
+                                      </div>
+                                    )
+                                  }
+                                </div>
+                              </div>
+                            ))
+                          }
 
-                    </div>
-                  </div>
+                        </div>
+                      </div>
+                    )
+                  }
                   {
                     activeScheduleVisit?.buyerMessage && (
                       <div className="w-perc-md-50 ml-sm-1">
@@ -512,7 +528,7 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
 
 
             {
-              (SectionPage === 'create' || SectionPage === 'rejected') && (
+              (SectionPage === 'create') && (
                 <>
                   {/* ADD NEW DATE */}
                   {

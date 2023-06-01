@@ -6,7 +6,6 @@ const glob = require('glob-all');
 const {default: baseByData} = require('@brixel/brixel-components/dist/configuration/SettingsWebpack.js');
 const {default: companyData} = require('@brixel/brixel-components/dist/configuration/CompanyInfo.js');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-// const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
@@ -14,13 +13,10 @@ const { PurgeCSSPlugin } = require('purgecss-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const safelistClass = require('./webapckSafelistClass');
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
-// const TerserPlugin = require('terser-webpack-plugin');
 const { GenerateSW } = require('workbox-webpack-plugin');
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
-// const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
-// const devMode = false;
 const ROOT_DIR = path.resolve(__dirname, './');
 const BUILD_DIR = path.join(ROOT_DIR, './dist');
 const devMode = process.argv[process.argv.length - 1] === 'development';
@@ -33,11 +29,20 @@ const PATHS = {
   dist: path.join(__dirname, 'dist'),
 };
 
+const sourceMap = (testMode) => (testMode || devMode) ? 'hidden-source-map' : 'source-map';
+
+const ModeType = (testMode) => {
+  if (testMode && devMode) return 'full';
+  if (testMode && !devMode) return 'test';
+  if (!testMode && devMode) return 'dev';
+  return 'prod'
+}
+
 const clientConfig = (env) => {
   const testMode = env.TEST;
   const config = ({
     mode: mode,
-    devtool: testMode ? 'hidden-source-map' : 'source-map',
+    devtool: sourceMap(testMode),
     entry: {
       polyfill: '@babel/polyfill',
       main: [
@@ -65,16 +70,16 @@ const clientConfig = (env) => {
         directory: path.join(__dirname, 'src'),
       },
       liveReload: true,
-      compress: !devMode && !testMode,
+      compress: ModeType(testMode) === 'full',
       port: 5000,
       historyApiFallback: true,
-      open: devMode && !testMode,
+      open: ModeType(testMode) === 'dev',
     },
     output: {
       publicPath: '/',
       path: BUILD_DIR,
       filename: 'js/[name].bundle.js',
-      chunkFilename: (devMode || testMode) ? 'js/[name].js' : 'js/[name].[fullhash].js',
+      chunkFilename: ModeType(testMode) === 'full' ? 'js/[name].js' : 'js/[name].[fullhash].js',
       globalObject: 'this',
     },
     stats: {
@@ -286,7 +291,7 @@ const clientConfig = (env) => {
       }),
     )
   }
-  if (!devMode && !testMode) {
+  if (ModeType(testMode) === 'prod') {
     config.plugins.push(
       new PurgeCSSPlugin({
         paths: glob.sync([

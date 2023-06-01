@@ -2,9 +2,9 @@ import { testData } from '../../helpers/constants';
 
 const { devices, companies } = testData;
 
-const userTest = Cypress.env('userTest');
-
 describe('seller Onboarding', () => {
+
+  const partner = ['ubs', 'baloise'];
 
   Cypress.Cookies.debug(true);
 
@@ -14,6 +14,7 @@ describe('seller Onboarding', () => {
 
   //for each company do the onboarding
   Object.keys(companies).forEach((key: any) => {
+    const isPartner = partner.includes(key);
     //This gives you some feedback in the Cypress side bar console on what URL you're at
     describe(`company: ${key}`, () => {
 
@@ -70,7 +71,7 @@ describe('seller Onboarding', () => {
         })
 
         it('condition property', () => {
-          if (key !== 'ubs' && key !== 'baloise') {
+          if (!isPartner) {
             cy.viewport(device);
             cy.wrap('#step-propertyCondition').compareSnapshot(`sellerCondition${key}`, 0.05);
             cy.get('[type="radio"]').first().check({force: true});
@@ -81,32 +82,7 @@ describe('seller Onboarding', () => {
           cy.viewport(device);
           cy.getCookie('brixelToken')
             .then((res) => {
-              if (!res) {
-                cy.wrap('#step-createProfile').compareSnapshot(`sellerRegister${key}`, 0.05);
-                cy.get('input[name="register.name"]').type('Test Automated');
-                let {email} = userTest.seller;
-                if (key === 'ubs' || key === 'baloise') {
-                  email = userTest.sellerPartner.email.replace(':partner', key);
-                }
-                cy.get('input[name="register.email"]').type(email);
-                cy.get('input[name="register.password"]').type(userTest.seller.password);
-                cy.get('input[name="register.privacy"]').check({force: true});
-                cy.wait(1000).then(() => {
-                  cy.get('button[type="submit"]').click();
-                });
-                cy.wait(1000).then(() => {
-                  cy.get('body', {timeout: 10000}).then($body => {
-                    if ($body.find('p.txtRed400').length > 0) {
-                      cy.get('input[name="login.password"]').type(userTest.seller.password);
-                      cy.wait(1000).then(() => {
-                        cy.get('button[type="submit"]').click();
-                      })
-                    }
-                  });
-                });
-              } else {
-                cy.get('body', {timeout: 10000}).should('be.visible');
-              }
+              cy.register(res, key);
             });
         })
 
@@ -114,7 +90,8 @@ describe('seller Onboarding', () => {
           if (key === 'ubs') {
             cy.url().should('include', 'termsConditionFlow')
             cy.get('button[type="submit"]', { timeout: 10000 }).click();
-          } else if (key === 'baloise') {
+          }
+          if (key === 'baloise') {
             cy.url().should('include', 'termsConditionFlow');
             cy.get('[type="radio"]').first().check({force: true});
             cy.get('button[type="submit"]', {timeout: 10000}).click();
@@ -125,7 +102,7 @@ describe('seller Onboarding', () => {
         })
 
         it('Welcome seller screen', () => {
-          if (key === 'ubs' || key === 'baloise') {
+          if (isPartner) {
             cy.get('.rewards-container', { timeout: 10000 }).should('be.visible');
           } else {
             cy.get('.welcomeSellerBody', {timeout: 10000}).should('be.visible');

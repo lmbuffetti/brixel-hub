@@ -66,7 +66,7 @@ const FlowScreen = (props: FlowScreenType) => {
       let checkCond = true;
       const {conditions} = questions[newIndex];
       if (conditions) {
-        conditions.map((cond) => {
+        conditions.forEach((cond) => {
           if (cond.name) {
             const val = get(formValue, cond.name, null);
             if (has(cond, 'value') && val !== cond.value && checkCond) {
@@ -75,7 +75,6 @@ const FlowScreen = (props: FlowScreenType) => {
               checkCond = false;
             }
           }
-          return null;
         });
       }
     }

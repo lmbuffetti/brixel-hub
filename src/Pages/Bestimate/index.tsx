@@ -149,60 +149,68 @@ const Bestimate = (props: BestimateType) => {
       saveData();
     }
     setCurrentIndex(newIndex);
-    // setPosition(newIndex);
     setQuest(questions[newIndex]);
   };
 
   // ON CHANGE FORM VALUE CALC THE CONDITION TO SHOW/HIDE QUESTIONS AND STEP
-  useEffect(() => {
-    if (formValue.id) {
-      const newQuest: object[] = [];
-      let numQuest = 0;
-      BestimateQuestions(null, '', get(formValue, 'properties.propertyType', ''), lang).forEach((questData) => {
-        if (questData.condition) {
-          let isValid = true;
-          questData.condition.map((item) => {
-            if (item.name && get(formValue, item.name, null) !== item.value) {
-              isValid = false;
-            }
-            return null;
-          });
-          if (isValid) {
-            numQuest += 1;
-            newQuest.push(questData);
+  const analizeQuestions = () => {
+    const newQuest: object[] = [];
+    let numQuest = 0;
+    BestimateQuestions(null, '', get(formValue, 'properties.propertyType', ''), lang).forEach((questData) => {
+      if (questData.condition) {
+        let isValid = true;
+        questData.condition.forEach((item) => {
+          if (item.name && get(formValue, item.name, null) !== item.value) {
+            isValid = false;
           }
-        } else {
-          if (questData.inputs) numQuest += 1;
+        });
+        if (isValid) {
+          numQuest += 1;
           newQuest.push(questData);
         }
-      });
-      setNumberQuestions(numQuest);
-      setQuestions(newQuest);
+      } else {
+        if (questData.inputs) numQuest += 1;
+        newQuest.push(questData);
+      }
+    });
+    return {
+      num: numQuest,
+      quest: newQuest,
+    }
+  }
+  useEffect(() => {
+    if (formValue.id) {
+      const resQuest = analizeQuestions();
+      setNumberQuestions(resQuest.num);
+      setQuestions(resQuest.quest);
     }
   }, [formValue]);
 
   // CHECK IF FIELD IS VALID
+  const checkCondition = (input, valid, err) => {
+    let isValid = valid;
+    if (input.condition) {
+      input.condition.forEach((item) => {
+        if (item?.name && get(formValue, item.name, null) === item.value) {
+          if (err !== true && err !== false && isValid) isValid = false;
+        }
+      });
+    } else if (input.validation) {
+      if (err !== true && err !== false && isValid) isValid = false;
+    }
+    return isValid;
+  };
   const checkValidateField = (act: string | null = null) => {
     let isValid = true;
     let isNotEmpty = false;
     if (quest?.inputs) {
-      quest.inputs.map((input) => {
+      quest.inputs.forEach((input) => {
         if (input?.name) {
           const err = get(errorValue, input.name, null);
           const noEmpty = get(formValue, input.name, 'ayc');
-          if (noEmpty !== 'ayc') isNotEmpty = true;
-          if (input.condition) {
-            input.condition.map((item) => {
-              if (item?.name && get(formValue, item.name, null) === item.value) {
-                if (err !== true && err !== false && isValid) isValid = false;
-              }
-              return null;
-            });
-          } else if (input.validation) {
-            if (err !== true && err !== false && isValid) isValid = false;
-          }
+          isNotEmpty = noEmpty !== 'ayc';
+          isValid = checkCondition(input, isValid, err);
         }
-        return null;
       });
     }
     if (act === 'value') return isValid && isNotEmpty;
@@ -218,7 +226,14 @@ const Bestimate = (props: BestimateType) => {
     else if (currentIndex === 0) label = 'Next';
     else label = 'Next';
     return label;
-  };
+  }
+
+  const singleStepClasses = () => {
+    let classes = quest.background || '';
+    if (isEnter) classes += ' fade-enter-active'
+    else classes += ' fade-enter'
+    return classes;
+  }
 
   if (!formValue.id) {
     return (
@@ -243,7 +258,7 @@ const Bestimate = (props: BestimateType) => {
           </div>
           <div className="multiStepSlides">
             <div
-              className={`singleStep jc-c ${quest.background || ''} ${isEnter ? 'fade-enter-active' : 'fade-enter'}`}
+              className={`singleStep jc-c ${singleStepClasses()}`}
             >
               <div className="subcontainer mt-0 m-a h-perc-100">
                 {
