@@ -247,17 +247,22 @@ const Financing = (props: FinancingType) => {
   };
 
   // CHECK IF FIELDS IS VALID TO ENABLE NEXT BUTTON
+  const checkValidateCondition = (valid, err, item) => {
+    let isValid = valid;
+    if (item.value && get(formValue, item.name, null) === item.value) {
+      if (err !== true && err !== false && err !== null && isValid) isValid = false;
+    }
+    if (item.noValue && get(formValue, item.name, null) !== item.noValue) {
+      if (err !== true && err !== false && isValid) isValid = false;
+    }
+    return isValid;
+  }
   const checkConditionField = (input, valid, err) => {
     let isValid = valid;
     if (input.condition) {
       input.condition.forEach((item) => {
         if (item?.name) {
-          if (item.value && get(formValue, item.name, null) === item.value) {
-            if (err !== true && err !== false && err !== null && isValid) isValid = false;
-          }
-          if (item.noValue && get(formValue, item.name, null) !== item.noValue) {
-            if (err !== true && err !== false && isValid) isValid = false;
-          }
+          isValid = checkValidateCondition(isValid, err, item);
         }
       });
     } else if (isValid) {
@@ -289,34 +294,55 @@ const Financing = (props: FinancingType) => {
   const multiStepSlidesEl = multiStepSlidesRef.current;
 
   // FUNCTION TO GO TO NEXT STEP
-  const fakeInputField = (newQuest, defId) => {
-    if (newQuest.history !== 'createProfile') {
-      if (newQuest.inputs && !newQuest.inputs[0].options && !newQuest.inputs[0].startFrom) {
-        const fakeInput = document.createElement('input') as HTMLInputElement;
-        fakeInput.setAttribute('type', 'text');
-        fakeInput.setAttribute('id', 'fakeInput');
-        fakeInput.style.position = 'absolute';
-        fakeInput.style.opacity = '0';
-        fakeInput.style.height = '0';
-        fakeInput.style.fontSize = '16px'; // disable auto zoom
-        // zoom/scroll behavior
-        document.body.prepend(fakeInput);
-        fakeInput.focus();
+  const fakeInputTimer = (defId) => {
+    setTimeout(() => {
+      const fakeInput = document.getElementById('fakeInput');
+      const getCurStep = document.getElementById(`step-${defId}`);
+      if (getCurStep && getCurStep.querySelector('input[type="number"]')) {
+        const inputNumber = getCurStep.querySelector('input[type="number"]') as HTMLInputElement;
+        if (inputNumber) inputNumber.focus();
+      } else if (getCurStep && getCurStep.querySelector('input[type="text"]')) {
+        const inputText = getCurStep.querySelector('input[type="text"]') as HTMLInputElement;
+        if (inputText) inputText.focus();
       }
+      // cleanup
+      if (fakeInput) fakeInput.remove();
+    }, 500);
+  }
+  const fakeInputField = (newQuest, defId) => {
+    if (newQuest.history !== 'createProfile' && newQuest.inputs && !newQuest.inputs[0].options && !newQuest.inputs[0].startFrom) {
+      const fakeInput = document.createElement('input');
+      fakeInput.setAttribute('type', 'text');
+      fakeInput.setAttribute('id', 'fakeInput');
+      fakeInput.style.position = 'absolute';
+      fakeInput.style.opacity = '0';
+      fakeInput.style.height = '0';
+      fakeInput.style.fontSize = '16px'; // disable auto zoom
+      // zoom/scroll behavior
+      document.body.prepend(fakeInput);
+      fakeInput.focus();
+    }
 
-      setTimeout(() => {
-        const fakeInput = document.getElementById('fakeInput');
-        const getCurStep = document.getElementById(`step-${defId}`);
-        if (getCurStep && getCurStep.querySelector('input[type="number"]')) {
-          const inputNumber = getCurStep.querySelector('input[type="number"]') as HTMLInputElement;
-          if (inputNumber) inputNumber.focus();
-        } else if (getCurStep && getCurStep.querySelector('input[type="text"]')) {
-          const inputText = getCurStep.querySelector('input[type="text"]') as HTMLInputElement;
-          if (inputText) inputText.focus();
-        }
-        // cleanup
-        if (fakeInput) fakeInput.remove();
-      }, 500);
+    fakeInputTimer(defId);
+
+    // @ts-ignore
+    if (singleStepEl?.scrollTop) singleStepEl.scrollTop = 0;
+    // @ts-ignore
+    if (multiStepSlidesEl?.scrollTop) multiStepSlidesEl.scrollTop = 0;
+  };
+  const changeStepAction = (defId) => {
+    if (questions[defId].toSave) {
+      saveData();
+    } else {
+      const newQuest = {
+        ...questions[defId],
+      };
+      setQuest(newQuest);
+      setCurrentIndex(defId);
+      fakeInputField(newQuest, defId);
+      if (questions[defId].history) {
+        history.push(`/buyer/${propID}/financingFlow/${questions[defId].history}`, { state: get(history, 'location.state', {}) });
+      }
     }
   }
   const changeStep = (act = 'next', e: null | React.FormEvent = null, step = 1, skipValidation = false) => {
@@ -339,45 +365,32 @@ const Financing = (props: FinancingType) => {
       let defId = checkCondition(newIndex, act);
       if (defId !== newIndex) defId = checkCondition(defId, act);
       if (questions[defId]) {
-        if (questions[defId].toSave) {
-          saveData();
-        } else {
-          const newQuest = {
-            ...questions[defId],
-          };
-          setQuest(newQuest);
-          setCurrentIndex(defId);
-          fakeInputField(newQuest, defId);
-          if (questions[defId].history) {
-            history.push(`/buyer/${propID}/financingFlow/${questions[defId].history}`, { state: get(history, 'location.state', {}) });
-          }
-          // @ts-ignore
-          if (singleStepEl?.scrollTop) singleStepEl.scrollTop = 0;
-          // @ts-ignore
-          if (multiStepSlidesEl?.scrollTop) multiStepSlidesEl.scrollTop = 0;
-        }
+        changeStepAction(defId);
       }
     }
     return null;
   };
 
   // ON CHANGE FORM VALUE CALC THE CONDITION TO SHOW/HIDE QUESTIONS AND STEP
+  const validateQuestion = (quests, newQuest) => {
+    if (quests.condition) {
+      let isValid = true;
+      quests.condition.map((item) => {
+        if (get(formValue, item.name, null) !== item.value) {
+          isValid = false;
+        }
+      });
+      if (isValid) newQuest.push(quests);
+    } else {
+      newQuest.push(quests);
+    }
+  }
   useEffect(() => {
     const newQuest: QuestionsListType[] = [];
     setOldIndex(currentIndex);
     if (formValue) {
       QuestionsList((name, value) => changeFieldValue(name, value), lang).forEach((quests) => {
-        if (quests.condition) {
-          let isValid = true;
-          quests.condition.map((item) => {
-            if (get(formValue, item.name, null) !== item.value) {
-              isValid = false;
-            }
-          });
-          if (isValid) newQuest.push(quests);
-        } else {
-          newQuest.push(quests);
-        }
+        validateQuestion(quests, newQuest);
       });
       setQuest(newQuest[currentIndex]);
       setQuestions(newQuest);
