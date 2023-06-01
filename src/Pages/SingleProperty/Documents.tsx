@@ -684,7 +684,7 @@ const Documents = (props: DocumentsPageType) => {
                                                   )
                                                 }
                                                 <div className="dis-fl-col docDetails cur-poi" onClick={(e) => openDocument(e, doc.id)}>
-                                                  <span className="document-title fweight-500 fsize-400 txtDark700">{doc.name}</span>
+                                                  <span className="document-title fweight-500 fsize-400 txtText900">{doc.name}</span>
                                                   <span className="body2 txtGreen400 dont-break-out">
                                                     {translateTo(doc.type || '', lang)}
                                                   </span>
@@ -700,7 +700,7 @@ const Documents = (props: DocumentsPageType) => {
                                                         }
                                                       </span>
                                                     ) : (
-                                                      <span className="date fsize-200 txtDark200">-</span>
+                                                      <span className="date fsize-200 txtText200">-</span>
                                                     )
                                                   }
                                                 </div>
@@ -888,7 +888,7 @@ const Documents = (props: DocumentsPageType) => {
                                                                 }
                                                               </span>
                                                             ) : (
-                                                              <span className="date fsize-200 txtLight400 pt-small-4">-</span>
+                                                              <span className="date fsize-200 txtText400 pt-small-4">-</span>
                                                             )
                                                           }
                                                         </div>
