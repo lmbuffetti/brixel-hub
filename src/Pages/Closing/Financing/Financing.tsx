@@ -419,6 +419,11 @@ const Financing = (props: FinancingType) => {
     return classes;
   }
 
+  const showBackButton = () => {
+    return !!((get(questions, `[${currentIndex - 1}].inputs`, null) && currentIndex > 0) || get(questions, `[${currentIndex}].showBackButton`, null));
+
+  }
+
   return (
     <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'background', '')} ${get(quest, 'classWrapper', '')} trialRequest`}>
       <div className="pos-r">
@@ -442,7 +447,7 @@ const Financing = (props: FinancingType) => {
         <form
           id="multiStepForm"
           autoComplete="off"
-          className={`interactive dis-fl-col jc-b ${get(quest, 'background', null) || ''}`}
+          className={`interactive dis-fl-col jc-b ${quest?.background}`}
           onSubmit={() => changeStep()}
         >
           <div ref={multiStepSlidesRef} className="multiStepSlides">
@@ -544,7 +549,7 @@ const Financing = (props: FinancingType) => {
                 <div className="pos-r">
                   <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-c mb-3 h-fix-40">
                     {
-                      ((get(questions, `[${currentIndex - 1}].inputs`, null) && currentIndex > 0) || (get(questions, `[${currentIndex}].showBackButton`, null))) && (
+                      showBackButton() && (
                         <BrixelButtonIcon
                           className="backBtn pos-a-fix x-l-0 x-t-0"
                           icon="arrow-left-small"
