@@ -53,6 +53,7 @@ const Financing = (props: FinancingType) => {
   const maxLoanRatio = lowCountry?.toLowerCase() === 'pt' ? 90 : 80;
   const affordability = get(formValue, 'affordability', 0);
   const loanToValueRatio = get(formValue, 'loanToValueRatio', 0);
+
   // STATE
   const [currentIndex, setCurrentIndex] = useState(0);
   const [quest, setQuest] = useState<QuestionsListType>(QuestionsList((name, value) => changeFieldValue(name, value), lang)[0]);
@@ -219,6 +220,12 @@ const Financing = (props: FinancingType) => {
   };
 
   // FUNCTION TO SHOW/HIDE BLOCK IN BASE OF JSON CONDITION
+  const updateIndex = (act, index) => {
+    let newIndex = index;
+    if (act === 'back') newIndex -= 1;
+    else newIndex += 1;
+    return newIndex;
+  }
   const checkCondition = (id, act) => {
     let newIndex = id;
     if (get(questions, `[${newIndex}].conditions`, null)) {
@@ -226,13 +233,11 @@ const Financing = (props: FinancingType) => {
       get(questions[newIndex], 'conditions', []).map((cond) => {
         const val = get(formValue, cond.name, null);
         if (has(cond, 'value') && val !== cond.value && checkCond) {
-          if (act === 'back') newIndex -= 1;
-          else newIndex += 1;
+          newIndex = updateIndex(act, newIndex);
           checkCond = false;
         }
         if (cond.noValue && val === cond.noValue && checkCond) {
-          if (act === 'back') newIndex -= 1;
-          else newIndex += 1;
+          newIndex = updateIndex(act, newIndex);
           checkCond = false;
         }
         return null;
