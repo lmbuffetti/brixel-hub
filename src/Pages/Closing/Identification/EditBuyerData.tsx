@@ -40,18 +40,15 @@ const EditBuyerData = (props: EditBuyerDataType) => {
     const fullFormBuyerData = getBuyerData ? get(getBuyerNameData, 'inputs', []).concat(get(getBuyerData, 'inputs', []) || []) : [];
     const getUploadData = IdentificationQuestions(true, userType, lang).find((quest) => quest.history === 'document');
     const formDataUpload = get(getUploadData, 'inputs', []);
-    switch (forceStep) {
-      case 1:
-        setFormData(formDataUpload);
-        break;
-      default:
-        setFormData(fullFormBuyerData);
+    if (forceStep === 1) {
+      setFormData(formDataUpload);
+    } else {
+      setFormData(fullFormBuyerData);
     }
   }, [forceStep]);
 
   const onRemoveFile = (file) => {
     const dataForm = cloneDeep(formValue);
-    // dataForm.persons[profileId].document = {};
     const data = {
       ...dataForm,
       dealID,
@@ -89,37 +86,40 @@ const EditBuyerData = (props: EditBuyerDataType) => {
 
 
   // GET THE NEXT DATA IN BASE OF CURRENT ANSWER
-  const checkCondition = (quest, newQuest) => {
+  const checkCondition = (quest) => {
     let isValid = true;
-    if (quest.condition) {
-      quest.condition.map((item) => {
-        if (item?.name && get(formValue, item.name, null) !== item.value) {
-          isValid = false;
-        }
-        return null;
-      });
-      if (isValid) newQuest.push(quest);
-    } else if (quest.conditionsOr) {
-      isValid = false;
-      quest.conditionsOr.map((item) => {
-        if (has(item, 'value')) {
-          if (item?.name && ((item.value === 'isPositive' && get(formValue, item.name, 0) > 0) || get(formValue, item.name, 'a') === item.value)) {
-            isValid = true;
-          }
-        }
-        if (item.name && item.noValue && get(formValue, item.name, null) !== item.noValue) {
+    quest.condition.forEach((item) => {
+      if (item?.name && get(formValue, item.name, null) !== item.value) {
+        isValid = false;
+      }
+    });
+    return isValid;
+  }
+  const checkConditionOr = (quest) => {
+    let isValid = false;
+    quest.conditionsOr.forEach((item) => {
+      if (has(item, 'value')) {
+        if (item?.name && ((item.value === 'isPositive' && get(formValue, item.name, 0) > 0) || get(formValue, item.name, 'a') === item.value)) {
           isValid = true;
         }
-        return null;
-      });
-    }
+      }
+      if (item.name && item.noValue && get(formValue, item.name, null) !== item.noValue) {
+        isValid = true;
+      }
+    });
     return isValid;
   }
   useEffect(() => {
     const newQuest: QuestionInputType[] = [];
     formData.forEach((quest) => {
-      const isValid = checkCondition(quest, newQuest);
-      if (!isValid) newQuest.push(quest);
+      let isValid = true;
+      if (quest.condition) {
+        isValid = checkCondition(quest);
+      }
+      if (quest.conditionsOr) {
+        isValid = checkConditionOr(quest);
+      }
+      if (isValid) newQuest.push(quest);
     });
     setFilteredForm(newQuest);
   }, [formValue, forceStep, formData]);
