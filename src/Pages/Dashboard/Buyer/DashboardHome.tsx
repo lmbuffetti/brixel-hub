@@ -59,7 +59,7 @@ const DashboardHome = (props: ContactType) => {
     if (visitDate?.visit?.date && visitDate?.buyerAvailability) cl = 'green';
     if (!visitDate) cl = 'green';
     if (visitDate?.visit?.date < new Date().valueOf()) cl = 'blue';
-    if (visitDate.sellerStatus === 'rejected' || visitDate.buyerStatus === 'rejected') cl = 'red';
+    if (visitDate?.sellerStatus === 'rejected' || visitDate?.buyerStatus === 'rejected') cl = 'red';
     switch (cl) {
       case 'white':
         return 'bgWhite';
