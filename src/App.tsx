@@ -344,8 +344,9 @@ const App = (props: AppType) => {
 
   // FUNCTION USED TO SEND THE DATA TO HANALITYCS
   useEffect(() => {
-    if (get(history, 'location.pathname', '') === '/' || !get(history, 'location.pathname', '')) {
-      history.push('/sell');
+    if ((get(history, 'location.pathname', '') === '/' || !get(history, 'location.pathname', '')) && loggedInUser.id) {
+      if (!loggedInUser.seller) history.push('/buy');
+      else history.push('/sell');
     }
     if (get(history, 'location', null) && typeof ga === 'function') {
       ga('send', 'pageview', history.location.pathname);
@@ -368,7 +369,7 @@ const App = (props: AppType) => {
     }
     const scrollFlow = document.getElementsByClassName('flowScrollWrap')[0];
     if (scrollFlow) scrollFlow.scrollTop = 0;
-  }, [history.location]);
+  }, [history.location, loggedInUser.id]);
 
   // FUNCTION TO MANAGE THE REDIRECT FROM REDUX REDUCER
   useEffect(() => {
