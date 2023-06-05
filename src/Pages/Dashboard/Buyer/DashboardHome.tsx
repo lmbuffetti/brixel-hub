@@ -68,7 +68,7 @@ const DashboardHome = (props: ContactType) => {
       case 'green':
         return 'bgGreen100';
       case 'red':
-        return 'bgWhite';
+        return 'bgRed50';
       default:
         return 'bgWhite';
     }
@@ -123,17 +123,17 @@ const DashboardHome = (props: ContactType) => {
                           style={{ backgroundImage: `url(${PropertyCanceledSvg})` }}
                         >
                           <div className="dis-fl-col max-w-perc-100">
-                            <h5 className="fweight-600 txtRed400">
+                            <h5 className="fweight-600">
                               {translateTo('Your visit has been cancelled', lang)}
                             </h5>
                             <div className="dis-f a-c max-w-perc-80 mt-1">
-                              <p className="pr-2 fweight-600 mb-3">
-                                {translateTo('Get in touch with our team to know more details.', lang)}
+                              <p className="pr-2 mb-3">
+                                {translateTo('Please contact our team for more details.', lang)}
                               </p>
                             </div>
 
                             <div className="mt-a">
-                              <BrixelButtonSecondary
+                              <BrixelButtonPrimary
                                 label={translateTo('Request new visit', lang)}
                                 rounded
                                 leftIcon="plus"

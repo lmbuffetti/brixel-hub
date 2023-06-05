@@ -319,7 +319,7 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
                         lang={lang}
                         message={{
                           lang: lang,
-                          rejected: translateTo('Canceled', lang),
+                          rejected: translateTo('Cancelled', lang),
                         }}
                         status="rejected"
                         text={translateTo('Pending', lang)}
@@ -328,7 +328,7 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
                         {translateTo('Your visit has been cancelled', lang)}
                       </h5>
                       <p className='txtText600 max-w-perc-sm-80'>
-                        {translateTo('Get in touch with our team to know more details. Feel free to schedule another visit if your still interested.', lang)}
+                        {translateTo('Please contact our team for more details. If you are still interested, you can request another visit.', lang)}
                       </p>
                     </div>
                     <img
@@ -338,9 +338,8 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
                     />
                   </div>
                   <div className="mt-4 dis-f jc-fe">
-                    <BrixelButtonSecondary
+                    <BrixelButtonPrimary
                       rounded
-                      bgTransparent
                       label={translateTo('New visit request', lang)}
                       leftIcon="plus"
                       onClick={() => openModalDate()}
