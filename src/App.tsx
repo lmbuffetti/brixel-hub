@@ -224,6 +224,8 @@ const App = (props: AppType) => {
     return !!(userRate !== null &&
       !userRate.rating &&
       loggedInUser?.id &&
+      (loggedInUser?.sentFeedback || 0) < 2 &&
+      (loggedInUser?.sentFeedback || 0) >= 0 &&
       !isFlow &&
       history.location.pathname.includes('buy') &&
       !history.location.pathname.includes('scheduleVisit') &&
