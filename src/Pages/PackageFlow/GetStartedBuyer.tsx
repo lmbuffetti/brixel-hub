@@ -145,7 +145,7 @@ const GetStartedBuyer = (props: GetStartedType) => {
         company: company.stub,
         ignoreEmail: false,
         redirectTo: {
-          pathname: '/packageFlow/getstartedBuyer/success',
+          pathname: `/packageFlow/getstartedBuyer/${activeSingleCompany.stub}/success`,
           state: { hideClose: true },
         },
       };
