@@ -169,7 +169,7 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
   // OPEN MODAL FOR ADD DATE BY ROUTE
   useEffect(() => {
     if (isNewDate && activeScheduleVisits && !openedModal) {
-      if ((!activeScheduleVisit?.buyerAvailability && !activeScheduleVisit?.visit?.date && !activeModalID && activeModalID !== 0) || (activeScheduleVisit?.visit?.date && activeScheduleVisit?.visit?.date < new Date().valueOf())) {
+      if ((!activeScheduleVisit?.buyerAvailability && !activeScheduleVisit?.visit?.date && !activeModalID && activeModalID !== 0) || (activeScheduleVisit?.visit?.date && activeScheduleVisit?.visit?.date < new Date().valueOf()) || (activeScheduleVisit?.sellerStatus === 'rejected' || activeScheduleVisit?.buyerStatus === 'rejected')) {
         openModalDate();
         setOpenedModal(true);
       }
