@@ -340,7 +340,7 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
                   <div className="mt-4 dis-f jc-fe">
                     <BrixelButtonPrimary
                       rounded
-                      label={translateTo('New visit request', lang)}
+                      label={translateTo('Request new visit', lang)}
                       leftIcon="plus"
                       onClick={() => openModalDate()}
                     />
