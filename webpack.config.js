@@ -287,7 +287,7 @@ const clientConfig = (env) => {
           useShortDoctype: true,
         },
         transifexKey: baseByData(getEnvBuild)?.transifexIdHub,
-        googleId: baseByData(getEnvBuild)?.googleID,
+        googleId: baseByData(getEnvBuild)?.googleTagID,
       }),
     )
   }
