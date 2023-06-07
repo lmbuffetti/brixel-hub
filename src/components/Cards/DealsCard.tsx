@@ -163,12 +163,12 @@ const DealsCard = (props: DealsCardProps) => {
                       (get(feedback, 'isInterested') === true || get(feedback, 'isInterested') === false) ? (
                         <span className="fsize-300 txtText900">{getFeedback()}</span>
                       ) : (
-                        <div className="mb-1">
+                        <div className="mb-small-4">
                           {
                             visitStatus && (
                               <>
                                 <BrixelSingleTag
-                                  className="mt-1 mb-1"
+                                  className="mt-small-4 mb-small-4"
                                   lang={lang}
                                   message={{
                                     lang: lang,
