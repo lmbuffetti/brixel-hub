@@ -20,5 +20,7 @@ module.exports = {
     /^row-cols/,
     /^space-/,
     /^carousel/,
+    /^documents-/,
+    /^sortable-/,
   ],
 };

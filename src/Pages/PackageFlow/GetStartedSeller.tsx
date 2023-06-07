@@ -180,7 +180,7 @@ const GetStartedSeller = (props: GetStartedSellerType) => {
         ignoreEmail: false,
         seller: true,
         redirectTo: {
-          pathname: '/packageFlow/getStarted/success',
+          pathname: `/packageFlow/getStarted/${activeSingleCompany.stub}/success`,
           state: { hideClose: true },
         },
       });

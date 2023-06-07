@@ -52,7 +52,6 @@ export const {
   [VALIDATE_USER]: (payload) => payload,
   [ADD_NOT_INTERESTED]: (payload) => payload,
   [REMOVE_NOT_INTERESTED]: (payload) => payload,
-  [RECOVER_PASSWORD]: (payload) => payload,
   [SEND_USER_SCAN_TRIAL]: (payload) => payload,
   [SET_USER_RATE]: (payload) => payload,
   [GET_USER_RATE]: (payload) => payload,

@@ -241,7 +241,7 @@ const GetStartedEstimation = (props: GetStartedEstimationType) => {
         ignoreEmail: false,
         seller: true,
         redirectTo: {
-          pathname: '/packageFlow/getStartedEstimation/success',
+          pathname: `/packageFlow/getStartedEstimation/${activeSingleCompany.stub}/success`,
           state: { hideClose: true },
         },
       });
