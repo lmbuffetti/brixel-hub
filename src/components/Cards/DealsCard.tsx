@@ -121,13 +121,14 @@ const DealsCard = (props: DealsCardProps) => {
   return (
     <>
       <div
-        className={`dealsCard ${archived ? '' : 'cur-as'} dis-f p-small-12 mb-3 shadow-1dp brdRadius h-fix-120 ${className}`}
+        className={`dealsCard ${archived ? '' : 'cur-as'} dis-f p-small-12 mb-3 shadow-1dp brdRadius min-h-fix-104 ${className}`}
         onClick={() => parentOnClick()}
       >
         <div className="leftPanel pr-2">
           <BrixelAvatar
             avatarImg={avatarImg}
             name={name}
+            size='M'
             profileId={profileId}
             className="notranslate"
           />
@@ -138,7 +139,7 @@ const DealsCard = (props: DealsCardProps) => {
             {
               stage === 'Interested' && (
                 <span
-                  className={`metaMessage fsize-300 txtText900 dis-b ${!lastAction ? 'isLoadingDiv' : ''}`}
+                  className={`metaMessage fsize-300 txtText700 dis-b ${!lastAction ? 'isLoadingDiv' : ''}`}
                   dangerouslySetInnerHTML={{
                     __html: Helpers.sanitizeText(returnMessage()),
                   }}
@@ -148,27 +149,27 @@ const DealsCard = (props: DealsCardProps) => {
             {
               stage === 'Visit' && (
                 !visitDate?.date ? (
-                  <div className="dis-fl-row a-c">
+                  <div className="dis-fl-row a-c my-small-6">
                     <BrixelIcon
                       icon="calendar-add"
                       color="text"
                       className="mr-1"
                       iconWidth="w-fix-16"
                     />
-                    <span className="fsize-300 txtText900">{translateTo('No date', lang)}</span>
+                    <span className="fsize-300 txtText700">{translateTo('No date', lang)}</span>
                   </div>
                 ) : (
                   <>
                     {
                       (get(feedback, 'isInterested') === true || get(feedback, 'isInterested') === false) ? (
-                        <span className="fsize-300 txtText900">{getFeedback()}</span>
+                        <span className="fsize-300 txtText700">{getFeedback()}</span>
                       ) : (
-                        <div className="mb-small-4">
+                        <div className="mb-small-6">
                           {
                             visitStatus && (
                               <>
                                 <BrixelSingleTag
-                                  className="mt-small-4 mb-small-4"
+                                  className="my-small-6"
                                   lang={lang}
                                   message={{
                                     lang: lang,
@@ -260,7 +261,7 @@ const DealsCard = (props: DealsCardProps) => {
         theme="text"
         ghost
         icon="archive"
-        className="archiveBtn pos-a bt x-r mr-1 mb-1"
+        className={`archiveBtn pos-a bt x-r mr-1 ${archived? 'mb-4' : 'mb-1'}`}
         onClick={(e) => {
           e.preventDefault();
           archOnClick();
