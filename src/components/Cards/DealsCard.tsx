@@ -139,7 +139,7 @@ const DealsCard = (props: DealsCardProps) => {
             {
               stage === 'Interested' && (
                 <span
-                  className={`metaMessage fsize-300 txtText700 dis-b ${!lastAction ? 'isLoadingDiv' : ''}`}
+                  className={`metaMessage fsize-200 txtText700 dis-b ${!lastAction ? 'isLoadingDiv' : ''}`}
                   dangerouslySetInnerHTML={{
                     __html: Helpers.sanitizeText(returnMessage()),
                   }}
@@ -153,10 +153,10 @@ const DealsCard = (props: DealsCardProps) => {
                     <BrixelIcon
                       icon="calendar-add"
                       color="text"
-                      className="mr-1"
-                      iconWidth="w-fix-16"
+                      className="mr-small-6 width-px-12"
+                      iconWidth="width-px-10"
                     />
-                    <span className="fsize-300 txtText700">{translateTo('No date', lang)}</span>
+                    <span className="fsize-200 txtText700">{translateTo('No date', lang)}</span>
                   </div>
                 ) : (
                   <>
@@ -244,7 +244,7 @@ const DealsCard = (props: DealsCardProps) => {
                   </span>
                 </div>
               ) : (
-                <span className="date fsize-100 txtText600">
+                <span className="date fsize-200 txtText300">
                   {date}
                 </span>
               )
