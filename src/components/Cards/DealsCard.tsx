@@ -12,6 +12,7 @@ import translateTo from '../../utils/translation';
 
 import type { DealsCardProps } from '../../@types/components/Cards/DealsCard';
 import { HistoryType, ScheduleVisitRequestType } from '@brixel/brixel-components/dist/@types/Model';
+import BrixelSingleTag from '@brixel/brixel-components/dist/components/BrixelSingleTag';
 
 const DealsCard = (props: DealsCardProps) => {
   const match = useParams();
@@ -34,7 +35,8 @@ const DealsCard = (props: DealsCardProps) => {
   } = props;
 
   const [lastAction, setLastAction] = useState<HistoryType>({});
-  const [visitData, setVisitData] = useState<ScheduleVisitRequestType['visit']>();
+  const [visitDate, setVisitDate] = useState<ScheduleVisitRequestType['visit']>();
+  const [visitStatus, setVisitStatus] = useState<{status: string; text: string; color: string;}>();
 
   const propID = get(match, 'propID', null);
 
@@ -56,10 +58,39 @@ const DealsCard = (props: DealsCardProps) => {
     return '';
   };
 
+  const visitDateStatus = (visitData) => {
+    let data = {
+      color: 'txtYellow400',
+      text: 'Pending',
+      status: 'pending',
+    };
+    if (visitData && visitData.visit.date < new Date().valueOf()) {
+      data = {
+        color: 'txtBlue400',
+        text: 'Visited',
+        status: 'visited',
+      };
+    } else if (visitData && visitData?.sellerStatus === 'rejected' || visitData && visitData?.buyerStatus === 'rejected') {
+      data = {
+        color: 'txtRed400',
+        text: 'Cancelled',
+        status: 'cancelled',
+      };
+    } else if (visitData && visitData?.sellerStatus === 'accepted' || visitData && visitData?.buyerStatus === 'accepted') {
+      data = {
+        color: 'txtGreen400',
+        text: 'Confirmed',
+        status: 'accepted',
+      };
+    }
+    setVisitStatus(data);
+  }
+
   useEffect(() => {
     if (id && stage === 'Visit') {
       api.deal.getScheduleVisit(id).then((res) => {
-        setVisitData(res?.data[0]?.visit || {});
+        setVisitDate(res?.data[0]?.visit || {});
+        visitDateStatus(res?.data[0] || {});
       })
     }
   }, [id]);
@@ -74,32 +105,6 @@ const DealsCard = (props: DealsCardProps) => {
     }
   }, [profileId]);
 
-  const getIcon = () => {
-    if (visitData && visitData.date < +new Date().setHours(0, 0, 0, 0)) return 'calendar-check';
-    return 'calendar';
-  };
-
-  const getColor = () => {
-    if (visitData && visitData.date < +new Date().setHours(0, 0, 0, 0)) return 'text';
-    return 'green';
-  };
-
-  const getSaturation = () => {
-    if (visitData && visitData.date < +new Date().setHours(0, 0, 0, 0)) return 700;
-    return 400;
-  };
-
-  const getTextColor = () => {
-    if (visitData && visitData.date < +new Date().setHours(0, 0, 0, 0)) return 'Text900';
-    return 'Green400';
-  };
-
-  const getVisit = () => {
-    if (visitData && visitData.date < +new Date().setHours(0, 0, 0, 0)) return translateTo('Visited', lang);
-    if (visitData) return DateTime.fromMillis(visitData.date, { locale: lang }).toFormat('d LLL yyyy, H:mm');
-    return 'No dates';
-  };
-
   const getOfferColor = () => {
     if (get(offer, 'offer.status') === 'pending') return 'Yellow';
     if (get(offer, 'offer.status') === 'accepted') return 'Green';
@@ -110,19 +115,20 @@ const DealsCard = (props: DealsCardProps) => {
   const getFeedback = () => {
     if (get(feedback, 'isInterested') === true) return translateTo('Still interested 👍', lang);
     if (get(feedback, 'isInterested') === false) return translateTo('Not interested anymore 👎', lang);
-    return translateTo('Visited', lang);
+    return translateTo('No date', lang);
   };
 
   return (
     <>
       <div
-        className={`dealsCard ${archived ? '' : 'cur-as'} dis-f p-small-12 mb-3 shadow-1dp brdRadius h-fix-120 ${className}`}
+        className={`dealsCard ${archived ? '' : 'cur-as'} dis-f p-small-12 mb-3 shadow-1dp brdRadius min-h-fix-104 ${className}`}
         onClick={() => parentOnClick()}
       >
         <div className="leftPanel pr-2">
           <BrixelAvatar
             avatarImg={avatarImg}
             name={name}
+            size='M'
             profileId={profileId}
             className="notranslate"
           />
@@ -133,7 +139,7 @@ const DealsCard = (props: DealsCardProps) => {
             {
               stage === 'Interested' && (
                 <span
-                  className={`metaMessage fsize-300 txtText900 dis-b ${!lastAction ? 'isLoadingDiv' : ''}`}
+                  className={`metaMessage fsize-300 txtText700 dis-b ${!lastAction ? 'isLoadingDiv' : ''}`}
                   dangerouslySetInnerHTML={{
                     __html: Helpers.sanitizeText(returnMessage()),
                   }}
@@ -142,31 +148,54 @@ const DealsCard = (props: DealsCardProps) => {
             }
             {
               stage === 'Visit' && (
-                !visitData?.date ? (
-                  <div className="dis-fl-row a-c">
+                !visitDate?.date ? (
+                  <div className="dis-fl-row a-c my-small-6">
                     <BrixelIcon
                       icon="calendar-add"
                       color="text"
                       className="mr-1"
                       iconWidth="w-fix-16"
                     />
-                    <span className="fsize-300 txtText900">{translateTo('No date', lang)}</span>
+                    <span className="fsize-300 txtText700">{translateTo('No date', lang)}</span>
                   </div>
                 ) : (
-                  (get(feedback, 'isInterested') === true || get(feedback, 'isInterested') === false) ? (
-                    <span className="fsize-300 txtText900">{getFeedback()}</span>
-                  ) : (
-                    <div className="dis-fl-row a-c">
-                      <BrixelIcon
-                        icon={getIcon()}
-                        color={getColor()}
-                        saturationTxt={getSaturation()}
-                        className="mr-1"
-                        iconWidth="w-fix-16"
-                      />
-                      <span className={`txt${getTextColor()} fsize-300`}>{getVisit()}</span>
-                    </div>
-                  )
+                  <>
+                    {
+                      (get(feedback, 'isInterested') === true || get(feedback, 'isInterested') === false) ? (
+                        <span className="fsize-300 txtText700">{getFeedback()}</span>
+                      ) : (
+                        <div className="mb-small-6">
+                          {
+                            visitStatus && (
+                              <>
+                                <BrixelSingleTag
+                                  className="my-small-6"
+                                  lang={lang}
+                                  message={{
+                                    lang: lang,
+                                    [visitStatus.status]: translateTo(visitStatus.text, lang),
+                                  }}
+                                  status={visitStatus.status}
+                                  text={translateTo(visitStatus.text, lang)}
+                                />
+                                {
+                                  !visitDate?.date && visitStatus?.status === 'pending' && !visitStatus ? (
+                                    <p className="fsize-200">
+                                      No date
+                                    </p>
+                                  ) : (
+                                    <p className={`fsize-200 ${visitStatus.color}`}>
+                                      {DateTime.fromMillis(visitDate.date, { locale: lang }).toFormat('d LLL yyyy, H:mm')}
+                                    </p>
+                                  )
+                                }
+                              </>
+                            )
+                          }
+                        </div>
+                      )
+                    }
+                  </>
                 )
               )
             }
@@ -232,7 +261,7 @@ const DealsCard = (props: DealsCardProps) => {
         theme="text"
         ghost
         icon="archive"
-        className="archiveBtn pos-a bt x-r mr-1 mb-1"
+        className={`archiveBtn pos-a bt x-r mr-1 ${archived? 'mb-4' : 'mb-1'}`}
         onClick={(e) => {
           e.preventDefault();
           archOnClick();

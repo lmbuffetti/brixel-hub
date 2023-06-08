@@ -67,7 +67,7 @@ body .dashboardContainer.prospects {
     }
     @media (max-width: $responsive-desktop) and (min-width: $responsive-large) {
       .dealsContainer .dealsCard {
-        height: 128px;
+        height: 144px;
       }
     }
   }
@@ -207,6 +207,7 @@ body .dashboardContainer.prospects {
         white-space: normal;
         line-height: 18px;
         padding-top: 4px;
+        padding-bottom: 4px;
       }
     }
   }
