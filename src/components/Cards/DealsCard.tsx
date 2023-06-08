@@ -76,7 +76,7 @@ const DealsCard = (props: DealsCardProps) => {
         text: 'Cancelled',
         status: 'cancelled',
       };
-    } else if (visitData && visitData?.sellerStatus === 'accepted' || visitData && visitData?.buyerStatus === 'accepted') {
+    } else if (visitData && visitData?.sellerStatus === 'accepted' && visitData && visitData?.buyerStatus === 'accepted') {
       data = {
         color: 'txtGreen400',
         text: 'Confirmed',
@@ -184,9 +184,19 @@ const DealsCard = (props: DealsCardProps) => {
                                       No date
                                     </p>
                                   ) : (
-                                    <p className={`fsize-200 ${visitStatus.color}`}>
-                                      {DateTime.fromMillis(visitDate.date, { locale: lang }).toFormat('d LLL yyyy, H:mm')}
-                                    </p>
+                                    <>
+                                      {
+                                        visitStatus.status === 'pending' ? (
+                                          <p className="fsize-300">
+                                            Waiting for visit date
+                                          </p>
+                                        ) : (
+                                          <p className={`fsize-200 ${visitStatus.color}`}>
+                                            {DateTime.fromMillis(visitDate.date, { locale: lang }).toFormat('d LLL yyyy, H:mm')}
+                                          </p>
+                                        )
+                                      }
+                                    </>
                                   )
                                 }
                               </>
