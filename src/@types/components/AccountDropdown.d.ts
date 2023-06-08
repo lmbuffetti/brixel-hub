@@ -1,5 +1,5 @@
 import type {LanguagesType} from './Header/PageHeader';
-import {LoggedUserType} from '@brixel/brixel-components/dist/@types/Model';
+import {LoggedUserType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 export interface AccountDropdownType {
   className?: string;

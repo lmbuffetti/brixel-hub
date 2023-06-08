@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {BrixelIcon} from '@brixel/brixel-components';
+import {BrixelIcon} from '@brixel-io/brixel-components';
 import get from 'lodash/get';
 import isNaN from 'lodash/isNaN';
 import orderBy from 'lodash/orderBy';
@@ -15,7 +15,7 @@ import timelineActionStubs from '../../../resources/Utilities/timelineActionStub
 import {arrayMove} from '../../../utils/helpers';
 import translateTo from '../../../utils/translation';
 import type {SellerSidebarType} from '../../../@types/Pages/Dashboard/Seller/SellerSidebar';
-import {HistoryType} from '@brixel/brixel-components/dist/@types/Model';
+import {HistoryType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 const SellerSidebar = (props: SellerSidebarType) => {
   // PROPS

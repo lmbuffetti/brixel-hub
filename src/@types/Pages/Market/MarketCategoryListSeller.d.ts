@@ -5,7 +5,7 @@ import {
   NotificationDataType,
   PropertyType,
   ServicePackageType,
-} from '@brixel/brixel-components/dist/@types/Model';
+} from '@brixel-io/brixel-components/dist/@types/Model';
 
 export interface MarketCategoryListSellerType {
   activeMarketOverlayProperty: PropertyType;

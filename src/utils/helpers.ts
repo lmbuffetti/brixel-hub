@@ -5,8 +5,8 @@ import has from 'lodash/has';
 import {configureStore} from '../store';
 import {InputSheets} from '../resources/SingleProperty/inputSheets';
 import {BestimateQuestions} from '../resources/Flows/Bestimate';
-import {QuestionInputType, QuestionsListType} from '@brixel/brixel-components/dist/@types/Model';
-import {FactsOptions} from '@brixel/brixel-components';
+import {QuestionInputType, QuestionsListType} from '@brixel-io/brixel-components/dist/@types/Model';
+import {FactsOptions} from '@brixel-io/brixel-components';
 
 const { factsOptions } = FactsOptions;
 

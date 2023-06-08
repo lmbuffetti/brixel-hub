@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
-import {BrixelButtonPrimary, BrixelButtonText, Helpers} from '@brixel/brixel-components';
-import {BrixelCheckbox, change} from '@brixel/brixel-components/dist/form';
+import {BrixelButtonPrimary, BrixelButtonText, Helpers} from '@brixel-io/brixel-components';
+import {BrixelCheckbox, change} from '@brixel-io/brixel-components/dist/form';
 import get from 'lodash/get';
 import {connect} from 'react-redux';
 import {compose} from 'redux';

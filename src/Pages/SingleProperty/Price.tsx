@@ -8,12 +8,12 @@ import {
   BrixelIcon,
   Helpers,
   ProgressRing,
-} from '@brixel/brixel-components';
+} from '@brixel-io/brixel-components';
 import translateTo from '../../utils/translation';
-import {BrixelInputText, BrixelSelect, ReduxField} from '@brixel/brixel-components/dist/form';
+import {BrixelInputText, BrixelSelect, ReduxField} from '@brixel-io/brixel-components/dist/form';
 import {bindActionCreators, compose} from 'redux';
 import {connect} from 'react-redux';
-import {factsOptions} from '@brixel/brixel-components/dist/constants/Facts';
+import {factsOptions} from '@brixel-io/brixel-components/dist/constants/Facts';
 import {DateTime} from 'luxon';
 import {setHistory, setModal} from '../../actions/CommonActions';
 import {InputSheets} from '../../resources/SingleProperty/inputSheets';
@@ -24,8 +24,8 @@ import BestimateCardOverlay from '../../components/BestimateCardOverlay';
 import {getEstimation} from '../../actions/PropertyActions';
 import {generateEstimation} from '../../actions/EstimationActions';
 import type {PriceType} from '../../@types/Pages/SingleProperty/Price';
-import {change} from '@brixel/brixel-components/dist/utils/ReduxForm.Functions';
-import {QuestionsListType} from '@brixel/brixel-components/dist/@types/Model';
+import {change} from '@brixel-io/brixel-components/dist/utils/ReduxForm.Functions';
+import {QuestionsListType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 const Price = (props: PriceType) => {
   const history = {

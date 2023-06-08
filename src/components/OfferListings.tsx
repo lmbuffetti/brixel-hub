@@ -1,4 +1,4 @@
-import {BrixelAvatar, BrixelStatus, Helpers, ListingsHeaderFilter} from '@brixel/brixel-components';
+import {BrixelAvatar, BrixelStatus, Helpers, ListingsHeaderFilter} from '@brixel-io/brixel-components';
 import get from 'lodash/get';
 import {DateTime} from 'luxon';
 import React, {Fragment, useCallback} from 'react';

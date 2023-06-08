@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
-import {BrixelRadioButton, Validation} from '@brixel/brixel-components/dist/form';
-import {QuestionsListType} from '@brixel/brixel-components/dist/@types/Model';
+import {BrixelRadioButton, Validation} from '@brixel-io/brixel-components/dist/form';
+import {QuestionsListType} from '@brixel-io/brixel-components/dist/@types/Model';
 import translateTo from '../../../utils/translation';
 
 

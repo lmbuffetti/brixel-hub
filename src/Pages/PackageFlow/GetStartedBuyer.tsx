@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {phonecode} from '@brixel/brixel-components/dist/constants/CountryCodePhone';
-import {change, destroy, initializeForm, reset} from '@brixel/brixel-components/dist/form';
+import {phonecode} from '@brixel-io/brixel-components/dist/constants/CountryCodePhone';
+import {change, destroy, initializeForm, reset} from '@brixel-io/brixel-components/dist/form';
 import cloneDeep from 'lodash/cloneDeep';
 import get from 'lodash/get';
 import set from 'lodash/set';
@@ -18,7 +18,7 @@ import {QuestionsList} from '../../resources/Flows/onBoardingBuyer';
 import {setCookie} from '../../utils/helpers';
 import {titleSearchProfile} from '../../utils/titleCreationSearchProfile';
 import type {GetStartedType} from '../../@types/Pages/PackageFlow/GetStartedBuyer';
-import {QuestionsListType} from '@brixel/brixel-components/dist/@types/Model';
+import {QuestionsListType} from '@brixel-io/brixel-components/dist/@types/Model';
 import FlowScreen from '../../components/FlowScreen';
 
 const cookie = new Cookies();

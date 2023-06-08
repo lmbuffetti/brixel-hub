@@ -2,9 +2,9 @@ import React from 'react';
 import get from 'lodash/get';
 import {bindActionCreators, compose} from 'redux';
 import {connect} from 'react-redux';
-import {FinancingCalculator} from '@brixel/brixel-components';
+import {FinancingCalculator} from '@brixel-io/brixel-components';
 import translateTo from '../../../utils/translation';
-import {change, reset} from '@brixel/brixel-components/dist/form';
+import {change, reset} from '@brixel-io/brixel-components/dist/form';
 import {setModal} from '../../../actions/CommonActions';
 import type {FinancingType} from '../../../@types/Pages/Dashboard/Buyer/Financing';
 

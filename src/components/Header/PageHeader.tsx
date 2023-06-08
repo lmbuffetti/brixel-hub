@@ -1,8 +1,8 @@
-import {BrixelAvatar, BrixelButtonIcon, BrixelIcon, FactsOptions, useOutsideAlerter} from '@brixel/brixel-components';
-import logoMobile from '@brixel/brixel-components/dist/configuration/images/logo_colors_icon_new.svg';
-import logo from '@brixel/brixel-components/dist/configuration/images/logo_colors_v2.svg';
-import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
-import {BrixelSelect, destroy} from '@brixel/brixel-components/dist/form';
+import {BrixelAvatar, BrixelButtonIcon, BrixelIcon, FactsOptions, useOutsideAlerter} from '@brixel-io/brixel-components';
+import logoMobile from '@brixel-io/brixel-components/dist/configuration/images/logo_colors_icon_new.svg';
+import logo from '@brixel-io/brixel-components/dist/configuration/images/logo_colors_v2.svg';
+import baseByData from '@brixel-io/brixel-components/dist/configuration/Settings';
+import {BrixelSelect, destroy} from '@brixel-io/brixel-components/dist/form';
 import cloneDeep from 'lodash/cloneDeep';
 import get from 'lodash/get';
 import has from 'lodash/has';
@@ -24,9 +24,9 @@ import {setCookie} from '../../utils/helpers';
 import translateTo from '../../utils/translation';
 import lazyWithRetry from '../LazyWithRetry';
 import type {LanguagesType, PageHeaderType} from '../../@types/components/Header/PageHeader';
-import {OptionsType} from '@brixel/brixel-components/dist/@types/Form/Input';
+import {OptionsType} from '@brixel-io/brixel-components/dist/@types/Form/Input';
 import isEmpty from 'lodash/isEmpty';
-import {ServicePackageType} from '@brixel/brixel-components/dist/@types/Model';
+import {ServicePackageType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 const RightFlowHeader = lazyWithRetry(() => import('./RightHeaderFlow'));
 const AccountDropdown = lazyWithRetry(() => import('../AccountDropdown'));

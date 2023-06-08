@@ -5,7 +5,7 @@ import get from 'lodash/get';
 import {UpgradeQuestions} from '../../resources/SingleProperty/Upgrade';
 import {getActiveSingleCompanyPackages} from '../../actions/CompanyActions';
 import type {UpgradeType} from '../../@types/Pages/Upgrade/Upgrade';
-import {QuestionsListType} from '@brixel/brixel-components/dist/@types/Model';
+import {QuestionsListType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 const Upgrade = (props: UpgradeType) => {
 

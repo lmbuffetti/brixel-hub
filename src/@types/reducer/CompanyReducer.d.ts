@@ -1,4 +1,4 @@
-import type {CompanyType} from '@brixel/brixel-components/dist/@types/Model';
+import type {CompanyType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 export interface CompanyReducerType {
   activeSingleCompany: CompanyType | object;

@@ -7,8 +7,8 @@ import {
   BrixelIcon,
   FormatValue,
   Helpers,
-} from '@brixel/brixel-components';
-import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
+} from '@brixel-io/brixel-components';
+import baseByData from '@brixel-io/brixel-components/dist/configuration/Settings';
 import get from 'lodash/get';
 import set from 'lodash/set';
 import {connect} from 'react-redux';

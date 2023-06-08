@@ -1,10 +1,10 @@
 /* eslint-disable max-len */
-import {BrixelRadioButton, Validation} from '@brixel/brixel-components/dist/form';
+import {BrixelRadioButton, Validation} from '@brixel-io/brixel-components/dist/form';
 
 import homesSvg from '../../images/getstarted/svgs/homes.svg';
 import translateTo from '../../utils/translation';
 import {svgIcons} from '../Utilities/svgIcons';
-import {QuestionsListType} from '@brixel/brixel-components/dist/@types/Model';
+import {QuestionsListType} from '@brixel-io/brixel-components/dist/@types/Model';
 // QUESTION LISTS
 
 export const QuestionsList: (lang: string) => QuestionsListType[] = (lang) => [

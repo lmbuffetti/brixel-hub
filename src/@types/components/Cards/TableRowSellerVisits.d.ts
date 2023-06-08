@@ -1,4 +1,4 @@
-import {DealType, PropertyType, ScheduleVisitRequestType} from '@brixel/brixel-components/dist/@types/Model';
+import {DealType, PropertyType, ScheduleVisitRequestType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 export interface TableRowSellerVisitsType {
   activeSingleProperty: PropertyType;

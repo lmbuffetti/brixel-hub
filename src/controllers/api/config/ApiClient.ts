@@ -1,4 +1,4 @@
-import getConfigEnv from '@brixel/brixel-components/dist/configuration/Settings';
+import getConfigEnv from '@brixel-io/brixel-components/dist/configuration/Settings';
 import axios, {AxiosRequestConfig } from 'axios';
 import get from 'lodash/get';
 import Cookies from 'universal-cookie';

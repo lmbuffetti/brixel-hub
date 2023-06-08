@@ -3,7 +3,7 @@ import {useLocation, useNavigate} from 'react-router-dom';
 import get from 'lodash/get';
 import {bindActionCreators, compose} from 'redux';
 import {connect} from 'react-redux';
-import getConfigEnv from '@brixel/brixel-components/dist/configuration/Settings';
+import getConfigEnv from '@brixel-io/brixel-components/dist/configuration/Settings';
 import OfferListings from '../../../components/OfferListings';
 import {getOfferListings, setActiveSingleDeal} from '../../../actions/DealActions';
 import type {OfferListType} from '../../../@types/Pages/Closing/Offers/OffersList';

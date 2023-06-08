@@ -3,9 +3,9 @@ $sidebarWidth: 232px;
 $iphone5: 320px;
 
 /* GENERAL*/
-$fontpath: "@brixel/brixel-components/dist/styles/";
-$imgpath: "@brixel/brixel-components/dist/styles/";
-$imgRootpath: "@brixel/brixel-components/dist/";
+$fontpath: "@brixel-io/brixel-components/dist/styles/";
+$imgpath: "@brixel-io/brixel-components/dist/styles/";
+$imgRootpath: "@brixel-io/brixel-components/dist/";
 
 $grid-breakpoints: (
         xxs: 0,
@@ -17,11 +17,11 @@ $grid-breakpoints: (
         xxl: 1920px,
 );
 $responsive-medium: map-get($grid-breakpoints, md);
-$fontpath: "@brixel/brixel-components/dist/styles/";
-$imgpath: "@brixel/brixel-components/dist/styles/";
-$fontpath: "@brixel/brixel-components/dist/styles/";
-$imgpath: "@brixel/brixel-components/dist/styles/";
-@import '@brixel/brixel-components/dist/styles/SCSS/general/main';
+$fontpath: "@brixel-io/brixel-components/dist/styles/";
+$imgpath: "@brixel-io/brixel-components/dist/styles/";
+$fontpath: "@brixel-io/brixel-components/dist/styles/";
+$imgpath: "@brixel-io/brixel-components/dist/styles/";
+@import '@brixel-io/brixel-components/dist/styles/SCSS/general/main';
 
 $sidebarWidthCollapsed: 70px;
 /* Color array to be used with randomizer for avatar background*/

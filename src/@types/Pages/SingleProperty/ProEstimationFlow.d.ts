@@ -1,4 +1,4 @@
-import {EstimationType, PropertyType} from '@brixel/brixel-components/dist/@types/Model';
+import {EstimationType, PropertyType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 export interface ProEstimationFlowType {
   activeSingleProperty: PropertyType;

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {BrixelButtonIcon, BrixelButtonPrimary, BrixelButtonText} from '@brixel/brixel-components';
+import {BrixelButtonIcon, BrixelButtonPrimary, BrixelButtonText} from '@brixel-io/brixel-components';
 import {
   BrixelInputText,
   BrixelRadioButton,
@@ -7,7 +7,7 @@ import {
   change,
   initializeForm,
   ReduxField,
-} from '@brixel/brixel-components/dist/form';
+} from '@brixel-io/brixel-components/dist/form';
 import {diff} from 'deep-object-diff';
 import find from 'lodash/find';
 import get from 'lodash/get';
@@ -23,7 +23,7 @@ import {updateDocument} from '../../actions/UploadActions';
 import SplashScreen from '../../components/SplashScreen';
 import translateTo from '../../utils/translation';
 import type {SingleFolderType} from '../../@types/Pages/SingleProperty/SingleFolder';
-import {DocumentType} from '@brixel/brixel-components/dist/@types/Model';
+import {DocumentType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 const SingleFolder = (props: SingleFolderType) => {
   const history = {

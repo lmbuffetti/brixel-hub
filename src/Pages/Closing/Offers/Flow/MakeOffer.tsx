@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {change, destroy, initializeForm, reset} from '@brixel/brixel-components/dist/form';
-import {FinancialCalculator} from '@brixel/brixel-components/dist/utils/FinancialFormulas';
+import {change, destroy, initializeForm, reset} from '@brixel-io/brixel-components/dist/form';
+import {FinancialCalculator} from '@brixel-io/brixel-components/dist/utils/FinancialFormulas';
 import get from 'lodash/get';
 import set from 'lodash/set';
 import has from 'lodash/has';
@@ -16,7 +16,7 @@ import {sendUserScanTrial} from '../../../../actions/UserActions';
 import {MakeOfferQuestions} from '../../../../resources/Deals/MakeOffer';
 import {getCookie, setCookie} from '../../../../utils/helpers';
 import type {MakeOfferType} from '../../../../@types/Pages/Closing/Offers/Flow/MakeOffer';
-import {QuestionsListType} from '@brixel/brixel-components/dist/@types/Model';
+import {QuestionsListType} from '@brixel-io/brixel-components/dist/@types/Model';
 import FlowScreen from '../../../../components/FlowScreen';
 
 const MakeOffer = (props: MakeOfferType) => {

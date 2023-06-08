@@ -1,4 +1,4 @@
-import {SearchProfileType} from '@brixel/brixel-components/dist/@types/Model';
+import {SearchProfileType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 export interface SearchProfileListType {
   changeFieldValue: (field: string, value: string) => void;

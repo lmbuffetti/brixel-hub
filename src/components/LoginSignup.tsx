@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useRef, useState} from 'react';
-import {BrixelButtonPrimary, BrixelButtonText} from '@brixel/brixel-components';
-import {BrixelLogin, BrixelRegister, BrixelReset, change, Validation} from '@brixel/brixel-components/dist/form';
+import {BrixelButtonPrimary, BrixelButtonText} from '@brixel-io/brixel-components';
+import {BrixelLogin, BrixelRegister, BrixelReset, change, Validation} from '@brixel-io/brixel-components/dist/form';
 import get from 'lodash/get';
 import {bindActionCreators, compose} from 'redux';
 import {connect} from 'react-redux';
-import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
+import baseByData from '@brixel-io/brixel-components/dist/configuration/Settings';
 import Slider from 'react-slick';
 import {setFormError} from '../actions/CommonActions';
 import {recoverPassword} from '../actions/UserActions';

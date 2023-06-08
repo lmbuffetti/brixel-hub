@@ -1,4 +1,4 @@
-import {BrixelIcon, translateTo} from '@brixel/brixel-components';
+import {BrixelIcon, translateTo} from '@brixel-io/brixel-components';
 import React, {useEffect, useState} from 'react';
 import type {TagsType} from '../@types/components/Tags';
 

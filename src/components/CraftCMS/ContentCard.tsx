@@ -1,4 +1,4 @@
-import {BrixelButtonText} from '@brixel/brixel-components';
+import {BrixelButtonText} from '@brixel-io/brixel-components';
 import React from 'react';
 import get from 'lodash/get';
 import type {ContentCardType} from '../../@types/components/CraftCMS/ContentCard';

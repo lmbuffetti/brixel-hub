@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {BrixelAvatar, BrixelDropdown} from '@brixel/brixel-components';
-import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
-import {BrixelSelect} from '@brixel/brixel-components/dist/form';
+import {BrixelAvatar, BrixelDropdown} from '@brixel-io/brixel-components';
+import baseByData from '@brixel-io/brixel-components/dist/configuration/Settings';
+import {BrixelSelect} from '@brixel-io/brixel-components/dist/form';
 import get from 'lodash/get';
 import {connect} from 'react-redux';
 import {bindActionCreators, compose} from 'redux';
@@ -10,7 +10,7 @@ import {saveActiveSingleUser} from '../actions/UserActions';
 import {setCookie} from '../utils/helpers';
 import translateTo from '../utils/translation';
 import type {AccountDropdownType} from '../@types/components/AccountDropdown';
-import {OptionsType} from '@brixel/brixel-components/dist/@types/Form/Input';
+import {OptionsType} from '@brixel-io/brixel-components/dist/@types/Form/Input';
 import isEmpty from 'lodash/isEmpty';
 
 const AccountDropdown = (props: AccountDropdownType) => {

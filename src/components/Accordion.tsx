@@ -1,7 +1,7 @@
 import React, {lazy, Suspense, useEffect, useState} from 'react';
 import type {AccordionType} from '../@types/components/Accordion';
 
-const BrixelIcon =  lazy(() => import('@brixel/brixel-components/dist/components/BrixelIcon'));
+const BrixelIcon =  lazy(() => import('@brixel-io/brixel-components/dist/components/BrixelIcon'));
 
 const Accordion = (props: AccordionType) => {
   const {

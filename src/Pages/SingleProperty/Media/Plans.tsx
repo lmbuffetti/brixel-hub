@@ -4,9 +4,9 @@ import {bindActionCreators, compose} from 'redux';
 import {connect} from 'react-redux';
 import {useDropzone} from 'react-dropzone';
 import get from 'lodash/get';
-import {BrixelButtonIcon, BrixelButtonSecondary, useOutsideAlerter} from '@brixel/brixel-components';
+import {BrixelButtonIcon, BrixelButtonSecondary, useOutsideAlerter} from '@brixel-io/brixel-components';
 import translateTo from '../../../utils/translation';
-import {change} from '@brixel/brixel-components/dist/form';
+import {change} from '@brixel-io/brixel-components/dist/form';
 import {ReactSortable} from 'react-sortablejs';
 import cloneDeep from 'lodash/cloneDeep';
 import {diff} from 'deep-object-diff';
@@ -16,8 +16,8 @@ import uploadFloorPlansEmpty from '../../../images/Upload/upload_floorPlans_empt
 import {checkBrowser, tobase64Handler, Truncate} from '../../../utils/helpers';
 import BrixelUpgradeMessage from '../../../components/BrixelUpgradeMessage';
 import type {FloorPlansPageType} from '../../../@types/Pages/SingleProperty/Media/Plans';
-import {PhotosType} from '@brixel/brixel-components/dist/@types/Model';
-import getUrlImg from '@brixel/brixel-components/dist/utils/ImageUrl';
+import {PhotosType} from '@brixel-io/brixel-components/dist/@types/Model';
+import getUrlImg from '@brixel-io/brixel-components/dist/utils/ImageUrl';
 
 const Plans = (props: FloorPlansPageType) => {
   const history = {

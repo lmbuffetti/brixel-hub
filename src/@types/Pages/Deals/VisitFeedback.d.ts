@@ -1,4 +1,4 @@
-import {ContactType, PropertyType} from '@brixel/brixel-components/dist/@types/Model';
+import {ContactType, PropertyType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 export interface FormValueType {
   reasons: string[],

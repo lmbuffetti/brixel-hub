@@ -5,7 +5,7 @@ import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
 import {connect} from 'react-redux';
 import {DateTime} from 'luxon';
-import {BrixelButtonSecondary, BrixelIcon, Helpers} from '@brixel/brixel-components';
+import {BrixelButtonSecondary, BrixelIcon, Helpers} from '@brixel-io/brixel-components';
 import translateTo from '../utils/translation';
 import ReviewOffer from '../Pages/Closing/Offers/ReviewOffer';
 import {setModal} from '../actions/CommonActions';

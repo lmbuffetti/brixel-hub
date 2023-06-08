@@ -3,8 +3,8 @@ process.env.BABEL_ENV = process.argv[process.argv.length - 1];
 const path = require('path');
 const webpack = require('webpack');
 const glob = require('glob-all');
-const {default: baseByData} = require('@brixel/brixel-components/dist/configuration/SettingsWebpack.js');
-const {default: companyData} = require('@brixel/brixel-components/dist/configuration/CompanyInfo.js');
+const {default: baseByData} = require('@brixel-io/brixel-components/dist/configuration/SettingsWebpack.js');
+const {default: companyData} = require('@brixel-io/brixel-components/dist/configuration/CompanyInfo.js');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -25,7 +25,7 @@ const mode = devMode ?  'development' : 'production';
 
 const PATHS = {
   src: path.join(__dirname, 'src'),
-  modules: path.join(__dirname, 'node_modules/@brixel/brixel-components/dist'),
+  modules: path.join(__dirname, 'node_modules/@brixel-io/brixel-components/dist'),
   dist: path.join(__dirname, 'dist'),
 };
 

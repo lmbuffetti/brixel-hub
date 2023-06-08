@@ -3,7 +3,7 @@ import {useLocation, useNavigate} from 'react-router-dom';
 import {bindActionCreators, compose} from 'redux';
 import get from 'lodash/get';
 import {connect} from 'react-redux';
-import {BrixelButtonPrimary, Helpers} from '@brixel/brixel-components';
+import {BrixelButtonPrimary, Helpers} from '@brixel-io/brixel-components';
 import translateTo from '../utils/translation';
 import has from 'lodash/has';
 import {setModal} from '../actions/CommonActions';

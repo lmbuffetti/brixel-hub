@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {change, destroy, initializeForm, reset} from '@brixel/brixel-components/dist/form';
+import {change, destroy, initializeForm, reset} from '@brixel-io/brixel-components/dist/form';
 import get from 'lodash/get';
 import set from 'lodash/set';
 import queryString from 'query-string';

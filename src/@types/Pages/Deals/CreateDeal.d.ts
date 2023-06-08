@@ -1,4 +1,4 @@
-import {CompanyType, PhoneNumberType, PropertyType} from '@brixel/brixel-components/dist/@types/Model';
+import {CompanyType, PhoneNumberType, PropertyType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 export interface FormValueType {
   actionStub: string;

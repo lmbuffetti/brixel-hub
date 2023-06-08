@@ -5,7 +5,7 @@ import {
   BrixelInputPhone,
   BrixelSelect,
   Validation,
-} from '@brixel/brixel-components/dist/form';
+} from '@brixel-io/brixel-components/dist/form';
 import {DateTime} from 'luxon';
 import lazyWithRetry from '../../components/LazyWithRetry';
 
@@ -18,7 +18,7 @@ import taxInfo from '../../images/Contact/taxInfo.svg';
 import threeDotsHandSvg from '../../images/Contact/threeDotsHand.svg';
 import ClipboardImg from '../../images/scanTrial/clipboard.png';
 import translateTo from '../../utils/translation';
-import {QuestionsListType} from '@brixel/brixel-components/dist/@types/Model';
+import {QuestionsListType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 const IntroBuyerUBS = lazyWithRetry(() => import('../../Pages/ContactFlow/Companies/IntroBuyerUBS'));
 

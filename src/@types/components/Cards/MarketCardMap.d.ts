@@ -1,4 +1,4 @@
-import {LoggedUserType, PropertyListType} from '@brixel/brixel-components/dist/@types/Model';
+import {LoggedUserType, PropertyListType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 export interface MarketCardMapType {
   handleUpdateFavorites: (data: object) => void;

@@ -1,4 +1,4 @@
-import {CompanyType, DocumentType, LoggedUserType, PropertyType} from '@brixel/brixel-components/dist/@types/Model';
+import {CompanyType, DocumentType, LoggedUserType, PropertyType} from '@brixel-io/brixel-components/dist/@types/Model';
 import type {FormValueType} from './MakeOffer';
 
 export interface Key4RegistrationType {

@@ -1,4 +1,4 @@
-import {CompanyType, LoggedUserType} from '@brixel/brixel-components/dist/@types/Model';
+import {CompanyType, LoggedUserType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 export interface CustomerSatisfactionType {
   activeSingleCompany: CompanyType;

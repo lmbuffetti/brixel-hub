@@ -1,4 +1,4 @@
-import {PropertyType} from '@brixel/brixel-components/dist/@types/Model';
+import {PropertyType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 export interface FavoritesPropertyType {
   lang: string;

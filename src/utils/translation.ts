@@ -1,4 +1,4 @@
-import {translateTo} from '@brixel/brixel-components';
+import {translateTo} from '@brixel-io/brixel-components';
 import get from 'lodash/get';
 import {configureStore} from '../store';
 

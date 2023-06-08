@@ -1,5 +1,5 @@
-import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
-import {change, initializeForm, MultiFileldsReduxForm} from '@brixel/brixel-components/dist/form';
+import baseByData from '@brixel-io/brixel-components/dist/configuration/Settings';
+import {change, initializeForm, MultiFileldsReduxForm} from '@brixel-io/brixel-components/dist/form';
 import get from 'lodash/get';
 import set from 'lodash/set';
 import React, {useEffect, useState} from 'react';
@@ -8,7 +8,7 @@ import {useParams} from 'react-router-dom';
 import {compose} from 'redux';
 import {QuestionsList} from '../../../resources/Flows/onBoardingBuyer';
 import type {SearchProfileFormType} from '../../../@types/Pages/Market/SearchProfile/SearchProfileForm';
-import {QuestionsListType} from '@brixel/brixel-components/dist/@types/Model';
+import {QuestionsListType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 const SearchProfileForm = (props: SearchProfileFormType) => {
   const match = useParams();

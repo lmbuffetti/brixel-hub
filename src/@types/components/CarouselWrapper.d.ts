@@ -1,4 +1,4 @@
-import {CompanyType, PropertyListType} from '@brixel/brixel-components/dist/@types/Model';
+import {CompanyType, PropertyListType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 export interface CarouselWrapperType {
   className?: string;

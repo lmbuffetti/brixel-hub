@@ -1,4 +1,4 @@
-import {CompanyType, LoggedUserType, PropertyListType} from '@brixel/brixel-components/dist/@types/Model';
+import {CompanyType, LoggedUserType, PropertyListType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 export interface MarketListType {
 

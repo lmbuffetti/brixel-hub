@@ -5,11 +5,11 @@ import get from 'lodash/get';
 import has from 'lodash/has';
 import {useParams} from 'react-router-dom';
 import {connect} from 'react-redux';
-import {ReduxField} from '@brixel/brixel-components/dist/form';
+import {ReduxField} from '@brixel-io/brixel-components/dist/form';
 import translateTo from '../../../utils/translation';
 import {deleteDocument, uploadDocument} from '../../../actions/UploadActions';
 import {IdentificationQuestions} from '../../../resources/Deals/Identification';
-import {DocumentType, QuestionInputType} from '@brixel/brixel-components/dist/@types/Model';
+import {DocumentType, QuestionInputType} from '@brixel-io/brixel-components/dist/@types/Model';
 import type {EditBuyerDataType} from '../../../@types/Pages/Closing/Identification/EditBuyerData';
 
 const EditBuyerData = (props: EditBuyerDataType) => {

@@ -3,9 +3,9 @@ $sidebarWidth: 84px;
 $iphone5: 320px;
 
 /* GENERAL */
-$fontpath: "@brixel/brixel-components/dist/styles/";
-$imgpath: "@brixel/brixel-components/dist/styles/";
-$imgRootpath: "@brixel/brixel-components/dist/";
+$fontpath: "@brixel-io/brixel-components/dist/styles/";
+$imgpath: "@brixel-io/brixel-components/dist/styles/";
+$imgRootpath: "@brixel-io/brixel-components/dist/";
 
 @import "~slick-carousel/slick/slick.css";
 @import "~slick-carousel/slick/slick-theme.css";
@@ -22,8 +22,8 @@ $grid-breakpoints: (
 $responsive-medium: map-get($grid-breakpoints, md);
 $responsive-desktop: map-get($grid-breakpoints, xl);
 
-@import '@brixel/brixel-components/dist/styles/SCSS/general/variables';
-@import '@brixel/brixel-components/dist/styles/SCSS/utils/fontMixin';
+@import '@brixel-io/brixel-components/dist/styles/SCSS/general/variables';
+@import '@brixel-io/brixel-components/dist/styles/SCSS/utils/fontMixin';
 
 $sidebarWidth: 176px;
 $sidebarWidthCollapsed: 70px;

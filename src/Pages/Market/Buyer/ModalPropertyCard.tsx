@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
-import {BrixelButtonText, BrixelIcon, FormatValue} from '@brixel/brixel-components';
-import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
-import {BrixelMap} from '@brixel/brixel-components/dist/map';
+import {BrixelButtonText, BrixelIcon, FormatValue} from '@brixel-io/brixel-components';
+import baseByData from '@brixel-io/brixel-components/dist/configuration/Settings';
+import {BrixelMap} from '@brixel-io/brixel-components/dist/map';
 import get from 'lodash/get';
 import translateTo from '../../../utils/translation';
 import type {ModalPropertyCardType} from '../../../@types/Pages/Market/Buyer/ModalPropertyCard';

@@ -10,7 +10,7 @@ import {
   BrixelButtonSecondary,
   BrixelButtonText,
   Helpers,
-} from '@brixel/brixel-components';
+} from '@brixel-io/brixel-components';
 import translateTo from '../../../utils/translation';
 import type {ContactBuyerType} from '../../../@types/Pages/Dashboard/Buyer/ContactBuyer';
 

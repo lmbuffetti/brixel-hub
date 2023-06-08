@@ -1,4 +1,4 @@
-import {DealType, PropertyType} from '@brixel/brixel-components/dist/@types/Model';
+import {DealType, PropertyType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 export interface SingleDealType {
   activeSingleDeal: DealType;

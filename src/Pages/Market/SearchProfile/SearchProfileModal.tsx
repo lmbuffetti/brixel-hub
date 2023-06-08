@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {BrixelButtonIcon, BrixelModal} from '@brixel/brixel-components';
+import {BrixelButtonIcon, BrixelModal} from '@brixel-io/brixel-components';
 import {diff} from 'deep-object-diff';
 import get from 'lodash/get';
 import set from 'lodash/set';
@@ -16,7 +16,7 @@ import translateTo from '../../../utils/translation';
 import SearchProfileForm from './SearchProfileForm';
 import SearchProfileList from './SearchProfileList';
 import type {SearchProfileModalType, SearchProfileMultiActions} from '../../../@types/Pages/Market/SearchProfile/SearchProfileModal';
-import {QuestionInputType} from '@brixel/brixel-components/dist/@types/Model';
+import {QuestionInputType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 const SearchProfileModal = (props: SearchProfileModalType) => {
   const history = {

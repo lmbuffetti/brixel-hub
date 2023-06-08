@@ -5,12 +5,12 @@ import get from 'lodash/get';
 import {
   BrixelButtonSecondary,
   BrixelIcon,
-} from '@brixel/brixel-components';
+} from '@brixel-io/brixel-components';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import translateTo from '../../utils/translation';
 import type { DashboardPropertyCardSoldProps } from '../../@types/components/Cards/DashboardPropertyCardSold';
-import useImage from '@brixel/brixel-components/dist/hooks/Image';
+import useImage from '@brixel-io/brixel-components/dist/hooks/Image';
 
 const DashboardPropertyCardSold = (props: DashboardPropertyCardSoldProps) => {
   const history = {

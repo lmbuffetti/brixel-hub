@@ -8,8 +8,8 @@ import {
   FactsOptions,
   Helpers,
   useOutsideAlerter,
-} from '@brixel/brixel-components';
-import {change} from '@brixel/brixel-components/dist/form';
+} from '@brixel-io/brixel-components';
+import {change} from '@brixel-io/brixel-components/dist/form';
 import cloneDeep from 'lodash/cloneDeep';
 import filter from 'lodash/filter';
 import find from 'lodash/find';
@@ -38,7 +38,7 @@ import translateTo from '../../utils/translation';
 
 import TimelineStubs from '../../resources/Utilities/timelineActionStubs';
 import type {SingleDealType} from '../../@types/Pages/Deals/SingleDeal';
-import {DealType} from '@brixel/brixel-components/dist/@types/Model';
+import {DealType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 const SingleDeal = (props: SingleDealType) => {
   const history = {

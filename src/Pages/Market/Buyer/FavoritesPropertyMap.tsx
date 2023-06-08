@@ -1,5 +1,5 @@
-import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
-import {BrixelMap} from '@brixel/brixel-components/dist/map';
+import baseByData from '@brixel-io/brixel-components/dist/configuration/Settings';
+import {BrixelMap} from '@brixel-io/brixel-components/dist/map';
 import get from 'lodash/get';
 import React, {useEffect, useState} from 'react';
 import {connect} from 'react-redux';

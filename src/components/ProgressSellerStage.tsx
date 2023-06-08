@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrixelIcon, FactsOptions} from '@brixel/brixel-components';
+import {BrixelIcon, FactsOptions} from '@brixel-io/brixel-components';
 import translateTo from '../utils/translation';
 import type {ProgressSellerStageType} from '../@types/components/ProgressSellerStage';
 

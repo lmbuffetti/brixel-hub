@@ -1,4 +1,4 @@
-import {CompanyType, DealType, NoteHistoryType, PropertyType} from '@brixel/brixel-components/dist/@types/Model';
+import {CompanyType, DealType, NoteHistoryType, PropertyType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 export interface TimelineType {
   activeDeal: DealType;

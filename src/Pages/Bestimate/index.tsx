@@ -5,9 +5,9 @@ import {
   BrixelButtonText,
   BrixelProgressLineDots,
   Helpers,
-} from '@brixel/brixel-components';
+} from '@brixel-io/brixel-components';
 import translateTo from '../../utils/translation';
-import {change, initializeForm, MultiFileldsReduxForm, reset} from '@brixel/brixel-components/dist/form';
+import {change, initializeForm, MultiFileldsReduxForm, reset} from '@brixel-io/brixel-components/dist/form';
 import {bindActionCreators, compose} from 'redux';
 import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import {connect} from 'react-redux';
@@ -16,7 +16,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import queryString from 'query-string';
 import {BestimateQuestions} from '../../resources/Flows/Bestimate';
 import {saveActiveSingleProperty} from '../../actions/PropertyActions';
-import {QuestionsListType} from '@brixel/brixel-components/dist/@types/Model';
+import {QuestionsListType} from '@brixel-io/brixel-components/dist/@types/Model';
 import type {BestimateType} from '../../@types/Pages/Bestimate';
 
 const Bestimate = (props: BestimateType) => {

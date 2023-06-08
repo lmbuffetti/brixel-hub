@@ -3,7 +3,7 @@ import {useLocation, useNavigate} from 'react-router-dom';
 import {compose} from 'redux';
 import {connect} from 'react-redux';
 import get from 'lodash/get';
-import {BrixelButtonIcon, BrixelButtonPrimary} from '@brixel/brixel-components';
+import {BrixelButtonIcon, BrixelButtonPrimary} from '@brixel-io/brixel-components';
 import translateTo from '../utils/translation';
 import defaultCover from '../images/3d-tour-placeholder.jpg';
 import {isEligible} from '../utils/helpers';

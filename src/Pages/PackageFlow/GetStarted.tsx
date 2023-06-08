@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {change, destroy, MultiFileldsReduxForm} from '@brixel/brixel-components/dist/form';
+import {change, destroy, MultiFileldsReduxForm} from '@brixel-io/brixel-components/dist/form';
 import cloneDeep from 'lodash/cloneDeep';
 import get from 'lodash/get';
 import queryString from 'query-string';
@@ -7,7 +7,7 @@ import {connect} from 'react-redux';
 import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import {bindActionCreators, compose} from 'redux';
 import Cookies from 'universal-cookie';
-import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
+import baseByData from '@brixel-io/brixel-components/dist/configuration/Settings';
 import {spinnerOff} from '../../actions/CommonActions';
 import {getActiveSingleCompany} from '../../actions/CompanyActions';
 import {createActiveSingleProperty, saveActiveSingleProperty} from '../../actions/PropertyActions';

@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import {FactsOptions} from '@brixel/brixel-components';
+import {FactsOptions} from '@brixel-io/brixel-components';
 import translateTo from '../../utils/translation';
 import {
   BrixelInputDatePicker,
@@ -7,7 +7,7 @@ import {
   BrixelSelect,
   BrixelUploadFile,
   Validation,
-} from '@brixel/brixel-components/dist/form';
+} from '@brixel-io/brixel-components/dist/form';
 import get from 'lodash/get';
 import ClipboardImg from '../../images/scanTrial/clipboard.png';
 // eslint-disable-next-line import/no-cycle

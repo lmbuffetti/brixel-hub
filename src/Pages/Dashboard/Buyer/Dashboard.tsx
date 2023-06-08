@@ -1,4 +1,4 @@
-import {change, initializeForm, reset} from '@brixel/brixel-components/dist/form';
+import {change, initializeForm, reset} from '@brixel-io/brixel-components/dist/form';
 import get from 'lodash/get';
 import React, {lazy, Suspense, useEffect, useState} from 'react';
 import {connect} from 'react-redux';

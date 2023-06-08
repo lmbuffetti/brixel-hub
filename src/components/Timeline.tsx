@@ -10,9 +10,9 @@ import {
   BrixelDropdownMini,
   BrixelIcon,
   useOutsideAlerter,
-} from '@brixel/brixel-components';
+} from '@brixel-io/brixel-components';
 import translateTo from '../utils/translation';
-import BrixelTextEditor from '@brixel/brixel-components/dist/components/Form/BrixelTextEditor';
+import BrixelTextEditor from '@brixel-io/brixel-components/dist/components/Form/BrixelTextEditor';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import set from 'lodash/set';
@@ -21,7 +21,7 @@ import orderBy from 'lodash/orderBy';
 import forEach from 'lodash/forEach';
 import last from 'lodash/last';
 import flatten from 'lodash/flatten';
-import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/BrixelButtonSecondary';
+import BrixelButtonSecondary from '@brixel-io/brixel-components/dist/components/BrixelButtonSecondary';
 import {DateTime} from 'luxon';
 import {createNote, saveActiveSingleNote} from '../actions/NoteActions';
 import {createTimelineEntry} from '../resources/Deals/createTimelineEntry';

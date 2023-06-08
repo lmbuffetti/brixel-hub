@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { BrixelButtonPrimary, BrixelButtonSecondary} from '@brixel/brixel-components';
+import { BrixelButtonPrimary, BrixelButtonSecondary} from '@brixel-io/brixel-components';
 import get from 'lodash/get';
 import {DateTime} from 'luxon';
 import {connect} from 'react-redux';

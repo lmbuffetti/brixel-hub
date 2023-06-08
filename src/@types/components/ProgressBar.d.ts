@@ -1,4 +1,4 @@
-import {InputType, OptionsType} from '@brixel/brixel-components/dist/@types/Form/Input';
+import {InputType, OptionsType} from '@brixel-io/brixel-components/dist/@types/Form/Input';
 
 export interface ProgressBarType {
   className?: string;

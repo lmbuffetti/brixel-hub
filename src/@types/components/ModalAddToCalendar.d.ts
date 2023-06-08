@@ -2,7 +2,7 @@ import {
   DealType,
   PropertyType,
   ScheduleVisitRequestType,
-} from '@brixel/brixel-components/dist/@types/Model';
+} from '@brixel-io/brixel-components/dist/@types/Model';
 
 export interface ModalAddToCalendarType {
   activeSingleDeal: DealType;

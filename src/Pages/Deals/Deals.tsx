@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {BrixelButtonIcon, BrixelButtonPrimary, BrixelTabs, Helpers} from '@brixel/brixel-components';
+import {BrixelButtonIcon, BrixelButtonPrimary, BrixelTabs, Helpers} from '@brixel-io/brixel-components';
 import cloneDeep from 'lodash/cloneDeep';
 import find from 'lodash/find';
 import forEach from 'lodash/forEach';

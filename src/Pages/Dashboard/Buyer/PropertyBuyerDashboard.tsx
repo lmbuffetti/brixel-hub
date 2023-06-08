@@ -1,7 +1,7 @@
 import React, {Suspense, useEffect} from 'react';
 import {Navigate, Route, Routes, useLocation, useNavigate, useParams} from 'react-router-dom';
 import get from 'lodash/get';
-import {BrixelButtonBox, BrixelButtonIcon} from '@brixel/brixel-components';
+import {BrixelButtonBox, BrixelButtonIcon} from '@brixel-io/brixel-components';
 import translateTo from '../../../utils/translation';
 import {compose} from 'redux';
 import {connect} from 'react-redux';

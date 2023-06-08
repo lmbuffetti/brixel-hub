@@ -1,6 +1,6 @@
 import React, {Suspense, useEffect, useState} from 'react';
-import {BrixelTabs} from '@brixel/brixel-components';
-import {destroy} from '@brixel/brixel-components/dist/form';
+import {BrixelTabs} from '@brixel-io/brixel-components';
+import {destroy} from '@brixel-io/brixel-components/dist/form';
 import get from 'lodash/get';
 import {connect} from 'react-redux';
 import {Navigate, Route, Routes, useLocation, useNavigate} from 'react-router-dom';

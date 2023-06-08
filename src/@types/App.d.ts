@@ -5,8 +5,8 @@ import {
   NotificationType,
   PhotosType,
   PropertyType,
-} from '@brixel/brixel-components/dist/@types/Model';
-import {BaseByDataType} from '@brixel/brixel-components/dist/@types/Configuration/ConfigurationType';
+} from '@brixel-io/brixel-components/dist/@types/Model';
+import {BaseByDataType} from '@brixel-io/brixel-components/dist/@types/Configuration/ConfigurationType';
 import type {LanguagesType} from './components/Header/PageHeader';
 
 export interface AppType {

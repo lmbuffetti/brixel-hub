@@ -6,7 +6,7 @@
     "node": ">=16.*"
   },
   "dependencies": {
-    "@brixel/brixel-components": "git+https://brixel_admin:e1C13Nz8THA_psP6pe1e@gitlab.com/brixel/brixel-styleguide-components.git#master",
+    "@brixel-io/brixel-components": "latest",
     "@react-buddy/ide-toolbox": "^2.3.1",
     "deep-object-diff": "^1.1.9",
     "eslint-plugin-jsx-a11y": "^6.7.1",
@@ -42,9 +42,9 @@
     "build-dev": "NODE_ENV=page-dev webpack --config webpack.config.js --progress --env DEV --mode production",
     "build-stage": "NODE_ENV=page-stage webpack --config webpack.config.js --progress --env STAGING --mode production",
     "build-prod": "NODE_ENV=page-prod webpack --config webpack.config.js --progress --env PROD --mode production",
-    "install-styleguide": "rm -rf node_modules/@brixel && rm -rf package-lock.json && npm install --force",
-    "install-styleguide-git": "rm -rf node_modules/@brixel && rm -rf package-lock.json && yarn install",
-    "start-updated": "rm -rf node_modules/@brixel && rm -rf package-lock.json && npm install && npx kill-port 5000 && NODE_ENV=page-dev webpack serve --no-client-overlay --config webpack.config.js --progress profile --env DEV_LOCAL --mode development",
+    "install-styleguide": "rm -rf node_modules/@brixel-io && rm -rf package-lock.json && npm install --force",
+    "install-styleguide-git": "rm -rf node_modules/@brixel-io && rm -rf package-lock.json && yarn install",
+    "start-updated": "rm -rf node_modules/@brixel-io && rm -rf package-lock.json && npm install && npx kill-port 5000 && NODE_ENV=page-dev webpack serve --no-client-overlay --config webpack.config.js --progress profile --env DEV_LOCAL --mode development",
     "eject": "react-scripts eject",
     "lint": "eslint --fix --config .eslintrc --ignore-path .eslintignore .",
     "ncu-u": "ncu -x 'redux-actions' -u",

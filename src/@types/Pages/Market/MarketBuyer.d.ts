@@ -1,4 +1,4 @@
-import {LoggedUserType, SearchProfileType} from '@brixel/brixel-components/dist/@types/Model';
+import {LoggedUserType, SearchProfileType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 export interface MarketBuyerType {
   activeSearchProfile?: SearchProfileType;

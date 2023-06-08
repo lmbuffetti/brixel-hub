@@ -1,5 +1,5 @@
-import {BrixelButtonPrimary, BrixelButtonSecondary, translateTo} from '@brixel/brixel-components';
-import {BrixelCheckboxSingle} from '@brixel/brixel-components/dist/form';
+import {BrixelButtonPrimary, BrixelButtonSecondary, translateTo} from '@brixel-io/brixel-components';
+import {BrixelCheckboxSingle} from '@brixel-io/brixel-components/dist/form';
 import get from 'lodash/get';
 import React, {useEffect, useState} from 'react';
 import {connect} from 'react-redux';

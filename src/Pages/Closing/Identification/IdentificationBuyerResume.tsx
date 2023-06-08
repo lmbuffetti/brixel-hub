@@ -10,12 +10,12 @@ import {
   BrixelButtonPrimary,
   BrixelButtonText,
   BrixelIcon,
-} from '@brixel/brixel-components';
+} from '@brixel-io/brixel-components';
 import translateTo from '../../../utils/translation';
 import {
   BrixelCheckbox,
   ReduxField,
-} from '@brixel/brixel-components/dist/form';
+} from '@brixel-io/brixel-components/dist/form';
 import { DateTime } from 'luxon';
 import EditBuyerData from './EditBuyerData';
 import { IdentificationQuestions } from '../../../resources/Deals/Identification';

@@ -1,4 +1,4 @@
-import { BrixelIcon } from '@brixel/brixel-components';
+import { BrixelIcon } from '@brixel-io/brixel-components';
 import translateTo from '../../../utils/translation';
 import get from 'lodash/get';
 import isNaN from 'lodash/isNaN';
@@ -15,7 +15,7 @@ import { feedMessage } from '../../../resources/Dashboard/dashboardHistory';
 import TimelineActionStubs from '../../../resources/Utilities/timelineActionStubs';
 import { arrayMove } from '../../../utils/helpers';
 import type {SidebarBuyerType} from '../../../@types/Pages/Dashboard/Buyer/SidebarBuyer';
-import type {HistoryType} from '@brixel/brixel-components/dist/@types/Model';
+import type {HistoryType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 const SidebarBuyer = (props: SidebarBuyerType) => {
   // PROPS

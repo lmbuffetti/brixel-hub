@@ -7,9 +7,9 @@ import {
   BrixelTooltip,
   useOutsideAlerter,
   Helpers,
-} from '@brixel/brixel-components';
-import documentConfig from '@brixel/brixel-components/dist/configuration/DocumentsConfig';
-import {change} from '@brixel/brixel-components/dist/form';
+} from '@brixel-io/brixel-components';
+import documentConfig from '@brixel-io/brixel-components/dist/configuration/DocumentsConfig';
+import {change} from '@brixel-io/brixel-components/dist/form';
 import {diff} from 'deep-object-diff';
 import cloneDeep from 'lodash/cloneDeep';
 import findIndex from 'lodash/findIndex';
@@ -30,7 +30,7 @@ import uploadDocumentsEmpty from '../../images/Upload/upload_documents_empty.svg
 import dragIcon from '../../images/Upload/drag-icon.svg';
 import {tobase64Handler} from '../../utils/helpers';
 import translateTo from '../../utils/translation';
-import {DocumentType} from '@brixel/brixel-components/dist/@types/Model';
+import {DocumentType} from '@brixel-io/brixel-components/dist/@types/Model';
 import type {DocumentsPageType, DocumentTypePage} from '../../@types/Pages/SingleProperty/Documents';
 import { setNotification } from '../../actions/CommonActions';
 

@@ -1,11 +1,11 @@
 import React from 'react';
-import {Helpers} from '@brixel/brixel-components';
+import {Helpers} from '@brixel-io/brixel-components';
 import get from 'lodash/get';
 import isObject from 'lodash/isObject';
 import {QuestionsList} from '../resources/Flows/onBoardingBuyer';
 import translateTo from '../utils/translation';
 import type {SearchProfileFieldType} from '../@types/components/SearchProfileField';
-import {QuestionInputType, QuestionsListType} from '@brixel/brixel-components/dist/@types/Model';
+import {QuestionInputType, QuestionsListType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 const SearchProfileField = (props: SearchProfileFieldType) => {
   const {

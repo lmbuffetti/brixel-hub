@@ -1,4 +1,4 @@
-import {QuestionInputType} from '@brixel/brixel-components/dist/@types/Model';
+import {QuestionInputType} from '@brixel-io/brixel-components/dist/@types/Model';
 import type {FormValueType} from './IdentificationFlow';
 
 export interface IdentificationBuyerResumeType {

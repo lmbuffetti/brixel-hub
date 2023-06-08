@@ -1,5 +1,5 @@
 import React from 'react';
-import logoNorm from '@brixel/brixel-components/dist/configuration/images/logo.svg';
+import logoNorm from '@brixel-io/brixel-components/dist/configuration/images/logo.svg';
 import type {LoadingType} from '../@types/components/Laoding';
 
 // COMPONENT FOR THE FULL SCREEN SPINNER

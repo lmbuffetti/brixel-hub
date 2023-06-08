@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {BrixelButtonIcon, BrixelButtonPrimary, BrixelProgressBar, Helpers} from '@brixel/brixel-components';
+import {BrixelButtonIcon, BrixelButtonPrimary, BrixelProgressBar, Helpers} from '@brixel-io/brixel-components';
 import translateTo from '../../../utils/translation';
-import {change, destroy, initializeForm, MultiFileldsReduxForm, reset} from '@brixel/brixel-components/dist/form';
+import {change, destroy, initializeForm, MultiFileldsReduxForm, reset} from '@brixel-io/brixel-components/dist/form';
 import {bindActionCreators} from 'redux';
 import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import {connect} from 'react-redux';
@@ -9,8 +9,8 @@ import get from 'lodash/get';
 import set from 'lodash/set';
 import has from 'lodash/has';
 import queryString from 'query-string';
-import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/BrixelButtonSecondary';
-import {FinancialCalculator} from '@brixel/brixel-components/dist/utils/FinancialFormulas';
+import BrixelButtonSecondary from '@brixel-io/brixel-components/dist/components/BrixelButtonSecondary';
+import {FinancialCalculator} from '@brixel-io/brixel-components/dist/utils/FinancialFormulas';
 import isArray from 'lodash/isArray';
 import {QuestionsList} from '../../../resources/Deals/Financing';
 import {getCookie, setCookie} from '../../../utils/helpers';
@@ -19,7 +19,7 @@ import {getActiveSingleProperty} from '../../../actions/PropertyActions';
 import {getBuyerDeal, saveFinancingRequest} from '../../../actions/DealActions';
 import {multiUploadDocument} from '../../../actions/UploadActions';
 import type {FinancingType} from '../../../@types/Pages/Closing/Financing/Financing';
-import {DocumentType, QuestionsListType} from '@brixel/brixel-components/dist/@types/Model';
+import {DocumentType, QuestionsListType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 const Financing = (props: FinancingType) => {
   const history = {

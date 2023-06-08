@@ -1,4 +1,4 @@
-import {DocumentType, PropertyType} from '@brixel/brixel-components/dist/@types/Model';
+import {DocumentType, PropertyType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 export interface PriceType {
   activeSingleProperty: PropertyType;

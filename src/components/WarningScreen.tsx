@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import get from 'lodash/get';
-import {BrixelButtonIcon, BrixelButtonPrimary, BrixelButtonSecondary, BrixelIcon} from '@brixel/brixel-components';
+import {BrixelButtonIcon, BrixelButtonPrimary, BrixelButtonSecondary, BrixelIcon} from '@brixel-io/brixel-components';
 import translateTo from '../utils/translation';
-import {reset} from '@brixel/brixel-components/dist/form';
+import {reset} from '@brixel-io/brixel-components/dist/form';
 import {bindActionCreators, compose} from 'redux';
 import {connect} from 'react-redux';
 import {setModal} from '../actions/CommonActions';

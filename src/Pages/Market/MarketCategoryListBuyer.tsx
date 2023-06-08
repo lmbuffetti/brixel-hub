@@ -1,4 +1,4 @@
-import {BrixelButtonIcon, BrixelButtonPrimary, BrixelDropdown, BrixelIcon} from '@brixel/brixel-components';
+import {BrixelButtonIcon, BrixelButtonPrimary, BrixelDropdown, BrixelIcon} from '@brixel-io/brixel-components';
 import get from 'lodash/get';
 import React, {Suspense, useEffect, useState} from 'react';
 import {connect} from 'react-redux';

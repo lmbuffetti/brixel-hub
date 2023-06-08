@@ -1,6 +1,6 @@
 import React, {FormEvent, useEffect, useState} from 'react';
-import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
-import {BrixelIcon} from '@brixel/brixel-components';
+import baseByData from '@brixel-io/brixel-components/dist/configuration/Settings';
+import {BrixelIcon} from '@brixel-io/brixel-components';
 import {
   BrixelInputText,
   BrixelInputPhone,
@@ -10,7 +10,7 @@ import {
   initializeForm,
   ReduxField,
   Validation,
-} from '@brixel/brixel-components/dist/form';
+} from '@brixel-io/brixel-components/dist/form';
 import cloneDeep from 'lodash/cloneDeep';
 import get from 'lodash/get';
 import {connect} from 'react-redux';

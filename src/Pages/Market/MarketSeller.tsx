@@ -1,4 +1,4 @@
-import {destroy} from '@brixel/brixel-components/dist/form';
+import {destroy} from '@brixel-io/brixel-components/dist/form';
 import get from 'lodash/get';
 import React, {Suspense, useEffect} from 'react';
 import {connect} from 'react-redux';

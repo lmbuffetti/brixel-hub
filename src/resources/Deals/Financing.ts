@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import {FinancingCalculator} from '@brixel/brixel-components';
+import {FinancingCalculator} from '@brixel-io/brixel-components';
 import get from 'lodash/get';
 import ClipboardImg from '../../images/scanTrial/clipboard.png';
 import BaloiseRegistration from '../../Pages/Closing/Offers/Flow/BaloiseRegistration';

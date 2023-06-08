@@ -2,11 +2,11 @@ import React, {useEffect, useState} from 'react';
 import {compose} from 'redux';
 import {connect} from 'react-redux';
 import get from 'lodash/get';
-import {BrixelButtonIcon, BrixelButtonPrimary, BrixelIcon} from '@brixel/brixel-components';
+import {BrixelButtonIcon, BrixelButtonPrimary, BrixelIcon} from '@brixel-io/brixel-components';
 import translateTo from '../../../../utils/translation';
 import {DateTime} from 'luxon';
-import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
-import {FinancialCalculator} from '@brixel/brixel-components/dist/utils/FinancialFormulas';
+import baseByData from '@brixel-io/brixel-components/dist/configuration/Settings';
+import {FinancialCalculator} from '@brixel-io/brixel-components/dist/utils/FinancialFormulas';
 import financingMortgageImg from '../../../../images/offer-flow/financingMortgage.svg';
 import type {Key4RegistrationType} from '../../../../@types/Pages/Closing/Offers/Flow/Key4Registration';
 

@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {BrixelUploadFile, change} from '@brixel/brixel-components/dist/form';
+import {BrixelUploadFile, change} from '@brixel-io/brixel-components/dist/form';
 import {compose} from 'redux';
 import {connect} from 'react-redux';
 import get from 'lodash/get';
-import {BrixelIcon} from '@brixel/brixel-components';
+import {BrixelIcon} from '@brixel-io/brixel-components';
 import translateTo from '../../../../utils/translation';
 import type {BaloiseRegistrationType} from '../../../../@types/Pages/Closing/Offers/Flow/BaloiseRegistration';
 

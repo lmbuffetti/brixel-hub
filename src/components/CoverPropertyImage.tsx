@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {BrixelImage} from '@brixel/brixel-components';
+import {BrixelImage} from '@brixel-io/brixel-components';
 import resumeApartment from '../images/BrxielComingTown/resumeApartement.svg';
 import resumeHouse from '../images/BrxielComingTown/resumeHouse.svg';
 import type {CoverPropertyImageType} from '../@types/components/CoverPropertyImage';

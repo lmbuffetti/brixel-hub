@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {useLocation, useNavigate} from 'react-router-dom';
-import {BrixelButtonPrimary} from '@brixel/brixel-components';
+import {BrixelButtonPrimary} from '@brixel-io/brixel-components';
 import translateTo from '../../../utils/translation';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';

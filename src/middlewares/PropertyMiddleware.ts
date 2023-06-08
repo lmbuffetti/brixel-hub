@@ -1,4 +1,4 @@
-import {change} from '@brixel/brixel-components/dist/form';
+import {change} from '@brixel-io/brixel-components/dist/form';
 import cloneDeep from 'lodash/cloneDeep';
 import filter from 'lodash/filter';
 import findIndex from 'lodash/findIndex';
@@ -45,7 +45,7 @@ import {SAVE_ACTIVE_SINGLE_USER} from '../actions/types/UserTypes';
 import api from '../controllers/api/config';
 
 import ActionStubs from '../resources/Utilities/timelineActionStubs';
-import {DealType} from '@brixel/brixel-components/dist/@types/Model';
+import {DealType} from '@brixel-io/brixel-components/dist/@types/Model';
 import {SET_SCHEDULE_VISIT} from '../actions/types/DealTypes';
 
 const checkCommon = (store) => (next) => (action) => {

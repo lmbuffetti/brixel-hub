@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import {DataByCountry} from '@brixel/brixel-components';
-import {languagesList} from '@brixel/brixel-components/dist/configuration/Constants';
-import {phonecode} from '@brixel/brixel-components/dist/constants/CountryCodePhone';
-import {change, destroy, initializeForm, reset} from '@brixel/brixel-components/dist/form';
+import {DataByCountry} from '@brixel-io/brixel-components';
+import {languagesList} from '@brixel-io/brixel-components/dist/configuration/Constants';
+import {phonecode} from '@brixel-io/brixel-components/dist/constants/CountryCodePhone';
+import {change, destroy, initializeForm, reset} from '@brixel-io/brixel-components/dist/form';
 import cloneDeep from 'lodash/cloneDeep';
 import get from 'lodash/get';
 import set from 'lodash/set';
@@ -18,7 +18,7 @@ import {doLogin, saveActiveSingleUser, validateUser} from '../../actions/UserAct
 import {QuestionsList} from '../../resources/Flows/onBoardingSeller';
 import {calcPercentageFacts, setCookie} from '../../utils/helpers';
 import {titleProperty} from '../../utils/titleCreation';
-import {QuestionsListType} from '@brixel/brixel-components/dist/@types/Model';
+import {QuestionsListType} from '@brixel-io/brixel-components/dist/@types/Model';
 import type {GetStartedSellerType} from '../../@types/Pages/PackageFlow/GetStartedSeller';
 import FlowScreen from '../../components/FlowScreen';
 import { testData } from '../../../cypress/helpers/constants';

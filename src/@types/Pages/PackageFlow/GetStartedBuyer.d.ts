@@ -1,4 +1,4 @@
-import {CompanyType, LoginType, RegistrationType, SearchProfileType} from '@brixel/brixel-components/dist/@types/Model';
+import {CompanyType, LoginType, RegistrationType, SearchProfileType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 export interface FormValueType extends SearchProfileType {
   channel: string;

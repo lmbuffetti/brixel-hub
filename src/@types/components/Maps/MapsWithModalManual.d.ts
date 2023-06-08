@@ -1,4 +1,4 @@
-import {PropertyListType} from '@brixel/brixel-components/dist/@types/Model';
+import {PropertyListType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 export interface MapsWithModalManualType {
   changeFieldValue: (form: string, field: string, value?: string | null) => void;

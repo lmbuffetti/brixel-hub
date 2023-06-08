@@ -3,6 +3,10 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+  packages: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -21,7 +25,11 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18.15.0
-      - run: yarn install-styleguide-git
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@brixel-io-io'
+      - run: yarn install
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
       - run: yarn build-prod
       - uses: actions/upload-artifact@v3
         with:

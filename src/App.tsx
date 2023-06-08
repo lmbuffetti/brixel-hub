@@ -5,11 +5,11 @@ import {
   BrixelModalConfirm,
   BrixelNotification,
   BrixelImage,
-} from '@brixel/brixel-components';
-import BrixelPage500 from '@brixel/brixel-components/dist/components/BrixelPage500';
-import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
-import {reset} from '@brixel/brixel-components/dist/form';
-import {getTranslations} from '@brixel/brixel-components/dist/utils/TranslationsRedux.Functions';
+} from '@brixel-io/brixel-components';
+import BrixelPage500 from '@brixel-io/brixel-components/dist/components/BrixelPage500';
+import baseByData from '@brixel-io/brixel-components/dist/configuration/Settings';
+import {reset} from '@brixel-io/brixel-components/dist/form';
+import {getTranslations} from '@brixel-io/brixel-components/dist/utils/TranslationsRedux.Functions';
 import get from 'lodash/get';
 import isEmpty from 'lodash/isEmpty';
 import queryString from 'query-string';

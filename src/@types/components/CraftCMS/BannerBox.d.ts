@@ -1,4 +1,4 @@
-import {CompanyType} from '@brixel/brixel-components/dist/@types/Model';
+import {CompanyType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 export interface BannerBoxType {
   activeSingleCompany: CompanyType;

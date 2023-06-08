@@ -1,4 +1,4 @@
-import {EstimationType} from '@brixel/brixel-components/dist/@types/Model';
+import {EstimationType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 export interface BestimateCardOverlayType {
   activeSinglePropertyId: string;

@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import {FactsOptions} from '@brixel/brixel-components';
+import {FactsOptions} from '@brixel-io/brixel-components';
 import {
   BrixelCheckbox,
   BrixelCheckboxSingle,
@@ -9,14 +9,14 @@ import {
   BrixelRadioButton,
   BrixelSelect,
   Validation,
-} from '@brixel/brixel-components/dist/form';
-import {BrixelAutocomplete} from '@brixel/brixel-components/dist/map';
+} from '@brixel-io/brixel-components/dist/form';
+import {BrixelAutocomplete} from '@brixel-io/brixel-components/dist/map';
 import get from 'lodash/get';
 import LoginSignup from '../../components/LoginSignup';
 import {configureStore} from '../../store';
 import translateTo from '../../utils/translation';
 import {svgIcons} from '../Utilities/svgIcons';
-import {QuestionsListType} from '@brixel/brixel-components/dist/@types/Model';
+import {QuestionsListType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 const { factsOptions } = FactsOptions;
 

@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import React from 'react';
-import {FactsOptions} from '@brixel/brixel-components';
+import {FactsOptions} from '@brixel-io/brixel-components';
 import {
   BrixelInputDatePicker,
   BrixelInputText,
@@ -10,7 +10,7 @@ import {
   BrixelSelect,
   BrixelTextArea,
   Validation,
-} from '@brixel/brixel-components/dist/form';
+} from '@brixel-io/brixel-components/dist/form';
 import get from 'lodash/get';
 import BaloiseLogoImg from '../../images/Companies/Baloise/BaloiseLogo.svg';
 import Key4LogoImg from '../../images/Companies/ubsKey4/key4Logo.svg';
@@ -20,7 +20,7 @@ import FinanceCertificate from '../../Pages/Closing/Offers/Flow/FinanceCertifica
 import Key4Registration from '../../Pages/Closing/Offers/Flow/Key4Registration';
 import {configureStore} from '../../store';
 import translateTo from '../../utils/translation';
-import {QuestionsListType} from '@brixel/brixel-components/dist/@types/Model';
+import {QuestionsListType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 const { factsOptions } = FactsOptions;
 

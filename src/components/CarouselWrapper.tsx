@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {useLocation, useNavigate} from 'react-router-dom';
 import get from 'lodash/get';
 import Slider from 'react-slick';
-import {BrixelButtonIcon, BrixelButtonText} from '@brixel/brixel-components';
+import {BrixelButtonIcon, BrixelButtonText} from '@brixel-io/brixel-components';
 import translateTo from '../utils/translation';
 import {bindActionCreators, compose} from 'redux';
 import {connect} from 'react-redux';

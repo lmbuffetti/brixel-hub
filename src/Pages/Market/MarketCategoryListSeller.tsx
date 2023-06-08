@@ -4,8 +4,8 @@ import {
   BrixelButtonSecondary,
   BrixelButtonText,
   Helpers,
-} from '@brixel/brixel-components';
-import {SkeletonPackages} from '@brixel/brixel-components/dist/skeleton';
+} from '@brixel-io/brixel-components';
+import {SkeletonPackages} from '@brixel-io/brixel-components/dist/skeleton';
 import get from 'lodash/get';
 import set from 'lodash/set';
 import has from 'lodash/has';
@@ -42,7 +42,7 @@ import ArticlesList from '../../resources/Dashboard/homeArticles';
 import {getCookie, setCookie} from '../../utils/helpers';
 import translateTo from '../../utils/translation';
 import type {MarketCategoryListSellerType} from '../../@types/Pages/Market/MarketCategoryListSeller';
-import {ServicePackageType} from '@brixel/brixel-components/dist/@types/Model';
+import {ServicePackageType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 const CarouselWrapper = lazyWithRetry(() => import('../../components/CarouselWrapper'));
 

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {BrixelDropdown} from '@brixel/brixel-components';
-import BrixelButtonIcon from '@brixel/brixel-components/dist/components/BrixelButtonIcon';
+import {BrixelDropdown} from '@brixel-io/brixel-components';
+import BrixelButtonIcon from '@brixel-io/brixel-components/dist/components/BrixelButtonIcon';
 import get from 'lodash/get';
 import queryString from 'query-string';
 import {connect} from 'react-redux';

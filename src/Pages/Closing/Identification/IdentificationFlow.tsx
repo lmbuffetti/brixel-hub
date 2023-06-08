@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {BrixelButtonIcon, BrixelButtonPrimary, BrixelProgressBar, Helpers} from '@brixel/brixel-components';
-import {change, destroy, initializeForm, MultiFileldsReduxForm, reset} from '@brixel/brixel-components/dist/form';
+import {BrixelButtonIcon, BrixelButtonPrimary, BrixelProgressBar, Helpers} from '@brixel-io/brixel-components';
+import {change, destroy, initializeForm, MultiFileldsReduxForm, reset} from '@brixel-io/brixel-components/dist/form';
 import {bindActionCreators} from 'redux';
 import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import {connect} from 'react-redux';
@@ -15,7 +15,7 @@ import {IdentificationQuestions} from '../../../resources/Deals/Identification';
 import {getActiveSingleDeal, saveClosingIdentification} from '../../../actions/DealActions';
 import {spinnerOff, spinnerSmall} from '../../../actions/CommonActions';
 import type {IdentificationFlowType} from '../../../@types/Pages/Closing/Identification/IdentificationFlow';
-import {QuestionsListType} from '@brixel/brixel-components/dist/@types/Model';
+import {QuestionsListType} from '@brixel-io/brixel-components/dist/@types/Model';
 import {getActiveSingleCompany} from '../../../actions/CompanyActions';
 import {getActiveSingleProperty} from '../../../actions/PropertyActions';
 

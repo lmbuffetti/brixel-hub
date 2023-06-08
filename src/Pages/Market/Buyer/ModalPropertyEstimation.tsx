@@ -6,7 +6,7 @@ import {
   FactsOptions,
   FormatValue,
   Helpers,
-} from '@brixel/brixel-components';
+} from '@brixel-io/brixel-components';
 import get from 'lodash/get';
 import {connect} from 'react-redux';
 import {useLocation, useNavigate, useParams} from 'react-router-dom';
@@ -14,11 +14,11 @@ import {bindActionCreators, compose} from 'redux';
 import CoverEstimationGreenImg from '../../../images/Market/icnEstimationGreen.svg';
 import CoverEstimationYellowImg from '../../../images/Market/icnEstimationYellow.svg';
 import type {ModalPropertyEstimationType} from '../../../@types/Pages/Market/Buyer/ModalPropertyEstimation';
-import {ExtraFeatureTypeList} from '@brixel/brixel-components/dist/@types/components/Form/BrixelExtraFeature';
+import {ExtraFeatureTypeList} from '@brixel-io/brixel-components/dist/@types/components/Form/BrixelExtraFeature';
 import translateTo from '../../../utils/translation';
-import BrixelButtonPrimary from '@brixel/brixel-components/dist/components/BrixelButtonPrimary';
+import BrixelButtonPrimary from '@brixel-io/brixel-components/dist/components/BrixelButtonPrimary';
 import {generateEstimation} from '../../../actions/EstimationActions';
-import {EstimationType} from '@brixel/brixel-components/dist/@types/Model';
+import {EstimationType} from '@brixel-io/brixel-components/dist/@types/Model';
 import Tags from '../../../components/Tags';
 
 const { factsOptions } = FactsOptions;

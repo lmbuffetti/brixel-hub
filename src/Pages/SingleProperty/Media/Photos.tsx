@@ -7,18 +7,18 @@ import {diff} from 'deep-object-diff';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
 import isArray from 'lodash/isArray';
-import {BrixelButtonIcon, BrixelButtonSecondary, BrixelIcon, useOutsideAlerter} from '@brixel/brixel-components';
+import {BrixelButtonIcon, BrixelButtonSecondary, BrixelIcon, useOutsideAlerter} from '@brixel-io/brixel-components';
 import translateTo from '../../../utils/translation';
-import {change} from '@brixel/brixel-components/dist/form';
+import {change} from '@brixel-io/brixel-components/dist/form';
 import {ReactSortable} from 'react-sortablejs';
 import {deleteImg, multiUploadImg, uploadImg} from '../../../actions/UploadActions';
 import DetailMedia from './DetailMedia';
 import {tobase64Handler, Truncate} from '../../../utils/helpers';
 import uploadPhotosEmpty from '../../../images/Upload/upload_photos_empty.svg';
 import BrixelUpgradeMessage from '../../../components/BrixelUpgradeMessage';
-import {PhotosType} from '@brixel/brixel-components/dist/@types/Model';
+import {PhotosType} from '@brixel-io/brixel-components/dist/@types/Model';
 import type {PhotosPageType} from '../../../@types/Pages/SingleProperty/Media/Photos';
-import getUrlImg from '@brixel/brixel-components/dist/utils/ImageUrl';
+import getUrlImg from '@brixel-io/brixel-components/dist/utils/ImageUrl';
 
 const Photos = (props: PhotosPageType) => {
   const history = {

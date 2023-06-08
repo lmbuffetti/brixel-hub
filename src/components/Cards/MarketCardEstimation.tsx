@@ -7,7 +7,7 @@ import {
   FormatValue,
   Helpers,
   useOutsideAlerter,
-} from '@brixel/brixel-components';
+} from '@brixel-io/brixel-components';
 import get from 'lodash/get';
 import {connect} from 'react-redux';
 import {useLocation, useNavigate} from 'react-router-dom';

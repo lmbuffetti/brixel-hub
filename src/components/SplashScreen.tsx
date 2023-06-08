@@ -1,4 +1,4 @@
-import {useOutsideAlerter} from '@brixel/brixel-components';
+import {useOutsideAlerter} from '@brixel-io/brixel-components';
 import get from 'lodash/get';
 import React, {useRef} from 'react';
 import {connect} from 'react-redux';

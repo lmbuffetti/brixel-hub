@@ -1,6 +1,6 @@
 import React from 'react';
-import {BrixelButtonPrimary, BrixelButtonSecondary, BrixelIcon, FormatValue, Helpers} from '@brixel/brixel-components';
-import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
+import {BrixelButtonPrimary, BrixelButtonSecondary, BrixelIcon, FormatValue, Helpers} from '@brixel-io/brixel-components';
+import baseByData from '@brixel-io/brixel-components/dist/configuration/Settings';
 import get from 'lodash/get';
 import {connect} from 'react-redux';
 import {Link, useLocation, useNavigate} from 'react-router-dom';

@@ -1,4 +1,4 @@
-import {DealType} from '@brixel/brixel-components/dist/@types/Model';
+import {DealType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 export interface BrixelClosingTreeType {
   activeSingleClosing: object;

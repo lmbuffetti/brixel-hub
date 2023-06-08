@@ -8,9 +8,9 @@ import {
   FactsOptions,
   Helpers,
   ProgressRing,
-} from '@brixel/brixel-components';
-import documentConfig from '@brixel/brixel-components/dist/configuration/DocumentsConfig';
-import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
+} from '@brixel-io/brixel-components';
+import documentConfig from '@brixel-io/brixel-components/dist/configuration/DocumentsConfig';
+import baseByData from '@brixel-io/brixel-components/dist/configuration/Settings';
 import get from 'lodash/get';
 import orderBy from 'lodash/orderBy';
 import {DateTime} from 'luxon';
@@ -46,7 +46,7 @@ import bookedTestDriveImg from '../../../images/TestDrive/scanTrialRequested.svg
 import {calcPercentageFacts, calcPercentageProEstimation} from '../../../utils/helpers';
 import translateTo from '../../../utils/translation';
 import type {DashboardHomeType} from '../../../@types/Pages/Dashboard/Seller/DashboardHome';
-import {DealType, HistoryType} from '@brixel/brixel-components/dist/@types/Model';
+import {DealType, HistoryType} from '@brixel-io/brixel-components/dist/@types/Model';
 import TableRowSellerVisits from '../../../components/Cards/TableRowSellerVisits';
 
 const { factsOptions } = FactsOptions;

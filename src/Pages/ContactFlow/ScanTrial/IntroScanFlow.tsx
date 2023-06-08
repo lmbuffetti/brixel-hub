@@ -2,7 +2,7 @@ import React, {useRef} from 'react';
 import {bindActionCreators, compose} from 'redux';
 import {connect} from 'react-redux';
 import Slider from 'react-slick';
-import {BrixelButtonIcon} from '@brixel/brixel-components';
+import {BrixelButtonIcon} from '@brixel-io/brixel-components';
 import translateTo from '../../../utils/translation';
 import get from 'lodash/get';
 import AnalyseImg from '../../../images/scanTrial/analyse.png';

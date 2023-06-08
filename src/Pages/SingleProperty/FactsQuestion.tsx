@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
-import {BrixelButtonIcon, Helpers} from '@brixel/brixel-components';
-import {change, MultiFileldsReduxForm} from '@brixel/brixel-components/dist/form';
+import {BrixelButtonIcon, Helpers} from '@brixel-io/brixel-components';
+import {change, MultiFileldsReduxForm} from '@brixel-io/brixel-components/dist/form';
 import {diff} from 'deep-object-diff';
 import get from 'lodash/get';
 import unset from 'lodash/unset';
@@ -12,7 +12,7 @@ import {InputSheets} from '../../resources/SingleProperty/inputSheets';
 import {keyify} from '../../utils/helpers';
 import translateTo from '../../utils/translation';
 import type {FactsQuestionType} from '../../@types/Pages/SingleProperty/FactsQuestion';
-import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
+import baseByData from '@brixel-io/brixel-components/dist/configuration/Settings';
 
 const FactsQuestion = (props: FactsQuestionType) => {
   const history = {

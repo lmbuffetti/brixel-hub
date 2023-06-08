@@ -1,6 +1,6 @@
 import React, {Suspense, useEffect, useState} from 'react';
-import {BrixelButtonIcon, BrixelButtonPrimary, BrixelButtonText} from '@brixel/brixel-components';
-import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
+import {BrixelButtonIcon, BrixelButtonPrimary, BrixelButtonText} from '@brixel-io/brixel-components';
+import baseByData from '@brixel-io/brixel-components/dist/configuration/Settings';
 import get from 'lodash/get';
 import set from 'lodash/set';
 import {connect} from 'react-redux';
@@ -22,7 +22,7 @@ import lazyWithRetry from '../../components/LazyWithRetry';
 import Pagination from '../../components/Pagination';
 import translateTo from '../../utils/translation';
 import type {MarketListType} from '../../@types/Pages/Market/MarketList';
-import {PropertyType} from '@brixel/brixel-components/dist/@types/Model';
+import {PropertyType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 const MarketMap = lazyWithRetry(() => import('./MarketMap'));
 

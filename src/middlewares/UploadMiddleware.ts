@@ -1,5 +1,5 @@
 /* eslint-disable no-case-declarations */
-import {change, reset} from '@brixel/brixel-components/dist/utils/ReduxForm.Functions';
+import {change, reset} from '@brixel-io/brixel-components/dist/utils/ReduxForm.Functions';
 import set from 'lodash/set';
 import get from 'lodash/get';
 import has from 'lodash/has';
@@ -25,7 +25,7 @@ import api from '../controllers/api/config';
 import {SAVE_ACTIVE_SINGLE_USER} from '../actions/types/UserTypes';
 import {REQUEST_DONE, SPINNER_OFF, SPINNER_ON, SPINNER_SMALL} from '../actions/types/CommonTypes';
 import {SAVE_CLOSING_IDENTIFICATION, SAVE_FINANCING_REQUEST, SAVE_MAKE_OFFER} from '../actions/types/DealTypes';
-import {PropertyType} from '@brixel/brixel-components/dist/@types/Model';
+import {PropertyType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 const checkCommon = (store) => (next) => (action) => {
   switch (action.type) {

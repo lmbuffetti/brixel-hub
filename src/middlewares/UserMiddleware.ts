@@ -1,5 +1,5 @@
-import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
-import {change} from '@brixel/brixel-components/dist/form';
+import baseByData from '@brixel-io/brixel-components/dist/configuration/Settings';
+import {change} from '@brixel-io/brixel-components/dist/form';
 import cloneDeep from 'lodash/cloneDeep';
 import get from 'lodash/get';
 

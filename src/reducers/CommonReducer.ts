@@ -1,5 +1,5 @@
-import {countryList} from '@brixel/brixel-components';
-import getConfigEnv from '@brixel/brixel-components/dist/configuration/Settings';
+import {countryList} from '@brixel-io/brixel-components';
+import getConfigEnv from '@brixel-io/brixel-components/dist/configuration/Settings';
 import {handleActions} from 'redux-actions';
 import type {CommonReducerType} from '../@types/reducer/CommonReducer';
 

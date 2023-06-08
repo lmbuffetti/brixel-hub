@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {BrixelButtonIcon, FormatValue, Helpers} from '@brixel/brixel-components';
+import {BrixelButtonIcon, FormatValue, Helpers} from '@brixel-io/brixel-components';
 import compact from 'lodash/compact';
 import get from 'lodash/get';
 import pullAt from 'lodash/pullAt';

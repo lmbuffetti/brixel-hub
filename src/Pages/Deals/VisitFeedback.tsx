@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {BrixelButtonPrimary, BrixelIcon, Helpers} from '@brixel/brixel-components';
+import {BrixelButtonPrimary, BrixelIcon, Helpers} from '@brixel-io/brixel-components';
 import translateTo from '../../utils/translation';
 import {
   BrixelCheckbox,
@@ -8,7 +8,7 @@ import {
   initializeForm,
   ReduxField,
   Validation,
-} from '@brixel/brixel-components/dist/form';
+} from '@brixel-io/brixel-components/dist/form';
 import queryString from 'query-string';
 import {bindActionCreators, compose} from 'redux';
 import {useLocation, useNavigate, useParams} from 'react-router-dom';

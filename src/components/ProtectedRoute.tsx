@@ -3,7 +3,7 @@ import {useLocation, useNavigate} from 'react-router-dom';
 import get from 'lodash/get';
 import {compose} from 'redux';
 import {connect} from 'react-redux';
-import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
+import baseByData from '@brixel-io/brixel-components/dist/configuration/Settings';
 import type {ProtectedRouteType} from '../@types/components/ProtectedRoute';
 import Loading from './Loading';
 import {getCookie} from '../utils/helpers';

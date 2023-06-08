@@ -1,4 +1,4 @@
-import {BrixelButtonPrimary, Helpers} from '@brixel/brixel-components';
+import {BrixelButtonPrimary, Helpers} from '@brixel-io/brixel-components';
 import get from 'lodash/get';
 import React from 'react';
 import {connect} from 'react-redux';

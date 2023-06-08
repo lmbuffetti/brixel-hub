@@ -1,5 +1,5 @@
 import translateTo from '../../utils/translation';
-import getConfigEnv from '@brixel/brixel-components/dist/configuration/Settings';
+import getConfigEnv from '@brixel-io/brixel-components/dist/configuration/Settings';
 
 import {DateTime} from 'luxon';
 import has from 'lodash/has';

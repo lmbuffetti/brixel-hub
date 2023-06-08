@@ -1,4 +1,4 @@
-import {FactsOptions} from '@brixel/brixel-components';
+import {FactsOptions} from '@brixel-io/brixel-components';
 import translateTo from '../../utils/translation';
 import {
   BrixelCheckbox,
@@ -7,10 +7,10 @@ import {
   BrixelInputText,
   BrixelSelect,
   Validation,
-} from '@brixel/brixel-components/dist/form';
+} from '@brixel-io/brixel-components/dist/form';
 import ResumeBestimate from '../../Pages/Bestimate/ResumeBestimate';
 import homesSvg from '../../images/getstarted/svgs/homes.svg';
-import {QuestionsListType} from '@brixel/brixel-components/dist/@types/Model';
+import {QuestionsListType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 const { factsOptions } = FactsOptions;
 

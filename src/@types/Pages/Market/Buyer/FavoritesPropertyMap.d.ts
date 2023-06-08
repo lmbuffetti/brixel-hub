@@ -1,5 +1,5 @@
-import {PropertyType} from '@brixel/brixel-components/dist/@types/Model';
-import {TagType} from '@brixel/brixel-components/dist/@types/components/GoogleMap/GoogleMap';
+import {PropertyType} from '@brixel-io/brixel-components/dist/@types/Model';
+import {TagType} from '@brixel-io/brixel-components/dist/@types/components/GoogleMap/GoogleMap';
 
 export interface FavoritesPropertyMapType {
   lang: string;

@@ -1,8 +1,8 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {BrixelButtonPrimary, BrixelButtonText} from '@brixel/brixel-components';
-import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/BrixelButtonSecondary';
-import {phonecode} from '@brixel/brixel-components/dist/constants/CountryCodePhone';
-import {change, destroy, initializeForm, MultiFileldsReduxForm, reset} from '@brixel/brixel-components/dist/form';
+import {BrixelButtonPrimary, BrixelButtonText} from '@brixel-io/brixel-components';
+import BrixelButtonSecondary from '@brixel-io/brixel-components/dist/components/BrixelButtonSecondary';
+import {phonecode} from '@brixel-io/brixel-components/dist/constants/CountryCodePhone';
+import {change, destroy, initializeForm, MultiFileldsReduxForm, reset} from '@brixel-io/brixel-components/dist/form';
 import cloneDeep from 'lodash/cloneDeep';
 import get from 'lodash/get';
 import has from 'lodash/has';
@@ -18,7 +18,7 @@ import {ScanTrialQuestions} from '../../../resources/Flows/ScanTrialRequest';
 import {checkBrowser} from '../../../utils/helpers';
 import translateTo from '../../../utils/translation';
 import type {ScanTrialFlowType} from '../../../@types/Pages/ContactFlow/ScanTrial/ScanTrialFlow';
-import {QuestionsListType} from '@brixel/brixel-components/dist/@types/Model';
+import {QuestionsListType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 const ScanTrialFlow = (props: ScanTrialFlowType) => {
   const history = {

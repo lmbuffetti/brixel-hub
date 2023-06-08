@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import find from 'lodash/find';
 import cloneDeep from 'lodash/cloneDeep';
-import {BrixelIcon} from '@brixel/brixel-components';
+import {BrixelIcon} from '@brixel-io/brixel-components';
 import translateTo from '../utils/translation';
 import type {ProgressBarType} from '../@types/components/ProgressBar';
 

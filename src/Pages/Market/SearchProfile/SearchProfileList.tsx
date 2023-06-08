@@ -5,8 +5,8 @@ import {
   BrixelButtonText,
   BrixelDropdownMini,
   useOutsideAlerter,
-} from '@brixel/brixel-components';
-import {BrixelRadioButton, change, initializeForm} from '@brixel/brixel-components/dist/form';
+} from '@brixel-io/brixel-components';
+import {BrixelRadioButton, change, initializeForm} from '@brixel-io/brixel-components/dist/form';
 import get from 'lodash/get';
 import set from 'lodash/set';
 import {connect} from 'react-redux';

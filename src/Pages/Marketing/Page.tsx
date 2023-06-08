@@ -8,10 +8,10 @@ import {
   BrixelButtonText,
   BrixelIcon,
   FormatValue,
-} from '@brixel/brixel-components';
+} from '@brixel-io/brixel-components';
 import translateTo from '../../utils/translation';
-import {BrixelSwitchButton, change, reset} from '@brixel/brixel-components/dist/form';
-import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
+import {BrixelSwitchButton, change, reset} from '@brixel-io/brixel-components/dist/form';
+import baseByData from '@brixel-io/brixel-components/dist/configuration/Settings';
 import {useParams} from 'react-router-dom';
 import {setModal} from '../../actions/CommonActions';
 import {updatePublishedReview} from '../../actions/PropertyActions';

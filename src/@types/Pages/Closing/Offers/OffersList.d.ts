@@ -1,4 +1,4 @@
-import {PropertyType, StageOfferType} from '@brixel/brixel-components/dist/@types/Model';
+import {PropertyType, StageOfferType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 export interface OfferListType {
   activeSingleProperty: PropertyType;

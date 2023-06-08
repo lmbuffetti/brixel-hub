@@ -10,9 +10,9 @@ import {
   BrixelButtonSecondary,
   BrixelButtonText,
   useOutsideAlerter,
-} from '@brixel/brixel-components';
+} from '@brixel-io/brixel-components';
 import translateTo from '../../../utils/translation';
-import {BrixelTextArea, change, ReduxField, reset} from '@brixel/brixel-components/dist/form';
+import {BrixelTextArea, change, ReduxField, reset} from '@brixel-io/brixel-components/dist/form';
 import Loading from '../../../components/Loading';
 import {deleteImg, rotateImg, setCoverPhoto} from '../../../actions/UploadActions';
 import {saveActiveSingleProperty} from '../../../actions/PropertyActions';

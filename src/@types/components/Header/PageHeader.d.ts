@@ -1,4 +1,4 @@
-import {ServicePackageType} from '@brixel/brixel-components/dist/@types/Model';
+import {ServicePackageType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 export interface LanguagesType {
   value?: string;

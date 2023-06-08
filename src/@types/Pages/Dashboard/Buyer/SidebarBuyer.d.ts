@@ -1,4 +1,4 @@
-import {DealType, HistoryType, LoggedUserType, PropertyType} from '@brixel/brixel-components/dist/@types/Model';
+import {DealType, HistoryType, LoggedUserType, PropertyType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 export interface SidebarBuyerType {
   activeCompanyPackages: object,

@@ -1,4 +1,4 @@
-import {Helpers} from '@brixel/brixel-components';
+import {Helpers} from '@brixel-io/brixel-components';
 import translateTo from '../../utils/translation';
 import get from 'lodash/get';
 import {DateTime} from 'luxon';

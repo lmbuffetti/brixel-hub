@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import {BrixelButtonIcon, BrixelButtonPrimary, BrixelButtonSecondary} from '@brixel/brixel-components';
-import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
-import {BrixelInputText, BrixelSelect, change, ReduxField, Validation} from '@brixel/brixel-components/dist/form';
-import {BrixelAutocomplete, BrixelMap} from '@brixel/brixel-components/dist/map';
+import {BrixelButtonIcon, BrixelButtonPrimary, BrixelButtonSecondary} from '@brixel-io/brixel-components';
+import baseByData from '@brixel-io/brixel-components/dist/configuration/Settings';
+import {BrixelInputText, BrixelSelect, change, ReduxField, Validation} from '@brixel-io/brixel-components/dist/form';
+import {BrixelAutocomplete, BrixelMap} from '@brixel-io/brixel-components/dist/map';
 import cloneDeep from 'lodash/cloneDeep';
 import get from 'lodash/get';
 import React, {useEffect, useState} from 'react';
@@ -12,7 +12,7 @@ import {bindActionCreators, compose} from 'redux';
 import {setCountryList} from '../../actions/CommonActions';
 import translateTo from '../../utils/translation';
 import type {MapsWithModalManualType} from '../../@types/components/Maps/MapsWithModalManual';
-import {LocationType} from '@brixel/brixel-components/dist/@types/Model';
+import {LocationType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 const MapsWithModalManual = (props: MapsWithModalManualType) => {
   const history = {

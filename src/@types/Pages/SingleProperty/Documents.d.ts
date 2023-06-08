@@ -1,4 +1,4 @@
-import {DocumentType, LoggedUserType, PropertyType} from '@brixel/brixel-components/dist/@types/Model';
+import {DocumentType, LoggedUserType, PropertyType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 export interface DocumentTypePage extends DocumentType {
   chosen?: boolean;

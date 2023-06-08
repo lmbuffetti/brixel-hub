@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import {BrixelIcon} from '@brixel/brixel-components';
+import {BrixelIcon} from '@brixel-io/brixel-components';
 import translateTo from '../../utils/translation';
-import {destroy} from '@brixel/brixel-components/dist/form';
+import {destroy} from '@brixel-io/brixel-components/dist/form';
 import get from 'lodash/get';
 import {connect} from 'react-redux';
 import {Link, useLocation, useNavigate} from 'react-router-dom';

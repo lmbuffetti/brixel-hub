@@ -8,11 +8,11 @@ import {
   BrixelButtonSecondary,
   BrixelIcon,
   Helpers,
-} from '@brixel/brixel-components';
+} from '@brixel-io/brixel-components';
 import translateTo from '../../../utils/translation';
-import {BrixelTextArea, change, destroy, initializeForm, ReduxField} from '@brixel/brixel-components/dist/form';
+import {BrixelTextArea, change, destroy, initializeForm, ReduxField} from '@brixel-io/brixel-components/dist/form';
 import cloneDeep from 'lodash/cloneDeep';
-import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
+import baseByData from '@brixel-io/brixel-components/dist/configuration/Settings';
 import {setSplashType, spinnerSmall} from '../../../actions/CommonActions';
 import {saveReviewOffer, setActiveSingleDeal} from '../../../actions/DealActions';
 import type {ReviewOfferType} from '../../../@types/Pages/Closing/Offers/ReviewOffer';

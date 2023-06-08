@@ -1,13 +1,13 @@
 /* eslint-disable max-len */
-import {factsOptions} from '@brixel/brixel-components/dist/constants/Facts';
+import {factsOptions} from '@brixel-io/brixel-components/dist/constants/Facts';
 import {
   BrixelInputStepNumber,
   BrixelInputText,
   BrixelRadioButton,
   Validation,
-} from '@brixel/brixel-components/dist/form';
-import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
-import {BrixelAutocomplete} from '@brixel/brixel-components/dist/map';
+} from '@brixel-io/brixel-components/dist/form';
+import baseByData from '@brixel-io/brixel-components/dist/configuration/Settings';
+import {BrixelAutocomplete} from '@brixel-io/brixel-components/dist/map';
 import get from 'lodash/get';
 import LoginSignup from '../../components/LoginSignup';
 import MapsWithModalManual from '../../components/Map/MapsWithModalManual';
@@ -15,7 +15,7 @@ import {configureStore} from '../../store';
 // import ResumeCard from '../components/ResumeCard';
 import translateTo from '../../utils/translation';
 import {svgIcons} from '../Utilities/svgIcons';
-import {QuestionsListType} from '@brixel/brixel-components/dist/@types/Model';
+import {QuestionsListType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 // QUESTION LISTS
 // eslint-disable-next-line default-param-last

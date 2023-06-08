@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
-import {BrixelButtonIcon, BrixelButtonPrimary} from '@brixel/brixel-components';
+import {BrixelButtonIcon, BrixelButtonPrimary} from '@brixel-io/brixel-components';
 import translateTo from '../utils/translation';
 import type {BrixelModalFullScreenType} from '../@types/components/BrixelModalFullScreen';
 

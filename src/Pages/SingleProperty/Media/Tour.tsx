@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import get from 'lodash/get';
 import {bindActionCreators, compose} from 'redux';
 import {connect} from 'react-redux';
-import {BrixelButtonIcon, BrixelImage} from '@brixel/brixel-components';
+import {BrixelButtonIcon, BrixelImage} from '@brixel-io/brixel-components';
 import translateTo from '../../../utils/translation';
 import {setModal} from '../../../actions/CommonActions';
 import BrixelUpgradeMessage from '../../../components/BrixelUpgradeMessage';

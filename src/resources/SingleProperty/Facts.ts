@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import get from 'lodash/get';
-import {FactsOptions} from '@brixel/brixel-components';
+import {FactsOptions} from '@brixel-io/brixel-components';
 import translateTo from '../../utils/translation';
 import {
   BrixelCheckbox,
@@ -11,7 +11,7 @@ import {
   BrixelRadioButton,
   BrixelTextArea,
   Validation,
-} from '@brixel/brixel-components/dist/form';
+} from '@brixel-io/brixel-components/dist/form';
 import {configureStore} from '../../store';
 
 const { factsOptions } = FactsOptions;

@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {bindActionCreators, compose} from 'redux';
 import {connect} from 'react-redux';
 import get from 'lodash/get';
-import {BrixelButtonIcon, Helpers} from '@brixel/brixel-components';
+import {BrixelButtonIcon, Helpers} from '@brixel-io/brixel-components';
 import translateTo from '../../../utils/translation';
 import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import {setSplashType} from '../../../actions/CommonActions';

@@ -1,4 +1,4 @@
-import { BrixelAvatar, BrixelButtonIcon, BrixelIcon, BrixelStatus, Helpers } from '@brixel/brixel-components';
+import { BrixelAvatar, BrixelButtonIcon, BrixelIcon, BrixelStatus, Helpers } from '@brixel-io/brixel-components';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import { DateTime } from 'luxon';
@@ -11,8 +11,8 @@ import timelineActionStubs from '../../resources/Utilities/timelineActionStubs';
 import translateTo from '../../utils/translation';
 
 import type { DealsCardProps } from '../../@types/components/Cards/DealsCard';
-import { HistoryType, ScheduleVisitRequestType } from '@brixel/brixel-components/dist/@types/Model';
-import BrixelSingleTag from '@brixel/brixel-components/dist/components/BrixelSingleTag';
+import { HistoryType, ScheduleVisitRequestType } from '@brixel-io/brixel-components/dist/@types/Model';
+import BrixelSingleTag from '@brixel-io/brixel-components/dist/components/BrixelSingleTag';
 
 const DealsCard = (props: DealsCardProps) => {
   const match = useParams();

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {BrixelButtonIcon, BrixelButtonText, BrixelIcon, BrixelProgressBar, Helpers} from '@brixel/brixel-components';
-import {change} from '@brixel/brixel-components/dist/utils/ReduxForm.Functions';
+import {BrixelButtonIcon, BrixelButtonText, BrixelIcon, BrixelProgressBar, Helpers} from '@brixel-io/brixel-components';
+import {change} from '@brixel-io/brixel-components/dist/utils/ReduxForm.Functions';
 import cloneDeep from 'lodash/cloneDeep';
 import get from 'lodash/get';
 import set from 'lodash/set';
@@ -16,7 +16,7 @@ import translateTo from '../../utils/translation';
 // COMPONENTS
 import FactsQuestion from './FactsQuestion';
 import type {FactsType} from '../../@types/Pages/SingleProperty/Facts';
-import {QuestionsListType} from '@brixel/brixel-components/dist/@types/Model';
+import {QuestionsListType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 const Facts = (props: FactsType) => {
   const history = {

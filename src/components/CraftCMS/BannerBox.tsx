@@ -1,4 +1,4 @@
-import {BrixelButtonSecondary} from '@brixel/brixel-components';
+import {BrixelButtonSecondary} from '@brixel-io/brixel-components';
 import get from 'lodash/get';
 import React, {useEffect, useState} from 'react';
 import {connect} from 'react-redux';

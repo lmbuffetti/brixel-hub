@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import {BrixelIcon, BrixelModal} from '@brixel/brixel-components';
-import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
-import {phonecode} from '@brixel/brixel-components/dist/constants/CountryCodePhone';
+import {BrixelIcon, BrixelModal} from '@brixel-io/brixel-components';
+import baseByData from '@brixel-io/brixel-components/dist/configuration/Settings';
+import {phonecode} from '@brixel-io/brixel-components/dist/constants/CountryCodePhone';
 import get from 'lodash/get';
 import {connect} from 'react-redux';
 import {useLocation, useNavigate} from 'react-router-dom';
@@ -9,7 +9,7 @@ import {compose} from 'redux';
 import ContactForm from '../../../components/ContactForm';
 import translateTo from '../../../utils/translation';
 import type {AddContactBuyerType} from '../../../@types/Pages/Dashboard/Buyer/AddContactBuyer';
-import {multiActionsType} from '@brixel/brixel-components/dist/@types/components/BrixelModal';
+import {multiActionsType} from '@brixel-io/brixel-components/dist/@types/components/BrixelModal';
 
 // COMPONENTS
 

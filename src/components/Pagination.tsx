@@ -1,5 +1,5 @@
 import React, {Fragment} from 'react';
-import {BrixelButtonIcon} from '@brixel/brixel-components';
+import {BrixelButtonIcon} from '@brixel-io/brixel-components';
 import translateTo from '../utils/translation';
 import type {PaginationType} from '../@types/components/Pagination';
 

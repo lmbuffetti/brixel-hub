@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   BrixelProgressBar,
-} from '@brixel/brixel-components';
+} from '@brixel-io/brixel-components';
 import {connect} from 'react-redux';
 import {bindActionCreators, compose} from 'redux';
 import {setModal} from '../../../actions/CommonActions';

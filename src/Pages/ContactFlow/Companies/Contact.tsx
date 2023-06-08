@@ -5,9 +5,9 @@ import {
   BrixelButtonSecondary,
   BrixelButtonText,
   Helpers,
-} from '@brixel/brixel-components';
-import {phonecode} from '@brixel/brixel-components/dist/constants/CountryCodePhone';
-import {change, destroy, initializeForm, MultiFileldsReduxForm, reset} from '@brixel/brixel-components/dist/form';
+} from '@brixel-io/brixel-components';
+import {phonecode} from '@brixel-io/brixel-components/dist/constants/CountryCodePhone';
+import {change, destroy, initializeForm, MultiFileldsReduxForm, reset} from '@brixel-io/brixel-components/dist/form';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import isArray from 'lodash/isArray';
@@ -24,7 +24,7 @@ import {QuestionsList} from '../../../resources/Companies/Contact';
 import {checkBrowser} from '../../../utils/helpers';
 import translateTo from '../../../utils/translation';
 import type {ContactType} from '../../../@types/Pages/ContactFlow/Companies/Contact';
-import {QuestionsListType} from '@brixel/brixel-components/dist/@types/Model';
+import {QuestionsListType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 const Contact = (props: ContactType) => {
   const history = {

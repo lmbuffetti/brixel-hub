@@ -4,14 +4,14 @@ import {
   BrixelButtonPrimary,
   BrixelButtonText,
   FactsOptions,
-} from '@brixel/brixel-components';
+} from '@brixel-io/brixel-components';
 import {bindActionCreators, compose} from 'redux';
 import {connect} from 'react-redux';
 import translateTo from '../utils/translation';
 import { saveActiveSingleUser } from '../actions/UserActions';
 import type {CustomerSatisfactionType} from '../@types/components/CustomerSatisfaction';
-import {BrixelInputScale, BrixelTextArea} from '@brixel/brixel-components/dist/form';
-import BrixelButtonIcon from '@brixel/brixel-components/dist/components/BrixelButtonIcon';
+import {BrixelInputScale, BrixelTextArea} from '@brixel-io/brixel-components/dist/form';
+import BrixelButtonIcon from '@brixel-io/brixel-components/dist/components/BrixelButtonIcon';
 import {sendRate} from '../actions/CommonActions';
 
 const {factsOptions} = FactsOptions;

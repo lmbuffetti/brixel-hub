@@ -7,9 +7,9 @@ import {
   FormatValue,
   Helpers,
   ProgressRing,
-} from '@brixel/brixel-components';
-import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
-import {BrixelMap} from '@brixel/brixel-components/dist/map';
+} from '@brixel-io/brixel-components';
+import baseByData from '@brixel-io/brixel-components/dist/configuration/Settings';
+import {BrixelMap} from '@brixel-io/brixel-components/dist/map';
 import cloneDeep from 'lodash/cloneDeep';
 import compact from 'lodash/compact';
 import get from 'lodash/get';
@@ -41,7 +41,7 @@ import translateTo from '../../utils/translation';
 import CoverPropertyImage from '../CoverPropertyImage';
 import CardImageText from '../Skeleton/CardImageText';
 import type {MarketCardProps} from '../../@types/components/Cards/MarketCard';
-import type {ServicePackageType} from '@brixel/brixel-components/dist/@types/Model';
+import type {ServicePackageType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 const MarketCard = (props: MarketCardProps) => {
   const history = {

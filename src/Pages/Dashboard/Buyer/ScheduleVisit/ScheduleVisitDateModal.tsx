@@ -8,7 +8,7 @@ import {
   BrixelInputMultiRange,
   BrixelSwitchButton,
   change,
-} from '@brixel/brixel-components/dist/form';
+} from '@brixel-io/brixel-components/dist/form';
 import translateTo from '../../../../utils/translation';
 import type {ScheduleVisitComponentType} from '../../../../@types/Pages/Dashboard/Buyer/ScheduleVisitComponent';
 

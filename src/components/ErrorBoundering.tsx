@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import BrixelPage500 from '@brixel/brixel-components/dist/components/BrixelPage500';
+import BrixelPage500 from '@brixel-io/brixel-components/dist/components/BrixelPage500';
 import get from 'lodash/get';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';

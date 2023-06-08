@@ -2,15 +2,15 @@ import React, {useState, useEffect} from 'react';
 import {
   BrixelAvatar,
   BrixelButtonText,
-} from '@brixel/brixel-components';
+} from '@brixel-io/brixel-components';
 import {useLocation, useNavigate} from 'react-router-dom';
 import get from 'lodash/get';
 import {DateTime} from 'luxon';
 import api from '../../controllers/api/config';
 import translateTo from '../../utils/translation';
 import type {TableRowSellerVisitsType} from '../../@types/components/Cards/TableRowSellerVisits';
-import {UserType} from '@brixel/brixel-components/dist/@types/Models/User';
-import BrixelSingleTag from '@brixel/brixel-components/dist/components/BrixelSingleTag';
+import {UserType} from '@brixel-io/brixel-components/dist/@types/Models/User';
+import BrixelSingleTag from '@brixel-io/brixel-components/dist/components/BrixelSingleTag';
 
 const TableRowSellerVisits = (props: TableRowSellerVisitsType) => {
   const history = {

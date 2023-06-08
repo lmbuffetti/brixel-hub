@@ -1,8 +1,8 @@
 /* eslint-disable max-len */
 import translateTo from '../../utils/translation';
-import {BrixelInputStepNumber, BrixelInputText, Validation} from '@brixel/brixel-components/dist/form';
+import {BrixelInputStepNumber, BrixelInputText, Validation} from '@brixel-io/brixel-components/dist/form';
 import ResumeBestimate from '../../Pages/Bestimate/ResumeBestimate';
-import {QuestionsListType} from '@brixel/brixel-components/dist/@types/Model';
+import {QuestionsListType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 // eslint-disable-next-line default-param-last
 export const BestimateCH = (type = null, propertyType, lang) => {

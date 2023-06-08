@@ -5,8 +5,8 @@ import {
   BrixelButtonText,
   BrixelIcon,
   Helpers,
-} from '@brixel/brixel-components';
-import {SkeletonPackages} from '@brixel/brixel-components/dist/skeleton';
+} from '@brixel-io/brixel-components';
+import {SkeletonPackages} from '@brixel-io/brixel-components/dist/skeleton';
 import get from 'lodash/get';
 import set from 'lodash/set';
 import orderBy from 'lodash/orderBy';
@@ -32,7 +32,7 @@ import WrireUsImg from '../../images/Upgrade/writeUs.svg';
 import {CompaniesData} from '../../resources/Companies/Companies';
 import translateTo from '../../utils/translation';
 import type {IntroUpgradeType} from '../../@types/Pages/Upgrade/IntroUpgrade';
-import {ServicePackageType} from '@brixel/brixel-components/dist/@types/Model';
+import {ServicePackageType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 const PackagesComparePlans = lazyWithRetry(() => import('../../components/PackagesComparePlans'));
 const BoxTrialTestDirve = lazyWithRetry(() => import('../../components/BoxTrialTestDirve'));

@@ -1,4 +1,4 @@
-import {CompanyType, LoggedUserType, PhoneNumberType} from '@brixel/brixel-components/dist/@types/Model';
+import {CompanyType, LoggedUserType, PhoneNumberType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 export interface FormValueType {
   bookType?: string;

@@ -1,4 +1,4 @@
-import {CompanyType, DealType, LoggedUserType, PropertyType} from '@brixel/brixel-components/dist/@types/Model';
+import {CompanyType, DealType, LoggedUserType, PropertyType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 export interface DashboardType {
   activeSingleCompany: CompanyType;

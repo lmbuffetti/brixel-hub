@@ -1,12 +1,12 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {BrixelButtonPrimary, BrixelIcon, Helpers, useOutsideAlerter} from '@brixel/brixel-components';
+import {BrixelButtonPrimary, BrixelIcon, Helpers, useOutsideAlerter} from '@brixel-io/brixel-components';
 import {
   BrixelInputDatePicker, BrixelInputPhone,
   BrixelInputText,
   change,
   ReduxField,
   Validation,
-} from '@brixel/brixel-components/dist/form';
+} from '@brixel-io/brixel-components/dist/form';
 import get from 'lodash/get';
 import {DateTime} from 'luxon';
 import {connect} from 'react-redux';

@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import React, {useEffect} from 'react';
 import get from 'lodash/get';
-import {BrixelIcon, Helpers} from '@brixel/brixel-components';
+import {BrixelIcon, Helpers} from '@brixel-io/brixel-components';
 import translateTo from '../utils/translation';
 import {PackagesComparePlansTable} from '../resources/Dashboard/PackagesComparePlans';
 import type {PackagesComparePlansType} from '../@types/components/PackageComparePlans';

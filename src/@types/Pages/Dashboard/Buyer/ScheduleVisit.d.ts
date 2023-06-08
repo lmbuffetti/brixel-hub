@@ -4,8 +4,8 @@ import {
   ScheduleVisitSlotType,
   DealsType,
   ModalDataType,
-} from '@brixel/brixel-components/dist/@types/Model';
-import {ScheduleVisitRequestType} from '@brixel/brixel-components/dist/@types/Models/ContactSchedule';
+} from '@brixel-io/brixel-components/dist/@types/Model';
+import {ScheduleVisitRequestType} from '@brixel-io/brixel-components/dist/@types/Models/ContactSchedule';
 
 export interface FormValueType {
   scheduleVisit: ScheduleVisitSlotType;

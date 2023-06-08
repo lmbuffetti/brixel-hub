@@ -1,5 +1,5 @@
 import React, {Suspense, useEffect, useState} from 'react';
-import {change, initializeForm, reset} from '@brixel/brixel-components/dist/form';
+import {change, initializeForm, reset} from '@brixel-io/brixel-components/dist/form';
 import {diff} from 'deep-object-diff';
 import cloneDeep from 'lodash/cloneDeep';
 import find from 'lodash/find';

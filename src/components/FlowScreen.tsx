@@ -1,16 +1,16 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {BrixelButtonText, BrixelButtonIcon, BrixelButtonPrimary, BrixelProgressBar} from '@brixel/brixel-components';
-import {destroy, MultiFileldsReduxForm, reset} from '@brixel/brixel-components/dist/form';
+import {BrixelButtonText, BrixelButtonIcon, BrixelButtonPrimary, BrixelProgressBar} from '@brixel-io/brixel-components';
+import {destroy, MultiFileldsReduxForm, reset} from '@brixel-io/brixel-components/dist/form';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import {connect} from 'react-redux';
 import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import {bindActionCreators, compose} from 'redux';
-import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
+import baseByData from '@brixel-io/brixel-components/dist/configuration/Settings';
 import {spinnerOff, spinnerOn} from '../actions/CommonActions';
 import {checkBrowser, redirectUrl} from '../utils/helpers';
 import translateTo from '../utils/translation';
-import {QuestionsListType} from '@brixel/brixel-components/dist/@types/Model';
+import {QuestionsListType} from '@brixel-io/brixel-components/dist/@types/Model';
 import type {FlowScreenType} from '../@types/components/FlowScreen';
 
 const FlowScreen = (props: FlowScreenType) => {

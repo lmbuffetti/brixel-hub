@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import {bindActionCreators, compose} from 'redux';
-import {Helpers} from '@brixel/brixel-components';
+import {Helpers} from '@brixel-io/brixel-components';
 import translateTo from '../../utils/translation';
 import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import {getEstimation, saveActiveSingleProperty} from '../../actions/PropertyActions';

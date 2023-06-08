@@ -3,7 +3,7 @@ import {bindActionCreators, compose} from 'redux';
 import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import {connect} from 'react-redux';
 import get from 'lodash/get';
-import {FactsOptions} from '@brixel/brixel-components';
+import {FactsOptions} from '@brixel-io/brixel-components';
 import {getActiveSingleProperty} from '../../actions/PropertyActions';
 import {setPageData, spinnerOff} from '../../actions/CommonActions';
 import WelecomeOnboardingStage from './WelecomeOnboardingStage';

@@ -1,13 +1,13 @@
 /* eslint-disable max-len */
-import {FactsOptions} from '@brixel/brixel-components';
+import {FactsOptions} from '@brixel-io/brixel-components';
 import {
   BrixelInputStepNumber,
   BrixelInputText,
   BrixelRadioButton,
   Validation,
-} from '@brixel/brixel-components/dist/form';
-import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
-import {BrixelAutocomplete} from '@brixel/brixel-components/dist/map';
+} from '@brixel-io/brixel-components/dist/form';
+import baseByData from '@brixel-io/brixel-components/dist/configuration/Settings';
+import {BrixelAutocomplete} from '@brixel-io/brixel-components/dist/map';
 import get from 'lodash/get';
 import LoginSignup from '../../components/LoginSignup';
 import MapsWithModalManual from '../../components/Map/MapsWithModalManual';
@@ -16,7 +16,7 @@ import translateTo from '../../utils/translation';
 import {svgIcons} from '../Utilities/svgIcons';
 
 import {BestimateQuestions} from './Bestimate';
-import {QuestionsListType} from '@brixel/brixel-components/dist/@types/Model';
+import {QuestionsListType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 const { factsOptions } = FactsOptions;
 

@@ -1,4 +1,4 @@
-import {LoggedUserType} from '@brixel/brixel-components/dist/@types/Model';
+import {LoggedUserType} from '@brixel-io/brixel-components/dist/@types/Model';
 import type {LanguagesType} from './PageHeader';
 
 export interface RightHeaderFlowType {

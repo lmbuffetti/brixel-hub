@@ -3,12 +3,12 @@ import {
   change,
   initializeForm,
   BrixelTextArea, destroy,
-} from '@brixel/brixel-components/dist/form';
+} from '@brixel-io/brixel-components/dist/form';
 import {
   AddToCalendar,
   BrixelButtonPrimary,
   BrixelIcon,
-} from '@brixel/brixel-components';
+} from '@brixel-io/brixel-components';
 import get from 'lodash/get';
 import {connect} from 'react-redux';
 import {bindActionCreators, compose} from 'redux';
@@ -19,15 +19,15 @@ import ScheduleVisitComponent from './ScheduleVisitDateModal';
 import translateTo from '../../../../utils/translation';
 import Calendar from '../../../../images/dashboard/calendarState.svg';
 import type {ScheduleVisitType} from '../../../../@types/Pages/Dashboard/Buyer/ScheduleVisit';
-import {ScheduleVisitSlotType} from '@brixel/brixel-components/dist/@types/Model';
+import {ScheduleVisitSlotType} from '@brixel-io/brixel-components/dist/@types/Model';
 import {DateTime} from 'luxon';
-import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/BrixelButtonSecondary';
+import BrixelButtonSecondary from '@brixel-io/brixel-components/dist/components/BrixelButtonSecondary';
 import PropertyPendingImg from '../../../../images/dashboard/PropertyPendingVisit.svg';
 import PropertyconfirmedVisit2Img from '../../../../images/dashboard/PropertyConfimedVisit2.svg';
 import PropertyVisitedImg from '../../../../images/dashboard/propertyVisited.svg';
 import PropertyCanceledImg from '../../../../images/dashboard/scheduleCanceled.svg';
 import isEmpty from 'lodash/isEmpty';
-import BrixelSingleTag from '@brixel/brixel-components/dist/components/BrixelSingleTag';
+import BrixelSingleTag from '@brixel-io/brixel-components/dist/components/BrixelSingleTag';
 
 const ScheduleVisit = (props: ScheduleVisitType) => {
   const history = {

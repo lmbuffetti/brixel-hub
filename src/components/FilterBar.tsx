@@ -5,7 +5,7 @@ import get from 'lodash/get';
 import findIndex from 'lodash/findIndex';
 import {compose} from 'redux';
 import queryString from 'query-string';
-import {BrixelButtonText, BrixelIcon, FactsOptions, useOutsideAlerter} from '@brixel/brixel-components';
+import {BrixelButtonText, BrixelIcon, FactsOptions, useOutsideAlerter} from '@brixel-io/brixel-components';
 import translateTo from '../utils/translation';
 import type {FilterBarType} from '../@types/components/FilterBar';
 

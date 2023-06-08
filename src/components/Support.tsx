@@ -4,12 +4,12 @@ import {
   BrixelIcon,
   Helpers,
   BrixelImage,
-} from '@brixel/brixel-components';
+} from '@brixel-io/brixel-components';
 import translateTo from '../utils/translation';
 import get from 'lodash/get';
 import {connect} from 'react-redux';
 import {bindActionCreators, compose} from 'redux';
-import {BrixelTextArea} from '@brixel/brixel-components/dist/form';
+import {BrixelTextArea} from '@brixel-io/brixel-components/dist/form';
 import {sendSupportMessage} from '../actions/CommonActions';
 import type {SupportType} from '../@types/components/Support';
 

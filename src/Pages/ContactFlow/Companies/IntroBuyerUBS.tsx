@@ -1,7 +1,7 @@
 import React from 'react';
-import {change} from '@brixel/brixel-components/dist/form';
+import {change} from '@brixel-io/brixel-components/dist/form';
 import get from 'lodash/get';
-import {BrixelButtonSecondary, BrixelButtonText} from '@brixel/brixel-components';
+import {BrixelButtonSecondary, BrixelButtonText} from '@brixel-io/brixel-components';
 import translateTo from '../../../utils/translation';
 import {connect} from 'react-redux';
 import {useLocation, useNavigate, useParams} from 'react-router-dom';

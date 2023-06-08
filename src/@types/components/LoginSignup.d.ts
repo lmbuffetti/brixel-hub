@@ -1,4 +1,4 @@
-import {LocationType, NotificationType} from '@brixel/brixel-components/dist/@types/Model';
+import {LocationType, NotificationType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 export interface LoginSignupType {
   changeFieldValue: (formName: string, fild: string, val: string | boolean) => void

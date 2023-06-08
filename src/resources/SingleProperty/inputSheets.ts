@@ -1,9 +1,9 @@
 import get from 'lodash/get';
-import {InputSheetsConfig} from '@brixel/brixel-components/dist/configuration/InputSheets';
-import {ProEstimationConfig} from '@brixel/brixel-components/dist/configuration/ProEstimation';
-import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
+import {InputSheetsConfig} from '@brixel-io/brixel-components/dist/configuration/InputSheets';
+import {ProEstimationConfig} from '@brixel-io/brixel-components/dist/configuration/ProEstimation';
+import baseByData from '@brixel-io/brixel-components/dist/configuration/Settings';
 import {configureStore} from '../../store';
-import {QuestionsListType} from '@brixel/brixel-components/dist/@types/Model';
+import {QuestionsListType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 export const InputSheets = (type = 'facts', lang, changeField) => {
   let Input: object[] = [];

@@ -1,4 +1,4 @@
-import {ImageType} from '@brixel/brixel-components/dist/@types/Models/Media';
+import {ImageType} from '@brixel-io/brixel-components/dist/@types/Models/Media';
 
 export interface CoverPropertyImageType {
   className?: string;

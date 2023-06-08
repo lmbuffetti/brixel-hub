@@ -1,12 +1,12 @@
 /* eslint-disable max-len */
 import translateTo from '../../utils/translation';
-import {BrixelInputPhone, BrixelInputText, BrixelRadioButton, Validation} from '@brixel/brixel-components/dist/form';
+import {BrixelInputPhone, BrixelInputText, BrixelRadioButton, Validation} from '@brixel-io/brixel-components/dist/form';
 import IntroScanFlow from '../../Pages/ContactFlow/ScanTrial/IntroScanFlow';
 import BookTrialFlow from '../../Pages/ContactFlow/ScanTrial/BookTrialFlow';
 import ResumeTrialFlow from '../../Pages/ContactFlow/ScanTrial/ResumeTrialFlow';
 import ClipboardImg from '../../images/scanTrial/clipboard.png';
 import {svgIcons} from '../Utilities/svgIcons';
-import {QuestionsListType} from '@brixel/brixel-components/dist/@types/Model';
+import {QuestionsListType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 export const ScanTrialQuestions: (lang: string) => QuestionsListType[] = (lang) => [
   {
