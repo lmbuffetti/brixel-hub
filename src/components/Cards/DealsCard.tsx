@@ -70,7 +70,7 @@ const DealsCard = (props: DealsCardProps) => {
         text: 'Visited',
         status: 'visited',
       };
-    } else if (visitData && visitData?.sellerStatus === 'rejected' || visitData && visitData?.buyerStatus === 'rejected') {
+    } else if (visitData && (visitData?.sellerStatus === 'rejected' || visitData?.buyerStatus === 'rejected')) {
       data = {
         color: 'txtRed400',
         text: 'Cancelled',
@@ -148,65 +148,43 @@ const DealsCard = (props: DealsCardProps) => {
             }
             {
               stage === 'Visit' && (
-                !visitDate?.date ? (
-                  <div className="dis-fl-row a-c my-small-6">
-                    <BrixelIcon
-                      icon="calendar-add"
-                      color="text"
-                      className="mr-small-6 width-px-12"
-                      iconWidth="width-px-10"
-                    />
-                    <span className="fsize-200 txtText700">{translateTo('No date', lang)}</span>
-                  </div>
-                ) : (
-                  <>
-                    {
-                      (get(feedback, 'isInterested') === true || get(feedback, 'isInterested') === false) ? (
-                        <span className="fsize-300 txtText700">{getFeedback()}</span>
-                      ) : (
-                        <div className="mb-small-6">
-                          {
-                            visitStatus && (
-                              <>
-                                <BrixelSingleTag
-                                  className="my-small-6"
-                                  lang={lang}
-                                  message={{
-                                    lang: lang,
-                                    [visitStatus.status]: translateTo(visitStatus.text, lang),
-                                  }}
-                                  status={visitStatus.status}
-                                  text={translateTo(visitStatus.text, lang)}
-                                />
-                                {
-                                  !visitDate?.date && visitStatus?.status === 'pending' && !visitStatus ? (
-                                    <p className="fsize-200">
-                                      No date
-                                    </p>
-                                  ) : (
-                                    <>
-                                      {
-                                        visitStatus.status === 'pending' ? (
-                                          <p className="fsize-300">
-                                            Waiting for visit date
-                                          </p>
-                                        ) : (
-                                          <p className={`fsize-200 ${visitStatus.color}`}>
-                                            {DateTime.fromMillis(visitDate.date, { locale: lang }).toFormat('d LLL yyyy, H:mm')}
-                                          </p>
-                                        )
-                                      }
-                                    </>
-                                  )
-                                }
-                              </>
-                            )
-                          }
-                        </div>
-                      )
-                    }
-                  </>
-                )
+                <>
+                  {
+                    (get(feedback, 'isInterested') === true || get(feedback, 'isInterested') === false) ? (
+                      <span className="fsize-300 txtText700">{getFeedback()}</span>
+                    ) : (
+                      <div className="mb-small-6">
+                        {
+                          visitStatus && (
+                            <>
+                              <BrixelSingleTag
+                                className="my-small-6"
+                                lang={lang}
+                                message={{
+                                  lang: lang,
+                                  [visitStatus.status]: translateTo(visitStatus.text, lang),
+                                }}
+                                status={visitStatus.status}
+                                text={translateTo(visitStatus.text, lang)}
+                              />
+                              {
+                                !visitDate?.date || visitStatus.status === 'pending' ? (
+                                  <p className="fsize-300">
+                                    Waiting for visit date
+                                  </p>
+                                ) : (
+                                  <p className={`fsize-200 ${visitStatus.color}`}>
+                                    {DateTime.fromMillis(visitDate.date, { locale: lang }).toFormat('d LLL yyyy, H:mm')}
+                                  </p>
+                                )
+                              }
+                            </>
+                          )
+                        }
+                      </div>
+                    )
+                  }
+                </>
               )
             }
             {
