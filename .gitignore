@@ -8,3 +8,4 @@ _accordion.scss
 ./cypress/screenshots/*
 **/.DS_Store
 package-lock.json
+.npmrc
