@@ -83,11 +83,11 @@ const TableRowSellerVisits = (props: TableRowSellerVisitsType) => {
   }
 
   const classWidthTable = (id) => {
-    if (id === 0) return 'w-perc-60 w-perc-md-30';
-    if (id === 1) return 'w-perc-40 w-perc-md-25 mt-1 mt-md-0';
+    if (id === 0) return 'w-perc-100 w-perc-md-30';
+    if (id === 1) return 'w-perc-100 w-perc-md-25 mt-1 mt-md-0';
     // if (id === 2) return 'w-perc-40 w-perc-md-20';
-    if (id === 3) return 'w-perc-20 w-perc-md-15 mt-1 mt-md-0';
-    return 'w-perc-40 w-perc-md-20 mt-1 mt-md-0';
+    if (id === 3) return 'w-perc-50 w-perc-md-15 mt-1 mt-md-0';
+    return 'w-perc-50 w-perc-md-20 mt-1 mt-md-0';
   };
 
   if (!user) {
@@ -119,7 +119,7 @@ const TableRowSellerVisits = (props: TableRowSellerVisitsType) => {
         </p>
       </div>
       <p
-        className={`${classWidthTable(1)} order-3 order-md-2 cur-poi`}
+        className={`${classWidthTable(1)} order-3 order-md-2 cur-poi txtText700 fsize-300`}
         onClick={() => history.push(`/${activeSingleProperty.id}/prospect/${visit.deal}`)}
       >
         {
@@ -147,6 +147,7 @@ const TableRowSellerVisits = (props: TableRowSellerVisitsType) => {
       </p>
       <p className={`${classWidthTable(4)} ta-r ta-l-md order-5`}>
         <BrixelButtonText
+          className='ml-a'
           label={translateTo('View details', lang)}
           onClick={() => history.push(`/${activeSingleProperty.id}/prospect/${visit.deal}`)}
         />
