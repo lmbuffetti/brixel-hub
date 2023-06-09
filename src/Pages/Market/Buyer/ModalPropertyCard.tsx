@@ -51,7 +51,7 @@ const ModalPropertyCard = (props: ModalPropertyCardType) => {
         <h6 className="fsize-300 dis-f">
           <span>{translateTo('This is a Pre-Market property.', lang)}</span>
           <button
-            className="ml-1 txtGreen400 td-u fweight-600"
+            className="ml-1 txtGreen400 td-u fweight-600 no-wrap"
             onClick={() => setIsShowMoreInfo(!isShowMoreInfo)}
           >
             <span>{translateTo('What can I do?', lang)}</span>
@@ -74,7 +74,7 @@ const ModalPropertyCard = (props: ModalPropertyCardType) => {
         <hr className="lighter" />
       </div>
 
-      <div className="dis-f a-t jc-b flext-wrap p-2 p-sm-3">
+      <div className="dis-f a-t jc-b flex-wrap p-2 p-sm-3">
         <div>
           <span className="fsize-300 dis-b txtText400">
             {translateTo('Property Type', lang)}
