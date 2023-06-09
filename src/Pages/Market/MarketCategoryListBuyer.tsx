@@ -422,7 +422,7 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
                               </span>
                               <span>
                                 <button
-                                  className="ml-1 txtGreen400 td-u fweight-600"
+                                  className="ml-1 txtGreen400 td-u fweight-600 no-wrap"
                                   onClick={() => onLearnMore()}
                                 >
                                   {translateTo('Learn more.', lang)}

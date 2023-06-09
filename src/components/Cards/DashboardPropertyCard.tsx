@@ -32,8 +32,8 @@ const DashboardPropertyCard: (props: DashboardPropertyCardProps) => JSX.Element 
 
   return (
     <>
-      <div className={`shadow-2dp imgSection bgWhite brdRadius dis-fl-col dis-fl-row-sm ${smallLayout ? 'p-sm-3' : 'p-sm-3 pt-0 pb-2 mb-3'} ov-h`}>
-        <div>
+      <div className={`shadow-2dp imgSection bgWhite brdRadius dis-fl-col dis-fl-row-sm flex-wrap ${smallLayout ? 'p-sm-3' : 'p-sm-3 pt-0 pb-2 mb-3'} ov-h`}>
+        <div className='pr-sm-3 pr-0 pr-sm-2'>
           <div
             onClick={() => history.push(`/${get(activeSingleProperty, 'id', '')}/property/facts`)}
             className={`dis-b w-perc-100 ${smallLayout ? 'min-w-fix-sm-208' : 'w-fix-sm-232'} h-fix-160 pos-r`}
@@ -56,7 +56,7 @@ const DashboardPropertyCard: (props: DashboardPropertyCardProps) => JSX.Element 
             }
           </div>
         </div>
-        <div className="pl-sm-3 pl-2 pr-sm-0 pr-2 pt-2 pt-sm-0 dis-fl-col jc-b w-perc-100">
+        <div className="px-sm-0 px-2 pt-2 pt-sm-0 dis-fl-col jc-b flex-1">
           <div className="">
             <h4 className={`txtText900 fweight-600 fsize-sm-600 fsize-500 ${!activeSingleProperty?.title && 'skeletonh4'}`}>
               {get(activeSingleProperty, 'title', '')}
@@ -197,8 +197,8 @@ const DashboardPropertyCard: (props: DashboardPropertyCardProps) => JSX.Element 
                     <>
                       {
                         smallLayout ? (
-                          <div className="dis-fl-col dis-fl-row-sm flex-wrap jc-b a-c w-perc-100">
-                            <div className="dis-f a-c mr-a mr-sm-0">
+                          <div className="dis-fl-col dis-fl-row-sm flex-wrap jc-b a-sm-c w-perc-100">
+                            <div className="dis-f a-c mr-a mr-sm-0 my-1">
                               <BrixelIcon
                                 background="blue"
                                 saturation={100}
@@ -220,7 +220,7 @@ const DashboardPropertyCard: (props: DashboardPropertyCardProps) => JSX.Element 
                               </div>
                             </div>
                             <BrixelButtonPrimary
-                              className="mt-2 mt-sm-0 mr-a mr-sm-0 mb-3 mb-sm-0"
+                              className="mt-2 mt-sm-0 mr-a mr-sm-0 mb-3 mb-sm-0 as-c"
                               rounded
                               label={translateTo('Open', lang)}
                               onClick={() => window.open(`${baseByData?.pageUrl}${get(activeSingleProperty, 'stub', '')}`, '_blank')}

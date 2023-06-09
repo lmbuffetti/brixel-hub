@@ -417,7 +417,7 @@ const App = (props: AppType) => {
       classMain = 'w-perc-100 pos-r hubContainer ov-h';
     }
 
-    if (history.location.pathname.includes('property/') || history.location.pathname.includes('deal')) classMain += 'dealsPage'
+    if (history.location.pathname.includes('property/') || history.location.pathname.includes('deal')) classMain += ' dealsPage'
     if (isSecLevel) classMain += 'fixedLayout';
 
     return classMain;

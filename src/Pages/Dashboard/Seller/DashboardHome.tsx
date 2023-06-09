@@ -673,7 +673,7 @@ const DashboardHome = (props: DashboardHomeType) => {
           get(progressState, 'step', 0) >= 3 && get(progressState, 'step', 0) <= 5 && (
             <>
               <div className="dis-fl-col dis-fl-row-md jc-b flex-wrap">
-                <div className="w-perc-100 w-perc-md-67 pr-md-1 pr-lg-0 pr-xl-1">
+                <div className="w-perc-100 w-perc-md-67 pr-md-1">
                   <DashboardPropertyCard
                     lang={lang}
                     smallLayout
@@ -727,9 +727,9 @@ const DashboardHome = (props: DashboardHomeType) => {
                 </div>
               </div>
 
-              <div className="dis-fl-col dis-fl-row-xs my-3 shadow-2dp-sm shadow-0dp-md brdRadius-sm brdRadiusNone-md ov-h-sm ov-v-md">
+              <div className="dis-fl-col dis-fl-row-sm my-3 shadow-2dp-sm shadow-0dp-md brdRadius-sm brdRadiusNone-md ov-h-sm ov-v-md">
                 <div
-                  className="w-perc-100 w-perc-sm-33 bgWhite brdRadius-md ta-c p-3 mr-md-1 shadow-2dp shadow-2dp-md shadow-0dp-sm dis-fl-row dis-fl-col-xs a-c shadowHover-4dp shadowHover-4dp-md shadowHover-0dp-sm cur-poi"
+                  className="w-perc-100 w-perc-sm-33 bgWhite brdRadius ta-c p-3 mr-md-1 shadow-2dp shadow-2dp-md shadow-0dp-sm dis-fl-row dis-fl-col-sm a-c jc-b cur-poi"
                   onClick={() => history.push(`/${activeSingleProperty.id}/prospects`)}
                 >
                   <BrixelIcon
@@ -737,16 +737,16 @@ const DashboardHome = (props: DashboardHomeType) => {
                     icon="interested"
                     color="red"
                   />
-                  <h6 className="mt-xs-2 fweight-400">
+                  <h6 className="mt-sm-2 ml-1 ml-sm-0 fweight-400">
                     {translateTo('Interested', lang)}
                   </h6>
 
-                  <div className={`lh-50 mt-xs-3 fSizePx64 fweight-600 txtRed700 ${!visitLists ? 'h-fix-48 w-fix-40 skeletonBg' : ''}`}>
+                  <div className={`lh-50 mt-sm-3 fSizePx64 fweight-600 txtRed700 ml-a ml-sm-0 ${!visitLists ? 'h-fix-48 w-fix-40 skeletonBg' : ''}`}>
                     {get(activeSinglePropertyDealsCount, 'Interested.total', '')}
                   </div>
                 </div>
                 <div
-                  className="w-perc-100 w-perc-sm-33 bgWhite brdRadius-md ta-c p-3 mx-md-1 mt-2 mt-xs-0 shadow-2dp shadow-2dp-md shadow-0dp-sm brdSmallRight brdSmallLeft brdSmallHideLeft-md brdSmallHideRight-md brdText50 dis-fl-row dis-fl-col-xs a-c shadowHover-4dp shadowHover-4dp-md shadowHover-0dp-sm cur-poi"
+                  className="w-perc-100 w-perc-sm-33 bgWhite brdRadius ta-c p-3 mx-md-1 mt-2 mt-sm-0 shadow-2dp shadow-2dp-md shadow-0dp-sm brdSmallRight brdSmallLeft brdSmallHideLeft-md brdSmallHideRight-md brdText50 dis-fl-row dis-fl-col-sm a-c cur-poi"
                   onClick={() => history.push(`/${activeSingleProperty.id}/prospects`)}
                 >
                   <BrixelIcon
@@ -754,15 +754,15 @@ const DashboardHome = (props: DashboardHomeType) => {
                     icon="visited"
                     color="blue"
                   />
-                  <h6 className="mt-xs-2 fweight-400">
+                  <h6 className="mt-sm-2 ml-1 ml-sm-0 fweight-400">
                     {translateTo('Visit', lang)}
                   </h6>
-                  <div className={`lh-50 mt-xs-3 fSizePx64 fweight-600 txtRed700 ${!visitLists ? 'h-fix-48 w-fix-40 skeletonBg' : ''}`}>
+                  <div className={`lh-50 mt-sm-3 fSizePx64 fweight-600 txtRed700 ml-a ml-sm-0 ${!visitLists ? 'h-fix-48 w-fix-40 skeletonBg' : ''}`}>
                     {get(activeSinglePropertyDealsCount, 'Visit.total', '')}
                   </div>
                 </div>
                 <div
-                  className="w-perc-100 w-perc-sm-33 bgWhite brdRadius-md ta-c p-3 ml-md-1 mt-2 mt-xs-0 shadow-2dp shadow-2dp-md shadow-0dp-sm dis-fl-row dis-fl-col-xs a-c shadowHover-4dp shadowHover-4dp-md shadowHover-0dp-sm cur-poi"
+                  className="w-perc-100 w-perc-sm-33 bgWhite brdRadius ta-c p-3 ml-md-1 mt-2 mt-sm-0 shadow-2dp shadow-2dp-md shadow-0dp-sm dis-fl-row dis-fl-col-sm a-c cur-poi"
                   onClick={() => history.push(`/${activeSingleProperty.id}/prospects`)}
                 >
                   <BrixelIcon
@@ -770,10 +770,10 @@ const DashboardHome = (props: DashboardHomeType) => {
                     icon="offers"
                     color="primary"
                   />
-                  <h6 className="mt-xs-2 fweight-400">
+                  <h6 className="mt-sm-2 ml-1 ml-sm-0 fweight-400">
                     {translateTo('Offer', lang)}
                   </h6>
-                  <div className={`lh-50 mt-xs-3 fSizePx64 fweight-600 txtRed700 ${!visitLists ? 'h-fix-48 w-fix-40 skeletonBg' : ''}`}>
+                  <div className={`lh-50 mt-sm-3 fSizePx64 fweight-600 txtRed700 ml-a ml-sm-0 ${!visitLists ? 'h-fix-48 w-fix-40 skeletonBg' : ''}`}>
                     {get(activeSinglePropertyDealsCount, 'Offer.total', '')}
                   </div>
                 </div>

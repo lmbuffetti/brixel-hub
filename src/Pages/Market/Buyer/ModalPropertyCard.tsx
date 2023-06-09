@@ -51,7 +51,7 @@ const ModalPropertyCard = (props: ModalPropertyCardType) => {
         <h6 className="fsize-300 dis-f">
           <span>{translateTo('This is a Pre-Market property.', lang)}</span>
           <button
-            className="ml-1 txtGreen400 td-u fweight-600"
+            className="ml-1 txtGreen400 td-u fweight-600 no-wrap"
             onClick={() => setIsShowMoreInfo(!isShowMoreInfo)}
           >
             <span>{translateTo('What can I do?', lang)}</span>
@@ -74,8 +74,8 @@ const ModalPropertyCard = (props: ModalPropertyCardType) => {
         <hr className="lighter" />
       </div>
 
-      <div className="dis-f a-t jc-b flext-wrap p-2 p-sm-3">
-        <div>
+      <div className="dis-f a-t jc-b flex-wrap p-2 p-sm-3">
+        <div className='min-w-fix-64 mb-1'>
           <span className="fsize-300 dis-b txtText400">
             {translateTo('Property Type', lang)}
           </span>
@@ -83,7 +83,7 @@ const ModalPropertyCard = (props: ModalPropertyCardType) => {
             {translateTo(get(property, 'properties.propertyType', ''), lang)}
           </span>
         </div>
-        <div>
+        <div className='min-w-fix-64 mb-1'>
           <span className="fsize-300 dis-b txtText400">
             {translateTo('Rooms', lang)}
           </span>
@@ -91,7 +91,7 @@ const ModalPropertyCard = (props: ModalPropertyCardType) => {
             {FormatValue.formatRooms(get(property, 'properties.typology.bedrooms', 0), get(property, 'location.countryCode', 'CH'))}
           </span>
         </div>
-        <div>
+        <div className='min-w-fix-64 mb-1'>
           <span className="fsize-300 dis-b txtText400">
             {translateTo('Size', lang)}
           </span>
@@ -99,7 +99,7 @@ const ModalPropertyCard = (props: ModalPropertyCardType) => {
             {get(property, 'properties.typology.livingArea.value', 0)} m2
           </span>
         </div>
-        <div>
+        <div className='min-w-fix-64 mb-1'>
           <span className="fsize-300 dis-b txtText400">
             {translateTo('Year built', lang)}
           </span>
@@ -107,7 +107,7 @@ const ModalPropertyCard = (props: ModalPropertyCardType) => {
             {get(property, 'properties.building.built', 0)}
           </span>
         </div>
-        <div>
+        <div className='min-w-fix-64 mb-1'>
           <span className="fsize-300 dis-b txtText400">
             {translateTo('Location', lang)}
           </span>
