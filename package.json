@@ -45,7 +45,6 @@
     "install-styleguide": "rm -rf node_modules/@brixel-io && rm -rf package-lock.json && npm install --force",
     "install-styleguide-git": "rm -rf node_modules/@brixel-io && rm -rf package-lock.json && yarn install",
     "start-updated": "rm -rf node_modules/@brixel-io && rm -rf package-lock.json && npm install && npx kill-port 5000 && NODE_ENV=page-dev webpack serve --no-client-overlay --config webpack.config.js --progress profile --env DEV_LOCAL --mode development",
-    "eject": "react-scripts eject",
     "lint": "eslint --fix --config .eslintrc --ignore-path .eslintignore .",
     "ncu-u": "ncu -x 'redux-actions' -u",
     "e2e": "npx cypress run --e2e --headless --browser chrome",
