@@ -30,6 +30,8 @@ jobs:
       - run: yarn install
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      - name: Print installed version of brixel-components
+        run: yarn list --depth=0 | grep @brixel-io/brixel-components
       - run: yarn build-prod
       - uses: actions/upload-artifact@v3
         with:
