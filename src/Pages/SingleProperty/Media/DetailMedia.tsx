@@ -67,10 +67,14 @@ const DetailMedia = (props: DetailMediaType) => {
 
   // FUNCTION TO DELETE THE IMAGES - FLOOR PLANS
   const deleteImage = () => {
+    const foto = cloneDeep(formValue[mediaType]);
+    const fotoID = foto.findIndex((item) => item.id === idImg);
+    if (fotoID > -1) foto.splice(fotoID, 1);
     const data = {
       id: mediaID,
       pageID: propID,
       type: mediaType,
+      imgToSave: foto,
       smallLoader: 'saveData',
     };
     // eslint-disable-next-line no-alert
@@ -82,7 +86,6 @@ const DetailMedia = (props: DetailMediaType) => {
   const rotateImage = (e) => {
     if (e) e.preventDefault();
     const rotate = rotation + 90;
-    // if (rotate > 360) rotate = 90;
     const data = {
       type: mediaType,
       id: mediaID,

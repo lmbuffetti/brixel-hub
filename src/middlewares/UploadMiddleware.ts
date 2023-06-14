@@ -272,7 +272,10 @@ const checkCommon = (store) => (next) => (action) => {
     // DISPATCH TO DELETE IMG - IMAGE ID
     case DELETE_IMG: {
       next(action);
-      const { smallLoader } = action.payload;
+      const {
+        imgToSave,
+        smallLoader,
+      } = action.payload;
       const arrayImg = store.getState().brixelForm.Property.values[action.payload.type];
       const idImg = arrayImg.findIndex((val) => val.id === action.payload.id);
       if (smallLoader) {
@@ -289,18 +292,31 @@ const checkCommon = (store) => (next) => (action) => {
       }
       api.image.deleteImg(action.payload.id)
         .then(() => {
-          arrayImg.splice(idImg, 1);
-          store.dispatch(change('Property', action.payload.type, arrayImg));
-          const data = {
-            id: action.payload.pageID,
-            [action.payload.type]: arrayImg,
-            smallLoader: true,
-          };
-          if (action.payload.type === 'photos') {
-            set(data, 'coverPhoto', arrayImg[0] || {});
+          let data;
+          if (imgToSave) {
+            data = {
+              id: action.payload.pageID,
+              [action.payload.type]: imgToSave,
+              smallLoader: true,
+            };
+            if (action.payload.type === 'photos') {
+              set(data, 'coverPhoto', imgToSave[0] || {});
+            }
+            if (action.payload.type === 'photos' && imgToSave.length === 0) set(data, 'coverPhoto', null);
+          } else {
+            arrayImg.splice(idImg, 1);
+            store.dispatch(change('Property', action.payload.type, arrayImg));
+            data = {
+              id: action.payload.pageID,
+              [action.payload.type]: arrayImg,
+              smallLoader: true,
+            };
+            if (action.payload.type === 'photos') {
+              set(data, 'coverPhoto', arrayImg[0] || {});
+            }
+            if (action.payload.type === 'photos' && arrayImg.length === 0) set(data, 'coverPhoto', null);
           }
-          if (action.payload.type === 'photos' && arrayImg.length === 0)  set(data, 'coverPhoto', null);
-          store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: data });
+          store.dispatch({type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: data});
           if (smallLoader) {
             store.dispatch({
               type: SPINNER_SMALL,
