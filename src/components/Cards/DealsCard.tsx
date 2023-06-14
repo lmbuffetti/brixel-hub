@@ -13,6 +13,7 @@ import translateTo from '../../utils/translation';
 import type { DealsCardProps } from '../../@types/components/Cards/DealsCard';
 import { HistoryType, ScheduleVisitRequestType } from '@brixel-io/brixel-components/dist/@types/Model';
 import BrixelSingleTag from '@brixel-io/brixel-components/dist/components/BrixelSingleTag';
+import {visitDateStatus} from '../../utils/helpers';
 
 const DealsCard = (props: DealsCardProps) => {
   const match = useParams();
@@ -58,39 +59,12 @@ const DealsCard = (props: DealsCardProps) => {
     return '';
   };
 
-  const visitDateStatus = (visitData) => {
-    let data = {
-      color: 'txtYellow400',
-      text: 'Pending',
-      status: 'pending',
-    };
-    if (visitData && visitData.visit.date < new Date().valueOf()) {
-      data = {
-        color: 'txtBlue400',
-        text: 'Visited',
-        status: 'visited',
-      };
-    } else if (visitData && (visitData?.sellerStatus === 'rejected' || visitData?.buyerStatus === 'rejected')) {
-      data = {
-        color: 'txtRed400',
-        text: 'Cancelled',
-        status: 'cancelled',
-      };
-    } else if (visitData && visitData?.sellerStatus === 'accepted' && visitData && visitData?.buyerStatus === 'accepted') {
-      data = {
-        color: 'txtGreen400',
-        text: 'Confirmed',
-        status: 'accepted',
-      };
-    }
-    setVisitStatus(data);
-  }
-
   useEffect(() => {
     if (id && stage === 'Visit') {
       api.deal.getScheduleVisit(id).then((res) => {
         setVisitDate(res?.data[0]?.visit || {});
-        visitDateStatus(res?.data[0] || {});
+        const visitInfo = visitDateStatus(res?.data[0] || {});
+        setVisitStatus(visitInfo);
       })
     }
   }, [id]);

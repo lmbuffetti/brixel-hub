@@ -18,7 +18,7 @@ import scheduleAcceptedSvg from '../../../images/dashboard/PropertyConfimedVisit
 import PropertyCalendarSvg from '../../../images/dashboard/PropertyCalendar.svg';
 import PropertyVisitedSvg from '../../../images/dashboard/propertyVisited.svg';
 import PropertyCanceledSvg from '../../../images/dashboard/scheduleCanceled.svg';
-import {getCookie, setCookie} from '../../../utils/helpers';
+import {getCookie, setCookie, visitDateStatus} from '../../../utils/helpers';
 import translateTo from '../../../utils/translation';
 import type {ContactType} from '../../../@types/Pages/Dashboard/Buyer/DashboardHome';
 
@@ -39,9 +39,18 @@ const DashboardHome = (props: ContactType) => {
     userTypes = 'user',
   } = props;
   // STATE
+  const [visitStatus, setVisitStatus] = useState<{status: string; text: string; color: string;bg: string;}>();
   const [progressState, setProgressState] = useState({step: 1});
   const [showFirstWelcomMessage, setShowFirstWelcomMessage] = useState(false);
   const propID = get(match, 'propID', null);
+
+  useEffect(() => {
+    if (scheduleVisit) {
+      const visitInfo = visitDateStatus(scheduleVisit[0]);
+      setVisitStatus(visitInfo);
+    }
+  }, [scheduleVisit && scheduleVisit[0]]);
+
 
   useEffect(() => {
     if (getCookie('brixelFirstTime') === 'true') {
@@ -53,26 +62,6 @@ const DashboardHome = (props: ContactType) => {
   useEffect(() => {
     if (activeSingleProperty.sellerStatus === 'success') setProgressState({step: 5});
   }, [activeSingleProperty.sellerStatus, activeSingleProperty.progress]);
-
-  const colorBgCard = (visitDate) => {
-    let cl = 'white';
-    if (visitDate?.visit?.date && visitDate?.buyerAvailability) cl = 'green';
-    if (!visitDate) cl = 'green';
-    if (visitDate?.visit?.date < new Date().valueOf()) cl = 'blue';
-    if (visitDate?.sellerStatus === 'rejected' || visitDate?.buyerStatus === 'rejected') cl = 'red';
-    switch (cl) {
-      case 'white':
-        return 'bgWhite';
-      case 'blue':
-        return 'bgBlue100';
-      case 'green':
-        return 'bgGreen100';
-      case 'red':
-        return 'bgRed50';
-      default:
-        return 'bgWhite';
-    }
-  }
 
   // UNTILE NO PROPERTY OR NO USER TYPE SHOW THE LOADING
   if ((!activeSingleProperty.id && !userTypes) || isSmallLoading.getProperty) {
@@ -102,7 +91,7 @@ const DashboardHome = (props: ContactType) => {
           <div className="dis-fl-col dis-fl-row-sm">
 
             <button
-              className={`shadow-2dp brdRadius dis-f jc-b pt-2 pl-2 pl-sm-3 mr-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi ta-l ${colorBgCard(scheduleVisit ? scheduleVisit[0] : {})}`}
+              className={`shadow-2dp brdRadius dis-f jc-b pt-2 pl-2 pl-sm-3 mr-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi ta-l ${visitStatus?.bg}`}
             >
               {
                 (!scheduleVisit) && (
@@ -114,97 +103,95 @@ const DashboardHome = (props: ContactType) => {
                 )
               }
               {
-                scheduleVisit && scheduleVisit[0]?.visit?.date && (
-                  <>
-                    {
-                      (scheduleVisit[0]?.sellerStatus === 'rejected' || scheduleVisit[0]?.buyerStatus === 'rejected') && (
-                        <div
-                          className="cardWithBg rightPosBg"
-                          style={{ backgroundImage: `url(${PropertyCanceledSvg})` }}
-                        >
-                          <div className="dis-fl-col max-w-perc-100">
-                            <h5 className="fweight-600">
-                              {translateTo('Your visit has been cancelled', lang)}
-                            </h5>
-                            <div className="dis-f a-c max-w-perc-80 mt-1">
-                              <p className="pr-2 mb-3">
-                                {translateTo('Please contact our team for more details.', lang)}
-                              </p>
-                            </div>
+                visitStatus?.status === 'cancelled' && (
+                  <div
+                    className="cardWithBg rightPosBg"
+                    style={{ backgroundImage: `url(${PropertyCanceledSvg})` }}
+                  >
+                    <div className="dis-fl-col max-w-perc-100">
+                      <h5 className="fweight-600">
+                        {translateTo('Your visit has been cancelled', lang)}
+                      </h5>
+                      <div className="dis-f a-c max-w-perc-80 mt-1">
+                        <p className="pr-2 mb-3">
+                          {translateTo('Please contact our team for more details.', lang)}
+                        </p>
+                      </div>
 
-                            <div className="mt-a">
-                              <BrixelButtonPrimary
-                                label={translateTo('Request new visit', lang)}
-                                rounded
-                                leftIcon="plus"
-                                onClick={() => history.push(`/buyer/${propID}/scheduleVisit/addDate`)}
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      )
-                    }
-                    {
-                      scheduleVisit[0]?.sellerStatus === 'accepted' || scheduleVisit[0]?.buyerStatus === 'accepted' && scheduleVisit[0]?.visit?.date > new Date().valueOf() && (
-                        <div
-                          className="cardWithBg"
-                          style={{ backgroundImage: `url(${scheduleAcceptedSvg})` }}
-                        >
-                          <div className="dis-fl-col max-w-perc-100">
-                            <h5 className="fweight-600">
-                              {translateTo('Your visit is confirmed', lang)}
-                            </h5>
-                            <div className="dis-f a-c max-w-perc-80 mt-1">
-                              <h5 className="pr-2 txtGreen400 fweight-600 mb-3">
-                                {DateTime.fromMillis(scheduleVisit[0].visit.date).toFormat('dd LLL yyyy, HH:mm', { locale: lang})}
-                              </h5>
-                            </div>
-
-                            <div className="mt-a">
-                              <BrixelButtonPrimary
-                                label={translateTo('View details', lang)}
-                                rounded
-                                onClick={() => history.push(`/buyer/${propID}/scheduleVisit`)}
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      )
-                    }
-                    {
-                      scheduleVisit[0]?.sellerStatus === 'accepted' && scheduleVisit[0]?.buyerStatus === 'accepted' && scheduleVisit[0]?.visit?.date <= new Date().valueOf() && (
-                        <div
-                          className="cardWithBg rightPosBg"
-                          style={{ backgroundImage: `url(${PropertyVisitedSvg})` }}
-                        >
-                          <div className="dis-fl-col max-w-perc-100">
-                            <h5 className="fweight-600">
-                              {translateTo('You visited the property', lang)}
-                            </h5>
-                            <div className="dis-f a-c max-w-perc-80 mt-1">
-                              <p className="pr-2 mb-3">
-                                {translateTo('We hope you had a great experience.', lang)}
-                              </p>
-                            </div>
-
-                            <div className="mt-a">
-                              <BrixelButtonSecondary
-                                bgTransparent
-                                label={translateTo('Add new dates', lang)}
-                                leftIcon="plus"
-                                rounded
-                                onClick={() => history.push(`/buyer/${propID}/scheduleVisit/addDate`)}
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      )
-                    }
-                  </>
+                      <div className="mt-a">
+                        <BrixelButtonPrimary
+                          label={translateTo('Request new visit', lang)}
+                          rounded
+                          leftIcon="plus"
+                          onClick={() => history.push(`/buyer/${propID}/scheduleVisit/addDate`)}
+                        />
+                      </div>
+                    </div>
+                  </div>
                 )
               }
               {
-                scheduleVisit && !scheduleVisit[0]?.visit?.date && scheduleVisit[0]?.buyerAvailability && (
+                visitStatus?.status === 'accepted' && (
+                  <div
+                    className="cardWithBg"
+                    style={{ backgroundImage: `url(${scheduleAcceptedSvg})` }}
+                  >
+                    <div className="dis-fl-col max-w-perc-100">
+                      <h5 className="fweight-600">
+                        {translateTo('Your visit is confirmed', lang)}
+                      </h5>
+                      <div className="dis-f a-c max-w-perc-80 mt-1">
+                        {
+                          scheduleVisit && (
+                            <h5 className="pr-2 txtGreen400 fweight-600 mb-3">
+                              {DateTime.fromMillis(scheduleVisit[0].visit.date).toFormat('dd LLL yyyy, HH:mm', { locale: lang})}
+                            </h5>
+                          )
+                        }
+                      </div>
+
+                      <div className="mt-a">
+                        <BrixelButtonPrimary
+                          label={translateTo('View details', lang)}
+                          rounded
+                          onClick={() => history.push(`/buyer/${propID}/scheduleVisit`)}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )
+              }
+              {
+                visitStatus?.status === 'visited' && (
+                  <div
+                    className="cardWithBg rightPosBg"
+                    style={{ backgroundImage: `url(${PropertyVisitedSvg})` }}
+                  >
+                    <div className="dis-fl-col max-w-perc-100">
+                      <h5 className="fweight-600">
+                        {translateTo('You visited the property', lang)}
+                      </h5>
+                      <div className="dis-f a-c max-w-perc-80 mt-1">
+                        <p className="pr-2 mb-3">
+                          {translateTo('We hope you had a great experience.', lang)}
+                        </p>
+                      </div>
+
+                      <div className="mt-a">
+                        <BrixelButtonSecondary
+                          bgTransparent
+                          label={translateTo('Add new dates', lang)}
+                          leftIcon="plus"
+                          rounded
+                          onClick={() => history.push(`/buyer/${propID}/scheduleVisit/addDate`)}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )
+              }
+              {
+                visitStatus?.status === 'pending' && (
                   <div
                     className="cardWithBg"
                     style={{ backgroundImage: `url(${scheduleSvg})` }}
@@ -231,7 +218,7 @@ const DashboardHome = (props: ContactType) => {
                 )
               }
               {
-                scheduleVisit && !scheduleVisit[0]?.visit?.date && !scheduleVisit[0]?.buyerAvailability && (
+                visitStatus?.status === 'empty' && (
                   <div
                     className="cardWithBg"
                     style={{backgroundImage: `url(${PropertyCalendarSvg})` }}

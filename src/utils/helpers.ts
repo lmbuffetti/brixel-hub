@@ -413,3 +413,43 @@ export const redirectUrl = (link, options) => {
     return url || '/sell';
   }
 }
+
+export const visitDateStatus = (visitData) => {
+  let data = {
+    color: 'txtYellow400',
+    text: 'Pending',
+    status: 'pending',
+    bg: '',
+
+  };
+  if (visitData && visitData?.visit?.date < new Date().valueOf() && visitData?.sellerStatus === 'accepted' && visitData && visitData?.buyerStatus === 'accepted') {
+    data = {
+      color: 'txtBlue400',
+      text: 'Visited',
+      status: 'visited',
+      bg: 'bgBlue100',
+    };
+  } else if (visitData && (visitData?.sellerStatus === 'rejected' || visitData?.buyerStatus === 'rejected')) {
+    data = {
+      color: 'txtRed400',
+      text: 'Cancelled',
+      status: 'cancelled',
+      bg: 'bgRed50',
+    };
+  } else if (visitData && visitData?.sellerStatus === 'accepted' && visitData && visitData?.buyerStatus === 'accepted') {
+    data = {
+      color: 'txtGreen400',
+      text: 'Confirmed',
+      status: 'accepted',
+      bg: 'bgGreen100',
+    };
+  } else if (!visitData || !visitData?.visit?.date) {
+    data = {
+      color: 'txtYellow400',
+      text: 'Empty',
+      status: 'empty',
+      bg: 'bgWhite',
+    };
+  }
+  return data;
+};
