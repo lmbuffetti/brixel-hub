@@ -126,8 +126,10 @@ const Documents = (props: DocumentsPageType) => {
 
   const openDocument = (e, id) => {
     if (e) e.preventDefault();
-    Helpers.openDocument(id);
-    // window.open(`${getConfigEnv.shortPath}/document/${id}`, '_blank');
+    if (activeSingleProperty.documents) {
+      const currentDoc = activeSingleProperty.documents.find(doc => doc.id === id);
+      if (currentDoc) window.open(currentDoc.loadUrl, '_blank');
+    }
   };
 
   const index = (key) => findIndex(showFullFolder, (el) => el === key);
