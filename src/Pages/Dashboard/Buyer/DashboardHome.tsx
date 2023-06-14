@@ -172,7 +172,7 @@ const DashboardHome = (props: ContactType) => {
                       )
                     }
                     {
-                      scheduleVisit[0]?.sellerStatus === 'accepted' || scheduleVisit[0]?.buyerStatus === 'accepted' && scheduleVisit[0]?.visit?.date <= new Date().valueOf() && (
+                      scheduleVisit[0]?.sellerStatus === 'accepted' && scheduleVisit[0]?.buyerStatus === 'accepted' && scheduleVisit[0]?.visit?.date <= new Date().valueOf() && (
                         <div
                           className="cardWithBg rightPosBg"
                           style={{ backgroundImage: `url(${PropertyVisitedSvg})` }}
