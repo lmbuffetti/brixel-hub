@@ -192,56 +192,60 @@ const DashboardHome = (props: ContactType) => {
               }
               {
                 visitStatus?.status === 'pending' && (
-                  <div
-                    className="cardWithBg"
-                    style={{ backgroundImage: `url(${scheduleSvg})` }}
-                  >
-                    <div className="dis-fl-col ">
-                      <h5 className="fweight-600">
-                        {translateTo('Thank you for your request', lang)}
-                      </h5>
-                      <div className="dis-f a-c max-w-perc-70 mt-1 mb-3">
-                        <p className="pr-2 fsize-300 txtText700">
-                          {translateTo('We will contact you shortly to confirm your visit.', lang)}
-                        </p>
-                      </div>
+                  <>
+                    {
+                      (!scheduleVisit || (scheduleVisit && !scheduleVisit[0]?.visit?.date)) ? (
+                        <div
+                          className="cardWithBg"
+                          style={{backgroundImage: `url(${PropertyCalendarSvg})` }}
+                        >
+                          <div className="dis-fl-col ">
+                            <h5 className="fweight-600">
+                              {translateTo('Request a visit', lang)}
+                            </h5>
+                            <div className="dis-f a-c max-w-perc-70 mt-1 mb-3">
+                              <p className="pr-2 txtText700 fsize-300">
+                                {translateTo('Share your availability to visit your favourite property.', lang)}
+                              </p>
+                            </div>
 
-                      <BrixelButtonSecondary
-                        bgTransparent
-                        onClick={() => history.push(`/buyer/${propID}/scheduleVisit`)}
-                        className="mt-a as-fs"
-                        rounded
-                        label={translateTo('View details', lang)}
-                      />
-                    </div>
-                  </div>
-                )
-              }
-              {
-                visitStatus?.status === 'empty' && (
-                  <div
-                    className="cardWithBg"
-                    style={{backgroundImage: `url(${PropertyCalendarSvg})` }}
-                  >
-                    <div className="dis-fl-col ">
-                      <h5 className="fweight-600">
-                        {translateTo('Request a visit', lang)}
-                      </h5>
-                      <div className="dis-f a-c max-w-perc-70 mt-1 mb-3">
-                        <p className="pr-2 txtText700 fsize-300">
-                          {translateTo('Share your availability to visit your favourite property.', lang)}
-                        </p>
-                      </div>
+                            <BrixelButtonPrimary
+                              onClick={() => history.push(`/buyer/${propID}/scheduleVisit/addDate`)}
+                              className="mt-a as-fs"
+                              leftIcon="plus"
+                              rounded
+                              label={translateTo('Add dates', lang)}
+                            />
+                          </div>
+                        </div>
+                      )  : (
+                        <div
+                          className="cardWithBg"
+                          style={{ backgroundImage: `url(${scheduleSvg})` }}
+                        >
+                          <div className="dis-fl-col ">
+                            <h5 className="fweight-600">
+                              {translateTo('Thank you for your request', lang)}
+                            </h5>
+                            <div className="dis-f a-c max-w-perc-70 mt-1 mb-3">
+                              <p className="pr-2 fsize-300 txtText700">
+                                {translateTo('We will contact you shortly to confirm your visit.', lang)}
+                              </p>
+                            </div>
 
-                      <BrixelButtonPrimary
-                        onClick={() => history.push(`/buyer/${propID}/scheduleVisit/addDate`)}
-                        className="mt-a as-fs"
-                        leftIcon="plus"
-                        rounded
-                        label={translateTo('Add dates', lang)}
-                      />
-                    </div>
-                  </div>
+                            <BrixelButtonSecondary
+                              bgTransparent
+                              onClick={() => history.push(`/buyer/${propID}/scheduleVisit`)}
+                              className="mt-a as-fs"
+                              rounded
+                              label={translateTo('View details', lang)}
+                            />
+                          </div>
+                        </div>
+                      )
+                    }
+                  </>
+
                 )
               }
             </button>

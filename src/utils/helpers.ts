@@ -443,13 +443,6 @@ export const visitDateStatus = (visitData) => {
       status: 'accepted',
       bg: 'bgGreen100',
     };
-  } else if (!visitData || !visitData?.visit?.date) {
-    data = {
-      color: 'txtYellow400',
-      text: 'Empty',
-      status: 'empty',
-      bg: 'bgWhite',
-    };
   }
   return data;
 };
