@@ -61,7 +61,6 @@ function PageHeader(props: PageHeaderType) {
   } = props;
   // STATE
   const [langMenu, setLangMenu] = useState<OptionsType[]>([]);
-  const [langSel, setSelLang] = useState(lang);
   const [openMenu, setOpenMenu] = useState(false);
   const [packageName, setPackageName] = useState('Basic');
   const [section, setSection] = useState(translateTo('Sell', lang));
@@ -131,9 +130,7 @@ function PageHeader(props: PageHeaderType) {
 
   // FUNCTION TO CHANGE  THE LANGUAGE
   const newLang = (langCode) => {
-    // handleChangeLanguage(lang);
     const defLangCode = get(langCode, 'value', null) ? langCode.value : langCode;
-    setSelLang(defLangCode);
     if (defLangCode) setCookie('brixelLang', defLangCode);
     handleSetLanguage(defLangCode);
     if (get(loggedInUser, 'id', null) && !isEmpty(defLangCode)) {
@@ -466,7 +463,7 @@ function PageHeader(props: PageHeaderType) {
                                       <BrixelSelect
                                         options={langMenu}
                                         input={{
-                                          value: langSel,
+                                          value: lang,
                                           name: 'lang',
                                           onChange: (val) => newLang(val),
                                         }}
@@ -548,7 +545,7 @@ function PageHeader(props: PageHeaderType) {
                                         <BrixelSelect
                                           options={langMenu}
                                           input={{
-                                            value: langSel,
+                                            value: lang,
                                             name: 'lang',
                                             onChange: (val) => newLang(val),
                                           }}
