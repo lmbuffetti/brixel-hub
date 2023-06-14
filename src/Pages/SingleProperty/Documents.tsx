@@ -6,7 +6,6 @@ import {
   BrixelIcon,
   BrixelTooltip,
   useOutsideAlerter,
-  Helpers,
 } from '@brixel-io/brixel-components';
 import documentConfig from '@brixel-io/brixel-components/dist/configuration/DocumentsConfig';
 import {change} from '@brixel-io/brixel-components/dist/form';
