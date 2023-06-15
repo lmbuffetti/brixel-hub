@@ -61,7 +61,7 @@ const Plans = (props: FloorPlansPageType) => {
       let defPhotos = (floorPlans ? cloneDeep(floorPlans) : []);
       defPhotos = defPhotos.map((val) => ({
         ...val,
-        url: getUrlImg(val.url, {size: 'M'}),
+        url: val.url.includes('?') ? val.url : getUrlImg(val.url, {size: 'M'}),
       }));
       setFixPhotos(defPhotos);
     }
