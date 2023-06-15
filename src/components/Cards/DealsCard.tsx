@@ -162,7 +162,7 @@ const DealsCard = (props: DealsCardProps) => {
             }
             {
               stage === 'Offer' && (
-                <div className="dis-fl-row a-c">
+                <div className="dis-fl-row a-c metaMessage">
                   {
                     has(offer, 'offer.amount') ? (
                       <>
