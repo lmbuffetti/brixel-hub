@@ -92,7 +92,7 @@ export const QuestionsList: (lang: string, country: string, changeValue: (field:
   const question: QuestionsListType[] = [
     /* subtitle: translateTo('Choose between apartment, house, building land and commercial.'), */
     {
-      title: translateTo('What type of property do you have?', lang),
+      title: translateTo('What do you want to sell?', lang),
       history: 'propertyType',
       footerWidth: `ml-a mr-a ${company !== 'baloise' && company !== 'ubs' ? 'max-w-fix-992' : 'max-w-fix-752'}`,
       inputs: [{
