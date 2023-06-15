@@ -146,7 +146,7 @@ const DealsCard = (props: DealsCardProps) => {
                                     {translateTo('Waiting for visit date', lang)}
                                   </p>
                                 ) : (
-                                  <p className={`fsize-200 ${visitStatus.color}`}>
+                                  <p className={`fsize-200 ${visitStatus.color} ${visitStatus.status === 'cancelled' ? 'td-lt' : ''}`}>
                                     {DateTime.fromMillis(visitDate.date, { locale: lang }).toFormat('d LLL yyyy, H:mm')}
                                   </p>
                                 )
