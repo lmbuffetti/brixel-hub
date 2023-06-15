@@ -7,7 +7,7 @@ import {diff} from 'deep-object-diff';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
 import isArray from 'lodash/isArray';
-import {BrixelButtonIcon, BrixelButtonSecondary, BrixelIcon, useOutsideAlerter} from '@brixel-io/brixel-components';
+import {BrixelButtonIcon, BrixelButtonSecondary, BrixelIcon} from '@brixel-io/brixel-components';
 import translateTo from '../../../utils/translation';
 import {change} from '@brixel-io/brixel-components/dist/form';
 import {ReactSortable} from 'react-sortablejs';
@@ -65,7 +65,7 @@ const Photos = (props: PhotosPageType) => {
       let defPhotos = (photos ? cloneDeep(photos) : []);
       defPhotos = defPhotos.map((val) => ({
         ...val,
-        url: getUrlImg(val.url, {size: 'M'}),
+        url: val.url.includes('?') ? val.url : getUrlImg(val.url, {size: 'M'}),
       }));
       setFixPhotos(defPhotos);
     }
@@ -148,13 +148,6 @@ const Photos = (props: PhotosPageType) => {
     setBtnActive('delete');
     setConfirmDelete(id);
   };
-
-  // CLICK OUTSIDE OF IMAGES
-  useOutsideAlerter(wrappImg, {
-    id: confirmDelete || 0,
-    action: 'function',
-    func: () => { setConfirmDelete(null); },
-  });
 
   const scrollToTopEdit = () => {
     const scrollEl = document.getElementsByClassName('hubDasContent')[0];
@@ -247,12 +240,11 @@ const Photos = (props: PhotosPageType) => {
                           >
                             {
                               fixPhotos.map((item, i) => (
-                                <>
+                                <React.Fragment key={`pht_${i.toString()}`}>
                                   {
                                     item.url && (
                                       <li
                                         className="cur-poi pos-r"
-                                        key={`pht_${i.toString()}`}
                                       >
                                         <div
                                           className="square media-image-container dis-fl-row a-c jc-b w-perc-100 shadow-2dp brdRadius ov-h"
@@ -315,7 +307,7 @@ const Photos = (props: PhotosPageType) => {
                                       </li>
                                     )
                                   }
-                                </>
+                                </React.Fragment>
                               ))
                             }
                             {
