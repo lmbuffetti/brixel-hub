@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {
   BrixelAvatar,
   BrixelButtonText,
+  Helpers,
 } from '@brixel-io/brixel-components';
 import {useLocation, useNavigate} from 'react-router-dom';
 import get from 'lodash/get';
@@ -24,63 +25,17 @@ const TableRowSellerVisits = (props: TableRowSellerVisitsType) => {
   } = props;
   // STATE
   const [user, setUser] = useState<UserType>();
+  const [visitStatus, setVisitStatus] = useState<{status: string; text: string; color: string;}>(Helpers.visitDateStatus(visit));
 
   useEffect(() => {
     if (visit.user) {
       api.user.getUserProfile(visit.user)
         .then((res) => {
           setUser(res.data);
+          setVisitStatus(Helpers.visitDateStatus(visit));
         });
     }
   }, [visit.user]);
-
-  const statusVisit = () => {
-    let status = 'pending';
-    if (visit.buyerStatus === 'accepted' && visit.sellerStatus === 'accepted') {
-      if (visit.visit.date < +new Date().setHours(0, 0, 0, 0)) {status = 'visited';}
-      else status = 'accepted';
-    }
-    if (visit.buyerStatus === 'rejected' || visit.sellerStatus === 'rejected') {
-      status = 'rejected';
-    }
-    switch (status) {
-      case 'accepted':
-        return {
-          text: translateTo('Confirmed', lang),
-          txtColor: 'txtGreen600',
-          bg: 'bgGreen100',
-          status: 'accepted',
-        }
-      case 'pending':
-        return {
-          text: translateTo('Pending', lang),
-          txtColor: 'txtYellow600',
-          bg: 'bgGreen100',
-          status: 'pending',
-        }
-      case 'rejected':
-        return {
-          text: translateTo('Cancelled', lang),
-          txtColor: 'txtRed600',
-          bg: 'bgRed100',
-          status: 'rejected',
-        }
-      case 'visited':
-        return {
-          text: translateTo('Visited', lang),
-          txtColor: 'txtBlue600',
-          bg: 'bgBlue100',
-          status: 'visited',
-        }
-      default:
-        return {
-          text: '',
-          txtColor: 'txtText600',
-          bg: '',
-          status: '',
-        }
-    }
-  }
 
   const classWidthTable = (id) => {
     if (id === 0) return 'w-perc-100 w-perc-md-30';
@@ -125,7 +80,7 @@ const TableRowSellerVisits = (props: TableRowSellerVisitsType) => {
         {
           visit.visit.date ? (
             <span
-              className={`${statusVisit().txtColor} ${visit.buyerStatus === 'rejected' ? 'td-lt' : ''}`}
+              className={`${visitStatus.color} ${visitStatus.status === 'cancelled' ? 'td-lt' : ''}`}
             >
               {DateTime.fromMillis(visit.visit.date, { locale: lang }).toFormat('d LLL yyyy, H:mm')}
             </span>
@@ -139,10 +94,10 @@ const TableRowSellerVisits = (props: TableRowSellerVisitsType) => {
           lang={lang}
           message={{
             lang: lang,
-            [statusVisit().status]: statusVisit().text,
+            [visitStatus.status]: visitStatus.text,
           }}
-          status={statusVisit().status}
-          text={statusVisit().text}
+          status={visitStatus.status}
+          text={visitStatus.text}
         />
       </p>
       <p className={`${classWidthTable(4)} ta-r ta-l-md order-5`}>
