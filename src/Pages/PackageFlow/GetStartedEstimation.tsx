@@ -298,7 +298,9 @@ const GetStartedEstimation = (props: GetStartedEstimationType) => {
       handleGetActiveSingleCompany({ stub: defComp || 'default' });
       setCookie('brixelStubCompany', defComp);
       changeFieldValue('company', defComp);
-      history.push(`/packageFlow/getStartedEstimation/${defComp}/${get(questions, '[0].history', null)}`);
+      if (currentIndex < 2) {
+        history.push(`/packageFlow/getStartedEstimation/${defComp}/${get(questions, '[0].history', null)}`);
+      }
     } else if (!isTest) {
       const companyUser = get(loggedInUser, 'company.stub', null);
       if (companyUser) handleGetActiveSingleCompany({ stub: companyUser });

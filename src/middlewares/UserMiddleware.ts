@@ -106,6 +106,7 @@ const checkUser = (store) => (next) => (action) => {
           if (typeof res.data.statusCode === 'undefined') {
             api.user.getUserByToken(res.data.token)
               .then((res1) => {
+                store.dispatch({ type: SET_LOGGED_IN_USER, payload: res.data });
                 setCookie('brixelToken', res.data.token);
                 if (addProperty) {
                   const dataProperty = action.payload;
