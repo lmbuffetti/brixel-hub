@@ -1,5 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import { BrixelButtonPrimary, BrixelButtonSecondary} from '@brixel-io/brixel-components';
+import {
+  BrixelButtonPrimary,
+  BrixelButtonSecondary,
+  Helpers,
+} from '@brixel-io/brixel-components';
 import get from 'lodash/get';
 import {DateTime} from 'luxon';
 import {connect} from 'react-redux';
@@ -18,7 +22,7 @@ import scheduleAcceptedSvg from '../../../images/dashboard/PropertyConfimedVisit
 import PropertyCalendarSvg from '../../../images/dashboard/PropertyCalendar.svg';
 import PropertyVisitedSvg from '../../../images/dashboard/propertyVisited.svg';
 import PropertyCanceledSvg from '../../../images/dashboard/scheduleCanceled.svg';
-import {getCookie, setCookie, visitDateStatus} from '../../../utils/helpers';
+import {getCookie, setCookie} from '../../../utils/helpers';
 import translateTo from '../../../utils/translation';
 import type {ContactType} from '../../../@types/Pages/Dashboard/Buyer/DashboardHome';
 
@@ -46,7 +50,7 @@ const DashboardHome = (props: ContactType) => {
 
   useEffect(() => {
     if (scheduleVisit) {
-      const visitInfo = visitDateStatus(scheduleVisit[0]);
+      const visitInfo = Helpers.visitDateStatus(scheduleVisit[0]);
       setVisitStatus(visitInfo);
     }
   }, [scheduleVisit && scheduleVisit[0]]);

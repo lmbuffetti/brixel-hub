@@ -13,7 +13,6 @@ import translateTo from '../../utils/translation';
 import type { DealsCardProps } from '../../@types/components/Cards/DealsCard';
 import { HistoryType, ScheduleVisitRequestType } from '@brixel-io/brixel-components/dist/@types/Model';
 import BrixelSingleTag from '@brixel-io/brixel-components/dist/components/BrixelSingleTag';
-import {visitDateStatus} from '../../utils/helpers';
 
 const DealsCard = (props: DealsCardProps) => {
   const match = useParams();
@@ -63,7 +62,7 @@ const DealsCard = (props: DealsCardProps) => {
     if (id && stage === 'Visit') {
       api.deal.getScheduleVisit(id).then((res) => {
         setVisitDate(res?.data[0]?.visit || {});
-        const visitInfo = visitDateStatus(res?.data[0] || {});
+        const visitInfo = Helpers.visitDateStatus(res?.data[0] || {});
         setVisitStatus(visitInfo);
       })
     }
