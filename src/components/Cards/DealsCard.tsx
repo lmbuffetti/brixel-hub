@@ -142,9 +142,9 @@ const DealsCard = (props: DealsCardProps) => {
                                 text={translateTo(visitStatus.text, lang)}
                               />
                               {
-                                !visitDate?.date || visitStatus.status === 'pending' ? (
-                                  <p className="fsize-300">
-                                    Waiting for visit date
+                                !visitDate?.date ? (
+                                  <p className="fsize-200">
+                                    {translateTo('Waiting for visit date', lang)}
                                   </p>
                                 ) : (
                                   <p className={`fsize-200 ${visitStatus.color}`}>
