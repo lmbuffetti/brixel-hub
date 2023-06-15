@@ -124,7 +124,7 @@ const DealsCard = (props: DealsCardProps) => {
                 <>
                   {
                     (get(feedback, 'isInterested') === true || get(feedback, 'isInterested') === false) ? (
-                      <span className="fsize-300 txtText700">{getFeedback()}</span>
+                      <span className="fsize-200 txtText700">{getFeedback()}</span>
                     ) : (
                       <div className="mb-small-6">
                         {
@@ -173,7 +173,9 @@ const DealsCard = (props: DealsCardProps) => {
                           className="mr-1"
                           iconWidth="w-fix-16"
                         />
-                        <span className={`txt${getOfferColor()}400 fsize-300`}>{get(offer, 'offer.currency', '')} {Helpers.formatNumberValue(get(offer, 'offer.amount', 0), get(offer, 'offer.currency', ''))}</span>
+                        <span className={`txt${getOfferColor()}400 fsize-200`}>
+                          {get(offer, 'offer.currency', '')} {Helpers.formatNumberValue(get(offer, 'offer.amount', 0), get(offer, 'offer.currency', ''))}
+                        </span>
                       </>
                     ) : (
                       <>
@@ -184,7 +186,7 @@ const DealsCard = (props: DealsCardProps) => {
                           className="mr-1"
                           iconWidth="w-fix-16"
                         />
-                        <span className="fsize-300 txtText600">{translateTo('No offer', lang)}</span>
+                        <span className="fsize-200 txtText600">{translateTo('No offer', lang)}</span>
                       </>
                     )
                   }
