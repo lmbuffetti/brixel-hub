@@ -62,7 +62,7 @@ export const createTimelineEntry = (item, userLang) => {
           dates += `<span>•${date}</span>${key !== (item.meta.schedule.split('•').length - 1) ? '</br>' : ''}`;
         });
         if (has(item, 'meta.message')) {
-          dates += `</br><span>${translateTo('Message:', userLang)}</span><span class="ml-small-4">${item.meta.message}</span>`;
+          dates += `</br><span class="mt-1">${translateTo('Message:', userLang)}</span><span class="ml-small-4">${item.meta.message}</span>`;
         }
         return `<span>${translateTo('Requested showing', userLang)}</span></br></br><span>${dates}</span>`;
       }
@@ -86,7 +86,7 @@ export const createTimelineEntry = (item, userLang) => {
           }
         });
         if (has(item, 'meta.message')) {
-          dates += `</br><span>${translateTo('Message:', userLang)}</span><span class="ml-small-4">${item.meta.message}</span>`;
+          dates += `</br><span class="mt-1">${translateTo('Message:', userLang)}</span><span class="ml-small-4">${item.meta.message}</span>`;
         }
         return `<span>${translateTo('Requested showing', userLang)}</span></br></br><span>${dates}</span>`;
       }
