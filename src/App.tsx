@@ -353,13 +353,6 @@ const App = (props: AppType) => {
     if (get(history, 'location', null) && typeof ga === 'function') {
       ga('send', 'pageview', history.location.pathname);
     }
-    if (get(history, 'location', null) && typeof gtag === 'function') {
-      gtag('event', 'page_view', {
-        page_title: 'Hub',
-        page_location: window.location.href,
-        send_to: baseByData?.googleAnalyticsId,
-      })
-    }
     const splittedURL = get(history, 'location.pathname', '').split('/');
     if (splittedURL[1] === 'sell') {
       const customID = get(activeSingleProperty, 'id', null);
@@ -372,6 +365,17 @@ const App = (props: AppType) => {
     const scrollFlow = document.getElementsByClassName('flowScrollWrap')[0];
     if (scrollFlow) scrollFlow.scrollTop = 0;
   }, [history.location, loggedInUser.id]);
+
+  useEffect(() => {
+    if (get(history, 'location', null) && typeof gtag === 'function') {
+      gtag('event', 'page_view', {
+        page_title: 'Hub',
+        page_location: window.location.href,
+        send_to: baseByData?.googleID,
+      })
+    }
+  }, [history.location]);
+
 
   // FUNCTION TO MANAGE THE REDIRECT FROM REDUX REDUCER
   useEffect(() => {
