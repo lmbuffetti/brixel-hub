@@ -58,11 +58,7 @@ const Plans = (props: FloorPlansPageType) => {
       setNewImages([]);
       setConfirmDelete(null);
       setBtnActive(undefined);
-      let defPhotos = (floorPlans ? cloneDeep(floorPlans) : []);
-      defPhotos = defPhotos.map((val) => ({
-        ...val,
-        url: val.url.includes('?') ? val.url : getUrlImg(val.url, {size: 'M'}),
-      }));
+      const defPhotos = (floorPlans ? cloneDeep(floorPlans) : []);
       setFixPhotos(defPhotos);
     }
   }, [floorPlans, isSmallLoading]);
@@ -232,61 +228,67 @@ const Plans = (props: FloorPlansPageType) => {
                           >
                             {
                               fixPhotos.map((item, i) => (
-                                <li
-                                  className="cur-poi pos-r"
-                                  key={`fixPht_${i.toString()}`}
-                                  data-id={JSON.stringify(item)}
-                                >
-                                  <div
-                                    className="square media-image-container dis-fl-row a-c jc-b w-perc-100 shadow-2dp brdRadius ov-h"
-                                    onClick={() => (windowDimensions.width < 1025 ? history.push(`/${propID}/property/floorPlans/${item.id}/edit/floorPlans`) : '')}
-                                  >
-                                    <div
-                                      className="w-perc-100 square dis-fl-row imgConver"
-                                      style={{ backgroundImage: `url(${item.url}`}}
-                                    >
-                                      <div
-                                        className={`photo-action a-c hide dis-f-md ${confirmDelete === i ? 'show' : 'hoverShow'}`}
-                                        ref={wrappImg.current[i]}
-                                      >
-                                        <BrixelButtonSecondary
-                                          rounded
-                                          theme="red"
-                                          rightIcon="bin"
-                                          label={translateTo('delete?', lang)}
-                                          className={`${confirmDelete === i ? '' : 'hide'}`}
-                                          onClick={() => deleteImage(item.id)}
-                                          isLoading={isSmallLoading.deleteMedia && btnActive === 'delete'}
-                                        />
-                                        <BrixelButtonIcon
-                                          ghost
-                                          theme="red"
-                                          icon="bin"
-                                          className={`${confirmDelete === i ? 'hide' : ''}`}
-                                          onClick={() => onConfirmDelete(i)}
-                                        />
-                                        <BrixelButtonIcon
-                                          ghost
-                                          icon="edit"
-                                          className={`ml-1 ${confirmDelete === i ? 'hide' : ''}`}
-                                          onClick={
-                                            () => {
-                                              history.push(`/${propID}/property/floorPlans/${item.id}/edit/floorPlans`);
-                                              scrollToTopEdit();
-                                            }
-                                          }
-                                        />
-                                      </div>
-                                    </div>
-                                  </div>
+                                <React.Fragment key={`pht_${i.toString()}`}>
                                   {
-                                    item.description && (
-                                      <p className="ta-l mt-1 fsize-200 txtText900 w-prec-100">
-                                        {translateTo(Truncate(item.description, 60), lang)}
-                                      </p>
+                                    item.url && (
+                                      <li
+                                        className="cur-poi pos-r"
+                                        key={`fixPht_${i.toString()}`}
+                                        data-id={JSON.stringify(item)}
+                                      >
+                                        <div
+                                          className="square media-image-container dis-fl-row a-c jc-b w-perc-100 shadow-2dp brdRadius ov-h"
+                                          onClick={() => (windowDimensions.width < 1025 ? history.push(`/${propID}/property/floorPlans/${item.id}/edit/floorPlans`) : '')}
+                                        >
+                                          <div
+                                            className="w-perc-100 square dis-fl-row imgConver"
+                                            style={{ backgroundImage: `url(${getUrlImg(item.url, {size: 'M'})})`}}
+                                          >
+                                            <div
+                                              className={`photo-action a-c hide dis-f-md ${confirmDelete === i ? 'show' : 'hoverShow'}`}
+                                              ref={wrappImg.current[i]}
+                                            >
+                                              <BrixelButtonSecondary
+                                                rounded
+                                                theme="red"
+                                                rightIcon="bin"
+                                                label={translateTo('delete?', lang)}
+                                                className={`${confirmDelete === i ? '' : 'hide'}`}
+                                                onClick={() => deleteImage(item.id)}
+                                                isLoading={isSmallLoading.deleteMedia && btnActive === 'delete'}
+                                              />
+                                              <BrixelButtonIcon
+                                                ghost
+                                                theme="red"
+                                                icon="bin"
+                                                className={`${confirmDelete === i ? 'hide' : ''}`}
+                                                onClick={() => onConfirmDelete(i)}
+                                              />
+                                              <BrixelButtonIcon
+                                                ghost
+                                                icon="edit"
+                                                className={`ml-1 ${confirmDelete === i ? 'hide' : ''}`}
+                                                onClick={
+                                                  () => {
+                                                    history.push(`/${propID}/property/floorPlans/${item.id}/edit/floorPlans`);
+                                                    scrollToTopEdit();
+                                                  }
+                                                }
+                                              />
+                                            </div>
+                                          </div>
+                                        </div>
+                                        {
+                                          item.description && (
+                                            <p className="ta-l mt-1 fsize-200 txtText900 w-prec-100">
+                                              {translateTo(Truncate(item.description, 60), lang)}
+                                            </p>
+                                          )
+                                        }
+                                      </li>
                                     )
                                   }
-                                </li>
+                                </React.Fragment>
                               ))
                             }
                             {

@@ -62,11 +62,7 @@ const Photos = (props: PhotosPageType) => {
       setNewImages([]);
       setConfirmDelete(null);
       setBtnActive(undefined);
-      let defPhotos = (photos ? cloneDeep(photos) : []);
-      defPhotos = defPhotos.map((val) => ({
-        ...val,
-        url: val.url.includes('?') ? val.url : getUrlImg(val.url, {size: 'M'}),
-      }));
+      const defPhotos = (photos ? cloneDeep(photos) : []);
       setFixPhotos(defPhotos);
     }
   }, [photos, isSmallLoading]);
@@ -250,7 +246,10 @@ const Photos = (props: PhotosPageType) => {
                                           className="square media-image-container dis-fl-row a-c jc-b w-perc-100 shadow-2dp brdRadius ov-h"
                                           onClick={() => (windowDimensions.width < 1025 ? history.push(`/${propID}/property/photos/${item.id}/edit/photos`) : '')}
                                         >
-                                          <div className="w-perc-100 square dis-fl-row imgConver" style={{ backgroundImage: `url(${item.url})`}}>
+                                          <div
+                                            className="w-perc-100 square dis-fl-row imgConver"
+                                            style={{ backgroundImage: `url(${getUrlImg(item.url, {size: 'M'})})`}}
+                                          >
                                             <div
                                               className={`photo-action a-c hide dis-f-md ${confirmDelete === i ? 'show' : 'hoverShow'}`}
                                               ref={wrappImg.current[i]}
