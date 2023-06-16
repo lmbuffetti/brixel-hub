@@ -429,7 +429,7 @@ const App = (props: AppType) => {
 
   // FUCNTION TO SEPARATE THE DESIGN IN BASE OF HISTORY LOCATION (packageFLow, onBoarding, upgrade)
   useEffect(() => {
-    const flowClass = ['packageFlow', 'visitFeedback', 'upgrade', 'trialRequest', 'contactFlow'];
+    const flowClass = ['packageFlow', 'visitFeedback', 'upgrade', 'trialRequest', 'contactFlow', 'termsConditionFlow'];
     const isFlowClass = flowClass.some((url) => history.location.pathname.includes(url));
 
     setIsFlow(false);
