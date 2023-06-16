@@ -374,7 +374,7 @@ const App = (props: AppType) => {
         send_to: baseByData?.googleID,
       })
     }
-  }, [history.location]);
+  }, [get(history, 'location.pathname', '')]);
 
 
   // FUNCTION TO MANAGE THE REDIRECT FROM REDUX REDUCER
