@@ -198,31 +198,7 @@ const DashboardHome = (props: ContactType) => {
                 visitStatus?.status === 'pending' && (
                   <>
                     {
-                      (!scheduleVisit || (scheduleVisit && !scheduleVisit[0]?.visit?.date) || (scheduleVisit && !scheduleVisit[0]?.buyerAvailability)) ? (
-                        <div
-                          className="cardWithBg"
-                          style={{backgroundImage: `url(${PropertyCalendarSvg})` }}
-                        >
-                          <div className="dis-fl-col ">
-                            <h5 className="fweight-600">
-                              {translateTo('Request a visit', lang)}
-                            </h5>
-                            <div className="dis-f a-c max-w-perc-70 mt-1 mb-3">
-                              <p className="pr-2 txtText700 fsize-300">
-                                {translateTo('Share your availability to visit your favourite property.', lang)}
-                              </p>
-                            </div>
-
-                            <BrixelButtonPrimary
-                              onClick={() => history.push(`/buyer/${propID}/scheduleVisit/addDate`)}
-                              className="mt-a as-fs"
-                              leftIcon="plus"
-                              rounded
-                              label={translateTo('Add dates', lang)}
-                            />
-                          </div>
-                        </div>
-                      )  : (
+                      scheduleVisit && scheduleVisit[0]?.buyerAvailability.length > 0 ? (
                         <div
                           className="cardWithBg"
                           style={{ backgroundImage: `url(${scheduleSvg})` }}
@@ -243,6 +219,30 @@ const DashboardHome = (props: ContactType) => {
                               className="mt-a as-fs"
                               rounded
                               label={translateTo('View details', lang)}
+                            />
+                          </div>
+                        </div>
+                      )  : (
+                        <div
+                          className="cardWithBg"
+                          style={{backgroundImage: `url(${PropertyCalendarSvg})` }}
+                        >
+                          <div className="dis-fl-col ">
+                            <h5 className="fweight-600">
+                              {translateTo('Request a visit', lang)}
+                            </h5>
+                            <div className="dis-f a-c max-w-perc-70 mt-1 mb-3">
+                              <p className="pr-2 txtText700 fsize-300">
+                                {translateTo('Share your availability to visit your favourite property.', lang)}
+                              </p>
+                            </div>
+
+                            <BrixelButtonPrimary
+                              onClick={() => history.push(`/buyer/${propID}/scheduleVisit/addDate`)}
+                              className="mt-a as-fs"
+                              leftIcon="plus"
+                              rounded
+                              label={translateTo('Add dates', lang)}
                             />
                           </div>
                         </div>
