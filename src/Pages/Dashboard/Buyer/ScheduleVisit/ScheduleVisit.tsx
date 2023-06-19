@@ -5,6 +5,7 @@ import {
   BrixelTextArea, destroy,
 } from '@brixel-io/brixel-components/dist/form';
 import {
+  Helpers,
   AddToCalendar,
   BrixelButtonPrimary,
   BrixelIcon,
@@ -57,6 +58,7 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
   const [SectionPage, setSectionPage] = useState<'confirmed' | 'buyerRequest' | 'create' | 'rejected'>('create');
   const [activeModalID, setActiveModalID] = useState(-1);
   const [openedModal, setOpenedModal] = useState(false);
+  const [visitStatus, setVisitStatus] = useState<{status: string; text: string; color: string;bg: string;}>();
 
   const lastPart = history.location.pathname.split('/').filter(e => e).slice(-1);
   const isNewDate = lastPart[0] === 'addDate';
@@ -116,6 +118,7 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
     if (activeScheduleVisit?.buyerAvailability) setSectionPage('buyerRequest');
     if (activeScheduleVisit?.visit?.date && activeScheduleVisit?.sellerStatus === 'accepted' && activeScheduleVisit?.buyerStatus === 'accepted') setSectionPage('confirmed');
     if (activeScheduleVisit?.sellerStatus === 'rejected' || activeScheduleVisit?.buyerStatus === 'rejected') setSectionPage('rejected');
+    setVisitStatus(Helpers.visitDateStatus(activeScheduleVisit))
   }, [activeScheduleVisit]);
 
 
@@ -278,7 +281,7 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
             }
 
             {
-              (isSmallLoading.sendData !== 'saved' && activeScheduleVisit?.buyerAvailability && (!activeScheduleVisit?.visit?.date || (activeScheduleVisit?.sellerStatus !== 'accepted' || activeScheduleVisit?.buyerStatus !== 'accepted')) && SectionPage !== 'rejected') && (
+              visitStatus?.status === 'pending' && (
                 <div className="bgWhite brdRadius shadow-1dp mb-4 a-c py-3 py-sm-5 px-2 px-sm-4 dis-fl-col-rev dis-fl-row-sm">
 
                   <div className="mb-4">
@@ -309,7 +312,7 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
             }
 
             {
-              SectionPage === 'rejected' && (
+              visitStatus?.status === 'cancelled' && (
                 <>
                   <div className="bgRed50 brdRadius shadow-1dp mb-4 a-c py-3 py-sm-5 px-2 px-sm-4 dis-fl-col-rev dis-fl-row-sm">
 
@@ -350,7 +353,7 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
             }
 
             {
-              SectionPage === 'confirmed' && activeScheduleVisit && (
+              visitStatus?.status === 'accepted' && activeScheduleVisit && (
                 <>
                   {
                     // CONFIRMED VISIT IN THE FUTURE
