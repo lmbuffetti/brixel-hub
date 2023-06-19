@@ -198,7 +198,7 @@ const DashboardHome = (props: ContactType) => {
                 visitStatus?.status === 'pending' && (
                   <>
                     {
-                      (!scheduleVisit || (scheduleVisit && !scheduleVisit[0]?.visit?.date)) ? (
+                      (!scheduleVisit || (scheduleVisit && !scheduleVisit[0]?.visit?.date) || (scheduleVisit && !scheduleVisit[0]?.buyerAvailability)) ? (
                         <div
                           className="cardWithBg"
                           style={{backgroundImage: `url(${PropertyCalendarSvg})` }}
