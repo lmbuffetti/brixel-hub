@@ -11,7 +11,6 @@ import {
 } from '@brixel-io/brixel-components';
 import {change} from '@brixel-io/brixel-components/dist/form';
 import cloneDeep from 'lodash/cloneDeep';
-import filter from 'lodash/filter';
 import find from 'lodash/find';
 import forEach from 'lodash/forEach';
 import get from 'lodash/get';
@@ -38,7 +37,6 @@ import translateTo from '../../utils/translation';
 
 import TimelineStubs from '../../resources/Utilities/timelineActionStubs';
 import type {SingleDealType} from '../../@types/Pages/Deals/SingleDeal';
-import {DealType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 const SingleDeal = (props: SingleDealType) => {
   const history = {
@@ -47,7 +45,6 @@ const SingleDeal = (props: SingleDealType) => {
   };
   const match = useParams();
   const {
-    activeDealHistoryList,
     activeSingleDeal,
     activeSingleProperty,
     activeSinglePropertyDeals,
@@ -66,8 +63,6 @@ const SingleDeal = (props: SingleDealType) => {
 
   const [optionsOpen, setOptionsOpen] = useState(false);
   const [winnerId, setWinnerId] = useState('');
-  const [activeDealFeedback, setActiveDealFeedback] = useState<DealType>();
-  const [showFullFeedback, setShowFullFeedback] = useState(false);
   const [showFullOffer, setShowFullOffer] = useState(false);
   const [isReady, setIsReady] = useState(false);
 
@@ -121,18 +116,6 @@ const SingleDeal = (props: SingleDealType) => {
       if (has(el, 'winner') && el.winner === true) setWinnerId(el.id);
     });
   }, [activeSinglePropertyDeals]);
-
-  useEffect(() => {
-    if (activeDealHistoryList.total > 0 && activeDealHistoryList.data.length > 0) {
-      // Process deal feedback visit to use on visit container (outside of timeline)
-      const feedbackArray = filter(activeDealHistoryList.data, (item) => (item.actionStub === 'deal-feedback-visit' && item.meta.visit === activeSingleDeal.visit));
-      if (feedbackArray.length > 0) {
-        const mostRecentFeedbackTime = Math.max(...feedbackArray.map((o) => o.createdAt));
-        const mostRecentFeedback = find(feedbackArray, (obj) => obj.createdAt === mostRecentFeedbackTime);
-        setActiveDealFeedback(mostRecentFeedback);
-      }
-    }
-  }, [activeDealHistoryList]);
 
   const saveData = () => {
     const deal = cloneDeep(activeSingleDeal);
@@ -245,31 +228,6 @@ const SingleDeal = (props: SingleDealType) => {
     return null;
   };
 
-  const getIcon = () => {
-    if (activeSingleDeal.visit < +new Date().setHours(0, 0, 0, 0)) return 'calendar-check';
-    return 'calendar';
-  };
-
-  const getColor = () => {
-    if (activeSingleDeal.visit < +new Date().setHours(0, 0, 0, 0)) return 'text';
-    return 'green';
-  };
-
-  const getBackground = () => {
-    if (activeSingleDeal.visit < +new Date().setHours(0, 0, 0, 0)) return 'light';
-    return 'green';
-  };
-
-  const getSaturation = () => {
-    if (activeSingleDeal.visit < +new Date().setHours(0, 0, 0, 0)) return 200;
-    return 100;
-  };
-
-  const getTextColor = () => {
-    if (activeSingleDeal.visit < +new Date().setHours(0, 0, 0, 0)) return 'Text900';
-    return 'Green400';
-  };
-
   const getOfferBackground = () => {
     if (get(activeSingleDeal, 'closing.stageOffer.offer.status') === 'accepted') return 'green';
     if (get(activeSingleDeal, 'closing.stageOffer.offer.status') === 'pending') return 'yellow';
@@ -327,25 +285,6 @@ const SingleDeal = (props: SingleDealType) => {
 
     if (get(activeSingleDeal, 'closing.stageOffer.offer.financeCertificate') === 0 || get(activeSingleDeal, 'closing.stageOffer.offer.financeCertificate') === 1) {
       answerText += `</br></br><span>${translateTo('Financial certificate:', lang)}</span><span class="ml-small-4">${translateTo(activeSingleDeal.closing.stageOffer.offer.financeCertificate === 1 ? 'Yes' : 'No', lang)} </span>`;
-    }
-    return answerText;
-  };
-
-  const getCompleteFeedback = () => {
-    let answerText = '';
-    if (activeDealFeedback) {
-      if (get(activeDealFeedback, 'meta.visitFeedback.reasons', []) && activeDealFeedback.meta.visitFeedback.reasons.length > 0) {
-        answerText += translateTo('Main reason:', lang);
-        activeDealFeedback.meta.visitFeedback.reasons.forEach((answer, key) => {
-          answerText += `<span>${translateTo(`${answer}${key !== (activeDealFeedback.meta.visitFeedback.reasons.length - 1) ? ', ' : ''}`, lang)}</span>`;
-        });
-      }
-      if (get(activeDealFeedback, 'meta.visitFeedback.otherReason', '') && activeDealFeedback.meta.visitFeedback.otherReason.length > 0) {
-        answerText += `</br><span>${translateTo('Additional note:', lang)}</br></span><span>${translateTo(activeDealFeedback.meta.visitFeedback.otherReason, lang)} </span>`;
-      }
-      if (get(activeDealFeedback, 'meta.visitFeedback.priceChangeAlert') === true || get(activeDealFeedback, 'meta.visitFeedback.priceChangeAlert') === false) {
-        answerText += `</br><span>${translateTo('Price update:', lang)}</span><span>${translateTo(activeDealFeedback.meta.visitFeedback.priceChangeAlert === true ? 'Yes' : 'No', lang)}</span>`;
-      }
     }
     return answerText;
   };
@@ -497,57 +436,6 @@ const SingleDeal = (props: SingleDealType) => {
                           className="col-12 col-sm-6 p-0"
                         />
                         <div className="dis-fl-col-md col-12 col-sm-6 px-0">
-                          {
-                            (get(activeSingleDeal, 'visit', null) && get(activeSingleDeal, 'visit', '').toString().length !== 0) && (
-                              <>
-                                <span className="overline mb-3">{translateTo('Visit', lang)}</span>
-                                <div className="brdRadius brdSmall brdText200 pos-r dis-fl-col bgWhite p-small-12 w-perc-100 mb-4">
-                                  <div className="dis-f a-c">
-                                    <BrixelIcon
-                                      icon={getIcon()}
-                                      background={getBackground()}
-                                      saturation={getSaturation()}
-                                      color={getColor()}
-                                      saturationTxt={700}
-                                      className="mr-2"
-                                    />
-                                    <span className={`txt${getTextColor()}`}>{DateTime.fromMillis(activeSingleDeal.visit, { locale: lang }).toFormat('d LLL yyyy, H:mm')}</span>
-                                  </div>
-                                  {
-                                    activeDealFeedback && activeDealFeedback.createdAt && (
-                                      <div className="dis-fl-col">
-                                        <div className={`mt-1 dis-fl-row jc-b ${showFullFeedback === true ? 'mb-2' : ''}`}>
-                                          {
-                                            activeDealFeedback.meta.visitFeedback.isInterested === true ? (
-                                              <span className="txtText900 fsize-300">{translateTo('Still interested 👍', lang)}</span>
-                                            ) : (
-                                              <span className="txtText900 fsize-300">{translateTo('Not interested anymore 👎', lang)}</span>
-                                            )
-                                          }
-                                          <BrixelIcon
-                                            icon={`${showFullFeedback === true ? 'arrow-simple-up' : 'dropdown'}`}
-                                            className="txtText900 cur-poi"
-                                            onClick={() => setShowFullFeedback(!showFullFeedback)}
-                                          />
-                                        </div>
-                                        {
-                                          showFullFeedback && (
-                                            <div
-                                              className="txtText900 fsize-300"
-                                              dangerouslySetInnerHTML={{
-                                                __html: getCompleteFeedback(),
-                                              }}
-                                            />
-                                          )
-                                        }
-                                      </div>
-                                    )
-                                  }
-                                </div>
-                              </>
-                            )
-                          }
-
                           <span className="overline dis-b mb-3">{translateTo('Offer', lang)}</span>
                           <div className="brdRadius brdSmall brdText200 pos-r dis-fl-col bgWhite p-small-12 w-perc-100">
                             <div className="dis-fl-row jc-b">
