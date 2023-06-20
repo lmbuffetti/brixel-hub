@@ -1,4 +1,4 @@
-import React, {lazy, Suspense, Profiler} from 'react';
+import React, {lazy, Suspense} from 'react';
 import {createRoot} from 'react-dom/client';
 import {Provider} from 'react-redux';
 import {BrowserRouter} from 'react-router-dom';
@@ -36,24 +36,16 @@ if (container) {
       serviceWorkerRegistration.unregister();
     }
 
-    // eslint-disable-next-line max-params
-    const onRender = (id, _phase, actualDuration, baseDuration, startTime, commitTime, interactions) => {
-      // eslint-disable-next-line no-console
-      console.warn(`ID: ${id}, actual time: ${actualDuration}, baseDuration: ${baseDuration}, startTime: ${startTime}, commitTime: ${commitTime}, interactions: ${interactions}`);
-    };
-
     return (
-      <Profiler id="App" onRender={onRender}>
-        <Provider store={store}>
-          <BrowserRouter>
-            <Suspense>
-              <ErrorBoundary>
-                <App />
-              </ErrorBoundary>
-            </Suspense>
-          </BrowserRouter>
-        </Provider>
-      </Profiler>
+      <Provider store={store}>
+        <BrowserRouter>
+          <Suspense>
+            <ErrorBoundary>
+              <App />
+            </ErrorBoundary>
+          </Suspense>
+        </BrowserRouter>
+      </Provider>
     );
   };
 

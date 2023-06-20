@@ -7,7 +7,6 @@ import {
   BrixelImage,
 } from '@brixel-io/brixel-components';
 import BrixelPage500 from '@brixel-io/brixel-components/dist/components/BrixelPage500';
-import baseByData from '@brixel-io/brixel-components/dist/configuration/Settings';
 import {reset} from '@brixel-io/brixel-components/dist/form';
 import {getTranslations} from '@brixel-io/brixel-components/dist/utils/TranslationsRedux.Functions';
 import get from 'lodash/get';
@@ -106,7 +105,6 @@ const WarningScreen = lazy(() => import('./components/WarningScreen'));
 const cookies = new Cookies();
 
 declare let ga;
-declare let gtag;
 
 const App = (props: AppType) => {
   const isOpenTransifex = cookies.get('transifex_sidebar');
@@ -350,9 +348,6 @@ const App = (props: AppType) => {
       if (!loggedInUser.seller) history.push('/buy');
       else history.push('/sell');
     }
-    if (get(history, 'location', null) && typeof ga === 'function') {
-      ga('send', 'pageview', history.location.pathname);
-    }
     const splittedURL = get(history, 'location.pathname', '').split('/');
     if (splittedURL[1] === 'sell') {
       const customID = get(activeSingleProperty, 'id', null);
@@ -367,14 +362,10 @@ const App = (props: AppType) => {
   }, [history.location, loggedInUser.id]);
 
   useEffect(() => {
-    if (get(history, 'location', null) && typeof gtag === 'function') {
-      gtag('event', 'page_view', {
-        page_title: 'Hub',
-        page_location: window.location.href,
-        send_to: baseByData?.googleID,
-      })
+    if (get(history, 'location', null) && typeof ga === 'function') {
+      ga('send', 'pageview', history.location.pathname);
     }
-  }, [get(history, 'location.pathname', '')]);
+  }, [get(history, 'location', null)]);
 
 
   // FUNCTION TO MANAGE THE REDIRECT FROM REDUX REDUCER
