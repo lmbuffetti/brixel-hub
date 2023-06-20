@@ -104,7 +104,7 @@ const WarningScreen = lazy(() => import('./components/WarningScreen'));
 
 const cookies = new Cookies();
 
-declare let ga;
+// declare let ga;
 
 const App = (props: AppType) => {
   const isOpenTransifex = cookies.get('transifex_sidebar');
@@ -362,8 +362,13 @@ const App = (props: AppType) => {
   }, [history.location, loggedInUser.id]);
 
   useEffect(() => {
-    if (get(history, 'location', null) && typeof ga === 'function') {
-      ga('send', 'pageview', history.location.pathname);
+    // @ts-ignore
+    if (typeof window.gtag !== 'undefined') {
+      // @ts-ignore
+      window.gtag('send', 'page_view', {
+        page_location: window.location.href,
+        page_path: window.location.pathname,
+      });
     }
   }, [get(history, 'location', null)]);
 
