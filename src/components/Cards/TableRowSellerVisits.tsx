@@ -94,10 +94,10 @@ const TableRowSellerVisits = (props: TableRowSellerVisitsType) => {
           lang={lang}
           message={{
             lang: lang,
-            [visitStatus.status]: visitStatus.text,
+            [visitStatus.status]: translateTo(visitStatus.text, lang),
           }}
           status={visitStatus.status}
-          text={visitStatus.text}
+          text={translateTo(visitStatus.text, lang)}
         />
       </p>
       <p className={`${classWidthTable(4)} ta-r ta-l-md order-5`}>
