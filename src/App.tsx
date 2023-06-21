@@ -362,20 +362,15 @@ const App = (props: AppType) => {
   }, [history.location, loggedInUser.id]);
 
   useEffect(() => {
-    const getIfDev = (get(window, 'location.href', '')).split('?');
-    if (getIfDev[1] && getIfDev[1].includes('dev=true')) {
-      // eslint-disable-next-line no-console
-      console.log('history: ', get(history, 'location.pathname', null));
-      // eslint-disable-next-line no-console
-      console.log('href: ', window.location.href);
-    }
+    // eslint-disable-next-line no-console
+    console.log('href: ', window.location.href);
     // @ts-ignore
     if (typeof window.gtag !== 'undefined') {
       // @ts-ignore
-      window.gtag('send', 'page_view', {
-        page_location: window.location.href,
-        page_path: window.location.pathname,
-      });
+      // window.gtag('send', 'page_view', {
+      //   page_location: window.location.href,
+      //   page_path: window.location.pathname,
+      // });
     }
   }, [get(history, 'location.pathname', null)]);
 
