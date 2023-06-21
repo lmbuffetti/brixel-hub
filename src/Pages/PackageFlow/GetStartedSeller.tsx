@@ -56,6 +56,7 @@ const GetStartedSeller = (props: GetStartedSellerType) => {
   // SET THE QUESTIONS IN BASE OF THE COUNTRY
   const [questions, setQuestions] = useState<QuestionsListType[]>(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue));
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [newCurrentIndex, setNewCurrentIndex] = useState(0);
   const [loadingRequest, setLoadingRequest] = useState(false);
   // SET QUEST TO FIRST QUESTION OF QuestionsList()
   // const [roomValue, setRoomValue] = useState('');
@@ -217,7 +218,7 @@ const GetStartedSeller = (props: GetStartedSellerType) => {
       handleGetActiveSingleCompany({ stub: defComp || 'default' });
       setCookie('brixelStubCompany', defComp);
       changeFieldValue('company', defComp);
-      if (currentIndex < 2) {
+      if (currentIndex < 1) {
         history.push(`/packageFlow/getStarted/${defComp}/${get(questions, '[0].history', null)}`);
       }
     } else if (!isTest) {
@@ -238,7 +239,8 @@ const GetStartedSeller = (props: GetStartedSellerType) => {
   // ON CHANGE LANGUAGE RELOAD THE QUESTIONS TRANSLATED
   useEffect(() => {
     setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue));
-  }, [lang, company.stub, translations, formValue]);
+    setNewCurrentIndex(currentIndex);
+  }, [lang, company.stub, translations, formValue, currentIndex]);
 
   // FUNCTION TO CALC THE LIVING SPACE FROM GROSS AREA
   useEffect(() => {
@@ -288,6 +290,7 @@ const GetStartedSeller = (props: GetStartedSellerType) => {
           <FlowScreen
             baseURL={`/packageFlow/getStarted/${activeSingleCompany.stub}`}
             onChangeCurrentIndex={(index) => setCurrentIndex(index)}
+            newCurrentIndex={newCurrentIndex}
             formName="GetStarted"
             onSaveData={() => saveData()}
             QuestionsList={questions}

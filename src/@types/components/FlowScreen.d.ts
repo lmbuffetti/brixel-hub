@@ -67,6 +67,7 @@ export interface FlowScreenType {
   isTest?: boolean;
   lang?: string;
   loggedInUser: LoggedUserType;
+  newCurrentIndex?: number;
   onChangeCurrentIndex: (index: number) => void;
   onSaveData: (val?: string) => void;
   translations: object;

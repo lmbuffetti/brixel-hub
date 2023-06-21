@@ -370,7 +370,7 @@ const App = (props: AppType) => {
         page_path: window.location.pathname,
       });
     }
-  }, [get(history, 'location', null)]);
+  }, [get(history, 'location.pathname', null)]);
 
 
   // FUNCTION TO MANAGE THE REDIRECT FROM REDUX REDUCER

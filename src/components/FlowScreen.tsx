@@ -33,6 +33,7 @@ const FlowScreen = (props: FlowScreenType) => {
     initialValues,
     isSmallLoading,
     lang = 'en',
+    newCurrentIndex,
     onChangeCurrentIndex = () => '',
     onSaveData,
     QuestionsList,
@@ -193,9 +194,6 @@ const FlowScreen = (props: FlowScreenType) => {
               if (fakeInput) fakeInput.remove();
             }, 500);
           }
-          if (newQuestions[defId].history) {
-            history.push(`${baseURL}/${newQuestions[defId].history}`, { state: get(history, 'location.state', {}) });
-          }
           if (checkBrowser() > 0) {
             //@ts-ignore
             if (singleStepEl && singleStepEl.scrollTop) singleStepEl.scrollTop = 0;
@@ -233,7 +231,16 @@ const FlowScreen = (props: FlowScreenType) => {
   useEffect(() => {
     setQuest(questions[currentIndex]);
     onChangeCurrentIndex(currentIndex);
+    if (typeof newCurrentIndex === 'undefined') {
+      history.push(`${baseURL}/${questions[currentIndex].history}`, { state: get(history, 'location.state', {}) });
+    }
   }, [currentIndex, questions, lang]);
+
+  useEffect(() => {
+    if (typeof newCurrentIndex !== 'undefined') {
+      history.push(`${baseURL}/${questions[currentIndex].history}`, { state: get(history, 'location.state', {}) });
+    }
+  }, [newCurrentIndex]);
 
   // MOVE STEP FORWARD AFTER SAVING
   useEffect(() => {

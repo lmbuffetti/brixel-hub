@@ -59,6 +59,7 @@ const GetStartedEstimation = (props: GetStartedEstimationType) => {
   // SET THE QUESTIONS IN BASE OF THE COUNTRY
   const [questions, setQuestions] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue));
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [newCurrentIndex, setNewCurrentIndex] = useState(0);
   // SET QUEST TO FIRST QUESTION OF QuestionsList()
   const [loadingRequest, setLoadingRequest] = useState(false);
   // GET URL PARAMS
@@ -319,7 +320,8 @@ const GetStartedEstimation = (props: GetStartedEstimationType) => {
   // ON CHANGE LANGUAGE RELOAD THE QUESTIONS TRANSLATED
   useEffect(() => {
     setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue));
-  }, [lang, translations, formValue]);
+    setNewCurrentIndex(currentIndex);
+  }, [lang, translations, formValue, currentIndex]);
 
   // FUNCTION TO CALC THE LIVING SPACE FROM GROSS AREA
   useEffect(() => {
@@ -379,6 +381,7 @@ const GetStartedEstimation = (props: GetStartedEstimationType) => {
           <FlowScreen
             baseURL={`/packageFlow/getStartedEstimation/${activeSingleCompany.stub}`}
             onChangeCurrentIndex={(index) => setCurrentIndex(index)}
+            newCurrentIndex={newCurrentIndex}
             formName="GetStarted"
             onSaveData={() => saveData()}
             QuestionsList={questions}

@@ -54,6 +54,7 @@ const GetStartedBuyer = (props: GetStartedType) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   // SET QUEST TO FIRST QUESTION OF QuestionsList()
   const [loadingRequest, setLoadingRequest] = useState(false);
+  const [newCurrentIndex, setNewCurrentIndex] = useState(0);
   const companyStub = get(match, 'companyStub', null);
 
   // DESTROY FORM ON EXIT
@@ -196,7 +197,8 @@ const GetStartedBuyer = (props: GetStartedType) => {
   // ON CHANGE LANGUAGE RELOAD THE QUESTIONS TRANSLATED
   useEffect(() => {
     setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue, 'GetStarted'));
-  }, [lang, translations, formValue]);
+    setNewCurrentIndex(currentIndex);
+  }, [lang, translations, formValue, currentIndex]);
 
   // GET THE NEXT DATA IN BASE OF CURRENT ANSWER
   useEffect(() => {
@@ -235,6 +237,7 @@ const GetStartedBuyer = (props: GetStartedType) => {
           <FlowScreen
             baseURL={`/packageFlow/getStartedBuyer/${activeSingleCompany.stub}`}
             onChangeCurrentIndex={(index) => setCurrentIndex(index)}
+            newCurrentIndex={newCurrentIndex}
             formName="GetStarted"
             onSaveData={() => saveData()}
             QuestionsList={questions}
