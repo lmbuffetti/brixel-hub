@@ -362,8 +362,6 @@ const App = (props: AppType) => {
   }, [history.location, loggedInUser.id]);
 
   useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log('href: ', window.location.href);
     // @ts-ignore
     if (typeof window.gtag !== 'undefined') {
       // @ts-ignore
