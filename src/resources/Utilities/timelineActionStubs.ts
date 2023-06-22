@@ -7,6 +7,7 @@ const TimelineStubs = {
     'user-message',
     'user-get-document',
     'user-phone-call',
+    'page-portals-contact',
   ],
   DealOwner: [
     'user-portal-create-message',

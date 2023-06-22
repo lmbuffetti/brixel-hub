@@ -18,6 +18,7 @@ export const createTimelineEntry = (item, userLang) => {
       if (item.actionStub === 'page-published') return `<span>${translateTo('Page published:', userLang)}</span> <a class='txtText900' rel='noreferrer noopener' target='_blank' href='${getConfigEnv.pageUrl}${item.parent.stub}'>${getConfigEnv.pageUrl}${item.parent.stub}</a>`;
       if (item.actionStub === 'page-unpublished') return translateTo('Page unpublished', userLang);
       if (item.actionStub === 'page-message') return translateTo('Message sent', userLang);
+      if (item.actionStub === 'page-portals-contact') return `<span>${translateTo('Automatic email sent to buyer', userLang)}</span>`;
       // if (item.actionStub === 'page-schedule') return `<span>${item.child.email} </span><span>scheduled a visit</span>`;
       // if (item.actionStub === 'page-get-document') return 'Requested documents';
       if (item.actionStub === 'page-upgrade') return translateTo('Upgraded package', userLang);
