@@ -44,6 +44,7 @@ import type {AppType} from './@types/App';
 import Financing from './Pages/Closing/Financing/Financing';
 import {getActiveSingleCompany} from './actions/CompanyActions';
 import {setCookie} from './utils/helpers';
+import baseByData from '@brixel-io/brixel-components/dist/configuration/Settings';
 const CustomerSatisfaction = lazy(() => import('./components/CustomerSatisfaction'));
 const SplashScreen = lazy(() => import('./components/SplashScreen'));
 const RemoveTrailingSlash = lazy(() => import('./components/RemoveTrailingSlash'));
@@ -581,6 +582,24 @@ const App = (props: AppType) => {
         <link rel="apple-touch-icon" sizes="180x180" href={AppleTouch180} />
         <link rel="icon" sizes="192x192" href={Android192} />
         <title>Brixel Hub</title>
+        {baseByData.googleID && (
+          <>
+            <script
+              async
+              src={`https://www.googletagmanager.com/gtag/js?id=${
+                baseByData.googleID
+              }`}
+            />
+            <script>
+              {`window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+      
+        gtag('config', '${baseByData.googleID}');
+      `}
+            </script>
+          </>
+        )}
       </Helmet>
       {
         (showLoading()) && (
