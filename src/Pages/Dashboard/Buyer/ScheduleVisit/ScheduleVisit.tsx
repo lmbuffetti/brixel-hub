@@ -249,8 +249,9 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
         ) : (
           <>
             {/* SAVED SUCCESS MESSAGE */}
+
             {
-              isSmallLoading.sendData === 'saved' && (
+              visitStatus?.status === 'pending' && activeScheduleVisit?.buyerAvailability && activeScheduleVisit?.buyerAvailability.length > 0 && (
                 <div className="bgWhite brdRadius shadow-1dp mb-4 a-c py-3 py-sm-5 px-2 px-sm-4 dis-fl-col-rev dis-fl-row-sm">
 
                   <div className="mb-4">
@@ -281,38 +282,7 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
             }
 
             {
-              visitStatus?.status === 'pending' && (
-                <div className="bgWhite brdRadius shadow-1dp mb-4 a-c py-3 py-sm-5 px-2 px-sm-4 dis-fl-col-rev dis-fl-row-sm">
-
-                  <div className="mb-4">
-                    <BrixelSingleTag
-                      className="mb-2"
-                      lang={lang}
-                      message={{
-                        lang: lang,
-                        pending: translateTo('Pending', lang),
-                      }}
-                      status="pending"
-                      text={translateTo('Pending', lang)}
-                    />
-                    <h5 className="fweight-600 mb-2">
-                      {translateTo('Thank you for your request!', lang)}
-                    </h5>
-                    <p className='txtText600 max-w-perc-sm-80'>
-                      {translateTo('Your suggested dates have been sent. Our team will contact you shortly to clarify any questions and to proceed with the next steps.', lang)}
-                    </p>
-                  </div>
-                  <img
-                    className="ml-a h-fix-120 h-fix-sm-160"
-                    src={PropertyPendingImg}
-                    alt="Visit Requested"
-                  />
-                </div>
-              )
-            }
-
-            {
-              visitStatus?.status === 'cancelled' && (
+              visitStatus?.status === 'cancelled' && (!formValue?.scheduleVisits || (formValue?.scheduleVisits && formValue.scheduleVisits.length === 0)) && (
                 <>
                   <div className="bgRed50 brdRadius shadow-1dp mb-4 a-c py-3 py-sm-5 px-2 px-sm-4 dis-fl-col-rev dis-fl-row-sm">
 
