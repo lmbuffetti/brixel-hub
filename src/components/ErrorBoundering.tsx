@@ -73,15 +73,16 @@ class ErrorBoundary extends Component<ErrorBoundaryType> {
       // Return the fallback UI
       return (
         <BrixelPage500
-          errorMessage="You can try again or go back to the dashboard"
+          errorMessage="We&rsquo;re sorry but an error has occurred. We apologize for the inconvenience."
           buttons={[
             {
+              className: 'mt-2',
               label: translateTo('Go to the dashboard', this.props.lang),
               type: 'primary',
               onClick: () => window.location.assign('/'),
             },
             {
-              className: 'ml-2',
+              className: 'mt-2 ml-0 ml-sm-2',
               label: translateTo('Try again', this.props.lang),
               type: 'secondary',
               onClick: () => window.location.reload(),
