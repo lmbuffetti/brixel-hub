@@ -583,7 +583,7 @@ const App = (props: AppType) => {
         <link rel="icon" sizes="192x192" href={Android192} />
         <title>Brixel Hub</title>
         {baseByData.googleID && (
-          <>
+          <Helmet>
             <script
               async
               src={`https://www.googletagmanager.com/gtag/js?id=${
@@ -594,11 +594,12 @@ const App = (props: AppType) => {
               {`window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-      
+
         gtag('config', '${baseByData.googleID}');
       `}
             </script>
-          </>
+
+          </Helmet>
         )}
       </Helmet>
       {
