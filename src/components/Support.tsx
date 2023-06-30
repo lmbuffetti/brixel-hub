@@ -252,14 +252,16 @@ const Support = (props: SupportType) => {
                         onChange: (val) => setSupportMessage(val),
                       }}
                     />
-                    <BrixelButtonIcon
-                      icon="send"
-                      theme="white"
-                      bgTransparent
-                      disabled={supportMessage.length === 0}
-                      isLoading={isSmallLoading.supportMessage}
-                      onClick={() => sendMessage()}
-                    />
+                    <div>
+                      <BrixelButtonIcon
+                        icon="send"
+                        theme="white"
+                        bgTransparent
+                        disabled={supportMessage.length === 0}
+                        isLoading={isSmallLoading.supportMessage}
+                        onClick={() => sendMessage()}
+                      />
+                    </div>
                   </>
                 )
               }
