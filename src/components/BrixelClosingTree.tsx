@@ -807,7 +807,7 @@ const BrixelClosingTree = (props: BrixelClosingTreeType) => {
                 </div>
               </div>
               {
-                get(activeSingleClosing, 'stageOffer.active', null) !== false && (
+                getx(activeSingleClosing, 'stageOffer.active', null) !== false && (
                   <div className="collExBtn p-2 dis-f a-c brdSmallLeft brdText50">
                     <BrixelIcon
                       icon={collapsed[stage] ? 'dropdown-open' : 'dropdown-close'}
