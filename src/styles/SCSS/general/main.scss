@@ -1177,20 +1177,17 @@ input::-webkit-date-and-time-value {
 .errorPage {
   .brixel-pageNotFound {
     background: white;
-}
-  header.bgOverlay.hubDasHeader.bgWhite {
+  }
+  .bgOverlay.hubDasHeader.bgWhite {
     display: none;
   }
-
-  header#menu-sidebar {
+  #menu-sidebar {
     display: none;
   }
-
-  footer.footerWrap.w-perc-100.leftPadding {
+  .footerWrap {
     display: none;
   }
-
-  .dis-fl-col.a-b.jc-fe.supportBtn {
+  .supportBtn {
     display: none;
   }
 }
