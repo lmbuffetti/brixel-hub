@@ -68,6 +68,7 @@ class ErrorBoundary extends Component<ErrorBoundaryType> {
     } = this.state;
     const {
       children,
+      //todo temporary 'makeitTrue', should be removed after 404 page test.
       makeitTrue,
     }: ErrorBoundaryType = this.props;
     if (hasError || makeitTrue) {

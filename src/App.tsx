@@ -651,6 +651,7 @@ const App = (props: AppType) => {
                   >
                     <RemoveTrailingSlash/>
                     <Routes>
+                      {/* todo temporary 'makeitTrue', should be removed after 404 page test. */}
                       <Route path="/500" element={<ErrorBoundering makeitTrue><div /></ErrorBoundering>} />
                       { /* SECTION: ONBOARDING */}
                       <Route path="/packageFlow/" element={<GetStarted />} />
