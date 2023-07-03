@@ -16,6 +16,7 @@ import baseByData from '@brixel-io/brixel-components/dist/configuration/Settings
 import {setSplashType, spinnerSmall} from '../../../actions/CommonActions';
 import {saveReviewOffer, setActiveSingleDeal} from '../../../actions/DealActions';
 import type {ReviewOfferType} from '../../../@types/Pages/Closing/Offers/ReviewOffer';
+import type { DocumentType } from '@brixel-io/brixel-components/dist/@types/Model';
 
 const ReviewOffer = (props: ReviewOfferType) => {
   const {
@@ -75,6 +76,14 @@ const ReviewOffer = (props: ReviewOfferType) => {
       closeOverlay();
     }
     return null;
+  };
+
+  const openDocument = (e, id) => {
+    if (e) e.preventDefault();
+    if (activeSingleOffer.offer.documents) {
+      const currentDoc: DocumentType = activeSingleOffer.offer.documents.find((doc: DocumentType) => doc.id === id) || {};
+      if (currentDoc) window.open(currentDoc.loadUrl, '_blank');
+    }
   };
 
   return (
@@ -214,7 +223,7 @@ const ReviewOffer = (props: ReviewOfferType) => {
                     {
                       get(activeSingleOffer, 'offer.documents[0].name', null) && (
                         <div
-                          onClick={() => Helpers.openDocument(get(activeSingleOffer, 'offer.documents[0].id', ''))}
+                          onClick={(e) => openDocument(e, get(activeSingleOffer, 'offer.documents[0].id', ''))}
                           className="cur-poi"
                         >
                           <h6 className="fsize-200 pb-1 pt-3">{translateTo('Proof of financing from bank', lang)}</h6>
