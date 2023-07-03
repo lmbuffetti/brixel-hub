@@ -5,4 +5,5 @@ export interface ErrorBoundaryType {
   lang: string;
   loggedInUser: object;
   pageError: boolean;
+  makeitTrue?: boolean;
 }

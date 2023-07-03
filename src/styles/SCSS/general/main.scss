@@ -1173,3 +1173,24 @@ input::-webkit-date-and-time-value {
   border-width: 1px;
   border-style: solid;
 }
+
+.errorPage {
+  .brixel-pageNotFound {
+    background: white;
+}
+  header.bgOverlay.hubDasHeader.bgWhite {
+    display: none;
+  }
+
+  header#menu-sidebar {
+    display: none;
+  }
+
+  footer.footerWrap.w-perc-100.leftPadding {
+    display: none;
+  }
+
+  .dis-fl-col.a-b.jc-fe.supportBtn {
+    display: none;
+  }
+}

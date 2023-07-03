@@ -14,7 +14,7 @@ const cookies = new Cookies();
 const PageHasBeenForceRefreshed = 'page-has-been-force-refreshed';
 
 class ErrorBoundary extends Component<ErrorBoundaryType> {
-  state = { hasError: false };
+  state = { hasError: false, makeitTrue: false };
 
   static getDerivedStateFromError() {
     // Update state to show the fallback UI during the next render phase
@@ -68,8 +68,9 @@ class ErrorBoundary extends Component<ErrorBoundaryType> {
     } = this.state;
     const {
       children,
+      makeitTrue,
     }: ErrorBoundaryType = this.props;
-    if (hasError) {
+    if (hasError || makeitTrue) {
       // Return the fallback UI
       return (
         <BrixelPage500
