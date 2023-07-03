@@ -25,7 +25,7 @@ export default {
     singleDeal: (id) => `/deal/${id}`,
     updateMultipleDeals: () => '/deal/updateGroup',
     scheduleVisit: (id, order, direction) => `/deal/${id}/scheduleVisitRequest?order=${order}&direction=${direction}`,
-    visitFeedback: (id, sendSlack) => `/deal/${id}/feedbackVisitEmail?sendSlackMessage=${sendSlack}`,
+    visitFeedback: (deal, visit, sendSlack) => `/deal/${deal}/feedbackVisit/${visit}?sendSlackMessage=${sendSlack}`,
   },
   estimation: {
     createEstimation: () => '/estimation/',

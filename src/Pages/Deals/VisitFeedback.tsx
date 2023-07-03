@@ -74,6 +74,7 @@ const VisitFeedback = (props: VisitFeedbackType) => {
     const data = {
       ...formValue,
       id: dealID,
+      visitID: act,
       smallLoader: 'sendVisit',
       sendSlack: !formValue.reasons,
       isInterested: status,

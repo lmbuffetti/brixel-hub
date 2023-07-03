@@ -860,6 +860,7 @@ const checkCommon = (store) => (next) => (action) => {
       const {
         smallLoader,
         id,
+        visitID,
         sendSlack,
       } = objData;
       delete objData.smallLoader;
@@ -878,7 +879,7 @@ const checkCommon = (store) => (next) => (action) => {
           type: SPINNER_ON,
         });
       }
-      api.deal.sendVisitFeedback(id, sendSlack, objData)
+      api.deal.sendVisitFeedback(id, visitID, sendSlack, objData)
         .then(() => {
           if (smallLoader) {
             store.dispatch({
