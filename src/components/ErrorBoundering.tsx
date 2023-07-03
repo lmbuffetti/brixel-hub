@@ -78,7 +78,7 @@ class ErrorBoundary extends Component<ErrorBoundaryType> {
           buttons={[
             {
               className: 'mt-2',
-              label: translateTo('Go to the dashboard', this.props.lang),
+              label: translateTo('Return to homepage', this.props.lang),
               type: 'primary',
               onClick: () => window.location.assign('/'),
             },
