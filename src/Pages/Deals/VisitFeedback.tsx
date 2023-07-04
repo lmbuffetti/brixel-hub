@@ -45,6 +45,7 @@ const VisitFeedback = (props: VisitFeedbackType) => {
   // GET URL PARAMS
   const dealID = get(match, 'dealID', null);
   const pageID = get(match, 'pageID', null);
+  const visitID = get(match, 'visitID', null);
   const [disabledSend, setDisabledSend] = useState(true);
   const [successMessage, setSuccessMessage] = useState(false);
   const urlParams = queryString.parse(get(history, 'location.search', ''));
@@ -74,9 +75,9 @@ const VisitFeedback = (props: VisitFeedbackType) => {
     const data = {
       ...formValue,
       id: dealID,
-      visitID: act,
+      visitID: visitID,
       smallLoader: 'sendVisit',
-      sendSlack: !formValue.reasons,
+      sendSlack: true,
       isInterested: status,
     };
     handleSendVisitFeedback(data);
@@ -107,7 +108,7 @@ const VisitFeedback = (props: VisitFeedbackType) => {
     const data = {
       fullVersion: false,
       smallLoader: 'property',
-      stub: pageID,
+      id: pageID,
     };
     handleGetActiveSingleProperty(data);
   }, []);
