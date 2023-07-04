@@ -1173,22 +1173,3 @@ input::-webkit-date-and-time-value {
   border-width: 1px;
   border-style: solid;
 }
-
-//todo temporary code should be removed after 404 page test
-.errorPage {
-  .brixel-pageNotFound {
-    background: white;
-  }
-  .bgOverlay.hubDasHeader.bgWhite {
-    display: none;
-  }
-  #menu-sidebar {
-    display: none;
-  }
-  .footerWrap {
-    display: none;
-  }
-  .supportBtn {
-    display: none;
-  }
-}

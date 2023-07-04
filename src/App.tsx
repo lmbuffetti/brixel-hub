@@ -538,7 +538,6 @@ const App = (props: AppType) => {
     if (!isFlow) classes += ' hubDashboard h-perc-100';
     else classes += ' flowWrapper';
     if (history.location.pathname.includes('upgrade/packages')) classes += ' upgradePackages';
-    if (history.location.pathname.includes('/500')) classes += ' errorPage';
     if (showFooter) classes += ' activeFooter';
     if (!isOpenTransifex) classes += ' notranslate';
     return classes;
@@ -652,7 +651,7 @@ const App = (props: AppType) => {
                     <RemoveTrailingSlash/>
                     <Routes>
                       {/* todo temporary 'makeitTrue', should be removed after 404 page test. */}
-                      <Route path="/500" element={<ErrorBoundering makeitTrue><div /></ErrorBoundering>} />
+                      <Route path="/500" element={<ErrorBoundering><div /></ErrorBoundering>} />
                       { /* SECTION: ONBOARDING */}
                       <Route path="/packageFlow/" element={<GetStarted />} />
                       <Route path="/packageFlow/getstarted/*" element={<GetStartedSeller />} />
