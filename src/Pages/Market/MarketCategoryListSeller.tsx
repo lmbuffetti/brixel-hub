@@ -514,7 +514,7 @@ const MarketCategoryListSeller = (props: MarketCategoryListSellerType) => {
                           <h4 className="fweight-500 txtText900">{translateTo(pkg.name || '', lang)}</h4>
                           {
                             (activeSinglePropertyActivePackage.stub === pkg.stub || (!activeSinglePropertyActivePackage.stub && pkg.type === 'basic')) && (
-                              <div className="bgText800 py-small-4 px-1 brdRadius txtWhite">Your plan</div>
+                              <div className="bgText800 py-small-4 px-1 brdRadius txtWhite">{translateTo('Your plan', lang)}</div>
                             )
                           }
                         </div>
