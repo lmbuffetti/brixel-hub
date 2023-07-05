@@ -243,10 +243,10 @@ const IntroUpgrade = (props: IntroUpgradeType) => {
                                     get(pkg, 'price.discountTotal', 0) > 0 && (
                                       <>
                                         <span
-                                          className="dis-b txtText400 fsize-300 mt-2 mt-sm-0"
+                                          className="dis-b txtText400 fsize-300 mt-2 mt-sm-0 lh-in"
                                         >
                                           <span className="">{translateTo('Original price', lang)}</span>
-                                          <span className="td-lt lh-in ml-2 dis-ib pt-small-2">
+                                          <span className="td-lt ml-2 dis-ib">
                                             <span>{get(pkg, 'price.currency', '')} </span>
                                             <span>{Helpers.formatNumberValue(get(pkg, 'price.total', 0), get(pkg, 'price.currency', ''))}</span>
                                           </span>
@@ -408,10 +408,10 @@ const IntroUpgrade = (props: IntroUpgradeType) => {
                                           get(pkg, 'price.discountTotal', 0) > 0 && (
                                             <>
                                               <span
-                                                className="dis-b txtText400 fsize-300 mt-2 mt-sm-0"
+                                                className="dis-b txtText400 fsize-300 mt-2 mt-sm-0 lh-in"
                                               >
-                                                <span className="">{translateTo('Original price', lang)}</span>
-                                                <span className="td-lt lh-in ml-2 dis-ib pt-small-2">
+                                                <span>{translateTo('Original price', lang)}</span>
+                                                <span className="td-lt ml-2 dis-ib">
                                                   <span className="mr-1">{get(pkg, 'price.currency', '')}</span>
                                                   <span>{Helpers.formatNumberValue(get(pkg, 'price.total', 0), get(pkg, 'price.currency', ''))}</span>
                                                 </span>
