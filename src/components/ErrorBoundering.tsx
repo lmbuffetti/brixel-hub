@@ -69,20 +69,18 @@ class ErrorBoundary extends Component<ErrorBoundaryType> {
     const {
       children,
     }: ErrorBoundaryType = this.props;
-    if (hasError) {
+    if (!hasError) {
       // Return the fallback UI
       return (
         <BrixelPage500
           errorMessage="We&rsquo;re sorry but an error has occurred. We apologize for the inconvenience."
           buttons={[
             {
-              className: 'mt-2',
               label: translateTo('Return to homepage', this.props.lang),
               type: 'primary',
               onClick: () => window.location.assign('/'),
             },
             {
-              className: 'mt-2 ml-0 ml-sm-2',
               label: translateTo('Try again', this.props.lang),
               type: 'secondary',
               onClick: () => window.location.reload(),
