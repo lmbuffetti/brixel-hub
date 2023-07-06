@@ -69,7 +69,7 @@ class ErrorBoundary extends Component<ErrorBoundaryType> {
     const {
       children,
     }: ErrorBoundaryType = this.props;
-    if (!hasError) {
+    if (hasError) {
       // Return the fallback UI
       return (
         <BrixelPage500
