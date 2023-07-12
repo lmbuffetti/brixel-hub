@@ -74,6 +74,7 @@ class ErrorBoundary extends Component<ErrorBoundaryType> {
       return (
         <BrixelPage500
           errorMessage="We&rsquo;re sorry but an error has occurred. We apologize for the inconvenience."
+          lang={this.props.lang}
           buttons={[
             {
               label: translateTo('Return to homepage', this.props.lang),
