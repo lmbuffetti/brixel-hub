@@ -1,9 +1,10 @@
-import {BrixelButtonPrimary, BrixelButtonSecondary, translateTo} from '@brixel-io/brixel-components';
+import {BrixelButtonPrimary, BrixelButtonSecondary} from '@brixel-io/brixel-components';
 import {BrixelCheckboxSingle} from '@brixel-io/brixel-components/dist/form';
 import get from 'lodash/get';
 import React, {useEffect, useState} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators, compose} from 'redux';
+import translateTo from '../../../utils/translation';
 import {setModal} from '../../../actions/CommonActions';
 import ConfirmIconImg from '../../../images/Market/confirmIcon.svg';
 import {setCookie} from '../../../utils/helpers';
@@ -31,7 +32,7 @@ const LearnMoreListingsProperty = (props: LearnMoreListingsPropertyType) => {
     if (isHideModal) setCookie('brixelHideNotInterested', 'true');
     onClick()
   }
-
+  console.log(lang);
   return (
     <>
       <div className="dis-f a-t jc-b mt-a mt-sm-0">
@@ -47,7 +48,7 @@ const LearnMoreListingsProperty = (props: LearnMoreListingsPropertyType) => {
               value: isHideModal,
               onChange: (val) => seiIsHideModal(val),
             }}
-            options={{value: true, label: 'Don’t ask me again.'}}
+            options={{value: true, label: translateTo('Don’t ask me again.', lang)}}
           />
 
         </div>
@@ -55,13 +56,13 @@ const LearnMoreListingsProperty = (props: LearnMoreListingsPropertyType) => {
       <div className="dis-f a-c jc-fe mt-a pt-2">
         <BrixelButtonSecondary
           rounded
-          label="No, keep it"
+          label={translateTo('No, keep it', lang)}
           onClick={() => handleSetModal({state: false})}
         />
         <BrixelButtonPrimary
           className="ml-1"
           rounded
-          label="Yes, hide it"
+          label={translateTo('Yes, hide it', lang)}
           onClick={() => onSaveData()}
           isLoading={isSmallLoading[`notInterested-${id}`]}
         />
