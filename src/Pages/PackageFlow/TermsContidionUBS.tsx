@@ -54,7 +54,7 @@ const TermsContidionUBS = (props: TermsConditionUBSType) => {
           />
         </div>
         <p className="pt-2 fsize-400 fsize-md-500 max-w-fix-136 max-w-fix-md-192 ml-a mr-a ta-c">
-          {translateTo('Get financing guidance', arg)}
+          {translateTo('Support on all financial questions', arg)}
         </p>
       </div>,
       <div className="icon-wrap dis-fl-col a-c px-2 " key="2">
