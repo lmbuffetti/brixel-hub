@@ -8,6 +8,7 @@ import {sendSlackNotification} from '../actions/CommonActions';
 import browserDetection from '../utils/browserDetection';
 import translateTo from '../utils/translation';
 import type {ErrorBoundaryType} from '../@types/components/ErrorBoundering';
+import {getCookie} from '../utils/helpers';
 
 const cookies = new Cookies();
 
@@ -69,20 +70,21 @@ class ErrorBoundary extends Component<ErrorBoundaryType> {
     const {
       children,
     }: ErrorBoundaryType = this.props;
+    const lang = getCookie('brixelLang') || 'en';
     if (hasError) {
       // Return the fallback UI
       return (
         <BrixelPage500
           errorMessage="We&rsquo;re sorry but an error has occurred. We apologize for the inconvenience."
-          lang={this.props.lang}
+          lang={lang}
           buttons={[
             {
-              label: translateTo('Return to homepage', this.props.lang),
+              label: translateTo('Return to homepage', lang),
               type: 'primary',
               onClick: () => window.location.assign('/'),
             },
             {
-              label: translateTo('Try again', this.props.lang),
+              label: translateTo('Try again', lang),
               type: 'secondary',
               onClick: () => window.location.reload(),
             },

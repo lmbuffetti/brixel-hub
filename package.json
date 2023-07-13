@@ -2,9 +2,6 @@
   "name": "brixel-hub",
   "version": "1.0.0",
   "private": "true",
-  "engines": {
-    "node": ">=16.*"
-  },
   "dependencies": {
     "@brixel-io/brixel-components": "latest",
     "@react-buddy/ide-toolbox": "^2.4.0",
