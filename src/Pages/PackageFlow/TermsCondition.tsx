@@ -52,7 +52,7 @@ const TermsCondition = (props: TermsConditionType) => {
     handleSpinnerOff();
     const parmsURL = queryString.parse(get(history, 'location.search', ''));
     setRedirectURL((get(parmsURL, 'url', '') || '').toString());
-    // history.push(`/termsConditionFlow/${companyStub}/${userType}`);
+    history.push(`/termsConditionFlow/${companyStub}/${userType}`);
     return () => destroyForm();
   }, []);
 
@@ -104,7 +104,7 @@ const TermsCondition = (props: TermsConditionType) => {
 
   return (
     <FlowScreen
-      baseURL={`/termsConditionFlow/${activeSingleCompany.stub}`}
+      baseURL={`/termsConditionFlow/${activeSingleCompany.stub}/${userType}`}
       formName="TermsCondition"
       onSaveData={(action) => saveData(action)}
       QuestionsList={questions}

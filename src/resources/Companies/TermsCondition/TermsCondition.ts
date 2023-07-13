@@ -2,10 +2,12 @@
 import {BrixelRadioButton, Validation} from '@brixel-io/brixel-components/dist/form';
 import {QuestionsListType} from '@brixel-io/brixel-components/dist/@types/Model';
 import translateTo from '../../../utils/translation';
+import TermsContidionUBS from '../../../Pages/PackageFlow/TermsContidionUBS';
 
 
 // QUESTION LISTS
 export const QuestionsList = (lang, company, isBuyer) => {
+  console.log(isBuyer)
   let question: QuestionsListType[] = [];
   if (company.stub === 'ubs') {
     question = [
@@ -33,23 +35,13 @@ export const QuestionsList = (lang, company, isBuyer) => {
     if (isBuyer) {
       question = [
         {
-          btnLabel: 'Accept',
-          title: translateTo('Activate your UBS advantages now.', lang),
+          cardType: 'loadComponent',
           history: 'ubsPolicy',
-          cardType: 'ubsPolicy',
-          footerWidth: 'max-w-fix-752',
-          bulletPoints: {
-            title: translateTo('What are my advantages?', lang),
-            description: [
-              translateTo('Non-binding support on all financial questions concerning the purchase of real estate (incl. free property appraisal).', lang),
-              translateTo('Benefit from a 0.30% interest rate reduction on your first owner-occupied home.', lang),
-              translateTo('Get access to the exclusive UBS pre-market to see properties before they are publicly on the market.', lang),
-            ],
-          },
-          text: [{
-            title: translateTo('Privacy Policy', lang),
-            description: `<span>${translateTo('I agree that my data (surname, first name, telephone number, e-mail) is transmitted to UBS Switzerland AG. Furthermore, to check whether I am already a client of UBS Switzerland AG, I authorize UBS Switzerland AG to compare my data with my existing data at UBS Switzerland AG.', lang)}</span><span class="mt-1 dis-b">${translateTo('This consent can be revoked at any time for the future. The revocation of consent does not affect the legality of the data processing carried out based on the consent until the revocation.', lang)}</span>`,
-          }],
+          className: 'max-w-fix-768 ml-a mr-a brdRadius bgWhite brdSmall brdText50',
+          footerWidth: 'max-w-fix-768',
+          component: TermsContidionUBS,
+          hideContinueBtn: true,
+          hideFooter: true,
         },
       ]
     }
