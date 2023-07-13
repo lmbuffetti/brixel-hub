@@ -17,6 +17,7 @@ import iconExclusive from '../../images/policy/exclusive.svg';
 const TermsContidionUBS = (props: TermsConditionUBSType) => {
 
   const {
+    onSaveData,
     windowDimensions,
     lang,
   } = props;
@@ -114,12 +115,14 @@ const TermsContidionUBS = (props: TermsConditionUBSType) => {
               label='Accept & continue'
               rounded
               className='mb-1'
+              onClick={() => onSaveData('accept')}
             />
             <BrixelButtonText
               label='Skip'
               rounded
               theme='text'
               themeSat={800}
+              onClick={() => onSaveData()}
             />
           </div>
         </div>

@@ -10,6 +10,7 @@ export interface TermsConditionUBSType {
   handleSaveActiveSingleUser: (data: object) => void;
   handleSpinnerOff: () => void;
   initForm: (data: object) => void;
+  onSaveData: (data?: string) => void;
   initialValues: object;
   isSmallLoading: {
     sendData: boolean;

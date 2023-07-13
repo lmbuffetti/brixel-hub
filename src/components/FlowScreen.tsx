@@ -417,7 +417,7 @@ const FlowScreen = (props: FlowScreenType) => {
                           initialValue: formValue,
                           ...quest,
                           onClick: () => (questions[currentIndex + 1] ? changeStep() : closeWindow()),
-                          onSaveData: () => onSaveData(),
+                          onSaveData: (val) => onSaveData(val),
                         },
                       )
                     )
