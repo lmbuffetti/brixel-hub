@@ -32,7 +32,7 @@ const LearnMoreListingsProperty = (props: LearnMoreListingsPropertyType) => {
     if (isHideModal) setCookie('brixelHideNotInterested', 'true');
     onClick()
   }
-  console.log(lang);
+
   return (
     <>
       <div className="dis-f a-t jc-b mt-a mt-sm-0">
