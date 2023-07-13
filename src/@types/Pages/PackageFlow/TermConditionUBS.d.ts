@@ -14,7 +14,8 @@ export interface TermsConditionUBSType {
   isSmallLoading: {
     sendData: boolean;
   };
-  lang?: string;
+  lang: string;
   loggedInUser: LoggedUserType;
   translations: object;
+  windowDimensions: object,
 }

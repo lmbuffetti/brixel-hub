@@ -1,0 +1,47 @@
+.centerSlider {
+  .icon-wrap {
+    transition: opacity 0.5s ease;
+    min-width: 35vw;
+
+    @media (max-width: 769px) {
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+    .icon-circle {
+      height: 154px;
+      width: 154px;
+      margin-left: auto;
+      margin-right: auto;
+
+      @media (max-width: 590px) {
+        height: 100px;
+        width: 100px;
+      }
+    }
+    p {
+      transition: opacity 0.5s ease;
+    }
+  }
+  .slick-active.slick-center.slick-current {
+    .icon-wrap * {
+      text-align: center;
+    }
+  }
+  .slick-slide:not(.slick-center) {
+    .icon-wrap {
+      opacity: 0.4;
+    }
+    .icon-circle,
+    .icon-wrap {
+    }
+    p {
+      opacity: 1;
+    }
+  }
+  .slick-center + .slick-slide {
+    .icon-wrap,
+    .icon-circle {
+    }
+  }
+}
+

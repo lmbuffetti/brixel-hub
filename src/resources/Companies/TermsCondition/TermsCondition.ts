@@ -7,7 +7,6 @@ import TermsContidionUBS from '../../../Pages/PackageFlow/TermsContidionUBS';
 
 // QUESTION LISTS
 export const QuestionsList = (lang, company, isBuyer) => {
-  console.log(isBuyer)
   let question: QuestionsListType[] = [];
   if (company.stub === 'ubs') {
     question = [

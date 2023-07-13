@@ -51,6 +51,7 @@ $avatarColors:  map-get($primaryColor, 200),
 "../pages/deals",
 "../pages/getStarted",
 "../pages/sellerSidebar",
+"../general/slickCustom",
 "../pages/seller";
 
 
@@ -913,48 +914,6 @@ button.minimum-w-210 {
   grid-row-gap: calc($step * 6);
 }
 
-.centerSlider {
-  .icon-wrap {
-    transition: opacity 0.5s ease;
-    @media (max-width: 769px) {
-      padding-left: 10px;
-      padding-right: 10px;
-    }
-    .icon-circle {
-      height: 148px;
-      width: 148px;
-    }
-    p {
-      transition: opacity 0.5s ease;
-    }
-  }
-  .slick-active.slick-center.slick-current {
-    .icon-wrap * {
-      text-align: center;
-      margin-left: auto;
-      margin-right: auto;
-    }
-  }
-  .slick-slide:not(.slick-center) {
-    .icon-wrap {
-      opacity: 0.4;
-    }
-    .icon-circle,
-    .icon-wrap {
-      margin-left: auto;
-    }
-    p {
-      opacity: 0;
-    }
-  }
-  .slick-center + .slick-slide {
-    .icon-wrap,
-    .icon-circle {
-      margin-right: auto;
-      margin-left: 0;
-    }
-  }
-}
 
 .offerSignup {
   @media (max-width: 600px) {
@@ -1163,3 +1122,5 @@ input::-webkit-date-and-time-value {
   border-width: 1px;
   border-style: solid;
 }
+
+
