@@ -27,6 +27,7 @@ const SearchProfileList = (props: SearchProfileListType) => {
     location: useLocation(),
   };
   const {
+    activeSingleCompany,
     changeFieldValue,
     handleDeleteUserSearchProfile,
     handleSetModal,
@@ -249,6 +250,7 @@ const SearchProfileList = (props: SearchProfileListType) => {
                               field !== 'isDefault' && field !== 'name' && (
                                 <>
                                   <SearchProfileField
+                                    activeSingleCompany={activeSingleCompany}
                                     searchProfile={searchProfile}
                                     field={field}
                                     lang={lang}
@@ -289,6 +291,7 @@ const SearchProfileList = (props: SearchProfileListType) => {
 };
 
 const mapStateToProps = (state) => ({
+  activeSingleCompany: get(state, 'companies.activeSingleCompany', { }),
   isSmallLoading: get(state, 'common.isSmallLoading', { }),
   lang: get(state, 'common.language', 'en'),
   userSearchProfiles: get(state, 'user.userSearchProfiles', []),

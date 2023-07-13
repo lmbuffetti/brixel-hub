@@ -1,6 +1,7 @@
-import {SearchProfileType} from '@brixel-io/brixel-components/dist/@types/Model';
+import {CompanyType, SearchProfileType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 export interface SearchProfileListType {
+  activeSingleCompany: CompanyType;
   changeFieldValue: (field: string, value: string) => void;
   handleDeleteUserSearchProfile: (data: object) => void;
   handleSetModal: (data: object) => void;
