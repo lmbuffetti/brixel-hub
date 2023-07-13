@@ -1,4 +1,5 @@
 import {
+  CompanyType,
   LoggedUserType,
   ModalDataType,
   PropertyType,
@@ -6,6 +7,7 @@ import {
 } from '@brixel-io/brixel-components/dist/@types/Model';
 
 export interface MarketCategoryListBuyerType {
+  activeSingleCompany: CompanyType;
   activeSearchProfile?: SearchProfileType;
   buyerProperties: {
     total: number;

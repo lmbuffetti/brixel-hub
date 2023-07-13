@@ -9,6 +9,7 @@ import {QuestionInputType, QuestionsListType} from '@brixel-io/brixel-components
 
 const SearchProfileField = (props: SearchProfileFieldType) => {
   const {
+    activeSingleCompany,
     field = '',
     lang,
     onClick,
@@ -78,7 +79,8 @@ const SearchProfileField = (props: SearchProfileFieldType) => {
       }
     } else if (!isObject(get(searchProfile, field, ''))) {
       if (field.includes('price')) {
-        const currency = get(searchProfile, 'finance.currency', 'EUR');
+        let currency: string | null = get(searchProfile, 'finance.currency', null);
+        if (!currency) currency = get(activeSingleCompany, 'country.currency', 'CHF');
         const price = get(searchProfile, field, 0);
         if (price > 0) {
           return (

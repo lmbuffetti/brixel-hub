@@ -29,8 +29,9 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
   const match = useParams();
   // PROPS
   const {
-    buyerProperties,
+    activeSingleCompany,
     activeSearchProfile,
+    buyerProperties,
     filterPropType = [],
     handleGetActiveSingleCompany,
     handleSetModal,
@@ -326,6 +327,7 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
                                     field !== 'isDefault' && field !== 'name' && (
                                       <>
                                         <SearchProfileField
+                                          activeSingleCompany={activeSingleCompany}
                                           onClick={() => history.push(`/buy/searchProfile/list/edit/${activeSearchProfile.id}`, {state: { url: `/buy/searchProfile/${cat}/${page}` }})}
                                           searchProfile={activeSearchProfile}
                                           field={field}
@@ -499,8 +501,9 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
 };
 
 const mapStateToProps = (state) => ({
-  buyerProperties: get(state, 'market.buyerProperties', {}),
+  activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   activeSearchProfile: get(state, 'user.activeSearchProfile', null),
+  buyerProperties: get(state, 'market.buyerProperties', {}),
   estimation: get(state, 'property.estimation', {}),
   lang: get(state, 'common.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
