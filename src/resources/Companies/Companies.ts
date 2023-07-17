@@ -1,6 +1,6 @@
 import LogoBaloise from '../../images/Companies/Baloise/BaloiseLogo.svg';
 import LogoUBS from '../../images/Companies/ubsKey4/ubsLogo.svg';
-import LogoKey4 from '../../images/Companies/ubsKey4/key4Logo.svg';
+// import LogoUBSMortgage from '../../images/Companies/ubsKey4/ubs-key4-mortgage.svg';
 
 export const CompaniesData = {
   baloise: {
@@ -10,7 +10,7 @@ export const CompaniesData = {
   },
   ubs: {
     footer: {
-      logos: [LogoUBS, LogoKey4],
+      logos: [LogoUBS],
     },
   },
   default: {

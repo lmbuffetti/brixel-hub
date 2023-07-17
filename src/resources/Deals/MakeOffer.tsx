@@ -13,8 +13,7 @@ import {
 } from '@brixel-io/brixel-components/dist/form';
 import get from 'lodash/get';
 import BaloiseLogoImg from '../../images/Companies/Baloise/BaloiseLogo.svg';
-import Key4LogoImg from '../../images/Companies/ubsKey4/key4Logo.svg';
-import UBSLogoImg from '../../images/Companies/ubsKey4/ubsLogo.svg';
+import UBSMortgageLogoImg from '../../images/Companies/ubsKey4/ubs-key4-mortgage.svg';
 import ClipboardImg from '../../images/scanTrial/clipboard.png';
 import FinanceCertificate from '../../Pages/Closing/Offers/Flow/FinanceCertificate';
 import Key4Registration from '../../Pages/Closing/Offers/Flow/Key4Registration';
@@ -123,8 +122,7 @@ export const MakeOfferQuestions: (changeValue: (field: string, val: any) => void
                   formValue.company === 'ubs' && (
                     <div className="dis-f a-c mt-3">
                       <p className="txtText400 mr-2">{translateTo('In partnership with', lang)}</p>
-                      <img loading="lazy" className="h-fix-24" src={UBSLogoImg} alt="Logo UBS" />
-                      <img  loading="lazy" className="h-fix-24 ml-2" src={Key4LogoImg} alt="Logo Key 4" />
+                      <img loading="lazy" className="h-fix-32" src={UBSMortgageLogoImg} alt="Logo UBS" />
                     </div>
                   )
                 }
