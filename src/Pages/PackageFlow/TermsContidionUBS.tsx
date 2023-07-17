@@ -112,7 +112,7 @@ const TermsContidionUBS = (props: TermsConditionUBSType) => {
           </span>
           <div className="mt-4 mt-md-6">
             <BrixelButtonPrimary
-              label= {translateTo('Accept & continue', lang)}
+              label= {translateTo('Accept &amp; continue', lang)}
               rounded
               className='mb-1'
               onClick={() => onSaveData('accept')}
