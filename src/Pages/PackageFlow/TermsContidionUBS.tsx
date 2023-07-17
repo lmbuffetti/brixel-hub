@@ -112,13 +112,13 @@ const TermsContidionUBS = (props: TermsConditionUBSType) => {
           </span>
           <div className="mt-4 mt-md-6">
             <BrixelButtonPrimary
-              label='Accept & continue'
+              label= {translateTo('Accept & continue', lang)}
               rounded
               className='mb-1'
               onClick={() => onSaveData('accept')}
             />
             <BrixelButtonText
-              label='Skip'
+              label= {translateTo('Skip', lang)}
               rounded
               theme='text'
               themeSat={800}
