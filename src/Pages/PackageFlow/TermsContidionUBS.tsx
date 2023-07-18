@@ -17,9 +17,10 @@ import iconExclusive from '../../images/policy/exclusive.svg';
 const TermsContidionUBS = (props: TermsConditionUBSType) => {
 
   const {
+    isSmallLoading,
+    lang,
     onSaveData,
     windowDimensions,
-    lang,
   } = props;
 
   // STATE
@@ -116,6 +117,7 @@ const TermsContidionUBS = (props: TermsConditionUBSType) => {
               rounded
               className='mb-1'
               onClick={() => onSaveData('accept')}
+              isLoading={isSmallLoading.sendData}
             />
             <BrixelButtonText
               label= {translateTo('Skip', lang)}
@@ -153,8 +155,9 @@ const TermsContidionUBS = (props: TermsConditionUBSType) => {
 
 
 const mapStateToProps = (state) => ({
-  windowDimensions: get(state, 'common.windowDimensions', {}),
+  isSmallLoading: get(state, 'common.isSmallLoading', {}),
   lang: get(state, 'common.language', 'en'),
+  windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
 export default compose(

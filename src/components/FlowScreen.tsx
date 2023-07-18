@@ -244,7 +244,7 @@ const FlowScreen = (props: FlowScreenType) => {
 
   // MOVE STEP FORWARD AFTER SAVING
   useEffect(() => {
-    if (isSmallLoading.sendData === true && questions[currentIndex + 1]) {
+    if (isSmallLoading.sendData === true && questions[currentIndex + 1] && !questions[currentIndex + 1].toSave) {
       const newIndex = currentIndex + 1;
       setCurrentIndex(newIndex);
       setQuest(questions[newIndex]);
