@@ -102,8 +102,6 @@ const TermsCondition = (props: TermsConditionType) => {
     if (get(formValue, 'properties.propertyType', null) === null) initForm(initialValues);
   }, [get(company, 'id', null)]);
 
-  console.log(questions);
-
   return (
     <FlowScreen
       baseURL={`/termsConditionFlow/${activeSingleCompany.stub}/${userType}`}
