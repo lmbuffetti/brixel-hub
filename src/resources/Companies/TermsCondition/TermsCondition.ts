@@ -181,6 +181,7 @@ export const QuestionsList = (lang, company, isBuyer) => {
     }
   }
   question.push({
+    skipResume: true,
     history: 'savingData',
     cardType: 'createProfile',
     toSave: true,
