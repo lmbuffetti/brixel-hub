@@ -153,20 +153,6 @@ export const ScanTrialQuestions: (lang: string) => QuestionsListType[] = (lang) 
   },
   {
     hideProgress: true,
-    conditions: [{
-      name: 'bookType',
-      value: 'whereby',
-    }],
-    step: 'wherebyResume',
-    background: 'bgCardGreen',
-    cardType: 'loadComponent',
-    component: ResumeTrialFlow,
-    history: 'whereby',
-    vCentered: true,
-    classWrapper: '',
-  },
-  {
-    hideProgress: true,
     cardType: 'card',
     title: translateTo('Get Prepared', lang),
     img: ClipboardImg,

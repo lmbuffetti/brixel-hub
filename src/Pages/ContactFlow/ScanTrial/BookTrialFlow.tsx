@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {BrixelButtonPrimary, BrixelIcon, Helpers, useOutsideAlerter} from '@brixel-io/brixel-components';
+import {BrixelIcon, Helpers, useOutsideAlerter} from '@brixel-io/brixel-components';
 import {
   BrixelInputDatePicker, BrixelInputPhone,
   BrixelInputText,
@@ -13,7 +13,6 @@ import {connect} from 'react-redux';
 import {compose} from 'redux';
 import Accordion from '../../../components/Accordion';
 import PhoneImg from '../../../images/TestDrive/phoneTrial.svg';
-import VidelCallImg from '../../../images/TestDrive/VideoCall.svg';
 import translateTo from '../../../utils/translation';
 import type {BookTrialFlowType} from '../../../@types/Pages/ContactFlow/ScanTrial/BookTrialFlow';
 
@@ -24,7 +23,6 @@ const BookTrialFlow = (props: BookTrialFlowType) => {
     formValue,
     lang,
     loggedInUser,
-    onClick,
     showError,
     syncErrors,
   } = props;
@@ -36,9 +34,6 @@ const BookTrialFlow = (props: BookTrialFlowType) => {
   const datePicker = useRef(null);
   // COMPANY DATA
   const phone = get(activeSingleCompany, 'contact.phone', null);
-  // const whatsapp = get(activeSingleCompany, 'contact.whatsapp', null);
-  const whereby = get(activeSingleCompany, 'contact.whereby', null);
-
   const [openAccordion, setOpenAccordion] = useState('online');
 
   useEffect(() => {
@@ -74,11 +69,6 @@ const BookTrialFlow = (props: BookTrialFlowType) => {
 
   const closeModal = () => {
     setDatePickerModal(!datePickerModal);
-  };
-
-  const openWhereByVideoCall = () => {
-    if (whereby) window.open(whereby, '_blank');
-    onClick();
   };
 
   useOutsideAlerter(datePicker, {
@@ -229,22 +219,6 @@ const BookTrialFlow = (props: BookTrialFlowType) => {
                   <p>
                     <a className="txtText900 td-u" href={`tel:${phone}`}>{Helpers.telephoneFormat(phone)}</a>
                   </p>
-                </div>
-                <div className="w-perc-100 w-perc-sm-50 max-w-fix-sm-304 ta-c">
-                  <img loading="lazy" className="max-w-fix-120 max-w-fix-sm-144" src={VidelCallImg} alt="Phone" />
-                  <h4 className="mb-1 mb-1 fsize-500 fsize-sm-600">{translateTo('Video call', lang)}</h4>
-                  <p>{translateTo('We use Whereby – a safe and easy tool. No installation needed.', lang)}</p>
-                  {
-                    whereby && (
-                      <BrixelButtonPrimary
-                        className="mx-a mt-3"
-                        rounded
-                        label={translateTo('Start video call', lang)}
-                        onClick={() => openWhereByVideoCall()}
-                        rightIcon="arrow-right-small"
-                      />
-                    )
-                  }
                 </div>
               </div>
             </div>
