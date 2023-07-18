@@ -57,11 +57,11 @@ const TermsCondition = (props: TermsConditionType) => {
   }, []);
 
   useEffect(() => {
-    if(get(isSmallLoading, 'sentData', null)) {
+    if(get(isSmallLoading, 'sentData', null) || get(isSmallLoading, 'sendData', null)) {
       const defaultRedirect = isBuyer ? '/buy' : '/sell';
       history.push(redirectURL || defaultRedirect);
     }
-  }, [get(isSmallLoading, 'sentData', null)]);
+  }, [get(isSmallLoading, 'sentData', null), get(isSmallLoading, 'sendData', null)]);
 
   // FUNCTION TO SAVE DATA
   const saveData = async (action = '') => {
