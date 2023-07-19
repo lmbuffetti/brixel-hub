@@ -3,7 +3,6 @@ import translateTo from '../../utils/translation';
 import {BrixelInputPhone, BrixelInputText, BrixelRadioButton, Validation} from '@brixel-io/brixel-components/dist/form';
 import IntroScanFlow from '../../Pages/ContactFlow/ScanTrial/IntroScanFlow';
 import BookTrialFlow from '../../Pages/ContactFlow/ScanTrial/BookTrialFlow';
-import ResumeTrialFlow from '../../Pages/ContactFlow/ScanTrial/ResumeTrialFlow';
 import ClipboardImg from '../../images/scanTrial/clipboard.png';
 import {svgIcons} from '../Utilities/svgIcons';
 import {QuestionsListType} from '@brixel-io/brixel-components/dist/@types/Model';
@@ -138,20 +137,7 @@ export const ScanTrialQuestions: (lang: string) => QuestionsListType[] = (lang) 
     ],
   },
   {
-    conditions: [{
-      name: 'step',
-      noValue: 'skip',
-    }],
-    hideProgress: true,
-    background: 'bgCardGreen',
-    cardType: 'loadComponent',
-    component: ResumeTrialFlow,
-    history: 'resume',
-    vCentered: true,
     toSave: true,
-    classWrapper: '',
-  },
-  {
     hideProgress: true,
     cardType: 'card',
     title: translateTo('Get Prepared', lang),

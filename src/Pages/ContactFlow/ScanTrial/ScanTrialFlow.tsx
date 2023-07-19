@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {BrixelButtonPrimary, BrixelButtonText} from '@brixel-io/brixel-components';
+import {BrixelButtonPrimary} from '@brixel-io/brixel-components';
 import BrixelButtonSecondary from '@brixel-io/brixel-components/dist/components/BrixelButtonSecondary';
 import {phonecode} from '@brixel-io/brixel-components/dist/constants/CountryCodePhone';
 import {change, destroy, initializeForm, MultiFileldsReduxForm, reset} from '@brixel-io/brixel-components/dist/form';
@@ -512,10 +512,11 @@ const ScanTrialFlow = (props: ScanTrialFlowType) => {
                   {
                     get(quest, 'showExitText', null) && (
                       <div className="w-perc-100 a-c dis-fl-row m-a jc-c mt-2">
-                        <BrixelButtonText
-                          label={translateTo('Not now', lang)}
-                          theme="text"
-                          themeSat={200}
+                        <BrixelButtonPrimary
+                          rounded
+                          theme="green"
+                          themeSat={500}
+                          label={translateTo('Back to the hub', lang)}
                           onClick={() => closeWindow()}
                         />
                       </div>

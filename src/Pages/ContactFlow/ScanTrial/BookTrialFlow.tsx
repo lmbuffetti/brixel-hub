@@ -211,7 +211,7 @@ const BookTrialFlow = (props: BookTrialFlowType) => {
             <h2 className="mb-1 ta-c fsize-600 fsize-sm-800 fweight-600">{translateTo('We are ready from', lang)}</h2>
             <h2 className="mb-3 mb-sm-6 ta-c fsize-600 fsize-sm-800 fweight-600">{translateTo('Mo - Fr, 09:00 to 18:00.', lang)}</h2>
             <div>
-              <div className="max-w-fix-600 dis-fl-col dis-fl-row-sm ml-a mr-a dis-f a-t jc-b">
+              <div className="max-w-fix-600 dis-fl-col dis-fl-row-sm ml-a mr-a dis-f a-t jc-c">
                 <div className="w-perc-100 w-perc-sm-50 max-w-fix-sm-304 ta-c">
                   <img loading="lazy" className="max-w-fix-120 max-w-fix-sm-144" src={PhoneImg} alt="Phone" />
                   <h4 className="mb-1 mb-1 fsize-500 fsize-sm-600">Phone</h4>
