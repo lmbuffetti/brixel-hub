@@ -214,7 +214,7 @@ const BookTrialFlow = (props: BookTrialFlowType) => {
               <div className="max-w-fix-600 dis-fl-col dis-fl-row-sm ml-a mr-a dis-f a-t jc-c">
                 <div className="w-perc-100 w-perc-sm-50 max-w-fix-sm-304 ta-c">
                   <img loading="lazy" className="max-w-fix-120 max-w-fix-sm-144" src={PhoneImg} alt="Phone" />
-                  <h4 className="mb-1 mb-1 fsize-500 fsize-sm-600">Phone</h4>
+                  <h4 className="mb-1 mb-1 fsize-500 fsize-sm-600">{translateTo('Phone', lang)}</h4>
                   <p>{translateTo('You can call us on', lang)}</p>
                   <p>
                     <a className="txtText900 td-u" href={`tel:${phone}`}>{Helpers.telephoneFormat(phone)}</a>
