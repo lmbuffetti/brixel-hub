@@ -125,7 +125,6 @@
       border: none !important;
       select {
         padding-left: 0 !important;
-        font-weight: 500 !important;
         color: map-get($textColor, 900);
       }
       .mobile-version {
@@ -198,26 +197,6 @@
   }
 }
 
-.td-u-colored {
-  position: relative;
-  @media (max-width: $responsive-small) {
-    font-size: 14px;
-    font-weight: 500;
-  }
-  &::after {
-    position: absolute;
-    content: '';
-    bottom: 0;
-    width: 100%;
-    height: 2px;
-    @media (max-width: $responsive-small) {
-      height: 1px;
-      bottom: 2px;
-    }
-    background: map-get($blueColor, 700);
-  }
-}
-
 .mobile-menu {
   position: absolute;
   width: 100%;
@@ -252,7 +231,8 @@
       position: relative;
       select {
         width: auto;
-        @include fontStyle(300);
+        @include fontStyle(400);
+        font-weight: 400 !important;
       }
     }
   }
