@@ -19,6 +19,7 @@ export interface PageHeaderType {
   handleSetLanguage: (data: object) => void;
   handleSetUserTypes: (data: string) => void;
   isFlow?: boolean;
+  isSecondLevelClass?: boolean;
   lang?: any;
   languages: LanguagesType[];
   loggedInUser?: object;

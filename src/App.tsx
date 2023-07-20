@@ -637,6 +637,7 @@ const App = (props: AppType) => {
                     showFooter={showFooter}
                     changeZIndex={(index) => { setZIndex(index); }}
                     isFlow={isFlow}
+                    isSecondLevelClass={isSecondLevelClass}
                   />
                   {
                     showMenuSideBar() && (

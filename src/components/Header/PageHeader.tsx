@@ -52,6 +52,7 @@ function PageHeader(props: PageHeaderType) {
     handleSetActiveSinglePropertyActivePackage,
     handleSetLanguage,
     isFlow = false,
+    isSecondLevelClass = false,
     lang = 'en',
     languages,
     loggedInUser = {},
@@ -468,7 +469,7 @@ function PageHeader(props: PageHeaderType) {
         </div>
       </header>
       {
-        windowDimensions.width <= 1024 && !history.location.pathname.includes('home') && !history.location.pathname.includes('/buyer/') && getCurrentRoute().title && getCurrentRoute().title !== 'Prospects' && !history.location.pathname.includes('closing/') && !isFlow && (
+        windowDimensions.width <= 1024 && !history.location.pathname.includes('home') && !history.location.pathname.includes('/buyer/') && getCurrentRoute().title && getCurrentRoute().title !== 'Prospects' && !history.location.pathname.includes('closing/') && !isFlow && !isSecondLevelClass && (
           <div className="mobileTitle dis-f jc-b a-c px-2 py-1">
             {
               getCurrentRoute().title && (
