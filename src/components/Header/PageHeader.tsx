@@ -277,8 +277,8 @@ function PageHeader(props: PageHeaderType) {
               }
             </div>
             {
-              (propID === 'buy' || propID === 'sell') && (
-                <div className="hubMenu">
+              ((propID === 'buy' || propID === 'sell') && !showMobileMenu) && (
+                <div className="hubMenu delayFadeIn">
                   <nav>
                     <ul>
                       <li className={`${propID === 'sell' ? 'active' : ''} tt-up`}>
@@ -385,7 +385,7 @@ function PageHeader(props: PageHeaderType) {
                         >
                           <div className="links dis-fl-col as-b jc-fe w-perc-100 ov-a">
                             <hr className="lighter" />
-                            <div className="mini-menu whiteBg dis-fl-col">
+                            <div className="mini-menu whiteBg dis-fl-col px-3 px-lg-0">
                               {
                                 (propID === 'sell' || propID === 'buy') ? (
                                   <div className="dis-fl-col a-t pos-r p-3">
