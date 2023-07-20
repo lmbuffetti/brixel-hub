@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {BrixelIcon, BrixelButtonPrimary} from '@brixel-io/brixel-components';
+import {BrixelIcon, BrixelButtonSecondary} from '@brixel-io/brixel-components';
 import translateTo from '../../utils/translation';
 import {destroy} from '@brixel-io/brixel-components/dist/form';
 import get from 'lodash/get';
@@ -51,18 +51,21 @@ const MenuSidebar = (props: MenuSidebarType) => {
           { /* SECTION SIDEBAR MENU DESKTOP */ }
           <div className={`pos-r sidebar w-perc-100  ${levelUrl.length > 3 && windowDimensions.width <= 1024 ? 'zIndex1' : 'zIndex7'}`}>
             <div>
-              <div className="p-2 bgText100">
-                <BrixelButtonPrimary
+              <div className="p-3 btnWrapper">
+                <BrixelButtonSecondary
                   rounded
-                  txtColor="text"
-                  txtColorSat={900}
-                  theme="white"
-                  themeSat={0}
-                  label="Back"
-                  leftIcon="arrow-left"
+                  theme='text'
+                  themeSat={800}
+                  label={isBuyer ? 'Back to buy' : 'Back to sell'}
+                  leftIcon="chevron-left"
                   onClick={() => history.push(isBuyer ? '/buy' : '/sell')}
                 />
               </div>
+              {
+                windowDimensions.width <= 1024 && (
+                  <hr className="lighter mb-2" />
+                )
+              }
               <ul className="sidebarNav dis-fl-col">
                 {
                   navigationMenu && navigationMenu.map((nav, i) => (

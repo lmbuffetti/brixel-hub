@@ -354,3 +354,8 @@
     background-color: map-get($textColor, 50);
   }
 }
+
+.delayFadeIn {
+  opacity: 0;
+  animation: fadeIn 350ms 350ms ease-in forwards;
+}

@@ -58,7 +58,6 @@ function PageHeader(props: PageHeaderType) {
     onClose,
     ownerProperties,
     packagesProperty,
-    showFooter,
     userType,
     windowDimensions,
   } = props;
@@ -81,10 +80,6 @@ function PageHeader(props: PageHeaderType) {
   let propID: string | null = history.location.pathname.split('/')[1];
   if (propID === 'buyer') propID = history.location.pathname.split('/')[2];
   if (propID === 'home' || propID === 'seller') propID = null;
-
-  // FOOTER HEIGHT
-  const footer = document.getElementsByClassName('footerWrap')[0] as HTMLDivElement;
-  const footerHeight =  footer ? footer.offsetHeight : '';
 
   useEffect(() => {
     if (get(activeSingleProperty, 'id', null)) {
@@ -282,7 +277,7 @@ function PageHeader(props: PageHeaderType) {
             </div>
             {
               (propID === 'buy' || propID === 'sell') && (
-                <div className={`hubMenu ${showMobileMenu ? 'hide' : ''}`}>
+                <div className="hubMenu">
                   <nav>
                     <ul>
                       <li className={`${propID === 'sell' ? 'active' : ''} tt-up`}>
@@ -385,11 +380,11 @@ function PageHeader(props: PageHeaderType) {
 
                         <div
                           className="mobile-menu w-perc-100 dis-fl-col a-c zIndex3"
-                          style={{ height: showMobileMenu ? (showFooter ? windowDimensions.height - +footerHeight : windowDimensions.height ) : '0px' }}
+                          style={{ height: showMobileMenu ? windowDimensions.height - 72 : '0px' }}
                         >
                           <div className="links dis-fl-col as-b jc-fe w-perc-100 ov-a">
                             <hr className="lighter" />
-                            <div className="mini-menu whiteBg dis-fl-col px-2">
+                            <div className="mini-menu whiteBg dis-fl-col">
                               {
                                 (propID === 'sell' || propID === 'buy') ? (
                                   <div className="dis-fl-col a-t pos-r p-3">
