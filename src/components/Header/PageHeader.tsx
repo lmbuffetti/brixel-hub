@@ -267,7 +267,7 @@ function PageHeader(props: PageHeaderType) {
                 !showMobileMenu && windowDimensions.width <= 1024 && propID !== 'buy' && propID !== 'sell' && !isFlow && (
                   <BrixelButtonSecondary
                     className="ml-2 delayFadeIn"
-                    label={isBuyer ? 'Back to buy' : 'Back to sell'}
+                    label={isBuyer ? 'Back to Buy' : 'Back to Sell'}
                     leftIcon="arrow-simple-left"
                     onClick={() => history.push(isBuyer ? '/buy' : '/sell')}
                     rounded
@@ -282,12 +282,12 @@ function PageHeader(props: PageHeaderType) {
                 <div className="hubMenu delayFadeIn">
                   <nav>
                     <ul>
-                      <li className={`${propID === 'sell' ? 'active' : ''} tt-up`}>
+                      <li className={`${propID === 'sell' ? 'active' : ''}`}>
                         <Link to="/sell">
                           {translateTo('Sell', lang)}
                         </Link>
                       </li>
-                      <li className={`${propID === 'buy' ? 'active' : ''} tt-up`}>
+                      <li className={`${propID === 'buy' ? 'active' : ''}`}>
                         <Link to="/buy">
                           {translateTo('Buy', lang)}
                         </Link>
@@ -428,7 +428,7 @@ function PageHeader(props: PageHeaderType) {
                                 )
                               }
 
-                              <div className="pt-3 px-3 pos-r">
+                              <div className="py-3 px-3 pos-r">
                                 <div className="dis-f mb-2">
                                   <BrixelSelect
                                     options={langMenu}
