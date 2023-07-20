@@ -174,6 +174,7 @@ function PageHeader(props: PageHeaderType) {
     } else {
       setShowProgressStage(false);
     }
+    setShowMobileMenu(false);
   }, [get(history, 'location.pathname', null), isFlow, userType, propID, get(activeSingleProperty, 'id', null), windowDimensions?.width]);
 
   // SHOW/HIDE MOBILE MENU
@@ -264,7 +265,7 @@ function PageHeader(props: PageHeaderType) {
               {
                 !showMobileMenu && windowDimensions.width <= 1024 && propID !== 'buy' && propID !== 'sell' && !isFlow && (
                   <BrixelButtonSecondary
-                    className="ml-2"
+                    className="ml-2 delayFadeIn"
                     label={isBuyer ? 'Back to buy' : 'Back to sell'}
                     leftIcon="arrow-simple-left"
                     onClick={() => history.push(isBuyer ? '/buy' : '/sell')}
