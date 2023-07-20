@@ -412,7 +412,7 @@ function PageHeader(props: PageHeaderType) {
                               }
                               <hr className='lighter' />
                               {
-                                propID && !isBuyer && (
+                                (propID !== 'sell' && propID !== 'buy' && !isBuyer) && (
                                   <div>
                                     <div className="px-3 py-4 ws-nw flex-nowrap dis-f a-c txtText900">
                                       <span>{translateTo('Your Plan:', lang)}</span>
