@@ -268,13 +268,13 @@ function PageHeader(props: PageHeaderType) {
                   className={'header-section dis-fl-row a-c jc-b'}
                 >
                   <div
-                    className={`dis-f a-c pl-0 pl-lg-3 logoWrapper w-fit min-w-fix-40 ${(propID === 'sell' || propID === 'buy' || isFlow) ? '' : 'brdSmallRight brdText100'} w-fit`}
+                    className={`dis-f a-c pl-0 pl-lg-3 logoWrapper w-fit min-w-fix-40 ${(propID === 'sell' || propID === 'buy' || isFlow || isBuyer) ? '' : 'brdSmallRight brdText100 w-fix-md-232'} w-fit`}
                   >
                     <div className="min-w-88 w-perc-100 h-fix-72 dis-f a-c pr-2">
                       <img
                         loading="lazy"
-                        className={`${windowDimensions.width <= 590 || (propID !== 'buy' && propID !== 'sell') ? 'max-w-fix-32' : ''} pos-r cur-poi`}
-                        src={windowDimensions.width <= 590 || (propID !== 'buy' && propID !== 'sell') ? logoMobile : logo}
+                        className={`${windowDimensions.width <= 590 ? 'max-w-fix-32' : ''} pos-r cur-poi`}
+                        src={windowDimensions.width <= 590 ? logoMobile : logo}
                         alt="Brixel Logo"
                         id="logo"
                       />
