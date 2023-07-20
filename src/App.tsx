@@ -150,6 +150,9 @@ const App = (props: AppType) => {
   } = props;
 
   const isBuyer = history.location.pathname.includes('buyer');
+  const secondLevelClass = ['property/', 'closing/'];
+  const isSecondLevelClass = secondLevelClass.some((url) => history.location.pathname.includes(url));
+
   // STATE
   // CONSTANT TO PREVENT TRANSIFEX ERROR
   const [langURL, setLangURL] = useState<string | null>(null);
@@ -435,9 +438,6 @@ const App = (props: AppType) => {
       setIsFlow(true);
       setZIndex(6);
     }
-
-    const secondLevelClass = ['property/', 'closing/'];
-    const isSecondLevelClass = secondLevelClass.some((url) => history.location.pathname.includes(url));
 
     // add class to container when secondlevel visible on mobile
     if (isSecondLevelClass && windowDimensions.width <= 1024 && !isBuyer) {
