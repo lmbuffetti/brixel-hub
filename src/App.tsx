@@ -436,8 +436,6 @@ const App = (props: AppType) => {
       setZIndex(6);
     }
 
-    const isBuyer = history.location.pathname.includes('buyer');
-
     const secondLevelClass = ['property/', 'closing/'];
     const isSecondLevelClass = secondLevelClass.some((url) => history.location.pathname.includes(url));
 
