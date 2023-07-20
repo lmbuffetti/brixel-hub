@@ -390,18 +390,18 @@ function PageHeader(props: PageHeaderType) {
                               {
                                 (propID === 'sell' || propID === 'buy') ? (
                                   <div className="dis-fl-col a-t pos-r p-3">
-                                    <a
+                                    <Link
                                       className={`${propID === 'sell' ? 'txtText900' : 'txtText200'} link fweight-600 fsize-600 mb-2`}
-                                      href={`${baseByData?.loginBasePath}/account/preferences?url=${get(window, 'location.href', '')}`}
+                                      to="/sell"
                                     >
                                       {translateTo('Sell', lang)}
-                                    </a>
-                                    <a
+                                    </Link>
+                                    <Link
                                       className={`${propID === 'buy' ? 'txtText900' : 'txtText200'} link fweight-600 fsize-600`}
-                                      href={`${baseByData?.loginBasePath}/logout?url=${get(window, 'location.href', '')}`}
+                                      to="/buy"
                                     >
                                       {translateTo('Buy', lang)}
-                                    </a>
+                                    </Link>
                                   </div>
                                 ) : (
                                   <MenuSidebar
