@@ -63,7 +63,36 @@
         a {
           color: map-get($blueColor, 700);
           .dot {
-            background-color:  map-get($blueColor, 700);;
+            background-color:  map-get($blueColor, 700);
+          }
+        }
+      }
+    }
+  }
+}
+
+.mobile-menu {
+  .sidebarNav {
+    li {
+      list-style: none;
+
+      &.mainNav {
+        > a {
+          color: map-get($textColor, 400);
+          border: none;
+          i svg path {
+            fill: map-get($textColor, 400);
+          }
+        }
+        &.active {
+          > a {
+            color: map-get($blueColor, 700);
+            filter: grayscale(0);
+            opacity: 1;
+            background: transparent;
+            i svg path {
+              fill: map-get($blueColor, 700);
+            }
           }
         }
       }

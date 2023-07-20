@@ -148,6 +148,8 @@ const App = (props: AppType) => {
     userTypes,
     windowDimensions,
   } = props;
+
+  const isBuyer = history.location.pathname.includes('buyer');
   // STATE
   // CONSTANT TO PREVENT TRANSIFEX ERROR
   const [langURL, setLangURL] = useState<string | null>(null);
@@ -387,8 +389,6 @@ const App = (props: AppType) => {
   const mainClass = () => {
     const mainPropertyClass = ['property', 'closing', 'docubox', 'prospects', 'prospect', 'financing', 'scheduleVisit'];
     const isMainClass = mainPropertyClass.some((url) => history.location.pathname.includes(url));
-
-    const isBuyer = history.location.pathname.includes('buyer');
 
     const homesClass = ['sell', 'buy'];
     const isHomesClass = homesClass.some((url) => history.location.pathname.includes(url));
@@ -642,7 +642,7 @@ const App = (props: AppType) => {
                   />
                   {
                     showMenuSideBar() && (
-                      <MenuSidebar />
+                      <MenuSidebar isBuyer={isBuyer} />
                     )
                   }
                   <div

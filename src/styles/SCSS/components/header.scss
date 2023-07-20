@@ -50,11 +50,11 @@
 
 }
 .hubDasHeader {
-    position: sticky;
-    top: 0;
-    width: 100%;
-    left: 0;
-    z-index: 5;
+  position: sticky;
+  top: 0;
+  width: 100%;
+  left: 0;
+  z-index: 5;
   .dasHeaderContainer {
     .wrapperHeader {
       @media (max-width: $responsive-large) {
@@ -193,24 +193,8 @@
   }
 }
 
-.td-u-colored {
-  position: relative;
-  @media (max-width: $responsive-small) {
-    font-size: 14px;
-    font-weight: 500;
-  }
-  &::after {
-    position: absolute;
-    content: '';
-    bottom: 0;
-    width: 100%;
-    height: 2px;
-    @media (max-width: $responsive-small) {
-      height: 1px;
-      bottom: 2px;
-    }
-    background: map-get($blueColor, 700);
-  }
+.sideHeader .btnWrapper {
+  border-bottom: 1px solid map-get($textColor, 50);
 }
 
 .mobile-menu {
@@ -247,7 +231,8 @@
       position: relative;
       select {
         width: auto;
-        @include fontStyle(300);
+        @include fontStyle(400);
+        font-weight: 400 !important;
       }
     }
   }
@@ -388,28 +373,29 @@ header {
       background-color: #FBFBFB;
     }
   }
-  .hubMenu {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background: #FFF;
-    overflow: auto;
-    min-width: 100%;
-    border-radius: 4px;
-    padding-top: 16px;
-    padding-bottom: 16px;
-    box-shadow: $shadow-4dp;
-    margin-top: 1px;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
+}
+
+.hubMenu {
+  ul {
+    display: flex;
     li {
-      padding: 8px 24px;
       list-style: none;
-      color: #506166;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      transition: all 150ms ease-in-out;
+      margin-left: $step * 3;
+      &:first-child {
+        margin-left: 0;
+      }
+
+      a {
+        color: map_get($textColor, 200);
+        font-weight: 600;
+      }
+
+      &.active {
+        a {
+          color: map_get($textColor, 900);
+        }
+      }
+
       &:hover {
         background-color: #FBFBFB;
       }

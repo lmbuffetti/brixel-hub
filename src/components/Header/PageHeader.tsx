@@ -1,4 +1,10 @@
-import {BrixelAvatar, BrixelButtonIcon, BrixelIcon, FactsOptions, useOutsideAlerter} from '@brixel-io/brixel-components';
+import React, {useEffect, useRef, useState} from 'react';
+import {
+  BrixelButtonSecondary,
+  BrixelButtonIcon,
+  FactsOptions,
+  useOutsideAlerter,
+} from '@brixel-io/brixel-components';
 import logoMobile from '@brixel-io/brixel-components/dist/configuration/images/logo_colors_icon_new.svg';
 import logo from '@brixel-io/brixel-components/dist/configuration/images/logo_colors_v2.svg';
 import baseByData from '@brixel-io/brixel-components/dist/configuration/Settings';
@@ -7,9 +13,8 @@ import cloneDeep from 'lodash/cloneDeep';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import orderBy from 'lodash/orderBy';
-import React, {useEffect, useRef, useState} from 'react';
 import {connect} from 'react-redux';
-import {useLocation, useNavigate} from 'react-router-dom';
+import {Link, useLocation, useNavigate} from 'react-router-dom';
 import {bindActionCreators} from 'redux';
 import {setLanguage} from '../../actions/CommonActions';
 import {
@@ -44,7 +49,6 @@ function PageHeader(props: PageHeaderType) {
   const {
     activeCompanyPackages,
     activeSingleProperty,
-    changeZIndex = () => 1,
     handleSaveActiveSingleUser,
     handleSetActiveSinglePropertyActivePackage,
     handleSetLanguage,
@@ -61,18 +65,18 @@ function PageHeader(props: PageHeaderType) {
   } = props;
   // STATE
   const [langMenu, setLangMenu] = useState<OptionsType[]>([]);
-  const [openMenu, setOpenMenu] = useState(false);
+  // const [openMenu, setOpenMenu] = useState(false);
+  // const [langSel, setSelLang] = useState(lang);
   const [packageName, setPackageName] = useState('Basic');
-  const [section, setSection] = useState(translateTo('Sell', lang));
-  const [showAccountMenu, setShowAccountMenu] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [showProgressStage, setShowProgressStage] = useState(false);
   const [stepIndexProgrss, setIndexProgrss] = useState(0);
 
+  const isBuyer = history.location.pathname.includes('buyer');
+
   // REF
   const profileMenu = useRef(null);
-  const menuHub = useRef(null);
   const currentPathName = get(history, 'location.pathname', '').split('/')[get(history, 'location.pathname', '').split('/').length - 1];
 
   // URL PARAMS
@@ -160,7 +164,6 @@ function PageHeader(props: PageHeaderType) {
 
   // ON CHANGE PAGE
   useEffect(() => {
-    setShowAccountMenu(false);
     if (
       windowDimensions.width > 1024 && (
         (
@@ -183,8 +186,6 @@ function PageHeader(props: PageHeaderType) {
   // SHOW/HIDE MOBILE MENU
   const toggleMobileMenu = () => {
     setShowMobileMenu(!showMobileMenu);
-    setShowAccountMenu(false);
-    changeZIndex(!showMobileMenu ? 8 : 1);
     if (showMobileMenu) document.body.classList.remove('ov-h');
     else document.body.classList.add('ov-h');
   };
@@ -234,11 +235,6 @@ function PageHeader(props: PageHeaderType) {
     }
   }, [showMobileMenu]);
 
-  useEffect(() => {
-    if (userType === 'seller' || propID === 'sell') setSection(translateTo('Sell', lang));
-    else setSection(translateTo('Buy', lang));
-  }, [get(history, 'location', null), userType]);
-
   const urlBackAction = () => {
     if (get(history, 'location.pathname', '').includes('buyer')) {
       if (
@@ -261,33 +257,20 @@ function PageHeader(props: PageHeaderType) {
     }
   };
 
-  const onClickMenu = (href) => {
-    history.push(href);
-    setOpenMenu(false);
-    setShowMobileMenu(false);
-  };
-
-  useOutsideAlerter(menuHub, {
-    action: 'function',
-    func: () => {
-      setOpenMenu(false);
-    },
-  });
-
   return (
     <>
       <header className={`bgOverlay hubDasHeader ${showMobileMenu ? 'menu-active' : ''} bgWhite`}>
         <div className="dasHeaderContainer">
-          <div className="wrapperHeader pl-2 pl-lg-0 dis-f a-c pr-2 pr-lg-3 jc-b pos-r">
+          <div className="wrapperHeader pl-2 pl-lg-0 dis-f a-c pr-2 pr-lg-3 jc-b pos-r w-perc-100">
             {
               (windowDimensions.width > 1024 || get(history, 'location.pathname', '').includes('home') || !getCurrentRoute().name || isFlow) ? (
                 <div
-                  className={`header-section dis-fl-row a-c jc-b w-perc-100 w-perc-lg-80 ${showMobileMenu ? 'hide' : ''}`}
+                  className={'header-section dis-fl-row a-c jc-b'}
                 >
                   <div
-                    className={`dis-f a-c pl-0 pl-lg-3 logoWrapper ${isFlow ? '' : 'min-w-fix-lg-232'} w-fit min-w-fix-40 ${((!isFlow && get(activeSingleProperty, 'id', '') && propID && propID.length > 9) || (propID === 'sell' || propID === 'buy') || showProgressStage) ? 'brdSmallRight brdText100' : ''} w-fit`}
+                    className={`dis-f a-c pl-0 pl-lg-3 logoWrapper w-fit min-w-fix-40 ${(propID === 'sell' || propID === 'buy' || isFlow) ? '' : 'brdSmallRight brdText100'} w-fit`}
                   >
-                    <div className={`${isFlow ? '' : 'brdSmallRight brdText100'} min-w-88 w-perc-100 h-fix-72 dis-f a-c pr-2`}>
+                    <div className="min-w-88 w-perc-100 h-fix-72 dis-f a-c pr-2">
                       <img
                         loading="lazy"
                         className={`${windowDimensions.width <= 590 || (propID !== 'buy' && propID !== 'sell') ? 'max-w-fix-32' : ''} pos-r cur-poi`}
@@ -296,33 +279,6 @@ function PageHeader(props: PageHeaderType) {
                         id="logo"
                       />
                     </div>
-                    {
-                      ((get(activeSingleProperty, 'id', '') && propID && propID.length > 9) || (propID === 'sell' || propID === 'buy')) && !isFlow && (
-
-                        <div className={`hubNavigation ${openMenu ? 'open' : 'close'}`} ref={menuHub}>
-                          <div className="dis-f titleSection txtText900" onClick={() => setOpenMenu(!openMenu)}>
-                            <span>{translateTo(section, lang)}</span>
-                            <BrixelIcon
-                              icon={openMenu ? 'dropdown-open' : 'dropdown-close'}
-                            />
-                          </div>
-                          {
-                            openMenu && (
-                              <div className="hubMenu">
-                                <ul>
-                                  <li onClick={() => onClickMenu('/sell')}>
-                                    {translateTo('Sell', lang)}
-                                  </li>
-                                  <li onClick={() => onClickMenu('/buy')}>
-                                    {translateTo('Buy', lang)}
-                                  </li>
-                                </ul>
-                              </div>
-                            )
-                          }
-                        </div>
-                      )
-                    }
                   </div>
                   {
                     showProgressStage && (
@@ -334,6 +290,19 @@ function PageHeader(props: PageHeaderType) {
                           lang={lang}
                         />
                       </div>
+                    )
+                  }
+                  {
+                    !showMobileMenu && windowDimensions.width <= 1024 && propID !== 'buy' && propID !== 'sell' && !isFlow && (
+                      <BrixelButtonSecondary
+                        className="ml-2"
+                        label={isBuyer ? 'Back to buy' : 'Back to sell'}
+                        leftIcon="arrow-simple-left"
+                        onClick={() => history.push(isBuyer ? '/buy' : '/sell')}
+                        rounded
+                        theme="text"
+                        themeSat={900}
+                      />
                     )
                   }
                 </div>
@@ -350,6 +319,26 @@ function PageHeader(props: PageHeaderType) {
               )
             }
             {
+              (propID === 'buy' || propID === 'sell') && (
+                <div className={`hubMenu ${showMobileMenu ? 'hide' : ''}`}>
+                  <nav>
+                    <ul>
+                      <li className={`${propID === 'sell' ? 'active' : ''} tt-up`}>
+                        <Link to="/sell">
+                          {translateTo('Sell', lang)}
+                        </Link>
+                      </li>
+                      <li className={`${propID === 'buy' ? 'active' : ''} tt-up`}>
+                        <Link to="/buy">
+                          {translateTo('Buy', lang)}
+                        </Link>
+                      </li>
+                    </ul>
+                  </nav>
+                </div>
+              )
+            }
+            {
               isFlow ? (
                 <RightFlowHeader
                   onClose={onClose ? () => onClose() : undefined}
@@ -358,30 +347,34 @@ function PageHeader(props: PageHeaderType) {
               ) : (
                 <div className="dis-f a-c">
                   {
-                    (
-                      propID !== 'buy' && propID !== 'sell' && !get(history, 'location.pathname', '').includes('buyer/')
-                    ) && (
-                      <div className="ws-nw flex-nowrap dis-f a-c txtText900 pb-sm-1 pr-0 pr-sm-1 pr-lg-0 pb-lg-0 pr-lg-4">
-                        <span className="hide dis-b-md">
-                          {translateTo('Your Plan:', lang)}
-                        </span>
+                    (propID !== 'buy' && propID !== 'sell' && !get(history, 'location.pathname', '').includes('buyer/')) && (
+                      <>
                         {
-                          has(ownerProperties, 'total') || get(activeSingleProperty, 'id', null) ? (
-                            <span
-                              className="fweight-600 td-u-colored dis-f cur-poi"
-                              onClick={() => onUpgrade()}
-                            >
-                              {translateTo(packageName, lang)}
-                            </span>
-                          ) : (
-                            <span
-                              className="fweight-600 dis-f cur-poi txtText200 bgText200"
-                            >
-                              {translateTo('Loading...', lang)}
-                            </span>
+                          windowDimensions.width > 1024 && (
+                            <div className="ws-nw flex-nowrap a-c txtText900 pb-sm-1 pr-0 pr-sm-1 pr-lg-0 pb-lg-0 pr-lg-4 dis-f">
+                              <span className="">
+                                {translateTo('Your Plan:', lang)}
+                              </span>
+                              {
+                                has(ownerProperties, 'total') || get(activeSingleProperty, 'id', null) ? (
+                                  <span
+                                    className="fweight-600 td-u dis-f cur-poi ml-1"
+                                    onClick={() => onUpgrade()}
+                                  >
+                                    {translateTo(packageName, lang)}
+                                  </span>
+                                ) : (
+                                  <span
+                                    className="fweight-600 dis-f cur-poi txtText200 bgText200"
+                                  >
+                                    {translateTo('Loading...', lang)}
+                                  </span>
+                                )
+                              }
+                            </div>
                           )
                         }
-                      </div>
+                      </>
                     )
                   }
 
@@ -405,36 +398,15 @@ function PageHeader(props: PageHeaderType) {
                         {
                           (propID === 'sell' || propID === 'buy') ? (
                             <>
-                              {
-                                showMobileMenu ? (
-                                  <>
-                                    <button
-                                      type="button"
-                                      className="brixel-page-toggle pos-r zIndex5"
-                                      onClick={() => toggleMobileMenu()}
-                                    >
-                                      <span />
-                                      <span />
-                                      <span />
-                                    </button>
-                                  </>
-                                ) : (
-                                  <div className="dis-f">
-                                    <button
-                                      className="w-fix-32 h-fix-32"
-                                      type="button"
-                                      onClick={() => toggleMobileMenu()}
-                                    >
-                                      <BrixelAvatar
-                                        avatarImg={get(loggedInUser, 'avatarUrl', undefined)}
-                                        name={get(loggedInUser, 'email')}
-                                        isIcon
-                                        profileId={get(loggedInUser, 'id', '')}
-                                      />
-                                    </button>
-                                  </div>
-                                )
-                              }
+                              <button
+                                type="button"
+                                className="brixel-page-toggle pos-r zIndex5"
+                                onClick={() => toggleMobileMenu()}
+                              >
+                                <span />
+                                <span />
+                                <span />
+                              </button>
                             </>
                           ) : (
                             <button
@@ -454,126 +426,77 @@ function PageHeader(props: PageHeaderType) {
                           style={{ height: showMobileMenu ? (showFooter ? windowDimensions.height - +footerHeight : windowDimensions.height ) : '0px' }}
                         >
                           <div className="links dis-fl-col as-b jc-fe w-perc-100 ov-a">
-                            {
-                              (propID === 'sell' || propID === 'buy') && (
-                                <>
-                                  <hr className="lighter mt-9" />
-                                  <div className="mini-menu whiteBg dis-fl-col px-3 pt-3">
-                                    <div className="dis-f mb-2">
-                                      <BrixelSelect
-                                        options={langMenu}
-                                        input={{
-                                          value: lang,
-                                          name: 'lang',
-                                          onChange: (val) => newLang(val),
-                                        }}
-                                      />
-                                    </div>
+                            <hr className="lighter" />
+                            <div className="mini-menu whiteBg dis-fl-col px-2">
+                              {
+                                (propID === 'sell' || propID === 'buy') ? (
+                                  <div className="dis-fl-col a-t pos-r p-3">
                                     <a
-                                      className="link txtText900 fweight-500 fsize-300 mb-2"
-                                      href={`${baseByData?.loginBasePath}/account/account?url=${get(window, 'location.href', '')}`}
-                                    >
-                                      {translateTo('Password', lang)}
-                                    </a>
-                                    <a
-                                      className="link txtText900 fweight-500 fsize-300 mb-2"
+                                      className={`${propID === 'sell' ? 'txtText900' : 'txtText200'} link fweight-600 fsize-600 mb-2`}
                                       href={`${baseByData?.loginBasePath}/account/preferences?url=${get(window, 'location.href', '')}`}
                                     >
-                                      {translateTo('Preferences', lang)}
+                                      {translateTo('Sell', lang)}
                                     </a>
                                     <a
-                                      className="link txtText900 fweight-500 fsize-300"
+                                      className={`${propID === 'buy' ? 'txtText900' : 'txtText200'} link fweight-600 fsize-600`}
                                       href={`${baseByData?.loginBasePath}/logout?url=${get(window, 'location.href', '')}`}
                                     >
-                                      {translateTo('Logout', lang)}
+                                      {translateTo('Buy', lang)}
                                     </a>
                                   </div>
-                                </>
-                              )
-                            }
-                            {
-                              get(activeSingleProperty, 'id', '') && (
-                                <MenuSidebar
-                                  onClickLink={() => setShowMobileMenu(false)}
-                                />
-                              )
-                            }
-                            {
-                              propID !== 'sell' && propID !== 'buy' && (
-                                <div className={`bottomMenu ${showMobileMenu ? 'bottomMenuOn' : ''}`}>
-                                  <hr className="lighter" />
-                                  <div
-                                    className={`account-menu pb-2 dis-fl-col px-2 ${showAccountMenu ? 'opened' : 'closed'}`}
-                                  >
-                                    <div className={`dis-f a-c py-1 ${userType === 'seller' ? 'jc-b' : 'jc-fe'}  w-perc-100`}>
-                                      {
-                                        propID && userType === 'seller' && (
-                                          <div>
-                                            <div className="ws-nw flex-nowrap dis-f a-c txtText900">
-                                              <span>{translateTo('Your Plan:', lang)}</span>
-                                              <span
-                                                className="fweight-600 td-u-colored dis-f cur-poi"
-                                                onClick={() => onUpgrade()}
-                                              >
-                                                {translateTo(packageName, lang)}
-                                              </span>
-                                            </div>
-                                          </div>
-                                        )
-                                      }
-                                      <button
-                                        type="button"
-                                        onClick={() => setShowAccountMenu(!showAccountMenu)}
-                                        className="dis-f w-fit a-c jc-b zIndex10 pos-r p-1 px-2"
+                                ) : (
+                                  <MenuSidebar
+                                    activePackageName={propID && userType === 'seller' ? translateTo(packageName, lang) : undefined}
+                                    isBuyer={isBuyer}
+                                  />
+                                )
+                              }
+                              <hr className='lighter' />
+                              {
+                                propID && !isBuyer && (
+                                  <div>
+                                    <div className="px-3 py-4 ws-nw flex-nowrap dis-f a-c txtText900">
+                                      <span>{translateTo('Your Plan:', lang)}</span>
+                                      <span
+                                        className="fweight-400 td-u txtGreen400 dis-f cur-poi ml-1"
+                                        onClick={() => onUpgrade()}
                                       >
-                                        <div className="dis-f w-perc-100 a-c">
-                                          <BrixelAvatar
-                                            avatarImg={get(loggedInUser, 'avatarUrl', undefined)}
-                                            name={get(loggedInUser, 'email')}
-                                            isIcon
-                                            profileId={get(loggedInUser, 'id', '')}
-                                          />
-                                          <BrixelIcon
-                                            className="ml-1"
-                                            icon={showAccountMenu ? 'arrow-simple-up' : 'arrow-simple-down'}
-                                          />
-                                        </div>
-                                      </button>
+                                        {translateTo(packageName, lang)}
+                                      </span>
                                     </div>
-                                    <div className="mini-menu dis-fl-col">
-                                      <div className="dis-f mb-2">
-                                        <BrixelSelect
-                                          options={langMenu}
-                                          input={{
-                                            value: lang,
-                                            name: 'lang',
-                                            onChange: (val) => newLang(val),
-                                          }}
-                                        />
-                                      </div>
-                                      <a
-                                        className="link txtText900 fweight-500 fsize-300 mb-2"
-                                        href={`${baseByData?.loginBasePath}/account/account?url=${get(window, 'location.href', '')}`}
-                                      >
-                                        {translateTo('Password', lang)}
-                                      </a>
-                                      <a
-                                        className="link txtText900 fweight-500 fsize-300 mb-2"
-                                        href={`${baseByData?.loginBasePath}/account/preferences?url=${get(window, 'location.href', '')}`}
-                                      >
-                                        {translateTo('Preferences', lang)}
-                                      </a>
-                                      <a
-                                        className="link txtText900 fweight-500 fsize-300"
-                                        href={`${baseByData?.loginBasePath}/logout?url=${get(window, 'location.href', '')}`}
-                                      >
-                                        {translateTo('Logout', lang)}
-                                      </a>
-                                    </div>
+                                    <hr className='lighter' />
                                   </div>
+                                )
+                              }
+
+                              <div className="pt-3 px-3 pos-r">
+                                <div className="dis-f mb-2">
+                                  <BrixelSelect
+                                    options={langMenu}
+                                    input={{
+                                      value: lang,
+                                      name: 'lang',
+                                      onChange: (val) => newLang(val),
+                                    }}
+                                  />
                                 </div>
-                              )
-                            }
+
+                                <div className="dis-fl-col a-t pos-r">
+                                  <a
+                                    className="link txtText900 fweight-400 fsize-400 mb-2"
+                                    href={`${baseByData?.loginBasePath}/account/preferences?url=${get(window, 'location.href', '')}`}
+                                  >
+                                    {translateTo('Your account', lang)}
+                                  </a>
+                                  <a
+                                    className="link txtRed400 fweight-400 fsize-400"
+                                    href={`${baseByData?.loginBasePath}/logout?url=${get(window, 'location.href', '')}`}
+                                  >
+                                    {translateTo('Logout', lang)}
+                                  </a>
+                                </div>
+                              </div>
+                            </div>
                           </div>
 
                         </div>

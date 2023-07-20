@@ -14,6 +14,7 @@ export interface NavigationType {
 
 export interface MenuSidebarType {
   activeSingleDeal: DealType;
+  isBuyer?: boolean;
   lang: string;
   onClickLink?: () => void;
   windowDimensions: {
