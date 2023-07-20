@@ -1,7 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {
   BrixelButtonSecondary,
-  BrixelButtonIcon,
   FactsOptions,
   useOutsideAlerter,
 } from '@brixel-io/brixel-components';
@@ -77,7 +76,6 @@ function PageHeader(props: PageHeaderType) {
 
   // REF
   const profileMenu = useRef(null);
-  const currentPathName = get(history, 'location.pathname', '').split('/')[get(history, 'location.pathname', '').split('/').length - 1];
 
   // URL PARAMS
   let propID: string | null = history.location.pathname.split('/')[1];
@@ -181,7 +179,7 @@ function PageHeader(props: PageHeaderType) {
     } else {
       setShowProgressStage(false);
     }
-  }, [get(history, 'location.pathname', null), isFlow, userType, propID, get(activeSingleProperty, 'id', null)]);
+  }, [get(history, 'location.pathname', null), isFlow, userType, propID, get(activeSingleProperty, 'id', null), windowDimensions?.width]);
 
   // SHOW/HIDE MOBILE MENU
   const toggleMobileMenu = () => {
@@ -235,89 +233,53 @@ function PageHeader(props: PageHeaderType) {
     }
   }, [showMobileMenu]);
 
-  const urlBackAction = () => {
-    if (get(history, 'location.pathname', '').includes('buyer')) {
-      if (
-        get(history, 'location.pathname', '').includes('docubox') ||
-        get(history, 'location.pathname', '').includes('scheduleVisit') ||
-        get(history, 'location.pathname', '').includes('property') ||
-        get(history, 'location.pathname', '').includes('financing') ||
-        get(history, 'location.pathname', '').includes('closing')
-      ) {
-        history.push(`/buyer/${get(activeSingleProperty, 'id', '')}/home`);
-      } else if (currentPathName === getCurrentRoute().name) {
-        history.push('/buy');
-      } else {
-        history.push(`/buyer${getCurrentRoute().path.replace(':propID', get(activeSingleProperty, 'id', ''))}`);
-      }
-    } else if (currentPathName === getCurrentRoute().name) {
-      history.push(`/${get(activeSingleProperty, 'id', '')}/home`);
-    } else if (getCurrentRoute().path.includes(':propID')) {
-      history.push(`${getCurrentRoute().path.replace(':propID', get(activeSingleProperty, 'id', ''))}`);
-    }
-  };
-
   return (
     <>
       <header className={`bgOverlay hubDasHeader ${showMobileMenu ? 'menu-active' : ''} bgWhite`}>
         <div className="dasHeaderContainer">
           <div className="wrapperHeader pl-2 pl-lg-0 dis-f a-c pr-2 pr-lg-3 jc-b pos-r w-perc-100">
-            {
-              (windowDimensions.width > 1024 || get(history, 'location.pathname', '').includes('home') || !getCurrentRoute().name || isFlow) ? (
-                <div
-                  className={'header-section dis-fl-row a-c jc-b'}
-                >
-                  <div
-                    className={`dis-f a-c pl-0 pl-lg-3 logoWrapper w-fit min-w-fix-40 ${(propID === 'sell' || propID === 'buy' || isFlow || isBuyer) ? '' : 'brdSmallRight brdText100 w-fix-md-232'} w-fit`}
-                  >
-                    <div className="min-w-88 w-perc-100 h-fix-72 dis-f a-c pr-2">
-                      <img
-                        loading="lazy"
-                        className={`${windowDimensions.width <= 590 ? 'max-w-fix-32' : ''} pos-r cur-poi`}
-                        src={windowDimensions.width <= 590 ? logoMobile : logo}
-                        alt="Brixel Logo"
-                        id="logo"
-                      />
-                    </div>
-                  </div>
-                  {
-                    showProgressStage && (
-                      <div className="quickNav mr-a dis-f fsize-300 fsize-sm-400 pl-2 pl-md-4">
-                        <ProgressSellerStage
-                          smallLayout={windowDimensions.width < 1025 ? isFlow : !isFlow}
-                          xSmallMobile={windowDimensions.width < 480}
-                          stepIndexProgress={history.location.pathname.includes('welcomeSeller') ? 0 : stepIndexProgrss}
-                          lang={lang}
-                        />
-                      </div>
-                    )
-                  }
-                  {
-                    !showMobileMenu && windowDimensions.width <= 1024 && propID !== 'buy' && propID !== 'sell' && !isFlow && (
-                      <BrixelButtonSecondary
-                        className="ml-2"
-                        label={isBuyer ? 'Back to buy' : 'Back to sell'}
-                        leftIcon="arrow-simple-left"
-                        onClick={() => history.push(isBuyer ? '/buy' : '/sell')}
-                        rounded
-                        theme="text"
-                        themeSat={900}
-                      />
-                    )
-                  }
-                </div>
-              ) : (
-                <div>
-                  <BrixelButtonIcon
-                    className="dis-b hide-lg"
-                    icon="arrow-left-small"
-                    theme="text"
-                    bgTransparent
-                    onClick={() => urlBackAction()}
+            <div
+              className={'header-section dis-fl-row a-c jc-b'}
+            >
+              <div
+                className={`dis-f a-c pl-0 pl-lg-3 logoWrapper w-fit min-w-fix-40 ${(propID === 'sell' || propID === 'buy' || isFlow || isBuyer || windowDimensions.width <= 590) ? '' : 'brdSmallRight brdText100 w-fix-md-232'} w-fit`}
+              >
+                <div className="min-w-88 w-perc-100 h-fix-72 dis-f a-c pr-2">
+                  <img
+                    loading="lazy"
+                    className={`${windowDimensions.width <= 590 ? 'max-w-fix-32' : ''} pos-r cur-poi`}
+                    src={windowDimensions.width <= 590 ? logoMobile : logo}
+                    alt="Brixel Logo"
+                    id="logo"
                   />
                 </div>
-              )
-            }
+              </div>
+              {
+                showProgressStage && (
+                  <div className="quickNav mr-a dis-f fsize-300 fsize-sm-400 pl-2 pl-md-4">
+                    <ProgressSellerStage
+                      smallLayout={windowDimensions.width < 1025 ? isFlow : !isFlow}
+                      xSmallMobile={windowDimensions.width < 480}
+                      stepIndexProgress={history.location.pathname.includes('welcomeSeller') ? 0 : stepIndexProgrss}
+                      lang={lang}
+                    />
+                  </div>
+                )
+              }
+              {
+                !showMobileMenu && windowDimensions.width <= 1024 && propID !== 'buy' && propID !== 'sell' && !isFlow && (
+                  <BrixelButtonSecondary
+                    className="ml-2"
+                    label={isBuyer ? 'Back to buy' : 'Back to sell'}
+                    leftIcon="arrow-simple-left"
+                    onClick={() => history.push(isBuyer ? '/buy' : '/sell')}
+                    rounded
+                    theme="text"
+                    themeSat={900}
+                  />
+                )
+              }
+            </div>
             {
               (propID === 'buy' || propID === 'sell') && (
                 <div className={`hubMenu ${showMobileMenu ? 'hide' : ''}`}>
