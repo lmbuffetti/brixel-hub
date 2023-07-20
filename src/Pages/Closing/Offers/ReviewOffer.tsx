@@ -81,7 +81,7 @@ const ReviewOffer = (props: ReviewOfferType) => {
   const openDocument = (e, id) => {
     if (e) e.preventDefault();
     if (activeSingleOffer.offer.documents) {
-      const currentDoc: DocumentType = activeSingleOffer.offer.documents.find((doc: DocumentType) => doc.id === id) || {};
+      const currentDoc: DocumentType | undefined = activeSingleOffer.offer.documents.find((doc: DocumentType) => doc.id === id);
       if (currentDoc) window.open(currentDoc.loadUrl, '_blank');
     }
   };

@@ -112,7 +112,7 @@
     "react-dev-utils": "^12.0.1",
     "regenerator-runtime": "^0.13.11",
     "resolve-url-loader": "^5.0.0",
-    "sass": "^1.63.6",
+    "sass": "^1.64.0",
     "sass-loader": "13.3.2",
     "terser-webpack-plugin": "^5.3.9",
     "ts-loader": "^9.4.4",

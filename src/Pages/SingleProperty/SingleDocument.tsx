@@ -37,7 +37,7 @@ const SingleDocument = (props: SingleDocumentType) => {
     setRequestDone,
   } = props;
 
-  const [activeDocument, setActiveDocument] = useState<DocumentType>({});
+  const [activeDocument, setActiveDocument] = useState<DocumentType>();
   const [documentsType, setDocumentsType] = useState<{label: string, value: string}[]>([]);
 
   const docID = get(match, 'docID', null);
@@ -91,21 +91,23 @@ const SingleDocument = (props: SingleDocumentType) => {
   // UPDATE DOCUMENTS
   const updateDoc = (e) => {
     e.preventDefault();
-    const docList = activeSingleProperty.documents;
-    const data = {
-      pageID: activeSingleProperty.id,
-      id: activeDocument.id,
-      docs: docList,
-      body: {
-        name: formValue.name,
-        isPrivate: (formValue.isPrivate === 1 || formValue.isPrivate === true) ? true : false,
-        folder: formValue.folder,
-        path: activeDocument.path,
-        type: formValue.type,
-      },
-      smallLoader: 'saveData',
-    };
-    handleUpdateDocument(data);
+    if (activeDocument) {
+      const docList = activeSingleProperty.documents;
+      const data = {
+        pageID: activeSingleProperty.id,
+        id: activeDocument.id,
+        docs: docList,
+        body: {
+          name: formValue.name,
+          isPrivate: (formValue.isPrivate === 1 || formValue.isPrivate === true) ? true : false,
+          folder: formValue.folder,
+          path: activeDocument.path,
+          type: formValue.type,
+        },
+        smallLoader: 'saveData',
+      };
+      handleUpdateDocument(data);
+    }
   };
 
   const checkDisabled = () => {
@@ -117,7 +119,7 @@ const SingleDocument = (props: SingleDocumentType) => {
   return (
     <>
       {
-        activeDocument.id && (
+        activeDocument?.id && (
           <SplashScreen closeOutside={false} className="edit-document">
             <div className="single-document dis-fl-col h-perc-100">
               {/* top panel */}

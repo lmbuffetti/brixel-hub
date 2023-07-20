@@ -651,7 +651,6 @@ const Documents = (props: DocumentsPageType) => {
                                       <ReactSortable
                                         key={`prcDcc_${i.toString()}`}
                                         handle=".docsHandle"
-                                        delayOnTouchStart={true}
                                         delay={2}
                                         group="groupName"
                                         // @ts-ignore
@@ -846,7 +845,6 @@ const Documents = (props: DocumentsPageType) => {
 
                                               <ReactSortable
                                                 handle=".docsHandle"
-                                                delayOnTouchStart={true}
                                                 delay={2}
                                                 group="groupName"
                                                 // @ts-ignore

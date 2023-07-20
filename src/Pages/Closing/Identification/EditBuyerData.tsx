@@ -9,7 +9,7 @@ import {ReduxField} from '@brixel-io/brixel-components/dist/form';
 import translateTo from '../../../utils/translation';
 import {deleteDocument, uploadDocument} from '../../../actions/UploadActions';
 import {IdentificationQuestions} from '../../../resources/Deals/Identification';
-import {DocumentType, QuestionInputType} from '@brixel-io/brixel-components/dist/@types/Model';
+import {QuestionInputType} from '@brixel-io/brixel-components/dist/@types/Model';
 import type {EditBuyerDataType} from '../../../@types/Pages/Closing/Identification/EditBuyerData';
 
 const EditBuyerData = (props: EditBuyerDataType) => {
@@ -62,7 +62,7 @@ const EditBuyerData = (props: EditBuyerDataType) => {
   };
 
   useEffect(() => {
-    const newDoc: DocumentType = get(formValue, `persons[${profileId}].document`, []).find((doc) => get(doc, 'file', null)) || {};
+    const newDoc: any = get(formValue, `persons[${profileId}].document`, []).find((doc) => get(doc, 'file', null)) || {};
     if (newDoc && get(initialValues, `persons[${profileId}].fullName`, null)) {
       const indexDoc = get(formValue, `persons[${profileId}].document`, []).findIndex((doc) => get(doc, 'file', null));
       const data = {
