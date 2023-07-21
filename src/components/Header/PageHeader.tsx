@@ -369,7 +369,7 @@ function PageHeader(props: PageHeaderType) {
                         </button>
 
                         <div
-                          className="mobile-menu w-perc-100 dis-fl-col a-c zIndex3"
+                          className={`mobile-menu w-perc-100 dis-fl-col a-c zIndex3 ${showMobileMenu? 'active' : ''}`}
                           style={{ height: showMobileMenu ? windowDimensions.height - 72 : '0px' }}
                         >
                           <div className="links dis-fl-col as-b jc-fe w-perc-100 ov-a">

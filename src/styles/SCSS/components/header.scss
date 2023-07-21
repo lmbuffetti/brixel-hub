@@ -201,10 +201,14 @@
   position: absolute;
   width: 100%;
   left: 0;
-  transition: height 450ms ease-in;
+  transition: none;
   overflow: auto;
   top: 72px;
   background-color: white;
+
+  &.active {
+    transition: height 450ms ease-in;
+  }
 
   .sideHeader {
     position: relative;
