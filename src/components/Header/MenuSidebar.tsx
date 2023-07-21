@@ -56,7 +56,7 @@ const MenuSidebar = (props: MenuSidebarType) => {
                   rounded
                   theme='text'
                   themeSat={800}
-                  label={isBuyer ? 'Back to Buy' : 'Back to Sell'}
+                  label={translateTo(isBuyer ? 'Back to Buy' : 'Back to Sell', lang)}
                   leftIcon="chevron-left"
                   onClick={() => history.push(isBuyer ? '/buy' : '/sell')}
                 />
