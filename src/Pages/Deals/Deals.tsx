@@ -20,6 +20,7 @@ import FilterBar from '../../components/FilterBar';
 import {getCookie, setCookie} from '../../utils/helpers';
 import translateTo from '../../utils/translation';
 import type {DealsType} from '../../@types/Pages/Deals/Deals';
+import SectionMobileTitle from '../../components/SectionMobileTitle';
 
 const Deals = (props: DealsType) => {
   const history = {
@@ -226,11 +227,13 @@ const Deals = (props: DealsType) => {
         <div className="dealsListings">
           <div className="listings-header bg-white">
             <div className="dis-f jc-b">
-              <div className="dis-f jc-fe-md w-perc-100 pt-3 pt-lg-0">
-                <div className="dis-fl-row a-c zIndex3 jc-b w-perc-100">
-                  <h4 className="ml-md-1 fweight-700 hide-lg">{translateTo('Prospects', lang)}</h4>
+              <div className="dis-f jc-fe-md w-perc-100">
+                <div className="dis-fl-row a-b zIndex3 jc-b w-perc-100">
+                  <SectionMobileTitle
+                    title="Prospects"
+                  />
                   <h3 className="mb-3 hide dis-b-lg">{translateTo('Prospects', lang)}</h3>
-                  <div className="dis-fl-row a-c zIndex3">
+                  <div className="dis-fl-row a-c zIndex3 mb-2 mb-lg-0">
                     {
                       !emptyDeals && (
                         <FilterBar

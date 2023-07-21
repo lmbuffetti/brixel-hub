@@ -31,6 +31,7 @@ import type {LanguagesType, PageHeaderType} from '../../@types/components/Header
 import {OptionsType} from '@brixel-io/brixel-components/dist/@types/Form/Input';
 import isEmpty from 'lodash/isEmpty';
 import {ServicePackageType} from '@brixel-io/brixel-components/dist/@types/Model';
+import SectionMobileTitle from '../SectionMobileTitle';
 
 const RightFlowHeader = lazyWithRetry(() => import('./RightHeaderFlow'));
 const AccountDropdown = lazyWithRetry(() => import('../AccountDropdown'));
@@ -241,7 +242,10 @@ function PageHeader(props: PageHeaderType) {
               <div
                 className={`dis-f a-c pl-0 pl-lg-3 logoWrapper w-fit min-w-fix-40 ${(propID === 'sell' || propID === 'buy' || isFlow || isBuyer || windowDimensions.width <= 590) ? '' : 'brdSmallRight brdText100 w-fix-md-232'} w-fit`}
               >
-                <div className="min-w-88 w-perc-100 h-fix-72 dis-f a-c pr-2">
+                <button
+                  className="min-w-88 w-perc-100 h-fix-72 dis-f a-c pr-2"
+                  onClick={() => history.push(isBuyer ? '/buy' : '/sell')}
+                >
                   <img
                     loading="lazy"
                     className={`${windowDimensions.width <= 590 ? 'max-w-fix-32' : ''} pos-r cur-poi`}
@@ -249,7 +253,7 @@ function PageHeader(props: PageHeaderType) {
                     alt="Brixel Logo"
                     id="logo"
                   />
-                </div>
+                </button>
               </div>
               {
                 showProgressStage && (
@@ -264,10 +268,10 @@ function PageHeader(props: PageHeaderType) {
                 )
               }
               {
-                !showMobileMenu && windowDimensions.width <= 1024 && propID !== 'buy' && propID !== 'sell' && !isFlow && (
+                !showMobileMenu && windowDimensions.width <= 1024 && propID !== 'buy' && propID !== 'sell' && !isFlow && history.location.pathname.includes('home') && (
                   <BrixelButtonSecondary
                     className="ml-2 delayFadeIn"
-                    label={isBuyer ? 'Back to Buy' : 'Back to Sell'}
+                    label={translateTo(isBuyer ? 'Back to Buy' : 'Back to Sell', lang)}
                     leftIcon="arrow-simple-left"
                     onClick={() => history.push(isBuyer ? '/buy' : '/sell')}
                     rounded
@@ -354,31 +358,15 @@ function PageHeader(props: PageHeaderType) {
                   {
                     windowDimensions.width <= 1024 && (
                       <div className="ml-1 ml-sm-2 h-fix-72 dis-f a-c">
-                        {
-                          (propID === 'sell' || propID === 'buy') ? (
-                            <>
-                              <button
-                                type="button"
-                                className="brixel-page-toggle pos-r zIndex5"
-                                onClick={() => toggleMobileMenu()}
-                              >
-                                <span />
-                                <span />
-                                <span />
-                              </button>
-                            </>
-                          ) : (
-                            <button
-                              type="button"
-                              className="brixel-page-toggle pos-r zIndex5"
-                              onClick={() => toggleMobileMenu()}
-                            >
-                              <span />
-                              <span />
-                              <span />
-                            </button>
-                          )
-                        }
+                        <button
+                          type="button"
+                          className="brixel-page-toggle pos-r zIndex5"
+                          onClick={() => toggleMobileMenu()}
+                        >
+                          <span />
+                          <span />
+                          <span />
+                        </button>
 
                         <div
                           className="mobile-menu w-perc-100 dis-fl-col a-c zIndex3"
@@ -473,11 +461,9 @@ function PageHeader(props: PageHeaderType) {
           <div className="mobileTitle dis-f jc-b a-c px-2 py-1">
             {
               getCurrentRoute().title && (
-                <div className="dis-fl-row a-c jc-b">
-                  <h4 className="fweight-700 pt-2">
-                    {translateTo(getCurrentRoute().title, lang)}
-                  </h4>
-                </div>
+                <SectionMobileTitle
+                  title={getCurrentRoute().title}
+                />
               )
             }
           </div>

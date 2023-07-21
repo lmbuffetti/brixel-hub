@@ -32,6 +32,7 @@ import translateTo from '../../utils/translation';
 import {DocumentType} from '@brixel-io/brixel-components/dist/@types/Model';
 import type {DocumentsPageType, DocumentTypePage} from '../../@types/Pages/SingleProperty/Documents';
 import { setNotification } from '../../actions/CommonActions';
+import SectionMobileTitle from '../../components/SectionMobileTitle';
 
 const Documents = (props: DocumentsPageType) => {
   const history = {
@@ -424,13 +425,9 @@ const Documents = (props: DocumentsPageType) => {
             </h3>
             {
               isBuyer && (
-                <div className="pos-r hide-lg">
-                  <div className="dis-f backPanel">
-                    <h5 className="sectionTitle">
-                      {translateTo('Docubox', lang)}
-                    </h5>
-                  </div>
-                </div>
+                <SectionMobileTitle
+                  title="Docubox"
+                />
               )
             }
             {

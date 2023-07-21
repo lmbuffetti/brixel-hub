@@ -9,6 +9,7 @@ import last from 'lodash/last';
 import lazyWithRetry from '../../../components/LazyWithRetry';
 import Loading from '../../../components/Loading';
 import type {PropertyBuyerDashboardType} from '../../../@types/Pages/Dashboard/Buyer/PropertyBuyerDashbaord';
+import SectionMobileTitle from '../../../components/SectionMobileTitle';
 
 const PageBuyer = lazyWithRetry(() => import('./PageBuyer'));
 
@@ -59,6 +60,9 @@ const PropertyBuyerDashboard = (props: PropertyBuyerDashboardType) => {
 
   return (
     <>
+      <SectionMobileTitle
+        title="Property"
+      />
       <div className="property-container dis-f jc-fs h-perc-lg-100 pos-r a-t" id="propertyDashboard">
         <div className="flex-1">
           {

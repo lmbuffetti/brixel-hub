@@ -2,13 +2,14 @@ import React, {useEffect} from 'react';
 import {bindActionCreators, compose} from 'redux';
 import {connect} from 'react-redux';
 import get from 'lodash/get';
-import {BrixelButtonIcon, Helpers} from '@brixel-io/brixel-components';
+import {BrixelIcon, Helpers} from '@brixel-io/brixel-components';
 import translateTo from '../../../utils/translation';
 import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import {setSplashType} from '../../../actions/CommonActions';
 import BrixelClosingTree from '../../../components/BrixelClosingTree';
 import {getActiveSingleDeal} from '../../../actions/DealActions';
 import type {OfferDetailType} from '../../../@types/Pages/Closing/Offers/OfferDetail';
+import SectionMobileTitle from '../../../components/SectionMobileTitle';
 
 const OfferDetail = (props: OfferDetailType) => {
   const history = {
@@ -45,11 +46,9 @@ const OfferDetail = (props: OfferDetailType) => {
           {
             !isBuyer ? (
               <>
-                <BrixelButtonIcon
-                  className="hide dis-b-md mb-2"
-                  icon="arrow-left-small"
-                  theme="text"
-                  ghost
+                <BrixelIcon
+                  className="mb-2"
+                  icon="arrow-left"
                   onClick={() => history.push(`/${propID}/closing`)}
                 />
                 <div className="offer-info dis-f a-c mb-1">
@@ -82,9 +81,9 @@ const OfferDetail = (props: OfferDetailType) => {
             ) : (
               <div>
                 <h3 className="mb-3 hide dis-b-lg">{translateTo('Closing', lang)}</h3>
-                <div className="dis-fl-col backPanel hide-lg">
-                  <h5 className="sectionTitle">{translateTo('Closing', lang)}</h5>
-                </div>
+                <SectionMobileTitle
+                  title="Closing"
+                />
               </div>
             )
           }

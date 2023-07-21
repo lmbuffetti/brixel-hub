@@ -29,6 +29,7 @@ import PropertyVisitedImg from '../../../../images/dashboard/propertyVisited.svg
 import PropertyCanceledImg from '../../../../images/dashboard/scheduleCanceled.svg';
 import isEmpty from 'lodash/isEmpty';
 import BrixelSingleTag from '@brixel-io/brixel-components/dist/components/BrixelSingleTag';
+import SectionMobileTitle from '../../../../components/SectionMobileTitle';
 
 const ScheduleVisit = (props: ScheduleVisitType) => {
   const history = {
@@ -234,9 +235,9 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
         <h3 className="hide dis-b-lg fweight-600 mb-1">
           {translateTo('Visit', lang)}
         </h3>
-        <div className="dis-fl-col backPanel hide-lg">
-          <h5 className="sectionTitle">{translateTo('Visit', lang)}</h5>
-        </div>
+        <SectionMobileTitle
+          title="Visit"
+        />
       </div>
       {/* CONDITION TO SHOW DATA ONLY AFTER API CALL */}
       {

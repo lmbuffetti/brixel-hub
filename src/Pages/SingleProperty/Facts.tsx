@@ -17,6 +17,7 @@ import translateTo from '../../utils/translation';
 import FactsQuestion from './FactsQuestion';
 import type {FactsType} from '../../@types/Pages/SingleProperty/Facts';
 import {QuestionsListType} from '@brixel-io/brixel-components/dist/@types/Model';
+import SectionMobileTitle from '../../components/SectionMobileTitle';
 
 const Facts = (props: FactsType) => {
   const history = {
@@ -139,9 +140,9 @@ const Facts = (props: FactsType) => {
               <div
                 className={`secondLevel w-perc-100 h-perc-lg-100 ${getFact() !== 'facts' && windowDimensions.width >= 1024 ? 'hide' : 'dis-fl-col'}`}
               >
-                <div className="dis-fl-col backPanel hide-lg">
-                  <h5 className="sectionTitle">{translateTo('Facts', lang)}</h5>
-                </div>
+                <SectionMobileTitle
+                  title="Facts"
+                />
                 <div className="boxCard flex-1">
                   <div className="dis-fl-col">
 

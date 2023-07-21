@@ -7,6 +7,7 @@ import translateTo from '../../../utils/translation';
 import {change, reset} from '@brixel-io/brixel-components/dist/form';
 import {setModal} from '../../../actions/CommonActions';
 import type {FinancingType} from '../../../@types/Pages/Dashboard/Buyer/Financing';
+import SectionMobileTitle from '../../../components/SectionMobileTitle';
 
 const Financing = (props: FinancingType) => {
   const {
@@ -19,9 +20,9 @@ const Financing = (props: FinancingType) => {
       <h3 className="mb-3 hide dis-b-lg  fweight-600">{translateTo('Financing', lang)}</h3>
       <div className="dis-f h-perc-lg-100">
         <div className="dis-fl-col w-perc-100 h-perc-lg-100">
-          <div className="dis-fl-col backPanel hide-lg">
-            <h5 className="sectionTitle">{translateTo('Financing', lang)}</h5>
-          </div>
+          <SectionMobileTitle
+            title="Financing"
+          />
           <div>
             {
               activeSingleProperty.id && (
