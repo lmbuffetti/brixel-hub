@@ -368,85 +368,89 @@ function PageHeader(props: PageHeaderType) {
                           <span />
                         </button>
 
-                        <div
-                          className={`mobile-menu w-perc-100 dis-fl-col a-c zIndex3 ${showMobileMenu? 'active' : ''}`}
-                          style={{ height: showMobileMenu ? windowDimensions.height - 72 : '0px' }}
-                        >
-                          <div className="links dis-fl-col as-b jc-fe w-perc-100 ov-a">
-                            <hr className="lighter" />
-                            <div className="mini-menu whiteBg dis-fl-col px-3 px-lg-0">
-                              {
-                                (propID === 'sell' || propID === 'buy') ? (
-                                  <div className="dis-fl-col a-t pos-r p-3">
-                                    <Link
-                                      className={`${propID === 'sell' ? 'txtText900' : 'txtText200'} link fweight-600 fsize-600 mb-2`}
-                                      to="/sell"
-                                    >
-                                      {translateTo('Sell', lang)}
-                                    </Link>
-                                    <Link
-                                      className={`${propID === 'buy' ? 'txtText900' : 'txtText200'} link fweight-600 fsize-600`}
-                                      to="/buy"
-                                    >
-                                      {translateTo('Buy', lang)}
-                                    </Link>
-                                  </div>
-                                ) : (
-                                  <MenuSidebar
-                                    activePackageName={propID && userType === 'seller' ? translateTo(packageName, lang) : undefined}
-                                    isBuyer={isBuyer}
-                                  />
-                                )
-                              }
-                              <hr className='lighter' />
-                              {
-                                (propID !== 'sell' && propID !== 'buy' && !isBuyer) && (
-                                  <div>
-                                    <div className="px-3 py-4 ws-nw flex-nowrap dis-f a-c txtText900">
-                                      <span>{translateTo('Your Plan:', lang)}</span>
-                                      <span
-                                        className="fweight-400 td-u txtGreen400 dis-f cur-poi ml-1"
-                                        onClick={() => onUpgrade()}
-                                      >
-                                        {translateTo(packageName, lang)}
-                                      </span>
+                        {
+                          showMobileMenu && (
+                            <div
+                              className={`mobile-menu w-perc-100 dis-fl-col a-c zIndex3 ${showMobileMenu? 'active' : ''}`}
+                              style={{ height: showMobileMenu ? windowDimensions.height - 72 : '0px' }}
+                            >
+                              <div className="links dis-fl-col as-b jc-fe w-perc-100 ov-a">
+                                <hr className="lighter" />
+                                <div className="mini-menu whiteBg dis-fl-col px-3 px-lg-0">
+                                  {
+                                    (propID === 'sell' || propID === 'buy') ? (
+                                      <div className="dis-fl-col a-t pos-r p-3">
+                                        <Link
+                                          className={`${propID === 'sell' ? 'txtText900' : 'txtText200'} link fweight-600 fsize-600 mb-2`}
+                                          to="/sell"
+                                        >
+                                          {translateTo('Sell', lang)}
+                                        </Link>
+                                        <Link
+                                          className={`${propID === 'buy' ? 'txtText900' : 'txtText200'} link fweight-600 fsize-600`}
+                                          to="/buy"
+                                        >
+                                          {translateTo('Buy', lang)}
+                                        </Link>
+                                      </div>
+                                    ) : (
+                                      <MenuSidebar
+                                        activePackageName={propID && userType === 'seller' ? translateTo(packageName, lang) : undefined}
+                                        isBuyer={isBuyer}
+                                      />
+                                    )
+                                  }
+                                  <hr className='lighter' />
+                                  {
+                                    (propID !== 'sell' && propID !== 'buy' && !isBuyer) && (
+                                      <div>
+                                        <div className="px-3 py-4 ws-nw flex-nowrap dis-f a-c txtText900">
+                                          <span>{translateTo('Your Plan:', lang)}</span>
+                                          <span
+                                            className="fweight-400 td-u txtGreen400 dis-f cur-poi ml-1"
+                                            onClick={() => onUpgrade()}
+                                          >
+                                            {translateTo(packageName, lang)}
+                                          </span>
+                                        </div>
+                                        <hr className='lighter' />
+                                      </div>
+                                    )
+                                  }
+
+                                  <div className="py-3 px-3 pos-r">
+                                    <div className="dis-f mb-2">
+                                      <BrixelSelect
+                                        options={langMenu}
+                                        input={{
+                                          value: lang,
+                                          name: 'lang',
+                                          onChange: (val) => newLang(val),
+                                        }}
+                                      />
                                     </div>
-                                    <hr className='lighter' />
+
+                                    <div className="dis-fl-col a-t pos-r">
+                                      <a
+                                        className="link txtText900 fweight-400 fsize-400 mb-2"
+                                        href={`${baseByData?.loginBasePath}/account/preferences?url=${get(window, 'location.href', '')}`}
+                                      >
+                                        {translateTo('Your account', lang)}
+                                      </a>
+                                      <a
+                                        className="link txtRed400 fweight-400 fsize-400"
+                                        href={`${baseByData?.loginBasePath}/logout?url=${get(window, 'location.href', '')}`}
+                                      >
+                                        {translateTo('Logout', lang)}
+                                      </a>
+                                    </div>
                                   </div>
-                                )
-                              }
-
-                              <div className="py-3 px-3 pos-r">
-                                <div className="dis-f mb-2">
-                                  <BrixelSelect
-                                    options={langMenu}
-                                    input={{
-                                      value: lang,
-                                      name: 'lang',
-                                      onChange: (val) => newLang(val),
-                                    }}
-                                  />
-                                </div>
-
-                                <div className="dis-fl-col a-t pos-r">
-                                  <a
-                                    className="link txtText900 fweight-400 fsize-400 mb-2"
-                                    href={`${baseByData?.loginBasePath}/account/preferences?url=${get(window, 'location.href', '')}`}
-                                  >
-                                    {translateTo('Your account', lang)}
-                                  </a>
-                                  <a
-                                    className="link txtRed400 fweight-400 fsize-400"
-                                    href={`${baseByData?.loginBasePath}/logout?url=${get(window, 'location.href', '')}`}
-                                  >
-                                    {translateTo('Logout', lang)}
-                                  </a>
                                 </div>
                               </div>
-                            </div>
-                          </div>
 
-                        </div>
+                            </div>
+                          )
+                        }
                       </div>
                     )
                   }
