@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {bindActionCreators, compose} from 'redux';
 import {connect} from 'react-redux';
 import get from 'lodash/get';
-import {BrixelIcon, Helpers} from '@brixel-io/brixel-components';
+import {BrixelButtonIcon, Helpers} from '@brixel-io/brixel-components';
 import translateTo from '../../../utils/translation';
 import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import {setSplashType} from '../../../actions/CommonActions';
@@ -46,9 +46,12 @@ const OfferDetail = (props: OfferDetailType) => {
           {
             !isBuyer ? (
               <>
-                <BrixelIcon
-                  className="mb-2"
+                <BrixelButtonIcon
+                  className="mt-2 ml-1-neg mb-2"
                   icon="arrow-left"
+                  theme="text"
+                  themeSat={600}
+                  ghost
                   onClick={() => history.push(`/${propID}/closing`)}
                 />
                 <div className="offer-info dis-f a-c mb-1">

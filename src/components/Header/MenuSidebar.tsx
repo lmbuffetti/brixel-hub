@@ -51,7 +51,7 @@ const MenuSidebar = (props: MenuSidebarType) => {
           { /* SECTION SIDEBAR MENU DESKTOP */ }
           <div className={`pos-r sidebar w-perc-100  ${levelUrl.length > 3 && windowDimensions.width <= 1024 ? 'zIndex1' : 'zIndex7'}`}>
             <div>
-              <div className="p-3 btnWrapper">
+              <div className="py-3 px-2 btnWrapper">
                 <BrixelButtonSecondary
                   rounded
                   theme='text'
@@ -63,10 +63,10 @@ const MenuSidebar = (props: MenuSidebarType) => {
               </div>
               {
                 windowDimensions.width <= 1024 && (
-                  <hr className="lighter mb-2" />
+                  <hr className="lighter" />
                 )
               }
-              <ul className="sidebarNav dis-fl-col">
+              <ul className="sidebarNav my-2 my-lg-0 dis-fl-col">
                 {
                   navigationMenu && navigationMenu.map((nav, i) => (
                     <React.Fragment key={`mnu_${i.toString()}`}>
