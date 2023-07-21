@@ -49,6 +49,7 @@ const OfferDetail = (props: OfferDetailType) => {
                 <BrixelButtonIcon
                   className="mt-2 ml-1-neg mb-2"
                   icon="arrow-left"
+                  small={windowDimensions.width <= 1024}
                   theme="text"
                   themeSat={600}
                   ghost

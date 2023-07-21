@@ -31,6 +31,7 @@ const SectionMobileTitle = (props: SectionMobileTitleType) => {
   return (
     <div className="dis-fl-col backPanel hide-lg">
       <BrixelButtonIcon
+        small
         className="ml-1-neg mt-2"
         ghost
         icon="arrow-left"
