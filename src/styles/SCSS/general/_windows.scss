@@ -57,6 +57,11 @@
       }
     }
   }
+  &.prospectsWrap {
+    .innerWrap {
+      overflow-y: initial;
+    }
+  }
 }
 .hubDasContent {
   .dashboardContainer {

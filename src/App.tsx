@@ -406,10 +406,12 @@ const App = (props: AppType) => {
       classMain ='w-perc-100 pos-r hubContainer rewardsTop withTopBar sellerHub';
     } else if (isMainClass && isBuyer) {
       classMain ='w-perc-100 pos-r hubContainer buyerHub propertyTop';
+    } else if (history.location.pathname.includes('prospects')) {
+      classMain ='w-perc-100 pos-r hubContainer propertyTop withTopBar sellerHub prospectsWrap';
     } else if (isMainClass) {
       classMain ='w-perc-100 pos-r hubContainer propertyTop withTopBar sellerHub';
-    } else if (history.location.pathname.includes('marketing')) {
-      classMain = 'w-perc-100 pos-r hubContainer marketingTop withTopBar sellerHub';
+    }  else if (history.location.pathname.includes('marketing')) {
+      classMain ='w-perc-100 pos-r hubContainer marketingTop withTopBar sellerHub';
     } else if (isHomesClass && isMapHomeView) {
       classMain = 'w-perc-100 pos-r ov-h marketHome mapView';
     } else if (isHomesClass) {
