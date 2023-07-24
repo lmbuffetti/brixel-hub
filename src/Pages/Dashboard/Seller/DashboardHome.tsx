@@ -24,7 +24,6 @@ import {
   getEstimation,
   getPageDeals,
 } from '../../../actions/PropertyActions';
-import BestimateCardOverlay from '../../../components/BestimateCardOverlay';
 import DashboardPropertyCard from '../../../components/Cards/DashboardPropertyCard';
 import DashboardPropertyCardSold from '../../../components/Cards/DashboardPropertyCardSold';
 import CoverPropertyImage from '../../../components/CoverPropertyImage';
@@ -94,7 +93,6 @@ const DashboardHome = (props: DashboardHomeType) => {
     activeSinglePropertyDealsCount,
     activeSinglePropertyHistory,
     documents,
-    estimation,
     formValue,
     handleGetActiveSinglePropertyDealsCount,
     handleGetActiveSinglePropertyVisits,
@@ -103,7 +101,6 @@ const DashboardHome = (props: DashboardHomeType) => {
     handleSetModal,
     lang,
     loggedInUser,
-    splashScreenType,
     windowDimensions,
   } = props;
   // STATE
@@ -318,16 +315,6 @@ const DashboardHome = (props: DashboardHomeType) => {
 
   return (
     <div className="rewards-container" id="rewardsDashboard">
-
-      {
-        splashScreenType === 'bestimateResult' && get(estimation, 'status', 'active') !== 'pending' && (
-          <BestimateCardOverlay
-            lang={lang}
-            activeSinglePropertyId={get(activeSingleProperty, 'customID', '')}
-            clearEstimation
-          />
-        )
-      }
 
       {
         progressState.step === 1 && (
