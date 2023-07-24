@@ -146,7 +146,7 @@ const Facts = (props: FactsType) => {
                 <div className="boxCard flex-1">
                   <div className="dis-fl-col">
 
-                    <div className="mt-3 mb-3">
+                    <div className="mt-0 mb-3">
                       <BrixelProgressBar
                         rounded
                         saturation={700}

@@ -47,7 +47,7 @@ const OfferDetail = (props: OfferDetailType) => {
             !isBuyer ? (
               <>
                 <BrixelButtonIcon
-                  className="mt-2 ml-1-neg mb-2"
+                  className="mt-1 ml-1-neg mb-2"
                   icon="arrow-left"
                   small={windowDimensions.width <= 1024}
                   theme="text"

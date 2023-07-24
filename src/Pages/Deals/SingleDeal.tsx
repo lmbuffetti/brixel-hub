@@ -324,6 +324,7 @@ const SingleDeal = (props: SingleDealType) => {
                       <div className="top dis-fl-row jc-b mb-0 mb-lg-4 pb-3">
                         <div className="user dis-fl-row col-md-7">
                           <BrixelAvatar
+                            size='M'
                             avatarImg={activeSingleDeal.user?.avatarUrl}
                             name={Helpers.userNameVal(get(activeSingleDeal, 'user.firstName', ''), get(activeSingleDeal, 'user.lastName', ''), get(activeSingleDeal, 'user.name', '')) === 'No Name' ? get(activeSingleDeal, 'user.email', '') : Helpers.userNameVal(get(activeSingleDeal, 'user.firstName', ''), get(activeSingleDeal, 'user.lastName', ''), get(activeSingleDeal, 'user.name', ''))}
                             profileId={get(activeSingleDeal.user, 'id', '')}
