@@ -13,6 +13,7 @@ import {
 } from '@brixel-io/brixel-components';
 import translateTo from '../../../utils/translation';
 import type {ContactBuyerType} from '../../../@types/Pages/Dashboard/Buyer/ContactBuyer';
+import SectionMobileTitle from '../../../components/SectionMobileTitle';
 
 const ContactBuyer = (props: ContactBuyerType) => {
   const history = {
@@ -34,9 +35,9 @@ const ContactBuyer = (props: ContactBuyerType) => {
         {translateTo('Contact', lang)}</h3>
       <div className="dis-f h-perc-lg-100">
         <div className="secondLevel dis-fl-col w-perc-100 h-perc-lg-100">
-          <div className="dis-fl-col backPanel hide-lg">
-            <h5 className="sectionTitle">{translateTo('Contact', lang)}</h5>
-          </div>
+          <SectionMobileTitle
+            title="Contact"
+          />
           <div className="boxCard">
             <div className="dis-f jc-b">
               <div className="dis-f a-t">

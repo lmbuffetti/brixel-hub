@@ -26,6 +26,7 @@ import {generateEstimation} from '../../actions/EstimationActions';
 import type {PriceType} from '../../@types/Pages/SingleProperty/Price';
 import {change} from '@brixel-io/brixel-components/dist/utils/ReduxForm.Functions';
 import {QuestionsListType} from '@brixel-io/brixel-components/dist/@types/Model';
+import SectionMobileTitle from '../../components/SectionMobileTitle';
 
 const Price = (props: PriceType) => {
   const history = {
@@ -140,9 +141,9 @@ const Price = (props: PriceType) => {
             <h3 className="mb-3 hide dis-b-lg">{translateTo('Price', lang)}</h3>
             <div className="secondLevel dis-fl-col w-perc-100 h-perc-lg-100">
 
-              <div className="dis-fl-col backPanel dis-b hide-lg">
-                <h5 className="sectionTitle">{translateTo('Price', lang)}</h5>
-              </div>
+              <SectionMobileTitle
+                title="Price"
+              />
 
               <div className="dis-fl-col dis-fl-row-lg a-t jc-b">
                 <div className="boxCard dis-fl-col mr-2 w-perc-100 mb-5 mb-lg-0">

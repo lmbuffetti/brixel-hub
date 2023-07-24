@@ -18,6 +18,7 @@ import BrixelUpgradeMessage from '../../../components/BrixelUpgradeMessage';
 import type {FloorPlansPageType} from '../../../@types/Pages/SingleProperty/Media/Plans';
 import {PhotosType} from '@brixel-io/brixel-components/dist/@types/Model';
 import getUrlImg from '@brixel-io/brixel-components/dist/utils/ImageUrl';
+import SectionMobileTitle from '../../../components/SectionMobileTitle';
 
 const Plans = (props: FloorPlansPageType) => {
   const history = {
@@ -158,11 +159,9 @@ const Plans = (props: FloorPlansPageType) => {
             <h3 className="mb-3 hide dis-b-lg">{translateTo('Floor Plans', lang)}</h3>
             <div className="plansWrapper dis-f">
               <div className="secondLevel dis-fl-col">
-                <div className="dis-f backPanel hide-lg">
-                  <h5 className="sectionTitle">
-                    {translateTo('Floor Plans', lang)}
-                  </h5>
-                </div>
+                <SectionMobileTitle
+                  title="Floor Plans"
+                />
                 {(!fixPhotos || (fixPhotos && fixPhotos.length === 0)) && (
                   <span className='mb-3 mb-md-5 txtRed400'>{translateTo('You have uploaded 0 plans.', lang)}</span>
                 )}

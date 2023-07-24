@@ -7,6 +7,7 @@ import translateTo from '../../../utils/translation';
 import {setModal} from '../../../actions/CommonActions';
 import BrixelUpgradeMessage from '../../../components/BrixelUpgradeMessage';
 import type {TourType} from '../../../@types/Pages/SingleProperty/Media/Tour';
+import SectionMobileTitle from '../../../components/SectionMobileTitle';
 
 const Tour = (props: TourType) => {
   // PROPS
@@ -45,11 +46,9 @@ const Tour = (props: TourType) => {
             <h3 className="mb-3 hide dis-b-lg">{translateTo('3D tour', lang)}</h3>
             <div className="tourWrapper h-perc-lg-100">
               <div className="secondLevel dis-fl-col">
-                <div className="dis-f backPanel hide-lg">
-                  <h5 className="sectionTitle">
-                    {translateTo('3D tour', lang)}
-                  </h5>
-                </div>
+                <SectionMobileTitle
+                  title="3d Tour"
+                />
                 {
                   get(formValue, 'virtual.matterport', null) ? (
                     <div className="tour boxCard mb-5">

@@ -19,6 +19,7 @@ import BrixelUpgradeMessage from '../../../components/BrixelUpgradeMessage';
 import {PhotosType} from '@brixel-io/brixel-components/dist/@types/Model';
 import type {PhotosPageType} from '../../../@types/Pages/SingleProperty/Media/Photos';
 import getUrlImg from '@brixel-io/brixel-components/dist/utils/ImageUrl';
+import SectionMobileTitle from '../../../components/SectionMobileTitle';
 
 const Photos = (props: PhotosPageType) => {
   const history = {
@@ -165,11 +166,9 @@ const Photos = (props: PhotosPageType) => {
             <h3 className="mb-3 hide dis-b-lg">{translateTo('Photos', lang)}</h3>
             <div className="photosWrapper dis-f">
               <div className="secondLevel dis-fl-col">
-                <div className="dis-f backPanel hide-lg">
-                  <h5 className="sectionTitle">
-                    {translateTo('Photos', lang)}
-                  </h5>
-                </div>
+                <SectionMobileTitle
+                  title="Photos"
+                />
                 {(!fixPhotos || (isArray(fixPhotos) && fixPhotos.length === 0)) && (
                   <span className='mb-3 mb-md-5 txtRed400'>{translateTo('You have uploaded 0 photos.', lang)} </span>
                 )}
