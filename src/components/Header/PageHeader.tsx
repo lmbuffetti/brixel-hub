@@ -273,7 +273,10 @@ function PageHeader(props: PageHeaderType) {
                     className="ml-2 delayFadeIn"
                     label={translateTo(isBuyer ? 'Back to Buy' : 'Back to Sell', lang)}
                     leftIcon="arrow-simple-left"
-                    onClick={() => history.push(isBuyer ? '/buy' : '/sell')}
+                    onClick={() => {
+                      setShowMobileMenu(false);
+                      history.push(isBuyer ? '/buy' : '/sell');
+                    }}
                     rounded
                     theme="text"
                     themeSat={900}
@@ -397,6 +400,7 @@ function PageHeader(props: PageHeaderType) {
                                       <MenuSidebar
                                         activePackageName={propID && userType === 'seller' ? translateTo(packageName, lang) : undefined}
                                         isBuyer={isBuyer}
+                                        onClickLink={() => setShowMobileMenu(false)}
                                       />
                                     )
                                   }

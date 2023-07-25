@@ -58,7 +58,10 @@ const MenuSidebar = (props: MenuSidebarType) => {
                   themeSat={800}
                   label={translateTo(isBuyer ? 'Back to Buy' : 'Back to Sell', lang)}
                   leftIcon="chevron-left"
-                  onClick={() => history.push(isBuyer ? '/buy' : '/sell')}
+                  onClick={() => {
+                    onClickLink();
+                    history.push(isBuyer ? '/buy' : '/sell')
+                  }}
                 />
               </div>
               {
@@ -98,6 +101,7 @@ const MenuSidebar = (props: MenuSidebarType) => {
                                       <li
                                         key={`nav_${f.toString()}`}
                                         className={`${history.location.pathname.includes(submenu.name) ? 'submenuActive' : ''} subNav`}
+                                        onClick={() => onClickLink()}
                                       >
                                         <Link
                                           to={linkMenu(submenu.path)}
