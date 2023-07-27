@@ -2,11 +2,13 @@
 
 #wrapDatePicker {
   position: relative;
+
   .react-datepicker {
-    position: absolute;
-    top: 75px;
+    // position: absolute;
+    // top: 75px;
     border: none;
     z-index: 100;
+
     .react-datepicker__triangle {
       display: none;
     }
@@ -86,3 +88,4 @@
     }
   }
 }
+

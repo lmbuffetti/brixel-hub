@@ -82,7 +82,7 @@ const ScheduleVisitDateModal = (props: ScheduleVisitComponentType) => {
   return (
     <div className="modalScheduleVisit px-2">
       <p className='mt-2 mt-sm-5 pb-2 fsize-300'>{translateTo('Add dates', lang)}</p>
-      <div className="h-fix-312 brdRadius w-fix-248 w-fix-sm-352 pr-5 pr-sm-6 pt-4 brdSmall brdText100 p-1">
+      <div className="pb-2 brdRadius w-fix-248 w-fix-sm-352 pr-5 pr-sm-6 pt-4 brdSmall brdText100 p-1">
         <BrixelDatePicker
           hideInput
           ref1={datePicker}

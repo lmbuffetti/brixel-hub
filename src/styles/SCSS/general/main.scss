@@ -1128,4 +1128,35 @@ input::-webkit-date-and-time-value {
   border-style: solid;
 }
 
+/* Schedule visit date picker styles */
 
+.modalScheduleVisit div#fixedDatePicker {
+  position: relative !important;
+
+  .react-datepicker {
+    position: relative !important;
+
+    .wrap-select {
+      display: flex;
+      justify-content: space-between;
+      padding-left: 0px;
+      padding-right: 0px;
+
+      > select {
+        padding-left: 8px;
+        padding-right: 10px;
+      }
+
+      &:after {
+        z-index: -1;
+      }
+
+      &:first-child {
+        width: 40%;
+      }
+      &:last-child {
+        width: 60%;
+      }
+    }
+  }
+}
