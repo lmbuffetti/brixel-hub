@@ -5,6 +5,7 @@ import {
   BrixelModalConfirm,
   BrixelNotification,
   BrixelImage,
+  BrixelButtonSecondary,
 } from '@brixel-io/brixel-components';
 import BrixelPage500 from '@brixel-io/brixel-components/dist/components/BrixelPage500';
 import {reset} from '@brixel-io/brixel-components/dist/form';
@@ -568,7 +569,32 @@ const App = (props: AppType) => {
         get(history, 'location.pathname', '').split('/')[1] !== 'buy' &&
         get(history, 'location.pathname', '').split('/')[1].length > 18) ||
       get(history, 'location.pathname', '').split('/')[1] === 'company';
+  }
 
+
+
+  const openMobileSupport = () => {
+    handleSetModal({
+      component: <Support isMobile={windowDimensions.width <= 1024} />,
+      state: true,
+      small: true,
+      title: translateTo('How can we help?', lang),
+      titleTop: true,
+      classTitle: 'mr-2-neg',
+      titleTopClass: 'fweight-600 fsize-500 brdSmallBottom brdText50 ta-c',
+      bodyClassColor: 'dis-f',
+      bodyInnerClass: 'flex-1 dis-f',
+      className: 'mobileSupportModal',
+      layout: 'xxlarge',
+    });
+  };
+
+  const contactModal = () => {
+    if (windowDimensions.width <= 1024) {
+      openMobileSupport()
+    } else {
+      setShowSupport(!showSupport);
+    }
   }
 
 
@@ -740,40 +766,72 @@ const App = (props: AppType) => {
                     >
                       {
                         showSupport && (
-                          <Support
-                            layout="floatable"
-                            expanded
-                            isFixed
-                            onClose={() => setShowSupport(false)}
+                          <Support onClose={() => setShowSupport(false)}
                           />
                         )
                       }
-                      {
-                        !showSupport && (
-                          <div
-                            className="supportBubble dis-f jc-b a-c cur-poi bgWhite p-1 brdFullRadius zIndex1 pr-2 shadow-2dp"
-                            onClick={() => setShowSupport(!showSupport)}
-                          >
-                            <div className="dis-f jc-b a-c">
-                              {
-                                teamAvatars.map((imgTeam, i) => (
-                                  <BrixelImage
-                                    loading="lazy"
-                                    key={`avt_${i.toString()}`}
-                                    url={imgTeam.url}
-                                    size={'XS'}
-                                    alt="Support Team"
-                                    className="w-fix-32 mr-1-neg square brdLarge brdWhite brdCircle"
-                                  />
-                                ))
-                              }
-                            </div>
-                            <span className="ml-2 txtText900 fweight-500">
-                              {translateTo('Brixel Support', lang)}
-                            </span>
-                          </div>
-                        )
-                      }
+
+                      <>
+                        {
+                          windowDimensions.width <= 1024 && !isFlow ? (
+                            <>
+                              <div className={'dis-fl-col w-perc-100 supportBubble'}>
+                                <div className="dis-f a-c as-fs mb-2">
+                                  {
+                                    teamAvatars.map((imgTeam, i) => (
+                                      <BrixelImage
+                                        loading="lazy"
+                                        key={`avt_${i.toString()}`}
+                                        url={imgTeam.url}
+                                        size={'XS'}
+                                        alt="Support Team"
+                                        className="w-fix-40 mr-1-neg square brdLarge brdWhite brdCircle"
+                                      />
+                                    ))
+                                  }
+                                </div>
+                                <p className='fweight-600'>{translateTo('Brixel support needed?', lang)}</p>
+                                <p className='txtText700 fsize-300'>{translateTo('Do you have any issues or questions?', lang)}</p>
+                                <p className='txtText700 fsize-300'>{translateTo('Feel free to contact us.', lang)}</p>
+                                <BrixelButtonSecondary
+                                  rounded
+                                  className='mt-2 as-fs'
+                                  fullWidth={windowDimensions.width <= 590}
+                                  label={translateTo('Contact support', lang)}
+                                  onClick={() => contactModal()}
+                                />
+
+                              </div>
+                            </>
+                          ) : (
+                            <>
+                              <div
+                                className={`supportBubble  jc-b a-c cur-poi bgWhite p-1 brdFullRadius zIndex1 pr-2 shadow-2dp ${showSupport ? 'hide' : 'dis-f'}`}
+                                onClick={() => contactModal()}
+                              >
+                                <div className="dis-f jc-b a-c">
+                                  {
+                                    teamAvatars.map((imgTeam, i) => (
+                                      <BrixelImage
+                                        loading="lazy"
+                                        key={`avt_${i.toString()}`}
+                                        url={imgTeam.url}
+                                        size={'XS'}
+                                        alt="Support Team"
+                                        className="w-fix-32 mr-1-neg square brdLarge brdWhite brdCircle"
+                                      />
+                                    ))
+                                  }
+                                </div>
+                                <span className="ml-2 txtText900 fweight-500">
+                                  {translateTo('Brixel Support', lang)}
+                                </span>
+                              </div>
+                            </>
+                          )
+                        }
+                      </>
+
                     </div>
                   </div>
 
@@ -862,12 +920,7 @@ const App = (props: AppType) => {
                 }
                 {
                   modal.showSupport && (
-                    <Support
-                      expanded
-                      isFixed={false}
-                      hideClose
-                      layout={modal.supportLayout || 'onboarding'}
-                    />
+                    <Support hideClose />
                   )
                 }
               </BrixelModal>

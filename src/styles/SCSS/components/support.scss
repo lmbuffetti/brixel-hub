@@ -1,7 +1,26 @@
+
+.mobileSupportModal {
+  .brixel-text-area.full-height {
+    height: 100% !important;
+  }
+  .modal-title {
+    width: calc(100% - 65px);
+    left: 50%;
+    position: relative;
+    transform: translateX(-50%);
+    flex: initial;
+  }
+  .modal-header .iconBtn {
+    position: absolute;
+    right: $step * 1;
+  }
+}
+
 #supportBox {
   .brixel-text-area {
     line-break: auto;
   }
+
 
   .moreInfoSupport {
     max-height: 0;
@@ -37,10 +56,10 @@
 
   @media (max-width: $responsive-medium) {
     background-color: transparent;
+    padding-left: 16px;
     padding-right: 16px;
     padding-top: 24px;
     padding-bottom: 24px;
-    height: 94px;
   }
   #supportBox {
     position: absolute;

@@ -3,15 +3,14 @@ import {CompanyType, PropertyType} from '@brixel-io/brixel-components/dist/@type
 export interface SupportType {
   activeSingleCompany: CompanyType;
   activeSingleProperty: PropertyType;
-  expanded?: boolean;
   handleSendSupportMessage: (data: object) => void;
   hideClose?: boolean;
-  isFixed?: boolean;
+  isMobile?: boolean;
   isSmallLoading: {
     supportMessage: boolean;
   };
   lang: string;
-  layout?: string;
   onClose?: () => void;
   requestDone: boolean;
+  handleSetModal: (data: object) => void;
 }
