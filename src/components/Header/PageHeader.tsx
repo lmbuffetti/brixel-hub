@@ -240,7 +240,7 @@ function PageHeader(props: PageHeaderType) {
               className={'header-section dis-fl-row a-c jc-b'}
             >
               <div
-                className={`dis-f a-c pl-0 pl-lg-3 logoWrapper w-fit min-w-fix-40 ${(propID === 'sell' || propID === 'buy' || isFlow || isBuyer || windowDimensions.width <= 590) ? '' : 'brdSmallRight brdText100 w-fix-md-232'} w-fit`}
+                className={`dis-f a-c pl-0 pl-lg-3 logoWrapper w-fit min-w-fix-40 ${(propID === 'sell' || propID === 'buy' || isFlow || isBuyer || windowDimensions.width <= 590) ? '' : 'brdSmallRight brdText100 w-fix-lg-232'} w-fit`}
               >
                 <button
                   className="min-w-88 w-perc-100 h-fix-72 dis-f a-c pr-2"

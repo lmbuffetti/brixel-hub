@@ -1,7 +1,14 @@
 
 .mobileSupportModal {
-  .brixel-text-area.full-height {
-    height: 100% !important;
+  .brixel-text-area {
+    @media (max-width: $responsive-small) {
+      min-height: inherit !important;
+      height: inherit !important;
+      flex: 1;;
+    }
+    @media (min-width: $responsive-small) {
+      min-height: 300px !important;
+    }
   }
   .modal-title {
     width: calc(100% - 65px);

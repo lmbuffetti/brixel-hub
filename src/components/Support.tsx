@@ -15,6 +15,7 @@ import {BrixelTextArea} from '@brixel-io/brixel-components/dist/form';
 import {sendSupportMessage, setModal} from '../actions/CommonActions';
 import type {SupportType} from '../@types/components/Support';
 import PhoneImg from '../images/TestDrive/phoneTrial.svg';
+import textImg from '../images/TestDrive/textMessage.svg';
 
 const Support = (props: SupportType) => {
   const {
@@ -91,13 +92,24 @@ const Support = (props: SupportType) => {
                   </>
                 )
               }
-              <div className="bgGreen50 p-2 dis-f brdRadius mb-4">
+              <div className="bgGreen50 p-2 dis-f brdRadius mb-2">
                 <div>
-                  <img width={64} height={64} src={PhoneImg} alt='phone icon' />
+                  <img width={40} height={40} src={PhoneImg} alt='phone icon' />
                 </div>
-                <div className="dis-fl-col jc-c pl-3">
-                  <span className=''> {translateTo('Or call us:', lang)}</span>
+                <div className="dis-fl-col jc-c pl-2">
+                  <span className='fsize-300'> {translateTo('Call us', lang)}</span>
                   <a href={`tel:${Helpers.telephoneFormat(phone)}`} className="td-u fSizePx18 txtGreen400">{Helpers.telephoneFormat(phone)}</a>
+                </div>
+              </div>
+              <div className="bgGreen50 p-2 dis-f brdRadius mb-2">
+                <div>
+                  <img width={40} height={40} src={textImg} alt='text icon' />
+                </div>
+                <div className="dis-fl-col jc-c pl-2">
+                  <span className='fsize-300'> {translateTo('Text us via WhatsApp', lang)}</span>
+                  <a href={`https://wa.me/${Helpers.telephoneFormat(whatsapp, false, false, false, true)}`} className="td-u txtGreen400">
+                    {Helpers.telephoneFormat(whatsapp)}
+                  </a>
                 </div>
               </div>
             </div>
@@ -182,7 +194,9 @@ const Support = (props: SupportType) => {
                         icon="whatsapp"
                       />
                       <p className="ml-2">
-                        <span className={` ${colorLinkTextInfo}`}>{Helpers.telephoneFormat(whatsapp)}</span>
+                        <span className={`${colorLinkTextInfo}`}>
+                          {Helpers.telephoneFormat(whatsapp)}
+                        </span>
                       </p>
                     </a>
                   )
