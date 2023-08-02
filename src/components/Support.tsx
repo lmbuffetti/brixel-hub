@@ -115,9 +115,9 @@ const Support = (props: SupportType) => {
             </div>
             <div className="dis-f jc-b pt-3 pb-1 mt-2 brdSmallTop brdText50">
               <BrixelButtonText
-                rightIcon="send"
-                theme="white"
+                theme="text"
                 rounded
+                themeSat={800}
                 label={translateTo('Cancel', lang)}
                 onClick={() => closeModal()}
               />
