@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, lazy, useRef, useState} from 'react';
 import {
   BrixelButtonSecondary,
   FactsOptions,
@@ -15,7 +15,7 @@ import orderBy from 'lodash/orderBy';
 import {connect} from 'react-redux';
 import {Link, useLocation, useNavigate} from 'react-router-dom';
 import {bindActionCreators} from 'redux';
-import {setLanguage} from '../../actions/CommonActions';
+import {setLanguage, setModal} from '../../actions/CommonActions';
 import {
   getPackageProperty,
   getPackagesProperty,
@@ -32,6 +32,7 @@ import {OptionsType} from '@brixel-io/brixel-components/dist/@types/Form/Input';
 import isEmpty from 'lodash/isEmpty';
 import {ServicePackageType} from '@brixel-io/brixel-components/dist/@types/Model';
 import SectionMobileTitle from '../SectionMobileTitle';
+const Support = lazy(() => import('../../components/Support'));
 
 const RightFlowHeader = lazyWithRetry(() => import('./RightHeaderFlow'));
 const AccountDropdown = lazyWithRetry(() => import('../AccountDropdown'));
@@ -60,6 +61,7 @@ function PageHeader(props: PageHeaderType) {
     onClose,
     ownerProperties,
     packagesProperty,
+    handleSetModal,
     userType,
     windowDimensions,
   } = props;
@@ -148,6 +150,22 @@ function PageHeader(props: PageHeaderType) {
     if (window.innerWidth >= 1024) {
       document.body.classList.remove('ov-h');
     }
+  };
+
+  const openMobileSupport = () => {
+    handleSetModal({
+      component: <Support isMobile={windowDimensions.width <= 1024} />,
+      state: true,
+      small: true,
+      title: translateTo('How can we help?', lang),
+      titleTop: true,
+      classTitle: 'mr-2-neg',
+      titleTopClass: 'fweight-600 fsize-500 brdSmallBottom brdText50 ta-c',
+      bodyClassColor: 'dis-f',
+      bodyInnerClass: 'flex-1 dis-f',
+      className: 'mobileSupportModal',
+      layout: 'xxlarge',
+    });
   };
 
   // FUNCTION TO INITIALIZE THE EVENT LISTENER FOR SCREEN RESIZE
@@ -442,6 +460,12 @@ function PageHeader(props: PageHeaderType) {
                                         {translateTo('Your account', lang)}
                                       </a>
                                       <a
+                                        className="link txtText900 cur-poi fweight-400 fsize-400 mb-2"
+                                        onClick={()=> {openMobileSupport()}}
+                                      >
+                                        {translateTo('Contact support', lang)}
+                                      </a>
+                                      <a
                                         className="link txtRed400 fweight-400 fsize-400"
                                         href={`${baseByData?.loginBasePath}/logout?url=${get(window, 'location.href', '')}`}
                                       >
@@ -508,6 +532,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleSetActiveSinglePropertyActivePackage: bindActionCreators(setActiveSinglePropertyActivePackage, dispatch),
   handleSetLanguage: bindActionCreators(setLanguage, dispatch),
   handleSetUserTypes: bindActionCreators(setUserTypes, dispatch),
+  handleSetModal: bindActionCreators(setModal, dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PageHeader);

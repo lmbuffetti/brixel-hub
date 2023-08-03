@@ -11,6 +11,7 @@ export interface LanguagesType {
 
 export interface PageHeaderType {
   activeCompanyPackages: ServicePackageType[];
+  handleSetModal: (data: object) => void;
   activeSingleProperty: object;
   changeZIndex?: (val: number) => void;
   handleSaveActiveSingleUser: (data: object) => void;
