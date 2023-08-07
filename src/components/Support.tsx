@@ -14,8 +14,8 @@ import {bindActionCreators, compose} from 'redux';
 import {BrixelTextArea} from '@brixel-io/brixel-components/dist/form';
 import {sendSupportMessage, setModal} from '../actions/CommonActions';
 import type {SupportType} from '../@types/components/Support';
-import PhoneImg from '../images/TestDrive/phoneTrial.svg';
-import textImg from '../images/TestDrive/textMessage.svg';
+import PhoneImg from '../images/TestDrive/phoneTrial.png';
+import textImg from '../images/TestDrive/textMessage.png';
 
 const Support = (props: SupportType) => {
   const {
@@ -65,11 +65,13 @@ const Support = (props: SupportType) => {
               {
                 requestDone ? (
                   <>
-                    <p className="txtGreen400 fweight-400 fsize-300 ta-c pt-3">
-                      <span>{translateTo('Thanks for your message.', lang)}</span>
-                      <span className="dis-b">
-                        {translateTo('We\'ll get back to you shortly.', lang)}
-                      </span>
+                    <p className="fweight-400 flex-1 bgText25 brdRadius dis-fl-col jc-c a-c ta-c pt-3">
+                      <div className='w-perc-90 ml-a mr-a'>
+                        <span>{translateTo('Thanks for your message.', lang)}</span>
+                        <span className="dis-b">
+                          {translateTo('We\'ll get back to you shortly.', lang)}
+                        </span>
+                      </div>
                     </p>
                     <BrixelIcon
                       icon="tick"
@@ -94,7 +96,7 @@ const Support = (props: SupportType) => {
               }
               <div className="bgGreen50 p-2 dis-f brdRadius mb-2">
                 <div>
-                  <img width={40} height={40} src={PhoneImg} alt='phone icon' />
+                  <img className='w-fix-32' src={PhoneImg} alt='phone icon' />
                 </div>
                 <div className="dis-fl-col jc-c pl-2">
                   <span className='fsize-300'> {translateTo('Call us', lang)}</span>
@@ -103,7 +105,7 @@ const Support = (props: SupportType) => {
               </div>
               <div className="bgGreen50 p-2 dis-f brdRadius mb-2">
                 <div>
-                  <img width={40} height={40} src={textImg} alt='text icon' />
+                  <img className='w-fix-40' src={textImg} alt='text icon' />
                 </div>
                 <div className="dis-fl-col jc-c pl-2">
                   <span className='fsize-300'> {translateTo('Text us via WhatsApp', lang)}</span>
@@ -113,24 +115,38 @@ const Support = (props: SupportType) => {
                 </div>
               </div>
             </div>
-            <div className="dis-f jc-b pt-3 pb-1 mt-2 brdSmallTop brdText50">
-              <BrixelButtonText
-                theme="text"
-                rounded
-                themeSat={800}
-                label={translateTo('Cancel', lang)}
-                onClick={() => closeModal()}
-              />
+            <div className={`dis-f  pt-3 pb-1 mt-2 brdSmallTop brdText50 ${requestDone ? 'jc-c'  : 'jc-b'}`}>
+              {
+                requestDone ? (
+                  <>
+                    <BrixelButtonPrimary
+                      rounded
+                      label={translateTo('Close', lang)}
+                      onClick={() => closeModal()}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <BrixelButtonText
+                      theme="text"
+                      rounded
+                      themeSat={800}
+                      label={translateTo('Cancel', lang)}
+                      onClick={() => closeModal()}
+                    />
+                    <BrixelButtonPrimary
+                      rightIcon="send"
+                      rounded
+                      bgTransparent
+                      label={translateTo('Send', lang)}
+                      disabled={supportMessage.length === 0}
+                      isLoading={isSmallLoading.supportMessage}
+                      onClick={() => sendMessage()}
+                    />
+                  </>
+                )
+              }
 
-              <BrixelButtonPrimary
-                rightIcon="send"
-                rounded
-                bgTransparent
-                label={translateTo('Send', lang)}
-                disabled={supportMessage.length === 0}
-                isLoading={isSmallLoading.supportMessage}
-                onClick={() => sendMessage()}
-              />
             </div>
           </div>
         ) : (
