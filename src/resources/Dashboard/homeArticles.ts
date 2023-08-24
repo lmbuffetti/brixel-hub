@@ -4,7 +4,7 @@ const Articles = {
       img: 'https://brixel.ch/content/uploads/2019/07/Schmid_Blog_Foto-1-950x550.png?x54730',
       url: 'https://brixel.ch/magazin/menschen/immobilienverkauf-erfahrungsbericht-schmids',
       title: 'What do our customer think?',
-      desc: 'Read the story about the family Schmid and why they chose Brixel.',
+      desc: 'Read the story about the Schmid family and why they chose Brixel.',
     },
     {
       img: 'https://brixel.ch/content/uploads/2020/12/makler-vertrag-950x550.png?x16148',
