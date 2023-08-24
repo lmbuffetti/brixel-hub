@@ -15,7 +15,7 @@ import {IdentificationQuestions} from '../../../resources/Deals/Identification';
 import {getActiveSingleDeal, saveClosingIdentification} from '../../../actions/DealActions';
 import {spinnerOff, spinnerSmall} from '../../../actions/CommonActions';
 import type {IdentificationFlowType} from '../../../@types/Pages/Closing/Identification/IdentificationFlow';
-import {QuestionsListType} from '@brixel-io/brixel-components/dist/@types/Model';
+import {ClientAdvisorType, QuestionsListType} from '@brixel-io/brixel-components/dist/@types/Model';
 import {getActiveSingleCompany} from '../../../actions/CompanyActions';
 import {getActiveSingleProperty} from '../../../actions/PropertyActions';
 
@@ -255,7 +255,7 @@ const IdentificationFlow = (props: IdentificationFlowType) => {
       if (userType === 'seller') history.push(`/${propID}/closing/${dealID}`);
       else history.push(`/buyer/${propID}/closing`);
     } else if (get(activeSingleProperty, 'owner', null)) {
-      const ownerProp: string | null = get(activeSingleProperty, 'owner', null);
+      const ownerProp: string | ClientAdvisorType | null = get(activeSingleProperty, 'owner', null);
       if (ownerProp && loggedInUser.id && userType === 'seller' && ownerProp !== loggedInUser.id) {
         history.push(`/${propID}/closing`);
       }
