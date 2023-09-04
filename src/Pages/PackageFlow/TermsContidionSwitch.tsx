@@ -29,8 +29,6 @@ const TermsContidionSwitch = (props: TermsContidionSwitchType) => {
     return isDisabled;
   }
 
-  console.log(isSaveDisabled());
-
   // STATE
   return (
     <div className="max-w-fix-768 ml-a mr-a">
