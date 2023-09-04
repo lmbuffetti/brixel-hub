@@ -9,10 +9,10 @@ import {connect} from 'react-redux';
 import {compose} from 'redux';
 import translateTo from '../../utils/translation';
 import type {TermsConditionUBSType} from '../../@types/Pages/PackageFlow/TermConditionUBS';
-import iconFinancing from '../../images/policy/icon-financing.svg';
-import iconLetter from '../../images/policy/letter.svg';
-import iconPiggy from '../../images/policy/piggy-bank.svg';
-import iconExclusive from '../../images/policy/exclusive.svg';
+import iconFinancing from '../../images/policy/ubs/icon-financing.svg';
+import iconLetter from '../../images/policy/ubs/letter.svg';
+import iconPiggy from '../../images/policy/ubs/piggy-bank.svg';
+import iconExclusive from '../../images/policy/ubs/exclusive.svg';
 
 const TermsContidionUBS = (props: TermsConditionUBSType) => {
 

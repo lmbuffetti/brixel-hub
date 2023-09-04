@@ -3,6 +3,7 @@ import {BrixelRadioButton, Validation} from '@brixel-io/brixel-components/dist/f
 import {QuestionsListType} from '@brixel-io/brixel-components/dist/@types/Model';
 import translateTo from '../../../utils/translation';
 import TermsContidionUBS from '../../../Pages/PackageFlow/TermsContidionUBS';
+import TermsContidionBaloise from '../../../Pages/PackageFlow/TermsContidionBaloise';
 
 
 // QUESTION LISTS
@@ -49,6 +50,17 @@ export const QuestionsList = (lang, company, isBuyer) => {
     if (isBuyer) {
       question = [
         {
+          cardType: 'loadComponent',
+          history: 'baloisePolicy',
+          className: 'max-w-fix-768 ml-a mr-a brdRadius bgWhite brdSmall brdText50',
+          footerWidth: 'max-w-fix-768',
+          component: TermsContidionBaloise,
+          hideContinueBtn: true,
+          hideFooter: true,
+        },
+      ]
+      /* question = [
+        {
           btnLabel: 'Accept',
           title: translateTo('Benefit from the consulting services of our partner Baloise.', lang),
           history: 'baloisePolicy',
@@ -59,7 +71,7 @@ export const QuestionsList = (lang, company, isBuyer) => {
             description: translateTo('I hereby agree that my data (Surname, first name, phone number, e-mail) is transmitted to Baloise Insurance Ltd. and Baloise Bank Ltd. so that I can receive newsletters or telephone contact regarding home financing, pension provision and assets. Furthermore, in order to check whether I am already a customer of Baloise Insurance Ltd. and/or Baloise Bank Ltd., I authorize Baloise Insurance Ltd. and Baloise Bank Ltd. to compare with my relevant data held by Baloise Insurance Ltd. and Baloise Bank Ltd. You can revoke this consent at any time in the future. If you no longer wish to receive the newsletter from Baloise Insurance Ltd and Baloise Bank Ltd, you can cancel this by clicking on the link provided in the respective newsletter. The revocation of consent does not affect the legality of the data processing carried out on the basis of the consent until revocation.', lang),
           }],
         },
-      ]
+      ] */
     } else {
       question = [
         {
