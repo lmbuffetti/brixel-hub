@@ -57,6 +57,7 @@ const GetStartedSeller = lazy(() => import('./Pages/PackageFlow/GetStartedSeller
 const GetStartedBuyer = lazy(() => import('./Pages/PackageFlow/GetStartedBuyer'));
 const GetStartedEstimation = lazy(() => import('./Pages/PackageFlow/GetStartedEstimation'));
 const TermsCondition = lazy(() => import('./Pages/PackageFlow/TermsCondition'));
+const TermsConditionPage = lazy(() => import('./Pages/PackageFlow/TermsConditionPage'));
 const WelcomeSeller = lazy(() => import('./Pages/WelcomeSellerModal/WelcomeSeller'));
 const ScanTrialFlow = lazy(() => import('./Pages/PackageFlow/ScanTrialFlow'));
 const MakeOffer = lazy(() => import('./Pages/Closing/Offers/Flow/MakeOffer'));
@@ -431,7 +432,7 @@ const App = (props: AppType) => {
 
   // FUCNTION TO SEPARATE THE DESIGN IN BASE OF HISTORY LOCATION (packageFLow, onBoarding, upgrade)
   useEffect(() => {
-    const flowClass = ['packageFlow', 'visitFeedback', 'upgrade', 'trialRequest', 'contactFlow', 'termsConditionFlow'];
+    const flowClass = ['packageFlow', 'visitFeedback', 'upgrade', 'trialRequest', 'contactFlow', 'termsConditionFlow', 'termsConditionPage'];
     const isFlowClass = flowClass.some((url) => history.location.pathname.includes(url));
 
     setIsFlow(false);
@@ -458,7 +459,7 @@ const App = (props: AppType) => {
     }
 
     if (
-      (!history.location.pathname.includes('sell') || history.location.pathname.includes('termsConditionFlow')) &&
+      (!history.location.pathname.includes('sell') || history.location.pathname.includes('termsConditionFlow') || history.location.pathname.includes('termsConditionPage')) &&
       (!history.location.pathname.includes('buy') || history.location.pathname.includes('buyer'))
     ) {
       setShowFooter(true);
@@ -690,6 +691,7 @@ const App = (props: AppType) => {
                       <Route path="/packageFlow/getstartedBuyer/:companyStub/*" element={<GetStartedBuyer />} />
                       <Route path="/packageFlow/getstartedEstimation/:companyStub/*" element={<GetStartedEstimation />} />
                       <Route path="/termsConditionFlow/:companyStub/:userType/*" element={<ProtectedRoute><TermsCondition /></ProtectedRoute>} />
+                      <Route path="/:pageID/termsConditionPage/*" element={<ProtectedRoute><TermsConditionPage /></ProtectedRoute>} />
 
                       <Route path="/packageFlow/:propID/WelcomeSeller/*" element={<ProtectedRoute><WelcomeSeller /></ProtectedRoute>} />
                       <Route path="/packageFlow/testDrive/*" element={<ScanTrialFlow />} />
