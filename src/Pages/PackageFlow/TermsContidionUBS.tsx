@@ -9,10 +9,10 @@ import {connect} from 'react-redux';
 import {compose} from 'redux';
 import translateTo from '../../utils/translation';
 import type {TermsConditionUBSType} from '../../@types/Pages/PackageFlow/TermConditionUBS';
-import iconFinancing from '../../images/policy/ubs/icon-financing.svg';
-import iconLetter from '../../images/policy/ubs/letter.svg';
-import iconPiggy from '../../images/policy/ubs/piggy-bank.svg';
-import iconExclusive from '../../images/policy/ubs/exclusive.svg';
+import iconFinancingUbs from '../../images/policy/ubs/icon-financing.svg';
+import iconLetterUbs from '../../images/policy/ubs/letter.svg';
+import iconPiggyUbs from '../../images/policy/ubs/piggy-bank.svg';
+import iconExclusiveUbs from '../../images/policy/ubs/exclusive.svg';
 
 const TermsContidionUBS = (props: TermsConditionUBSType) => {
 
@@ -51,7 +51,7 @@ const TermsContidionUBS = (props: TermsConditionUBSType) => {
     [
       <div className="icon-wrap dis-fl-col a-c px-2 " key="1">
         <div className="icon-circle brdCircle as-fc dis-f jc-c">
-          <img src={iconFinancing} alt="Icon Financing" width={154}
+          <img src={iconFinancingUbs} alt="Icon Financing" width={154}
           />
         </div>
         <p className="pt-2 fsize-400 fsize-md-500 max-w-fix-136 max-w-fix-md-192 ml-a mr-a ta-c">
@@ -60,7 +60,7 @@ const TermsContidionUBS = (props: TermsConditionUBSType) => {
       </div>,
       <div className="icon-wrap dis-fl-col a-c px-2 " key="2">
         <div className="icon-circle brdCircle as-fc dis-f jc-c">
-          <img loading="lazy" width={154} src={iconLetter} alt="Icon Calendar" />
+          <img loading="lazy" width={154} src={iconLetterUbs} alt="Icon Calendar" />
         </div>
         <p className="pt-2 fsize-400 fsize-md-500 max-w-fix-136 max-w-fix-md-192 ml-a mr-a ta-c">
           {translateTo('Receive a free property appraisal', arg)}
@@ -68,7 +68,7 @@ const TermsContidionUBS = (props: TermsConditionUBSType) => {
       </div>,
       <div className="icon-wrap dis-fl-col a-c px-2 " key="3">
         <div className="icon-circle brdCircle as-fc dis-f jc-c">
-          <img loading="lazy" width={154} src={iconPiggy} alt="Icon offer" />
+          <img loading="lazy" width={154} src={iconPiggyUbs} alt="Icon offer" />
         </div>
         <p className="pt-2 fsize-400 fsize-md-500 max-w-fix-136 max-w-fix-md-192 ml-a mr-a ta-c">
           {translateTo('Benefit from a 0.30% interest rate reduction', arg)}
@@ -76,7 +76,7 @@ const TermsContidionUBS = (props: TermsConditionUBSType) => {
       </div>,
       <div className="icon-wrap dis-fl-col a-c px-2 " key="4">
         <div className="icon-circle brdCircle as-fc dis-f jc-c">
-          <img loading="lazy" width={154} src={iconExclusive} alt="Finance" />
+          <img loading="lazy" width={154} src={iconExclusiveUbs} alt="Finance" />
         </div>
         <p className="pt-2 fsize-400 fsize-md-500 max-w-fix-136 max-w-fix-md-192 ml-a mr-a ta-c">
           {translateTo('Get access to the exclusive UBS pre-market', arg)}
