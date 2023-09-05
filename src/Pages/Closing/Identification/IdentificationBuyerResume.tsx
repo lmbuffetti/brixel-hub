@@ -80,7 +80,7 @@ const IdentificationBuyerResume = (props: IdentificationBuyerResumeType) => {
 
   const formatTextForm = (txt, name) => {
     if (getBuyerData?.inputs) {
-      const inputBuyerData = get(getBuyerData, 'inputs', []) || [];
+      const inputBuyerData: any = get(getBuyerData, 'inputs', []) || [];
       // TODO check
       //@ts-ignore
       const getField = inputBuyerData.find((fld) => fld.name === name);
