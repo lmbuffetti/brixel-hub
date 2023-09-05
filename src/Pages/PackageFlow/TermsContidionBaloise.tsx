@@ -54,7 +54,7 @@ const TermsContidionBaloise = (props: TermsConditionBaloiseType) => {
           <img src={iconFinancing} alt="Icon Financing" width={154}
           />
         </div>
-        <p className="pt-2 fsize-400 fsize-md-500 max-w-fix-136 max-w-fix-md-192 ml-a mr-a ta-c">
+        <p className="pt-2 fsize-400 max-w-fix-136 max-w-fix-md-224 ml-a mr-a ta-c">
           {translateTo('Support on all financial questions', arg)}
         </p>
       </div>,
@@ -62,7 +62,7 @@ const TermsContidionBaloise = (props: TermsConditionBaloiseType) => {
         <div className="icon-circle brdCircle as-fc dis-f jc-c">
           <img loading="lazy" width={154} src={iconLetter} alt="Icon Calendar" />
         </div>
-        <p className="pt-2 fsize-400 fsize-md-500 max-w-fix-136 max-w-fix-md-192 ml-a mr-a ta-c">
+        <p className="pt-2 fsize-400 max-w-fix-136 max-w-fix-md-224 ml-a mr-a ta-c">
           {translateTo('Receive a free Financing Certificate', arg)}
         </p>
       </div>,
@@ -70,7 +70,7 @@ const TermsContidionBaloise = (props: TermsConditionBaloiseType) => {
         <div className="icon-circle brdCircle as-fc dis-f jc-c">
           <img loading="lazy" width={154} src={iconPiggy} alt="Icon offer" />
         </div>
-        <p className="pt-2 fsize-400 fsize-md-500 max-w-fix-136 max-w-fix-md-192 ml-a mr-a ta-c">
+        <p className="pt-2 fsize-400 max-w-fix-136 max-w-fix-md-224 ml-a mr-a ta-c">
           {translateTo('Benefit from 0.15% discount on your online mortgage', arg)}
         </p>
       </div>,
@@ -78,7 +78,7 @@ const TermsContidionBaloise = (props: TermsConditionBaloiseType) => {
         <div className="icon-circle brdCircle as-fc dis-f jc-c">
           <img loading="lazy" width={154} src={iconExclusive} alt="Finance" />
         </div>
-        <p className="pt-2 fsize-400 fsize-md-500 max-w-fix-136 max-w-fix-md-192 ml-a mr-a ta-c">
+        <p className="pt-2 fsize-400 max-w-fix-136 max-w-fix-md-224 ml-a mr-a ta-c">
           {translateTo('Get 10-days of exclusive access to new properties', arg)}
         </p>
       </div>,
