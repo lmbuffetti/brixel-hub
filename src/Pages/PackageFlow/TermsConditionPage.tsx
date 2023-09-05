@@ -6,13 +6,18 @@ import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import {bindActionCreators, compose} from 'redux';
 import {spinnerOff, spinnerOn, spinnerSmall} from '../../actions/CommonActions';
 import {getActiveSingleCompany} from '../../actions/CompanyActions';
-import {createActiveSingleProperty, saveActiveSingleProperty} from '../../actions/PropertyActions';
+import {
+  createActiveSingleProperty,
+  getActiveSingleProperty,
+  saveActiveSingleProperty,
+} from '../../actions/PropertyActions';
 import {doLogin, saveActiveSingleUser, validateUser} from '../../actions/UserActions';
 import {QuestionsList} from '../../resources/Companies/TermsCondition/TermsConditionPage';
-import type {TermsConditionType} from '../../@types/Pages/PackageFlow/TermCondition';
+import type {TermsPublishPageType} from '../../@types/Pages/PackageFlow/TermsConditionPage';
 import FlowScreen from '../../components/FlowScreen';
+import {activeSingleProperty} from '@brixel-io/brixel-components/dist/resources/property';
 
-const TermsCondition = (props: TermsConditionType) => {
+const TermsCondition = (props: TermsPublishPageType) => {
   const history = {
     push: useNavigate(),
     location: useLocation(),
@@ -20,11 +25,13 @@ const TermsCondition = (props: TermsConditionType) => {
   const match = useParams();
   // PROPS
   const {
-    company,
+    activeSingleCompany,
     destroyForm,
     formValue,
-    handleSpinnerOff,
+    handleGetActiveSingleCompany,
+    handleGetActiveSingleProperty,
     handleSetSmallLoading,
+    handleSpinnerOff,
     initForm,
     initialValues,
     lang = 'en',
@@ -44,6 +51,28 @@ const TermsCondition = (props: TermsConditionType) => {
     return () => destroyForm();
   }, []);
 
+  // ON DID MOUNT I GET THE COMPANY DATA
+  useEffect(() => {
+    // GET THE COMPANY BY URL OR COOKIE
+    if (activeSingleProperty.company && (!activeSingleCompany.id || activeSingleCompany.id !== activeSingleProperty.company)) {
+      handleGetActiveSingleCompany({id: activeSingleProperty.company});
+    }
+  }, [activeSingleProperty.id]);
+
+  // ON DID MOUNT I GET THE COMPANY DATA
+  useEffect(() => {
+    if (!activeSingleProperty.id || activeSingleProperty.id !== propID) {
+      handleGetActiveSingleProperty({
+        fullVersion: true,
+        id: propID,
+      });
+    }
+    handleGetActiveSingleProperty({
+      fullVersion: true,
+      id: propID,
+    });
+  }, [propID]);
+
   // FUNCTION TO SAVE DATA
   const saveData = async () => {
     // TODO finish save function
@@ -54,15 +83,15 @@ const TermsCondition = (props: TermsConditionType) => {
 
   // ON CHANGE LANGUAGE RELOAD THE QUESTIONS TRANSLATED
   useEffect(() => {
-    if (company.stub) {
+    if (activeSingleCompany.stub) {
       setQuestions(QuestionsList(lang));
     }
-  }, [lang, company.stub, translations, formValue]);
+  }, [lang, activeSingleCompany.stub, translations, formValue]);
 
   // SET DATA BY COMPANY
   useEffect(() => {
     if (get(formValue, 'properties.propertyType', null) === null) initForm(initialValues);
-  }, [get(company, 'id', null)]);
+  }, [get(activeSingleCompany, 'id', null)]);
 
   return (
     <FlowScreen
@@ -80,7 +109,6 @@ const TermsCondition = (props: TermsConditionType) => {
 const mapStateToProps = (state) => ({
   activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   activeSingleProperty: get(state, 'property.activeSingleProperty', null),
-  company: get(state, 'companies.activeSingleCompany', {}),
   errorValue: get(state, 'brixelForm.TermsCondition.syncErrors', {}),
   formValue: get(state, 'brixelForm.TermsCondition.values', {}),
   initialValues: get(state, 'brixelForm.TermsCondition.initialValues', {}),
@@ -109,6 +137,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleCreateActiveSingleProperty: bindActionCreators(createActiveSingleProperty, dispatch),
   handleDoLogin: bindActionCreators(doLogin, dispatch),
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
+  handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
   handleSaveActiveSingleUser: bindActionCreators(saveActiveSingleUser, dispatch),
   handleSetSmallLoading: bindActionCreators(spinnerSmall, dispatch),

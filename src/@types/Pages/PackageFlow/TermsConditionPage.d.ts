@@ -9,12 +9,14 @@ export interface FormValueType {
 
 export interface TermsPublishPageType {
   activeSingleCompany: CompanyType
-  changeFieldValue: (field: string, value: string | null) => void;
   destroyForm: () => void;
   formValue: FormValueType;
   handleGetActiveSingleCompany: (data: object) => void;
+  handleGetActiveSingleProperty: (data: object) => void;
+  handleSetSmallLoading: (data: object) => void;
   handleSpinnerOff: () => void;
-  lang?: string;
-  loggedInUser: object;
+  initForm: (data: object) => void;
+  initialValues: object;
+  lang: string;
   translations: object;
 }
