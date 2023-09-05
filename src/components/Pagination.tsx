@@ -63,7 +63,7 @@ const Pagination = (props: PaginationType) => {
         </div>
       </div>
       {
-        totalItems > 10 && (
+        totalItems > itemsPerPage && (
           <nav className="pagination dis-f flex-1 jc-c jc-sm-fe">
             <ul className="page-number dis-f a-c">
               {

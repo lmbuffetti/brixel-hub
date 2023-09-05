@@ -77,7 +77,7 @@ const MarketList = (props: MarketListType) => {
   }, [windowDimensions]);
 
   useEffect(() => {
-    if (loggedInUser.id && (userSearchProfiles || catName === 'own')) {
+    if (loggedInUser.id) {
       const profileID = get(userSearchProfiles, '[0].id', null);
       const data = {
         resultsPerPage: itemsPerPage,
