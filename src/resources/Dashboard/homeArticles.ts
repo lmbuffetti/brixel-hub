@@ -3,7 +3,7 @@ const Articles = {
     {
       img: 'https://brixel.ch/content/uploads/2019/07/Schmid_Blog_Foto-1-950x550.png?x54730',
       url: 'https://brixel.ch/magazin/menschen/immobilienverkauf-erfahrungsbericht-schmids',
-      title: 'What do our customer think?',
+      title: 'What do our customers think?',
       desc: 'Read the story about the Schmid family and why they chose Brixel.',
     },
     {
@@ -17,7 +17,7 @@ const Articles = {
     {
       img: 'https://brixel.pt/content/uploads/sites/2/2021/07/Sold-1o-photo-950x550.png?x24073',
       url: 'https://brixel.pt/revista/mercado/vender-com-brixel-nem-parece-realidade/',
-      title: 'What do our customer think?',
+      title: 'What do our customers think?',
       desc: 'Read the story about Luca and why he chose Brixel.',
     },
     {

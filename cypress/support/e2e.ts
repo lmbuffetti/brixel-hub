@@ -17,13 +17,6 @@
 import '@cypress/code-coverage/support';
 import './commands';
 
-module.exports = (_on, config) => {
-  // add other tasks to be registered here
-
-  // IMPORTANT to return the config object
-  // with the any changed environment variables
-  return config
-}
-
-// Alternatively you can use CommonJS syntax:
-// require('./commands')
+afterEach(() => {
+  cy.task('coverageReport');
+})

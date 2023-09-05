@@ -14,9 +14,10 @@ module.exports = defineConfig({
   
   e2e: {
     testIsolation: false,
-    supportFile: './cypress/support/index.js',
+    // supportFile: './cypress/support/index.js',
     setupNodeEvents(on, config) {
       require('./cypress/plugins/index.js')(on, config)
+      require('@cypress/code-coverage/task')(on, config)
       getCompareSnapshotsPlugin(on, config);
       return config;
     }
@@ -28,7 +29,7 @@ module.exports = defineConfig({
       bundler: 'webpack',
       // optionally pass in webpack config
       webpackConfig: require('./cypress/plugins/webpack.config'),
-      supportFile: 'cypress/support/component.js',
+      // supportFile: 'cypress/support/component.js',
       specPattern: 'cypress/**/**/*.cy.{js,ts,jsx,tsx}',
       setupNodeEvents(on) {
         on('file:preprocessor', () => {
