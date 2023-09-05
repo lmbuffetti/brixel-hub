@@ -73,9 +73,8 @@ const TermsCondition = (props: TermsConditionType) => {
       set(data, 'termsUBS', true);
     }
     if (action === 'accept' && activeSingleCompany.stub === 'baloise') {
-      const baloiseInfo = get(formValue, 'baloiseInfo', null);
-      if (baloiseInfo === 'baloiseInsurance' || baloiseInfo === 'both') set(data, 'termsBaloiseInsurance', true);
-      if (baloiseInfo === 'baloiseBank' || baloiseInfo === 'both') set(data, 'termsBaloiseBank', true);
+      set(data, 'termsBaloiseInsurance', true);
+      set(data, 'termsBaloiseBank', true);
     }
     handleSaveActiveSingleUser(data);
   };
