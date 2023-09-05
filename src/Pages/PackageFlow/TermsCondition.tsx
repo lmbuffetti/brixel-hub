@@ -51,7 +51,9 @@ const TermsCondition = (props: TermsConditionType) => {
   useEffect(() => {
     handleSpinnerOff();
     const parmsURL = queryString.parse(get(history, 'location.search', ''));
-    setRedirectURL((get(parmsURL, 'url', '') || '').toString());
+    const redURL = (get(parmsURL, 'url', '') || '').toString()
+    setRedirectURL(redURL);
+    localStorage.setItem('backUrl', redURL);
     history.push(`/termsConditionFlow/${companyStub}/${userType}`);
     return () => destroyForm();
   }, []);
