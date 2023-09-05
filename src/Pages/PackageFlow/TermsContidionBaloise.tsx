@@ -9,10 +9,10 @@ import {connect} from 'react-redux';
 import {compose} from 'redux';
 import translateTo from '../../utils/translation';
 import type {TermsConditionBaloiseType} from '../../@types/Pages/PackageFlow/TermConditionBaloise';
-import iconFinancing from '../../images/policy/baloise/icon-financing.svg';
-import iconLetter from '../../images/policy/baloise/letter.svg';
-import iconPiggy from '../../images/policy/baloise/piggy-bank.svg';
-import iconExclusive from '../../images/policy/baloise/exclusive.svg';
+import iconFinancing from '../../images/policy/baloise/icon-financing-baloise.svg';
+import iconLetter from '../../images/policy/baloise/letter-baloise.svg';
+import iconPiggy from '../../images/policy/baloise/piggy-bank-baloise.svg';
+import iconExclusive from '../../images/policy/baloise/exclusive-baloise.svg';
 
 const TermsContidionBaloise = (props: TermsConditionBaloiseType) => {
 
