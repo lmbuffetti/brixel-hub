@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {change, destroy, initializeForm, reset} from '@brixel-io/brixel-components/dist/form';
 import get from 'lodash/get';
-import queryString from 'query-string';
 import {connect} from 'react-redux';
 import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import {bindActionCreators, compose} from 'redux';
-import {spinnerOff, spinnerOn} from '../../actions/CommonActions';
+import {spinnerOff, spinnerOn, spinnerSmall} from '../../actions/CommonActions';
 import {getActiveSingleCompany} from '../../actions/CompanyActions';
 import {createActiveSingleProperty, saveActiveSingleProperty} from '../../actions/PropertyActions';
 import {doLogin, saveActiveSingleUser, validateUser} from '../../actions/UserActions';
@@ -25,39 +24,30 @@ const TermsCondition = (props: TermsConditionType) => {
     destroyForm,
     formValue,
     handleSpinnerOff,
+    handleSetSmallLoading,
     initForm,
     initialValues,
-    isSmallLoading,
     lang = 'en',
     translations,
   } = props;
   // GET URL PARAMS
   const propID = get(match, 'pageID', null);
-  const userType = get(match, 'userType', null);
-  // STATE
-  const isBuyer = userType === 'buyer';
+
   // SET THE QUESTIONS IN BASE OF THE COUNTRY
   const [questions, setQuestions] = useState(QuestionsList(lang));
-  const [redirectURL, setRedirectURL] = useState('');
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   // DESTROY FORM ON EXIT
   useEffect(() => {
     handleSpinnerOff();
-    const parmsURL = queryString.parse(get(history, 'location.search', ''));
-    setRedirectURL((get(parmsURL, 'url', '') || '').toString());
     history.push(`/${propID}/termsConditionPage`);
     return () => destroyForm();
   }, []);
 
-  useEffect(() => {
-    if(get(isSmallLoading, 'sentData', null) || get(isSmallLoading, 'sendData', null)) {
-      const defaultRedirect = isBuyer ? '/buy' : '/sell';
-      history.push(redirectURL || defaultRedirect);
-    }
-  }, [get(isSmallLoading, 'sentData', null), get(isSmallLoading, 'sendData', null)]);
-
   // FUNCTION TO SAVE DATA
   const saveData = async () => {
+    // TODO finish save function
+    if (handleSetSmallLoading) handleSetSmallLoading({sendData: true});
     // eslint-disable-next-line no-console
     console.log(formValue);
   };
@@ -76,10 +66,13 @@ const TermsCondition = (props: TermsConditionType) => {
 
   return (
     <FlowScreen
-      baseURL={`/${propID}/termsConditionPage`}
-      formName="TermsCondition"
-      onSaveData={() => saveData()}
       QuestionsList={questions}
+      baseURL={`/${propID}/termsConditionPage`}
+      closeLink={`/${propID}/home`}
+      formName="TermsCondition"
+      newCurrentIndex={currentIndex}
+      onChangeCurrentIndex={(index) => setCurrentIndex(index)}
+      onSaveData={() => saveData()}
     />
   );
 };
@@ -118,8 +111,9 @@ const mapDispatchToProps = (dispatch) => ({
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
   handleSaveActiveSingleUser: bindActionCreators(saveActiveSingleUser, dispatch),
-  handleSpinnerOn: bindActionCreators(spinnerOn, dispatch),
+  handleSetSmallLoading: bindActionCreators(spinnerSmall, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
+  handleSpinnerOn: bindActionCreators(spinnerOn, dispatch),
   handleValidateUser: bindActionCreators(validateUser, dispatch),
 });
 

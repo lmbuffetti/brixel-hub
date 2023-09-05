@@ -8,6 +8,7 @@ export interface TermsConditionType {
   formValue: PropertyType;
   handleGetActiveSingleCompany: (data: object) => void;
   handleSaveActiveSingleUser: (data: object) => void;
+  handleSetSmallLoading?: (data: object) => void;
   handleSpinnerOff: () => void;
   initForm: (data: object) => void;
   initialValues: object;
