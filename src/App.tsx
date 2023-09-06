@@ -553,7 +553,7 @@ const App = (props: AppType) => {
   }
 
   const showLoading = () => {
-    return (!lang || (isFlow && !activeSingleCompany.id)) && !history.location.pathname.includes('tokeninput') && Object.keys(translations).length === 0;
+    return (!lang || (isFlow && !activeSingleCompany.id)) && !history.location.pathname.includes('tokeninput') || Object.keys(translations).length === 0;
   }
 
   const showMenuSideBar = () => {
