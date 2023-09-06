@@ -373,7 +373,7 @@ const FlowScreen = (props: FlowScreenType) => {
                         }
                         {
                           quest.title && (
-                            <h3 className={`fweight-600 max-w-fix-408 ta-c fsize-600 fsize-sm-800 m-a ${quest.subtitle ? 'mb-1' : 'mb-5'}`} dangerouslySetInnerHTML={{ __html: quest.title }} />
+                            <h3 className={`fweight-600 max-w-fix-456 ta-c fsize-600 fsize-sm-800 m-a ${quest.subtitle ? 'mb-1' : 'mb-5'}`} dangerouslySetInnerHTML={{ __html: quest.title }} />
                           )
                         }
                         {
@@ -425,11 +425,11 @@ const FlowScreen = (props: FlowScreenType) => {
                   {
                     (get(quest, 'cardType', null) === 'card') && (
                       <div className={`scaleAnim ta-c ${quest.cardClass}`}>
-                        <img loading="lazy" src={quest.img} alt={quest.title} className="max-w-fix-232 mb-5" />
+                        <img loading="lazy" src={quest.img} alt={quest.title} className={` mb-5 ${quest.imgMaxWidth ? quest.imgMaxWidth : 'max-w-fix-232'}`} />
                         {
                           quest.title && (
                             <h2
-                              className="fadeAnim fweight-600 ta-c"
+                              className="fweight-600 ta-c"
                               dangerouslySetInnerHTML={{ __html: quest.title }}
                             />
                           )
@@ -437,7 +437,7 @@ const FlowScreen = (props: FlowScreenType) => {
                         {
                           quest.subtitle && (
                             <h6
-                              className="fadeAnim mt-2 ta-c"
+                              className={`mt-2 ta-c ${quest.subtitleClass ? quest.subtitleClass : ''}`}
                               dangerouslySetInnerHTML={{ __html: quest.subtitle }}
                             />
                           )

@@ -31,8 +31,8 @@ const TermsContidionSwitch = (props: TermsContidionSwitchType) => {
 
   // STATE
   return (
-    <div className="max-w-fix-768 ml-a mr-a">
-      <div className="brdRadius bgWhite brdSmall brdText50 p-4">
+    <div className="max-w-fix-632 ml-a mr-a">
+      <div className="brdRadius bgWhite brdSmall brdText100 p-4">
         <div className="dis-f jc-b a-t">
           <ReduxField
             component={BrixelSwitchButton}
@@ -57,7 +57,7 @@ const TermsContidionSwitch = (props: TermsContidionSwitchType) => {
             </p>
           </div>
         </div>
-        <hr className="my-3"/>
+        <hr className="my-3 brdText100"/>
         <div className="dis-f jc-b a-t">
           <ReduxField
             component={BrixelSwitchButton}
@@ -85,7 +85,7 @@ const TermsContidionSwitch = (props: TermsContidionSwitchType) => {
         {
           activeSingleCompany.stub === 'baloise' && (
             <>
-              <hr className="my-3"/>
+              <hr className="my-3 brdText100"/>
               <div className="dis-f jc-b a-t">
                 <ReduxField
                   component={BrixelSwitchButton}

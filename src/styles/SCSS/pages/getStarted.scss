@@ -3,6 +3,12 @@
 }
 .bgCardGreen {
   background-color: map-get($primaryColor, 100);
+  .bodyModal {
+    justify-content: center;
+    .singleStep {
+      padding-top: 24px;
+    }
+  }
 }
 
 .flowBody {
