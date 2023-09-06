@@ -197,6 +197,11 @@ function PageHeader(props: PageHeaderType) {
     setShowMobileMenu(false);
   }, [get(history, 'location.pathname', null), isFlow, userType, propID, get(activeSingleProperty, 'id', null), windowDimensions?.width]);
 
+  useEffect(() => {
+    document.body.classList.remove('ov-h');
+  }, [history.location.pathname]);
+
+
   // SHOW/HIDE MOBILE MENU
   const toggleMobileMenu = () => {
     setShowMobileMenu(!showMobileMenu);
