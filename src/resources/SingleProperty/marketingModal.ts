@@ -1,7 +1,7 @@
 import translateTo from '../../utils/translation';
 import PublishPageImg from '../../images/Marketing/publishPage.svg';
 import UnpublishPageImg from '../../images/Marketing/unpublishPage.svg';
-import SuccessReview from '../../images/Marketing/successReview.svg';
+import SuccessReviewImg from '../../images/Marketing/successCheck.svg';
 
 export const MarketingModalData = (lang: string) => ({
   publishPage: {
@@ -13,7 +13,7 @@ export const MarketingModalData = (lang: string) => ({
     success: {
       title: translateTo('Review in the making', lang),
       body: translateTo('To assure great quality your page is being reviewed for free. Our customer team gets back to you within one business day.', lang),
-      titleImg: SuccessReview,
+      titleImg: SuccessReviewImg,
     },
   },
   unpublishPage: {
@@ -25,7 +25,7 @@ export const MarketingModalData = (lang: string) => ({
     success: {
       title: translateTo('Please confirm your request.', lang),
       body: translateTo('It may take a few hours until everything is offline. We will confirm as soon as all listings are removed.', lang),
-      titleImg: SuccessReview,
+      titleImg: SuccessReviewImg,
     },
   },
   publishPortals: {
@@ -37,7 +37,7 @@ export const MarketingModalData = (lang: string) => ({
     success: {
       title: translateTo('Successfully submitted', lang),
       body: translateTo('Portals can take up to 8 hours until your property is online. We will let you know as soon as your listings are online.', lang),
-      titleImg: SuccessReview,
+      titleImg: SuccessReviewImg,
     },
   },
   unpublishPortals: {
@@ -49,7 +49,7 @@ export const MarketingModalData = (lang: string) => ({
     success: {
       title: translateTo('Successfully submitted', lang),
       body: translateTo('It may take a few hours until everything is offline. We will confirm as soon as all listings are removed.', lang),
-      titleImg: SuccessReview,
+      titleImg: SuccessReviewImg,
     },
   },
 });

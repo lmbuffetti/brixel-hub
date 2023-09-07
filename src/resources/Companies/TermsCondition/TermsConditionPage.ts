@@ -2,7 +2,7 @@
 import {QuestionsListType} from '@brixel-io/brixel-components/dist/@types/Model';
 import TermsContidionSwitch from '../../../Pages/PackageFlow/TermsContidionSwitch';
 import translateTo from '../../../utils/translation';
-import ClipboardImg from '../../../images/marketing/successReview.svg';
+import successCheckImg from '../../../images/Marketing/successCheck.svg';
 
 // QUESTION LISTS
 export const QuestionsList = (lang) => {
@@ -23,7 +23,7 @@ export const QuestionsList = (lang) => {
     hideProgress: true,
     cardType: 'card',
     title: translateTo('Thank you', lang),
-    img: ClipboardImg,
+    img: successCheckImg,
     imgMaxWidth: 'max-w-fix-160 w-perc-100',
     cardClass: 'max-w-fix-360 ml-a mr-a pb-5',
     subtitle: 'We are ready to promote your property. Once it is up and running, we will notify you. It should be live within one business day.',
