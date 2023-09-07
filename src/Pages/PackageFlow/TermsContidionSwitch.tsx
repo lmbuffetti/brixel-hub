@@ -7,12 +7,14 @@ import {connect} from 'react-redux';
 import {compose} from 'redux';
 import translateTo from '../../utils/translation';
 import type {TermsContidionSwitchType} from '../../@types/Pages/PackageFlow/TermConditionSwitch';
+import baseByData from '@brixel-io/brixel-components/dist/configuration/Settings';
 import {BrixelSwitchButton, ReduxField, Validation} from '@brixel-io/brixel-components/dist/form';
 
 const TermsContidionSwitch = (props: TermsContidionSwitchType) => {
 
   const {
     activeSingleCompany,
+    activeSingleProperty,
     formValue,
     syncErrors,
     lang,
@@ -27,6 +29,27 @@ const TermsContidionSwitch = (props: TermsContidionSwitchType) => {
       }
     });
     return isDisabled;
+  }
+
+  // FUNCTION TO GO TO PREVIEW OR LIVE PAGE
+  const getPreviewUrl = () => {
+    const baseUrl = baseByData?.pageUrl || '';
+    if (activeSingleProperty.published) {
+      return `${baseUrl}${activeSingleProperty.stub}`;
+    } else {
+      const currentLocation = get(window, 'location.href', '');
+      return `${baseUrl}preview/${activeSingleProperty.stub}?hubUrl=${currentLocation}`;
+    }
+  }
+
+  const termLinks = (stub) => {
+    const links = {
+      'baloise': 'https://baloise.brixel.ch/allgemeine-bedingungen-brixel-one',
+      'ubs': 'https://ubs.brixel.ch/allgemeine-bedingungen-brixel-one',
+      'brixel_zurich': 'https://brixel.ch/allgemeine-bedingungen-brixel-one',
+    };
+
+    return links[stub] || ''; // returns the link for the given stub or an empty string if stub not found
   }
 
   // STATE
@@ -47,9 +70,13 @@ const TermsContidionSwitch = (props: TermsContidionSwitchType) => {
               <span>
                 {translateTo('Confirm the content on the', lang)}
               </span>
-              <button className="fsize-400 ml-small-4 fweight-600 txtGreen400 link">
+              <a
+                target='_blank'
+                href={getPreviewUrl()}
+                className="fsize-400 ml-small-4 fweight-600 txtGreen400 link" rel="noreferrer"
+              >
                 {translateTo('Brixel Page', lang)}
-              </button>
+              </a>
               <span className="txtRed400">*</span>
             </p>
             <p>
@@ -72,10 +99,9 @@ const TermsContidionSwitch = (props: TermsContidionSwitchType) => {
               <span>
                 {translateTo('Accept the', lang)}
               </span>
-              <button className="fsize-400 ml-small-4 fweight-600 txtGreen400 link">
+              <a target='_blank' href={termLinks(activeSingleCompany.stub)} className="fsize-400 ml-small-4 fweight-600 txtGreen400 link" rel="noreferrer">
                 {translateTo('terms of the contract', lang)}
-              </button>
-              <span className="txtRed400">*</span>
+              </a> <span className="txtRed400">*</span>
             </p>
             <p>
               {translateTo('I hereby confirm that I have read and understood the contract terms for the Brixel One service package and accept them.', lang)}
@@ -129,6 +155,7 @@ const TermsContidionSwitch = (props: TermsContidionSwitchType) => {
 
 
 const mapStateToProps = (state) => ({
+  activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   formValue: get(state, 'brixelForm.TermsCondition.values', {}),
   syncErrors: get(state, 'brixelForm.TermsCondition.syncErrors', {}),
