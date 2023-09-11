@@ -61,7 +61,8 @@ const TermsCondition = (props: TermsConditionType) => {
   useEffect(() => {
     if(get(isSmallLoading, 'sentData', null) || get(isSmallLoading, 'sendData', null)) {
       const defaultRedirect = isBuyer ? '/buy' : '/sell';
-      history.push(redirectURL || defaultRedirect);
+      if (redirectURL && redirectURL.includes('https://')) window.location.assign(redirectURL || defaultRedirect);
+      else history.push(redirectURL || defaultRedirect);
     }
   }, [get(isSmallLoading, 'sentData', null), get(isSmallLoading, 'sendData', null)]);
 
