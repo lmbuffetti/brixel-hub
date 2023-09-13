@@ -55,7 +55,7 @@ const AddContactBuyer = (props: AddContactBuyerType) => {
   return (
     <BrixelModal
       multiActions={buttonActions()}
-      onClose={() => history.push(`/buyer/${activeSingleProperty.id}/property/contact`)}
+      onClose={() => history.push(`/buyer/${activeSingleProperty.id}/property/page`)}
       id="contact-foreground"
       layout="large"
     >

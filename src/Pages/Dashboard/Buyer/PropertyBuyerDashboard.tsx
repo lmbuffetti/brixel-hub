@@ -70,7 +70,7 @@ const PropertyBuyerDashboard = (props: PropertyBuyerDashboardType) => {
               <div
                 className={`firstLevel expandableColumn ${openCloseColumn() === 'opened' ? 'mr-lg-2' : 'collapsed'}`}
               >
-                <div className="dis-f min-h-fix-136 mb-2">
+                {/* <div className="dis-f min-h-fix-136 mb-2">
                   <BrixelButtonBox
                     verticalView
                     bgTransparent
@@ -84,7 +84,7 @@ const PropertyBuyerDashboard = (props: PropertyBuyerDashboardType) => {
                     backIcon="primary100"
                     onClick={() => history.push(`/buyer/${propID}/property/contact`)}
                   />
-                </div>
+                </div> */}
 
                 <div className="dis-f min-h-fix-136">
                   <BrixelButtonBox
@@ -167,7 +167,7 @@ const PropertyBuyerDashboard = (props: PropertyBuyerDashboardType) => {
             <div className={`levelsWrapper w-perc-100 zIndex2 ${openCloseColumn() === 'opened' ? 'ml-lg-1 closed' : 'opened'}`}>
               <Suspense fallback={<Loading isLoading />}>
                 <Routes>
-                  <Route path="/page" element={<PageBuyer />} />
+                  <Route path="/page/*" element={<PageBuyer />} />
                   <Route path="/contact/*" element={<ContactBuyer />} />
                   <Route path="*" element={<Navigate to={`/buyer/${propID}/property/page`} />} />
                 </Routes>

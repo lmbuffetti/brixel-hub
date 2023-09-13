@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import get from 'lodash/get';
 import {compose} from 'redux';
@@ -27,6 +27,11 @@ const ContactBuyer = (props: ContactBuyerType) => {
   } = props;
   // URL PARAMS
   const propID = get(match, 'propID', null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    navigate(`/buyer/${propID}/property/page/contact`);
+  }, [navigate]);
 
   return (
     <>

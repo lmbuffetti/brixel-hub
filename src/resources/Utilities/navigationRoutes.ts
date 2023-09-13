@@ -75,13 +75,13 @@ export const sidebarNavigationBuyer = [
     title: 'Property',
     name: 'property',
     icon: 'property-new',
-    path: '/buyer/:propID/property',
+    path: '/buyer/:propID/property/page',
     submenu: [
-      {
+      /* {
         title: 'Contact',
         name: 'contact',
         path: '/buyer/:propID/property/contact',
-      },
+      }, */
       {
         title: 'Page',
         name: 'page',
