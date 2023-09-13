@@ -98,7 +98,7 @@ const TermsContidionSwitch = (props: TermsContidionSwitchType) => {
   // STATE
   return (
     <div className="max-w-fix-632 ml-a mr-a">
-      <div className="brdRadius bgWhite brdSmall brdText100 p-4">
+      <div className="brdRadius bgWhite brdSmall brdText100 p-2 p-sm-4">
         <div className="dis-f jc-b a-t">
           <ReduxField
             component={BrixelSwitchButton}
@@ -109,7 +109,7 @@ const TermsContidionSwitch = (props: TermsContidionSwitchType) => {
             }}
           />
           <div className="ml-3">
-            <p className="dis-f a-c jc-fs fsize-400 fweight-600 mb-1">
+            <p className="dis-ib fsize-400 fweight-600 mb-1">
               <span>
                 {translateTo('Confirm the content on the', lang)}
               </span>
@@ -117,7 +117,7 @@ const TermsContidionSwitch = (props: TermsContidionSwitchType) => {
                 href={`${baseByData.pageUrl}preview/${activeSingleProperty.stub}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="fsize-400 ml-small-4 fweight-600 txtGreen400 link"
+                className="fsize-400 ml-small-4 fweight-600 txtGreen400"
               >
                 {translateTo('Brixel Page', lang)}
               </a>
@@ -139,7 +139,7 @@ const TermsContidionSwitch = (props: TermsContidionSwitchType) => {
             }}
           />
           <div className="ml-3">
-            <p className="dis-f a-c jc-fs fsize-400 fweight-600 mb-1">
+            <p className="dis-ib fsize-400 fweight-600 mb-1">
               <span>
                 {translateTo('Accept the', lang)}
               </span>
@@ -147,7 +147,7 @@ const TermsContidionSwitch = (props: TermsContidionSwitchType) => {
                 href={linkTermsCondition()}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="fsize-400 ml-small-4 fweight-600 txtGreen400 link"
+                className="fsize-400 ml-small-4 fweight-600 txtGreen400"
               >
                 {translateTo('terms of the contract', lang)}
               </a> <span className="txtRed400">*</span>
@@ -171,13 +171,13 @@ const TermsContidionSwitch = (props: TermsContidionSwitchType) => {
                   }}
                 />
                 <div className="ml-3">
-                  <p className="dis-f a-c jc-fs fsize-400 fweight-600 mb-1">
+                  <p className="dis-ib fsize-400 fweight-600 mb-1">
                     <span>
                       {translateTo('Accept the', lang)}
                     </span>
                     <button
                       onClick={(e) => openModal(e)}
-                      className="fsize-400 ml-small-4 fweight-600 txtGreen400 link"
+                      className="fsize-400 ml-small-4 fweight-600 txtGreen400"
                     >
                       {translateTo('waiver declaration to Baloise', lang)}
                     </button>
