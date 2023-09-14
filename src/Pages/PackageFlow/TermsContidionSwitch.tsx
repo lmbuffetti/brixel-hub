@@ -61,6 +61,8 @@ const TermsContidionSwitch = (props: TermsContidionSwitchType) => {
       body: textMoreInfo,
       state: true,
       small: true,
+      classTitle: 'fsize-600 fweight-600 px-1',
+      bodyInnerClass: 'p-1',
       layout: 'xxlarge',
       multiActions: [
         {
