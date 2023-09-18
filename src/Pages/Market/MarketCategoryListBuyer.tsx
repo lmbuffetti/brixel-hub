@@ -369,7 +369,7 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
                             className="mt-3 mx-a mx-md-0"
                             rounded
                             leftIcon="plus"
-                            label={translateTo('Create search Profile', lang)}
+                            label={translateTo('Create search profile', lang)}
                           />
                         </div>
                         {
