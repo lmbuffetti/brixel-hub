@@ -105,10 +105,13 @@ const TermsContidionUBS = (props: TermsConditionUBSType) => {
           </div>
           <span className="txtText700">
             <span className='dis-b fsize-200 lh-20'>
-              {translateTo('I agree that my data (surname, first name, telephone number, e-mail) may be transmitted to UBS Switzerland AG. Furthermore, I authorise UBS Switzerland AG to check whether I am already a client of UBS Switzerland AG by comparing my data with my existing data at UBS Switzerland AG.', lang)}
+              {translateTo('Buyer Disclaimer (EN) UBS\'s financing offers are only available to Swiss residents.', lang)}
+            </span>
+            <span className='dis-b fsize-200 lh-20 my-1'>
+              {translateTo('I agree that my data (surname, first name, address, postal code, telephone number, e-mail address) is transmitted to UBS for reporting and advisory purposes. UBS will have access to the status assigned by Brixel for the properties that I am interested in (e.g. "interested", "reserved", "purchased"). UBS may also contact me for advisory purposes.', lang)}
             </span>
             <span className='dis-b fsize-200 lh-20'>
-              {translateTo('This consent can be revoked at any time for the future. The revocation of consent does not affect the legality of the data processing carried out on the basis of the consent until revocation.', lang)}
+              {translateTo('This consent can be revoked at any time, it being understood that such revocation may only be effective for the future. The revocation does not affect any data processing carried out prior to such revocation.', lang)}
             </span>
           </span>
           <div className="mt-4 mt-md-6">

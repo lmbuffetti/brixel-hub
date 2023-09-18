@@ -16,7 +16,7 @@ export const QuestionsList = (lang, company, isBuyer) => {
         title: translateTo('Activate your UBS advantages now.', lang),
         history: 'ubsPolicy',
         cardType: 'ubsPolicy',
-        footerWidth: 'max-w-fix-912',
+        footerWidth: 'max-w-fix-752',
         bulletPoints: {
           title: translateTo('What are my advantages?', lang),
           description: [
@@ -27,8 +27,8 @@ export const QuestionsList = (lang, company, isBuyer) => {
         },
         text: [{
           title: translateTo('Transmission of data to UBS', lang),
-          subtitle: translateTo('The financing offers from UBS are only accessible to persons resident in Switzerland.', lang),
-          description: `<span>${translateTo('I agree that my data (surname, first name, address, postal code, telephone number, e-mail) may be transmitted to UBS Switzerland AG (hereinafter referred to as "UBS") in order to check the eligibility for discounts, such as rebates. Furthermore, I allow UBS to use this data, as well as the information that I use the Brixel Service, for advice and that I can be contacted according to my information for mortgage advice and other financial questions relating to the purchase of real estate.', lang)}</span><span class="mt-1 dis-b">${translateTo('This consent can be revoked at any time. Please note that the revocation only takes effect for the future. Processing made before the revocation is not affected.', lang)}</span>`,
+          subtitle: translateTo('Seller Disclaimer (EN) UBS\'s financing offers are only available to Swiss residents.', lang),
+          description: `<span>${translateTo('I agree that my data (surname, first name, address, postal code, telephone number, e-mail address) is transmitted to UBS for reporting purposes. UBS will have access to the status assigned by Brixel for the properties that I want to sell (e.g. "registered", "reserved", "sold").', lang)}</span><span class="mt-1 dis-b">${translateTo('This consent can be revoked at any time, it being understood that such revocation may only be effective for the future. The revocation does not affect any data processing carried out prior to such revocation.', lang)}</span>`,
         }],
       },
     ]
@@ -78,7 +78,7 @@ export const QuestionsList = (lang, company, isBuyer) => {
           title: translateTo('Activate your Baloise advantages now.', lang),
           history: 'baloiseInfo',
           cardType: 'baloiseInfo',
-          footerWidth: 'max-w-fix-912',
+          footerWidth: 'max-w-fix-752',
           inputs: [
             {
               component: BrixelRadioButton,
