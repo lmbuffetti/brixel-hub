@@ -105,7 +105,7 @@ const TermsContidionUBS = (props: TermsConditionUBSType) => {
           </div>
           <span className="txtText700">
             <span className='dis-b fsize-200 lh-20'>
-              {translateTo('Buyer Disclaimer (EN) UBS\'s financing offers are only available to Swiss residents.', lang)}
+              {translateTo('UBS\'s financing offers are only available to Swiss residents.', lang)}
             </span>
             <span className='dis-b fsize-200 lh-20 my-1'>
               {translateTo('I agree that my data (surname, first name, address, postal code, telephone number, e-mail address) is transmitted to UBS for reporting and advisory purposes. UBS will have access to the status assigned by Brixel for the properties that I am interested in (e.g. "interested", "reserved", "purchased"). UBS may also contact me for advisory purposes.', lang)}

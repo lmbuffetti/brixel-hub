@@ -27,7 +27,7 @@ export const QuestionsList = (lang, company, isBuyer) => {
         },
         text: [{
           title: translateTo('Transmission of data to UBS', lang),
-          subtitle: translateTo('Seller Disclaimer (EN) UBS\'s financing offers are only available to Swiss residents.', lang),
+          subtitle: translateTo('UBS\'s financing offers are only available to Swiss residents.', lang),
           description: `<span>${translateTo('I agree that my data (surname, first name, address, postal code, telephone number, e-mail address) is transmitted to UBS for reporting purposes. UBS will have access to the status assigned by Brixel for the properties that I want to sell (e.g. "registered", "reserved", "sold").', lang)}</span><span class="mt-1 dis-b">${translateTo('This consent can be revoked at any time, it being understood that such revocation may only be effective for the future. The revocation does not affect any data processing carried out prior to such revocation.', lang)}</span>`,
         }],
       },
