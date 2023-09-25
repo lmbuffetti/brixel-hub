@@ -1,6 +1,6 @@
 import {CompanyType, PropertyType} from '@brixel-io/brixel-components/dist/@types/Model';
 
-export interface TermsContidionSwitchType {
+export interface TermsConditionSwitchType {
   activeSingleCompany: CompanyType,
   activeSingleProperty: PropertyType;
   changeFieldValue: (field: string, value: string | boolean) => void;

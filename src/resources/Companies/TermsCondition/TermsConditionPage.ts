@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import {QuestionsListType} from '@brixel-io/brixel-components/dist/@types/Model';
-import TermsContidionSwitch from '../../../Pages/PackageFlow/TermsContidionSwitch';
+import TermsConditionSwitch from '../../../Pages/PackageFlow/TermsConditionSwitch';
 import translateTo from '../../../utils/translation';
 import successCheckImg from '../../../images/Marketing/successCheck.svg';
 
@@ -14,7 +14,7 @@ export const QuestionsList = (lang) => {
     history: 'termsCondition',
     className: 'max-w-fix-632 ml-a mr-a brdRadius bgWhite brdSmall brdText100',
     footerWidth: 'max-w-fix-632',
-    component: TermsContidionSwitch,
+    component: TermsConditionSwitch,
     hideContinueBtn: true,
     hideFooter: true,
   }];

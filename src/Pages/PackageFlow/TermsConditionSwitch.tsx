@@ -7,12 +7,12 @@ import get from 'lodash/get';
 import {connect} from 'react-redux';
 import {bindActionCreators, compose} from 'redux';
 import translateTo from '../../utils/translation';
-import type {TermsContidionSwitchType} from '../../@types/Pages/PackageFlow/TermConditionSwitch';
+import type {TermsConditionSwitchType} from '../../@types/Pages/PackageFlow/TermConditionSwitch';
 import {BrixelSwitchButton, ReduxField, Validation, change} from '@brixel-io/brixel-components/dist/form';
 import baseByData from '@brixel-io/brixel-components/dist/configuration/Settings';
 import {setModal} from '../../actions/CommonActions';
 
-const TermsContidionSwitch = (props: TermsContidionSwitchType) => {
+const TermsConditionSwitch = (props: TermsConditionSwitchType) => {
 
   const {
     activeSingleCompany,
@@ -227,4 +227,4 @@ const mapDispatchToProps = (dispatch) => ({
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-)(TermsContidionSwitch);
+)(TermsConditionSwitch);
