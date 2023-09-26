@@ -50,6 +50,11 @@ const TimelineStubs = {
     'user-register',
     'page-status-success',
   ],
+  TermsAcceptance: [
+    'page-accept-terms-of-contract',
+    'page-accept-waiver-declaration-baloise',
+    'page-confirm-content-brixel',
+  ],
 };
 
 export default TimelineStubs;

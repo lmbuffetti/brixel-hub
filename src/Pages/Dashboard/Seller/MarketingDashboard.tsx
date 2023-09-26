@@ -13,6 +13,8 @@ const Page = lazyWithRetry(() => import('../../Marketing/Page'));
 
 const Portals = lazyWithRetry(() => import('../../Marketing/Portals'));
 
+const TermsAcceptance = lazyWithRetry(() => import('../../Marketing/TermsAcceptance'));
+
 const MarketingDashboard = (props: MarketingDashboardType) => {
   const history = {
     push: useNavigate(),
@@ -43,6 +45,7 @@ const MarketingDashboard = (props: MarketingDashboardType) => {
                 </div>
                 <div className="mt-2 mt-md-0 pl-md-1 w-perc-100 w-perc-md-50">
                   <Portals />
+                  <TermsAcceptance />
                 </div>
               </div>
             </div>

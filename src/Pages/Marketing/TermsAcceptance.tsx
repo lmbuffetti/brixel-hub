@@ -1,0 +1,81 @@
+import React, {useEffect} from 'react';
+import { useParams } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import get from 'lodash/get';
+import {bindActionCreators, compose} from 'redux';
+import {connect} from 'react-redux';
+import {DateTime} from 'luxon';
+import translateTo from '../../utils/translation';
+import TimelineStubs from '../../resources/Utilities/timelineActionStubs';
+import { getHistoryListings } from '../../actions/HistoryActions';
+
+const TermsAcceptance = (props) => {
+  // PROPS
+  const {
+    handleGetHistoryTerms,
+    activeSinglePropertyHistory,
+    lang,
+  } = props;
+  
+  const match = useParams();
+  // STATE
+
+  const propID = get(match, 'propID', null);
+
+  useEffect(() => {
+    if (propID) {
+      const payloadPageHistory = {
+        actionStubs: TimelineStubs.TermsAcceptance,
+        parent: propID,
+        resultsPerPage: 10,
+        offset: 0,
+        order: 'createdAt',
+        direction: 'DESC',
+        smallLoader: 'getPageHistory',
+        type: 'page',
+      };
+      handleGetHistoryTerms(payloadPageHistory);
+    }
+  }, [propID]);
+
+  if (activeSinglePropertyHistory.total > 0) {
+    return (
+      <>
+        <div className="bgWhite p-4 mt-3 brdRadius">
+          <div className="dis-f jc-b a-c mb-2">
+            <h5>{translateTo('Terms Acceptance', lang)}</h5>
+            <div className="brdSmall px-2 py-1 brdGreen txtGreen brdRadius">
+              {translateTo('Accepted', lang)}
+            </div>
+          </div>
+          <p>
+            <span>{translateTo('Terms accepted on', lang)}</span> <span className="fweight-600">{DateTime.fromISO(activeSinglePropertyHistory.data[0].meta.acceptanceDate.toString(), { locale: lang }).toFormat('dd LLL yyyy, H:mm')}</span>
+          </p>
+        </div>
+      </>
+    );
+  } else return null
+};
+
+TermsAcceptance.propTypes = {
+  activeSinglePropertyHistory: PropTypes.object.isRequired,
+  handleGetHistoryTerms: PropTypes.func.isRequired,
+  lang: PropTypes.string.isRequired,
+};
+
+const mapStateToProps = (state) => {
+  const activeSingleProperty = get(state, 'property.activeSingleProperty', {});
+  return ({
+    activeSingleProperty,
+    lang: get(state, 'common.language', 'en'),
+    activeSinglePropertyHistory: get(state, 'history.activeSinglePropertyHistory', {}),
+  });
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  handleGetHistoryTerms: bindActionCreators(getHistoryListings, dispatch),
+});
+
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+)(TermsAcceptance);
