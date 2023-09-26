@@ -8,13 +8,13 @@ import get from 'lodash/get';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
 import translateTo from '../../utils/translation';
-import type {TermsConditionUBSType} from '../../@types/Pages/PackageFlow/TermConditionUBS';
-import iconFinancingUbs from '../../images/policy/ubs/icon-financing.svg';
-import iconLetterUbs from '../../images/policy/ubs/letter.svg';
-import iconPiggyUbs from '../../images/policy/ubs/piggy-bank.svg';
-import iconExclusiveUbs from '../../images/policy/ubs/exclusive.svg';
+import type {TermsConditionBaloiseType} from '../../@types/Pages/PackageFlow/TermConditionBaloise';
+import iconFinancing from '../../images/policy/baloise/icon-financing-baloise.svg';
+import iconLetter from '../../images/policy/baloise/letter-baloise.svg';
+import iconPiggy from '../../images/policy/baloise/piggy-bank-baloise.svg';
+import iconExclusive from '../../images/policy/baloise/exclusive-baloise.svg';
 
-const TermsContidionUBS = (props: TermsConditionUBSType) => {
+const TermsConditionBaloise = (props: TermsConditionBaloiseType) => {
 
   const {
     isSmallLoading,
@@ -51,35 +51,35 @@ const TermsContidionUBS = (props: TermsConditionUBSType) => {
     [
       <div className="icon-wrap dis-fl-col a-c px-2 " key="1">
         <div className="icon-circle brdCircle as-fc dis-f jc-c">
-          <img src={iconFinancingUbs} alt="Icon Financing" width={154}
+          <img src={iconFinancing} alt="Icon Financing" width={154}
           />
         </div>
-        <p className="pt-2 fsize-400 fsize-md-500 max-w-fix-136 max-w-fix-md-192 ml-a mr-a ta-c">
+        <p className="pt-2 fsize-400 max-w-fix-136 max-w-fix-md-224 ml-a mr-a ta-c">
           {translateTo('Support on all financial questions', arg)}
         </p>
       </div>,
       <div className="icon-wrap dis-fl-col a-c px-2 " key="2">
         <div className="icon-circle brdCircle as-fc dis-f jc-c">
-          <img loading="lazy" width={154} src={iconLetterUbs} alt="Icon Calendar" />
+          <img loading="lazy" width={154} src={iconLetter} alt="Icon Calendar" />
         </div>
-        <p className="pt-2 fsize-400 fsize-md-500 max-w-fix-136 max-w-fix-md-192 ml-a mr-a ta-c">
-          {translateTo('Receive a free property appraisal', arg)}
+        <p className="pt-2 fsize-400 max-w-fix-136 max-w-fix-md-224 ml-a mr-a ta-c">
+          {translateTo('Receive a free Financing Certificate', arg)}
         </p>
       </div>,
       <div className="icon-wrap dis-fl-col a-c px-2 " key="3">
         <div className="icon-circle brdCircle as-fc dis-f jc-c">
-          <img loading="lazy" width={154} src={iconPiggyUbs} alt="Icon offer" />
+          <img loading="lazy" width={154} src={iconPiggy} alt="Icon offer" />
         </div>
-        <p className="pt-2 fsize-400 fsize-md-500 max-w-fix-136 max-w-fix-md-192 ml-a mr-a ta-c">
-          {translateTo('Benefit from a 0.30% interest rate reduction', arg)}
+        <p className="pt-2 fsize-400 max-w-fix-136 max-w-fix-md-224 ml-a mr-a ta-c">
+          {translateTo('Benefit from 0.15% discount on your online mortgage', arg)}
         </p>
       </div>,
       <div className="icon-wrap dis-fl-col a-c px-2 " key="4">
         <div className="icon-circle brdCircle as-fc dis-f jc-c">
-          <img loading="lazy" width={154} src={iconExclusiveUbs} alt="Finance" />
+          <img loading="lazy" width={154} src={iconExclusive} alt="Finance" />
         </div>
-        <p className="pt-2 fsize-400 fsize-md-500 max-w-fix-136 max-w-fix-md-192 ml-a mr-a ta-c">
-          {translateTo('Get access to the exclusive UBS pre-market', arg)}
+        <p className="pt-2 fsize-400 max-w-fix-136 max-w-fix-md-224 ml-a mr-a ta-c">
+          {translateTo('Get 10-days of exclusive access to new properties', arg)}
         </p>
       </div>,
     ]
@@ -88,11 +88,8 @@ const TermsContidionUBS = (props: TermsConditionUBSType) => {
   const optInTitle = () => (
     <>
       <h2 className="fsize-600 fsize-md-800 fweight-600 mb-2">
-        {translateTo('Activate your UBS advantages now', lang)}
+        {translateTo('Benefit from the consulting services of our partner Baloise', lang)}
       </h2>
-      <h4 className="fsize-500 fsize-md-600 mb-3 mb-md-4 fweight-400">
-        {translateTo('Our partner UBS provides you support on all financial questions and access to exclusive benefits.', lang)}
-      </h4>
     </>
   );
 
@@ -103,17 +100,17 @@ const TermsContidionUBS = (props: TermsConditionUBSType) => {
           <div className="hide dis-b-md">
             {optInTitle()}
           </div>
-          <span className="txtText700">
-            <span className='dis-b fsize-200 lh-20'>
-              {translateTo('UBS\'s financing offers are only available to Swiss residents.', lang)}
+          <div className="">
+            <span className='dis-b fweight-600 txtText900 fsize-300 lh-20 pb-small-4'>
+              {translateTo('Transmission of data to Baloise.', lang)}
             </span>
-            <span className='dis-b fsize-200 lh-20 my-1'>
-              {translateTo('I agree that my data (surname, first name, address, postal code, telephone number, e-mail address) is transmitted to UBS for reporting and advisory purposes. UBS will have access to the status assigned by Brixel for the properties that I am interested in (e.g. "interested", "reserved", "purchased"). UBS may also contact me for advisory purposes.', lang)}
+            <span className='dis-b fsize-300 lh-20'>
+              {translateTo('I hereby agree that my data (surname, first name, phone number, e-mail) is transmitted to Baloise Insurance Ltd and to Baloise Bank Ltd so that I can get contacted regarding the financing of my self-occupied real estate incl. risk protection.', lang)}
             </span>
-            <span className='dis-b fsize-200 lh-20'>
-              {translateTo('This consent can be revoked at any time, it being understood that such revocation may only be effective for the future. The revocation does not affect any data processing carried out prior to such revocation.', lang)}
+            <span className='dis-b fsize-300 lh-20 pt-2'>
+              {translateTo('You can revoke this consent at any time in the future. The revocation of consent does not affect the legality of the data processing carried out on the basis of the consent until revocation.', lang)}
             </span>
-          </span>
+          </div>
           <div className="mt-4 mt-md-6">
             <BrixelButtonPrimary
               label= {translateTo('Accept &amp; continue', lang)}
@@ -131,7 +128,7 @@ const TermsContidionUBS = (props: TermsConditionUBSType) => {
             />
           </div>
         </div>
-        <div className="col-12 col-md-6 px-0 px-md-2 max-w-fix-md-480 ml-a-md centerSliderUbs">
+        <div className="col-12 col-md-6 px-0 px-md-2 max-w-fix-md-480 ml-a-md centerSliderbaloise-1">
           {
             isDesktop ? (
               <div className="two-col-grid w-perc-100">
@@ -165,4 +162,4 @@ const mapStateToProps = (state) => ({
 
 export default compose(
   connect(mapStateToProps),
-)(TermsContidionUBS);
+)(TermsConditionBaloise);

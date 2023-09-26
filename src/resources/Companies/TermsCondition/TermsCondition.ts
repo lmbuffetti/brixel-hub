@@ -2,8 +2,8 @@
 import {BrixelRadioButton, Validation} from '@brixel-io/brixel-components/dist/form';
 import {QuestionsListType} from '@brixel-io/brixel-components/dist/@types/Model';
 import translateTo from '../../../utils/translation';
-import TermsContidionUBS from '../../../Pages/PackageFlow/TermsContidionUBS';
-import TermsContidionBaloise from '../../../Pages/PackageFlow/TermsContidionBaloise';
+import TermsConditionUBS from '../../../Pages/PackageFlow/TermsConditionUBS';
+import TermsConditionBaloise from '../../../Pages/PackageFlow/TermsConditionBaloise';
 
 
 // QUESTION LISTS
@@ -39,7 +39,7 @@ export const QuestionsList = (lang, company, isBuyer) => {
           history: 'ubsPolicy',
           className: 'max-w-fix-768 ml-a mr-a brdRadius bgWhite brdSmall brdText50',
           footerWidth: 'max-w-fix-768',
-          component: TermsContidionUBS,
+          component: TermsConditionUBS,
           hideContinueBtn: true,
           hideFooter: true,
         },
@@ -54,7 +54,7 @@ export const QuestionsList = (lang, company, isBuyer) => {
           history: 'baloisePolicy',
           className: 'max-w-fix-768 ml-a mr-a brdRadius bgWhite brdSmall brdText50',
           footerWidth: 'max-w-fix-768',
-          component: TermsContidionBaloise,
+          component: TermsConditionBaloise,
           hideContinueBtn: true,
           hideFooter: true,
         },
