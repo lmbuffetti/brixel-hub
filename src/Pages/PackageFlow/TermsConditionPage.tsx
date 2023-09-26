@@ -10,6 +10,7 @@ import {
   createActiveSingleProperty,
   getActiveSingleProperty,
   saveActiveSingleProperty,
+  setPageTermsAcceptance,
 } from '../../actions/PropertyActions';
 import {doLogin, saveActiveSingleUser, validateUser} from '../../actions/UserActions';
 import {QuestionsList} from '../../resources/Companies/TermsCondition/TermsConditionPage';
@@ -32,6 +33,7 @@ const TermsCondition = (props: TermsPublishPageType) => {
     handleGetActiveSingleProperty,
     handleSetSmallLoading,
     handleSpinnerOff,
+    handleAcceptPageTerms,
     initForm,
     initialValues,
     lang = 'en',
@@ -76,6 +78,7 @@ const TermsCondition = (props: TermsPublishPageType) => {
   // FUNCTION TO SAVE DATA
   const saveData = async () => {
     // TODO finish save function
+    // handleAcceptPageTerms()
     if (handleSetSmallLoading) handleSetSmallLoading({sendData: true});
     // eslint-disable-next-line no-console
     console.log(formValue);
@@ -140,6 +143,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
   handleSaveActiveSingleUser: bindActionCreators(saveActiveSingleUser, dispatch),
+  handleAcceptPageTerms: bindActionCreators(setPageTermsAcceptance, dispatch),
   handleSetSmallLoading: bindActionCreators(spinnerSmall, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
   handleSpinnerOn: bindActionCreators(spinnerOn, dispatch),

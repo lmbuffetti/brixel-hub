@@ -39,6 +39,7 @@ import {
   SAVE_SCHEDULE_VISIT,
   GET_ACTIVE_SINGLE_PROPERTY_VISITS,
   SET_ACTIVE_SINGLE_PROPERTY_VISITS,
+  SET_PAGE_TERMS_ACCEPTANCE,
 } from '../actions/types/PropertyTypes';
 import {SAVE_ACTIVE_SINGLE_USER} from '../actions/types/UserTypes';
 
@@ -852,6 +853,42 @@ const checkCommon = (store) => (next) => (action) => {
         });
       }
       api.property.getPropertyVisits(id)
+        .then((res) => {
+          store.dispatch({
+            type: SET_ACTIVE_SINGLE_PROPERTY_VISITS,
+            payload: res.data,
+          });
+          if (smallLoader) {
+            store.dispatch({
+              type: SPINNER_SMALL,
+              payload: {
+                [smallLoader]: 'saved',
+              },
+            });
+          } else {
+            store.dispatch({
+              type: SPINNER_OFF,
+            });
+          }
+        })
+      break;
+    }
+    // SET TERMS ACCEPTANCE FOR RELEASING A NEW PROPERTY GO LIVE
+    case SET_PAGE_TERMS_ACCEPTANCE: {
+      const { id, smallLoader, data } = action.payload;
+      if (smallLoader) {
+        store.dispatch({
+          type: SPINNER_SMALL,
+          payload: {
+            [smallLoader]: true,
+          },
+        });
+      } else {
+        store.dispatch({
+          type: SPINNER_ON,
+        });
+      }
+      api.property.setTermsAcceptance(id, data)
         .then((res) => {
           store.dispatch({
             type: SET_ACTIVE_SINGLE_PROPERTY_VISITS,

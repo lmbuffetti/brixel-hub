@@ -82,6 +82,11 @@ class Property extends Base {
     const url = ep.property.visitsList(id, order, direction, quantity, offset);
     return this.apiClient.get(url, {});
   }
+
+  setTermsAcceptance(id, data) {
+    const url = ep.property.acceptTerms(id);
+    return this.apiClient.post(url, {}, data);
+  }
 }
 
 export default Property;

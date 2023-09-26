@@ -27,6 +27,7 @@ import {
   SET_SCHEDULE_VISIT,
   GET_ACTIVE_SINGLE_PROPERTY_VISITS,
   SET_ACTIVE_SINGLE_PROPERTY_VISITS,
+  SET_PAGE_TERMS_ACCEPTANCE,
 } from './types/PropertyTypes';
 
 export const {
@@ -59,6 +60,7 @@ export const {
   setScheduleVisit,
   getActiveSinglePropertyVisits,
   setActiveSinglePropertyVisits,
+  setPageTermsAcceptance,
 } = createActions({
   [CREATE_ACTIVE_SINGLE_PROPERTY]: (payload) => payload,
   [GET_ACTIVE_MARKET_OVERLAY_PROPERTY]: (payload) => payload,
@@ -87,4 +89,5 @@ export const {
   [SET_SCHEDULE_VISIT]: (payload) => payload,
   [UPDATE_PORTALS_REVIEW]: (payload) => payload,
   [UPDATE_PUBLISHED_REVIEW]: (payload) => payload,
+  [SET_PAGE_TERMS_ACCEPTANCE]: (payload) => payload,
 });

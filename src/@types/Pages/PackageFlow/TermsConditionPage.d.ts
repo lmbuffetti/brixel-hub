@@ -14,6 +14,7 @@ export interface TermsPublishPageType {
   handleGetActiveSingleCompany: (data: object) => void;
   handleGetActiveSingleProperty: (data: object) => void;
   handleSetSmallLoading: (data: object) => void;
+  handleAcceptPageTerms: (data: object) => void;
   handleSpinnerOff: () => void;
   initForm: (data: object) => void;
   initialValues: object;

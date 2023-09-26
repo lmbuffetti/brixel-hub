@@ -106,7 +106,7 @@ const TermsConditionSwitch = (props: TermsConditionSwitchType) => {
             component={BrixelSwitchButton}
             form="TermsCondition"
             input={{
-              name: 'termsPage',
+              name: 'confirmContent',
               validate: [Validation.required],
             }}
           />
@@ -136,7 +136,7 @@ const TermsConditionSwitch = (props: TermsConditionSwitchType) => {
             component={BrixelSwitchButton}
             form="TermsCondition"
             input={{
-              name: 'termsContract',
+              name: 'acceptContract',
               validate: [Validation.required],
             }}
           />
@@ -168,7 +168,7 @@ const TermsConditionSwitch = (props: TermsConditionSwitchType) => {
                   component={BrixelSwitchButton}
                   form="TermsCondition"
                   input={{
-                    name: 'termsPage',
+                    name: 'acceptWaiverDeclaration',
                     validate: [Validation.required],
                   }}
                 />
