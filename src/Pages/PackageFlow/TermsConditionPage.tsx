@@ -78,7 +78,7 @@ const TermsCondition = (props: TermsPublishPageType) => {
   // FUNCTION TO SAVE DATA
   const saveData = async () => {
     let payload: Record<string, object | string> = {
-      id: activeSingleProperty.id,
+      id: propID || '',
       data: formValue,
     }
     if (handleSetSmallLoading) handleSetSmallLoading({sendData: true});
