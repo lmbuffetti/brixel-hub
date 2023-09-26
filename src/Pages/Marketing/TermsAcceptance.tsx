@@ -16,7 +16,7 @@ const TermsAcceptance = (props) => {
     activeSinglePropertyHistory,
     lang,
   } = props;
-  
+
   const match = useParams();
   // STATE
 
@@ -49,7 +49,7 @@ const TermsAcceptance = (props) => {
             </div>
           </div>
           <p>
-            <span>{translateTo('Terms accepted on', lang)}</span> <span className="fweight-600">{DateTime.fromISO(activeSinglePropertyHistory.data[0].meta.acceptanceDate.toString(), { locale: lang }).toFormat('dd LLL yyyy, H:mm')}</span>
+            <span>{translateTo('Terms accepted on', lang)}</span> <span className="fweight-600">{DateTime.fromISO(activeSinglePropertyHistory.data[0].meta.acceptanceDate?.toString(), { locale: lang }).toFormat('dd LLL yyyy, H:mm')}</span>
           </p>
         </div>
       </>

@@ -94,8 +94,8 @@ const Portals = (props) => {
       bodyActionsClass: 'dis-f a-c jc-c mt-5 mb-3',
       bodyInnerClass: 'max-w-fix-384 m-a ta-c',
       classTitle: 'ta-c',
-      showSupport: type === 'success',
-      supportLayout: 'inline',
+      /* showSupport: type === 'success', */
+      /* supportLayout: 'inline', */
       multiBodyActions: type === 'success' ? [
         {
           btnType: 'Primary',

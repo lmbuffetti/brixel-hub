@@ -97,8 +97,8 @@ const Page = (props: PageType) => {
       classImg: 'mx-a w-fix-64 mb-3',
       bodyActionsClass: 'dis-f a-c jc-c mt-5 mb-3',
       classTitle: 'ta-c',
-      showSupport: type === 'success',
-      supportLayout: 'inline',
+      /* showSupport: type === 'success', */
+      /* supportLayout: 'inline', */
       multiBodyActions: type === 'success' ? [
         {
           btnType: 'Primary',
