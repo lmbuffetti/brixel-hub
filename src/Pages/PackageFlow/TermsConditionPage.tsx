@@ -77,11 +77,16 @@ const TermsCondition = (props: TermsPublishPageType) => {
 
   // FUNCTION TO SAVE DATA
   const saveData = async () => {
-    // TODO finish save function
-    // handleAcceptPageTerms()
+    let payload: Record<string, object | string> = {
+      id: activeSingleProperty.id,
+      data: formValue,
+    }
     if (handleSetSmallLoading) handleSetSmallLoading({sendData: true});
-    // eslint-disable-next-line no-console
-    console.log(formValue);
+    payload = {
+      ...payload,
+      smallLoader: 'sendData',
+    }
+    handleAcceptPageTerms(payload);
   };
 
   // ON CHANGE LANGUAGE RELOAD THE QUESTIONS TRANSLATED

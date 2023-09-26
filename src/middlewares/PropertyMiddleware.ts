@@ -890,17 +890,15 @@ const checkCommon = (store) => (next) => (action) => {
       }
       api.property.setTermsAcceptance(id, data)
         .then((res) => {
-          store.dispatch({
-            type: SET_ACTIVE_SINGLE_PROPERTY_VISITS,
-            payload: res.data,
-          });
-          if (smallLoader) {
-            store.dispatch({
-              type: SPINNER_SMALL,
-              payload: {
-                [smallLoader]: 'saved',
-              },
-            });
+          if (res.meta.normalizedStatus === 200) {
+            if (smallLoader) {
+              store.dispatch({
+                type: SPINNER_SMALL,
+                payload: {
+                  [smallLoader]: false,
+                },
+              });
+            }
           } else {
             store.dispatch({
               type: SPINNER_OFF,
