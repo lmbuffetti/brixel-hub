@@ -181,8 +181,11 @@ const TermsConditionSwitch = (props: TermsConditionSwitchType) => {
                       onClick={(e) => openModal(e)}
                       className="fsize-400 ml-small-4 fweight-600 txtGreen400"
                     >
-                      {translateTo('waiver declaration to Baloise', lang)}
+                      {translateTo('waiver declaration', lang)}
                     </button>
+                    <span>
+                      {translateTo(' to Baloise', lang)}
+                    </span>
                     <span className="txtRed400">*</span>
                   </p>
                   <p>
