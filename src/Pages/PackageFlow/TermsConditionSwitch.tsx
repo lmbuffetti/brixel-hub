@@ -183,8 +183,8 @@ const TermsConditionSwitch = (props: TermsConditionSwitchType) => {
                     >
                       {translateTo('waiver declaration', lang)}
                     </button>
-                    <span>
-                      {translateTo(' to Baloise', lang)}
+                    <span className='pl-small-4'>
+                      {translateTo('to Baloise', lang)}
                     </span>
                     <span className="txtRed400">*</span>
                   </p>
