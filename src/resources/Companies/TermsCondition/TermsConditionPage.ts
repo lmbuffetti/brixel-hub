@@ -26,7 +26,7 @@ export const QuestionsList = (lang) => {
     img: successCheckImg,
     imgMaxWidth: 'max-w-fix-160 w-perc-100',
     cardClass: 'max-w-fix-360 ml-a mr-a pb-5',
-    subtitle: 'We are ready to promote your property. Once it is up and running, we will notify you. It should be live within one business day.',
+    subtitle: translateTo('We are ready to promote your property. Once it is up and running, we will notify you. It should be live within one business day.', lang),
     subtitleClass: 'fweight-400 txtText800',
     history: 'success',
     vCentered: true,
