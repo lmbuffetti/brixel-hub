@@ -202,7 +202,7 @@ const TermsConditionSwitch = (props: TermsConditionSwitchType) => {
         rounded
         className="ml-a mr-a mt-4"
         rightIcon="arrow-right"
-        label="Send acceptance"
+        label={translateTo('Send acceptance', lang)}
         onClick={() => onSaveData()}
         disabled={isSaveDisabled()}
       />
