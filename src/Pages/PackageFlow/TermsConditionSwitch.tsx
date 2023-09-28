@@ -70,7 +70,7 @@ const TermsConditionSwitch = (props: TermsConditionSwitchType) => {
           clr: 'Text',
           sat: 800,
           btnType: 'Tertiary',
-          name: translateTo('Cancel', lang),
+          name: translateTo('Close', lang),
           className: 'ml-0 mr-a',
           func: () => handleSetModal({ state: false }),
         },
@@ -119,11 +119,11 @@ const TermsConditionSwitch = (props: TermsConditionSwitchType) => {
                 href={`${baseByData.pageUrl}preview/${activeSingleProperty.stub}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="fsize-400 ml-small-4 fweight-600 txtGreen400"
+                className="fsize-400 ml-small-4 td-u fweight-600 txtGreen400"
               >
                 {translateTo('Brixel Page', lang)}
               </a>
-              <span className="txtRed400">*</span>
+              <span className="txtRed400"> *</span>
             </p>
             <p>
               {translateTo('I hereby confirm that I agree with the content of the property website and the publication of the property website on Brixel and external portals.', lang)}
@@ -149,10 +149,10 @@ const TermsConditionSwitch = (props: TermsConditionSwitchType) => {
                 href={linkTermsCondition()}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="fsize-400 ml-small-4 fweight-600 txtGreen400"
+                className="fsize-400 ml-small-4 td-u fweight-600 txtGreen400"
               >
                 {translateTo('terms of the contract', lang)}
-              </a> <span className="txtRed400">*</span>
+              </a> <span className="txtRed400"> *</span>
             </p>
             <p>
               {translateTo('I hereby confirm that I have read and understood the contract terms for the Brixel One service package and accept them.', lang)}
@@ -177,16 +177,16 @@ const TermsConditionSwitch = (props: TermsConditionSwitchType) => {
                     <span>
                       {translateTo('Accept the', lang)}
                     </span>
-                    <button
+                    <span
                       onClick={(e) => openModal(e)}
-                      className="fsize-400 ml-small-4 fweight-600 txtGreen400"
+                      className="fsize-400 ml-small-4 td-u fweight-600 txtGreen400"
                     >
                       {translateTo('waiver declaration', lang)}
-                    </button>
+                    </span>
                     <span className='pl-small-4'>
                       {translateTo('to Baloise', lang)}
                     </span>
-                    <span className="txtRed400">*</span>
+                    <span className="txtRed400"> *</span>
                   </p>
                   <p>
                     {translateTo('I confirm and agree that Baloise can keep the remuneration received from Brixel and hereby waive the right to have this remuneration passed on to me.', lang)}

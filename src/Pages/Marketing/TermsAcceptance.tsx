@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react';
 import { useParams } from 'react-router-dom';
+import { BrixelIcon} from '@brixel-io/brixel-components';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import {bindActionCreators, compose} from 'redux';
@@ -44,8 +45,15 @@ const TermsAcceptance = (props) => {
         <div className="bgWhite p-4 mt-3 brdRadius">
           <div className="dis-f jc-b a-c mb-2">
             <h5>{translateTo('Terms Acceptance', lang)}</h5>
-            <div className="brdSmall px-2 py-1 brdGreen txtGreen brdRadius">
-              {translateTo('Accepted', lang)}
+            <div className="brdSmall px-1 dis-f py-small-2 brdGreen txtGreen brdRadius">
+              <BrixelIcon
+                color="primary"
+                iconWidth="w-fix-12"
+                icon="check-small"
+                className='mr-1'
+                iconSize='small'
+              />
+              <span className='fsize-300'>{translateTo('Accepted', lang)}</span>
             </div>
           </div>
           <p>
