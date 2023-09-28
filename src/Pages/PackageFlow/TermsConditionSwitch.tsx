@@ -80,7 +80,7 @@ const TermsConditionSwitch = (props: TermsConditionSwitchType) => {
           className: 'mr-2',
           btnType: 'Primary',
           name: translateTo('Accept', lang),
-          func: () => acceptTerm('termsPageBaloise'),
+          func: () => acceptTerm('acceptWaiverDeclaration'),
         },
       ],
     });
