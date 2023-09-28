@@ -45,7 +45,7 @@ const TermsAcceptance = (props) => {
         <div className="bgWhite p-4 mt-3 brdRadius">
           <div className="dis-f jc-b a-c mb-2">
             <h5>{translateTo('Terms Acceptance', lang)}</h5>
-            <div className="brdSmall px-1 dis-f py-small-2 brdGreen txtGreen brdRadius">
+            <div className="px-1 dis-f py-small-2 bgGreen50 txtGreen brdRadius">
               <BrixelIcon
                 color="primary"
                 iconWidth="w-fix-12"
@@ -53,7 +53,7 @@ const TermsAcceptance = (props) => {
                 className='mr-1'
                 iconSize='small'
               />
-              <span className='fsize-300'>{translateTo('Accepted', lang)}</span>
+              <span className='fsize-300 fweight-500'>{translateTo('Accepted', lang)}</span>
             </div>
           </div>
           <p>
