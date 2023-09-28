@@ -88,12 +88,57 @@ const TermsConditionSwitch = (props: TermsConditionSwitchType) => {
 
   const linkTermsCondition = () => {
     switch (activeSingleCompany.stub) {
-      case 'baloise':
-        return 'https://baloise.brixel.ch/allgemeine-bedingungen-brixel-one';
-      case 'ubs':
-        return 'https://ubs.brixel.ch/allgemeine-bedingungen-brixel-one';
-      default:
-        return 'https://brixel.ch/allgemeine-bedingungen-brixel-one';
+      case 'baloise': {
+        let link: string | undefined;
+        switch (lang) {
+          case 'de':
+            link = 'https://baloise.brixel.ch/de/allgemeine-bedingungen-brixel-one';
+            break;
+          case 'fr':
+            link = 'https://baloise.brixel.ch/fr/allgemeine-bedingungen-brixel-one';
+            break;
+          case 'it':
+            link = 'https://baloise.brixel.ch/it/allgemeine-bedingungen-brixel-one';
+            break;
+          default:
+            link = 'https://baloise.brixel.ch/en/allgemeine-bedingungen-brixel-one';
+        }
+        return link;
+      }
+      case 'ubs': {
+        let link: string | undefined;
+        switch (lang) {
+          case 'de':
+            link = 'https://ubs.brixel.ch/de/allgemeine-bedingungen-brixel-one';
+            break;
+          case 'fr':
+            link = 'https://ubs.brixel.ch/fr/allgemeine-bedingungen-brixel-one';
+            break;
+          case 'it':
+            link = 'https://ubs.brixel.ch/it/allgemeine-bedingungen-brixel-one';
+            break;
+          default:
+            link = 'https://ubs.brixel.ch/en/allgemeine-bedingungen-brixel-one';
+        }
+        return link;
+      }
+      default: {
+        let link: string | undefined;
+        switch (lang) {
+          case 'de':
+            link = 'https://brixel.ch/de/allgemeine-bedingungen-brixel-one';
+            break;
+          case 'fr':
+            link = 'https://brixel.ch/fr/allgemeine-bedingungen-brixel-one';
+            break;
+          case 'it':
+            link = 'https://brixel.ch/it/allgemeine-bedingungen-brixel-one';
+            break;
+          default:
+            link = 'https://brixel.ch/en/allgemeine-bedingungen-brixel-one';
+        }
+        return link;
+      }
     }
   }
 
@@ -111,7 +156,7 @@ const TermsConditionSwitch = (props: TermsConditionSwitchType) => {
             }}
           />
           <div className="ml-3">
-            <p className="dis-ib fsize-400 fweight-600 mb-1">
+            <p className="dis-ib fsize-400 fweight-600 mb-1 pos-r">
               <span>
                 {translateTo('Confirm the content on the', lang)}
               </span>
@@ -123,7 +168,7 @@ const TermsConditionSwitch = (props: TermsConditionSwitchType) => {
               >
                 {translateTo('Brixel Page', lang)}
               </a>
-              <span className="txtRed400"> *</span>
+              <span className="txtRed400 pos-a-fix ml-small-4"> *</span>
             </p>
             <p>
               {translateTo('I hereby confirm that I agree with the content of the property website and the publication of the property website on Brixel and external portals.', lang)}
@@ -152,7 +197,7 @@ const TermsConditionSwitch = (props: TermsConditionSwitchType) => {
                 className="fsize-400 ml-small-4 td-u fweight-600 txtGreen400"
               >
                 {translateTo('terms of the contract', lang)}
-              </a> <span className="txtRed400"> *</span>
+              </a> <span className="txtRed400 pos-a-fix ml-small-4"> *</span>
             </p>
             <p>
               {translateTo('I hereby confirm that I have read and understood the contract terms for the Brixel One service package and accept them.', lang)}
@@ -179,14 +224,14 @@ const TermsConditionSwitch = (props: TermsConditionSwitchType) => {
                     </span>
                     <span
                       onClick={(e) => openModal(e)}
-                      className="fsize-400 ml-small-4 td-u fweight-600 txtGreen400"
+                      className="fsize-400 cur-poi ml-small-4 td-u fweight-600 txtGreen400"
                     >
                       {translateTo('waiver declaration', lang)}
                     </span>
                     <span className='pl-small-4'>
                       {translateTo('to Baloise', lang)}
                     </span>
-                    <span className="txtRed400"> *</span>
+                    <span className="txtRed400 pos-a-fix ml-small-4"> *</span>
                   </p>
                   <p>
                     {translateTo('I confirm and agree that Baloise can keep the remuneration received from Brixel and hereby waive the right to have this remuneration passed on to me.', lang)}
