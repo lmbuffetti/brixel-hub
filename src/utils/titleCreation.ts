@@ -62,6 +62,24 @@ const aptAdjective = {
     'Acolhedor',
     'Luminoso',
   ],
+  fr: [
+    'Magnifique',
+    'Charmant',
+    'Élégant',
+    'Somptueux',
+    'Splendide',
+    'Ravissant',
+    'Spacieux',
+    'Superbe',
+    'Incroyable',
+    'Séduisant',
+    'Bel',
+    'Agréable',
+    'Sublime',
+    'Prestigieux',
+    'Joli',
+    'Luxueux',
+  ],
 };
 
 const houseAdjective = {
@@ -126,25 +144,25 @@ const houseAdjective = {
   ],
   fr: [
     'Magnifique',
-    'Charmant',
-    'Élégant',
-    'Prestigieux',
-    'Unique',
-    'Exquisite',
-    'Spacieux',
-    'Superbe',
-    'Merveilleux',
-    'Aimant',
+    'Charmante',
+    'Élégante',
+    'Somptueuse',
+    'Splendide',
+    'Ravissante',
+    'Spacieuse',
     'Superbe',
     'Incroyable',
-    'Fabuleux',
-    'Sophistiqué',
-    'Moderne',
-    'Incroyable',
+    'Séduisante',
+    'Belle',
+    'Agréable',
+    'Sublime',
+    'Prestigieuse',
+    'Jolie',
+    'Luxueuse',
   ],
 };
 
-const builadingLandAdjective = {
+const buildingLandAdjective = {
   de: [
     'Schönes',
     'Einzigartiges',
@@ -213,7 +231,7 @@ export const titleProperty = (location, propertyType, lang, formValue) => {
   let pageTitle;
   const translatedPropertyType = translateTo(propertyType, lang);
   if (propertyType === 'House' || propertyType === 'Commercial') adjective = houseAdjective;
-  if (propertyType === 'Building land') adjective = builadingLandAdjective;
+  if (propertyType === 'Building land') adjective = buildingLandAdjective;
   if (getCountry === 'PT') {
     const bedrooms = get(formValue, 'properties.typology.bedrooms', null);
     const livingSpace = get(formValue, 'properties.typology.grossArea.value', get(formValue, 'properties.typology.livingArea.value', null));
