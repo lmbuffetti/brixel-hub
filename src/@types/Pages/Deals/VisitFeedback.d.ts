@@ -12,10 +12,10 @@ export interface VisitFeedbackType {
   errorValue: object;
   formValue: FormValueType;
   lng: string;
-  handleGetActiveSingleProperty: (darta: object) => void;
+  handleGetActiveSingleProperty: (data: object) => void;
   handleSetLanguage: (data: string) => void;
-  handleInitForm: (darta: object) => void;
-  handleSendVisitFeedback: (darta: object) => void;
+  handleInitForm: (data: object) => void;
+  handleSendVisitFeedback: (data: object) => void;
   handleSetActiveSingleCompany: (data: string) => void;
   initialValues: FormValueType;
   isSmallLoading: {

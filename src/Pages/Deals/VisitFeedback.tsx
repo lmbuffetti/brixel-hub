@@ -14,6 +14,7 @@ import {bindActionCreators, compose} from 'redux';
 import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import {connect} from 'react-redux';
 import get from 'lodash/get';
+import set from 'lodash/set';
 import {setLanguage, spinnerOff} from '../../actions/CommonActions';
 import {sendVisitFeedback} from '../../actions/DealActions';
 import {getActiveSingleProperty} from '../../actions/PropertyActions';
@@ -80,6 +81,7 @@ const VisitFeedback = (props: VisitFeedbackType) => {
       sendSlack: true,
       isInterested: status,
     };
+    if (status === true) set(data, 'link', `/packageFlow/${activeSingleProperty.id}/makeOffer`)
     handleSendVisitFeedback(data);
   };
 
@@ -144,9 +146,10 @@ const VisitFeedback = (props: VisitFeedbackType) => {
                                 <h6>{translateTo('Do you want to make an offer?', (lng))}</h6>
                                 <p>{translateTo('Make your offer online and have a proof of financing ready.', lng)}</p>
                                 <BrixelButtonPrimary
-                                  onClick={() => history.push(`/packageFlow/${activeSingleProperty.id}/makeOffer`)}
+                                  onClick={() => saveData()}
                                   rounded
                                   className="w-fit mx-a mt-3"
+                                  isLoading={isSmallLoading.sendVisit}
                                   label={translateTo('Make an offer', lng)}
                                 />
                               </div>

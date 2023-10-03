@@ -862,6 +862,7 @@ const checkCommon = (store) => (next) => (action) => {
         id,
         visitID,
         sendSlack,
+        link,
       } = objData;
       delete objData.smallLoader;
       delete objData.id;
@@ -887,6 +888,12 @@ const checkCommon = (store) => (next) => (action) => {
               payload: {
                 [smallLoader]: false,
                 [`${smallLoader}Sent`]: true,
+              },
+            });
+            store.dispatch({
+              type: REDIRECT_TO,
+              payload: {
+                history: link,
               },
             });
           } else {
