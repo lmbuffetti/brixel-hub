@@ -27,6 +27,7 @@ import {
   SPINNER_SMALL,
   SPINNER_SMALL_OFF,
 } from '../actions/types/CommonTypes';
+import {languagesList} from '@brixel-io/brixel-components/dist/configuration/Constants';
 
 export const defaultState: CommonReducerType = {
   configUrl: getConfigEnv,
@@ -63,8 +64,11 @@ export const defaultState: CommonReducerType = {
   wizard: {},
 };
 
-const convertLanguage = (lang) => {
-  return lang === 'en_US' ? 'en' : lang;
+const convertLanguage = (lng) => {
+  let lang = 'en';
+  const checkLangExist = languagesList.find((lg) => lg.code === lng);
+  if (checkLangExist) lang = lng;
+  return lang;
 }
 
 export default handleActions<CommonReducerType>(
