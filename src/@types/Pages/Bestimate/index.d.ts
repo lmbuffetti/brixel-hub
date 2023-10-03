@@ -6,6 +6,7 @@ export interface BestimateType {
   errorValue: object;
   formValue: PropertyType;
   handleReset: (form: string, data: object) => void;
+  hanldeGetActiveSingleProperty: (data: object) => void;
   handleSaveActiveSingleProperty: (data: object) => void;
   initForm: (data: object) => void;
   initialValues: object;

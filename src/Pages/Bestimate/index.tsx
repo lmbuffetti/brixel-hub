@@ -15,7 +15,7 @@ import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
 import queryString from 'query-string';
 import {BestimateQuestions} from '../../resources/Flows/Bestimate';
-import {saveActiveSingleProperty} from '../../actions/PropertyActions';
+import {getActiveSingleProperty, saveActiveSingleProperty} from '../../actions/PropertyActions';
 import {QuestionsListType} from '@brixel-io/brixel-components/dist/@types/Model';
 import type {BestimateType} from '../../@types/Pages/Bestimate';
 
@@ -31,6 +31,7 @@ const Bestimate = (props: BestimateType) => {
     changeFieldValue,
     errorValue,
     formValue,
+    hanldeGetActiveSingleProperty,
     handleSaveActiveSingleProperty,
     initForm,
     initialValues,
@@ -61,6 +62,12 @@ const Bestimate = (props: BestimateType) => {
       }
     }
   }, [activeSingleProperty]);
+
+  useEffect(() => {
+    if (!activeSingleProperty.id) {
+      hanldeGetActiveSingleProperty({ fullVersion: true, id: propID, multiLoader: !formValue.id })
+    }
+  }, []);
 
   useEffect(() => {
     const redirectURL = get(urlData, 'url', null);
@@ -133,6 +140,7 @@ const Bestimate = (props: BestimateType) => {
       properties: get(formValue, 'properties', {}),
     };
     handleSaveActiveSingleProperty(data);
+    history.push(`/${propID}/home`);
     handleReset('Property', initialValuesPage);
   };
 
@@ -382,6 +390,7 @@ const mapDispatchToProps = (dispatch) => ({
   initForm(value) {
     dispatch(initializeForm('GamingFlow', value));
   },
+  hanldeGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
 });
 
