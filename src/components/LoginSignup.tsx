@@ -10,13 +10,10 @@ import Slider from 'react-slick';
 import {setFormError} from '../actions/CommonActions';
 import {recoverPassword} from '../actions/UserActions';
 import {checkBrowser} from '../utils/helpers';
-import Testimonial1CH from '../images/getstarted/testimonial-1_CH.jpeg';
-import Testimonial2CH from '../images/getstarted/testimonial-2_CH.jpeg';
-import Testimonial3CH from '../images/getstarted/testimonial-3_CH.jpeg';
-import Testimonial1PT from '../images/getstarted/testimonial-1_PT.jpg';
-import Testimonial2PT from '../images/getstarted/testimonial-2_PT.jpg';
-import Testimonial3PT from '../images/getstarted/testimonial-3_PT.jpg';
-import searchResultIcon from '../images/getstarted/search-result.svg';
+import illustration01 from '../images/getstarted/illustrations/signup-illustration-01.svg';
+import illustration02 from '../images/getstarted/illustrations/signup-illustration-02.svg';
+import illustration03 from '../images/getstarted/illustrations/signup-illustration-03.svg';
+import illustration04 from '../images/getstarted/illustrations/signup-illustration-04.svg';
 import translateTo from '../utils/translation';
 import type {LoginSignupType} from '../@types/components/LoginSignup';
 
@@ -193,9 +190,16 @@ const LoginSignup = (props: LoginSignupType) => {
   }
 
   return (
-    <div className="signUpScreen pos-r dis-f jc-c flex-wrap w-perc-100">
+    <div className="signUpScreen pos-r dis-fl-col dis-fl-row-lg jc-c w-perc-100">
       <div className="m-a mt-0 max-w-fix-600 w-perc-100">
         <div className="mr-a ml-a onBoardingSignUp">
+          <div className="max-w-fix-376 dis-fl-col a-c jc-c ta-c w-perc-100 ml-a mr-a mb-3  hide-lg">
+            <h2 className="fSizePx26-sm fsize-500 fweight-600">
+              <span>{translateTo('Join', lang)}</span>
+              <span className="txtGreen400 mx-1">{translateTo(' thousands of buyers and sellers', lang)}</span>
+              <span>{translateTo('who have already registered.', lang)}</span>
+            </h2>
+          </div>
           {
             (loginPage === 'register' || loginPage === 'login' || loginPage === 'reset') && (
               <>
@@ -329,96 +333,63 @@ const LoginSignup = (props: LoginSignupType) => {
 
         </div>
       </div>
-      <div className="w-perc-100 w-perc-lg-50 dis-fl-col a-c jc-c py-2 pt-md-0 pb-md-10">
-        <div className="max-w-fix-304 dis-fl-col a-c jc-c ta-c w-perc-100 ml-a mr-a mb-6 mb-sm-10">
-          <img loading="lazy" width="100px" src={searchResultIcon} alt="search result" />
+      <div className="w-perc-100 w-perc-lg-50 dis-fl-col a-c jc-c py-2 pt-md-0 pb-lg-10">
+        <div className="max-w-fix-376 dis-fl-col-lg a-c jc-c ta-c w-perc-100 ml-a mr-a mb-3 hide">
           <h2
             className="fSizePx26-sm fsize-500 mt-3 fweight-600"
           >
-            <span>{translateTo('Hundreds of', lang)}</span>
-            <span className="txtGreen400 mx-1">{translateTo('potential buyers', lang)}</span>
-            <span>{translateTo('are waiting for your property', lang)}</span>
+            <span>{translateTo('Join', lang)}</span>
+            <span className="txtGreen400 mx-1">{translateTo(' thousands of buyers and sellers', lang)}</span>
+            <span>{translateTo('who have already registered.', lang)}</span>
           </h2>
         </div>
         <div className="max-w-fix-440 w-perc-100 ml-a mr-a testimonialsSlide">
 
-          {
-            get(formValue, 'location.countryCode', '') === 'CH' ? (
-              <Slider ref={sliderInstance} {...settingSlider}>
-                <div className="ta-c ml-a mr-a mb-2">
-                  <img loading="lazy" src={Testimonial1CH} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
-                  <h2 className="ta-c mb-2 fweight-600 fSizePx26-sm fsize-500">
-                    {translateTo('"Absolutely perfect and uncomplicated"', lang)}
-                  </h2>
+          <Slider ref={sliderInstance} {...settingSlider}>
+            <div className="ta-c ml-a mr-a mb-2">
+              <img loading="lazy" src={illustration01} alt="Fabian Testimonial" className="max-w-fix-176 ml-a mr-a mb-3" />
+              <h2 className="ta-c mb-2 fweight-500 fsize-500">
+                {translateTo('"Absolutely perfect and uncomplicated"', lang)}
+              </h2>
 
-                  <h5 className="ta-c txtPrimary400">M. Hardegger</h5>
-                  <p className="ta-c txtPrimary400 fsize-500">
-                    {translateTo('House sold', lang)}
-                  </p>
-                </div>
+              <p className="ta-c txtPrimary400">
+                {translateTo('R. Willi bought an apartment', lang)}
+              </p>
+            </div>
 
-                <div className="ta-c ml-a mr-a mb-2">
-                  <img loading="lazy" src={Testimonial2CH} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
-                  <h2 className="ta-c mb-2 fweight-600 fSizePx26-sm fsize-500">
-                    {translateTo('"We would sell with Brixel again anytime."', lang)}
-                  </h2>
+            <div className="ta-c ml-a mr-a mb-2">
+              <img loading="lazy" src={illustration02} alt="Fabian Testimonial" className="max-w-fix-176 ml-a mr-a mb-3" />
+              <h2 className="ta-c mb-2 fweight-500 fsize-500">
+                {translateTo('"We would sell with Brixel again anytime."', lang)}
+              </h2>
 
-                  <h5 className="ta-c txtPrimary400">F. Pfiffner</h5>
-                  <p className="ta-c txtPrimary400 fsize-500">
-                    {translateTo('Saved CHF 30\'700', lang)}
-                  </p>
-                </div>
+              <p className="ta-c txtPrimary400">
+                {translateTo('J. Beurret bought a house', lang)}
+              </p>
+            </div>
 
-                <div className="ta-c ml-a mr-a mb-2">
-                  <img loading="lazy" src={Testimonial3CH} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
-                  <h2 className="ta-c mb-2 fweight-600 fSizePx26-sm fsize-500">
-                    {translateTo('"Excellent service with flexible fees."', lang)}
-                  </h2>
+            <div className="ta-c ml-a mr-a mb-2">
+              <img loading="lazy" src={illustration03} alt="Fabian Testimonial" className="max-w-fix-176 ml-a mr-a mb-3" />
+              <h2 className="ta-c mb-2 fweight-500 fsize-500">
+                {translateTo('"Excellent service with flexible fees."', lang)}
+              </h2>
 
-                  <h5 className="ta-c txtPrimary400">M. Callaghan</h5>
-                  <p className="ta-c txtPrimary400 fsize-500">
-                    {translateTo('Saved CHF 44\'050', lang)}
-                  </p>
-                </div>
-              </Slider>
-            ) : (
-              <Slider ref={sliderInstance} {...settingSlider}>
-                <div className="ta-c ml-a mr-a mb-2">
-                  <img loading="lazy" src={Testimonial1PT} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
-                  <h2 className="ta-c mb-2 fweight-600 fSizePx26-sm fsize-500">
-                    {translateTo('"Always quick in responding, friendly, professional."', lang)}
-                  </h2>
+              <p className="ta-c txtPrimary400">
+                {translateTo('M. Hardegger sold a house', lang)}
+              </p>
+            </div>
 
-                  <h5 className="ta-c txtPrimary400">Katrien Willems</h5>
-                  <p className="ta-c txtPrimary400 fsize-500" />
-                </div>
+            <div className="ta-c ml-a mr-a mb-2">
+              <img loading="lazy" src={illustration04} alt="Fabian Testimonial" className="max-w-fix-176 ml-a mr-a mb-3" />
+              <h2 className="ta-c mb-2 fweight-500 fsize-500">
+                {translateTo('"Excellent service with flexible fees."', lang)}
+              </h2>
 
-                <div className="ta-c ml-a mr-a mb-2">
-                  <img loading="lazy" src={Testimonial2PT} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
-                  <h2 className="ta-c mb-2 fweight-600 fSizePx26-sm fsize-500">
-                    {translateTo('"Everything went incredibly awell, it doesn\'t even seem real!"', lang)}
-                  </h2>
-
-                  <h5 className="ta-c txtPrimary400">Luca Benussi</h5>
-                  <p className="ta-c txtPrimary400 fsize-500">
-                    {translateTo('Saved 18.400€', lang)}
-                  </p>
-                </div>
-
-                <div className="ta-c ml-a mr-a mb-2">
-                  <img loading="lazy" src={Testimonial3PT} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
-                  <h2 className="ta-c mb-2 fweight-600 fSizePx26-sm fsize-500">
-                    {translateTo('"The sale was done even faster than expected."', lang)}
-                  </h2>
-
-                  <h5 className="ta-c txtPrimary400">Márcia Traça</h5>
-                  <p className="ta-c txtPrimary400 fsize-500">
-                    {translateTo('Saved 13.000€', lang)}
-                  </p>
-                </div>
-              </Slider>
-            )
-          }
+              <p className="ta-c txtPrimary400">
+                {translateTo('M. Callaghan saved CHF 44\'050', lang)}
+              </p>
+            </div>
+          </Slider>
 
         </div>
       </div>

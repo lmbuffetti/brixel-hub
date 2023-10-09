@@ -2,7 +2,7 @@
   background-color: map-get($primaryColor, 200);
 }
 .bgCardGreen {
-  background-color: map-get($primaryColor, 100);
+  background-color: map-get($primaryColor, 50);
   .bodyModal {
     justify-content: center;
     .singleStep {
@@ -524,28 +524,19 @@ body:not(.overlayOpen).locationInputResume {
       li {
         width: 8px;
         height: 8px;
-        button{
-          &:before {
-            width: 8px;
-            height: 8px;
-            font-size: 0;
-            border-radius: 50%;
-            background-color: #A1DED2;
-            opacity: 1;
-          }
+        button {
+          background-color: map-get($primaryColor, 200);
         }
         &.slick-active {
           button {
-            &:before {
-              background-color: $brx-white;
-            }
+            background-color: $brx-white;
           }
         }
       }
     }
   }
   .supportBtn {
-    background-color: map-get($primaryColor, 100);
+    background-color: map-get($primaryColor, 50);
     @media (min-width: $responsive-medium) {
       background-color: transparent;
     }
