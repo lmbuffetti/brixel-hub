@@ -196,7 +196,7 @@ const LoginSignup = (props: LoginSignupType) => {
           <div className="max-w-fix-376 dis-fl-col a-c jc-c ta-c w-perc-100 ml-a mr-a mb-3  hide-lg">
             <h2 className="fSizePx26-sm fsize-500 fweight-600">
               <span>{translateTo('Join', lang)}</span>
-              <span className="txtGreen400 mx-1">{translateTo(' thousands of buyers and sellers', lang)}</span>
+              <span className="txtGreen400 mx-1">{translateTo('thousands of buyers and sellers', lang)}</span>
               <span>{translateTo('who have already registered.', lang)}</span>
             </h2>
           </div>
@@ -339,7 +339,7 @@ const LoginSignup = (props: LoginSignupType) => {
             className="fSizePx26-sm fsize-500 mt-3 fweight-600"
           >
             <span>{translateTo('Join', lang)}</span>
-            <span className="txtGreen400 mx-1">{translateTo(' thousands of buyers and sellers', lang)}</span>
+            <span className="txtGreen400 mx-1">{translateTo('thousands of buyers and sellers', lang)}</span>
             <span>{translateTo('who have already registered.', lang)}</span>
           </h2>
         </div>
@@ -347,7 +347,7 @@ const LoginSignup = (props: LoginSignupType) => {
 
           <Slider ref={sliderInstance} {...settingSlider}>
             <div className="ta-c ml-a mr-a mb-2">
-              <img loading="lazy" src={illustration01} alt="Fabian Testimonial" className="max-w-fix-176 ml-a mr-a mb-3" />
+              <img  src={illustration01} alt="Fabian Testimonial" className="max-w-fix-176 ml-a mr-a mb-3" />
               <h2 className="ta-c mb-2 fweight-500 fsize-500">
                 {translateTo('“The presentation was the best we had seen in our search.”', lang)}
               </h2>
@@ -358,7 +358,7 @@ const LoginSignup = (props: LoginSignupType) => {
             </div>
 
             <div className="ta-c ml-a mr-a mb-2">
-              <img loading="lazy" src={illustration02} alt="Fabian Testimonial" className="max-w-fix-176 ml-a mr-a mb-3" />
+              <img src={illustration02} alt="Fabian Testimonial" className="max-w-fix-176 ml-a mr-a mb-3" />
               <h2 className="ta-c mb-2 fweight-500 fsize-500">
                 {translateTo('"Brixel gave me a lot of support in the purchase of my property and was always there to help and advise."', lang)}
               </h2>
@@ -369,7 +369,7 @@ const LoginSignup = (props: LoginSignupType) => {
             </div>
 
             <div className="ta-c ml-a mr-a mb-2">
-              <img loading="lazy" src={illustration03} alt="Fabian Testimonial" className="max-w-fix-176 ml-a mr-a mb-3" />
+              <img  src={illustration03} alt="Fabian Testimonial" className="max-w-fix-176 ml-a mr-a mb-3" />
               <h2 className="ta-c mb-2 fweight-500 fsize-500">
                 {translateTo('"Absolutely perfect and uncomplicated."', lang)}
               </h2>
@@ -380,7 +380,7 @@ const LoginSignup = (props: LoginSignupType) => {
             </div>
 
             <div className="ta-c ml-a mr-a mb-2">
-              <img loading="lazy" src={illustration04} alt="Fabian Testimonial" className="max-w-fix-176 ml-a mr-a mb-3" />
+              <img  src={illustration04} alt="Fabian Testimonial" className="max-w-fix-176 ml-a mr-a mb-3" />
               <h2 className="ta-c mb-2 fweight-500 fsize-500">
                 {translateTo('"Excellent service with flexible fees."', lang)}
               </h2>
