@@ -172,6 +172,7 @@ export const QuestionsList: (lang: string, type: string, changeField: (field: st
           name: 'locations',
           classNameBox: 'max-w-perc-100',
           searchType: 'cities',
+          placeholder: translateTo('Zip / City', lang),
           type: 'Map',
           lang: lang,
           country: get(formValue, 'location.countryCode', 'ch'),
