@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import { useParams } from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import { BrixelIcon} from '@brixel-io/brixel-components';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
@@ -9,8 +9,13 @@ import {DateTime} from 'luxon';
 import translateTo from '../../utils/translation';
 import TimelineStubs from '../../resources/Utilities/timelineActionStubs';
 import { getHistoryListings } from '../../actions/HistoryActions';
+import BrixelButtonPrimary from '@brixel-io/brixel-components/dist/components/BrixelButtonPrimary';
 
 const TermsAcceptance = (props) => {
+  const history = {
+    push: useNavigate(),
+  };
+
   // PROPS
   const {
     handleGetHistoryTerms,
@@ -59,7 +64,19 @@ const TermsAcceptance = (props) => {
           <p>
             <span>{translateTo('Terms accepted on', lang)}</span> <span className="fweight-600">{DateTime.fromMillis(get(activeSinglePropertyHistory.data[0], 'meta.acceptanceDate', 0), { locale: lang }).toFormat('dd LLL yyyy, H:mm')}</span>
           </p>
+
+          <hr className="mt-2" />
+
+          <BrixelButtonPrimary
+            rounded
+            label={translateTo('View terms', lang)}
+            rightIcon="arrow-right"
+            className="mt-2 mr-0 ml-a"
+            onClick={() => history.push(`/${propID}/termsConditionPage`)}
+          />
+
         </div>
+
       </>
     );
   } else return null
