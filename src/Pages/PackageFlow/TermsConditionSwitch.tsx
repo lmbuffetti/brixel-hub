@@ -93,10 +93,9 @@ const TermsConditionSwitch = (props: TermsConditionSwitchType) => {
           {
             round: true,
             clr: 'Text',
-            sat: 800,
-            btnType: 'Tertiary',
+            btnType: 'Primary',
             name: translateTo('Close', lang),
-            className: 'ml-0 mr-a',
+            className: 'ml-a mr-a',
             func: () => handleSetModal({ state: false }),
           },
         ],
@@ -166,10 +165,10 @@ const TermsConditionSwitch = (props: TermsConditionSwitchType) => {
         <div className="dis-f jc-b a-t">
           {
             activeSingleProperty?.acceptTermsOfContract ? (
-              <div className='mt-1 min-w-fix-40 min-w-fix-sm-64'>
+              <div className='mt-1 min-w-fix-32 min-w-fix-sm-64'>
                 <img
                   src={successCheckImg}
-                  className='h-fix-40 w-fix-40 h-fix-sm-64 w-fix-sm-64'
+                  className='h-fix-32 w-fix-32 h-fix-sm-64 w-fix-sm-64'
                   alt="accepted confirmContentOnBrixelPage"
                 />
               </div>
@@ -208,10 +207,10 @@ const TermsConditionSwitch = (props: TermsConditionSwitchType) => {
         <div className="dis-f jc-b a-t">
           {
             activeSingleProperty?.confirmContentOnBrixelPage ? (
-              <div className='mt-1 min-w-fix-40 min-w-fix-sm-64'>
+              <div className='mt-1 min-w-fix-32 min-w-fix-sm-64'>
                 <img
                   src={successCheckImg}
-                  className='h-fix-40 w-fix-40 h-fix-sm-64 w-fix-sm-64'
+                  className='h-fix-32 w-fix-32 h-fix-sm-64 w-fix-sm-64'
                   alt="accepted confirmContentOnBrixelPage"
                 />
               </div>
@@ -252,10 +251,10 @@ const TermsConditionSwitch = (props: TermsConditionSwitchType) => {
               <div className="dis-f jc-b a-t">
                 {
                   activeSingleProperty?.acceptWaiverDeclarationToBaloise ? (
-                    <div className='mt-1 min-w-fix-40 min-w-fix-sm-64'>
+                    <div className='mt-1 min-w-fix-32 min-w-fix-sm-64'>
                       <img
                         src={successCheckImg}
-                        className='h-fix-40 w-fix-40 h-fix-sm-64 w-fix-sm-64'
+                        className='h-fix-32 w-fix-32 h-fix-sm-64 w-fix-sm-64'
                         alt="accepted confirmContentOnBrixelPage"
                       />
                     </div>
