@@ -155,9 +155,10 @@ const TermsConditionSwitch = (props: TermsConditionSwitchType) => {
         <div className="dis-f jc-b a-t">
           {
             activeSingleProperty?.acceptTermsOfContract ? (
-              <div>
+              <div className='mt-1 min-w-fix-40 min-w-fix-sm-64'>
                 <img
                   src={successCheckImg}
+                  className='h-fix-40 w-fix-40 h-fix-sm-64 w-fix-sm-64'
                   alt="accepted confirmContentOnBrixelPage"
                 />
               </div>
@@ -172,7 +173,7 @@ const TermsConditionSwitch = (props: TermsConditionSwitchType) => {
               />
             )
           }
-          <div className="ml-3">
+          <div className="pl-3">
             <p className="dis-ib fsize-400 fweight-600 mb-1 pos-r">
               <span>
                 {translateTo('Confirm the content on the', lang)}
@@ -196,9 +197,10 @@ const TermsConditionSwitch = (props: TermsConditionSwitchType) => {
         <div className="dis-f jc-b a-t">
           {
             activeSingleProperty?.confirmContentOnBrixelPage ? (
-              <div>
+              <div className='mt-1 min-w-fix-40 min-w-fix-sm-64'>
                 <img
                   src={successCheckImg}
+                  className='h-fix-40 w-fix-40 h-fix-sm-64 w-fix-sm-64'
                   alt="accepted confirmContentOnBrixelPage"
                 />
               </div>
@@ -213,7 +215,7 @@ const TermsConditionSwitch = (props: TermsConditionSwitchType) => {
               />
             )
           }
-          <div className="ml-3">
+          <div className="pl-3">
             <p className="dis-ib fsize-400 fweight-600 mb-1">
               <span>
                 {translateTo('Accept the', lang)}
@@ -239,9 +241,10 @@ const TermsConditionSwitch = (props: TermsConditionSwitchType) => {
               <div className="dis-f jc-b a-t">
                 {
                   activeSingleProperty?.acceptWaiverDeclarationToBaloise ? (
-                    <div>
+                    <div className='mt-1 min-w-fix-40 min-w-fix-sm-64'>
                       <img
                         src={successCheckImg}
+                        className='h-fix-40 w-fix-40 h-fix-sm-64 w-fix-sm-64'
                         alt="accepted confirmContentOnBrixelPage"
                       />
                     </div>
@@ -256,7 +259,7 @@ const TermsConditionSwitch = (props: TermsConditionSwitchType) => {
                     />
                   )
                 }
-                <div className="ml-3">
+                <div className="pl-3">
                   <p className="dis-ib fsize-400 fweight-600 mb-1">
                     <span>
                       {translateTo('Accept the', lang)}
