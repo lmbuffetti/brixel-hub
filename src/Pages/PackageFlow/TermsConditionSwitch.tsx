@@ -70,25 +70,36 @@ const TermsConditionSwitch = (props: TermsConditionSwitchType) => {
       classTitle: 'fsize-600 fweight-600 px-1',
       bodyInnerClass: 'p-1',
       layout: 'xxlarge',
-      multiActions: [
-        {
-          round: true,
-          clr: 'Text',
-          sat: 800,
-          btnType: 'Tertiary',
-          name: translateTo('Close', lang),
-          className: 'ml-0 mr-a',
-          func: () => handleSetModal({ state: false }),
-        },
-        {
-          round: true,
-          clr: 'text',
-          className: 'mr-2',
-          btnType: 'Primary',
-          name: translateTo('Accept', lang),
-          func: () => acceptTerm('acceptWaiverDeclaration'),
-        },
-      ],
+      multiActions:
+        !activeSingleProperty?.acceptWaiverDeclarationToBaloise ? [
+          {
+            round: true,
+            clr: 'Text',
+            sat: 800,
+            btnType: 'Tertiary',
+            name: translateTo('Close', lang),
+            className: 'ml-0 mr-a',
+            func: () => handleSetModal({ state: false }),
+          },
+          {
+            round: true,
+            clr: 'text',
+            className: 'mr-2',
+            btnType: 'Primary',
+            name: translateTo('Accept', lang),
+            func: () => acceptTerm('acceptWaiverDeclaration'),
+          },
+        ] : [
+          {
+            round: true,
+            clr: 'Text',
+            sat: 800,
+            btnType: 'Tertiary',
+            name: translateTo('Close', lang),
+            className: 'ml-0 mr-a',
+            func: () => handleSetModal({ state: false }),
+          },
+        ],
     });
   }
 
