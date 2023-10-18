@@ -8,7 +8,8 @@ export interface FormValueType {
 }
 
 export interface TermsPublishPageType {
-  activeSingleCompany: CompanyType
+  activeSingleCompany: CompanyType;
+  activeSingleProperty: PropertyType;
   destroyForm: () => void;
   formValue: FormValueType;
   handleGetActiveSingleCompany: (data: object) => void;

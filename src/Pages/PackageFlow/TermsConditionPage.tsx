@@ -16,7 +16,6 @@ import {doLogin, saveActiveSingleUser, validateUser} from '../../actions/UserAct
 import {QuestionsList} from '../../resources/Companies/TermsCondition/TermsConditionPage';
 import type {TermsPublishPageType} from '../../@types/Pages/PackageFlow/TermsConditionPage';
 import FlowScreen from '../../components/FlowScreen';
-import {activeSingleProperty} from '@brixel-io/brixel-components/dist/resources/property';
 
 const TermsCondition = (props: TermsPublishPageType) => {
   const history = {
@@ -27,6 +26,7 @@ const TermsCondition = (props: TermsPublishPageType) => {
   // PROPS
   const {
     activeSingleCompany,
+    activeSingleProperty,
     destroyForm,
     formValue,
     handleGetActiveSingleCompany,
@@ -43,7 +43,7 @@ const TermsCondition = (props: TermsPublishPageType) => {
   const propID = get(match, 'pageID', null);
 
   // SET THE QUESTIONS IN BASE OF THE COUNTRY
-  const [questions, setQuestions] = useState(QuestionsList(lang));
+  const [questions, setQuestions] = useState(QuestionsList(lang, activeSingleProperty?.acceptTermsOfContract));
   const [currentIndex, setCurrentIndex] = useState(0);
 
   // DESTROY FORM ON EXIT
@@ -92,7 +92,7 @@ const TermsCondition = (props: TermsPublishPageType) => {
   // ON CHANGE LANGUAGE RELOAD THE QUESTIONS TRANSLATED
   useEffect(() => {
     if (activeSingleCompany.stub) {
-      setQuestions(QuestionsList(lang));
+      setQuestions(QuestionsList(lang, activeSingleProperty?.acceptTermsOfContract));
     }
   }, [lang, activeSingleCompany.stub, translations, formValue]);
 

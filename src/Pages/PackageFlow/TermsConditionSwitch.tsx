@@ -5,14 +5,20 @@ import {
 } from '@brixel-io/brixel-components';
 import get from 'lodash/get';
 import {connect} from 'react-redux';
+import {useLocation, useNavigate} from 'react-router-dom';
 import {bindActionCreators, compose} from 'redux';
 import translateTo from '../../utils/translation';
 import type {TermsConditionSwitchType} from '../../@types/Pages/PackageFlow/TermConditionSwitch';
 import {BrixelSwitchButton, ReduxField, Validation, change} from '@brixel-io/brixel-components/dist/form';
 import baseByData from '@brixel-io/brixel-components/dist/configuration/Settings';
 import {setModal} from '../../actions/CommonActions';
+import successCheckImg from '../../images/Marketing/successCheck.svg';
 
 const TermsConditionSwitch = (props: TermsConditionSwitchType) => {
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
 
   const {
     activeSingleCompany,
@@ -147,14 +153,25 @@ const TermsConditionSwitch = (props: TermsConditionSwitchType) => {
     <div className="max-w-fix-632 ml-a mr-a">
       <div className="brdRadius bgWhite brdSmall brdText100 p-2 p-sm-4">
         <div className="dis-f jc-b a-t">
-          <ReduxField
-            component={BrixelSwitchButton}
-            form="TermsCondition"
-            input={{
-              name: 'confirmContent',
-              validate: [Validation.required],
-            }}
-          />
+          {
+            activeSingleProperty?.acceptTermsOfContract ? (
+              <div>
+                <img
+                  src={successCheckImg}
+                  alt="accepted confirmContentOnBrixelPage"
+                />
+              </div>
+            ) : (
+              <ReduxField
+                component={BrixelSwitchButton}
+                form="TermsCondition"
+                input={{
+                  name: 'confirmContent',
+                  validate: [Validation.required],
+                }}
+              />
+            )
+          }
           <div className="ml-3">
             <p className="dis-ib fsize-400 fweight-600 mb-1 pos-r">
               <span>
@@ -177,14 +194,25 @@ const TermsConditionSwitch = (props: TermsConditionSwitchType) => {
         </div>
         <hr className="my-3 brdText100"/>
         <div className="dis-f jc-b a-t">
-          <ReduxField
-            component={BrixelSwitchButton}
-            form="TermsCondition"
-            input={{
-              name: 'acceptContract',
-              validate: [Validation.required],
-            }}
-          />
+          {
+            activeSingleProperty?.confirmContentOnBrixelPage ? (
+              <div>
+                <img
+                  src={successCheckImg}
+                  alt="accepted confirmContentOnBrixelPage"
+                />
+              </div>
+            ) : (
+              <ReduxField
+                component={BrixelSwitchButton}
+                form="TermsCondition"
+                input={{
+                  name: 'acceptContract',
+                  validate: [Validation.required],
+                }}
+              />
+            )
+          }
           <div className="ml-3">
             <p className="dis-ib fsize-400 fweight-600 mb-1">
               <span>
@@ -209,14 +237,25 @@ const TermsConditionSwitch = (props: TermsConditionSwitchType) => {
             <>
               <hr className="my-3 brdText100"/>
               <div className="dis-f jc-b a-t">
-                <ReduxField
-                  component={BrixelSwitchButton}
-                  form="TermsCondition"
-                  input={{
-                    name: 'acceptWaiverDeclaration',
-                    validate: [Validation.required],
-                  }}
-                />
+                {
+                  activeSingleProperty?.acceptWaiverDeclarationToBaloise ? (
+                    <div>
+                      <img
+                        src={successCheckImg}
+                        alt="accepted confirmContentOnBrixelPage"
+                      />
+                    </div>
+                  ) : (
+                    <ReduxField
+                      component={BrixelSwitchButton}
+                      form="TermsCondition"
+                      input={{
+                        name: 'acceptWaiverDeclaration',
+                        validate: [Validation.required],
+                      }}
+                    />
+                  )
+                }
                 <div className="ml-3">
                   <p className="dis-ib fsize-400 fweight-600 mb-1">
                     <span>
@@ -243,14 +282,25 @@ const TermsConditionSwitch = (props: TermsConditionSwitchType) => {
         }
       </div>
 
-      <BrixelButtonPrimary
-        rounded
-        className="ml-a mr-a mt-4"
-        rightIcon="arrow-right"
-        label={translateTo('Send acceptance', lang)}
-        onClick={() => onSaveData()}
-        disabled={isSaveDisabled()}
-      />
+      {
+        activeSingleProperty?.acceptTermsOfContract ? (
+          <BrixelButtonPrimary
+            rounded
+            className="ml-a mr-a mt-4"
+            label={translateTo('Close', lang)}
+            onClick={() => history.push(`/${activeSingleProperty.id}/marketing`)}
+          />
+        ) : (
+          <BrixelButtonPrimary
+            rounded
+            className="ml-a mr-a mt-4"
+            rightIcon="arrow-right"
+            label={translateTo('Send acceptance', lang)}
+            onClick={() => onSaveData()}
+            disabled={isSaveDisabled()}
+          />
+        )
+      }
     </div>
   )
 }
