@@ -16,6 +16,8 @@ import {doLogin, saveActiveSingleUser, validateUser} from '../../actions/UserAct
 import {QuestionsList} from '../../resources/Companies/TermsCondition/TermsConditionPage';
 import type {TermsPublishPageType} from '../../@types/Pages/PackageFlow/TermsConditionPage';
 import FlowScreen from '../../components/FlowScreen';
+import {getHistoryListings} from '../../actions/HistoryActions';
+import TimelineStubs from '../../resources/Utilities/timelineActionStubs';
 
 const TermsCondition = (props: TermsPublishPageType) => {
   const history = {
@@ -29,11 +31,12 @@ const TermsCondition = (props: TermsPublishPageType) => {
     activeSingleProperty,
     destroyForm,
     formValue,
+    handleAcceptPageTerms,
     handleGetActiveSingleCompany,
     handleGetActiveSingleProperty,
+    handleGetHistoryTerms,
     handleSetSmallLoading,
     handleSpinnerOff,
-    handleAcceptPageTerms,
     initForm,
     initialValues,
     lang = 'en',
@@ -73,6 +76,17 @@ const TermsCondition = (props: TermsPublishPageType) => {
       fullVersion: true,
       id: propID,
     });
+    const payloadPageHistory = {
+      actionStubs: TimelineStubs.TermsAcceptance,
+      parent: propID,
+      resultsPerPage: 10,
+      offset: 0,
+      order: 'createdAt',
+      direction: 'DESC',
+      smallLoader: 'getPageHistory',
+      type: 'page',
+    };
+    handleGetHistoryTerms(payloadPageHistory);
   }, [propID]);
 
   // FUNCTION TO SAVE DATA
@@ -117,11 +131,12 @@ const TermsCondition = (props: TermsPublishPageType) => {
 const mapStateToProps = (state) => ({
   activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   activeSingleProperty: get(state, 'property.activeSingleProperty', null),
+  activeSinglePropertyHistory: get(state, 'history.activeSinglePropertyHistory', {}),
   errorValue: get(state, 'brixelForm.TermsCondition.syncErrors', {}),
   formValue: get(state, 'brixelForm.TermsCondition.values', {}),
   initialValues: get(state, 'brixelForm.TermsCondition.initialValues', {}),
-  isSmallLoading: get(state, 'common.isSmallLoading', {}),
   isLoading: get(state, 'common.isLoading', 0) > 0,
+  isSmallLoading: get(state, 'common.isSmallLoading', {}),
   lang: get(state, 'common.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
   packagesProperty: get(state, 'property.packagesProperty', []),
@@ -143,12 +158,13 @@ const mapDispatchToProps = (dispatch) => ({
     (dispatch(reset('TermsCondition', val)));
   },
   handleCreateActiveSingleProperty: bindActionCreators(createActiveSingleProperty, dispatch),
+  handleAcceptPageTerms: bindActionCreators(setPageTermsAcceptance, dispatch),
   handleDoLogin: bindActionCreators(doLogin, dispatch),
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
   handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
+  handleGetHistoryTerms: bindActionCreators(getHistoryListings, dispatch),
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
   handleSaveActiveSingleUser: bindActionCreators(saveActiveSingleUser, dispatch),
-  handleAcceptPageTerms: bindActionCreators(setPageTermsAcceptance, dispatch),
   handleSetSmallLoading: bindActionCreators(spinnerSmall, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
   handleSpinnerOn: bindActionCreators(spinnerOn, dispatch),

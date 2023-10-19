@@ -21,6 +21,7 @@ const TermsConditionSwitch = (props: TermsConditionSwitchType) => {
   };
 
   const {
+    activeSinglePropertyHistory,
     activeSingleCompany,
     activeSingleProperty,
     changeFieldValue,
@@ -164,7 +165,7 @@ const TermsConditionSwitch = (props: TermsConditionSwitchType) => {
       <div className="brdRadius bgWhite brdSmall brdText100 p-2 p-sm-4">
         <div className="dis-f jc-b a-t">
           {
-            activeSingleProperty?.acceptContract ? (
+            (activeSinglePropertyHistory.total > 0) ? (
               <div className='mt-1 min-w-fix-32 min-w-fix-sm-64'>
                 <img
                   src={successCheckImg}
@@ -206,7 +207,7 @@ const TermsConditionSwitch = (props: TermsConditionSwitchType) => {
         <hr className="my-3 brdText100"/>
         <div className="dis-f jc-b a-t">
           {
-            activeSingleProperty?.confirmContent ? (
+            (activeSinglePropertyHistory.total > 0) ? (
               <div className='mt-1 min-w-fix-32 min-w-fix-sm-64'>
                 <img
                   src={successCheckImg}
@@ -296,7 +297,7 @@ const TermsConditionSwitch = (props: TermsConditionSwitchType) => {
       </div>
 
       {
-        activeSingleProperty?.acceptContract ? (
+        (activeSinglePropertyHistory.total > 0) ? (
           <BrixelButtonPrimary
             rounded
             className="ml-a mr-a mt-4"
@@ -320,6 +321,7 @@ const TermsConditionSwitch = (props: TermsConditionSwitchType) => {
 
 
 const mapStateToProps = (state) => ({
+  activeSinglePropertyHistory: get(state, 'history.activeSinglePropertyHistory', {}),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   formValue: get(state, 'brixelForm.TermsCondition.values', {}),

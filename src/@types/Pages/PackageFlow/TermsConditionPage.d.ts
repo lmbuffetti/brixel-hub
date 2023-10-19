@@ -14,6 +14,7 @@ export interface TermsPublishPageType {
   formValue: FormValueType;
   handleGetActiveSingleCompany: (data: object) => void;
   handleGetActiveSingleProperty: (data: object) => void;
+  handleGetHistoryTerms: (data: object) => void;
   handleSetSmallLoading: (data: object) => void;
   handleAcceptPageTerms: (data: object) => void;
   handleSpinnerOff: () => void;
