@@ -395,6 +395,9 @@ export const redirectUrl = (link, options) => {
   } else if (link.toLowerCase().includes('contactflow')) {
     const BASEURL = isBuyer ? '/buyer' : '';
     return `${BASEURL}/${propID}/home`;
+  } else if (link.toLowerCase().includes('termsconditionpage')) {
+    const BASEURL = isBuyer ? '/buyer' : '';
+    return `${BASEURL}/${propID}/marketing`;
   } else {
     url = localStorage.getItem('backUrlBis');
     const urlBuyer = localStorage.getItem('backUrlBuyerEstimations');
