@@ -164,7 +164,7 @@ const TermsConditionSwitch = (props: TermsConditionSwitchType) => {
       <div className="brdRadius bgWhite brdSmall brdText100 p-2 p-sm-4">
         <div className="dis-f jc-b a-t">
           {
-            activeSingleProperty?.acceptTermsOfContract ? (
+            activeSingleProperty?.acceptContract ? (
               <div className='mt-1 min-w-fix-32 min-w-fix-sm-64'>
                 <img
                   src={successCheckImg}
@@ -206,7 +206,7 @@ const TermsConditionSwitch = (props: TermsConditionSwitchType) => {
         <hr className="my-3 brdText100"/>
         <div className="dis-f jc-b a-t">
           {
-            activeSingleProperty?.confirmContentOnBrixelPage ? (
+            activeSingleProperty?.confirmContent ? (
               <div className='mt-1 min-w-fix-32 min-w-fix-sm-64'>
                 <img
                   src={successCheckImg}
@@ -296,7 +296,7 @@ const TermsConditionSwitch = (props: TermsConditionSwitchType) => {
       </div>
 
       {
-        activeSingleProperty?.acceptTermsOfContract ? (
+        activeSingleProperty?.acceptContract ? (
           <BrixelButtonPrimary
             rounded
             className="ml-a mr-a mt-4"
