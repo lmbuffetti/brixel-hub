@@ -72,7 +72,7 @@ const TermsConditionSwitch = (props: TermsConditionSwitchType) => {
       bodyInnerClass: 'p-1',
       layout: 'xxlarge',
       multiActions:
-        !activeSingleProperty?.acceptWaiverDeclarationToBaloise ? [
+        !activeSingleProperty?.acceptWaiverDeclaration ? [
           {
             round: true,
             clr: 'Text',
@@ -251,7 +251,7 @@ const TermsConditionSwitch = (props: TermsConditionSwitchType) => {
               <hr className="my-3 brdText100"/>
               <div className="dis-f jc-b a-t">
                 {
-                  activeSingleProperty?.acceptWaiverDeclarationToBaloise ? (
+                  activeSingleProperty?.acceptWaiverDeclaration ? (
                     <div className='mt-1 min-w-fix-32 min-w-fix-sm-64'>
                       <img
                         src={successCheckImg}
