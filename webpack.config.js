@@ -271,7 +271,7 @@ const clientConfig = (env) => {
           removeStyleLinkTypeAttributes: true,
           useShortDoctype: true,
         },
-        transifexKey: baseByData(getEnvBuild)?.transifexIdAdmin,
+        transifexKey: baseByData(getEnvBuild)?.transifexIdHub,
         googleId: baseByData(getEnvBuild)?.googleID,
       }),
     )
