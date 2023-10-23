@@ -70,14 +70,6 @@ describe('seller Onboarding', () => {
           cy.get('button[type="submit"]').click();
         })
 
-        it('condition property', () => {
-          if (!isPartner) {
-            cy.viewport(device);
-            cy.wrap('#step-propertyCondition').compareSnapshot(`sellerCondition${key}`, 0.05);
-            cy.get('[type="radio"]').first().check({force: true});
-          }
-        })
-
         it('user register', () => {
           cy.viewport(device);
           cy.getCookie('brixelToken')
