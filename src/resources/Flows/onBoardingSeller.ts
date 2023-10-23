@@ -45,11 +45,6 @@ export const QuestionsList: (lang: string, country: string, changeValue: (field:
   let propertyType;
   let company = null;
 
-  const conditionStatus = factsOptions.conditionStatus.map((item) => ({
-    ...item,
-    label: translateTo(item.label, lang),
-  }));
-
   if (configureStore) {
     company = get(configureStore.getState(), 'brixelForm.GetStarted.values.company', '');
   }
@@ -364,25 +359,6 @@ export const QuestionsList: (lang: string, country: string, changeValue: (field:
       ],
     },
   );
-  if (company !== 'baloise' && company !== 'ubs') {
-    question.push(
-      {
-        title: translateTo('Property condition', lang),
-        history: 'propertyCondition',
-        cardType: 'propertyCondition',
-        footerWidth: 'max-w-fix-384',
-        inputs: [
-          {
-            classNameBox: 'brdRadius max-w-fix-384 w-perc-100 px-2 px-sm-5 py-5 brdRadius fieldHolder bgWhite m-a',
-            component: BrixelRadioButton,
-            name: 'properties.building.conditionStatus',
-            options: conditionStatus,
-            validation: [Validation.required],
-          },
-        ],
-      },
-    );
-  }
   question.push(
     {
       condition: [{

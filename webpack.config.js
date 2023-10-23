@@ -13,7 +13,6 @@ const { PurgeCSSPlugin } = require('purgecss-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const safelistClass = require('./webapckSafelistClass');
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
-const { GenerateSW } = require('workbox-webpack-plugin');
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 
@@ -22,6 +21,7 @@ const BUILD_DIR = path.join(ROOT_DIR, './dist');
 const devMode = process.argv[process.argv.length - 1] === 'development';
 const getEnvBuild = process.argv[process.argv.length - 3];
 const mode = devMode ?  'development' : 'production';
+const prefix = 'hub';
 
 const PATHS = {
   src: path.join(__dirname, 'src'),
@@ -48,21 +48,6 @@ const clientConfig = (env) => {
       main: [
         './src/index.tsx',
         './service-worker-brixel.js',
-        './src/styles/SCSS/general/main.scss',
-      ],
-      secondary: [
-        './src/styles/SCSS/styleguide/grid.scss',
-      ],
-      styleguide: [
-        './src/styles/SCSS/styleguide/mainStyleguide.scss',
-        './src/styles/SCSS/styleguide/container.scss',
-        './src/styles/SCSS/styleguide/fontStyle.scss',
-        './src/styles/SCSS/styleguide/spacing.scss',
-        './src/styles/SCSS/styleguide/boxModel.scss',
-      ],
-      primary: [
-        './src/styles/SCSS/general/componentsLoad.scss',
-        './src/styles/SCSS/styleguide/helpers.scss',
       ],
     },
     devServer: {
@@ -78,8 +63,8 @@ const clientConfig = (env) => {
     output: {
       publicPath: '/',
       path: BUILD_DIR,
-      filename: 'js/[name].bundle.js',
-      chunkFilename: ModeType(testMode) === 'full' ? 'js/[name].js' : 'js/[name].[fullhash].js',
+      filename: `js/${prefix}-[name].bundle.js`,
+      chunkFilename: ModeType(testMode) === 'full' ? `js/${prefix}-[name].js` : `js/${prefix}-[name].js?[fullhash]`,
       globalObject: 'this',
     },
     stats: {
@@ -213,8 +198,8 @@ const clientConfig = (env) => {
       new MiniCssExtractPlugin({
         // Options similar to the same options in webpackOptions.output
         // both options are optional
-        filename: devMode || testMode ? 'css/[name].css' : 'css/[name].[fullhash].css',
-        chunkFilename: devMode || testMode ? 'css/[name]_[id].css' : 'css/[name]_[id].[chunkhash].css',
+        filename: devMode || testMode ? `css/${prefix}-[name].css` : `css/${prefix}-[name].css?[fullhash]`,
+        chunkFilename: devMode || testMode ? `css/${prefix}-[name]_[id].css` : `css/${prefix}-[name]_[id].css?[chunkhash]`,
       }),
       new WebpackPwaManifest({
         name: 'Brixel Hub',
@@ -241,7 +226,7 @@ const clientConfig = (env) => {
     config.plugins.push(
       new HtmlWebpackPlugin({
         filename: './index.html',
-        template: './index.html',
+        template: './public/index.html',
       }),
     )
   }
@@ -272,7 +257,7 @@ const clientConfig = (env) => {
         hash: true,
         inject: true,
         filename: './index.html',
-        template: './index.html',
+        template: './public/index.html',
         title: companyData?.hub?.title,
         cache: true,
         meta: {
@@ -286,7 +271,7 @@ const clientConfig = (env) => {
           removeStyleLinkTypeAttributes: true,
           useShortDoctype: true,
         },
-        transifexKey: baseByData(getEnvBuild)?.transifexIdHub,
+        transifexKey: baseByData(getEnvBuild)?.transifexIdAdmin,
         googleId: baseByData(getEnvBuild)?.googleID,
       }),
     )
@@ -301,13 +286,6 @@ const clientConfig = (env) => {
         ], { nodir: true }),
         safelist: safelistClass,
       }),
-      new GenerateSW({
-        swDest: 'service-worker-brixel.js',
-        cacheId: 'service-worker-brixel',
-        navigateFallback: '/index.html',
-        navigateFallbackAllowlist: [/^\/static/, /^\/dist/, /^\/public/],
-        maximumFileSizeToCacheInBytes: 500000000,
-      })
     )
     config.optimization = {
       splitChunks: {
