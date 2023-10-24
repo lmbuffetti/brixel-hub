@@ -87,7 +87,7 @@ export default handleActions<CommonReducerType>(
     }),
     [SPINNER_OFF]: (state) => ({
       ...state,
-      isLoading: state.isLoading - 1,
+      isLoading: state.isLoading > 0 ? state.isLoading - 1 : 0,
     }),
     [SPINNER_SMALL]: (state, action) => ({
       ...state,
