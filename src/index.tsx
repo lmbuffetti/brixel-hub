@@ -2,7 +2,7 @@ import React, {lazy, Suspense} from 'react';
 import {createRoot} from 'react-dom/client';
 import {Provider} from 'react-redux';
 import {BrowserRouter} from 'react-router-dom';
-import * as serviceWorkerRegistration from '../serviceWorkerRegistration';
+// import * as serviceWorkerRegistration from '../serviceWorkerRegistration';
 import {configureStore} from './store';
 import './styles/SCSS/general/main.scss';
 import './styles/SCSS/styleguide/grid.scss';
@@ -31,18 +31,18 @@ if (container) {
 
   // INITILAIZE THE REACT DOM APP
   const AppDOM = () => {
-    if (typeof window !== 'undefined') {
-      serviceWorkerRegistration.register({
-        onUpdate: registration => {
-          if (registration && registration.waiting) {
-            registration.waiting.postMessage({type: 'SKIP_WAITING'});
-          }
-          window.location.reload();
-        },
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.ready.then(registration => {
+        registration.unregister();
+
+        if (caches) {
+          // Service worker cache should be cleared with caches.delete()
+          caches.keys().then(async (names) => {
+            await Promise.all(names.map(name => caches.delete(name)));
+          });
+        }
       });
-    }
-    if (typeof window !== 'undefined' && window.location.href.includes('localhost')) {
-      serviceWorkerRegistration.unregister();
     }
 
     return (
