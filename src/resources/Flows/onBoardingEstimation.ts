@@ -230,10 +230,7 @@ export const QuestionsList: (lang: string, country: string, changeValue: (field:
             baseByData: baseByData,
             lang: lang,
             input: {
-              onSelectAddress: (val) => {
-                console.log(val);
-                changeValue('location', val)
-              },
+              onSelectAddress: (val) => changeValue('location', val),
             },
           },
         },
