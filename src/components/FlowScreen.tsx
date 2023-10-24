@@ -237,8 +237,8 @@ const FlowScreen = (props: FlowScreenType) => {
   }, [currentIndex, questions, lang]);
 
   useEffect(() => {
-    if (typeof newCurrentIndex !== 'undefined') {
-      history.push(`${baseURL}/${questions[currentIndex].history}`, { state: get(history, 'location.state', {}) });
+    if (typeof newCurrentIndex !== 'undefined' && newCurrentIndex > currentIndex)  {
+      setCurrentIndex(newCurrentIndex);
     }
   }, [newCurrentIndex]);
 

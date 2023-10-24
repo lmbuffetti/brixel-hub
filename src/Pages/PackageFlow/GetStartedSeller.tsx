@@ -239,7 +239,7 @@ const GetStartedSeller = (props: GetStartedSellerType) => {
   // ON CHANGE LANGUAGE RELOAD THE QUESTIONS TRANSLATED
   useEffect(() => {
     setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), changeFieldValue));
-    setNewCurrentIndex(currentIndex);
+    if (get(formValue, 'propertyType', null)) setNewCurrentIndex(currentIndex);
   }, [lang, company.stub, translations, formValue, currentIndex]);
 
   // FUNCTION TO CALC THE LIVING SPACE FROM GROSS AREA
@@ -273,6 +273,13 @@ const GetStartedSeller = (props: GetStartedSellerType) => {
       if (pageTitle) changeFieldValue('pageTitle', pageTitle);
     }
   }, [get(formValue, 'properties.propertyType', null), get(formValue, 'location.city', null), lang]);
+
+  useEffect(() => {
+    if (get(formValue, 'properties.propertyType', null) && newCurrentIndex === 0) {
+      setNewCurrentIndex(newCurrentIndex + 1);
+    }
+  }, [get(formValue, 'properties.propertyType', null)]);
+
 
   // SET DATA BY COMPANY
   useEffect(() => {

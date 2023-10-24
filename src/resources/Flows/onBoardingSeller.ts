@@ -305,85 +305,87 @@ export const QuestionsList: (lang: string, country: string, changeValue: (field:
       },
     );
   }
-  question.push(
-    {
-      title: translateTo('What is the location?', lang),
-      history: 'locationInput',
-      cardType: 'locationInput',
-      footerWidth: 'max-w-fix-600',
-      inputs: [
-        {
-          component: BrixelAutocomplete,
-          showMap: false,
-          name: 'location.searchAddress',
-          type: 'Map',
-          classNameBox: 'brdRadius max-w-fix-600 w-perc-100 px-2 px-sm-5 py-5 brdRadius fieldHolder bgWhite m-a',
-          classBoxWrapper: 'mt-0 searchMapFields',
-          onSelectAddress: (val) => changeValue('location', val),
-          validation: [Validation.required],
-          country: country,
-          mapOptions: {
-            baseByData: baseByData,
+  if (propertyType) {
+    question.push(
+      {
+        title: translateTo('What is the location?', lang),
+        history: 'locationInput',
+        cardType: 'locationInput',
+        footerWidth: 'max-w-fix-600',
+        inputs: [
+          {
+            component: BrixelAutocomplete,
+            showMap: false,
+            name: 'location.searchAddress',
+            type: 'Map',
+            classNameBox: 'brdRadius max-w-fix-600 w-perc-100 px-2 px-sm-5 py-5 brdRadius fieldHolder bgWhite m-a',
+            classBoxWrapper: 'mt-0 searchMapFields',
+            onSelectAddress: (val) => changeValue('location', val),
+            validation: [Validation.required],
             country: country,
-            lang: lang,
-            input: {
-              onSelectAddress: (val) => changeValue('location', val),
+            mapOptions: {
+              baseByData: baseByData,
+              country: country,
+              lang: lang,
+              input: {
+                onSelectAddress: (val) => changeValue('location', val),
+              },
             },
           },
-        },
-      ],
-    },
-    {
-      title: translateTo('Is this your correct location?', lang),
-      history: 'locationInputResume',
-      cardType: 'locationInputResume',
-      footerWidth: 'max-w-fix-600',
-      inputs: [
-        {
-          component: MapsWithModalManual,
-          showMap: true,
-          name: 'location.latitude',
-          type: 'Map',
-          classBoxWrapper: 'brdRadius max-w-fix-600 w-perc-100 pb-3 pb-sm-5 brdRadius fieldHolder bgWhite m-a',
-          widthBox: '100',
-          mapOptions: {
+        ],
+      },
+      {
+        title: translateTo('Is this your correct location?', lang),
+        history: 'locationInputResume',
+        cardType: 'locationInputResume',
+        footerWidth: 'max-w-fix-600',
+        inputs: [
+          {
+            component: MapsWithModalManual,
             showMap: true,
-            hideSearch: true,
-            showSelectCountry: false,
-            multipleFieldSearch: false,
-            draggable: false,
-            lang: lang,
+            name: 'location.latitude',
+            type: 'Map',
+            classBoxWrapper: 'brdRadius max-w-fix-600 w-perc-100 pb-3 pb-sm-5 brdRadius fieldHolder bgWhite m-a',
+            widthBox: '100',
+            mapOptions: {
+              showMap: true,
+              hideSearch: true,
+              showSelectCountry: false,
+              multipleFieldSearch: false,
+              draggable: false,
+              lang: lang,
+            },
+            validation: [Validation.required],
           },
-          validation: [Validation.required],
-        },
-      ],
-    },
-  );
-  question.push(
-    {
-      condition: [{
-        name: 'owner',
-        value: null,
-      }],
-      background: 'bgCardGreen',
-      history: 'createProfile',
-      component: LoginSignup,
-      signupTitle: translateTo('Create your profile to save your progress.', lang),
-      loginTitle: translateTo('Login to your profile to save your progress.', lang),
-      cardType: 'createProfile',
-      inputs: [{
-        skipPhone: true,
+        ],
+      },
+    );
+    question.push(
+      {
+        condition: [{
+          name: 'owner',
+          value: null,
+        }],
+        background: 'bgCardGreen',
+        history: 'createProfile',
         component: LoginSignup,
-        name: 'register.name',
-        validation: [Validation.required],
-      }],
-    },
-    {
-      hideProgress: true,
-      history: 'savingData',
-      cardType: 'createProfile',
-      toSave: true,
-    },
-  );
+        signupTitle: translateTo('Create your profile to save your progress.', lang),
+        loginTitle: translateTo('Login to your profile to save your progress.', lang),
+        cardType: 'createProfile',
+        inputs: [{
+          skipPhone: true,
+          component: LoginSignup,
+          name: 'register.name',
+          validation: [Validation.required],
+        }],
+      },
+      {
+        hideProgress: true,
+        history: 'savingData',
+        cardType: 'createProfile',
+        toSave: true,
+      },
+    );
+  }
   return question;
 };
