@@ -46,6 +46,13 @@ const MapsWithModalManual = (props: MapsWithModalManualType) => {
   }, [history.location.pathname]);
 
   useEffect(() => {
+    if (!formValue?.location?.zip) {
+      setShowManualInput(true);
+    }
+  }, [formValue?.location?.zip]);
+
+
+  useEffect(() => {
     setTimeout(() => {
       const getCurStep = document.getElementById('searchInputWrap') as HTMLInputElement;
       if (getCurStep && getCurStep.querySelector('input[type="number"]')) {
