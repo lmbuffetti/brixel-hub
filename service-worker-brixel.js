@@ -152,11 +152,19 @@ self.addEventListener('message', event => {
 
 // Any other custom service worker logic can go here.
 
-self.addEventListener('activate', event => {
-  event.waitUntil(
-    getCacheStorageNames()
-      .then(
-        ({ outdatedCacheNames }) => outdatedCacheNames.map(cacheName => caches.delete(cacheName)),
-      ),
-  );
+self.addEventListener("install", () => {
+  self.skipWaiting();
+});
+
+self.addEventListener("activate", () => {
+  self.registration
+    .unregister()
+    .then(() => self.clients.matchAll())
+    .then((clients) => {
+      clients.forEach((client) => {
+        if (client.url && "navigate" in client) {
+          client.navigate(client.url);
+        }
+      });
+    });
 });

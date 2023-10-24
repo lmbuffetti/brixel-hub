@@ -32,16 +32,18 @@ if (container) {
   // INITILAIZE THE REACT DOM APP
   const AppDOM = () => {
     if (typeof window !== 'undefined') {
-      // serviceWorkerRegistration.register({
-      //   onUpdate: registration => {
-      //     if (registration && registration.waiting) {
-      //       registration.waiting.postMessage({type: 'SKIP_WAITING'});
-      //     }
-      //     window.location.reload();
-      //   },
-      // });
+      serviceWorkerRegistration.register({
+        onUpdate: registration => {
+          if (registration && registration.waiting) {
+            registration.waiting.postMessage({type: 'SKIP_WAITING'});
+          }
+          window.location.reload();
+        },
+      });
     }
-    serviceWorkerRegistration.unregister();
+    if (typeof window !== 'undefined' && window.location.href.includes('localhost')) {
+      serviceWorkerRegistration.unregister();
+    }
 
     return (
       <Provider store={store}>
