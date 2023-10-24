@@ -29,10 +29,10 @@ function RightHeaderFlow(props: RightHeaderFlowType) {
   // STATE
   const [hideLang, setHideLang] = useState(false);
   // GET URL PARAMS
-  const fullURL = get(history, 'location.pathname', '').split('/');
-  const propID = fullURL[2];
-  const dealID = fullURL[3];
   const isBuyer = userType === 'buyer';
+  const fullURL = get(history, 'location.pathname', '').split('/');
+  const propID = get(history, 'location.pathname', '').toLocaleLowerCase().includes('contactflow') && !isBuyer ? fullURL[1] : fullURL[2];
+  const dealID = fullURL[3];
 
   // STATE
   const [currentLang, setCurrentLang] = useState(lang);
