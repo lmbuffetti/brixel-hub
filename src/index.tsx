@@ -41,9 +41,7 @@ if (container) {
       //   },
       // });
     }
-    if (typeof window !== 'undefined' && window.location.href.includes('localhost')) {
-      serviceWorkerRegistration.unregister();
-    }
+    serviceWorkerRegistration.unregister();
 
     return (
       <Provider store={store}>
