@@ -2,8 +2,6 @@ on:
   push:
     branches:
       - main
-      - BRI-914-2
-
 permissions:
   contents: read
   packages: read
