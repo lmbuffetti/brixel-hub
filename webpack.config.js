@@ -21,7 +21,7 @@ const BUILD_DIR = path.join(ROOT_DIR, './dist');
 const devMode = process.argv[process.argv.length - 1] === 'development';
 const getEnvBuild = process.argv[process.argv.length - 3];
 const mode = devMode ?  'development' : 'production';
-const prefix = 'hub';
+const prefix = '';
 
 const PATHS = {
   src: path.join(__dirname, 'src'),
@@ -63,7 +63,7 @@ const clientConfig = (env) => {
       publicPath: '/',
       path: BUILD_DIR,
       filename: `js/${prefix}-[name].bundle.js`,
-      chunkFilename: ModeType(testMode) === 'full' ? `js/${prefix}-[name].js` : `js/${prefix}-[name].js?[fullhash]`,
+      chunkFilename: ModeType(testMode) === 'full' ? `js/${prefix}[name].js` : `js/${prefix}[name].js?[fullhash]`,
       globalObject: 'this',
     },
     stats: {
@@ -197,8 +197,8 @@ const clientConfig = (env) => {
       new MiniCssExtractPlugin({
         // Options similar to the same options in webpackOptions.output
         // both options are optional
-        filename: devMode || testMode ? `css/${prefix}-[name].css` : `css/${prefix}-[name].css?[fullhash]`,
-        chunkFilename: devMode || testMode ? `css/${prefix}-[name]_[id].css` : `css/${prefix}-[name]_[id].css?[chunkhash]`,
+        filename: devMode || testMode ? `css/${prefix}[name].css` : `css/${prefix}[name].css?[fullhash]`,
+        chunkFilename: devMode || testMode ? `css/${prefix}[name]_[id].css` : `css/${prefix}[name]_[id].css?[chunkhash]`,
       }),
       new WebpackPwaManifest({
         name: 'Brixel Hub',
