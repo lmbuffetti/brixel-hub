@@ -47,7 +47,6 @@ const clientConfig = (env) => {
       polyfill: '@babel/polyfill',
       main: [
         './src/index.tsx',
-        './service-worker-brixel.js',
       ],
     },
     devServer: {

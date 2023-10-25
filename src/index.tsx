@@ -2,7 +2,7 @@ import React, {lazy, Suspense} from 'react';
 import {createRoot} from 'react-dom/client';
 import {Provider} from 'react-redux';
 import {BrowserRouter} from 'react-router-dom';
-import '../serviceWorkerRegistration';
+//import '../serviceWorkerRegistration';
 import {configureStore} from './store';
 import './styles/SCSS/general/main.scss';
 import './styles/SCSS/styleguide/grid.scss';
