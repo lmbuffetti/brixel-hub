@@ -390,14 +390,17 @@ export const redirectUrl = (link, options) => {
     } else {
       return `/${propID}/closing/${dealID}`;
     }
-  } else if (link.toLowerCase().includes('buyer')) {
-    return `/buyer/${propID}/home`;
   } else if (link.toLowerCase().includes('contactflow')) {
     const BASEURL = isBuyer ? '/buyer' : '';
     return `${BASEURL}/${propID}/home`;
+  } else if (link.toLowerCase().includes('completeprofileflow')) {
+    const BASEURL = isBuyer ? '/buyer' : '';
+    return `${BASEURL}/${propID}/scheduleVisit`;
   } else if (link.toLowerCase().includes('termsconditionpage')) {
     const BASEURL = isBuyer ? '/buyer' : '';
     return `${BASEURL}/${propID}/marketing`;
+  } else if (link.toLowerCase().includes('buyer')) {
+    return `/buyer/${propID}/home`;
   } else {
     url = localStorage.getItem('backUrlBis');
     const urlBuyer = localStorage.getItem('backUrlBuyerEstimations');

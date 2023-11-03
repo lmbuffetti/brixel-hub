@@ -92,6 +92,7 @@ const GetStartedBuyer = (props: CompleteProfileType) => {
       {
         activeSingleCompany.id && (
           <FlowScreen
+            closeLink={`/buyer/${propID}/scheduleVisit`}
             closeButton={true}
             baseURL={`/buyer/${propID}/scheduleVisit/completeProfileFlow`}
             onChangeCurrentIndex={(index) => setCurrentIndex(index)}
