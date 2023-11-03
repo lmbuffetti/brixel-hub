@@ -2,6 +2,8 @@
 $sidebarWidth: 84px;
 $iphone5: 320px;
 
+@debug 'stronzo';
+
 /* GENERAL */
 $fontpath: "@brixel-io/brixel-components/dist/styles/";
 $imgpath: "@brixel-io/brixel-components/dist/styles/";
@@ -633,6 +635,10 @@ sub {
   &:hover,
   &:active {
     text-decoration: underline;
+  }
+
+  &.linkIcn {
+
   }
 }
 

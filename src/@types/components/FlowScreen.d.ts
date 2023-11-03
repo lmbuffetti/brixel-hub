@@ -42,35 +42,25 @@ export interface FormValueType {
 }
 
 export interface FlowScreenType {
-  closeLink?: string;
   baseURL: string;
-  QuestionsList: QuestionsListType[];
-  activeSingleCompany: CompanyType;
+  closeButton?: boolean;
+  closeLink?: string;
   company: CompanyType;
   destroyForm: (formName: string) => void;
   errorValue: object;
   formName: string;
   formValue: FormValueType;
-  handleCreateActiveSingleProperty: (data: object) => void;
-  handleDoLogin: (data: object) => void;
-  handleGetActiveSingleCompany: (data: object) => void;
   handleReset: (formName: string, data: object) => void;
   handleSpinnerOff: () => void;
-  handleSpinnerOn: () => void;
-  handleValidateUser: (data: object) => void;
-  initForm: (data: object) => void;
   initialValues: object;
-  isLoading: boolean;
   isSmallLoading: {
     sendData: boolean;
   };
-  isTest?: boolean;
-  lang?: string;
-  loggedInUser: LoggedUserType;
+  lang: string;
   newCurrentIndex?: number;
   onChangeCurrentIndex: (index: number) => void;
   onSaveData: (val?: string) => void;
-  translations: object;
+  QuestionsList: QuestionsListType[];
 }
 
 export interface FormToSaveData extends FormValueType {

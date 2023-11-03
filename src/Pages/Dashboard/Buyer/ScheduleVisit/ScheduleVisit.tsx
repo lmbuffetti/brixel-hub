@@ -27,7 +27,6 @@ import PropertyPendingImg from '../../../../images/dashboard/PropertyPendingVisi
 import PropertyconfirmedVisit2Img from '../../../../images/dashboard/PropertyConfimedVisit2.svg';
 import PropertyVisitedImg from '../../../../images/dashboard/propertyVisited.svg';
 import PropertyCanceledImg from '../../../../images/dashboard/scheduleCanceled.svg';
-import isEmpty from 'lodash/isEmpty';
 import BrixelSingleTag from '@brixel-io/brixel-components/dist/components/BrixelSingleTag';
 import SectionMobileTitle from '../../../../components/SectionMobileTitle';
 
@@ -69,15 +68,6 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
       destroyForm();
     }
   }, []);
-
-
-  // REDIRECT TO SHCEDULE VISIT PAGE FOR SUB ROUTE
-  useEffect(() => {
-    if (!isEmpty(lastPart[0]) && lastPart[0] !== 'scheduleVisit' && lastPart[0] !== 'addDate') {
-      history.push('../scheduleVisit');
-    }
-  }, [lastPart]);
-
 
   const closeModalDate = () => {
     history.push('../scheduleVisit');
@@ -253,32 +243,50 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
 
             {
               visitStatus?.status === 'pending' && activeScheduleVisit?.buyerAvailability && activeScheduleVisit?.buyerAvailability.length > 0 && (
-                <div className="bgWhite brdRadius shadow-1dp mb-4 a-c py-3 py-sm-5 px-2 px-sm-4 dis-fl-col-rev dis-fl-row-sm">
+                <>
+                  <div className="bgWhite brdRadius shadow-1dp mb-4 a-c py-3 py-sm-5 px-2 px-sm-4 dis-fl-col-rev dis-fl-row-sm">
 
-                  <div className="mb-4">
-                    <BrixelSingleTag
-                      className="mb-2"
-                      lang={lang}
-                      message={{
-                        lang: lang,
-                        pending: translateTo('Pending', lang),
-                      }}
-                      status="pending"
-                      text={translateTo('Pending', lang)}
+                    <div className="mb-4">
+                      <BrixelSingleTag
+                        className="mb-2"
+                        lang={lang}
+                        message={{
+                          lang: lang,
+                          pending: translateTo('Pending', lang),
+                        }}
+                        status="pending"
+                        text={translateTo('Pending', lang)}
+                      />
+                      <h5 className="fweight-600 mb-2">
+                        {translateTo('Thank you for your request!', lang)}
+                      </h5>
+                      <p className='txtText600 max-w-perc-sm-80'>
+                        {translateTo('Your suggested dates have been sent. Our team will contact you shortly to clarify any questions and to proceed with the next steps.', lang)}
+                      </p>
+                    </div>
+                    <img
+                      className="ml-a h-fix-120 h-fix-sm-160"
+                      src={PropertyPendingImg}
+                      alt="Visit Requested"
                     />
-                    <h5 className="fweight-600 mb-2">
-                      {translateTo('Thank you for your request!', lang)}
-                    </h5>
-                    <p className='txtText600 max-w-perc-sm-80'>
-                      {translateTo('Your suggested dates have been sent. Our team will contact you shortly to clarify any questions and to proceed with the next steps.', lang)}
-                    </p>
                   </div>
-                  <img
-                    className="ml-a h-fix-120 h-fix-sm-160"
-                    src={PropertyPendingImg}
-                    alt="Visit Requested"
-                  />
-                </div>
+                  <div className="bgGreen50 brdRadius shadow-1dp mb-4 a-c py-3 py-sm-5 px-2 px-sm-4 dis-fl-col-rev dis-fl-row-sm jc-b">
+                    <div className="w-perc-100">
+                      <h5 className="fweight-600 mb-1">
+                        {translateTo('Give Brixel more details', lang)}
+                      </h5>
+                      <p className='txtText600 max-w-perc-sm-80'>
+                        {translateTo('Complete your buyer profile in seconds and get ahead of other visitors.', lang)}
+                      </p>
+                    </div>
+                    <BrixelButtonPrimary
+                      rounded
+                      className="ws-nw"
+                      label={translateTo('Complete profile', lang)}
+                      onClick={() => openModalDate()}
+                    />
+                  </div>
+                </>
               )
             }
 

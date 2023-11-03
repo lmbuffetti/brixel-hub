@@ -22,8 +22,9 @@ const FlowScreen = (props: FlowScreenType) => {
   // PROPS
   const {
     baseURL,
-    company,
+    closeButton = false,
     closeLink,
+    company,
     destroyForm,
     errorValue,
     formName,
@@ -503,7 +504,16 @@ const FlowScreen = (props: FlowScreenType) => {
                 >
                   <div className="pos-r">
                     <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-c">
-
+                      {
+                        closeButton && (
+                          <BrixelButtonText
+                            theme="text"
+                            themeSat={200}
+                            label={translateTo('Close', lang)}
+                            onClick={() => closeWindow()}
+                          />
+                        )
+                      }
                       {
                         (
                           currentIndex !== questions.length - 2 &&

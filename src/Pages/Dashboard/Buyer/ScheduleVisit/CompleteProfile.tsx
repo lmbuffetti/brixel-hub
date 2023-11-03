@@ -1,0 +1,151 @@
+import React, {useEffect, useState} from 'react';
+import {change, destroy, initializeForm, reset} from '@brixel-io/brixel-components/dist/form';
+import get from 'lodash/get';
+import {connect} from 'react-redux';
+import {useParams} from 'react-router-dom';
+import {bindActionCreators, compose} from 'redux';
+import {spinnerOff, spinnerOn} from '../../../../actions/CommonActions';
+import {getActiveSingleCompany} from '../../../../actions/CompanyActions';
+import {
+  createActiveSingleProperty,
+  getActiveSingleProperty,
+  saveActiveSingleProperty,
+} from '../../../../actions/PropertyActions';
+import {createUserSearchProfile} from '../../../../actions/SearchProfileActions';
+import {doLogin, validateUser} from '../../../../actions/UserActions';
+import {QuestionsList} from '../../../../resources/Dashboard/CompleteProfile';
+import {titleSearchProfile} from '../../../../utils/titleCreationSearchProfile';
+import type {CompleteProfileType} from '../../../../@types/Pages/Dashboard/Buyer/CompleteProfile';
+import {QuestionsListType} from '@brixel-io/brixel-components/dist/@types/Model';
+import FlowScreen from '../../../../components/FlowScreen';
+import {activeSingleProperty} from '@brixel-io/brixel-components/dist/resources/property';
+
+const GetStartedBuyer = (props: CompleteProfileType) => {
+  const match = useParams();
+  // PROPS
+  const {
+    activeSingleCompany,
+    changeFieldValue,
+    destroyForm,
+    formValue,
+    handleGetActiveSingleProperty,
+    handleGetActiveSingleCompany,
+    lang = 'en',
+    loggedInUser,
+    translations,
+  } = props;
+  const propID = get(match, 'id', null);
+  // STATE
+  // SET THE QUESTIONS IN BASE OF THE COUNTRY
+  const [questions, setQuestions] = useState<QuestionsListType[]>(QuestionsList(lang, 'CompleteProfile', activeSingleProperty.stub));
+  const [currentIndex, setCurrentIndex] = useState(0);
+  // SET QUEST TO FIRST QUESTION OF QuestionsList()
+  const [newCurrentIndex, setNewCurrentIndex] = useState(0);
+
+  // DESTROY FORM ON EXIT
+  useEffect(() => {
+    if (!activeSingleProperty.id || activeSingleProperty.id !== propID) {
+      const data = {
+        fullVersion: false,
+        smallLoader: 'property',
+        id: propID,
+      };
+      handleGetActiveSingleProperty(data);
+    }
+    return () => destroyForm();
+  }, [propID]);
+
+  useEffect(() => {
+    if (!activeSingleCompany.id && activeSingleProperty.id) handleGetActiveSingleCompany({ id: activeSingleProperty.company});
+  }, [activeSingleProperty.id]);
+
+
+  // FUNCTION TO SAVE DATA
+  const saveData = async () => {
+
+  };
+
+  useEffect(() => {
+    if (get(loggedInUser, 'user.id', null)) changeFieldValue('owner', get(loggedInUser, 'user.id', null));
+  }, [get(loggedInUser, 'user.id', null)]);
+
+  // ON CHANGE LANGUAGE RELOAD THE QUESTIONS TRANSLATED
+  useEffect(() => {
+    setQuestions(QuestionsList(lang, 'CompleteProfile', activeSingleProperty.stub));
+    setNewCurrentIndex(currentIndex);
+  }, [lang, translations, formValue, currentIndex]);
+
+  // GET THE NEXT DATA IN BASE OF CURRENT ANSWER
+  useEffect(() => {
+    const rooms: {max?: number; min?: number} = get(formValue, 'characteristics.bedrooms', {});
+    const propertyType = get(formValue, 'characteristics.propertyType', []);
+    const locations = get(formValue, 'locations', []);
+    const searchProfileName = get(formValue, 'name', null);
+    if (propertyType.length > 0 && locations.length > 0 && rooms.max && !searchProfileName) {
+      changeFieldValue('name', titleSearchProfile(formValue, lang))
+    }
+  }, [get(formValue, get(questions, `[${currentIndex}].inputs[0].name`, ''), null)]);
+
+  return (
+
+    <>
+      {
+        activeSingleCompany.id && (
+          <FlowScreen
+            closeButton={true}
+            baseURL={`/buyer/${propID}/scheduleVisit/completeProfileFlow`}
+            onChangeCurrentIndex={(index) => setCurrentIndex(index)}
+            newCurrentIndex={newCurrentIndex}
+            formName="CompleteProfile"
+            onSaveData={() => saveData()}
+            QuestionsList={questions}
+          />
+        )
+      }
+    </>
+  );
+};
+
+const mapStateToProps = (state) => {
+  return ({
+    activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
+    activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
+    company: get(state, 'companies.activeSingleCompany', {}),
+    errorValue: get(state, 'brixelForm.CompleteProfile.syncErrors', {}),
+    formValue: get(state, 'brixelForm.CompleteProfile.values', {}),
+    isLoading: get(state, 'common.isLoading', 0) > 0,
+    lang: get(state, 'common.language', 'en'),
+    loggedInUser: get(state, 'user.loggedInUser', {}),
+    packagesProperty: get(state, 'property.packagesProperty', []),
+    startForm: get(state, 'brixelForm.CompleteProfile', null),
+    translations: get(state, 'translations', { }),
+  });
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  changeFieldValue(field, value) {
+    dispatch(change('CompleteProfile', field, value));
+  },
+  destroyForm() {
+    dispatch(destroy('CompleteProfile'));
+  },
+  initForm(value) {
+    dispatch(initializeForm('CompleteProfile', value));
+  },
+  handleReset(initialValue) {
+    (dispatch(reset('CompleteProfile', initialValue)));
+  },
+  handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
+  handleCreateActiveSingleProperty: bindActionCreators(createActiveSingleProperty, dispatch),
+  handleDoLogin: bindActionCreators(doLogin, dispatch),
+  handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
+  handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
+  handleCreateSearchProfile: bindActionCreators(createUserSearchProfile, dispatch),
+  handleSpinnerOn: bindActionCreators(spinnerOn, dispatch),
+  handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
+  handleValidateUser: bindActionCreators(validateUser, dispatch),
+});
+
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+)(GetStartedBuyer);

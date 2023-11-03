@@ -32,6 +32,8 @@ map-get($blueColor, 200);
 @import "./windows",
 "./hubDashboard";
 
+@debug 'test';
+
 /* COMPONENTS */
 @import "../components/accordion",
 "../components/booking",
@@ -43,6 +45,7 @@ map-get($blueColor, 200);
 "../components/documents",
 "../components/footer",
 "../components/header",
+"../components/icons",
 "../components/loading",
 "../components/map",
 "../components/menu-sidebar",

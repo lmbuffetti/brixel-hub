@@ -78,6 +78,7 @@ const DashboardSeller = lazy(() => import('./Pages/Dashboard/Seller/Dashboard'))
 
 // HUB DASHBOARD - BUYER
 const DashboardBuyer = lazy(() => import('./Pages/Dashboard/Buyer/Dashboard'));
+const CompleteProfile = lazy(() => import('./Pages/Dashboard/Buyer/ScheduleVisit/CompleteProfile'));
 
 // PARTNER
 const Contact = lazy(() => import('./Pages/ContactFlow/Companies/Contact'));
@@ -432,7 +433,7 @@ const App = (props: AppType) => {
 
   // FUCNTION TO SEPARATE THE DESIGN IN BASE OF HISTORY LOCATION (packageFLow, onBoarding, upgrade)
   useEffect(() => {
-    const flowClass = ['packageFlow', 'visitFeedback', 'upgrade', 'trialRequest', 'contactFlow', 'termsConditionFlow', 'termsConditionPage'];
+    const flowClass = ['packageFlow', 'visitFeedback', 'upgrade', 'trialRequest', 'contactFlow', 'termsConditionFlow', 'termsConditionPage', 'completeProfileFlow'];
     const isFlowClass = flowClass.some((url) => history.location.pathname.includes(url));
 
     setIsFlow(false);
@@ -490,6 +491,7 @@ const App = (props: AppType) => {
       let data = {};
       if (
         !history.location.pathname.includes('packageFlow') &&
+        !history.location.pathname.includes('completeProfileFlow') &&
         !history.location.pathname.includes('Flow') &&
         !history.location.pathname.includes('visitFeedback') &&
         !history.location.pathname.includes('onBoarding')
@@ -697,6 +699,7 @@ const App = (props: AppType) => {
                       <Route path="/packageFlow/testDrive/*" element={<ScanTrialFlow />} />
                       <Route path="/visitFeedback/:dealID/:pageID/:visitID" element={<VisitFeedback />} />
                       <Route path="/buyer/:id/financingFlow/*" element={<ProtectedRoute><Financing /></ProtectedRoute>} />
+                      <Route path="/buyer/:id/scheduleVisit/completeProfileFlow/*" element={<ProtectedRoute><CompleteProfile /></ProtectedRoute>} />
 
                       { /* PARTNER CONTACT FLOW */}
                       <Route path="/:propID/contactFlow/*" element={<ProtectedRoute><Contact /></ProtectedRoute>} />
@@ -712,6 +715,7 @@ const App = (props: AppType) => {
                       { /* SECTION: HUB DASHBOARD */ }
                       {
                         !history.location.pathname.includes('packageFlow') &&
+                        !history.location.pathname.includes('completeProfileFlow') &&
                         !history.location.pathname.includes('Flow') &&
                         !history.location.pathname.includes('visitFeedback') &&
                         !history.location.pathname.includes('onBoarding') &&

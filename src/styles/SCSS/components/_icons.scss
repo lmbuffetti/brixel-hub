@@ -1,0 +1,23 @@
+@debug $imgRootpath;
+
+.icon-link {
+  background-color: map-get($primaryColor, 400);
+  -webkit-mask-image: url('#{$imgRootpath}images/Icons/svg/link-open.svg?url');
+  mask-image: url('#{$imgRootpath}images/Icons/svg/link-open.svg?url');
+  display: block;
+  width: 22px;
+  height: 22px;
+  background-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  background-position: center;
+  margin: auto;
+}
+
+.link .icon-link {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin-left: $step;
+}
