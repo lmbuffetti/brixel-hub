@@ -42,7 +42,7 @@ export const QuestionsList: (lang: string, type: string, changeField: (field: st
   const question: QuestionsListType[] = [
     {
       title: translateTo(type === 'searchProfile' ? 'Property Type' : 'What kind of property would you like to buy?', lang),
-      subtitle: translateTo('Choose between apartment, house and building land.', lang),
+      subtitle: translateTo('You can choose more than one.', lang),
       history: 'propertyType',
       footerWidth: 'max-w-fix-880',
       classWrap: type === 'searchProfile' ? 'brdSmallBottom brdText50 pb-2 pb-md-4' : '',
