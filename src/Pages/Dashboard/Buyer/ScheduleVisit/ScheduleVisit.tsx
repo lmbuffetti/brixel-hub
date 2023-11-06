@@ -324,7 +324,7 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
             }
 
             {
-              visitStatus?.status === 'accepted' && activeScheduleVisit && (
+              (visitStatus?.status === 'accepted' || visitStatus?.status === 'visited') && activeScheduleVisit && (
                 <>
                   {
                     // CONFIRMED VISIT IN THE FUTURE
