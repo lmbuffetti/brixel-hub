@@ -261,7 +261,7 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
                         {translateTo('Thank you for your request!', lang)}
                       </h5>
                       <p className='txtText600 max-w-perc-sm-80'>
-                        {translateTo('Your suggested dates have been sent. Our team will contact you shortly to clarify any questions and to proceed with the next steps.', lang)}
+                        {translateTo('Our team will contact you shortly to clarify any questions and to proceed with the next steps.', lang)}
                       </p>
                     </div>
                     <img
@@ -433,80 +433,6 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
 
               )
             }
-
-            {
-              SectionPage === 'buyerRequest' && (
-                <div className="dis-fl-col dis-fl-row-md jc-b mt-1">
-                  {
-                    activeScheduleVisit && activeScheduleVisit?.buyerAvailability.length > 0 && (
-                      <div className="w-perc-md-50 mr-sm-1">
-                        <h6 className="mb-2 fweight-600">
-                          {translateTo('Your suggested dates', lang)}
-                        </h6>
-                        <div className="brdRadius bgWhite p-2 p-sm-4 shadow-1dp h-perc-90">
-                          {/* IF EXIST BUYER AVAILABILITY DATE */}
-                          {
-                            activeScheduleVisit.buyerAvailability.map((visit, i, arr) => (
-                              <div
-                                key={`visit${i.toString()}`}
-                                className={`dis-f jc-b a-c  ${i === arr.length - 1 ? '' : 'brdSmallBottom brdText100 pb-2 mb-2'}`}
-                              >
-                                <div className='dis-f a-c'>
-                                  <span
-                                    className="bgBlue50 txtBlue700 fweight-600 py-1 px-2 brdRadius mr-2 dis-ib"
-                                  >
-                                    {DateTime.fromMillis(visit.start).toFormat('dd MMM yyyy', {locale: lang})}
-                                  </span>
-                                  {
-                                    visit.isAllDay ? (
-                                      <div className="txtBlue700">
-                                        <p className='txtBlue700'>
-                                          {translateTo('All day', lang)}
-                                        </p>
-                                      </div>
-                                    ) : (
-                                      <div className="txtBlue700">
-                                        <span>
-                                          {DateTime.fromMillis(visit.start, { locale: lang }).toFormat('HH:mm')}
-                                        </span>
-                                        <span className="mx-1">-</span>
-                                        <span>
-                                          {DateTime.fromMillis(visit.end, { locale: lang }).toFormat('HH:mm')}
-                                        </span>
-                                      </div>
-                                    )
-                                  }
-                                </div>
-                              </div>
-                            ))
-                          }
-
-                        </div>
-                      </div>
-                    )
-                  }
-                  {
-                    activeScheduleVisit?.buyerMessage && (
-                      <div className="w-perc-md-50 ml-sm-1">
-                        <h6 className="mt-3 mt-sm-0 mb-2 fweight-600">
-                          {translateTo('Your message for the seller', lang)}
-                        </h6>
-                        <div className="brdRadius bgWhite p-2 p-sm-4 shadow-1dp h-perc-90">
-
-                          <div>
-                            <p className="fs-i fsize-500 txtText700">
-                              {activeScheduleVisit.buyerMessage}
-                            </p>
-                          </div>
-
-                        </div>
-                      </div>
-                    )
-                  }
-                </div>
-              )
-            }
-
 
             {
               (SectionPage === 'create') && (
