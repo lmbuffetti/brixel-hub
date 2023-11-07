@@ -62,7 +62,7 @@ const GetStartedBuyer = (props: CompleteProfileType) => {
 
   // FUNCTION TO SAVE DATA
   const saveData = async () => {
-
+    setCurrentIndex(1);
   };
 
   useEffect(() => {
@@ -93,7 +93,7 @@ const GetStartedBuyer = (props: CompleteProfileType) => {
         activeSingleCompany.id && (
           <FlowScreen
             closeLink={`/buyer/${propID}/scheduleVisit`}
-            closeButton={true}
+            closeButton={newCurrentIndex === 0}
             baseURL={`/buyer/${propID}/scheduleVisit/completeProfileFlow`}
             onChangeCurrentIndex={(index) => setCurrentIndex(index)}
             newCurrentIndex={newCurrentIndex}

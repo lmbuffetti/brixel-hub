@@ -1,13 +1,14 @@
 /* eslint-disable max-len */
 import {
   BrixelCheckbox,
-  BrixelRadioButton, BrixelSwitchButton,
-  Validation,
+  BrixelRadioButton,
+  BrixelSwitchButton,
 } from '@brixel-io/brixel-components/dist/form';
 import translateTo from '../../utils/translation';
 import {QuestionsListType} from '@brixel-io/brixel-components/dist/@types/Model';
 import * as buyerFields from './CompleteProfileFields';
 import {configureStore} from '../../store';
+import successCheckImg from '../../images/Marketing/successCheck.svg';
 import get from 'lodash/get';
 import baseByData from '@brixel-io/brixel-components/dist/configuration/Settings';
 
@@ -57,7 +58,6 @@ export const QuestionsList: (lang: string, formName: string, pageStub: string) =
           className: 'radioBtnImg',
           label: translateTo('What is your buyer status?', lang),
           name: 'buyerStatus',
-          validation: [Validation.required],
           options: firstTimeBuyer,
         },
         {
@@ -65,7 +65,6 @@ export const QuestionsList: (lang: string, formName: string, pageStub: string) =
           className: 'radioBtnImg',
           label: translateTo('Who will be involved in the purchase of the property?', lang),
           name: 'involvedPurchaseProperty',
-          validation: [Validation.required],
           options: involvedPurchaseProperty,
         },
         {
@@ -82,7 +81,6 @@ export const QuestionsList: (lang: string, formName: string, pageStub: string) =
           },
           cardSmall: true,
           pdClass: 'py-1',
-          validation: [Validation.required],
           options: [
             {
               label: translateTo('Yes', lang),
@@ -107,7 +105,6 @@ export const QuestionsList: (lang: string, formName: string, pageStub: string) =
         className: 'radioBtnImg',
         label: translateTo('I want to apply for one', lang),
         name: 'applyFinancingProof',
-        validation: [Validation.required],
       });
     }
     question[0].inputs.push({
@@ -115,7 +112,6 @@ export const QuestionsList: (lang: string, formName: string, pageStub: string) =
       className: 'radioBtnImg',
       label: translateTo('What is your relationship to the property’s location?', lang),
       name: 'relationshipLocationProperty',
-      validation: [Validation.required],
       options: propertyLocationRelationship,
     });
 
@@ -130,7 +126,6 @@ export const QuestionsList: (lang: string, formName: string, pageStub: string) =
       icons: true,
       cardSmall: true,
       pdClass: 'py-1',
-      validation: [Validation.required],
       options: [
         {
           label: translateTo('Yes', lang),
@@ -156,16 +151,23 @@ export const QuestionsList: (lang: string, formName: string, pageStub: string) =
       label: translateTo('What about the property appealed most to you?', lang),
       icons: true,
       name: 'propertyAppealed',
-      validation: [Validation.required],
       options: propertyAppealed,
     });
 
   }
   question.push(
     {
-      hideSearchProfile: true,
-      history: 'savingData',
-      cardType: 'createProfile',
+      background: 'bgCardGreen',
+      hideProgress: true,
+      cardType: 'card',
+      title: translateTo('Thank you', lang),
+      img: successCheckImg,
+      imgMaxWidth: 'max-w-fix-160 w-perc-100',
+      cardClass: 'max-w-fix-360 ml-a mr-a pb-5',
+      subtitle: translateTo('You are one step ahead of other interested buyers. Our team will contact you shortly.', lang),
+      subtitleClass: 'fweight-400 txtText800',
+      history: 'success',
+      vCentered: true,
       toSave: true,
     },
   );
