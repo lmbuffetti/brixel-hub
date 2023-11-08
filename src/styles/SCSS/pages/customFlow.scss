@@ -1,0 +1,61 @@
+/* complete profile flow */
+.CompleteProfile {
+  .radioBtnImg.brixel-checkbox-icon label {
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+  .multiFieldWrap {
+    border-bottom: 1px solid map-get($textColor, 100);
+    padding-bottom: 24px;
+    margin-top: 24px;
+    &:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+  .bodyModal .footerAction .primaryBtn {
+    margin-right: 0;
+  }
+  .radioBtnLabel,
+  .brixel-label,
+   .textLabel {
+    color: map-get($textColor, 900);
+  }
+  .brixelIcon.bgBgTransparent200 svg * {
+    fill: map-get($blueColor, 700)
+  }
+  .brixel-label span {
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .cardLayout.radioBtnImg {
+
+    .w-perc-100.jc-c.dis-fl-row {
+        justify-content: flex-start;
+    }
+
+    .brixel-radio-button-icon {
+      max-width: 120px;
+      label {
+          padding-top: 24px;
+          box-shadow: none;
+          border: 1px solid;
+          color: map-get($textColor, 100);
+
+          &.onHover,
+          &.checked {
+            color: map-get($blueColor, 400);
+          }
+
+          .textLabel {
+            padding-bottom: 16px;
+
+            min-height: auto !important;
+          }
+      }
+    }
+  }
+}

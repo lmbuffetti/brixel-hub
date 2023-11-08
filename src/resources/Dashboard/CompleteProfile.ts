@@ -51,7 +51,7 @@ export const QuestionsList: (lang: string, formName: string, pageStub: string) =
       subtitle: translateTo('Complete your buyer profile in seconds and get ahead of other visitors.', lang),
       history: 'profile',
       footerWidth: 'max-w-fix-640',
-      className: 'max-w-fix-640 bgWhite p-3 brdRadius m-a',
+      className: 'max-w-fix-640 bgWhite p-2 p-sm-4 brdRadius m-a',
       inputs: [
         {
           component: BrixelRadioButton,
@@ -124,8 +124,6 @@ export const QuestionsList: (lang: string, formName: string, pageStub: string) =
       isHorizontal: true,
       svgSupport: true,
       icons: true,
-      cardSmall: true,
-      pdClass: 'py-1',
       options: [
         {
           label: translateTo('Yes', lang),

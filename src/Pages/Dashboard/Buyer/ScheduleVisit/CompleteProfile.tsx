@@ -88,7 +88,7 @@ const GetStartedBuyer = (props: CompleteProfileType) => {
 
   return (
 
-    <>
+    <div className="CompleteProfile">
       {
         activeSingleCompany.id && (
           <FlowScreen
@@ -103,7 +103,7 @@ const GetStartedBuyer = (props: CompleteProfileType) => {
           />
         )
       }
-    </>
+    </div>
   );
 };
 
