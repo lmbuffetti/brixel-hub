@@ -1,4 +1,4 @@
-import {CompanyType, LoggedInUserType} from '@brixel-io/brixel-components/dist/@types/Model';
+import {CompanyType, LoggedInUserType, ScheduleType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 export interface FormValueType {
   buyerStatus: string;
@@ -12,13 +12,14 @@ export interface FormValueType {
 }
 
 export interface CompleteProfileType {
+  activeScheduleVisit: ScheduleType;
   activeSingleCompany: CompanyType;
   changeFieldValue: (data: string, value: any) => void;
+  handleSaveBuyerQualification: (data: object) => void,
   handleGetActiveSingleProperty: (data: object) => void,
   handleGetActiveSingleCompany: (data: object) => void,
   destroyForm: () => void;
   formValue: FormValueType,
   lang: string;
-  loggedInUser: LoggedInUserType;
   translations: object,
 }

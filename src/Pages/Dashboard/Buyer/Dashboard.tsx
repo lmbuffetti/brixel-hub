@@ -40,7 +40,6 @@ const Dashboard = (props: DashboardType) => {
     handleGetFavoritesProperties,
     handleGetActiveSingleProperty,
     hanldeGetScheduleVisit,
-    hanldeSetScheduleVisit,
     handleGetScheduleVisit,
     handleGetActiveSingleCompany,
     handleSpinnerOff,
@@ -57,13 +56,6 @@ const Dashboard = (props: DashboardType) => {
   const [currentPage] = useState(0);
   const [sortOrderType] = useState('updatedAt');
   const [sortDirection] = useState('DESC');
-
-  useEffect(() => {
-    return () => {
-      hanldeSetScheduleVisit(null);
-    };
-  }, []);
-
 
   // FUNCTION TO LOAD THE PROPERTY BY ID OR LOAD THE DEFAULT
   useEffect(() => {

@@ -48,6 +48,11 @@ class Property extends Base {
     return this.apiClient.get(url, {});
   }
 
+  saveBuyerQualificationData(id, data) {
+    const url = ep.property.buyerQualificationData(id);
+    return this.apiClient.patch(url, {}, data);
+  }
+
   changePublishReview(id, status) {
     const url = ep.property.publishReview(id, status);
     return this.apiClient.put(url, {}, {});

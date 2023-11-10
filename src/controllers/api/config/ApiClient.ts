@@ -96,7 +96,7 @@ class ApiClient {
     return this.request({
       url: requestUrl,
       method: 'patch',
-      data: { ...payload, url: get(window, 'location.href', '')},
+      data: { ...payload},
       headers,
       options,
     });

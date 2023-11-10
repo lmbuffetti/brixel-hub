@@ -9,7 +9,7 @@ import {getActiveSingleCompany} from '../../../../actions/CompanyActions';
 import {
   createActiveSingleProperty,
   getActiveSingleProperty,
-  saveActiveSingleProperty,
+  saveActiveSingleProperty, saveBuyerQualification,
 } from '../../../../actions/PropertyActions';
 import {createUserSearchProfile} from '../../../../actions/SearchProfileActions';
 import {doLogin, validateUser} from '../../../../actions/UserActions';
@@ -24,14 +24,15 @@ const GetStartedBuyer = (props: CompleteProfileType) => {
   const match = useParams();
   // PROPS
   const {
+    activeScheduleVisit,
     activeSingleCompany,
     changeFieldValue,
     destroyForm,
     formValue,
+    handleSaveBuyerQualification,
     handleGetActiveSingleProperty,
     handleGetActiveSingleCompany,
     lang = 'en',
-    loggedInUser,
     translations,
   } = props;
   const propID = get(match, 'id', null);
@@ -59,15 +60,14 @@ const GetStartedBuyer = (props: CompleteProfileType) => {
     if (!activeSingleCompany.id && activeSingleProperty.id) handleGetActiveSingleCompany({ id: activeSingleProperty.company});
   }, [activeSingleProperty.id]);
 
-
   // FUNCTION TO SAVE DATA
   const saveData = async () => {
+    handleSaveBuyerQualification({
+      id: activeScheduleVisit.id,
+      data: formValue,
+    });
     setCurrentIndex(1);
   };
-
-  useEffect(() => {
-    if (get(loggedInUser, 'user.id', null)) changeFieldValue('owner', get(loggedInUser, 'user.id', null));
-  }, [get(loggedInUser, 'user.id', null)]);
 
   // ON CHANGE LANGUAGE RELOAD THE QUESTIONS TRANSLATED
   useEffect(() => {
@@ -110,13 +110,13 @@ const GetStartedBuyer = (props: CompleteProfileType) => {
 const mapStateToProps = (state) => {
   return ({
     activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
+    activeScheduleVisit: get(state, 'property.activeScheduleVisit[0]', {}),
     activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
     company: get(state, 'companies.activeSingleCompany', {}),
     errorValue: get(state, 'brixelForm.CompleteProfile.syncErrors', {}),
     formValue: get(state, 'brixelForm.CompleteProfile.values', {}),
     isLoading: get(state, 'common.isLoading', 0) > 0,
     lang: get(state, 'common.language', 'en'),
-    loggedInUser: get(state, 'user.loggedInUser', {}),
     packagesProperty: get(state, 'property.packagesProperty', []),
     startForm: get(state, 'brixelForm.CompleteProfile', null),
     translations: get(state, 'translations', { }),
@@ -136,6 +136,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleReset(initialValue) {
     (dispatch(reset('CompleteProfile', initialValue)));
   },
+  handleSaveBuyerQualification: bindActionCreators(saveBuyerQualification, dispatch),
   handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
   handleCreateActiveSingleProperty: bindActionCreators(createActiveSingleProperty, dispatch),
   handleDoLogin: bindActionCreators(doLogin, dispatch),
