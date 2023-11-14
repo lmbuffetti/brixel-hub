@@ -12,7 +12,6 @@ export interface FormValueType {
 }
 
 export interface CompleteProfileType {
-  activeScheduleVisit: ScheduleType;
   activeSingleCompany: CompanyType;
   changeFieldValue: (data: string, value: any) => void;
   handleSaveBuyerQualification: (data: object) => void,

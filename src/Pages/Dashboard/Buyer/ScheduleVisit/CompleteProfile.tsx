@@ -24,7 +24,6 @@ const GetStartedBuyer = (props: CompleteProfileType) => {
   const match = useParams();
   // PROPS
   const {
-    activeScheduleVisit,
     activeSingleCompany,
     changeFieldValue,
     destroyForm,
@@ -36,6 +35,7 @@ const GetStartedBuyer = (props: CompleteProfileType) => {
     translations,
   } = props;
   const propID = get(match, 'id', null);
+  const scheduleVisitID = get(match, 'scheduleVisitID', null);
   // STATE
   // SET THE QUESTIONS IN BASE OF THE COUNTRY
   const [questions, setQuestions] = useState<QuestionsListType[]>(QuestionsList(lang, 'CompleteProfile', activeSingleProperty.stub));
@@ -63,7 +63,7 @@ const GetStartedBuyer = (props: CompleteProfileType) => {
   // FUNCTION TO SAVE DATA
   const saveData = async () => {
     handleSaveBuyerQualification({
-      id: activeScheduleVisit.id,
+      id: scheduleVisitID,
       data: formValue,
     });
     setCurrentIndex(1);
@@ -110,7 +110,6 @@ const GetStartedBuyer = (props: CompleteProfileType) => {
 const mapStateToProps = (state) => {
   return ({
     activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
-    activeScheduleVisit: get(state, 'property.activeScheduleVisit[0]', {}),
     activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
     company: get(state, 'companies.activeSingleCompany', {}),
     errorValue: get(state, 'brixelForm.CompleteProfile.syncErrors', {}),

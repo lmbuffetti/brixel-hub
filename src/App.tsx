@@ -699,7 +699,7 @@ const App = (props: AppType) => {
                       <Route path="/packageFlow/testDrive/*" element={<ScanTrialFlow />} />
                       <Route path="/visitFeedback/:dealID/:pageID/:visitID" element={<VisitFeedback />} />
                       <Route path="/buyer/:id/financingFlow/*" element={<ProtectedRoute><Financing /></ProtectedRoute>} />
-                      <Route path="/buyer/:id/scheduleVisit/completeProfileFlow/*" element={<ProtectedRoute><CompleteProfile /></ProtectedRoute>} />
+                      <Route path="/buyer/:id/scheduleVisit/:scheduleVisitID/completeProfileFlow/*" element={<ProtectedRoute><CompleteProfile /></ProtectedRoute>} />
 
                       { /* PARTNER CONTACT FLOW */}
                       <Route path="/:propID/contactFlow/*" element={<ProtectedRoute><Contact /></ProtectedRoute>} />

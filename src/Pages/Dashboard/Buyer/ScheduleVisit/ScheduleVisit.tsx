@@ -283,7 +283,7 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
                       rounded
                       className="ws-nw"
                       label={translateTo('Complete profile', lang)}
-                      onClick={() => history.push(`/buyer/${activeSingleProperty.id}/scheduleVisit/completeProfileFlow`)}
+                      onClick={() => history.push(`/buyer/${activeSingleProperty.id}/scheduleVisit/${activeScheduleVisit.id}/completeProfileFlow`)}
                     />
                   </div>
                 </>
