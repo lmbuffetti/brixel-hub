@@ -53,6 +53,7 @@ export interface FlowScreenType {
   handleReset: (formName: string, data: object) => void;
   handleSpinnerOff: () => void;
   initialValues: object;
+  isSaveEnable?: boolean
   isSmallLoading: {
     sendData: boolean;
   };

@@ -18,19 +18,32 @@ import {titleSearchProfile} from '../../../../utils/titleCreationSearchProfile';
 import type {CompleteProfileType} from '../../../../@types/Pages/Dashboard/Buyer/CompleteProfile';
 import {QuestionsListType} from '@brixel-io/brixel-components/dist/@types/Model';
 import FlowScreen from '../../../../components/FlowScreen';
-import {activeSingleProperty} from '@brixel-io/brixel-components/dist/resources/property';
+
+export const initVal = {
+  applyFinancingProof: false,
+  buyerStatus: '',
+  buyerStatusOther: '',
+  involvedPurchaseProperty: '',
+  involvedPurchasePropertyOther: '',
+  financingProof: '',
+  relationshipLocationProperty: '',
+  watch3dTour: '',
+  propertyAppealed: [],
+};
 
 const GetStartedBuyer = (props: CompleteProfileType) => {
   const match = useParams();
   // PROPS
   const {
+    activeSingleProperty,
     activeSingleCompany,
     changeFieldValue,
     destroyForm,
     formValue,
-    handleSaveBuyerQualification,
-    handleGetActiveSingleProperty,
     handleGetActiveSingleCompany,
+    handleGetActiveSingleProperty,
+    handleSaveBuyerQualification,
+    initForm,
     lang = 'en',
     translations,
   } = props;
@@ -38,10 +51,11 @@ const GetStartedBuyer = (props: CompleteProfileType) => {
   const scheduleVisitID = get(match, 'scheduleVisitID', null);
   // STATE
   // SET THE QUESTIONS IN BASE OF THE COUNTRY
-  const [questions, setQuestions] = useState<QuestionsListType[]>(QuestionsList(lang, 'CompleteProfile', activeSingleProperty.stub));
+  const [questions, setQuestions] = useState<QuestionsListType[]>(QuestionsList(lang, 'CompleteProfile', activeSingleProperty.stub || ''));
   const [currentIndex, setCurrentIndex] = useState(0);
   // SET QUEST TO FIRST QUESTION OF QuestionsList()
   const [newCurrentIndex, setNewCurrentIndex] = useState(0);
+  const [isEnableSave, setIsEnableSave] = useState(false);
 
   // DESTROY FORM ON EXIT
   useEffect(() => {
@@ -57,21 +71,40 @@ const GetStartedBuyer = (props: CompleteProfileType) => {
   }, [propID]);
 
   useEffect(() => {
-    if (!activeSingleCompany.id && activeSingleProperty.id) handleGetActiveSingleCompany({ id: activeSingleProperty.company});
+    if (!activeSingleCompany.id && activeSingleProperty.id) {
+      initForm(initVal)
+      handleGetActiveSingleCompany({ id: activeSingleProperty.company});
+    }
   }, [activeSingleProperty.id]);
 
   // FUNCTION TO SAVE DATA
   const saveData = async () => {
-    handleSaveBuyerQualification({
-      id: scheduleVisitID,
-      data: formValue,
-    });
-    setCurrentIndex(1);
+    if (isEnableSave) {
+      handleSaveBuyerQualification({
+        id: scheduleVisitID,
+        data: formValue,
+      });
+      setCurrentIndex(1);
+    }
   };
+
+  useEffect(() => {
+    let isEnable = false;
+    Object.keys(formValue).forEach((key) => {
+      if (typeof formValue[key] === 'string' && formValue[key]) {
+        isEnable = true;
+      }
+      if (typeof formValue[key] === 'object' && formValue[key].length > 0) {
+        isEnable = true;
+      }
+    })
+    setIsEnableSave(isEnable);
+  }, [formValue]);
+
 
   // ON CHANGE LANGUAGE RELOAD THE QUESTIONS TRANSLATED
   useEffect(() => {
-    setQuestions(QuestionsList(lang, 'CompleteProfile', activeSingleProperty.stub));
+    setQuestions(QuestionsList(lang, 'CompleteProfile', activeSingleProperty.stub || ''));
     setNewCurrentIndex(currentIndex);
   }, [lang, translations, formValue, currentIndex]);
 
@@ -92,6 +125,7 @@ const GetStartedBuyer = (props: CompleteProfileType) => {
       {
         activeSingleCompany.id && (
           <FlowScreen
+            isSaveEnable={isEnableSave}
             closeLink={`/buyer/${propID}/scheduleVisit`}
             closeButton={newCurrentIndex === 0}
             baseURL={`/buyer/${propID}/scheduleVisit/completeProfileFlow`}

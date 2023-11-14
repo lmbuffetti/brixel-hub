@@ -32,6 +32,7 @@ const FlowScreen = (props: FlowScreenType) => {
     handleReset,
     handleSpinnerOff,
     initialValues,
+    isSaveEnable = true,
     isSmallLoading,
     lang = 'en',
     newCurrentIndex,
@@ -536,6 +537,7 @@ const FlowScreen = (props: FlowScreenType) => {
                             className={`mr-a ml-a noWrap ${get(quest, 'history', null)}`}
                             rounded
                             theme="green"
+                            disabled={!isSaveEnable}
                             label={translateTo(buttonLabel(), lang)}
                             isLoading={isSmallLoading.sendData}
                             rightIcon="arrow-right-small"
