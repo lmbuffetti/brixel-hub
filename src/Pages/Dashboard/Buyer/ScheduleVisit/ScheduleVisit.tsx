@@ -278,7 +278,7 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
                       </p>
                     </div>
                     <img
-                      className="ml-sm-a h-fix-64 h-fix-sm-160 mb-1 mb-sm-0"
+                      className="ml-a-sm h-fix-64 h-fix-sm-160 mb-1 mb-sm-0"
                       src={PropertyPendingImg}
                       alt="Visit Requested"
                     />
@@ -331,7 +331,7 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
                       </p>
                     </div>
                     <img
-                      className="ml-sm-a h-fix-64 h-fix-sm-160 mb-1 mb-sm-0"
+                      className="ml-a-sm h-fix-64 h-fix-sm-160 mb-1 mb-sm-0"
                       src={PropertyCanceledImg}
                       alt="Visit Requested"
                     />
