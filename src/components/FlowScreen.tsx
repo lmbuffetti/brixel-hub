@@ -7,7 +7,7 @@ import {connect} from 'react-redux';
 import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import {bindActionCreators, compose} from 'redux';
 import baseByData from '@brixel-io/brixel-components/dist/configuration/Settings';
-import {spinnerOff, spinnerOn} from '../actions/CommonActions';
+import {spinnerOff, spinnerOn, spinnerSmallOff} from '../actions/CommonActions';
 import {checkBrowser, redirectUrl} from '../utils/helpers';
 import translateTo from '../utils/translation';
 import {QuestionsListType} from '@brixel-io/brixel-components/dist/@types/Model';
@@ -31,6 +31,7 @@ const FlowScreen = (props: FlowScreenType) => {
     formValue,
     handleReset,
     handleSpinnerOff,
+    handleSetIsSmallLoading,
     initialValues,
     isSaveEnable = true,
     isSmallLoading,
@@ -59,6 +60,7 @@ const FlowScreen = (props: FlowScreenType) => {
   // DESTROY FORM ON EXIT
   useEffect(() => {
     handleSpinnerOff();
+    handleSetIsSmallLoading({});
     return () => destroyForm(formName);
   }, []);
 
@@ -614,6 +616,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleReset(formName, initialValue) {
     (dispatch(reset(formName, initialValue)));
   },
+  handleSetIsSmallLoading: bindActionCreators(spinnerSmallOff, dispatch),
   handleSpinnerOn: bindActionCreators(spinnerOn, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
 });
