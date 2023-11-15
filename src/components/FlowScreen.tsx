@@ -23,6 +23,7 @@ const FlowScreen = (props: FlowScreenType) => {
   const {
     baseURL,
     closeButton = false,
+    closeLabel,
     closeLink,
     company,
     destroyForm,
@@ -324,6 +325,7 @@ const FlowScreen = (props: FlowScreenType) => {
     }, 350);
   }, [quest]);
 
+
   return (
     <>
       <div id="bodyModalWrapper" className={`withHeader getStarted slideUpTrans ${get(quest, 'background', '')} ${get(quest, 'history', '')} ${get(quest, 'classNameWrapper', '')}`}>
@@ -555,7 +557,7 @@ const FlowScreen = (props: FlowScreenType) => {
                                   className={`mr-a ml-a noWrap ${get(quest, 'history', null)}`}
                                   rounded
                                   theme="green"
-                                  label={translateTo('Close', lang)}
+                                  label={closeLabel ? translateTo(closeLabel, lang) : translateTo('Close', lang)}
                                   isLoading={isSmallLoading.sendData}
                                   rightIcon="arrow-right-small"
                                   onClick={() => closeWindow()}

@@ -44,6 +44,36 @@ export const QuestionsList: (lang: string, formName: string, pageStub: string) =
     label: translateTo(item.label, lang),
   }));
 
+  const getAncestor = (element, levels) => {
+    let ancestor = element;
+    for (let i = 0; i < levels; i++) {
+      if (ancestor && ancestor.parentElement) {
+        ancestor = ancestor.parentElement;
+      } else {
+        // If any parent is null, return null
+        return null;
+      }
+    }
+    return ancestor;
+  }
+
+  // Select the div with class "proof"
+  const proofDiv = document.querySelector('.proof');
+
+  // Get the grandparent's grandparent (two levels up)
+  const grandparent = getAncestor(proofDiv, 4);
+
+  // Check if the grandparent exists before adding/removing the class
+  if (grandparent) {
+    if (formValue.financingProof === 'no') {
+    // Add the class if the condition is met
+      grandparent.classList.add('noBrd');
+    } else {
+    // Remove the class if the condition is not met
+      grandparent.classList.remove('noBrd');
+    }
+  }
+
 
   const question: QuestionsListType[] = [
     {
@@ -69,7 +99,7 @@ export const QuestionsList: (lang: string, formName: string, pageStub: string) =
         },
         {
           component: BrixelRadioButton,
-          className: 'radioBtnImg ml-0',
+          className: 'radioBtnImg ml-0 proof',
           label: translateTo('Do you have proof of financing?', lang),
           name: 'financingProof',
           cardLayout: true,
@@ -139,7 +169,7 @@ export const QuestionsList: (lang: string, formName: string, pageStub: string) =
     });
     if (question[0]?.inputs && question[0].inputs[question[0].inputs.length - 1] && formValue.watch3dTour === 'no') {
       question[0].inputs[question[0].inputs.length - 1].modal = {
-        message: `<a class="link" href="${baseByData.pageUrl}${lang}/${pageStub}/explore/tour" target="_blank" class="linkIcn"><span>${translateTo('Go to 3D tour', lang)}</span><i class="icon-link" /></a>`,
+        message: `<a class="link mt-2 dis-b" href="${baseByData.pageUrl}${lang}/${pageStub}/explore/tour" target="_blank" class="linkIcn"><span>${translateTo('Go to 3D tour', lang)}</span><i class="icon-link" /></a>`,
       }
     }
 
@@ -158,7 +188,7 @@ export const QuestionsList: (lang: string, formName: string, pageStub: string) =
       background: 'bgCardGreen',
       hideProgress: true,
       cardType: 'card',
-      title: translateTo('Thank you', lang),
+      title: translateTo('Thank you!', lang),
       img: successCheckImg,
       imgMaxWidth: 'max-w-fix-160 w-perc-100',
       cardClass: 'max-w-fix-360 ml-a mr-a pb-5',

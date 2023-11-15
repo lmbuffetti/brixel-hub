@@ -44,6 +44,7 @@ export interface FormValueType {
 export interface FlowScreenType {
   baseURL: string;
   closeButton?: boolean;
+  closeLabel?: string;
   closeLink?: string;
   company: CompanyType;
   destroyForm: (formName: string) => void;

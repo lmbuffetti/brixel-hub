@@ -136,6 +136,7 @@ const GetStartedBuyer = (props: CompleteProfileType) => {
             formName="CompleteProfile"
             onSaveData={() => saveData()}
             QuestionsList={questions}
+            closeLabel="Back to home"
           />
         )
       }
