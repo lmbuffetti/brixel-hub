@@ -554,12 +554,11 @@ const FlowScreen = (props: FlowScreenType) => {
                             {
                               quest?.history === 'success' && (
                                 <BrixelButtonPrimary
-                                  className={`mr-a ml-a noWrap ${get(quest, 'history', null)}`}
+                                  className={`mr-a ml-a w-perc-100 w-auto-sm noWrap ${get(quest, 'history', null)}`}
                                   rounded
                                   theme="green"
                                   label={closeLabel ? translateTo(closeLabel, lang) : translateTo('Close', lang)}
                                   isLoading={isSmallLoading.sendData}
-                                  rightIcon="arrow-right-small"
                                   onClick={() => closeWindow()}
                                   onShowError={() => setShowError(true)}
                                   type="submit"

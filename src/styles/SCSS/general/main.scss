@@ -1170,3 +1170,12 @@ input::-webkit-date-and-time-value {
     }
   }
 }
+
+
+.flotingTag {
+  @media (max-width: $responsive-small) {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+  }
+}

@@ -59,6 +59,10 @@
       max-width: 120px;
       margin-right: 16px;
 
+      @media (max-width: $responsive-small) {
+        max-width: 45%;
+      }
+
       label {
           padding-top: 24px;
           box-shadow: none;

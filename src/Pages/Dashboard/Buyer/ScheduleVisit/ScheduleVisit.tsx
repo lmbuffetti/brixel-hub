@@ -257,11 +257,11 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
             {
               visitStatus?.status === 'pending' && activeScheduleVisit?.buyerAvailability && activeScheduleVisit?.buyerAvailability.length > 0 && (
                 <>
-                  <div className="bgWhite brdRadius shadow-1dp mb-4 a-c py-3 py-sm-5 px-2 px-sm-4 dis-fl-col-rev dis-fl-row-sm">
+                  <div className="bgWhite brdRadius shadow-1dp mb-4 a-t a-c-sm py-3 py-sm-5 px-2 px-sm-4 dis-fl-col-rev dis-fl-row-sm pos-r pos-r">
 
-                    <div className="mb-4">
+                    <div className="mb-2 mb-sm-4">
                       <BrixelSingleTag
-                        className="mb-2"
+                        className="mb-2 flotingTag"
                         lang={lang}
                         message={{
                           lang: lang,
@@ -270,7 +270,7 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
                         status="pending"
                         text={translateTo('Pending', lang)}
                       />
-                      <h5 className="fweight-600 mb-2">
+                      <h5 className="fweight-600 mb-1 mb-sm-2">
                         {translateTo('Thank you for your request!', lang)}
                       </h5>
                       <p className='txtText600 max-w-perc-sm-80'>
@@ -278,14 +278,14 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
                       </p>
                     </div>
                     <img
-                      className="ml-a h-fix-120 h-fix-sm-160"
+                      className="ml-sm-a h-fix-64 h-fix-sm-160 mb-1 mb-sm-0"
                       src={PropertyPendingImg}
                       alt="Visit Requested"
                     />
                   </div>
                   {
                     isShowCompleteProfile && (
-                      <div className="bgGreen50 brdRadius shadow-1dp mb-4 a-c py-3 py-sm-5 px-2 px-sm-4 dis-fl-col-rev dis-fl-row-sm jc-b">
+                      <div className="bgGreen50 brdRadius shadow-1dp mb-4 a-t a-c-sm py-3 py-sm-5 px-2 px-sm-4 dis-fl-col dis-fl-row-sm jc-b">
                         <div className="w-perc-100">
                           <h5 className="fweight-600 mb-1">
                             {translateTo('Give Brixel more details', lang)}
@@ -296,7 +296,7 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
                         </div>
                         <BrixelButtonPrimary
                           rounded
-                          className="ws-nw"
+                          className="ws-nw px-4 mt-2 mt-sm-0 w-perc-100 w-auto-sm"
                           label={translateTo('Complete profile', lang)}
                           onClick={() => history.push(`/buyer/${activeSingleProperty.id}/scheduleVisit/${activeScheduleVisit.id}/completeProfileFlow`)}
                         />
@@ -310,11 +310,11 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
             {
               visitStatus?.status === 'cancelled' && (!formValue?.scheduleVisits || (formValue?.scheduleVisits && formValue.scheduleVisits.length === 0)) && (
                 <>
-                  <div className="bgRed50 brdRadius shadow-1dp mb-4 a-c py-3 py-sm-5 px-2 px-sm-4 dis-fl-col-rev dis-fl-row-sm">
+                  <div className="bgRed50 brdRadius shadow-1dp mb-4 a-t a-c-sm py-3 py-sm-5 px-2 px-sm-4 dis-fl-col-rev dis-fl-row-sm pos-r">
 
-                    <div className="mb-4">
+                    <div className="mb-2 mb-sm-4">
                       <BrixelSingleTag
-                        className="mb-2"
+                        className="mb-2 flotingTag"
                         lang={lang}
                         message={{
                           lang: lang,
@@ -323,7 +323,7 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
                         status="rejected"
                         text={translateTo('Pending', lang)}
                       />
-                      <h5 className="fweight-600 mb-2">
+                      <h5 className="fweight-600 mb-1 mb-sm-2">
                         {translateTo('Your visit has been cancelled', lang)}
                       </h5>
                       <p className='txtText600 max-w-perc-sm-80'>
@@ -331,7 +331,7 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
                       </p>
                     </div>
                     <img
-                      className="ml-a h-fix-120 h-fix-sm-160"
+                      className="ml-sm-a h-fix-64 h-fix-sm-160 mb-1 mb-sm-0"
                       src={PropertyCanceledImg}
                       alt="Visit Requested"
                     />
@@ -355,11 +355,11 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
                     // CONFIRMED VISIT IN THE FUTURE
                     activeScheduleVisit.visit.date > new Date().valueOf() ? (
                       <>
-                        <div className="bgGreen50 brdRadius shadow-1dp mb-4 a-c py-3 py-sm-5 px-2 px-sm-4">
-                          <div className="dis-fl-col-rev dis-fl-row-sm">
+                        <div className="bgGreen50 brdRadius shadow-1dp mb-4 a-t a-c-sm py-3 py-sm-5 px-2 px-sm-4">
+                          <div className="dis-fl-col-rev dis-fl-row-sm pos-r">
                             <div className="">
                               <BrixelSingleTag
-                                className="mb-2"
+                                className="mb-2 flotingTag"
                                 lang={lang}
                                 message={{
                                   lang: lang,
@@ -368,7 +368,7 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
                                 status="accepted"
                                 text={translateTo('Visit confirmed', lang)}
                               />
-                              <h4 className="fweight-600 mb-2 txtPrimary400">
+                              <h4 className="fweight-600 mb-1 mb-sm-2 txtPrimary400">
                                 <span>
                                   {DateTime.fromMillis(activeScheduleVisit.visit.date).toFormat('dd MMM yyyy', {locale: lang})}
                                 </span>
@@ -402,11 +402,11 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
                     ) : (
                       <>
                         {/* CONFIRMED VISIT IN THE PAST */}
-                        <div className="bgBlue50 brdRadius shadow-1dp mb-4 a-c py-3 py-sm-5 px-2 px-sm-4">
-                          <div className="dis-fl-col-rev dis-fl-row-sm">
+                        <div className="bgBlue50 brdRadius shadow-1dp mb-4 a-t a-c-sm py-3 py-sm-5 px-2 px-sm-4">
+                          <div className="dis-fl-col-rev dis-fl-row-sm pos-r">
                             <div className="">
                               <BrixelSingleTag
-                                className="mb-2"
+                                className="mb-2 flotingTag"
                                 lang={lang}
                                 message={{
                                   lang: lang,
@@ -415,7 +415,7 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
                                 status="visited"
                                 text={translateTo('Visited', lang)}
                               />
-                              <h4 className="fweight-600 mb-2">
+                              <h4 className="fweight-600 mb-1 mb-sm-2">
                                 <span>
                                   {translateTo('You visited the property', lang)}
                                 </span>
