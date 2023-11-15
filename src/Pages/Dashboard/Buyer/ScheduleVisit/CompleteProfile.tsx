@@ -4,7 +4,7 @@ import get from 'lodash/get';
 import {connect} from 'react-redux';
 import {useParams} from 'react-router-dom';
 import {bindActionCreators, compose} from 'redux';
-import {spinnerOff, spinnerOn} from '../../../../actions/CommonActions';
+import {spinnerOff, spinnerOn, spinnerSmallOff} from '../../../../actions/CommonActions';
 import {getActiveSingleCompany} from '../../../../actions/CompanyActions';
 import {
   createActiveSingleProperty,
@@ -41,6 +41,7 @@ const GetStartedBuyer = (props: CompleteProfileType) => {
     destroyForm,
     formValue,
     handleGetActiveSingleCompany,
+    handleSetIsSmallLoading,
     handleGetActiveSingleProperty,
     handleSaveBuyerQualification,
     initForm,
@@ -85,6 +86,7 @@ const GetStartedBuyer = (props: CompleteProfileType) => {
         data: formValue,
       });
       setCurrentIndex(1);
+      handleSetIsSmallLoading({})
     }
   };
 
@@ -174,6 +176,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleCreateActiveSingleProperty: bindActionCreators(createActiveSingleProperty, dispatch),
   handleDoLogin: bindActionCreators(doLogin, dispatch),
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
+  handleSetIsSmallLoading: bindActionCreators(spinnerSmallOff, dispatch),
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
   handleCreateSearchProfile: bindActionCreators(createUserSearchProfile, dispatch),
   handleSpinnerOn: bindActionCreators(spinnerOn, dispatch),

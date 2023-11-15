@@ -99,7 +99,7 @@ export const QuestionsList: (lang: string, formName: string, pageStub: string) =
     },
   ];
   if (question[0].inputs) {
-    if (formValue.financingProof === 'yes') {
+    if (formValue.financingProof === 'no') {
       question[0].inputs.push({
         component: BrixelSwitchButton,
         className: 'radioBtnImg',
