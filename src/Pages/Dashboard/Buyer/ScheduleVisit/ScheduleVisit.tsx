@@ -59,6 +59,7 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
   const [activeModalID, setActiveModalID] = useState(-1);
   const [openedModal, setOpenedModal] = useState(false);
   const [visitStatus, setVisitStatus] = useState<{status: string; text: string; color: string;bg: string;}>();
+  const [isShowCompleteProfile, setIsShowCompleteProfile] = useState(true);
 
   const lastPart = history.location.pathname.split('/').filter(e => e).slice(-1);
   const isNewDate = lastPart[0] === 'addDate';
@@ -110,7 +111,19 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
     if (activeScheduleVisit?.visit?.date && activeScheduleVisit?.sellerStatus === 'accepted' && activeScheduleVisit?.buyerStatus === 'accepted') setSectionPage('confirmed');
     if (activeScheduleVisit?.sellerStatus === 'rejected' || activeScheduleVisit?.buyerStatus === 'rejected') setSectionPage('rejected');
     setVisitStatus(Helpers.visitDateStatus(activeScheduleVisit))
-  }, [activeScheduleVisit]);
+    let isEnable = false;
+    if(activeScheduleVisit?.buyerQualificationData) {
+      Object.keys(activeScheduleVisit?.buyerQualificationData).forEach((key) => {
+        if (typeof activeScheduleVisit?.buyerQualificationData[key] === 'string' && !activeScheduleVisit?.buyerQualificationData[key]) {
+          isEnable = true;
+        }
+        if (typeof activeScheduleVisit?.buyerQualificationData[key] === 'object' && activeScheduleVisit?.buyerQualificationData[key].length === 0) {
+          isEnable = true;
+        }
+      })
+    }
+    setIsShowCompleteProfile(isEnable);
+  }, [activeScheduleVisit?.id]);
 
 
   // OPEN MODAL FOR ADD DATE
@@ -270,22 +283,26 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
                       alt="Visit Requested"
                     />
                   </div>
-                  <div className="bgGreen50 brdRadius shadow-1dp mb-4 a-c py-3 py-sm-5 px-2 px-sm-4 dis-fl-col-rev dis-fl-row-sm jc-b">
-                    <div className="w-perc-100">
-                      <h5 className="fweight-600 mb-1">
-                        {translateTo('Give Brixel more details', lang)}
-                      </h5>
-                      <p className='txtText600 max-w-perc-sm-80'>
-                        {translateTo('Complete your buyer profile in seconds and get ahead of other visitors.', lang)}
-                      </p>
-                    </div>
-                    <BrixelButtonPrimary
-                      rounded
-                      className="ws-nw"
-                      label={translateTo('Complete profile', lang)}
-                      onClick={() => history.push(`/buyer/${activeSingleProperty.id}/scheduleVisit/${activeScheduleVisit.id}/completeProfileFlow`)}
-                    />
-                  </div>
+                  {
+                    isShowCompleteProfile && (
+                      <div className="bgGreen50 brdRadius shadow-1dp mb-4 a-c py-3 py-sm-5 px-2 px-sm-4 dis-fl-col-rev dis-fl-row-sm jc-b">
+                        <div className="w-perc-100">
+                          <h5 className="fweight-600 mb-1">
+                            {translateTo('Give Brixel more details', lang)}
+                          </h5>
+                          <p className='txtText600 max-w-perc-sm-80'>
+                            {translateTo('Complete your buyer profile in seconds and get ahead of other visitors.', lang)}
+                          </p>
+                        </div>
+                        <BrixelButtonPrimary
+                          rounded
+                          className="ws-nw"
+                          label={translateTo('Complete profile', lang)}
+                          onClick={() => history.push(`/buyer/${activeSingleProperty.id}/scheduleVisit/${activeScheduleVisit.id}/completeProfileFlow`)}
+                        />
+                      </div>
+                    )
+                  }
                 </>
               )
             }
