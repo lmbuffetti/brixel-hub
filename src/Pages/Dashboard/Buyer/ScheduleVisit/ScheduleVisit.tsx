@@ -111,14 +111,14 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
     if (activeScheduleVisit?.visit?.date && activeScheduleVisit?.sellerStatus === 'accepted' && activeScheduleVisit?.buyerStatus === 'accepted') setSectionPage('confirmed');
     if (activeScheduleVisit?.sellerStatus === 'rejected' || activeScheduleVisit?.buyerStatus === 'rejected') setSectionPage('rejected');
     setVisitStatus(Helpers.visitDateStatus(activeScheduleVisit))
-    let isEnable = false;
+    let isEnable = true;
     if(activeScheduleVisit?.buyerQualificationData) {
       Object.keys(activeScheduleVisit?.buyerQualificationData).forEach((key) => {
-        if (typeof activeScheduleVisit?.buyerQualificationData[key] === 'string' && !activeScheduleVisit?.buyerQualificationData[key]) {
-          isEnable = true;
+        if (typeof activeScheduleVisit?.buyerQualificationData[key] === 'string' && activeScheduleVisit?.buyerQualificationData[key]) {
+          isEnable = false;
         }
-        if (typeof activeScheduleVisit?.buyerQualificationData[key] === 'object' && activeScheduleVisit?.buyerQualificationData[key].length === 0) {
-          isEnable = true;
+        if (typeof activeScheduleVisit?.buyerQualificationData[key] === 'object' && activeScheduleVisit?.buyerQualificationData[key].length > 0) {
+          isEnable = false;
         }
       })
     }
