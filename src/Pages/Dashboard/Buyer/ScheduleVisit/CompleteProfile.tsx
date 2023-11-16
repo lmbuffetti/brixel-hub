@@ -81,9 +81,14 @@ const CompleteProfile = (props: CompleteProfileType) => {
   // FUNCTION TO SAVE DATA
   const saveData = async () => {
     if (isEnableSave) {
+      const valueToSend = initVal;
+      Object.keys(initVal).forEach((key) => {
+        if (typeof formValue[key] === 'object' && formValue[key].length > 0) valueToSend[key] = formValue[key];
+        if (formValue[key]) valueToSend[key] = formValue[key];
+      })
       handleSaveBuyerQualification({
         id: scheduleVisitID,
-        data: formValue,
+        data: valueToSend,
         isSmallLoading: true,
       });
       setCurrentIndex(1);
