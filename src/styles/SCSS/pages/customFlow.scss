@@ -7,11 +7,10 @@
   }
   .cardLayout .brixel-radio-button-icon .row-reverse {
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     justify-content: center;
     align-items: center;
     padding-bottom: 16px;
-    padding-top: 16px !important;
   }
 
   .cardLayout .brixel-radio-button-icon .col-reverse {
@@ -64,10 +63,10 @@
       }
 
       label {
-          padding-top: 24px;
           box-shadow: none;
           border: 1px solid;
           border-color: map-get($textColor, 100);
+          padding-top: 24px;
 
           &.onHover,
           &.checked {
@@ -75,7 +74,11 @@
           }
 
           .textLabel {
-            padding-bottom: 16px;
+            padding-top: 16px;
+            padding-bottom: 16px !important;
+            @media (max-width: $responsive-small) {
+              padding-bottom: 8px !important;
+            }
             font-size: 16px !important;
             min-height: auto !important;
           }

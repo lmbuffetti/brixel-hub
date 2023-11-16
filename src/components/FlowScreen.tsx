@@ -24,6 +24,7 @@ const FlowScreen = (props: FlowScreenType) => {
     baseURL,
     closeButton = false,
     closeLabel,
+    saveLabel,
     closeLink,
     company,
     destroyForm,
@@ -542,7 +543,7 @@ const FlowScreen = (props: FlowScreenType) => {
                             rounded
                             theme="green"
                             disabled={!isSaveEnable}
-                            label={translateTo(buttonLabel(), lang)}
+                            label={saveLabel ? translateTo(saveLabel, lang) : translateTo(buttonLabel(), lang)}
                             isLoading={isSmallLoading.sendData}
                             rightIcon="arrow-right-small"
                             onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
