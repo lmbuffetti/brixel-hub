@@ -380,12 +380,12 @@ const FlowScreen = (props: FlowScreenType) => {
                         }
                         {
                           quest.title && (
-                            <h3 className={`fweight-600 max-w-fix-464 ta-c fsize-600 fsize-sm-800 m-a ${quest.subtitle ? 'mb-1' : 'mb-5'}`} dangerouslySetInnerHTML={{ __html: quest.title }} />
+                            <h3 className={`fweight-600 max-w-fix-640 ta-c fsize-600 fsize-sm-800 m-a ${quest.subtitle ? 'mb-1' : 'mb-5'}`} dangerouslySetInnerHTML={{ __html: quest.title }} />
                           )
                         }
                         {
                           quest.subtitle && (
-                            <p className="mb-5 ta-c txtText600 w-perc-100 px-3 px-sm-2 max-w-fix-464 ml-a mr-a" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
+                            <p className="mb-5 ta-c txtText600 w-perc-100 px-3 px-sm-2 max-w-fix-504 ml-a mr-a" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
                         }
                       </>
                     )
