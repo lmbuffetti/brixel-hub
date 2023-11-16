@@ -84,6 +84,7 @@ const CompleteProfile = (props: CompleteProfileType) => {
       handleSaveBuyerQualification({
         id: scheduleVisitID,
         data: formValue,
+        isSmallLoading: true,
       });
       setCurrentIndex(1);
       handleSetIsSmallLoading({})

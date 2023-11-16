@@ -936,6 +936,19 @@ const checkCommon = (store) => (next) => (action) => {
             type: SPINNER_OFF,
           });
         })
+        .catch(() => {
+          if (smallLoader) {
+            store.dispatch({
+              type: SPINNER_SMALL,
+              payload: {
+                [smallLoader]: false,
+              },
+            });
+          }
+          store.dispatch({
+            type: SPINNER_OFF,
+          });
+        })
       break;
     }
     default:
