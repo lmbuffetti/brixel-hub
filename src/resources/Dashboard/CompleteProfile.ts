@@ -89,6 +89,7 @@ export const QuestionsList: (lang: string, formName: string, pageStub: string) =
           label: translateTo('What is your buyer status?', lang),
           name: 'buyerStatus',
           options: firstTimeBuyer,
+          placeholderOther: translateTo('Write your answer here', lang),
         },
         {
           component: BrixelRadioButton,
@@ -96,6 +97,7 @@ export const QuestionsList: (lang: string, formName: string, pageStub: string) =
           label: translateTo('Who will be involved in the purchase of the property?', lang),
           name: 'involvedPurchaseProperty',
           options: involvedPurchaseProperty,
+          placeholderOther: translateTo('Write your answer here', lang),
         },
         {
           component: BrixelRadioButton,
