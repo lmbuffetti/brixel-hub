@@ -31,7 +31,7 @@ export const initVal = {
   propertyAppealed: [],
 };
 
-const GetStartedBuyer = (props: CompleteProfileType) => {
+const CompleteProfile = (props: CompleteProfileType) => {
   const match = useParams();
   // PROPS
   const {
@@ -188,4 +188,4 @@ const mapDispatchToProps = (dispatch) => ({
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-)(GetStartedBuyer);
+)(CompleteProfile);
