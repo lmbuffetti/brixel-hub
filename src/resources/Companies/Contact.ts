@@ -365,7 +365,7 @@ export const QuestionsList = (lang, company, isBuyer) => {
       img: ClipboardImg,
       imgMaxWidth: 'max-w-fix-160',
       cardClass: 'max-w-fix-360 ml-a mr-a pb-5',
-      subtitle: `<span>${translateTo('We have forwarded your request. Our partner', lang)}</span><span class="mx-1">${company.name}</span><span>${translateTo('will contact you as soon as possible.', lang)}</span>`,
+      subtitle: `<span>${translateTo('We have forwarded your request. Our partner', lang)}</span><span class="mx-1"> ${company.name} </span><span>${translateTo('will contact you as soon as possible.', lang)}</span>`,
       history: 'success',
       vCentered: true,
       toSave: true,
