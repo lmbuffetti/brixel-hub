@@ -92,6 +92,7 @@ const VisitFeedback = (props: VisitFeedbackType) => {
 
   // FUNCTION TO SAVE DATA
   const saveData = () => {
+    console.log('save', questions[newCurrentIndex].history)
     if (questions[newCurrentIndex].history === 'createProfile') {
       const {register} = formValue;
       const {login} = formValue;
@@ -173,6 +174,7 @@ const VisitFeedback = (props: VisitFeedbackType) => {
   }, [get(formValue, get(questions, `[${currentIndex}].inputs[0].name`, ''), null)]);
 
   const onClickSuccessButton = (redirecLink) => {
+    console.log('click')
     if (!loggedInUser.id) {
       changeFieldValue('redirectLink', redirecLink);
       setNewCurrentIndex(newCurrentIndex + 1);
