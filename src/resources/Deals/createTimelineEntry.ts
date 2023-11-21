@@ -98,7 +98,7 @@ export const createTimelineEntry = (item, userLang) => {
         if (feedback.isInterested === true) dates+= `<span class="txtGreen400 ml-1">${translateTo('Interested 👍', userLang)}</span>`;
         else dates+= `<span class="txtRed400 ml-1">${translateTo('Not Interested 👎', userLang)}</span>`;
         if (feedback.reasons && feedback.reasons.length > 0) {
-          dates+=`<p><span class="mr-1">${translateTo('Reasons:', userLang)}</span>`;
+          dates+=`<p class="fsize-300 txtText600"><span class="mr-1">${translateTo('Reasons:', userLang)}</span>`;
           feedback.reasons.forEach((reason, i) => {
             const getReasons = feedbackReason(userLang).find((itm) => itm.value === reason);
             if (i > 0) dates+='<span class="mr-small-4">,</span>';
@@ -109,10 +109,10 @@ export const createTimelineEntry = (item, userLang) => {
         }
         if (typeof feedback.involvedPurchaseProperty !== 'undefined') {
           const getInvolved = feedbackInvoled(userLang).find((itm) => itm.value === feedback.involvedPurchaseProperty);
-          dates+=`<p><span class="mr-1">${translateTo('Current status:', userLang)}</span><span>${getInvolved?.label || feedback.involvedPurchaseProperty}</span></p>`;
+          dates+=`<p class="fsize-300 txtText600"><span class="mr-1">${translateTo('Current status:', userLang)}</span><span>${getInvolved?.label || feedback.involvedPurchaseProperty}</span></p>`;
         }
         if (typeof feedback.note !== 'undefined') {
-          dates+=`<p><span class="mr-1">${translateTo('Additional note:', userLang)}</span><span>${feedback.note}</span></p>`;
+          dates+=`<p class="fsize-300 txtText600"><span class="mr-1">${translateTo('Additional note:', userLang)}</span><span>${feedback.note}</span></p>`;
         }
         return dates;
       }

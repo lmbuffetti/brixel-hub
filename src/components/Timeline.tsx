@@ -108,7 +108,7 @@ const Timeline = (props: TimelineType) => {
           if (item.actionStub !== 'deal-feedback-visit') array.push(createTimelineEntry(item, lang));
         });
         const DealFeedback = activeDealHistoryList.data.filter(item => item.actionStub === 'deal-feedback-visit');
-        if (DealFeedback.length > 0) array.push(createTimelineEntry(DealFeedback[DealFeedback.length - 1], lang));
+        if (DealFeedback.length > 0) array.push(createTimelineEntry(DealFeedback[0], lang));
       }
 
       forEach(activeDealNotes, (note) => {
@@ -321,7 +321,7 @@ const Timeline = (props: TimelineType) => {
                     />
                     <div className="dis-fl-col">
                       <p
-                        className="description fsize-300"
+                        className="description fsize-400"
                         onClick={(e) => contentClickHandler(e)}
                         dangerouslySetInnerHTML={{
                           __html: translateTo(get(event, 'description', ''), lang),

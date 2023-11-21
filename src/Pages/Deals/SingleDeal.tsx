@@ -100,7 +100,7 @@ const SingleDeal = (props: SingleDealType) => {
         type: 'deal',
         resultsPerPage: 50,
         offset: 0,
-        order: '',
+        order: 'createdAt',
         direction: 'DESC',
         actionStubs: TimelineStubs.Deal,
         smallLoader: 'getDealHistory',
@@ -316,7 +316,7 @@ const SingleDeal = (props: SingleDealType) => {
                             icon="arrow-left-small"
                             ghost
                             theme="text"
-                            onClick={() => history.push(`/${activeSingleProperty.id}/prospects`)}
+                            onClick={() => history.push(`/${propID}/prospects`)}
                           />
                         </div>
                         <OptionsDropdown className="pt-2 pt-lg-0" showMobile showDesktop />
