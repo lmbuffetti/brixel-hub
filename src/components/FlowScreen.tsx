@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {BrixelButtonText, BrixelButtonIcon, BrixelButtonPrimary, BrixelProgressBar} from '@brixel-io/brixel-components';
+import {BrixelTooltip, BrixelButtonText, BrixelButtonIcon, BrixelButtonPrimary, BrixelProgressBar} from '@brixel-io/brixel-components';
 import {destroy, MultiFileldsReduxForm, reset} from '@brixel-io/brixel-components/dist/form';
 import get from 'lodash/get';
 import has from 'lodash/has';
@@ -37,6 +37,7 @@ const FlowScreen = (props: FlowScreenType) => {
     initialValues,
     isSaveEnable = true,
     isSmallLoading,
+    successCustomButtons,
     lang = 'en',
     newCurrentIndex,
     onChangeCurrentIndex = () => '',
@@ -443,10 +444,25 @@ const FlowScreen = (props: FlowScreenType) => {
                         }
                         {
                           quest.subtitle && (
-                            <h6
-                              className={`mt-2 ta-c ${quest.subtitleClass ? quest.subtitleClass : ''}`}
-                              dangerouslySetInnerHTML={{ __html: quest.subtitle }}
-                            />
+                            <div className="mt-2">
+                              <h6
+                                className={`ta-c${quest.subtitleClass ? quest.subtitleClass : ''} ${quest.subtitleTooltip ? 'dis-in' : ''}`}
+                                dangerouslySetInnerHTML={{ __html: quest.subtitle }}
+                              />
+                              {
+                                quest.subtitleTooltip && (
+                                  <BrixelTooltip
+                                    descClass="pos-a-fix x-t-3"
+                                    className="dis-in ml-1"
+                                    classNameIconWrap="dis-in"
+                                    description={quest.subtitleTooltip}
+                                    iconColor={'green'}
+                                    theme='blue'
+                                    width="200"
+                                  />
+                                )
+                              }
+                            </div>
                           )
                         }
                       </div>
@@ -511,29 +527,32 @@ const FlowScreen = (props: FlowScreenType) => {
                   <div className="pos-r">
                     <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-c">
                       {
-                        closeButton && (
+                        closeButton ? (
                           <BrixelButtonText
                             theme="text"
                             themeSat={200}
                             label={translateTo('Close', lang)}
                             onClick={() => closeWindow()}
                           />
-                        )
-                      }
-                      {
-                        (
-                          currentIndex !== questions.length - 2 &&
-                          get(quest, 'history', '') !== 'baloiseInfo' &&
-                          quest?.history !== 'success'
-                        ) && (
-                          <BrixelButtonIcon
-                            className="backBtn pos-a x-l"
-                            icon="arrow-left-small"
-                            onClick={() => changeStep('back')}
-                            theme="text"
-                            themeSat={300}
-                            ghost
-                          />
+                        ) : (
+                          <>
+                            {
+                              (
+                                currentIndex !== questions.length - 2 &&
+                              get(quest, 'history', '') !== 'baloiseInfo' &&
+                              quest?.history !== 'success'
+                              ) && (
+                                <BrixelButtonIcon
+                                  className="backBtn pos-a x-l"
+                                  icon="arrow-left-small"
+                                  onClick={() => changeStep('back')}
+                                  theme="text"
+                                  themeSat={300}
+                                  ghost
+                                />
+                              )
+                            }
+                          </>
                         )
                       }
                       {
@@ -551,22 +570,28 @@ const FlowScreen = (props: FlowScreenType) => {
                             type="submit"
                           />
                         ) : (
-                          <>
+                          <div>
                             {
                               quest?.history === 'success' && (
-                                <BrixelButtonPrimary
-                                  className={`mr-a ml-a w-perc-100 w-auto-sm noWrap ${get(quest, 'history', null)}`}
-                                  rounded
-                                  theme="green"
-                                  label={closeLabel ? translateTo(closeLabel, lang) : translateTo('Close', lang)}
-                                  isLoading={isSmallLoading.sendData}
-                                  onClick={() => closeWindow()}
-                                  onShowError={() => setShowError(true)}
-                                  type="submit"
-                                />
+                                successCustomButtons ? (
+                                  successCustomButtons.map((btn) => (
+                                    btn
+                                  ))
+                                ) : (
+                                  <BrixelButtonPrimary
+                                    className={`mr-a ml-a w-perc-100 w-auto-sm noWrap ${get(quest, 'history', null)}`}
+                                    rounded
+                                    theme="green"
+                                    label={closeLabel ? translateTo(closeLabel, lang) : translateTo('Close', lang)}
+                                    isLoading={isSmallLoading.sendData}
+                                    onClick={() => closeWindow()}
+                                    onShowError={() => setShowError(true)}
+                                    type="submit"
+                                  />
+                                )
                               )
                             }
-                          </>
+                          </div>
                         )
                       }
                       {

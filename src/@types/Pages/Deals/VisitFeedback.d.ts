@@ -1,25 +1,28 @@
-import {ContactType, PropertyType} from '@brixel-io/brixel-components/dist/@types/Model';
+import {PropertyType, LoggedUserType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 export interface FormValueType {
-  reasons: string[],
-  otherReason: string,
-  priceChangeAlert: boolean | null,
+  status: boolean;
+  redirectLink: string;
+  register: LoggedUserType;
+  login: {
+    email: string
+    password: string
+  };
+  signupScreen: string;
 }
 
 export interface VisitFeedbackType {
+  activeSingleCompany: CompanyType;
   activeSingleProperty: PropertyType;
-  contacts: ContactType;
-  errorValue: object;
+  changeFieldValue: (field: string, val: string | boolean) => void;
+  destroyForm: () => void;
   formValue: FormValueType;
-  lng: string;
+  handleCreateUser: (data: object) => void;
+  handleDoLogin: (data: object) => void;
   handleGetActiveSingleProperty: (data: object) => void;
-  handleSetLanguage: (data: string) => void;
-  handleInitForm: (data: object) => void;
   handleSendVisitFeedback: (data: object) => void;
-  handleSetActiveSingleCompany: (data: string) => void;
-  initialValues: FormValueType;
-  isSmallLoading: {
-    sendVisitSent: boolean;
-    sendVisit: boolean;
-  };
+  handleSetIsSmallLoading: (data: object) => void;
+  lang: string;
+  loggedInUser: LoggedUserType;
+  translations: object;
 }

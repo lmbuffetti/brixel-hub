@@ -1179,3 +1179,11 @@ input::-webkit-date-and-time-value {
     right: 24px;
   }
 }
+
+.dis-in {
+  display: inline;
+}
+
+.brixel-tooltip.dis-in > div {
+  display: inline;
+}

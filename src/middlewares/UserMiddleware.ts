@@ -92,6 +92,7 @@ const checkUser = (store) => (next) => (action) => {
     case DO_LOGIN: {
       next(action);
       const {
+        forceRedirect,
         redirectTo,
       } = action.payload;
       const data = action.payload.user;
@@ -101,6 +102,7 @@ const checkUser = (store) => (next) => (action) => {
       delete action.payload.user;
       delete action.payload.addProperty;
       delete action.payload.redirectTo;
+      delete action.payload.forceRedirect;
       api.user.getToken(data, { rememberMe: true })
         .then((res) => {
           if (typeof res.data.statusCode === 'undefined') {
@@ -120,6 +122,8 @@ const checkUser = (store) => (next) => (action) => {
                   store.dispatch({ type: CREATE_USER_SEARCH_PROFILE, payload: dataProfile });
                 } else if (redirectTo) {
                   store.dispatch({ type: REDIRECT_TO, payload: { history: redirectTo } });
+                } else if (forceRedirect) {
+                  window.location.href = forceRedirect
                 } else if (createEstimation) {
                   const dataProperty = action.payload;
                   dataProperty.token = res.data.token;
@@ -150,11 +154,12 @@ const checkUser = (store) => (next) => (action) => {
       const addSearchProfile = action.payload.addSearchProfile || false;
       const extraLoading = action.payload.user.extraLoading || false;
       const createEstimation = action.payload.createEstimation || false;
-      const { redirectTo, setOwner } = action.payload.user;
+      const { redirectTo, setOwner, forceRedirect } = action.payload.user;
       delete action.payload.user;
       delete action.payload.addProperty;
       delete action.payload.createEstimation;
       delete data.redirectTo;
+      delete data.forceRedirect;
       api.user.createUser(data)
         .then((res) => {
           if (typeof res.data.statusCode === 'undefined') {
@@ -189,6 +194,9 @@ const checkUser = (store) => (next) => (action) => {
             }
             if (redirectTo) {
               store.dispatch({ type: REDIRECT_TO, payload: { history: redirectTo } });
+            }
+            if (forceRedirect) {
+              window.location.href = forceRedirect
             }
             store.dispatch({ type: SPINNER_OFF });
           } else if (res.data.statusCode === 400 && res.data.errorMessage === 'Email is invalid!') {

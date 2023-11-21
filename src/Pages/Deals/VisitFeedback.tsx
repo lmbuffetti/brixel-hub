@@ -1,26 +1,29 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {BrixelButtonPrimary, BrixelIcon, Helpers} from '@brixel-io/brixel-components';
-import translateTo from '../../utils/translation';
-import {
-  BrixelCheckbox,
-  BrixelRadioButton,
-  BrixelTextArea,
-  initializeForm,
-  ReduxField,
-  Validation,
-} from '@brixel-io/brixel-components/dist/form';
-import queryString from 'query-string';
-import {bindActionCreators, compose} from 'redux';
-import {useLocation, useNavigate, useParams} from 'react-router-dom';
-import {connect} from 'react-redux';
+import React, {useEffect, useState} from 'react';
+import {change, destroy, initializeForm, reset} from '@brixel-io/brixel-components/dist/form';
 import get from 'lodash/get';
-import set from 'lodash/set';
-import {setLanguage, spinnerOff} from '../../actions/CommonActions';
-import {sendVisitFeedback} from '../../actions/DealActions';
-import {getActiveSingleProperty} from '../../actions/PropertyActions';
-import {setActiveSingleCompany} from '../../actions/CompanyActions';
-import {setCookie} from '../../utils/helpers';
+import {connect} from 'react-redux';
+import {useParams, useLocation, useNavigate} from 'react-router-dom';
+import {bindActionCreators, compose} from 'redux';
+import {spinnerOff, spinnerSmallOff} from '../../actions/CommonActions';
+import {
+  getActiveSingleProperty,
+  saveActiveSingleProperty,
+} from '../../actions/PropertyActions';
+import {QuestionsList} from '../../resources/Deals/visitFeedback';
+import {titleSearchProfile} from '../../utils/titleCreationSearchProfile';
 import type {VisitFeedbackType} from '../../@types/Pages/Deals/VisitFeedback';
+import {QuestionsListType} from '@brixel-io/brixel-components/dist/@types/Model';
+import FlowScreen from '../../components/FlowScreen';
+import queryString from 'query-string';
+import set from 'lodash/set';
+import {sendVisitFeedback} from '../../actions/DealActions';
+import BrixelButtonPrimary from '@brixel-io/brixel-components/dist/components/BrixelButtonPrimary';
+import BrixelButtonText from '@brixel-io/brixel-components/dist/components/BrixelButtonText';
+import {translateTo} from '@brixel-io/brixel-components/dist';
+import {createUser, doLogin} from '../../actions/UserActions';
+
+export const initVal = {
+};
 
 const VisitFeedback = (props: VisitFeedbackType) => {
   const history = {
@@ -30,351 +33,236 @@ const VisitFeedback = (props: VisitFeedbackType) => {
   const match = useParams();
   // PROPS
   const {
+    activeSingleCompany,
     activeSingleProperty,
-    contacts,
-    errorValue,
+    changeFieldValue,
+    destroyForm,
     formValue,
+    handleCreateUser,
+    handleDoLogin,
     handleGetActiveSingleProperty,
-    handleInitForm,
     handleSendVisitFeedback,
-    handleSetActiveSingleCompany,
-    handleSetLanguage,
-    initialValues,
-    isSmallLoading,
-    lng,
+    handleSetIsSmallLoading,
+    lang = 'en',
+    loggedInUser,
+    translations,
   } = props;
-  // GET URL PARAMS
-  const dealID = get(match, 'dealID', null);
-  const pageID = get(match, 'pageID', null);
-  const visitID = get(match, 'visitID', null);
-  const [disabledSend, setDisabledSend] = useState(true);
-  const [successMessage, setSuccessMessage] = useState(false);
   const urlParams = queryString.parse(get(history, 'location.search', ''));
-  const status = urlParams.status === 'true';
-  const { lang } = urlParams;
+  const pageID = get(match, 'pageID', null);
+  const dealID = get(match, 'dealID', null);
+  const visitID = get(match, 'visitID', null);
+  // STATE
+  // SET THE QUESTIONS IN BASE OF THE COUNTRY
+  const [questions, setQuestions] = useState<QuestionsListType[]>(QuestionsList(lang, formValue));
+  const [currentIndex, setCurrentIndex] = useState(0);
+  // SET QUEST TO FIRST QUESTION OF QuestionsList()
+  const [newCurrentIndex, setNewCurrentIndex] = useState(0);
+  const [isEnableSave, setIsEnableSave] = useState(false);
 
-  const checkPriceReason = get(formValue, 'reasons', null) && get(formValue, 'reasons', []).findIndex((val) => val === 'price') > -1;
-
-  useEffect(() => {
-    if (lang) {
-      const defLang = (lang || 'en').toString();
-      handleSetLanguage(defLang);
-      setCookie('brixelLang', defLang);
-    }
-  }, [lang]);
-
-  const onUpdateError = () => {
-    let isValid = true;
-    Object.keys(errorValue).forEach((key) => {
-      const err = get(errorValue, key, null);
-      if (err !== true && err !== false && isValid) isValid = false;
-    });
-    setDisabledSend(!isValid);
-  };
-
-  const saveData = () => {
-    const data = {
-      ...formValue,
-      id: dealID,
-      visitID: visitID,
-      smallLoader: 'sendVisit',
-      sendSlack: true,
-      isInterested: status,
-    };
-    if (status === true) set(data, 'link', `/packageFlow/${activeSingleProperty.id}/makeOffer`)
-    handleSendVisitFeedback(data);
-  };
+  const {status} = urlParams;
 
   useEffect(() => {
-    if (activeSingleProperty.id) {
+    if (typeof urlParams.status !== 'undefined') {
+      changeFieldValue('status', urlParams.status === 'true');
       const data = {
-        ...initialValues,
-        status,
+        id: dealID,
+        visitID: visitID,
+        smallLoader: 'sendVisit',
+        sendSlack: false,
+        isInterested: urlParams.status,
       };
-      handleInitForm(data);
-      if (typeof activeSingleProperty.company === 'string') handleSetActiveSingleCompany(activeSingleProperty.company);
+      handleSendVisitFeedback(data);
     }
-  }, [activeSingleProperty]);
+  }, [status]);
+
+
+  // DESTROY FORM ON EXIT
+  useEffect(() => {
+    handleSetIsSmallLoading({})
+    if (!activeSingleProperty.id || activeSingleProperty.id !== pageID) {
+      const data = {
+        fullVersion: false,
+        smallLoader: 'property',
+        id: pageID,
+      };
+      handleGetActiveSingleProperty(data);
+    }
+    return () => destroyForm();
+  }, [pageID]);
+
+  // FUNCTION TO SAVE DATA
+  const saveData = () => {
+    if (questions[newCurrentIndex].history === 'createProfile') {
+      const {register} = formValue;
+      const {login} = formValue;
+      if (formValue.signupScreen === 'login') {
+        const user = {
+          user: {
+            username: login.email.toLowerCase(),
+            password: login.password,
+          },
+          forceRedirect: formValue.redirectLink,
+        }
+        handleDoLogin(user)
+      } else {
+        const user = {
+          user: {
+            email: (register?.email || '').toLowerCase(),
+            acceptTerms: get(register, 'privacy[0]', true),
+            acceptMarketing: get(register, 'acceptMarketing[0]', false),
+            name: get(formValue, 'register.name', ''),
+            userType: 'seller',
+            signupAccept: true,
+            signupChannel: get(formValue, 'channel', 'default'),
+            signupProduct: null,
+            language: lang,
+            createUser: true,
+            company: activeSingleCompany.stub,
+            ignoreEmail: false,
+            seller: true,
+            forceRedirect: formValue.redirectLink,
+          },
+          forceRedirect: formValue.redirectLink,
+        }
+        handleCreateUser(user);
+      }
+    } else {
+      const data = {
+        ...formValue,
+        id: dealID,
+        visitID: visitID,
+        smallLoader: 'sendVisit',
+        sendSlack: true,
+        isInterested: status,
+      };
+      if (formValue.status) set(data, 'link', `/packageFlow/${activeSingleProperty.id}/makeOffer`)
+      setNewCurrentIndex(newCurrentIndex + 1)
+      handleSendVisitFeedback(data);
+    }
+  };
 
   useEffect(() => {
-    onUpdateError()
+    let isEnable = false;
+    Object.keys(formValue).forEach((key) => {
+      if (typeof formValue[key] === 'string' && formValue[key]) {
+        isEnable = true;
+      }
+      if (typeof formValue[key] === 'object' && formValue[key].length > 0) {
+        isEnable = true;
+      }
+    })
+    setIsEnableSave(isEnable);
   }, [formValue]);
 
+
+  // ON CHANGE LANGUAGE RELOAD THE QUESTIONS TRANSLATED
   useEffect(() => {
-    if (!disabledSend && isSmallLoading.sendVisitSent === true) {
-      setSuccessMessage(true);
+    setQuestions(QuestionsList(lang, formValue));
+    setNewCurrentIndex(currentIndex);
+  }, [lang, translations, formValue, currentIndex]);
+
+  // GET THE NEXT DATA IN BASE OF CURRENT ANSWER
+  useEffect(() => {
+    const rooms: {max?: number; min?: number} = get(formValue, 'characteristics.bedrooms', {});
+    const propertyType = get(formValue, 'characteristics.propertyType', []);
+    const locations = get(formValue, 'locations', []);
+    const searchProfileName = get(formValue, 'name', null);
+    if (propertyType.length > 0 && locations.length > 0 && rooms.max && !searchProfileName) {
+      changeFieldValue('name', titleSearchProfile(formValue, lang))
     }
-  }, [isSmallLoading]);
+  }, [get(formValue, get(questions, `[${currentIndex}].inputs[0].name`, ''), null)]);
 
-  useEffect(() => {
-    const data = {
-      fullVersion: false,
-      smallLoader: 'property',
-      id: pageID,
-    };
-    handleGetActiveSingleProperty(data);
-  }, []);
-
-  // REF
-  const singleStepRef = useRef(null);
-  const multiStepSlidesRef = useRef(null);
+  const onClickSuccessButton = (redirecLink) => {
+    if (!loggedInUser.id) {
+      changeFieldValue('redirectLink', redirecLink);
+      setNewCurrentIndex(newCurrentIndex + 1);
+    } else {
+      history.push(redirecLink);
+    }
+  }
 
   return (
-    <div id="bodyModalWrapper" className="withHeader getStarted visitFeedback">
-
-      <div className="bodyModal dis-fl-col upgradeModal container">
-        <form
-          id="multiStepForm"
-          autoComplete="off"
-          className="interactive dis-fl-col jc-b"
-        >
-          <div ref={multiStepSlidesRef} className="multiStepSlides">
-            <div ref={singleStepRef} className="singleStep zIndex1 pt-5 jc-c fade-enter-active fade-enter">
-              <div className="subcontainer m-a">
-                {
-                  status ? (
-                    <div id="step-0" className="dis-fl-col flex-wrap">
-                      <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 fsize-600 fsize-sm-800 mb-sm-6">
-                        {translateTo('We\'re glad you are still interested.', lng)}
-                      </h2>
-                      <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText50 p-2 p-sm-5 w-perc-100 mb-5">
-                        <div className=" multiFieldWrap w-perc-100 ">
-                          <div className="dis-f jc-b h-perc-100 a-t">
-                            <div className="ml-0 mr-a dis-f-col jc-b w-perc-100 pos-r" tabIndex={-1}>
-
-                              <div>
-                                <h6>{translateTo('Do you want to make an offer?', (lng))}</h6>
-                                <p>{translateTo('Make your offer online and have a proof of financing ready.', lng)}</p>
-                                <BrixelButtonPrimary
-                                  onClick={() => saveData()}
-                                  rounded
-                                  className="w-fit mx-a mt-3"
-                                  isLoading={isSmallLoading.sendVisit}
-                                  label={translateTo('Make an offer', lng)}
-                                />
-                              </div>
-
-                              <p className="mt-5">
-                                {translateTo('You can contact us if you have any specific questions to the owner.',lng)}
-                              </p>
-
-                              <div className="my-3">
-                                {
-                                  contacts.phone && (
-                                    <a href={`tel:${Helpers.telephoneFormat(contacts.phone)}`} className="dis-f a-c mb-2">
-                                      <BrixelIcon
-                                        color="blue"
-                                        saturationTxt={700}
-                                        icon="phone"
-                                      />
-                                      <p className="ml-2">
-                                        <span className="txtText900">{Helpers.telephoneFormat(contacts.phone)}</span>
-                                      </p>
-                                    </a>
-                                  )
-                                }
-                                {
-                                  contacts.email && (
-                                    <a href={`mailto: ${contacts.email}`} className="dis-f a-c mb-2">
-                                      <BrixelIcon
-                                        color="red"
-                                        saturationTxt={400}
-                                        icon="mail"
-                                      />
-                                      <p className="ml-2">
-                                        <span className="txtText900">{contacts.email}</span>
-                                      </p>
-                                    </a>
-                                  )
-                                }
-                              </div>
-
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ) : (
-                    <div id="step-0" className="dis-fl-col flex-wrap">
-                      {
-                        successMessage ? (
-                          <div id="step-0" className="dis-fl-col flex-wrap">
-                            <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 fsize-600 fsize-sm-800 mb-sm-6">
-                              {translateTo('Thank you!', lng)}
-                            </h2>
-                            <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText50 p-2 p-sm-5 w-perc-100 mb-5">
-                              <div className=" multiFieldWrap w-perc-100 ">
-                                <div className="dis-f jc-b h-perc-100 a-t">
-                                  <div className="ml-0 mr-a pr-10 dis-f-col jc-b w-perc-100 pos-r" tabIndex={-1}>
-                                    <p className="mt-1">
-                                      {translateTo('Your feedback has been sent and it will be visible to the Brixel team and to the property owner.', lng)}
-                                    </p>
-                                    <p>
-                                      {translateTo('If you have any questions or would like to share anything else, please contact us at:', lng)}
-                                    </p>
-
-                                    <div className="mt-3">
-                                      {
-                                        contacts.phone && (
-                                          <a href={`tel:${Helpers.telephoneFormat(contacts.phone)}`} className="dis-f a-c mb-2">
-                                            <BrixelIcon
-                                              color="blue"
-                                              saturationTxt={700}
-                                              icon="phone"
-                                            />
-                                            <p className="ml-2">
-                                              <span className="txtText900">{Helpers.telephoneFormat(contacts.phone)}</span>
-                                            </p>
-                                          </a>
-                                        )
-                                      }
-                                      {
-                                        contacts.email && (
-                                          <a href={`mailto: ${contacts.email}`} className="dis-f a-c mb-2">
-                                            <BrixelIcon
-                                              color="red"
-                                              saturationTxt={400}
-                                              icon="mail"
-                                            />
-                                            <p className="ml-2">
-                                              <span className="txtText900">{contacts.email}</span>
-                                            </p>
-                                          </a>
-                                        )
-                                      }
-                                    </div>
-
-                                    <h6>{translateTo('Still looking for your dream home?', lng)}</h6>
-                                    <p>{translateTo('Check out more properties for sale and on our pre-market.', lng)}</p>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <BrixelButtonPrimary
-                              onClick={() => history.push('/buy')}
-                              rounded
-                              className="w-fit m-a"
-                              label={translateTo('Go to the Brixel Hub', lng)}
-                            />
-                          </div>
-                        ) : (
-                          <>
-                            <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 fsize-600 fsize-sm-800 mb-sm-6">
-                              {translateTo('Thank you for your feedback.', lng)}
-                            </h2>
-                            <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText50 p-2 p-sm-5 w-perc-100 mb-5">
-                              <div className=" multiFieldWrap w-perc-100 ">
-                                <div className="dis-f jc-b h-perc-100 a-t">
-                                  <div className="ml-0 mr-a dis-f-col jc-b w-perc-100 pos-r" tabIndex={-1}>
-                                    <ReduxField
-                                      component={BrixelCheckbox}
-                                      form="visitFeedback"
-                                      labels={{
-                                        label: translateTo('What is the main reason for your refusal?', lng),
-                                      }}
-                                      input={{
-                                        name: 'reasons',
-                                        options: [
-                                          { label: translateTo('Price', lng), value: 'price' },
-                                          { label: translateTo('Location', lng), value: 'location' },
-                                          { label: translateTo('Floor plan', lng), value: 'floorPlan' },
-                                          { label: translateTo('Condition', lng), value: 'condition' },
-                                          { label: translateTo('Better alternative', lng), value: 'betterAlternative' },
-                                          { label: translateTo('Other', lng), value: 'other' },
-                                        ],
-                                        validate: [Validation.required],
-                                      }}
-                                    />
-
-                                    <ReduxField
-                                      design={{
-                                        className: 'mt-2',
-                                      }}
-                                      component={BrixelTextArea}
-                                      form="visitFeedback"
-                                      labels={{
-                                        label: translateTo('Do you want to add anything (Optional)', lng),
-                                      }}
-                                      input={{
-                                        name: 'otherReason',
-                                      }}
-                                    />
-
-                                    {
-                                      checkPriceReason && (
-                                        <ReduxField
-                                          component={BrixelRadioButton}
-                                          design={{
-                                            className: 'mt-3',
-                                          }}
-                                          form="visitFeedback"
-                                          labels={{
-                                            label: translateTo('Do you want to get noticed if the price changes?', lng),
-                                          }}
-                                          input={{
-                                            name: 'priceChangeAlert',
-                                            options: [
-                                              { label: translateTo('Yes', lng), value: true },
-                                              { label: translateTo('No', lng), value: false },
-                                            ],
-                                            validate: [Validation.required],
-                                          }}
-                                        />
-                                      )
-                                    }
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <BrixelButtonPrimary
-                              onClick={() => saveData()}
-                              disabled={disabledSend}
-                              isLoading={isSmallLoading.sendVisit}
-                              rounded
-                              className="w-fit m-a"
-                              label={translateTo('Send', lng)}
-                            />
-                          </>
-                        )
-                      }
-                    </div>
-                  )
-                }
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
+    <>
+      {
+        activeSingleCompany.id && (
+          <FlowScreen
+            isSaveEnable={isEnableSave}
+            closeLink={`/buyer/${pageID}/home`}
+            closeButton={newCurrentIndex === 0}
+            baseURL={`/visitFeedback/${dealID}/${pageID}/${dealID}`}
+            onChangeCurrentIndex={(index) => setCurrentIndex(index)}
+            newCurrentIndex={newCurrentIndex}
+            formName="VisitFeedback"
+            onSaveData={() => saveData()}
+            QuestionsList={questions}
+            successCustomButtons={[
+              !status ?
+                <BrixelButtonPrimary
+                  className="mx-a"
+                  rounded
+                  key="btn1"
+                  onClick={() => onClickSuccessButton(`/packageFlow/getStartedBuyer/${activeSingleCompany.stub}/propertyType`)}
+                  label={translateTo('Create Search Profile', lang)}
+                /> : <BrixelButtonPrimary
+                  className="mx-a"
+                  rounded
+                  key="btn1"
+                  onClick={() => onClickSuccessButton(`/packageFlow/${pageID}/makeOffer/priceInfo`)}
+                  label={translateTo('Add offer', lang)}
+                />,
+              <BrixelButtonText
+                className="mt-2 mx-a"
+                rounded
+                key="btn2"
+                onClick={() => onClickSuccessButton('/buy')}
+                label={translateTo('Or go back Home', lang)}
+              />,
+            ]}
+            closeLabel="Back to home"
+            saveLabel="Send"
+          />
+        )
+      }
+    </>
   );
 };
 
 const mapStateToProps = (state) => {
-  const initialValues = {
-    reasons: [],
-    otherReason: '',
-    priceChangeAlert: null,
-  };
   return ({
+    activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
     activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
-    contacts: get(state, 'property.activeSingleProperty.contacts[0]', {}),
-    formValue: get(state, 'brixelForm.visitFeedback.values', {}),
-    errorValue: get(state, 'brixelForm.visitFeedback.syncErrors', {}),
-    isSmallLoading: get(state, 'common.isSmallLoading', {}),
-    lng: get(state, 'common.language', 'en'),
-    initialValues,
+    company: get(state, 'companies.activeSingleCompany', {}),
+    errorValue: get(state, 'brixelForm.VisitFeedback.syncErrors', {}),
+    formValue: get(state, 'brixelForm.VisitFeedback.values', {}),
+    isLoading: get(state, 'common.isLoading', 0) > 0,
+    lang: get(state, 'common.language', 'en'),
+    loggedInUser: get(state, 'user.loggedInUser.user', {}),
+    packagesProperty: get(state, 'property.packagesProperty', []),
+    startForm: get(state, 'brixelForm.VisitFeedback', null),
+    translations: get(state, 'translations', { }),
   });
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  handleInitForm(value) {
-    dispatch(initializeForm('visitFeedback', value));
+  changeFieldValue(field, value) {
+    dispatch(change('VisitFeedback', field, value));
   },
-  handleSetActiveSingleCompany: bindActionCreators(setActiveSingleCompany, dispatch),
-  handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
-  handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
+  destroyForm() {
+    dispatch(destroy('VisitFeedback'));
+  },
+  initForm(value) {
+    dispatch(initializeForm('VisitFeedback', value));
+  },
+  handleReset(initialValue) {
+    (dispatch(reset('VisitFeedback', initialValue)));
+  },
+  handleCreateUser: bindActionCreators(createUser, dispatch),
+  handleDoLogin: bindActionCreators(doLogin, dispatch),
   handleSendVisitFeedback: bindActionCreators(sendVisitFeedback, dispatch),
-  handleSetLanguage: bindActionCreators(setLanguage, dispatch),
+  handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
+  handleSetIsSmallLoading: bindActionCreators(spinnerSmallOff, dispatch),
+  handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
+  handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
 });
 
 export default compose(

@@ -250,7 +250,7 @@ const LoginSignup = (props: LoginSignupType) => {
                           baseURL={baseByData?.apiRoot}
                           showGeneratePassword={false}
                           company={company}
-                          formName="GetStarted"
+                          formName={formName}
                           showErrors={showErrors}
                           lang={lang}
                           // validateEmail
@@ -271,7 +271,7 @@ const LoginSignup = (props: LoginSignupType) => {
                         }
                         <BrixelReset
                           company={company}
-                          formName="GetStarted"
+                          formName={formName}
                           showErrors={showErrors}
                           lang={lang}
                         />

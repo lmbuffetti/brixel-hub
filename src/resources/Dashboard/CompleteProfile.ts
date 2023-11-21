@@ -6,7 +6,7 @@ import {
 } from '@brixel-io/brixel-components/dist/form';
 import translateTo from '../../utils/translation';
 import {QuestionsListType} from '@brixel-io/brixel-components/dist/@types/Model';
-import * as buyerFields from './CompleteProfileFields';
+import * as buyerFields from '@brixel-io/brixel-components/dist/constants/CompleteProfileFields';
 import {configureStore} from '../../store';
 import successCheckImg from '../../images/Marketing/successCheck.svg';
 import get from 'lodash/get';

@@ -65,6 +65,7 @@ export interface FlowScreenType {
   onChangeCurrentIndex: (index: number) => void;
   onSaveData: (val?: string) => void;
   QuestionsList: QuestionsListType[];
+  successCustomButtons: React.ReactNode[]
 }
 
 export interface FormToSaveData extends FormValueType {
