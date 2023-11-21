@@ -1,9 +1,15 @@
 /* complete profile flow */
-.CompleteProfile {
+.customFlow {
   flex: 1;
-  .radioBtnImg.brixel-checkbox-icon label {
-    padding-top: 8px;
-    padding-bottom: 8px;
+  .radioBtnImg.brixel-checkbox-icon {
+    margin-bottom: 12px;
+    label {
+      padding-top: 8px;
+      padding-bottom: 8px;
+    }
+    .brixelIcon.bgTransparent200 svg * {
+      fill: map-get($blueColor, 700);
+    }
   }
   .cardLayout .brixel-radio-button-icon .row-reverse {
     display: flex;

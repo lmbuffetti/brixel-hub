@@ -458,7 +458,7 @@ const FlowScreen = (props: FlowScreenType) => {
                                     description={quest.subtitleTooltip}
                                     iconColor={'green'}
                                     theme='blue'
-                                    width="200"
+                                    width="300"
                                   />
                                 )
                               }

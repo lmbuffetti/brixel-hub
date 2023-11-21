@@ -129,7 +129,7 @@ const CompleteProfile = (props: CompleteProfileType) => {
 
   return (
 
-    <div className="CompleteProfile">
+    <div className="customFlow profileFlow">
       {
         activeSingleCompany.id && (
           <FlowScreen

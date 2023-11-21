@@ -185,42 +185,44 @@ const VisitFeedback = (props: VisitFeedbackType) => {
     <>
       {
         activeSingleCompany.id && (
-          <FlowScreen
-            isSaveEnable={isEnableSave}
-            closeLink={`/buyer/${pageID}/home`}
-            closeButton={newCurrentIndex === 0}
-            baseURL={`/visitFeedback/${dealID}/${pageID}/${dealID}`}
-            onChangeCurrentIndex={(index) => setCurrentIndex(index)}
-            newCurrentIndex={newCurrentIndex}
-            formName="VisitFeedback"
-            onSaveData={() => saveData()}
-            QuestionsList={questions}
-            successCustomButtons={[
-              !status ?
-                <BrixelButtonPrimary
-                  className="mx-a"
+          <div className="customFlow">
+            <FlowScreen
+              isSaveEnable={isEnableSave}
+              closeLink={`/buyer/${pageID}/home`}
+              closeButton={newCurrentIndex === 0}
+              baseURL={`/visitFeedback/${dealID}/${pageID}/${dealID}`}
+              onChangeCurrentIndex={(index) => setCurrentIndex(index)}
+              newCurrentIndex={newCurrentIndex}
+              formName="VisitFeedback"
+              onSaveData={() => saveData()}
+              QuestionsList={questions}
+              successCustomButtons={[
+                !status ?
+                  <BrixelButtonPrimary
+                    className="mx-a"
+                    rounded
+                    key="btn1"
+                    onClick={() => onClickSuccessButton(`/packageFlow/getStartedBuyer/${activeSingleCompany.stub}/propertyType`)}
+                    label={translateTo('Create Search Profile', lang)}
+                  /> : <BrixelButtonPrimary
+                    className="mx-a"
+                    rounded
+                    key="btn1"
+                    onClick={() => onClickSuccessButton(`/packageFlow/${pageID}/makeOffer/priceInfo`)}
+                    label={translateTo('Add offer', lang)}
+                  />,
+                <BrixelButtonText
+                  className="mt-2 mx-a"
                   rounded
-                  key="btn1"
-                  onClick={() => onClickSuccessButton(`/packageFlow/getStartedBuyer/${activeSingleCompany.stub}/propertyType`)}
-                  label={translateTo('Create Search Profile', lang)}
-                /> : <BrixelButtonPrimary
-                  className="mx-a"
-                  rounded
-                  key="btn1"
-                  onClick={() => onClickSuccessButton(`/packageFlow/${pageID}/makeOffer/priceInfo`)}
-                  label={translateTo('Add offer', lang)}
+                  key="btn2"
+                  onClick={() => onClickSuccessButton('/buy')}
+                  label={translateTo('Or go back Home', lang)}
                 />,
-              <BrixelButtonText
-                className="mt-2 mx-a"
-                rounded
-                key="btn2"
-                onClick={() => onClickSuccessButton('/buy')}
-                label={translateTo('Or go back Home', lang)}
-              />,
-            ]}
-            closeLabel="Back to home"
-            saveLabel="Send"
-          />
+              ]}
+              closeLabel="Back to home"
+              saveLabel="Send"
+            />
+          </div>
         )
       }
     </>
