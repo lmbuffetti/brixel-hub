@@ -100,7 +100,6 @@ const Timeline = (props: TimelineType) => {
           array.push(createTimelineEntry(item, lang));
         });
       }
-
       if (activeDealHistoryList.total > 0 && activeDealHistoryList.data.length > 0) {
         // eslint-disable-next-line consistent-return
         forEach(activeDealHistoryList.data, (item) => {
@@ -108,6 +107,8 @@ const Timeline = (props: TimelineType) => {
           // the visit feedback on the deal but we don't need it on the timeline
           if (item.actionStub !== 'deal-feedback-visit') array.push(createTimelineEntry(item, lang));
         });
+        const DealFeedback = activeDealHistoryList.data.filter(item => item.actionStub === 'deal-feedback-visit');
+        if (DealFeedback.length > 0) array.push(createTimelineEntry(DealFeedback[DealFeedback.length - 1], lang));
       }
 
       forEach(activeDealNotes, (note) => {

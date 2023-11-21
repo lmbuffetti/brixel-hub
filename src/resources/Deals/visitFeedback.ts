@@ -8,6 +8,30 @@ import successCheckImg from '../../images/Marketing/successCheck.svg';
 import LoginSignup from '../../components/LoginSignup';
 // QUESTION LISTS
 
+export const feedbackReason = (lang) => ([
+  {label: translateTo('The price', lang), value: 'price', icon: 'money', backIcon: 'transparent'},
+  {
+    label: translateTo('The amenities like garage, balcony, etc', lang),
+    value: 'amenities',
+    icon: 'balcony',
+    backIcon: 'transparent',
+  },
+  {label: translateTo('The floor plan', lang), value: 'floorPlan', icon: 'plans', backIcon: 'transparent'},
+  {
+    label: translateTo('The location', lang),
+    value: 'location',
+    icon: 'location-pin-simple',
+    backIcon: 'transparent',
+  },
+  {label: translateTo('Other', lang), value: 'other', icon: 'property-new', backIcon: 'transparent'},
+]);
+
+export const feedbackInvoled = (lang) => ([
+  {label: translateTo('Yes, I’m still looking', lang), value: 'yes'},
+  {label: translateTo('I’ve found a property already', lang), value: 'found'},
+  {label: translateTo('No, I’ve stopped looking', lang), value: 'no'},
+]);
+
 export const QuestionsList: (lang: string, formValue: FormValueType) => QuestionsListType[] = (lang, formValue) => {
 
   const questions: QuestionsListType[] = [
@@ -24,23 +48,7 @@ export const QuestionsList: (lang: string, formValue: FormValueType) => Question
           icons: true,
           label: translateTo('What did you like most about the property?', lang),
           name: 'reasons',
-          options: [
-            {label: translateTo('The price', lang), value: 'price', icon: 'money', backIcon: 'transparent'},
-            {
-              label: translateTo('The amenities like garage, balcony, etc', lang),
-              value: 'amenities',
-              icon: 'balcony',
-              backIcon: 'transparent',
-            },
-            {label: translateTo('The floor plan', lang), value: 'floorPlan', icon: 'plans', backIcon: 'transparent'},
-            {
-              label: translateTo('The location', lang),
-              value: 'location',
-              icon: 'location-pin-simple',
-              backIcon: 'transparent',
-            },
-            {label: translateTo('Other', lang), value: 'other', icon: 'property-new', backIcon: 'transparent'},
-          ],
+          options: feedbackReason(lang),
           placeholderOther: translateTo('Write your answer here', lang),
         },
       ],
@@ -54,11 +62,7 @@ export const QuestionsList: (lang: string, formValue: FormValueType) => Question
         className: 'radioBtnImg',
         label: translateTo('Are you still looking to buy?', lang),
         name: 'involvedPurchaseProperty',
-        options: [
-          {label: translateTo('Yes, I’m still looking', lang), value: 'yes'},
-          {label: translateTo('I’ve found a property already', lang), value: 'found'},
-          {label: translateTo('No, I’ve stopped looking', lang), value: 'no'},
-        ],
+        options: feedbackInvoled(lang),
         placeholderOther: translateTo('Write your answer here', lang),
       })
     }
@@ -67,7 +71,7 @@ export const QuestionsList: (lang: string, formValue: FormValueType) => Question
       className: 'radioBtnImg ml-0 proof',
       label: translateTo('Anything you would like to add?', lang),
       placeholder: translateTo('Write your answer here.', lang),
-      name: 'financingProof',
+      name: 'note',
       cardLayout: true,
       isHorizontal: true,
       svgSupport: true,

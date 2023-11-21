@@ -59,7 +59,7 @@ const VisitFeedback = (props: VisitFeedbackType) => {
   const [newCurrentIndex, setNewCurrentIndex] = useState(0);
   const [isEnableSave, setIsEnableSave] = useState(false);
 
-  const {status} = urlParams;
+  const status = urlParams.status === 'true';
 
   useEffect(() => {
     if (typeof urlParams.status !== 'undefined') {
@@ -69,7 +69,7 @@ const VisitFeedback = (props: VisitFeedbackType) => {
         visitID: visitID,
         smallLoader: 'sendVisit',
         sendSlack: false,
-        isInterested: urlParams.status,
+        isInterested: status,
       };
       handleSendVisitFeedback(data);
     }
@@ -92,7 +92,6 @@ const VisitFeedback = (props: VisitFeedbackType) => {
 
   // FUNCTION TO SAVE DATA
   const saveData = () => {
-    console.log('save', questions[newCurrentIndex].history)
     if (questions[newCurrentIndex].history === 'createProfile') {
       const {register} = formValue;
       const {login} = formValue;
@@ -174,7 +173,6 @@ const VisitFeedback = (props: VisitFeedbackType) => {
   }, [get(formValue, get(questions, `[${currentIndex}].inputs[0].name`, ''), null)]);
 
   const onClickSuccessButton = (redirecLink) => {
-    console.log('click')
     if (!loggedInUser.id) {
       changeFieldValue('redirectLink', redirecLink);
       setNewCurrentIndex(newCurrentIndex + 1);

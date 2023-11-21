@@ -8,6 +8,7 @@ import tail from 'lodash/tail';
 import isNaN from 'lodash/isNaN';
 
 import {formatPrice} from '../../utils/helpers';
+import {feedbackInvoled, feedbackReason} from './visitFeedback';
 
 export const createTimelineEntry = (item, userLang) => {
   const getHTMLDescription = () => {
@@ -91,6 +92,30 @@ export const createTimelineEntry = (item, userLang) => {
         }
         return `<span>${translateTo('Requested showing', userLang)}</span></br></br><span>${dates}</span>`;
       }
+      if (item.actionStub === 'deal-feedback-visit') {
+        const feedback = item?.meta?.visitFeedback;
+        let dates = `<span>${translateTo('Visit feedback:', userLang)}</span>`;
+        if (feedback.isInterested === true) dates+= `<span class="txtGreen400 ml-1">${translateTo('Interested 👍', userLang)}</span>`;
+        else dates+= `<span class="txtRed400 ml-1">${translateTo('Not Interested 👎', userLang)}</span>`;
+        if (feedback.reasons && feedback.reasons.length > 0) {
+          dates+=`<p><span class="mr-1">${translateTo('Reasons:', userLang)}</span>`;
+          feedback.reasons.forEach((reason, i) => {
+            const getReasons = feedbackReason(userLang).find((itm) => itm.value === reason);
+            if (i > 0) dates+='<span class="mr-small-4">,</span>';
+            dates+=`<span>${translateTo(getReasons?.label || reason, userLang)}</span>`;
+          })
+          if (feedback.reasonsOther) dates+=`<span class="mr-small-4">,</span><span>${feedback.reasonsOther}</span>`;
+          dates+='</p>';
+        }
+        if (typeof feedback.involvedPurchaseProperty !== 'undefined') {
+          const getInvolved = feedbackInvoled(userLang).find((itm) => itm.value === feedback.involvedPurchaseProperty);
+          dates+=`<p><span class="mr-1">${translateTo('Current status:', userLang)}</span><span>${getInvolved?.label || feedback.involvedPurchaseProperty}</span></p>`;
+        }
+        if (typeof feedback.note !== 'undefined') {
+          dates+=`<p><span class="mr-1">${translateTo('Additional note:', userLang)}</span><span>${feedback.note}</span></p>`;
+        }
+        return dates;
+      }
       if (item.actionStub === 'user-get-document') return translateTo('Requested documents', userLang);
       if (item.actionStub === 'user-phone-call') return translateTo('Made a phone call', userLang);
       if (item.actionStub === 'user-send-message') return translateTo(`"${item.meta.message}"`, userLang);
@@ -165,6 +190,7 @@ export const createTimelineEntry = (item, userLang) => {
       if (item.actionStub === 'user-schedule') return 'calendar';
       if (item.actionStub === 'schedule-visit-confirm') return 'calendar';
       if (item.actionStub === 'schedule-visit-request') return 'calendar';
+      if (item.actionStub === 'deal-feedback-visit') return 'calendar';
       if (item.actionStub === 'user-send-message') return 'message';
       if (item.actionStub === 'deal-feedback-visit') return 'message';
       if (item.actionStub === 'user-add-favorite') return 'favorite-fill';
