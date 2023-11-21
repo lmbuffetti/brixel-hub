@@ -433,7 +433,7 @@ const FlowScreen = (props: FlowScreenType) => {
                   {
                     (get(quest, 'cardType', null) === 'card') && (
                       <div className={`scaleAnim ta-c ${quest.cardClass}`}>
-                        <img loading="lazy" src={quest.img} alt={quest.title} className={` mb-5 ${quest.imgMaxWidth ? quest.imgMaxWidth : 'max-w-fix-232'}`} />
+                        <img loading="lazy" src={quest.img} alt={quest.title} className={` mb-5 ${quest.imgMaxWidth ? quest.imgMaxWidth : 'max-w-fix-240'}`} />
                         {
                           quest.title && (
                             <h2
@@ -445,7 +445,7 @@ const FlowScreen = (props: FlowScreenType) => {
                         {
                           quest.subtitle && (
                             <div className="mt-2">
-                              <h6
+                              <span
                                 className={`ta-c${quest.subtitleClass ? quest.subtitleClass : ''} ${quest.subtitleTooltip ? 'dis-in' : ''}`}
                                 dangerouslySetInnerHTML={{ __html: quest.subtitle }}
                               />
