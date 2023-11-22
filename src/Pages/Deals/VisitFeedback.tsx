@@ -152,7 +152,7 @@ const VisitFeedback = (props: VisitFeedbackType) => {
       };
       if (formValue.status) set(data, 'link', `/packageFlow/${activeSingleProperty.id}/makeOffer`)
       setNewCurrentIndex(newCurrentIndex + 1)
-      // handleSendVisitFeedback(data);
+      handleSendVisitFeedback(data);
     }
   };
 
