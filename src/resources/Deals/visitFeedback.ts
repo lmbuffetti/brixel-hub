@@ -89,7 +89,7 @@ export const QuestionsList: (lang: string, formValue: FormValueType) => Question
     subtitleTooltip: translateTo('A proof of financing (also called financing certificate) is a non-binding assessment of your financial situation. You can use it to prove to us that you can afford the house or apartment.', lang),
     subtitle: formValue.status ?
       `<span> ${translateTo('Are you ready for the next step?\n <br/>' +
-      'You can be closer to buy your dream house by making an offer now. Make sure you have ', lang)}</span> <span class="fweight-500"> ${translateTo('a proof of financing ready.', lang)}</span>` :
+      'You can be closer to buy your dream house by making an offer now. Make sure you have a proof of financing ready.', lang)}</span>` :
       translateTo('Create a search profile to find properties for sale and on our Pre-Market that best match your criteria.', lang),
     subtitleClass: 'fweight-400 txtText800',
 
