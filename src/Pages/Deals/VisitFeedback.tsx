@@ -67,7 +67,7 @@ const VisitFeedback = (props: VisitFeedbackType) => {
 
   const status = urlParams.status === 'true';
   const {email} = urlParams;
-  console.log(email)
+
   useEffect(() => {
     if (email) {
       changeFieldValue('register.email', email.toString());
