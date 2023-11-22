@@ -46,7 +46,7 @@ export const QuestionsList: (lang: string, formValue: FormValueType) => Question
           component: BrixelCheckbox,
           className: 'radioBtnImg',
           icons: true,
-          label: translateTo('What did you like most about the property?', lang),
+          label: formValue.status ? translateTo('What did you like most about the property?', lang) : translateTo('What did you not like about the property?', lang),
           name: 'reasons',
           options: feedbackReason(lang),
           placeholderOther: translateTo('Write your answer here', lang),

@@ -24,6 +24,7 @@ const FlowScreen = (props: FlowScreenType) => {
     baseURL,
     disableEmailRegister,
     closeButton = false,
+    closeLabelFlow,
     closeLabel,
     saveLabel,
     closeLink,
@@ -533,7 +534,7 @@ const FlowScreen = (props: FlowScreenType) => {
                           <BrixelButtonText
                             theme="text"
                             themeSat={200}
-                            label={translateTo('Close', lang)}
+                            label={translateTo(closeLabelFlow || 'Close', lang)}
                             onClick={() => closeWindow()}
                           />
                         ) : (

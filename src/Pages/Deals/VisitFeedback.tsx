@@ -14,7 +14,6 @@ import {titleSearchProfile} from '../../utils/titleCreationSearchProfile';
 import type {VisitFeedbackType} from '../../@types/Pages/Deals/VisitFeedback';
 import {QuestionsListType} from '@brixel-io/brixel-components/dist/@types/Model';
 import FlowScreen from '../../components/FlowScreen';
-import queryString from 'query-string';
 import set from 'lodash/set';
 import {sendVisitFeedback} from '../../actions/DealActions';
 import {createUser, doLogin} from '../../actions/UserActions';
@@ -46,7 +45,15 @@ const VisitFeedback = (props: VisitFeedbackType) => {
     loggedInUser,
     translations,
   } = props;
-  const urlParams = queryString.parse(get(history, 'location.search', ''));
+  const urlLocation = get(history, 'location.search', null);
+  const urlParams: {[index: string]: string} = {};
+  if (urlLocation) {
+    const urlParamsSplitted = urlLocation.replace('?', '').split('&');
+    urlParamsSplitted.forEach((param) => {
+      const splitted = param.split('=');
+      urlParams[splitted[0]] = splitted[1];
+    });
+  }
   const pageID = get(match, 'pageID', null);
   const dealID = get(match, 'dealID', null);
   const visitID = get(match, 'visitID', null);
@@ -60,7 +67,7 @@ const VisitFeedback = (props: VisitFeedbackType) => {
 
   const status = urlParams.status === 'true';
   const {email} = urlParams;
-
+  console.log(email)
   useEffect(() => {
     if (email) {
       changeFieldValue('register.email', email.toString());
@@ -195,7 +202,7 @@ const VisitFeedback = (props: VisitFeedbackType) => {
 
   const buttons = () => {
     const btn: any = [];
-    if (status) {
+    if (!status) {
       btn.push({
         className: 'mx-a',
         type: 'primary',
@@ -229,6 +236,7 @@ const VisitFeedback = (props: VisitFeedbackType) => {
               isSaveEnable={isEnableSave}
               closeLink={`/buyer/${pageID}/home`}
               closeButton={newCurrentIndex === 0}
+              closeLabelFlow="Cancel"
               baseURL={`/visitFeedback/${dealID}/${pageID}/${dealID}`}
               onChangeCurrentIndex={(index) => setCurrentIndex(index)}
               newCurrentIndex={newCurrentIndex}

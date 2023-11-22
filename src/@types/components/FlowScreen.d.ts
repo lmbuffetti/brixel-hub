@@ -42,6 +42,7 @@ export interface FormValueType {
 }
 
 export interface FlowScreenType {
+  closeLabelFlow?: string;
   disableEmailRegister: boolean;
   baseURL: string;
   closeButton?: boolean;
