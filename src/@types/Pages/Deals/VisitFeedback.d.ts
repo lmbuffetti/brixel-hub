@@ -4,6 +4,7 @@ export interface FormValueType {
   status: boolean;
   redirectLink: string;
   register: LoggedUserType;
+  owner?: string;
   login: {
     email: string
     password: string
@@ -19,6 +20,7 @@ export interface VisitFeedbackType {
   formValue: FormValueType;
   handleCreateUser: (data: object) => void;
   handleDoLogin: (data: object) => void;
+  handleGetActiveSingleCompany: (data: object) => void;
   handleGetActiveSingleProperty: (data: object) => void;
   handleSendVisitFeedback: (data: object) => void;
   handleSetIsSmallLoading: (data: object) => void;

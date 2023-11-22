@@ -22,6 +22,7 @@ const FlowScreen = (props: FlowScreenType) => {
   // PROPS
   const {
     baseURL,
+    disableEmailRegister,
     closeButton = false,
     closeLabel,
     saveLabel,
@@ -396,6 +397,7 @@ const FlowScreen = (props: FlowScreenType) => {
                       <div className="dis-fl-col a-c flex-wrap">
                         <div className={`w-perc-100 ${quest.className}`}>
                           <MultiFileldsReduxForm
+                            disableEmailRegister={disableEmailRegister}
                             baseByData={baseByData}
                             onSaveData={() => onSaveData()}
                             form={formName}

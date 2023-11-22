@@ -3,6 +3,7 @@ import {LocationType, NotificationType} from '@brixel-io/brixel-components/dist/
 export interface LoginSignupType {
   changeFieldValue: (formName: string, fild: string, val: string | boolean) => void
   company: object;
+  disableEmailRegister?: boolean;
   errorValue: object;
   formError: object;
   formName: string;

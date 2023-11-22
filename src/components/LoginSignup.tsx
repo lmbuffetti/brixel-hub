@@ -23,6 +23,7 @@ const LoginSignup = (props: LoginSignupType) => {
   const {
     changeFieldValue,
     company,
+    disableEmailRegister = false,
     errorValue,
     formError,
     formName,
@@ -247,6 +248,7 @@ const LoginSignup = (props: LoginSignupType) => {
                           )
                         }
                         <BrixelRegister
+                          disableEmailRegister={disableEmailRegister}
                           baseURL={baseByData?.apiRoot}
                           showGeneratePassword={false}
                           company={company}

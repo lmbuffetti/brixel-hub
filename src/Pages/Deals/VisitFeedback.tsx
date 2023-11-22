@@ -21,6 +21,7 @@ import BrixelButtonPrimary from '@brixel-io/brixel-components/dist/components/Br
 import BrixelButtonText from '@brixel-io/brixel-components/dist/components/BrixelButtonText';
 import {translateTo} from '@brixel-io/brixel-components/dist';
 import {createUser, doLogin} from '../../actions/UserActions';
+import {getActiveSingleCompany} from '../../actions/CompanyActions';
 
 export const initVal = {
 };
@@ -41,6 +42,7 @@ const VisitFeedback = (props: VisitFeedbackType) => {
     handleCreateUser,
     handleDoLogin,
     handleGetActiveSingleProperty,
+    handleGetActiveSingleCompany,
     handleSendVisitFeedback,
     handleSetIsSmallLoading,
     lang = 'en',
@@ -60,8 +62,12 @@ const VisitFeedback = (props: VisitFeedbackType) => {
   const [isEnableSave, setIsEnableSave] = useState(false);
 
   const status = urlParams.status === 'true';
+  const {email} = urlParams;
 
   useEffect(() => {
+    if (email) {
+      changeFieldValue('register.email', email.toString());
+    }
     if (typeof urlParams.status !== 'undefined') {
       changeFieldValue('status', urlParams.status === 'true');
       const data = {
@@ -74,6 +80,13 @@ const VisitFeedback = (props: VisitFeedbackType) => {
       handleSendVisitFeedback(data);
     }
   }, [status]);
+
+  useEffect(() => {
+    if (activeSingleProperty.id) {
+      handleGetActiveSingleCompany({id: activeSingleProperty.company});
+    }
+  }, [activeSingleProperty.id]);
+
 
 
   // DESTROY FORM ON EXIT
@@ -127,6 +140,8 @@ const VisitFeedback = (props: VisitFeedbackType) => {
         handleCreateUser(user);
       }
     } else {
+      const defFormValue = {...formValue};
+      delete defFormValue.owner;
       const data = {
         ...formValue,
         id: dealID,
@@ -137,7 +152,7 @@ const VisitFeedback = (props: VisitFeedbackType) => {
       };
       if (formValue.status) set(data, 'link', `/packageFlow/${activeSingleProperty.id}/makeOffer`)
       setNewCurrentIndex(newCurrentIndex + 1)
-      handleSendVisitFeedback(data);
+      // handleSendVisitFeedback(data);
     }
   };
 
@@ -187,6 +202,7 @@ const VisitFeedback = (props: VisitFeedbackType) => {
         activeSingleCompany.id && (
           <div className="customFlow">
             <FlowScreen
+              disableEmailRegister
               isSaveEnable={isEnableSave}
               closeLink={`/buyer/${pageID}/home`}
               closeButton={newCurrentIndex === 0}
@@ -260,10 +276,11 @@ const mapDispatchToProps = (dispatch) => ({
   },
   handleCreateUser: bindActionCreators(createUser, dispatch),
   handleDoLogin: bindActionCreators(doLogin, dispatch),
-  handleSendVisitFeedback: bindActionCreators(sendVisitFeedback, dispatch),
+  handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
   handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
-  handleSetIsSmallLoading: bindActionCreators(spinnerSmallOff, dispatch),
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
+  handleSendVisitFeedback: bindActionCreators(sendVisitFeedback, dispatch),
+  handleSetIsSmallLoading: bindActionCreators(spinnerSmallOff, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
 });
 
