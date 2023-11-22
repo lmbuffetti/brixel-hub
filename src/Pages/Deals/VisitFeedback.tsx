@@ -17,9 +17,6 @@ import FlowScreen from '../../components/FlowScreen';
 import queryString from 'query-string';
 import set from 'lodash/set';
 import {sendVisitFeedback} from '../../actions/DealActions';
-import BrixelButtonPrimary from '@brixel-io/brixel-components/dist/components/BrixelButtonPrimary';
-import BrixelButtonText from '@brixel-io/brixel-components/dist/components/BrixelButtonText';
-import {translateTo} from '@brixel-io/brixel-components/dist';
 import {createUser, doLogin} from '../../actions/UserActions';
 import {getActiveSingleCompany} from '../../actions/CompanyActions';
 
@@ -196,6 +193,32 @@ const VisitFeedback = (props: VisitFeedbackType) => {
     }
   }
 
+  const buttons = () => {
+    const btn: any = [];
+    if (status) {
+      btn.push({
+        className: 'mx-a',
+        type: 'primary',
+        label: 'Create Search Profile',
+        func: () => onClickSuccessButton(`/packageFlow/getStartedBuyer/${activeSingleCompany.stub}/propertyType`),
+      })
+    } else {
+      btn.push({
+        className: 'mx-a',
+        type: 'primary',
+        label: 'Add offer',
+        func: () => onClickSuccessButton(`/packageFlow/${pageID}/makeOffer/priceInfo`),
+      })
+    }
+    btn.push({
+      type: 'text',
+      className: 'mt-2 mx-a',
+      func: () => onClickSuccessButton('/buy'),
+      label: 'Or go back Home',
+    })
+    return btn;
+  }
+
   return (
     <>
       {
@@ -212,29 +235,7 @@ const VisitFeedback = (props: VisitFeedbackType) => {
               formName="VisitFeedback"
               onSaveData={() => saveData()}
               QuestionsList={questions}
-              successCustomButtons={[
-                !status ?
-                  <BrixelButtonPrimary
-                    className="mx-a"
-                    rounded
-                    key="btn1"
-                    onClick={() => onClickSuccessButton(`/packageFlow/getStartedBuyer/${activeSingleCompany.stub}/propertyType`)}
-                    label={translateTo('Create Search Profile', lang)}
-                  /> : <BrixelButtonPrimary
-                    className="mx-a"
-                    rounded
-                    key="btn1"
-                    onClick={() => onClickSuccessButton(`/packageFlow/${pageID}/makeOffer/priceInfo`)}
-                    label={translateTo('Add offer', lang)}
-                  />,
-                <BrixelButtonText
-                  className="mt-2 mx-a"
-                  rounded
-                  key="btn2"
-                  onClick={() => onClickSuccessButton('/buy')}
-                  label={translateTo('Or go back Home', lang)}
-                />,
-              ]}
+              successCustomButtons={buttons()}
               closeLabel="Back to home"
               saveLabel="Send"
             />

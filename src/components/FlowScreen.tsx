@@ -576,8 +576,31 @@ const FlowScreen = (props: FlowScreenType) => {
                             {
                               quest?.history === 'success' && (
                                 successCustomButtons ? (
-                                  successCustomButtons.map((btn) => (
-                                    btn
+                                  successCustomButtons.map((btn: any) => (
+                                    <>
+                                      {
+                                        btn.type === 'primary' && (
+                                          <BrixelButtonPrimary
+                                            className={btn.className}
+                                            rounded
+                                            key="btn1"
+                                            onClick={() => btn.func()}
+                                            label={translateTo(btn.label, lang)}
+                                          />
+                                        )
+                                      }
+                                      {
+                                        btn.type === 'text' && (
+                                          <BrixelButtonText
+                                            className={btn.className}
+                                            rounded
+                                            key="btn1"
+                                            onClick={() => btn.func()}
+                                            label={translateTo(btn.label, lang)}
+                                          />
+                                        )
+                                      }
+                                    </>
                                   ))
                                 ) : (
                                   <BrixelButtonPrimary
