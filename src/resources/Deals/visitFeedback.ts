@@ -33,30 +33,8 @@ export const feedbackInvoled = (lang) => ([
 ]);
 
 export const QuestionsList: (lang: string, formValue: FormValueType) => QuestionsListType[] = (lang, formValue) => {
-  const textFeedbackTrueTitle = translateTo('Are you ready for the next step?', lang);
-  const textFeedbackTrueNorm = translateTo('You can be closer to buy your dream house by making an offer now. Make sure you have a', lang);
-  const textFeedbackTrueBold = translateTo('proof of financing ready.', lang);
 
   const questions: QuestionsListType[] = [
-
-    {
-      background: 'bgCardGreen',
-      hideProgress: true,
-      cardType: 'card',
-      title: translateTo('Thank you for your feedback!', lang),
-      img: successCheckImg,
-      imgMaxWidth: 'max-w-fix-104 max-w-fix-sm-160 w-perc-100',
-      cardClass: 'max-w-fix-360 ml-a mr-a pm-0 pb-sm-5',
-      subtitleTooltip: translateTo('A proof of financing (also called financing certificate) is a non-binding assessment of your financial situation. You can use it to prove to us that you can afford the house or apartment.', lang),
-      subtitle: formValue.status ?
-        `<span class="dis-b">${textFeedbackTrueTitle}</span><span>${textFeedbackTrueNorm}</span><span class="fweight-500 ml-small-4">${textFeedbackTrueBold}</span>` :
-        translateTo('Create a search profile to find properties for sale and on our Pre-Market that best match your criteria.', lang),
-      subtitleClass: 'fweight-400 txtText800',
-
-      history: 'success',
-      vCentered: true,
-      toSave: true,
-    },
     {
       title: translateTo('Tell us more!', lang),
       subtitle: translateTo('By sharing your feedback, you help bringing more transparency to the real estate business.', lang),
