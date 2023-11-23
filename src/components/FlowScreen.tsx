@@ -447,21 +447,21 @@ const FlowScreen = (props: FlowScreenType) => {
                         }
                         {
                           quest.subtitle && (
-                            <div className="mt-2">
+                            <div className="mt-2 max-w-fix-432 ml-a mr-a pos-r">
                               <span
-                                className={`ta-c${quest.subtitleClass ? quest.subtitleClass : ''} ${quest.subtitleTooltip ? 'dis-in' : ''}`}
+                                className={`ta-c ${quest.subtitleClass ? quest.subtitleClass : ''} ${quest.subtitleTooltip ? 'dis-in' : ''}`}
                                 dangerouslySetInnerHTML={{ __html: quest.subtitle }}
                               />
                               {
                                 quest.subtitleTooltip && (
                                   <BrixelTooltip
                                     descClass="pos-a-fix x-t-3"
-                                    className="dis-in ml-1"
+                                    className="dis-in ml-1 mobileCenter"
                                     classNameIconWrap="dis-in"
                                     description={quest.subtitleTooltip}
                                     iconColor={'green'}
                                     theme='blue'
-                                    width="300"
+                                    width="320"
                                   />
                                 )
                               }

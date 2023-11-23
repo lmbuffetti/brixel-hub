@@ -70,14 +70,13 @@ export const QuestionsList: (lang: string, formValue: FormValueType) => Question
     cardType: 'card',
     title: translateTo('Thank you for your feedback!', lang),
     img: successCheckImg,
-    imgMaxWidth: 'max-w-fix-104 max-w-fix-sm-160 w-perc-100',
-    cardClass: 'max-w-fix-360 ml-a mr-a pm-0 pb-sm-5',
+    imgMaxWidth: 'max-w-fix-104 max-w-fix-sm-144 w-perc-100 mb-sm-3',
+    cardClass: 'max-w-fix-600 ml-a mr-a pm-0 pb-sm-2',
     subtitleTooltip: formValue.status ? translateTo('A proof of financing (also called financing certificate) is a non-binding assessment of your financial situation. You can use it to prove to us that you can afford the house or apartment.', lang) : undefined,
     subtitle: formValue.status ?
       `<span>${translateTo('Are you ready for the next step?', lang)}</span><span class="dis-b">${translateTo('You can be closer to buy your dream house by making an offer now. Make sure you have a proof of financing ready.', lang)}</span>` :
       translateTo('Create a search profile to find properties for sale and on our Pre-Market that best match your criteria.', lang),
-    subtitleClass: 'fweight-400 txtText800',
-
+    subtitleClass: 'fweight-400 txtText800 max-w-fix-440 ml-a mr-a',
     history: 'success',
     vCentered: true,
     toSave: true,

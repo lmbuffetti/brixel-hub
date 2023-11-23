@@ -92,3 +92,27 @@
     }
   }
 }
+
+.mobileCenter.brixel-tooltip  {
+  @media (max-width: $responsive-small) {
+    .tooltip-description.mobile {
+      right: 0;
+      transform: none;
+      left: auto !important;
+      top: auto;
+      margin-top: 30px;
+    }
+
+    .tooltip-description.mobile:not(.alignLeft).false.out {
+      animation: slideFromCenter 350ms ease-in-out forwards;
+    }
+  }
+}
+
+@keyframes slideFromCenter {
+  0% {
+    opacity: 1;
+  } 100% {
+    opacity: 0;
+  }
+}
