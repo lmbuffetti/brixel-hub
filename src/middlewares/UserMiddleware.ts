@@ -140,7 +140,15 @@ const checkUser = (store) => (next) => (action) => {
           }
           store.dispatch({ type: SPINNER_OFF });
         })
-        .catch(() => {
+        .catch((err) => {
+          const getError = err?.meta?.statusText?.response?.data;
+          if (getError) {
+            const alertProps = {
+              message: getError.errorMessage,
+              state: true,
+            };
+            store.dispatch({type: SET_FORM_ERROR, payload: alertProps});
+          }
           store.dispatch({ type: SPINNER_OFF });
         });
       break;
