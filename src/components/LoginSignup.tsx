@@ -217,7 +217,7 @@ const LoginSignup = (props: LoginSignupType) => {
                         }
                         <BrixelLogin
                           company={company}
-                          formName="GetStarted"
+                          formName={formName}
                           showErrors={showErrors}
                           lang={lang}
                         />
