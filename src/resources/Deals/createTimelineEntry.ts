@@ -8,7 +8,7 @@ import tail from 'lodash/tail';
 import isNaN from 'lodash/isNaN';
 
 import {formatPrice} from '../../utils/helpers';
-import {feedbackInvoled, feedbackReason} from './visitFeedback';
+import {feedbackInvoled, feedbackReason} from '@brixel-io/brixel-components/dist/constants/FeedbackEmail';
 
 export const createTimelineEntry = (item, userLang) => {
   const getHTMLDescription = () => {
@@ -100,7 +100,7 @@ export const createTimelineEntry = (item, userLang) => {
         if (feedback.reasons && feedback.reasons.length > 0) {
           dates+=`<p class="fsize-300 txtText600"><span class="mr-1">${translateTo('Reasons:', userLang)}</span>`;
           feedback.reasons.forEach((reason, i) => {
-            const getReasons = feedbackReason(userLang).find((itm) => itm.value === reason);
+            const getReasons = feedbackReason.find((itm) => itm.value === reason);
             if (i > 0) dates+='<span class="mr-small-4">,</span>';
             dates+=`<span>${translateTo(getReasons?.label || reason, userLang)}</span>`;
           })
@@ -108,7 +108,7 @@ export const createTimelineEntry = (item, userLang) => {
           dates+='</p>';
         }
         if (typeof feedback.involvedPurchaseProperty !== 'undefined') {
-          const getInvolved = feedbackInvoled(userLang).find((itm) => itm.value === feedback.involvedPurchaseProperty);
+          const getInvolved = feedbackInvoled.find((itm) => itm.value === feedback.involvedPurchaseProperty);
           dates+=`<p class="fsize-300 txtText600"><span class="mr-1">${translateTo('Current status:', userLang)}</span><span>${getInvolved?.label || feedback.involvedPurchaseProperty}</span></p>`;
         }
         if (typeof feedback.note !== 'undefined') {

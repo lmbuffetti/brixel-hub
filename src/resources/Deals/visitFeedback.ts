@@ -6,34 +6,20 @@ import {QuestionsListType} from '@brixel-io/brixel-components/dist/@types/Model'
 import type {FormValueType} from '../../@types/Pages/Deals/VisitFeedback';
 import successCheckImg from '../../images/Marketing/successCheck.svg';
 import LoginSignup from '../../components/LoginSignup';
+import {feedbackReason, feedbackInvoled} from '@brixel-io/brixel-components/dist/constants/FeedbackEmail';
 // QUESTION LISTS
 
-export const feedbackReason = (lang) => ([
-  {label: translateTo('The price', lang), value: 'price', icon: 'money', backIcon: 'transparent'},
-  {
-    label: translateTo('The amenities like garage, balcony, etc', lang),
-    value: 'amenities',
-    icon: 'balcony',
-    backIcon: 'transparent',
-  },
-  {label: translateTo('The floor plan', lang), value: 'floorPlan', icon: 'plans', backIcon: 'transparent'},
-  {
-    label: translateTo('The location', lang),
-    value: 'location',
-    icon: 'location-pin-simple',
-    backIcon: 'transparent',
-  },
-  {label: translateTo('Other', lang), value: 'other', icon: 'property-new', backIcon: 'transparent'},
-]);
-
-export const feedbackInvoled = (lang) => ([
-  {label: translateTo('Yes, I’m still looking', lang), value: 'yes'},
-  {label: translateTo('I’ve found a property already', lang), value: 'found'},
-  {label: translateTo('No, I’ve stopped looking', lang), value: 'no'},
-]);
 
 export const QuestionsList: (lang: string, formValue: FormValueType) => QuestionsListType[] = (lang, formValue) => {
+  const feedbackReasonOptions = feedbackReason.map((item) => ({
+    ...item,
+    label: translateTo(item.label, lang),
+  }));
 
+  const feedbackInvoledOptions = feedbackInvoled.map((item) => ({
+    ...item,
+    label: translateTo(item.label, lang),
+  }));
   const questions: QuestionsListType[] = [
     {
       title: translateTo('Tell us more!', lang),
@@ -48,7 +34,7 @@ export const QuestionsList: (lang: string, formValue: FormValueType) => Question
           icons: true,
           label: formValue.status ? translateTo('What did you like most about the property?', lang) : translateTo('What did you not like about the property?', lang),
           name: 'reasons',
-          options: feedbackReason(lang),
+          options: feedbackReasonOptions,
           placeholderOther: translateTo('Write your answer here', lang),
         },
       ],
@@ -62,7 +48,7 @@ export const QuestionsList: (lang: string, formValue: FormValueType) => Question
         className: 'radioBtnImg',
         label: translateTo('Are you still looking to buy?', lang),
         name: 'involvedPurchaseProperty',
-        options: feedbackInvoled(lang),
+        options: feedbackInvoledOptions,
         placeholderOther: translateTo('Write your answer here', lang),
       })
     }
