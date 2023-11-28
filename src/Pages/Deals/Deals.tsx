@@ -352,7 +352,6 @@ const Deals = (props: DealsType) => {
                                             archived={!singleDeal.active}
                                             className={`${!singleDeal.active ? 'bgText25' : 'bgWhite'} dealCard`}
                                             date={DateTime.fromMillis(singleDeal.updatedAt, { locale: lang }).toFormat('dd LLL yy, H:mm')}
-                                            feedback={get(singleDeal, 'visitFeedback')}
                                             isNew={get(singleDeal, 'newSeller')}
                                             isWinner={get(singleDeal, 'winner')}
                                             name={Helpers.userNameVal(singleDeal.user.firstName, singleDeal.user.lastName, singleDeal.user.name) === 'No Name' ? get(singleDeal.user, 'email', '') : Helpers.userNameVal(singleDeal.user.firstName, singleDeal.user.lastName, singleDeal.user.name)}
@@ -393,7 +392,6 @@ const Deals = (props: DealsType) => {
                                           archived={!singleDeal.active}
                                           className={`${!singleDeal.active ? 'bgText25' : 'bgWhite'} dealCard`}
                                           date={DateTime.fromMillis(singleDeal.updatedAt, { locale: lang }).toFormat('dd LLL yy, H:mm')}
-                                          feedback={get(singleDeal, 'visitFeedback')}
                                           isNew={get(singleDeal, 'newSeller')}
                                           isWinner={get(singleDeal, 'winner')}
                                           name={Helpers.userNameVal(singleDeal.user.firstName, singleDeal.user.lastName, singleDeal.user.name) === 'No Name' ? get(singleDeal.user, 'email', '') : Helpers.userNameVal(singleDeal.user.firstName, singleDeal.user.lastName, singleDeal.user.name)}

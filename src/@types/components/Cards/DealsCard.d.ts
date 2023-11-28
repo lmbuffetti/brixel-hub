@@ -7,7 +7,6 @@ export interface DealsCardProps {
   id?: string;
   isNew?: boolean;
   isWinner?: boolean;
-  feedback?: object;
   name?: string;
   offer?: string;
   parentOnClick?: () => void;

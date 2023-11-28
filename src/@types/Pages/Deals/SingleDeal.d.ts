@@ -1,6 +1,7 @@
 import {DealType, PropertyType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 export interface SingleDealType {
+  activeSingleVisitFeedback: any;
   activeSingleDeal: DealType;
   activeDealHistoryList: {
     total: number;
@@ -11,6 +12,7 @@ export interface SingleDealType {
   getActiveDeal: (data: object) => void;
   getDealNotes: (data: object) => void;
   getHistoryList: (data: object) => void;
+  handleGetScheduleVisit: (data: object) => void
   handleSaveDeal: (data: object) => void;
   handleSaveMultipleDeal: (data: object) => void;
   setActiveSingleDealHistory: (data: object) => void;

@@ -2,13 +2,11 @@ const TimelineStubs = {
   Deal: [
     'update-deal',
     'portal-create-deal',
-    'deal-feedback-visit',
     'user-add-favorite',
     'user-message',
     'user-get-document',
     'user-phone-call',
     'page-portals-contact',
-    'deal-feedback-visit-email',
   ],
   DealOwner: [
     'user-portal-create-message',

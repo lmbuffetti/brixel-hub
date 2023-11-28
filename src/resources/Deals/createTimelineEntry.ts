@@ -121,7 +121,7 @@ export const createTimelineEntry = (item, userLang) => {
       if (item.actionStub === 'user-send-message') return translateTo(`"${item.meta.message}"`, userLang);
       if (item.actionStub === 'user-portal-create-message') return `<span>${translateTo('Sent new message on', userLang)}</span><span class="ml-small-4">${item.meta.portal}</span></br></br><span>${translateTo(item.meta.message, userLang)}</span>`;
       if (item.actionStub === 'deal-confirm-visit-email') return translateTo('Visit confirmation email sent', userLang);
-      if (item.actionStub === 'deal-feedback-visit-email') return `<span>${translateTo(`${item.meta.action ? item.meta.action.charAt(0).toUpperCase() : '' + item.meta.action.slice(1)}`, userLang)}</span> <span>${translateTo('visit feedback email sent', userLang)}</span>`;
+      if (item.actionStub === 'deal-feedback-visit-email') return `<span>${translateTo(`${item.meta.action ? item.meta.action.charAt(0).toUpperCase() : '' + item?.meta?.action?.slice(1)}`, userLang)}</span> <span>${translateTo('visit feedback email sent', userLang)}</span>`;
 
       if (item.actionStub === 'deal-make-offer') return `<span>${translateTo('Prospect made an offer:', userLang)}</span><span class="ml-small-4">${get(item, 'meta.offer.currency', '')}</span> <span>${formatPrice(item.meta.offer.amount, userLang)}</span></br></br><span>${item.meta.offer.noteByBuyer}</span>`;
       if (item.actionStub === 'deal-review-offer') return `<span>${translateTo('Offer', userLang)}</span> <span>${get(item, 'meta.offer.status', '')}</span>: </span><span>${get(item, 'meta.offer.currency', '')}</span> <span>${formatPrice(item.meta.offer.amount, userLang)}</span>`;

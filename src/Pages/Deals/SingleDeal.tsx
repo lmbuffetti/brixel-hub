@@ -21,7 +21,7 @@ import {connect} from 'react-redux';
 import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import {bindActionCreators, compose} from 'redux';
 import {
-  getActiveSingleDeal,
+  getActiveSingleDeal, getScheduleVisit,
   saveActiveSingleDeal,
   setActiveSingleDeal,
   updateMultipleDeals,
@@ -37,6 +37,7 @@ import translateTo from '../../utils/translation';
 
 import TimelineStubs from '../../resources/Utilities/timelineActionStubs';
 import type {SingleDealType} from '../../@types/Pages/Deals/SingleDeal';
+import {feedbackInvoled, feedbackReason} from '@brixel-io/brixel-components/dist/constants/FeedbackEmail';
 
 const SingleDeal = (props: SingleDealType) => {
   const history = {
@@ -48,9 +49,11 @@ const SingleDeal = (props: SingleDealType) => {
     activeSingleDeal,
     activeSingleProperty,
     activeSinglePropertyDeals,
+    activeSingleVisitFeedback,
     getActiveDeal,
     getDealNotes,
     getHistoryList,
+    handleGetScheduleVisit,
     handleSaveDeal,
     handleSaveMultipleDeal,
     lang,
@@ -64,6 +67,7 @@ const SingleDeal = (props: SingleDealType) => {
   const [optionsOpen, setOptionsOpen] = useState(false);
   const [winnerId, setWinnerId] = useState('');
   const [showFullOffer, setShowFullOffer] = useState(false);
+  const [showFullFeedback, setShowFullFeedback] = useState(false);
   const [isReady, setIsReady] = useState(false);
 
   const {
@@ -108,6 +112,12 @@ const SingleDeal = (props: SingleDealType) => {
       getActiveDeal({ id: dealID, property: propID, smallLoader: 'getDeal' });
       getDealNotes(payloadNote);
       getHistoryList(payloadDealHistory);
+      handleGetScheduleVisit({
+        id: dealID,
+        order: 'createdAt',
+        direction: 'DESC',
+        smallLoader: 'getScheduleVisit',
+      })
     }
   }, [activeSingleDeal.id]);
 
@@ -437,6 +447,105 @@ const SingleDeal = (props: SingleDealType) => {
                           className="col-12 col-sm-6 p-0"
                         />
                         <div className="dis-fl-col-md col-12 col-sm-6 px-0">
+
+                          <div className="offers dis-fl-col mb-5">
+                            <div className="dis-fl-row a-c jc-b mb-3">
+                              <span className="overline">{translateTo('Feedback', lang)}</span>
+                            </div>
+                            <div className="brdRadius bgWhite brdText100 brdSmall pos-r dis-fl-col p-small-12 w-perc-100">
+                              <div className="dis-fl-row jc-b">
+                                <div className="dis-f a-c">
+                                  <BrixelIcon
+                                    icon="calendar"
+                                    background={typeof activeSingleVisitFeedback?.isInterested === 'boolean' ? 'green' : 'light'}
+                                    saturation={typeof activeSingleVisitFeedback?.isInterested === 'boolean' ? 100 : 100}
+                                    color={typeof activeSingleVisitFeedback?.isInterested === 'boolean' ? 'green' : 'text'}
+                                    saturationTxt={typeof activeSingleVisitFeedback?.isInterested === 'boolean' ? 400 : 900}
+                                    className="mr-2"
+                                  />
+                                  {typeof activeSingleVisitFeedback?.isInterested === 'boolean' ? (
+                                    <span className={activeSingleVisitFeedback?.isInterested ? 'txtGreen400' : 'txtRed400'}>
+                                      {activeSingleVisitFeedback?.isInterested ? translateTo('Interested 👍' , lang) : translateTo('Not interested 👎', lang)}
+                                    </span>
+                                  ) : (
+                                    <span>No feedback</span>
+                                  )
+                                  }
+                                </div>
+                              </div>
+                              {
+                                typeof activeSingleVisitFeedback?.isInterested === 'boolean' && (
+                                  <div className="dis-fl-col">
+                                    {
+                                      typeof activeSingleVisitFeedback?.isInterested !== 'undefined' && (
+                                        <div className={`mt-1 dis-fl-row jc-b ${showFullFeedback === true ? 'mb-2' : ''}`}>
+                                          <span className="txtText900 fsize-300">{translateTo('Details:', lang)} </span>
+                                          <BrixelIcon
+                                            iconSize="small"
+                                            icon={`${showFullFeedback === true ? 'arrow-simple-up' : 'dropdown'}`}
+                                            className="txtText900 cur-poi pr-1"
+                                            onClick={(e) => {
+                                              if (e) e.preventDefault();
+                                              setShowFullFeedback(!showFullFeedback);
+                                            }}
+                                          />
+                                        </div>
+                                      )
+                                    }
+                                    {
+                                      showFullFeedback && (
+                                        <div className="dis-fl-col fsize-300 txtText600">
+                                          {
+                                            activeSingleVisitFeedback?.reasons && activeSingleVisitFeedback?.reasons.length > 0 && (
+                                              <div>
+                                                <span className="mr-1">Reasons:</span>
+                                                {
+                                                  activeSingleVisitFeedback?.reasons.filter(el => el !== 'other').map((reason, index) => (
+                                                    <React.Fragment key={`reason${index.toString()}`}>
+                                                      {index > 0 && (<span>, </span>)}
+                                                      <span key={`reason${index.toString()}`}>
+                                                        {feedbackReason.find((itm) => (itm.value === reason))?.label}
+                                                      </span>
+
+                                                    </React.Fragment>
+                                                  ))
+
+                                                }
+                                                {
+                                                  activeSingleVisitFeedback?.reasons.filter(el => el === 'other').length === 1 && activeSingleVisitFeedback?.reasonsOther && (
+                                                    <>,<>&nbsp;</><span>{translateTo('Other: ', lang)}{activeSingleVisitFeedback?.reasonsOther}</span></>
+                                                  )
+                                                }
+                                              </div>
+                                            )
+                                          }
+                                          {
+                                            activeSingleVisitFeedback?.involvedPurchaseProperty && (
+                                              <div>
+                                                <span className="mr-1">Current status:</span>
+                                                <span>{feedbackInvoled.find((itm) => itm.value === activeSingleVisitFeedback.involvedPurchaseProperty)?.label}</span>
+                                              </div>
+                                            )
+                                          }
+                                          {
+                                            activeSingleVisitFeedback?.note && (
+                                              <div>
+                                                <span className="mr-1">Note:</span>
+                                                <span>{activeSingleVisitFeedback.note}</span>
+                                              </div>
+                                            )
+                                          }
+                                        </div>
+                                      )
+                                    }
+                                  </div>
+                                )
+                              }
+                            </div>
+                          </div>
+
+
+
                           <span className="overline dis-b mb-3">{translateTo('Offer', lang)}</span>
                           <div className="brdRadius brdSmall brdText200 pos-r dis-fl-col bgWhite p-small-12 w-perc-100">
                             <div className="dis-fl-row jc-b">
@@ -543,6 +652,7 @@ const SingleDeal = (props: SingleDealType) => {
 };
 
 const mapStateToProps = (state) => ({
+  activeSingleVisitFeedback: get(state, 'property.activeScheduleVisit[0].visitFeedback', {}),
   activeDealHistoryList: get(state, 'deal.activeSingleDealHistory', {}),
   activeSingleDeal: get(state, 'deal.activeSingleDeal', {}),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
@@ -559,6 +669,7 @@ const mapDispatchToProps = (dispatch) => ({
   getActiveDeal: bindActionCreators(getActiveSingleDeal, dispatch),
   getDealNotes: bindActionCreators(getNoteListings, dispatch),
   getHistoryList: bindActionCreators(getHistoryListings, dispatch),
+  handleGetScheduleVisit: bindActionCreators(getScheduleVisit, dispatch),
   handleSaveDeal: bindActionCreators(saveActiveSingleDeal, dispatch),
   handleSaveMultipleDeal: bindActionCreators(updateMultipleDeals, dispatch),
   setActiveSingleDealHistory: bindActionCreators(setDealHistoryListings, dispatch),
