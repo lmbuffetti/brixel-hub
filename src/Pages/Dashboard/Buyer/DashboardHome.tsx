@@ -175,7 +175,7 @@ const DashboardHome = (props: ContactType) => {
                       <h5 className="fweight-600">
                         {translateTo('You visited the property', lang)}
                       </h5>
-                      <div className="dis-f a-c max-w-perc-80 mt-1">
+                      <div className="dis-f a-c max-w-perc-70 mt-1">
                         <p className="pr-2 mb-3">
                           {translateTo('We hope you had a great experience.', lang)}
                         </p>
@@ -183,6 +183,7 @@ const DashboardHome = (props: ContactType) => {
 
                       <div className="mt-a">
                         <BrixelButtonSecondary
+                          className="max-w-perc-60 max-w-perc-lg-100"
                           bgTransparent
                           label={translateTo('Add new dates', lang)}
                           leftIcon="plus"
