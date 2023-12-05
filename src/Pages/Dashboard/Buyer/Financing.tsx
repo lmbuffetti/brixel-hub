@@ -8,9 +8,11 @@ import {change, reset} from '@brixel-io/brixel-components/dist/form';
 import {setModal} from '../../../actions/CommonActions';
 import type {FinancingType} from '../../../@types/Pages/Dashboard/Buyer/Financing';
 import SectionMobileTitle from '../../../components/SectionMobileTitle';
+import BannerBox from '../../../components/CraftCMS/BannerBox';
 
 const Financing = (props: FinancingType) => {
   const {
+    activeSingleCompany,
     activeSingleProperty,
     handleSetModal,
     lang,
@@ -39,6 +41,13 @@ const Financing = (props: FinancingType) => {
                 />
               )
             }
+
+            <BannerBox
+              activeSingleCompany={activeSingleCompany}
+              className="mt-6"
+              lang={lang}
+              placementSlug="buyer-hub-financing-banner"
+            />
           </div>
         </div>
       </div>
@@ -47,6 +56,7 @@ const Financing = (props: FinancingType) => {
 };
 
 const mapStateToProps = (state) => ({
+  activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   lang: get(state, 'common.language', 'en'),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
