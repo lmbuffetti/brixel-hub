@@ -26,9 +26,13 @@ const SearchProfileField = (props: SearchProfileFieldType) => {
               get(searchProfile, 'location', []).map((item, i) => (
                 <React.Fragment key={`usrLoc_${i.toString()}`}>
                   {i > 0 && (<span>, </span>)}
-                  <span>{translateTo(item.city, lang)}</span>
-                  <span className="mr-small-4">,</span>
-                  <span>{translateTo(item.country, lang)}</span>
+                  {item.city && (
+                    <>
+                      <span>{translateTo(item.city, lang)}</span>
+                      {item.country && <span className="mr-small-4">,</span>}
+                    </>
+                  )}
+                  {item.country && <span>{translateTo(item.country, lang)}</span>}
                 </React.Fragment>
               ))
             }

@@ -39,8 +39,13 @@ export const titleSearchProfile = (formValue, lang) => {
   let locationText = '';
   if (locations) {
     locations.forEach((location, index) => {
-      const separator = index < locations.length -1 ? ', ' : '';
-      locationText += `${location.city}${separator}`;
+      if (location.city) {
+        const separator = index < locations.length - 1 ? ', ' : '';
+        locationText += `${location.city}${separator}`;
+      } else if (location.address) {
+        const separator = index < locations.length - 1 ? ', ' : '';
+        locationText += `${location.address}${separator}`;
+      }
     });
   }
   pageTitle = `${roomsText} ${translatedPropertyType}`;
