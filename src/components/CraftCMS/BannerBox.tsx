@@ -61,7 +61,7 @@ const BannerBox = (props: BannerBoxType) => {
           <h5 className="mb-3">{title}</h5>
         )
       }
-      <div className="pos-r p-3 p-sm-5 brdRadius bgWhite">
+      <div className="pos-r p-3 p-md-5 brdRadius bgWhite">
         <div className="dis-fl-col-rev dis-fl-row-sm a-c-sm jc-b">
           <div className="max-w-fix-512 w-perc-100">
             <h5 className="mt-3 mt-sm-0 fweight-600 fsize-400 fSizePx20-md">{banner.title}</h5>
