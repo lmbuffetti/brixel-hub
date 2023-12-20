@@ -42,20 +42,28 @@ const Financing = (props: FinancingType) => {
               )
             }
 
+            {
+              get(activeSingleCompany, 'stub', '') === 'ubs' && (
+                <span className='dis-b mt-5 fSizePx20 fsize-600-md fweight-600'>
+                  {translateTo('Services and offers from our financial partner UBS', lang)}
+                </span>
+              )
+            }
+
             <div className="dis-fl-row-md dis-fl-col">
 
               <BannerBox
                 activeSingleCompany={activeSingleCompany}
-                className="mt-3 mt-md-6 mr-md-2"
+                className="mt-2 mr-md-2"
                 lang={lang}
                 placementSlug="buyer-hub-financing-banner"
               />
 
               <BannerBox
                 activeSingleCompany={activeSingleCompany}
-                className="mt-3 mt-md-6 ml-md-2"
+                className="mt-2 ml-md-2"
                 lang={lang}
-                placementSlug="buyer-hub-financing-banner"
+                placementSlug="buyer-hub-financing-banner-two"
               />
             </div>
 
