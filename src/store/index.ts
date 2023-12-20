@@ -11,18 +11,18 @@ import {
 
 // MIDDLEWARES
 import CommonMiddleware from '../middlewares/CommonMiddleware';
-import ChecklistMiddleware from '../middlewares/ChecklistMiddleware';
-import PropertyMiddleware from '../middlewares/PropertyMiddleware';
-import UserMiddleware from '../middlewares/UserMiddleware';
-import ImageMiddleware from '../middlewares/UploadMiddleware';
 import CompanyMiddleware from '../middlewares/CompanyMiddleware';
-import LeadMiddleware from '../middlewares/LeadMiddleware';
-import PackageMiddleware from '../middlewares/PackageMiddleware';
+import CraftCMS from '../middlewares/CraftCMS';
 import DealMiddleware from '../middlewares/DealMiddleware';
-import NoteMiddleware from '../middlewares/NoteMiddleware';
-import HistoryMiddleware from '../middlewares/HistoryMiddleware';
 import EstimationMiddleware from '../middlewares/EstimationMiddleware';
-import EmailMiddleware from '../middlewares/EmailMiddleware';
+import HistoryMiddleware from '../middlewares/HistoryMiddleware';
+import LeadMiddleware from '../middlewares/LeadMiddleware';
+import MarketMiddleware from '../middlewares/MarketMiddleware';
+import NoteMiddleware from '../middlewares/NoteMiddleware';
+import PropertyMiddleware from '../middlewares/PropertyMiddleware';
+import SearchProfile from '../middlewares/SearchProfileMiddleware';
+import ImageMiddleware from '../middlewares/UploadMiddleware';
+import UserMiddleware from '../middlewares/UserMiddleware';
 
 const middlewares: any = [thunk];
 
@@ -46,19 +46,19 @@ const composeEnhancers = composeWithDevTools({});
 const composedEnhancers = composeEnhancers(
   applyMiddleware(
     ...middlewares,
+    CraftCMS,
     CommonMiddleware,
-    ChecklistMiddleware,
+    CompanyMiddleware,
+    DealMiddleware,
+    HistoryMiddleware,
+    ImageMiddleware,
+    LeadMiddleware,
+    MarketMiddleware,
+    NoteMiddleware,
     PropertyMiddleware,
     UserMiddleware,
-    ImageMiddleware,
-    CompanyMiddleware,
-    LeadMiddleware,
-    PackageMiddleware,
-    DealMiddleware,
-    NoteMiddleware,
-    HistoryMiddleware,
+    SearchProfile,
     EstimationMiddleware,
-    EmailMiddleware,
   ),
 );
 
