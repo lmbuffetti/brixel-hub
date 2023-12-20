@@ -36,18 +36,31 @@ const Financing = (props: FinancingType) => {
                   offerURL={`/buyer/${activeSingleProperty.id}/closing`}
                   onOpenModal={(text) => handleSetModal(text)}
                   openParentModal
-                  className="max-w-fix-912"
+                  className="w-perc-100"
                   lang={lang}
                 />
               )
             }
 
-            <BannerBox
-              activeSingleCompany={activeSingleCompany}
-              className="mt-6"
-              lang={lang}
-              placementSlug="buyer-hub-financing-banner"
-            />
+            <div className="dis-fl-row-md dis-fl-col">
+
+              <BannerBox
+                activeSingleCompany={activeSingleCompany}
+                className="mt-3 mt-md-6 mr-md-2"
+                lang={lang}
+                placementSlug="buyer-hub-financing-banner"
+              />
+
+              <BannerBox
+                activeSingleCompany={activeSingleCompany}
+                className="mt-3 mt-md-6 ml-md-2"
+                lang={lang}
+                placementSlug="buyer-hub-financing-banner"
+              />
+            </div>
+
+            <p className='fsize-200 txtText400 mt-2'>{translateTo('* The products offered on the UBS website are exclusively intended for and available to persons resident in Switzerland.', lang)}</p>
+
           </div>
         </div>
       </div>
