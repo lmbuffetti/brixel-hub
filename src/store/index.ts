@@ -1,38 +1,39 @@
 import get from 'lodash/get';
-import {applyMiddleware, compose, createStore, Middleware} from 'redux';
+import {
+  createStore, applyMiddleware,
+} from 'redux';
+import {thunk} from 'redux-thunk';
 import {createLogger} from 'redux-logger';
-import thunkMiddleware from 'redux-thunk';
+import {composeWithDevTools} from 'redux-devtools-extension';
+import {
+  rootReducer,
+} from '../reducers';
+
 // MIDDLEWARES
 import CommonMiddleware from '../middlewares/CommonMiddleware';
-import CompanyMiddleware from '../middlewares/CompanyMiddleware';
-import CraftCMS from '../middlewares/CraftCMS';
-import DealMiddleware from '../middlewares/DealMiddleware';
-import EstimationMiddleware from '../middlewares/EstimationMiddleware';
-import HistoryMiddleware from '../middlewares/HistoryMiddleware';
-import LeadMiddleware from '../middlewares/LeadMiddleware';
-import MarketMiddleware from '../middlewares/MarketMiddleware';
-import NoteMiddleware from '../middlewares/NoteMiddleware';
+import ChecklistMiddleware from '../middlewares/ChecklistMiddleware';
 import PropertyMiddleware from '../middlewares/PropertyMiddleware';
-import SearchProfile from '../middlewares/SearchProfileMiddleware';
-import ImageMiddleware from '../middlewares/UploadMiddleware';
 import UserMiddleware from '../middlewares/UserMiddleware';
-import {rootReducer} from '../reducers';
+import ImageMiddleware from '../middlewares/UploadMiddleware';
+import CompanyMiddleware from '../middlewares/CompanyMiddleware';
+import LeadMiddleware from '../middlewares/LeadMiddleware';
+import PackageMiddleware from '../middlewares/PackageMiddleware';
+import DealMiddleware from '../middlewares/DealMiddleware';
+import NoteMiddleware from '../middlewares/NoteMiddleware';
+import HistoryMiddleware from '../middlewares/HistoryMiddleware';
+import EstimationMiddleware from '../middlewares/EstimationMiddleware';
+import EmailMiddleware from '../middlewares/EmailMiddleware';
 
-declare let process : {
-  env: {
-    NODE_ENV: string
-  }
-}
-
-const middlewares: Middleware[] = [thunkMiddleware];
+const middlewares: any = [thunk];
 
 const getIfDev = (get(window, 'location.href', '')).split('?');
 
+// @ts-ignore
 if (typeof window !== 'undefined' && (process.env.NODE_ENV === 'development' || (getIfDev[1] && getIfDev[1].includes('dev=true')))) {
   middlewares.push(createLogger({
     collapsed: true,
     colors: {
-      title: () => '#002bff',
+      title: () => '#00C1DE',
       prevState: () => '#de6f0d',
       action: () => '#6e13ab',
       nextState: () => '#1a9134',
@@ -40,22 +41,24 @@ if (typeof window !== 'undefined' && (process.env.NODE_ENV === 'development' || 
   }));
 }
 
-const composedEnhancers = compose(
+const composeEnhancers = composeWithDevTools({});
+
+const composedEnhancers = composeEnhancers(
   applyMiddleware(
     ...middlewares,
-    CraftCMS,
     CommonMiddleware,
-    CompanyMiddleware,
-    DealMiddleware,
-    HistoryMiddleware,
-    ImageMiddleware,
-    LeadMiddleware,
-    MarketMiddleware,
-    NoteMiddleware,
+    ChecklistMiddleware,
     PropertyMiddleware,
     UserMiddleware,
-    SearchProfile,
+    ImageMiddleware,
+    CompanyMiddleware,
+    LeadMiddleware,
+    PackageMiddleware,
+    DealMiddleware,
+    NoteMiddleware,
+    HistoryMiddleware,
     EstimationMiddleware,
+    EmailMiddleware,
   ),
 );
 
