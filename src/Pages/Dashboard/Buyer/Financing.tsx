@@ -44,7 +44,7 @@ const Financing = (props: FinancingType) => {
 
             {
               get(activeSingleCompany, 'stub', '') === 'ubs' && (
-                <span className='dis-b mt-5 fSizePx20 fsize-600-md fweight-600'>
+                <span className='dis-b mt-5 fsize-600-md fweight-600 fSizePx20'>
                   {translateTo('Services and offers from our financial partner UBS', lang)}
                 </span>
               )
