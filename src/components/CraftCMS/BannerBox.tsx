@@ -62,15 +62,15 @@ const BannerBox = (props: BannerBoxType) => {
         )
       }
       <div className="pos-r p-3 p-md-5 brdRadius bgWhite">
-        <div className="dis-fl-col-rev dis-fl-row-sm a-c-sm jc-b">
-          <div className="max-w-fix-512 w-perc-100">
+        <div className="dis-fl-col-rev dis-fl-row-sm a-c-sm jc-b h-perc-100">
+          <div className="max-w-fix-512 w-perc-100 h-perc-100 dis-fl-col jc-b">
             <h5 className="mt-3 mt-sm-0 fweight-600 fsize-400 fSizePx20-md">{banner.title}</h5>
             <p className="fsize-300 my-1 my-sm-3 txtText700">{banner.description}</p>
             {
               get(banner, 'bannerButton.text', null) && get(banner, 'bannerButton.url', null) && (
                 <BrixelButtonSecondary
                   rounded
-                  className='mt-2 mt-sm-0 w-perc-100 w-auto-md'
+                  className='mt-2 mt-sm-0 w-perc-100 w-auto-md as-b'
                   onClick={() => onClickBanner(get(banner, 'bannerButton.url', ''))}
                   label={get(banner, 'bannerButton.text', '')}
                 />

@@ -54,20 +54,24 @@ const Financing = (props: FinancingType) => {
 
               <BannerBox
                 activeSingleCompany={activeSingleCompany}
-                className="mt-2 mr-md-2"
+                className="mt-2 mr-md-2 dis-f"
                 lang={lang}
                 placementSlug="buyer-hub-financing-banner"
               />
 
               <BannerBox
                 activeSingleCompany={activeSingleCompany}
-                className="mt-2 ml-md-2"
+                className="mt-2 ml-md-2 dis-f"
                 lang={lang}
                 placementSlug="buyer-hub-financing-banner-two"
               />
             </div>
 
-            <p className='fsize-200 txtText400 mt-2'>{translateTo('* The products offered on the UBS website are exclusively intended for and available to persons resident in Switzerland.', lang)}</p>
+            {
+              get(activeSingleCompany, 'stub', '') === 'ubs' && (
+                <p className='fsize-200 txtText400 mt-2'>{translateTo('* The products offered on the UBS website are exclusively intended for and available to persons resident in Switzerland.', lang)}</p>
+              )
+            }
 
           </div>
         </div>

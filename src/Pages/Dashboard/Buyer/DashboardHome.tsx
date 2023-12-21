@@ -95,7 +95,7 @@ const DashboardHome = (props: ContactType) => {
           <div className="dis-fl-col dis-fl-row-sm">
 
             <button
-              className={`shadow-2dp brdRadius dis-f jc-b pt-2 pl-2 pl-sm-3 mr-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi ta-l ${visitStatus?.bg}`}
+              className={`shadow-2dp brdRadius dis-f jc-b pt-2 pl-2 pl-sm-3 mr-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi ta-l ${visitStatus?.bg} ${visitStatus?.status === 'pending' ? 'bgWhite' : ''}`}
             >
               {
                 (!scheduleVisit) && (
