@@ -9,6 +9,7 @@ import {setModal} from '../../../actions/CommonActions';
 import type {FinancingType} from '../../../@types/Pages/Dashboard/Buyer/Financing';
 import SectionMobileTitle from '../../../components/SectionMobileTitle';
 import BannerBox from '../../../components/CraftCMS/BannerBox';
+import BrixelSmartBanner from '@brixel-io/brixel-components/dist/components/BrixelSmartBanner';
 
 const Financing = (props: FinancingType) => {
   const {
@@ -47,6 +48,20 @@ const Financing = (props: FinancingType) => {
                 <span className='dis-b mt-5 fsize-600-md fweight-600 fSizePx20'>
                   {translateTo('Services and offers from our financial partner UBS', lang)}
                 </span>
+              )
+            }
+
+            {
+              activeSingleCompany.stub && (
+                <BrixelSmartBanner
+                  className="mt-2"
+                  activeSingleProperty={activeSingleProperty}
+                  companyStub={activeSingleCompany.stub}
+                  isPartner
+                  lang={lang}
+                  theme="primary"
+                  placementSlug="brixel-banner-mortgage-green"
+                />
               )
             }
 
