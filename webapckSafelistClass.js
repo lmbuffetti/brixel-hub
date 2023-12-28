@@ -1,5 +1,5 @@
 module.exports = {
-  standard: [/^brixel/, 'h-fix-56', 'w-fix-56', 'rdw-editor-toolbar', 'rdw-wrapper', 'brixel-text-editor', 'rdw-editor-main', 'rdw-inline-wrapper', 'public-DraftEditorPlaceholder-root', 'ml-sm-small-4',
+  standard: [/^brixel/, 'h-fix-56', 'w-fix-56', 'rdw-editor-toolbar', 'rdw-wrapper', 'brixel-text-editor', 'rdw-editor-main', 'rdw-inline-wrapper', 'public-DraftEditorPlaceholder-root', 'ml-sm-small-4', 'smartBanner',
     'rdw-option-wrapper', 'rdw-emoji-wrapper', 'rdw-emoji-modal', 'rdw-emoji-icon', 'flex-56'],
   deep: [
     /^bg/,
@@ -20,6 +20,7 @@ module.exports = {
     /^row-cols/,
     /^space-/,
     /^carousel/,
+    /^banner/,
     /^documents-/,
     /^sortable-/,
   ],

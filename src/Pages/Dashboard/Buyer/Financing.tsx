@@ -69,13 +69,13 @@ const Financing = (props: FinancingType) => {
 
               <BannerBox
                 activeSingleCompany={activeSingleCompany}
-                className="mt-2 mr-md-2 dis-f"
+                className="mt-2 mr-md-1 dis-f"
                 lang={lang}
                 placementSlug="buyer-hub-financing-banner"
               />
               <BannerBox
                 activeSingleCompany={activeSingleCompany}
-                className="mt-2 ml-md-2 dis-f"
+                className="mt-2 ml-md-1 dis-f"
                 lang={lang}
                 placementSlug="buyer-hub-financing-banner-two"
               />
