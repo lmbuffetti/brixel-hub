@@ -60,7 +60,7 @@ const Financing = (props: FinancingType) => {
                   isPartner
                   lang={lang}
                   theme="primary"
-                  placementSlug="brixel-banner-mortgage-green"
+                  isPlacemenDynamicMortgage
                 />
               )
             }
@@ -73,7 +73,7 @@ const Financing = (props: FinancingType) => {
                 lang={lang}
                 placementSlug="buyer-hub-financing-banner"
               />
-
+              t
               <BannerBox
                 activeSingleCompany={activeSingleCompany}
                 className="mt-2 ml-md-2 dis-f"
