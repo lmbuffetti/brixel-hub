@@ -73,7 +73,6 @@ const Financing = (props: FinancingType) => {
                 lang={lang}
                 placementSlug="buyer-hub-financing-banner"
               />
-              t
               <BannerBox
                 activeSingleCompany={activeSingleCompany}
                 className="mt-2 ml-md-2 dis-f"
