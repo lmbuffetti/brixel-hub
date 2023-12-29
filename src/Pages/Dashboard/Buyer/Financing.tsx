@@ -54,6 +54,7 @@ const Financing = (props: FinancingType) => {
             {
               activeSingleCompany.stub && (
                 <BrixelSmartBanner
+                  showDisclaimerAsterisk
                   className="mt-2"
                   activeSingleProperty={activeSingleProperty}
                   companyStub={activeSingleCompany.stub}
