@@ -46,7 +46,7 @@ import Financing from './Pages/Closing/Financing/Financing';
 import {getActiveSingleCompany} from './actions/CompanyActions';
 import {setCookie} from './utils/helpers';
 import baseByData from '@brixel-io/brixel-components/dist/configuration/Settings';
-const CustomerSatisfaction = lazy(() => import('./components/CustomerSatisfaction'));
+const BuyerPackage = lazy(() => import('./components/BuyerPackage'));
 const SplashScreen = lazy(() => import('./components/SplashScreen'));
 const RemoveTrailingSlash = lazy(() => import('./components/RemoveTrailingSlash'));
 const Support = lazy(() => import('./components/Support'));
@@ -227,7 +227,7 @@ const App = (props: AppType) => {
   }
 
   const showCustomerSatisfactionFunc = () => {
-    return (!history.location.pathname.includes('scheduleVisit'));
+    return (!history.location.pathname.includes('scheduleVisit') && cookies.get('brixelBuyerPackage') !== 'true');
   }
 
   const buyerPackageFunc = () => {
@@ -251,7 +251,7 @@ const App = (props: AppType) => {
             state: true,
             small: true,
             layout: 'large',
-            component: <CustomerSatisfaction onClose={() => handleSetModal({})} />,
+            component: <BuyerPackage onClose={() => handleSetModal({})} />,
           })
           clearInterval(showCustomer);
           localStorage.brixelSatisfactionEndTime = interval;
