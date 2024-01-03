@@ -44,7 +44,6 @@ export interface AppType {
     props: object;
   } | string;
   teamAvatars: PhotosType[];
-  userRate: null | { rating: number };
   userTypes?: string;
   windowDimensions: {
     width: number;

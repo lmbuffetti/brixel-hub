@@ -147,7 +147,6 @@ const App = (props: AppType) => {
     splashScreenType,
     teamAvatars,
     translations,
-    userRate,
     userTypes,
     windowDimensions,
   } = props;
@@ -228,21 +227,12 @@ const App = (props: AppType) => {
   }
 
   const showCustomerSatisfactionFunc = () => {
-    return !!(userRate !== null &&
-      !userRate.rating &&
-      loggedInUser?.id &&
-      (loggedInUser?.sentFeedback || 0) < 2 &&
-      (loggedInUser?.sentFeedback || 0) >= 0 &&
-      !isFlow &&
-      history.location.pathname.includes('buy') &&
-      !history.location.pathname.includes('scheduleVisit') &&
-      userTypes === 'buyer' &&
-      activeSingleCompany.id);
+    return (!history.location.pathname.includes('scheduleVisit'));
   }
 
-  const satisfationFunc = () => {
+  const buyerPackageFunc = () => {
     if (!showCustomerSatisfaction && !isTodayFunc()) {
-      const interval = 60;
+      const interval = 30;
       let countdown = interval;
       if (!localStorage.brixelSatisfactionEndTime) {
         localStorage.brixelSatisfactionEndTime = interval;
@@ -278,7 +268,7 @@ const App = (props: AppType) => {
 
   useEffect(() => {
     if (showCustomerSatisfactionFunc()) {
-      satisfationFunc();
+      buyerPackageFunc();
     } else if (showCustomerSatisfaction && !history.location.pathname.includes('buy')) {
       clearInterval(showCustomerSatisfaction);
       setShowCustomerSatisfaction(undefined);
@@ -1051,7 +1041,6 @@ const mapStateToProps = (state) => ({
   splashScreenType: get(state, 'common.splashScreenType', ''),
   teamAvatars: get(state, 'companies.activeSingleCompany.teamAvatars', get(state, 'user.loggedInUser.user.company.teamAvatars', [])),
   userTypes: get(state, 'user.userTypes', null),
-  userRate: get(state, 'user.userRate', null),
   translations: get(state, 'translations', {}),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });

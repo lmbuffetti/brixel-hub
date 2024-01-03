@@ -11,17 +11,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - uses: pnpm/action-setup@v2
+        name: Install pnpm
+        id: pnpm-install
+        with:
+          version: 8
+          run_install: false
       - uses: actions/setup-node@v3
         with:
-          node-version: 18.15.0
+          node-version: 20.10.x
           registry-url: 'https://npm.pkg.github.com'
           scope: '@brixel-io'
-      - run: yarn install
+      - run: pnpm install
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
       - name: Print installed version of brixel-components
-        run: yarn list --depth=0 | grep @brixel-io/brixel-components
-      - run: yarn build-prod
+        run: pnpm list --depth=0 | grep @brixel-io/brixel-components
+      - run: pnpm run build-prod
       - uses: actions/upload-artifact@v3
         with:
           name: dist
