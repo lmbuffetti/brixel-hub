@@ -2,7 +2,6 @@ on:
   push:
     branches:
       - main
-      - BIZ-1040
 permissions:
   contents: read
   packages: read
