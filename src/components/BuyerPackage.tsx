@@ -51,6 +51,7 @@ const BuyerPackage = (props: BuyerPackageType) => {
           rounded
           label="Learn more"
           rightIcon="arrow-right"
+          onClick={() => window.open(`https://brixel.ch/${lang}/guide`, '_blank')}
         />
       </div>
     </div>
