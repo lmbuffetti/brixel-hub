@@ -353,7 +353,7 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
                 <>
                   {
                     // CONFIRMED VISIT IN THE FUTURE
-                    activeScheduleVisit.visit.date > new Date().valueOf() ? (
+                    activeScheduleVisit?.visit?.date > new Date().valueOf() ? (
                       <>
                         <div className="bgGreen50 brdRadius shadow-1dp mb-4 a-t a-c-sm py-3 py-sm-5 px-2 px-sm-4">
                           <div className="dis-fl-col-rev dis-fl-row-sm pos-r">
@@ -370,11 +370,11 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
                               />
                               <h4 className="fweight-600 mb-1 mb-sm-2 txtPrimary400">
                                 <span>
-                                  {DateTime.fromMillis(activeScheduleVisit.visit.date).toFormat('dd MMM yyyy', {locale: lang})}
+                                  {DateTime.fromMillis(activeScheduleVisit?.visit?.date).toFormat('dd MMM yyyy', {locale: lang})}
                                 </span>
                                 <span className="mr-small-4">,</span>
                                 <span>
-                                  {DateTime.fromMillis(activeScheduleVisit.visit.date, { locale: lang }).toFormat('HH:mm')}
+                                  {DateTime.fromMillis(activeScheduleVisit?.visit?.date, { locale: lang }).toFormat('HH:mm')}
                                 </span>
                               </h4>
                               <p className='txtText700'>
@@ -393,7 +393,7 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
                         <div className="mt-4 dis-f jc-fe">
                           <AddToCalendar
                             lang={lang}
-                            timestamp={activeScheduleVisit.visit.date}
+                            timestamp={activeScheduleVisit?.visit?.date}
                             title={translateTo(`Visit ${activeSingleProperty.title}`, lang)}
                             location={formatCalendar('location')}
                           />

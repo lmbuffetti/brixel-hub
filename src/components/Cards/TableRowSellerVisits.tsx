@@ -78,11 +78,11 @@ const TableRowSellerVisits = (props: TableRowSellerVisitsType) => {
         onClick={() => history.push(`/${activeSingleProperty.id}/prospect/${visit.deal}`)}
       >
         {
-          visit.visit.date ? (
+          visit?.visit?.date ? (
             <span
               className={`${visitStatus.color} ${visitStatus.status === 'cancelled' ? 'td-lt' : ''}`}
             >
-              {DateTime.fromMillis(visit.visit.date, { locale: lang }).toFormat('d LLL yyyy, H:mm')}
+              {DateTime.fromMillis(visit?.visit?.date, { locale: lang }).toFormat('d LLL yyyy, H:mm')}
             </span>
           ) : (
             <span>{translateTo('Awaiting confirmation', lang)}</span>
