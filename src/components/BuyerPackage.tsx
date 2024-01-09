@@ -25,6 +25,11 @@ const BuyerPackage = (props: BuyerPackageType) => {
     onClose();
   }
 
+  const onOpenLink = () => {
+    window.open(`https://brixel.ch/${lang}/guide`, '_blank');
+    onClose();
+  }
+
   return (
     <div className='dis-fl-col jc-b flex-1'>
       <div className="dis-f jc-fe a-c p-2">
@@ -51,7 +56,7 @@ const BuyerPackage = (props: BuyerPackageType) => {
         rounded
         label="Learn more"
         rightIcon="arrow-right"
-        onClick={() => window.open(`https://brixel.ch/${lang}/guide`, '_blank')}
+        onClick={() => onOpenLink()}
       />
     </div>
   )
