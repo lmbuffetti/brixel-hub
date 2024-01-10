@@ -54,7 +54,7 @@ const BuyerPackage = (props: BuyerPackageType) => {
       <BrixelButtonPrimary
         className="mx-a mt-a mb-4 mb-sm-6"
         rounded
-        label="Learn more"
+        label={translateTo('Learn more', lang)}
         rightIcon="arrow-right"
         onClick={() => onOpenLink()}
       />
