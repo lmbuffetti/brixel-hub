@@ -26,7 +26,7 @@ const BuyerPackage = (props: BuyerPackageType) => {
   }
 
   const onOpenLink = () => {
-    window.open(`https://brixel.ch/${lang}/guide`, '_blank');
+    window.open(`https://brixel.ch/${lang}/buyer-package`, '_blank');
     onClose();
   }
 
