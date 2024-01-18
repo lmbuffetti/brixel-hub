@@ -227,7 +227,7 @@ const App = (props: AppType) => {
   }
 
   const showCustomerSatisfactionFunc = () => {
-    return (!history.location.pathname.includes('scheduleVisit') && cookies.get('brixelBuyerPackage') !== 'true');
+    return (!history.location.pathname.includes('scheduleVisit') && !history.location.pathname.includes('packageFlow') && cookies.get('brixelBuyerPackage') !== 'true');
   }
 
   const buyerPackageFunc = () => {
