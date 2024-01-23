@@ -9,9 +9,7 @@ import translateTo from '../utils/translation';
 import type {BuyerPackageType} from '../@types/components/BuyerPackage';
 import BrixelButtonIcon from '@brixel-io/brixel-components/dist/components/BrixelButtonIcon';
 import BuyerPackageImage from '../images/buyerPackage.svg';
-import Cookies from 'universal-cookie';
-
-const cookies = new Cookies();
+import {setCookie} from '../utils/helpers';
 
 const BuyerPackage = (props: BuyerPackageType) => {
   const {
@@ -21,7 +19,7 @@ const BuyerPackage = (props: BuyerPackageType) => {
 
 
   const onCloseModal = () => {
-    cookies.set('brixelBuyerPackage', 'true');
+    setCookie('brixelBuyerPackage', 'true');
     onClose();
   }
 

@@ -44,7 +44,7 @@ import translateTo from './utils/translation';
 import type {AppType} from './@types/App';
 import Financing from './Pages/Closing/Financing/Financing';
 import {getActiveSingleCompany} from './actions/CompanyActions';
-import {setCookie} from './utils/helpers';
+import {getCookie, setCookie} from './utils/helpers';
 import baseByData from '@brixel-io/brixel-components/dist/configuration/Settings';
 const BuyerPackage = lazy(() => import('./components/BuyerPackage'));
 const SplashScreen = lazy(() => import('./components/SplashScreen'));
@@ -227,11 +227,11 @@ const App = (props: AppType) => {
   }
 
   const showCustomerSatisfactionFunc = () => {
-    return (!history.location.pathname.includes('scheduleVisit') && !history.location.pathname.includes('packageFlow') && cookies.get('brixelBuyerPackage') !== 'true');
+    return (!history.location.pathname.includes('scheduleVisit') && !history.location.pathname.includes('packageFlow') && getCookie('brixelBuyerPackage') !== 'true' && getCookie('brixelBuyerPackage') !== true);
   }
 
   const buyerPackageFunc = () => {
-    if (!showCustomerSatisfaction && !isTodayFunc()) {
+    if (!showCustomerSatisfaction && !isTodayFunc() && getCookie('brixelBuyerPackage') !== 'true') {
       const interval = 30;
       let countdown = interval;
       if (!localStorage.brixelSatisfactionEndTime) {
