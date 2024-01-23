@@ -85,7 +85,6 @@ const DetailMedia = (props: DetailMediaType) => {
       imgToSave: foto,
       smallLoader: 'deleteMedia',
     };
-    // eslint-disable-next-line no-alert
     handleDeleteImg(data);
     history.push(`/${propID}/property/${mediaType}`);
   };
