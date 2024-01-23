@@ -69,16 +69,14 @@ const Plans = (props: FloorPlansPageType) => {
 
   // FUNCTION TO DELETE FLOOR PLAN
   const deleteImage = (id) => {
-    const mediaID = id;
     const data = {
-      id: mediaID,
+      photoID: id,
       pageID: propID,
-      type: 'floorPlans',
+      type: 'floorPlan',
       smallLoader: 'deleteMedia',
     };
     // eslint-disable-next-line no-alert
     handleDeleteImg(data);
-    history.push(`/${propID}/property/floorPlans`);
   };
 
   // DROPZONE SETTINGS
