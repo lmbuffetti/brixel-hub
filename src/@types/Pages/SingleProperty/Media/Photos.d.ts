@@ -1,8 +1,12 @@
 import {LoggedUserType, PropertyType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 export interface PhotosPageType {
+  activeSingleCompany: CompanyType,
+  handleGetActiveSingleProperty: (data: object) => void
+  handleSpinnerSmall: (data: object) => void
   activeSingleProperty: PropertyType;
   changeFieldValue: (field: string, value: object) => void,
+  handleChangeOrder: (data: object) => void,
   formValue: PropertyType;
   handleDeleteImg: (data: object) => void,
   handleMultiUploadImg: (data: object) => void,

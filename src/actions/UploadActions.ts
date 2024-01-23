@@ -4,7 +4,7 @@ import {
   DELETE_IMG,
   GET_IMAGE_TYPE,
   MULTI_UPLOAD_DOCUMENT,
-  MULTI_UPLOAD_IMG,
+  MULTI_UPLOAD_IMG, REORDER_IMAGES,
   ROTATE_IMG,
   SET_COVER_PHOTO,
   SET_IMAGE_TYPE,
@@ -22,6 +22,7 @@ export const {
   deleteImg,
   uploadDocument,
   deleteDocument,
+  reorderImages,
   multiUploadImg,
   updateDocument,
   multiUploadDocument,
@@ -37,4 +38,5 @@ export const {
   [DELETE_DOCUMENT]: (payload) => payload,
   [UPDATE_DOCUMENT]: (payload) => payload,
   [MULTI_UPLOAD_DOCUMENT]: (payload) => payload,
+  [REORDER_IMAGES]: (payload) => payload,
 });

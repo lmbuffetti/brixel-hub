@@ -1,10 +1,14 @@
 import {LoggedUserType, PropertyType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 export interface FloorPlansPageType {
+  activeSingleCompany: CompanyType,
+  handleGetActiveSingleProperty: (data: object) => void
+  handleSpinnerSmall: (data: object) => void
   activeSingleProperty: PropertyType;
   changeFieldValue: (field: string, value: object) => void,
   formValue: PropertyType;
   handleDeleteImg: (data: object) => void,
+  handleChangeOrder: (data: object) => void,
   handleMultiUploadImg: (data: object) => void,
   imageType: {
     id: string;

@@ -17,6 +17,7 @@ import {
   UPDATE_DOCUMENT,
   UPLOAD_DOCUMENT,
   UPLOAD_IMG,
+  REORDER_IMAGES,
 } from '../actions/types/UploadTypes';
 
 import {GET_ACTIVE_SINGLE_PROPERTY, SAVE_ACTIVE_SINGLE_PROPERTY} from '../actions/types/PropertyTypes';
@@ -311,6 +312,53 @@ const checkCommon = (store) => (next) => (action) => {
           return false;
         }
       }
+      break;
+    }
+    // REORDER IAMGES
+    case REORDER_IMAGES: {
+      const {
+        data,
+        pageID,
+        type,
+        smallLoader,
+      } : {
+        data: object,
+        pageID: string,
+        type: 'image' | 'floorPlan',
+        smallLoader: string,
+      } = action.payload;
+      if (smallLoader) {
+        store.dispatch({
+          type: SPINNER_SMALL,
+          payload: {
+            [smallLoader]: true,
+          },
+        });
+      } else {
+        store.dispatch({
+          type: SPINNER_ON,
+        });
+      }
+      api.image.orderPageImages(pageID, type, data)
+        .then(() => {
+          const dataPage = {
+            id: pageID,
+            smallLoader: smallLoader,
+          }
+          store.dispatch({type: GET_ACTIVE_SINGLE_PROPERTY, payload: dataPage});
+          if (smallLoader) {
+            store.dispatch({
+              type: SPINNER_SMALL,
+              payload: {
+                [smallLoader]: false,
+              },
+            });
+          } else {
+            store.dispatch({
+              type: SPINNER_ON,
+            });
+          }
+        })
       break;
     }
     // DISPATCH TO MULTI-UPLOAD IMAGES - ARRAY OF IMAGES

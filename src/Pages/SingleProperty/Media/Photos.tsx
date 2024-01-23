@@ -12,14 +12,16 @@ import translateTo from '../../../utils/translation';
 import {change} from '@brixel-io/brixel-components/dist/form';
 import {ReactSortable} from 'react-sortablejs';
 import SectionMobileTitle from '../../../components/SectionMobileTitle';
-import {deleteImg, multiUploadImg, uploadImg} from '../../../actions/UploadActions';
+import {deleteDocument, deleteImg, reorderImages} from '../../../actions/UploadActions';
 import DetailMedia from './DetailMedia';
-import {tobase64Handler, Truncate} from '../../../utils/helpers';
+import {Truncate} from '../../../utils/helpers';
 import uploadPhotosEmpty from '../../../images/Upload/upload_photos_empty.svg';
 import BrixelUpgradeMessage from '../../../components/BrixelUpgradeMessage';
 import {PhotosType} from '@brixel-io/brixel-components/dist/@types/Model';
 import type {PhotosPageType} from '../../../@types/Pages/SingleProperty/Media/Photos';
 import getUrlImg from '@brixel-io/brixel-components/dist/utils/ImageUrl';
+import multiUpload from '@brixel-io/brixel-components/dist/helpers/uploads/MultiUpload';
+import {spinnerSmall} from '../../../actions/CommonActions';
 
 const Photos = (props: PhotosPageType) => {
   const history = {
@@ -29,15 +31,16 @@ const Photos = (props: PhotosPageType) => {
   const match = useParams();
   // PROPS
   const {
+    activeSingleCompany,
     activeSingleProperty,
     changeFieldValue,
+    handleChangeOrder,
     formValue,
     handleDeleteImg,
-    handleMultiUploadImg,
-    imageType,
+    handleGetActiveSingleProperty,
+    handleSpinnerSmall,
     isSmallLoading,
     lang,
-    loggedInUser,
     windowDimensions,
   } = props;
   const { photos } = formValue;
@@ -69,44 +72,30 @@ const Photos = (props: PhotosPageType) => {
   }, [photos, isSmallLoading]);
 
   // FUNCTION TO DELETE IMAGE
-  const deleteImage = (id) => {
-    const mediaID = id;
+  const deleteImage = (e, id) => {
+    if (e) e.preventDefault();
     const data = {
-      id: mediaID,
-      pageID: propID,
-      type: 'photos',
-      smallLoader: 'deleteMedia',
+      photoID: id,
+      pageID: get(activeSingleProperty, 'id'),
+      type: 'image',
     };
-    handleDeleteImg(data);
-    history.push(`/${propID}/property/photos`);
+    // eslint-disable-next-line no-alert
+    if (window.confirm('Are you sure you want to delete this item?')) {
+      handleDeleteImg(data);
+    }
   };
 
-  // MULTIUPLOADING FUNCTION
-  const onDrop = (acceptedFiles) => {
-    const reader = new FileReader();
-    // const imgType = imageType.find((val) => val.name === 'Gallery');
-    // eslint-disable-next-line no-console
-    reader.onabort = () => console.log('file reading was aborted');
-    // eslint-disable-next-line no-console
-    reader.onerror = () => console.log('file reading has failed');
-    setBtnActive('uploading');
-    const imgType = imageType.find((val) => val.name === 'Gallery');
-    if (imgType) {
-      const imgList = tobase64Handler(
-        acceptedFiles,
-        get(loggedInUser, 'user.id', ''),
-        'photos',
-        formValue.id,
-        imgType.id,
-      );
-      imgList.then((res) => {
-        handleMultiUploadImg({
-          allImgs: res,
-          actions: 'photos',
-          pageID: activeSingleProperty.id || propID,
-          smallLoader: 'uploadMedia',
-        });
-      });
+  // DROPZONE SETTINGS
+  const onDrop = async (acceptedFiles) => {
+    if (activeSingleProperty.id) {
+      handleSpinnerSmall({uploadMedia: true});
+      multiUpload(acceptedFiles, 'pageImage', {pageID: activeSingleProperty.id, companyID: activeSingleCompany.id})
+        .then(() => {
+          handleGetActiveSingleProperty({
+            id: activeSingleProperty.id,
+            smallLoader: 'uploadMedia',
+          });
+        })
     }
   };
 
@@ -124,7 +113,8 @@ const Photos = (props: PhotosPageType) => {
 
   // ORDER IMAGE SETTINGS
   const changeOrder = (order) => {
-    const imgArray: object[] = [];
+    const imgArray: PhotosType[] = [];
+    // eslint-disable-next-line array-callback-return
     order.map((item) => {
       if (item.createdAt) {
         delete item.chosen;
@@ -133,10 +123,27 @@ const Photos = (props: PhotosPageType) => {
       }
       return null;
     });
-    const changeObj = diff(fixPhotos, imgArray);
-    if (Object.keys(changeObj).length > 0) {
-      changeFieldValue('photos', imgArray);
+
+    // It means the drag and drop changed the cover photo
+    if (imgArray[0].id || '' !== (photos && photos[0].id)) {
       changeFieldValue('coverPhoto', imgArray[0]);
+    }
+    if (formValue.photos) {
+      const idPhotos = imgArray.map((item) => item.id);
+      const idOriginalPhotos = formValue.photos.map((item) => item.id);
+      const difference = idOriginalPhotos.toString() !== idPhotos.toString();
+      if (difference) {
+        changeFieldValue('photos', imgArray);
+        const data = {
+          pageID: activeSingleProperty.id,
+          type: 'image',
+          data: {
+            imageIds: idPhotos,
+          },
+          smallLoader: 'reorderImg',
+        }
+        handleChangeOrder(data);
+      }
     }
   };
 
@@ -257,7 +264,7 @@ const Photos = (props: PhotosPageType) => {
                                           rightIcon="bin"
                                           label={translateTo('delete?', lang)}
                                           className={`${confirmDelete === i ? '' : 'hide'}`}
-                                          onClick={() => deleteImage(item.id)}
+                                          onClick={(e) => deleteImage(e, item.id)}
                                           isLoading={isSmallLoading.deleteMedia && btnActive === 'delete'}
                                         />
                                         <BrixelButtonIcon
@@ -364,6 +371,7 @@ const Photos = (props: PhotosPageType) => {
 };
 
 const mapStateToProps = (state) => ({
+  activeSingleCompany: get(state, 'companies.activeSingleCompany', { }),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   formValue: get(state, 'brixelForm.Property.values', {}),
   imageType: get(state, 'images.imageType', []),
@@ -378,8 +386,9 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(change('Property', field, value));
   },
   handleDeleteImg: bindActionCreators(deleteImg, dispatch),
-  handleUploadImg: bindActionCreators(uploadImg, dispatch),
-  handleMultiUploadImg: bindActionCreators(multiUploadImg, dispatch),
+  handleChangeOrder: bindActionCreators(reorderImages, dispatch),
+  handleDeleteDocument: bindActionCreators(deleteDocument, dispatch),
+  handleSpinnerSmall: bindActionCreators(spinnerSmall, dispatch),
 });
 
 export default compose(

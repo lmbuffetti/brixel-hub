@@ -10,15 +10,18 @@ import {change} from '@brixel-io/brixel-components/dist/form';
 import {ReactSortable} from 'react-sortablejs';
 import cloneDeep from 'lodash/cloneDeep';
 import {diff} from 'deep-object-diff';
-import {deleteImg, multiUploadImg, uploadImg} from '../../../actions/UploadActions';
+import {deleteImg, reorderImages} from '../../../actions/UploadActions';
 import DetailMedia from './DetailMedia';
 import uploadFloorPlansEmpty from '../../../images/Upload/upload_floorPlans_empty.svg';
-import {checkBrowser, tobase64Handler, Truncate} from '../../../utils/helpers';
+import {checkBrowser, Truncate} from '../../../utils/helpers';
 import BrixelUpgradeMessage from '../../../components/BrixelUpgradeMessage';
 import type {FloorPlansPageType} from '../../../@types/Pages/SingleProperty/Media/Plans';
 import {PhotosType} from '@brixel-io/brixel-components/dist/@types/Model';
 import getUrlImg from '@brixel-io/brixel-components/dist/utils/ImageUrl';
 import SectionMobileTitle from '../../../components/SectionMobileTitle';
+import {spinnerSmall} from '../../../actions/CommonActions';
+import multiUpload from '@brixel-io/brixel-components/dist/helpers/uploads/MultiUpload';
+import {getActiveSingleProperty} from '../../../actions/PropertyActions';
 
 const Plans = (props: FloorPlansPageType) => {
   const history = {
@@ -32,11 +35,11 @@ const Plans = (props: FloorPlansPageType) => {
     changeFieldValue,
     formValue,
     handleDeleteImg,
-    handleMultiUploadImg,
-    imageType,
+    handleChangeOrder,
+    handleSpinnerSmall,
+    handleGetActiveSingleProperty,
     isSmallLoading,
     lang,
-    loggedInUser,
     windowDimensions,
   } = props;
   const { floorPlans } = formValue;
@@ -78,26 +81,17 @@ const Plans = (props: FloorPlansPageType) => {
     history.push(`/${propID}/property/floorPlans`);
   };
 
-  // MULTIUPLOADING FUNCTION
-  const onDrop = acceptedFiles => {
-    const reader = new FileReader();
-    // const imgType = imageType.find((val) => val.name === 'Gallery');
-    // eslint-disable-next-line no-console
-    reader.onabort = () => console.log('file reading was aborted');
-    // eslint-disable-next-line no-console
-    reader.onerror = () => console.log('file reading has failed');
-    setBtnActive('uploading');
-    const imgType = imageType.find((val) => val.name === 'Gallery');
-    if (imgType) {
-      const imgList = tobase64Handler(acceptedFiles, get(loggedInUser, 'user.id', ''), 'floorPlans', formValue.id, imgType.id);
-      imgList.then((res) => {
-        handleMultiUploadImg({
-          allImgs: res,
-          actions: 'floorPlans',
-          pageID: formValue.id || propID,
-          smallLoader: 'uploadMedia',
-        });
-      });
+  // DROPZONE SETTINGS
+  const onDrop = async (acceptedFiles) => {
+    if (activeSingleProperty.id) {
+      handleSpinnerSmall({uploadMedia: true});
+      multiUpload(acceptedFiles, 'floorPlanImage', {pageID: activeSingleProperty.id, companyID: ''})
+        .then(() => {
+          handleGetActiveSingleProperty({
+            id: activeSingleProperty.id,
+            smallLoader: 'uploadMedia',
+          });
+        })
     }
   };
 
@@ -113,9 +107,10 @@ const Plans = (props: FloorPlansPageType) => {
     maxSize: 1e+7,
   });
 
-  // ORDER FLOOR PLANS SETTINGS
+  // ORDER IMAGE SETTINGS
   const changeOrder = (order) => {
-    const imgArray: object[] = [];
+    const imgArray: PhotosType[] = [];
+    // eslint-disable-next-line array-callback-return
     order.map((item) => {
       if (item.createdAt) {
         delete item.chosen;
@@ -124,7 +119,23 @@ const Plans = (props: FloorPlansPageType) => {
       }
       return null;
     });
-    changeFieldValue('floorPlans', imgArray);
+    if (formValue.floorPlans) {
+      const idPhotos = imgArray.map((item) => item.id);
+      const idOriginalPhotos = formValue.floorPlans.map((item) => item.id);
+      const difference = idOriginalPhotos.toString() !== idPhotos.toString();
+      if (difference) {
+        changeFieldValue('photos', imgArray);
+        const data = {
+          pageID: activeSingleProperty.id,
+          type: 'floorPlan',
+          data: {
+            floorPlanIds: idPhotos,
+          },
+          smallLoader: 'reorderImg',
+        }
+        handleChangeOrder(data);
+      }
+    }
   };
 
   // FUCNTION FOR REAL DELETE
@@ -361,9 +372,10 @@ const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
     dispatch(change('Property', field, value));
   },
+  handleChangeOrder: bindActionCreators(reorderImages, dispatch),
   handleDeleteImg: bindActionCreators(deleteImg, dispatch),
-  handleUploadImg: bindActionCreators(uploadImg, dispatch),
-  handleMultiUploadImg: bindActionCreators(multiUploadImg, dispatch),
+  handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
+  handleSpinnerSmall: bindActionCreators(spinnerSmall, dispatch),
 });
 
 export default compose(
