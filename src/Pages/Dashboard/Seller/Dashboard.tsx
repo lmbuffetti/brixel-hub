@@ -227,7 +227,6 @@ const Dashboard = (props: DashboardType) => {
             state: false,
           });
         }
-        console.log(changeObj);
         if (
           checkIsValid &&
           Object.keys(changeObj).length > 0 &&

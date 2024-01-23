@@ -11,6 +11,7 @@ import {
   UPDATE_DOCUMENT,
   UPLOAD_DOCUMENT,
   UPLOAD_IMG,
+  UPDATE_DESCRIPTION_IMAGE,
 } from './types/UploadTypes';
 
 export const {
@@ -26,6 +27,7 @@ export const {
   multiUploadImg,
   updateDocument,
   multiUploadDocument,
+  updateDescriptionImage,
 } = createActions({
   [ROTATE_IMG]: (payload) => payload,
   [GET_IMAGE_TYPE]: (payload) => payload,
@@ -39,4 +41,5 @@ export const {
   [UPDATE_DOCUMENT]: (payload) => payload,
   [MULTI_UPLOAD_DOCUMENT]: (payload) => payload,
   [REORDER_IMAGES]: (payload) => payload,
+  [UPDATE_DESCRIPTION_IMAGE]: (payload) => payload,
 });

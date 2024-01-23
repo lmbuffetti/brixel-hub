@@ -18,6 +18,7 @@ import {
   UPLOAD_DOCUMENT,
   UPLOAD_IMG,
   REORDER_IMAGES,
+  UPDATE_DESCRIPTION_IMAGE,
 } from '../actions/types/UploadTypes';
 
 import {GET_ACTIVE_SINGLE_PROPERTY, SAVE_ACTIVE_SINGLE_PROPERTY} from '../actions/types/PropertyTypes';
@@ -717,6 +718,35 @@ const checkCommon = (store) => (next) => (action) => {
     case SET_COVER_PHOTO: {
       next(action);
       store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: action.payload });
+      break;
+    }
+    // UDAPTE IMAGES DESCRIPTION
+    case UPDATE_DESCRIPTION_IMAGE: {
+      const {
+        imageID,
+        body,
+        pageID,
+        type,
+        smallLoader,
+      }: {
+        imageID: string;
+        body: {
+          description: string;
+        };
+        pageID: string;
+        type: 'image' | 'floorPlan';
+        smallLoader: string;
+      } = action.payload;
+      api.image.updateImageDescription(pageID, imageID, type, body)
+        .then(() => {
+          store.dispatch({
+            type: GET_ACTIVE_SINGLE_PROPERTY,
+            payload: {
+              id: action.payload.pageID,
+              smallLoader: smallLoader,
+            },
+          })
+        })
       break;
     }
     default:
