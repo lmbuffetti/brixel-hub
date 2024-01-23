@@ -42,6 +42,40 @@ class Upload extends Base {
     const url = ep.upload.singlePrivateDocument(id);
     return this.apiClient.get(url, {baseUrlType: 'self', responseType: 'blob'}, {}, {'Content-Type': 'application/octet-stream'});
   }
+
+  updateImageDescription(pageID: string, imgID: string, type: 'image' | 'floorPlan', data: object) {
+    const url = ep.upload.updateDescription(pageID, type, imgID);
+    return this.apiClient.put(url, {}, data);
+  }
+
+  orderPageImages(pageID, type: 'image' | 'floorPlan', data) {
+    const url = ep.upload.orderImages(pageID, type);
+    return this.apiClient.put(url, {}, data);
+  }
+
+  deletePageDocument(id, docID) {
+    const url = ep.upload.deletePageDocument(id, docID);
+    return this.apiClient.delete(url, {
+      id,
+    });
+  }
+
+  deletePageImages(id, type: 'image' | 'floorPlan', photoID) {
+    const url = ep.upload.deletePageImages(id, type, photoID);
+    return this.apiClient.delete(url, {
+      id,
+    });
+  }
+
+  addImgTags(pageID: string, imgID: string, tag: string) {
+    const url = ep.upload.imgTags(pageID, imgID, tag);
+    return this.apiClient.put(url, {}, {});
+  }
+
+  deleteImgTags(pageID: string, imgID: string, tag: string) {
+    const url = ep.upload.imgTags(pageID, imgID, tag);
+    return this.apiClient.delete(url, {}, {});
+  }
 }
 
 export default Upload;

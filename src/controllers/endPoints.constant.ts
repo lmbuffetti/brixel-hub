@@ -94,6 +94,13 @@ export default {
     singleDocument: (id) => `/document/${id}`,
     singlePrivateDocument: (id) => `/documentprotected/${id}`,
     singleImage: (id) => `/image/${id}`,
+    // DOCUMENTS
+    deletePageDocument: (pageID, docID) => `/page/${pageID}/document/${docID}`,
+    // Photos
+    orderImages: (pageID, type) => `/page/${pageID}/${type}/order`,
+    deletePageImages: (pageID, type, imgID) => `/page/${pageID}/${type}/${imgID}`,
+    updateDescription: (pageID, type, imgID) => `/page/${pageID}/${type}/${imgID}/description`,
+    imgTags: (pageID, imgID, tag) => `/page/${pageID}/image/${imgID}/tags/${tag}`,
   },
   user: {
     addAsNotInterested: (pageId) => `/user/notInterested/page/${pageId}/add`,

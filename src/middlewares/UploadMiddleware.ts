@@ -19,7 +19,7 @@ import {
   UPLOAD_IMG,
 } from '../actions/types/UploadTypes';
 
-import {SAVE_ACTIVE_SINGLE_PROPERTY} from '../actions/types/PropertyTypes';
+import {GET_ACTIVE_SINGLE_PROPERTY, SAVE_ACTIVE_SINGLE_PROPERTY} from '../actions/types/PropertyTypes';
 
 import api from '../controllers/api/config';
 import {SAVE_ACTIVE_SINGLE_USER} from '../actions/types/UserTypes';
@@ -273,11 +273,11 @@ const checkCommon = (store) => (next) => (action) => {
     case DELETE_IMG: {
       next(action);
       const {
-        imgToSave,
+        photoID,
+        pageID,
+        type,
         smallLoader,
       } = action.payload;
-      const arrayImg = store.getState().brixelForm.Property.values[action.payload.type];
-      const idImg = arrayImg.findIndex((val) => val.id === action.payload.id);
       if (smallLoader) {
         store.dispatch({
           type: SPINNER_SMALL,
@@ -285,51 +285,32 @@ const checkCommon = (store) => (next) => (action) => {
             [smallLoader]: true,
           },
         });
-      } else {
-        store.dispatch({
-          type: SPINNER_ON,
-        });
       }
-      api.image.deleteImg(action.payload.id)
-        .then(() => {
-          let data;
-          if (imgToSave) {
-            data = {
-              id: action.payload.pageID,
-              [action.payload.type]: imgToSave,
-              smallLoader: true,
-            };
-            if (action.payload.type === 'photos') {
-              set(data, 'coverPhoto', imgToSave[0] || {});
-            }
-            if (action.payload.type === 'photos' && imgToSave.length === 0) set(data, 'coverPhoto', null);
-          } else {
-            arrayImg.splice(idImg, 1);
-            store.dispatch(change('Property', action.payload.type, arrayImg));
-            data = {
-              id: action.payload.pageID,
-              [action.payload.type]: arrayImg,
-              smallLoader: true,
-            };
-            if (action.payload.type === 'photos') {
-              set(data, 'coverPhoto', arrayImg[0] || {});
-            }
-            if (action.payload.type === 'photos' && arrayImg.length === 0) set(data, 'coverPhoto', null);
-          }
-          store.dispatch({type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: data});
-          if (smallLoader) {
-            store.dispatch({
-              type: SPINNER_SMALL,
-              payload: {
-                [smallLoader]: false,
-              },
-            });
-          } else {
-            store.dispatch({
-              type: SPINNER_OFF,
-            });
-          }
-        });
+      switch (type) {
+        case 'image':
+        case 'floorPlan':{
+          api.image.deletePageImages(pageID, type, photoID)
+            .then(() => {
+              const data = {
+                id: pageID,
+                smallLoader: smallLoader,
+              }
+              store.dispatch({type: GET_ACTIVE_SINGLE_PROPERTY, payload: data});
+              if (smallLoader) {
+                store.dispatch({
+                  type: SPINNER_SMALL,
+                  payload: {
+                    [smallLoader]: false,
+                  },
+                });
+              }
+            })
+          break;
+        }
+        default: {
+          return false;
+        }
+      }
       break;
     }
     // DISPATCH TO MULTI-UPLOAD IMAGES - ARRAY OF IMAGES
@@ -518,10 +499,20 @@ const checkCommon = (store) => (next) => (action) => {
     // DISPATCH TO SINGLE IMAGES - DOCUMENT OBJECT
     case DELETE_DOCUMENT: {
       next(action);
-      const { dealID, smallLoader, saveAction, indexPerson } = action.payload;
+      const {
+        dealID,
+        docID,
+        id,
+        indexPerson,
+        saveAction,
+        smallLoader,
+        type,
+      } = action.payload;
       delete action.payload.dealID;
+      delete action.payload.type;
+      delete action.payload.docID;
       delete action.payload.saveAction;
-      delete action.payload.smallLoader;
+      delete action.payload.smallLaoder;
       delete action.payload.indexPerson;
       if (smallLoader) {
         store.dispatch({
@@ -530,48 +521,77 @@ const checkCommon = (store) => (next) => (action) => {
             [smallLoader]: true,
           },
         });
-      } else {
-        store.dispatch({
-          type: SPINNER_ON,
-        });
       }
-      api.image.deleteDocument(action.payload.id)
-        .then(() => {
-          if (saveAction === 'closingIdentification') {
-            const data = {
-              ...action.payload,
-              id: dealID,
-            };
-            const idDocToDelete = get(action.payload, `persons[${indexPerson}].document`, []).findIndex((doc) => doc.id === action.payload.id);
-            if (idDocToDelete > -1) {
-              data.persons[indexPerson].document.splice(idDocToDelete, 1);
-            }
-            store.dispatch({ type: SAVE_CLOSING_IDENTIFICATION, payload: data });
-          } else {
-            const arrayImg = store.getState().brixelForm.Property.values.documents;
-            const idImg = arrayImg.findIndex((val) => val.id === action.payload.id);
-            arrayImg.splice(idImg, 1);
-            store.dispatch(change('Property', 'documents', arrayImg));
-            const data = {
-              id: action.payload.pageID,
-              documents: arrayImg,
-              smallLoader: true,
-            };
-            store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: data });
-            if (smallLoader) {
-              store.dispatch({
-                type: SPINNER_SMALL,
-                payload: {
-                  [smallLoader]: false,
-                },
-              });
-            } else {
-              store.dispatch({
-                type: SPINNER_OFF,
-              });
-            }
-          }
-        });
+      switch (type) {
+        case 'pageDocument': {
+          api.image.deletePageDocument(id, docID)
+            .then(() => {
+              const data = {
+                id,
+                smallLoader: smallLoader,
+              }
+              store.dispatch({type: GET_ACTIVE_SINGLE_PROPERTY, payload: data});
+              if (smallLoader) {
+                store.dispatch({
+                  type: SPINNER_SMALL,
+                  payload: {
+                    [smallLoader]: false,
+                  },
+                });
+              }
+            })
+          break;
+        }
+        default: {
+          api.image.deleteDocument(id)
+            .then(() => {
+              if (saveAction === 'closingIdentification') {
+                const data = {
+                  ...action.payload,
+                  id: dealID,
+                };
+                const idDocToDelete = get(action.payload, `persons[${indexPerson}].document`, []).findIndex((doc) => doc.id === action.payload.id);
+                if (idDocToDelete > -1) {
+                  data.persons[indexPerson].document.splice(idDocToDelete, 1);
+                }
+                store.dispatch({ type: SAVE_CLOSING_IDENTIFICATION, payload: data });
+              } else {
+                const arrayImg = store.getState().property.activeSingleProperty.documents;
+                const idImg = arrayImg.findIndex((val) => val.id === action.payload.id);
+                arrayImg.splice(idImg, 1);
+                store.dispatch(change('Property', 'documents', arrayImg));
+                const data = {
+                  id: action.payload.pageID,
+                  data: {
+                    documents: arrayImg,
+                  },
+                  smallLoader: true,
+                };
+                store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: data });
+              }
+              if (smallLoader) {
+                store.dispatch({
+                  type: SPINNER_SMALL,
+                  payload: {
+                    [smallLoader]: false,
+                  },
+                });
+              }
+            })
+            .catch(() => {
+              // eslint-disable-next-line no-console
+              if (smallLoader) {
+                store.dispatch({
+                  type: SPINNER_SMALL,
+                  payload: {
+                    [smallLoader]: false,
+                  },
+                });
+              }
+            });
+          break;
+        }
+      }
       break;
     }
     // DISPATCH TO UPDATE IMAGES - DOCUMENT ID
