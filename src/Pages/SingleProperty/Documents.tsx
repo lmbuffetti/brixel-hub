@@ -151,6 +151,7 @@ const Documents = (props: DocumentsPageType) => {
 
   // MULTIUPLOADING FUNCTION
   const onDrop = useCallback(async (acceptedFiles, fileRejections) => {
+    console.log(fileRejections)
     if (fileRejections.length > 0) {
       fileRejections.forEach((file) => {
         file.errors.forEach((err) => {
