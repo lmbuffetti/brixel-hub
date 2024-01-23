@@ -22,17 +22,17 @@ import {connect} from 'react-redux';
 import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import {ReactSortable} from 'react-sortablejs';
 import {bindActionCreators, compose} from 'redux';
-import {saveActiveSingleProperty} from '../../actions/PropertyActions';
-import {deleteDocument, multiUploadDocument, uploadDocument} from '../../actions/UploadActions';
+import {getActiveSingleProperty, saveActiveSingleProperty} from '../../actions/PropertyActions';
+import {deleteDocument} from '../../actions/UploadActions';
 import buyerDocumentsEmpty from '../../images/Media/buyer_docuboxEmpty.svg';
 import uploadDocumentsEmpty from '../../images/Upload/upload_documents_empty.svg';
 import dragIcon from '../../images/Upload/drag-icon.svg';
-import {tobase64Handler} from '../../utils/helpers';
 import translateTo from '../../utils/translation';
 import {DocumentType} from '@brixel-io/brixel-components/dist/@types/Model';
 import type {DocumentsPageType, DocumentTypePage} from '../../@types/Pages/SingleProperty/Documents';
-import { setNotification } from '../../actions/CommonActions';
+import {setNotification, spinnerSmall} from '../../actions/CommonActions';
 import SectionMobileTitle from '../../components/SectionMobileTitle';
+import multiUpload from '@brixel-io/brixel-components/dist/helpers/uploads/MultiUpload';
 
 const Documents = (props: DocumentsPageType) => {
   const history = {
@@ -42,18 +42,19 @@ const Documents = (props: DocumentsPageType) => {
   const match = useParams();
   // PROPS
   const {
+    activeSingleCompany,
     activeSingleProperty,
     changeFieldValue,
     formValue,
     handleDeleteDocument,
-    handleMultiUploadDocument,
+    handleGetActiveSingleProperty,
     handleSaveActiveSingleProperty,
+    handleSpinnerSmall,
     isBuyer = false,
     isSmallLoading,
     lang,
     loggedInUser,
     userType,
-    handleSetScreenNotification,
   } = props;
   const [documentOptionsOpen, setDocumentOptionsOpen] = useState<{id?: string | null, active: boolean}>({ id: null, active: false });
   const [folderOptionsOpen, setFolderOptionsOpen] = useState<{id?: string | null, active: boolean}>({ id: null, active: false });
@@ -150,18 +151,19 @@ const Documents = (props: DocumentsPageType) => {
 
   // MULTIUPLOADING FUNCTION
   const onDrop = useCallback(async (acceptedFiles, fileRejections) => {
+    console.log(fileRejections)
     if (fileRejections.length > 0) {
       fileRejections.forEach((file) => {
         file.errors.forEach((err) => {
           if (err.code === 'file-too-large') {
-            handleSetScreenNotification({
+            setNotification({
               state: true,
               type: 'alert',
-              label: translateTo('One or more file(s) is(are) bigger than 10MB', lang),
+              label: translateTo('One or more file(s) is(are) bigger than 40MB', lang),
             });
           }
           if (err.code === 'file-invalid-type') {
-            handleSetScreenNotification({
+            setNotification({
               state: true,
               type: 'alert',
               label: translateTo('One or more files has(have) an invalid format', lang),
@@ -169,45 +171,32 @@ const Documents = (props: DocumentsPageType) => {
           }
         });
       });
-    } else {
-      const reader = new FileReader();
-      // const imgType = imageType.find((val) => val.name === 'Gallery');
-      // eslint-disable-next-line no-console
-      reader.onabort = () => console.log('file reading was aborted');
-      // eslint-disable-next-line no-console
-      reader.onerror = () => console.log('file reading has failed');
-      const imgList = tobase64Handler(acceptedFiles, get(loggedInUser, 'id'), 'documents', formValue.id);
-      imgList.then((res) => {
-        handleMultiUploadDocument({
-          docs: activeSingleProperty.documents,
-          allImgs: res,
-          actions: 'documents',
-          pageID: formValue.id || propID,
-          smallLoader: 'uploadMedia',
-        });
-      });
+    } else if (propID) {
+      handleSpinnerSmall({uploadMedia: true});
+      multiUpload(acceptedFiles, 'pageDocument', {pageID: propID, companyID: activeSingleCompany.id})
+        .then(() => {
+          handleGetActiveSingleProperty({
+            id: propID,
+            smallLoader: 'uploadMedia',
+          });
+        })
     }
   }, [formValue, loggedInUser]);
 
   const loadFile = async (e, type = '', key: number) => {
     if (e) e.preventDefault();
-    const inputDocs = document.getElementById(`documentInput${key}`) as HTMLInputElement;
-    const acceptedFiles = values(inputDocs ? inputDocs.files : '');
-    const reader = new FileReader();
-    // eslint-disable-next-line no-console
-    reader.onabort = () => console.log('file reading was aborted');
-    // eslint-disable-next-line no-console
-    reader.onerror = () => console.log('file reading has failed');
-    const imgList = tobase64Handler(acceptedFiles, get(loggedInUser, 'id'), 'documents', formValue.id, '', type);
-    imgList.then((res) => {
-      handleMultiUploadDocument({
-        docs: activeSingleProperty.documents,
-        allImgs: res,
-        actions: 'documents',
-        pageID: formValue.id,
-        smallLoader: 'uploadMedia',
-      });
-    });
+    if (propID) {
+      const inputDocs = document.getElementById(`documentInput${key}`) as HTMLInputElement;
+      const acceptedFiles = values(inputDocs ? inputDocs.files : '');
+      handleSpinnerSmall({uploadMedia: true});
+      multiUpload(acceptedFiles, 'pageDocument', {pageID: propID, companyID: activeSingleCompany.id}, {type})
+        .then(() => {
+          handleGetActiveSingleProperty({
+            id: propID,
+            smallLoader: 'uploadMedia',
+          });
+        })
+    }
   };
 
   // DROPZONE SETTINGS - SUPPORTED EXTENSIONS AND MAX SIZE AND OTHER SETTINGS
@@ -1002,9 +991,9 @@ const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
     dispatch(change('Property', field, value));
   },
-  handleUploadDocument: bindActionCreators(uploadDocument, dispatch),
-  handleMultiUploadDocument: bindActionCreators(multiUploadDocument, dispatch),
+  handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
   handleDeleteDocument: bindActionCreators(deleteDocument, dispatch),
+  handleSpinnerSmall: bindActionCreators(spinnerSmall, dispatch),
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
   handleSetScreenNotification: bindActionCreators(setNotification, dispatch),
 });
