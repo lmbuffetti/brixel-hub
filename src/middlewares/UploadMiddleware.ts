@@ -1,21 +1,32 @@
+/* eslint-disable no-case-declarations */
 import {change, reset} from '@brixel-io/brixel-components/dist/utils/ReduxForm.Functions';
+import set from 'lodash/set';
 import get from 'lodash/get';
+import has from 'lodash/has';
 import cloneDeep from 'lodash/cloneDeep';
+import isArray from 'lodash/isArray';
 import {
   DELETE_DOCUMENT,
   DELETE_IMG,
+  GET_IMAGE_TYPE,
+  MULTI_UPLOAD_DOCUMENT,
+  MULTI_UPLOAD_IMG,
   ROTATE_IMG,
   SET_COVER_PHOTO,
+  SET_IMAGE_TYPE,
   UPDATE_DOCUMENT,
+  UPLOAD_DOCUMENT,
+  UPLOAD_IMG,
   REORDER_IMAGES,
-  UPDATE_DESCRIPTION_IMAGE,
 } from '../actions/types/UploadTypes';
 
 import {GET_ACTIVE_SINGLE_PROPERTY, SAVE_ACTIVE_SINGLE_PROPERTY} from '../actions/types/PropertyTypes';
 
 import api from '../controllers/api/config';
+import {SAVE_ACTIVE_SINGLE_USER} from '../actions/types/UserTypes';
 import {REQUEST_DONE, SPINNER_OFF, SPINNER_ON, SPINNER_SMALL} from '../actions/types/CommonTypes';
-import {SAVE_CLOSING_IDENTIFICATION} from '../actions/types/DealTypes';
+import {SAVE_CLOSING_IDENTIFICATION, SAVE_FINANCING_REQUEST, SAVE_MAKE_OFFER} from '../actions/types/DealTypes';
+import {PropertyType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 const checkCommon = (store) => (next) => (action) => {
   switch (action.type) {
@@ -268,8 +279,6 @@ const checkCommon = (store) => (next) => (action) => {
         type,
         smallLoader,
       } = action.payload;
-      const arrayImg = store.getState().brixelForm.Property.values[action.payload.type];
-      const idImg = arrayImg.findIndex((val) => val.id === action.payload.id);
       if (smallLoader) {
         store.dispatch({
           type: SPINNER_SMALL,
@@ -350,6 +359,189 @@ const checkCommon = (store) => (next) => (action) => {
             });
           }
         })
+      break;
+    }
+    // DISPATCH TO MULTI-UPLOAD IMAGES - ARRAY OF IMAGES
+    case MULTI_UPLOAD_DOCUMENT: {
+      next(action);
+      const {
+        actions,
+        allImgs,
+        docs,
+        pageID,
+        saveAction,
+        smallLoader,
+      } = action.payload;
+      delete action.payload.allImgs;
+      delete action.payload.actions;
+      delete action.payload.pageID;
+      delete action.payload.smallLoader;
+      delete action.payload.saveAction;
+      delete action.payload.docs;
+      const calls: Promise<{ data: any; meta: any; }>[] = [];
+      allImgs.forEach((img) => {
+        calls.push(api.image.uploadDocument(img, null, get(img, 'idBuyer', null)));
+      });
+      if (smallLoader) {
+        store.dispatch({
+          type: SPINNER_SMALL,
+          payload: {
+            [smallLoader]: true,
+          },
+        });
+      } else {
+        store.dispatch({
+          type: SPINNER_ON,
+        });
+      }
+      Promise.all(calls).then((res) => {
+        if (saveAction === 'makeOffer') {
+          const dataOffer = action.payload;
+          delete dataOffer.document;
+          const document: object[] = [];
+          res.forEach((doc) => {
+            document.push(doc.data);
+          });
+          const data = {
+            ...dataOffer,
+            documents: document,
+          };
+          data.smallLoader = smallLoader;
+          store.dispatch({ type: SAVE_MAKE_OFFER, payload: data });
+        } else if (saveAction === 'financing') {
+          const dataOffer = action.payload;
+          delete dataOffer.document;
+          const document: object[] = [];
+          res.forEach((doc) => {
+            document.push(doc.data);
+          });
+          const data = {
+            ...dataOffer,
+            documents: document,
+          };
+          data.smallLoader = smallLoader;
+          store.dispatch({ type: SAVE_FINANCING_REQUEST, payload: data });
+        } else if (saveAction === 'closingIdentification') {
+          const dataIdentification = action.payload;
+          dataIdentification.persons.forEach((person, id) => {
+            if (!person.document) dataIdentification.persons[id].document = [];
+          });
+          res.forEach((doc) => {
+            const id = get(doc, 'id', '');
+            const idPerson = id.split(':')[0];
+            const idDoc = id.split(':')[1];
+            dataIdentification.persons[idPerson].document[idDoc] = doc.data;
+          });
+          const data = {
+            ...dataIdentification,
+            smallLoader,
+          };
+          store.dispatch({ type: SAVE_CLOSING_IDENTIFICATION, payload: data });
+        } else {
+          const data: any = {};
+          let filesArray = get(store.getState(), 'brixelForm.Property.values.documents', []);
+          filesArray = docs || filesArray;
+          res.forEach((resImg) => {
+            filesArray.push(resImg.data);
+          });
+          set(data, actions, filesArray);
+          data.id = pageID;
+          data.smallLoader = smallLoader;
+          store.dispatch({
+            type: SAVE_ACTIVE_SINGLE_PROPERTY,
+            payload: data,
+            setSuccessNotification: true,
+          });
+        }
+        if (smallLoader) {
+          store.dispatch({
+            type: SPINNER_SMALL,
+            payload: {
+              [smallLoader]: false,
+            },
+          });
+        } else {
+          store.dispatch({
+            type: SPINNER_OFF,
+          });
+        }
+      });
+      break;
+    }
+    // DISPATCH TO SINGLE UPLOAD DOCUMENTS - DOCUMENTS ARRAY
+    case UPLOAD_DOCUMENT: {
+      next(action);
+      const {
+        dealID,
+        formValue,
+        index,
+        indexDoc,
+        indexPerson,
+        pageID,
+        saveAction,
+        smallLoader,
+      } = action.payload;
+      delete action.payload.dealID;
+      delete action.payload.index;
+      delete action.payload.indexDoc;
+      delete action.payload.indexPerson;
+      delete action.payload.pageID;
+      delete action.payload.saveAction;
+      delete action.payload.smallLoader;
+      if (smallLoader) {
+        store.dispatch({
+          type: SPINNER_SMALL,
+          payload: {
+            [smallLoader]: true,
+          },
+        });
+      } else {
+        store.dispatch({
+          type: SPINNER_ON,
+        });
+      }
+      const docData = get(action.payload, 'docs', action.payload);
+      api.image.uploadDocument(docData, null, null)
+        .then((res) => {
+          if (saveAction === 'makeOffer') {
+            const document: object[] = [];
+            document.push(res.data);
+            const data = {
+              ...action.payload,
+              documents: document,
+            };
+            data.smallLoader = smallLoader;
+            store.dispatch({ type: SAVE_CLOSING_IDENTIFICATION, payload: data });
+          } else if (saveAction === 'closingIdentification') {
+            const data = cloneDeep(formValue);
+            data.persons[indexPerson].document[indexDoc] = res.data;
+            data.id = dealID;
+            data.smallLoader = smallLoader;
+            store.dispatch({ type: SAVE_CLOSING_IDENTIFICATION, payload: data });
+          } else {
+            const docList = store.getState().brixelForm.Property.values.documents || [];
+            docList.push(res.data);
+            const data = {
+              id: pageID,
+              documents: docList,
+              smallLoader: true,
+            };
+            if (index > -1) set(data, 'index', index);
+            store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: data, setSuccessNotification: true });
+            if (smallLoader) {
+              store.dispatch({
+                type: SPINNER_SMALL,
+                payload: {
+                  [smallLoader]: false,
+                },
+              });
+            } else {
+              store.dispatch({
+                type: SPINNER_OFF,
+              });
+            }
+          }
+        });
       break;
     }
     // DISPATCH TO SINGLE IMAGES - DOCUMENT OBJECT
@@ -525,35 +717,6 @@ const checkCommon = (store) => (next) => (action) => {
     case SET_COVER_PHOTO: {
       next(action);
       store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: action.payload });
-      break;
-    }
-    // UDAPTE IMAGES DESCRIPTION
-    case UPDATE_DESCRIPTION_IMAGE: {
-      const {
-        imageID,
-        body,
-        pageID,
-        type,
-        smallLoader,
-      }: {
-        imageID: string;
-        body: {
-          description: string;
-        };
-        pageID: string;
-        type: 'image' | 'floorPlan';
-        smallLoader: string;
-      } = action.payload;
-      api.image.updateImageDescription(pageID, imageID, type, body)
-        .then(() => {
-          store.dispatch({
-            type: GET_ACTIVE_SINGLE_PROPERTY,
-            payload: {
-              id: action.payload.pageID,
-              smallLoader: smallLoader,
-            },
-          })
-        })
       break;
     }
     default:
