@@ -151,7 +151,6 @@ const Documents = (props: DocumentsPageType) => {
 
   // MULTIUPLOADING FUNCTION
   const onDrop = useCallback(async (acceptedFiles, fileRejections) => {
-    console.log(fileRejections)
     if (fileRejections.length > 0) {
       fileRejections.forEach((file) => {
         file.errors.forEach((err) => {
@@ -979,6 +978,7 @@ const Documents = (props: DocumentsPageType) => {
 };
 
 const mapStateToProps = (state) => ({
+  activeSingleCompany: get(state, 'company.activeSingleCompany', { }),
   activeSingleProperty: get(state, 'property.activeSingleProperty', { }),
   formValue: get(state, 'brixelForm.Property.values', get(state, 'property.activeSingleProperty', {})),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
