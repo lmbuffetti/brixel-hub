@@ -36,7 +36,6 @@ export interface IdentificationFlowType {
   handleGetActiveSingleDeal: (data: object) => void
   handleGetActiveSingleCompany: (data: object) => void
   handleGetActiveSingleProperty: (data: object) => void
-  handleMultiUploadDocument: (data: object) => void
   handleSaveClosingIdentification: (data: object) => void
   handleSpinnerOff: () => void
   initForm: (data: object) => void

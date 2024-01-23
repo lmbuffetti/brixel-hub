@@ -9,15 +9,16 @@ import has from 'lodash/has';
 import cloneDeep from 'lodash/cloneDeep';
 import {diff} from 'deep-object-diff';
 import translateTo from '../../../utils/translation';
-import {deleteDocument, multiUploadDocument} from '../../../actions/UploadActions';
+import {deleteDocument} from '../../../actions/UploadActions';
 import {checkBrowser} from '../../../utils/helpers';
 import {IdentificationQuestions} from '../../../resources/Deals/Identification';
 import {getActiveSingleDeal, saveClosingIdentification} from '../../../actions/DealActions';
 import {spinnerOff, spinnerSmall} from '../../../actions/CommonActions';
 import type {IdentificationFlowType} from '../../../@types/Pages/Closing/Identification/IdentificationFlow';
-import {ClientAdvisorType, QuestionsListType} from '@brixel-io/brixel-components/dist/@types/Model';
+import {ClientAdvisorType, DocumentType, QuestionsListType} from '@brixel-io/brixel-components/dist/@types/Model';
 import {getActiveSingleCompany} from '../../../actions/CompanyActions';
 import {getActiveSingleProperty} from '../../../actions/PropertyActions';
+import multiPromiseAllCall from '@brixel-io/brixel-components/dist/helpers/uploads/MultiUpload';
 
 const IdentificationFlow = (props: IdentificationFlowType) => {
   const history = {
@@ -38,7 +39,6 @@ const IdentificationFlow = (props: IdentificationFlowType) => {
     handleSaveClosingIdentification,
     handleGetActiveSingleCompany,
     handleGetActiveSingleProperty,
-    handleMultiUploadDocument,
     handleChangeSmallLoading,
     handleSpinnerOff,
     initForm,
@@ -102,7 +102,7 @@ const IdentificationFlow = (props: IdentificationFlowType) => {
 
   // FUNCTION TO SAVE DATA
   const saveData = async () => {
-    const docsList: object[] = [];
+    const docsList: DocumentType[] = [];
     const formData = cloneDeep(formValue);
     formValue.persons.forEach((person, index) => {
       const prs = get(person, 'document', []);
@@ -138,8 +138,27 @@ const IdentificationFlow = (props: IdentificationFlowType) => {
       ...formData,
       saveAction: 'closingIdentification',
     };
+    // eslint-disable-next-line no-console
     if (docsList.length > 0) {
-      handleMultiUploadDocument(dataForm);
+      const docToSave: any = docsList.map((doc) => {
+        const idPerson = doc?.id.split(':')[0];
+        const idDoc = doc?.id.split(':')[1];
+        const docExt = doc?.name?.split('.')[1];
+        return ({
+          ...doc,
+          name: `${userType}-${idDoc}-${idPerson}-identification.${docExt}`,
+        })
+      })
+      multiPromiseAllCall(docToSave, 'genericDocument', {pageID: activeSingleProperty.id, companyID: ''})
+        .then((res) => {
+          res.forEach((doc) => {
+            const idPerson = doc.name.split('-')[2];
+            const idDoc = doc.name.split('-')[1];
+            if (!dataForm.persons[idPerson]?.document) dataForm.persons[idPerson].document = [];
+            dataForm.persons[idPerson].document[idDoc] = doc;
+          })
+          handleSaveClosingIdentification(dataForm);
+        });
     } else {
       handleSaveClosingIdentification(dataForm);
     }
@@ -592,7 +611,6 @@ const mapDispatchToProps = (dispatch) => ({
   handleGetActiveSingleDeal: bindActionCreators(getActiveSingleDeal, dispatch),
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
   handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
-  handleMultiUploadDocument: bindActionCreators(multiUploadDocument, dispatch),
   handleSaveClosingIdentification: bindActionCreators(saveClosingIdentification, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
   handleChangeSmallLoading: bindActionCreators(spinnerSmall, dispatch),
