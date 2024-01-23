@@ -20,7 +20,7 @@ import {
   getPackageProperty,
   saveActiveSingleProperty,
 } from '../../../actions/PropertyActions';
-import {deleteDocument, getImageType, uploadDocument} from '../../../actions/UploadActions';
+import {deleteDocument} from '../../../actions/UploadActions';
 import {setUserTypes} from '../../../actions/UserActions';
 import lazyWithRetry from '../../../components/LazyWithRetry';
 import {calcPercentageFacts} from '../../../utils/helpers';
@@ -63,13 +63,11 @@ const Dashboard = (props: DashboardType) => {
     handleGetActiveSingleProperty,
     handleGetScheduleVisit,
     handleGetActiveSinglePropertyEstimation,
-    handleGetImageType,
     handleGetPackageProperty,
     handleSaveActiveSingleProperty,
     handleSetScreenNotification,
     handleSetUserTypes,
     handleSpinnerOff,
-    imageType,
     initForm,
     initialValues,
     isLoading,
@@ -143,7 +141,6 @@ const Dashboard = (props: DashboardType) => {
           // handleGetActiveSingleProperty({ fullVersion: true, id: propID });
           handleGetScheduleVisit({ id: propID });
         }
-        if (imageType.length === 0) handleGetImageType();
       } else {
         history.push('/sell');
       }
@@ -390,7 +387,6 @@ const mapDispatchToProps = (dispatch) => ({
   handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
   handleGetScheduleVisit: bindActionCreators(getScheduleVisit, dispatch),
   handleGetActiveSinglePropertyEstimation: bindActionCreators(getEstimation, dispatch),
-  handleGetImageType: bindActionCreators(getImageType, dispatch),
   handleGetPackageProperty: bindActionCreators(getPackageProperty, dispatch),
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
   handleSaveData: bindActionCreators(setPageData, dispatch),
@@ -399,7 +395,6 @@ const mapDispatchToProps = (dispatch) => ({
   handleSetUserTypes: bindActionCreators(setUserTypes, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
   handleSpinnerOn: bindActionCreators(spinnerOn, dispatch),
-  handleUploadDocument: bindActionCreators(uploadDocument, dispatch),
 });
 
 export default compose(

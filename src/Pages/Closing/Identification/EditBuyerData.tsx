@@ -7,10 +7,12 @@ import {useParams} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {ReduxField} from '@brixel-io/brixel-components/dist/form';
 import translateTo from '../../../utils/translation';
-import {deleteDocument, uploadDocument} from '../../../actions/UploadActions';
+import {deleteDocument} from '../../../actions/UploadActions';
 import {IdentificationQuestions} from '../../../resources/Deals/Identification';
 import {QuestionInputType} from '@brixel-io/brixel-components/dist/@types/Model';
 import type {EditBuyerDataType} from '../../../@types/Pages/Closing/Identification/EditBuyerData';
+import multiPromiseAllCall from '@brixel-io/brixel-components/dist/helpers/uploads/MultiUpload';
+import {saveClosingIdentification} from '../../../actions/DealActions';
 
 const EditBuyerData = (props: EditBuyerDataType) => {
   const match = useParams();
@@ -19,9 +21,8 @@ const EditBuyerData = (props: EditBuyerDataType) => {
     dealID,
     forceStep = 0,
     formValue,
-    initialValues,
     handleDeleteDocument,
-    handleUploadDocument,
+    handleSaveClosingIdentification,
     lang,
     loggedInUser,
     profileId,
@@ -62,25 +63,65 @@ const EditBuyerData = (props: EditBuyerDataType) => {
   };
 
   useEffect(() => {
-    const newDoc: any = get(formValue, `persons[${profileId}].document`, []).find((doc) => get(doc, 'file', null)) || {};
-    if (newDoc && get(initialValues, `persons[${profileId}].fullName`, null)) {
-      const indexDoc = get(formValue, `persons[${profileId}].document`, []).findIndex((doc) => get(doc, 'file', null));
-      const data = {
-        id: propID,
-        dealID,
-        indexDoc,
-        indexPerson: profileId,
+    if (propID) {
+      const docsList: any = [];
+      const formDataSave = cloneDeep(formValue);
+      formValue.persons.forEach((person, index) => {
+        const prs = get(person, 'document', []);
+        if (prs.length > 0) {
+          Object.keys(prs).forEach((key) => {
+            const doc = prs[key];
+            if (doc.file) {
+              docsList.push({
+                idBuyer: `${index}:${key}`,
+                id: `${index}:${key}`,
+                ...doc,
+                isPrivate: true,
+                user: get(loggedInUser, 'id', null),
+              });
+            } else {
+              formValue.persons[index].document[key] = doc;
+            }
+          });
+        }
+      });
+      const dataDocuments = {
+        allImgs: docsList,
+        actions: 'documents',
+        pageID: propID,
+        smallLoader: 'sendData',
+        user: get(loggedInUser, 'id', null),
+      };
+      const dataForm: any = {
+        id: dealID,
+        ...dataDocuments,
+        smallLoader: 'sendData',
+        personType: userType,
+        ...formDataSave,
         saveAction: 'closingIdentification',
-        smallLoader: 'savingData',
-        formValue,
-        docs: {
-          ...newDoc,
-          user: get(loggedInUser, 'id', null),
-          isPrivate: true,
-          pageID: propID,
-        },
+      };
+      // eslint-disable-next-line no-console
+      if (docsList.length > 0) {
+        const docToSave = docsList.map((doc) => {
+          const idPerson = doc?.id.split(':')[0];
+          const idDoc = doc?.id.split(':')[1];
+          const docExt = doc?.name?.split('.')[1];
+          return ({
+            ...doc,
+            name: `${userType}-${idDoc}-${idPerson}-identification.${docExt}`,
+          })
+        })
+        multiPromiseAllCall(docToSave, 'genericDocument', {pageID: propID, companyID: ''})
+          .then((res) => {
+            res.forEach((doc) => {
+              const idPerson = doc.name.split('-')[2];
+              const idDoc = doc.name.split('-')[1];
+              if (!dataForm.persons[idPerson]?.document) dataForm.persons[idPerson].document = [];
+              dataForm.persons[idPerson].document[idDoc] = doc;
+            })
+            handleSaveClosingIdentification(dataForm);
+          });
       }
-      handleUploadDocument(data);
     }
   }, [get(formValue, `persons[${profileId}].document`)]);
 
@@ -201,8 +242,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  handleSaveClosingIdentification: bindActionCreators(saveClosingIdentification, dispatch),
   handleDeleteDocument: bindActionCreators(deleteDocument, dispatch),
-  handleUploadDocument: bindActionCreators(uploadDocument, dispatch),
 });
 
 export default compose(

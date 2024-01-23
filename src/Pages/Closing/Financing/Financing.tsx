@@ -17,9 +17,9 @@ import {getCookie, setCookie} from '../../../utils/helpers';
 import {getActiveSingleCompany} from '../../../actions/CompanyActions';
 import {getActiveSingleProperty} from '../../../actions/PropertyActions';
 import {getBuyerDeal, saveFinancingRequest} from '../../../actions/DealActions';
-import {multiUploadDocument} from '../../../actions/UploadActions';
 import type {FinancingType} from '../../../@types/Pages/Closing/Financing/Financing';
 import {DocumentType, QuestionsListType} from '@brixel-io/brixel-components/dist/@types/Model';
+import multiUploadDocument from '@brixel-io/brixel-components/dist/helpers/uploads/MultiUpload';
 
 const Financing = (props: FinancingType) => {
   const history = {
@@ -39,7 +39,6 @@ const Financing = (props: FinancingType) => {
     handleGetActiveSingleCompany,
     handleGetActiveSingleProperty,
     handleGetBuyerDeal,
-    handleMultiUploadDocument,
     handleReset,
     handleSaveFinancingRequest,
     initForm,
@@ -162,7 +161,7 @@ const Financing = (props: FinancingType) => {
   // FUNCTION TO SAVE DATA
   const saveData = () => {
     const doc: DocumentType[] = get(formValue, 'document', []);
-    const docs: DocumentType[] = get(formValue, 'documents', doc);
+    const docs: any = get(formValue, 'documents', doc);
     docs.forEach((_item, i) => set(docs[i], 'user', get(loggedInUser, 'id', undefined)));
     const dataDocuments = {
       allImgs: docs,
@@ -188,14 +187,19 @@ const Financing = (props: FinancingType) => {
         mortgageAmount: get(formValue, 'mortgageAmount', null),
       },
     }
-    const data = {
+    const data: any = {
       ...dataForm,
       ...dataDocuments,
     };
     if (isToSave) {
       setIsToSave(false);
       if (docs.length > 0) {
-        handleMultiUploadDocument(data);
+        multiUploadDocument(docs, 'genericDocument', {pageID: activeSingleProperty.id, companyID: ''})
+          .then((res) => {
+            data.documents = res;
+            delete data.document;
+            handleSaveFinancingRequest(data);
+          })
       } else {
         handleSaveFinancingRequest(data);
       }
@@ -670,7 +674,6 @@ const mapDispatchToProps = (dispatch) => ({
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
   handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
   handleGetBuyerDeal: bindActionCreators(getBuyerDeal, dispatch),
-  handleMultiUploadDocument: bindActionCreators(multiUploadDocument, dispatch),
   handleSaveFinancingRequest: bindActionCreators(saveFinancingRequest, dispatch),
 });
 

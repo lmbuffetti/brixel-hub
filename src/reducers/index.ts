@@ -6,7 +6,6 @@ import companies from './CompanyReducer';
 import deal from './DealReducer';
 import history from './HistoryReducer';
 import market from './MarketReducer';
-import image from './UploadReducer';
 import lead from './LeadReducer';
 import property from './PropertyReducer';
 import user from './UserReducer';
@@ -21,7 +20,6 @@ export const rootReducer = combineReducers({
   craftCMS,
   deal,
   history,
-  images: image,
   lead,
   market,
   notes,

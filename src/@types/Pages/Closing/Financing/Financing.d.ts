@@ -34,7 +34,6 @@ export interface FinancingType {
   handleGetActiveSingleCompany: (data: object) => void;
   handleGetActiveSingleProperty: (data: object) => void;
   handleGetBuyerDeal: (data: object) => void;
-  handleMultiUploadDocument: (data: object) => void;
   handleReset: (data: object) => void;
   handleSaveFinancingRequest: (data: object) => void;
   initForm: (data: object) => void;

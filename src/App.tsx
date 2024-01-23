@@ -29,7 +29,6 @@ import {
 } from './actions/CommonActions';
 import {setActiveSingleDeal} from './actions/DealActions';
 import {setActiveSingleProperty} from './actions/PropertyActions';
-import {getImageType} from './actions/UploadActions';
 import {checkToken, saveActiveSingleUser, setUserTypes} from './actions/UserActions';
 import BestimateCardOverlay from './components/BestimateCardOverlay';
 import PageFooter from './components/Footer/PageFooter';
@@ -123,7 +122,6 @@ const App = (props: AppType) => {
     config,
     handleCheckToken,
     handleGetActiveSingleCompany,
-    handleGetImageType,
     handleGetTranslations,
     handleReset,
     handleSaveActiveSingleUser,
@@ -488,7 +486,6 @@ const App = (props: AppType) => {
       ) data = { hideLoad: true };
       handleCheckToken(data);
     }
-    handleGetImageType({ smallLoader: 'imgType' });
   }, []);
 
   const contentLayout = useCallback(() => {
@@ -1054,7 +1051,6 @@ const mapDispatchToProps = (dispatch) => ({
   },
   handleCheckToken: bindActionCreators(checkToken, dispatch),
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
-  handleGetImageType: bindActionCreators(getImageType, dispatch),
   handleSaveActiveSingleUser: bindActionCreators(saveActiveSingleUser, dispatch),
   handleSendSlackNotifications: bindActionCreators(sendSlackNotification, dispatch),
   handleSetActiveSingleDeal: bindActionCreators(setActiveSingleDeal, dispatch),

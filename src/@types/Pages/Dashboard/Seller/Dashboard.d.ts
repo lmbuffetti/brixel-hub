@@ -18,14 +18,12 @@ export interface DashboardType {
   handleGetActiveSingleProperty: (data: object) => void;
   handleGetScheduleVisit: (data: object) => void;
   handleGetActiveSinglePropertyEstimation: (data: object) => void;
-  handleGetImageType: () => void;
   handleGetPackageProperty: (data: object) => void;
   handleReset: (data: object) => void;
   handleSaveActiveSingleProperty: (data: object) => void;
   handleSetScreenNotification: (data: object) => void;
   handleSetUserTypes: (val: string) => void;
   handleSpinnerOff: () => void;
-  imageType: object[];
   initForm: (data: object) => void;
   initialValues: PropertyType;
   isLoading: boolean;

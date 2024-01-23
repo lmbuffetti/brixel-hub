@@ -15,7 +15,6 @@ export interface AppType {
   config: BaseByDataType;
   handleCheckToken: (data: object) => void;
   handleGetActiveSingleCompany: (data: object) => void;
-  handleGetImageType: (data: object) => void;
   handleGetTranslations: (data: object, path: string) => void;
   handleReset: (form: string, data: object) => void;
   handleSaveActiveSingleUser: (data: object) => void;
