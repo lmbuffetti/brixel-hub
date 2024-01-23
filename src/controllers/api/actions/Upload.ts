@@ -38,19 +38,10 @@ class Upload extends Base {
     return this.apiClient.put(url, { action: onUploading }, data);
   }
 
-  deletePageDocument(id, docID) {
-    const url = ep.upload.deletePageDocument(id, docID);
-    return this.apiClient.delete(url, {
-      id,
-    });
-  }
-
   getPrivateDocument(id) {
     const url = ep.upload.singlePrivateDocument(id);
     return this.apiClient.get(url, {baseUrlType: 'self', responseType: 'blob'}, {}, {'Content-Type': 'application/octet-stream'});
   }
-
-
 
   updateImageDescription(pageID: string, imgID: string, type: 'image' | 'floorPlan', data: object) {
     const url = ep.upload.updateDescription(pageID, type, imgID);
@@ -60,6 +51,13 @@ class Upload extends Base {
   orderPageImages(pageID, type: 'image' | 'floorPlan', data) {
     const url = ep.upload.orderImages(pageID, type);
     return this.apiClient.put(url, {}, data);
+  }
+
+  deletePageDocument(id, docID) {
+    const url = ep.upload.deletePageDocument(id, docID);
+    return this.apiClient.delete(url, {
+      id,
+    });
   }
 
   deletePageImages(id, type: 'image' | 'floorPlan', photoID) {

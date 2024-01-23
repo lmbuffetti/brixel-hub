@@ -60,6 +60,205 @@ const checkCommon = (store) => (next) => (action) => {
         });
       break;
     }
+    // DISPATCH TO IMG TYPE
+    case GET_IMAGE_TYPE: {
+      next(action);
+      api.image.getImageType()
+        .then((res) => {
+          store.dispatch({ type: SET_IMAGE_TYPE, payload: res.data });
+        });
+      break;
+    }
+    // DISPATCH TO MULTI-UPLOAD IMAGES - ARRAY OF IMAGES
+    case MULTI_UPLOAD_IMG: {
+      next(action);
+      const {
+        allImgs, actions, pageID, smallLoader,
+      } = action.payload;
+      delete action.payload.allImgs;
+      delete action.payload.actions;
+      delete action.payload.pageID;
+      delete action.payload.smallLoader;
+      const calls: Promise<{ data: any; meta: any; }>[] = [];
+      allImgs.forEach((img) => {
+        calls.push(api.image.addImage(img, ''));
+      });
+      if (smallLoader) {
+        store.dispatch({
+          type: SPINNER_SMALL,
+          payload: {
+            [smallLoader]: true,
+          },
+        });
+      } else {
+        store.dispatch({
+          type: SPINNER_ON,
+        });
+      }
+      Promise.all(calls).then((res) => {
+        const coverImg = get(store.getState(), 'brixelForm.Property.values.coverPhoto', {});
+        const data: PropertyType | object = {};
+        const filesArray = get(store.getState(), `brixelForm.Property.values[${actions}]`, []);
+        res.forEach((resImg) => {
+          if (resImg.meta.normalizedStatus === 200) {
+            if (isArray(resImg.data)) {
+              resImg.data.forEach((imgPdf) => {
+                filesArray.push({
+                  width: 0,
+                  height: 0,
+                  ...imgPdf,
+                });
+              });
+            } else {
+              let width = 0;
+              let height = 0;
+              if (get(resImg, 'data.name', null)) {
+                const selOriginalImg = allImgs.find((img) => img.name.toString() === resImg.data.name.toString());
+                if (selOriginalImg) {
+                  width = get(selOriginalImg, 'width', null);
+                  height = get(selOriginalImg, 'height', null);
+                }
+              }
+              filesArray.push({
+                width,
+                height,
+                ...resImg.data,
+              });
+            }
+          }
+        });
+        if (!get(coverImg, 'id', null)) {
+          set(data, 'coverPhoto', filesArray[0]);
+        }
+        set(data, actions, filesArray);
+        set(data, 'id', pageID);
+        set(data, 'smallLoader', smallLoader);
+        store.dispatch({
+          type: SAVE_ACTIVE_SINGLE_PROPERTY,
+          payload: data,
+          setSuccessNotification: true,
+        });
+        if (smallLoader) {
+          store.dispatch({
+            type: SPINNER_SMALL,
+            payload: {
+              [smallLoader]: false,
+            },
+          });
+        } else {
+          store.dispatch({
+            type: SPINNER_OFF,
+          });
+        }
+      });
+      break;
+    }
+    // DISPATCH TO SINGLE UPLOAD IMG - IMG OBJECT
+    case UPLOAD_IMG: {
+      next(action);
+      const { imageType } = store.getState().image;
+      const imgType = imageType.find((val) => val.name === 'Gallery');
+      // action.payload.user = store.getState().user.loggedInUser.user.id;
+      action.payload.imageType = imgType.id;
+      const {
+        pageID, userID, uploadAction, smallLoader, lastImage,
+      } = action.payload;
+      delete action.payload.pageID;
+      delete action.payload.uploadAction;
+      delete action.payload.smallLoader;
+      if (smallLoader) {
+        store.dispatch({
+          type: SPINNER_SMALL,
+          payload: {
+            [smallLoader]: true,
+          },
+        });
+      } else {
+        store.dispatch({
+          type: SPINNER_ON,
+        });
+      }
+      api.image.addImage(action.payload, '')
+        .then(async (res) => {
+          if (uploadAction === 'photos' ||
+            uploadAction === 'floorPlans' ||
+            uploadAction === 'contactAvatar') {
+            let coverPhoto;
+
+            const img = store.getState().brixelForm.Property.values.photos || [];
+            const plan = store.getState().brixelForm.Property.values.floorPlans || [];
+
+            if (uploadAction === 'photos') {
+              if (has(store.getState(), 'brixelForm.Property.values.coverPhoto.url')) {
+                coverPhoto = get(store.getState(), 'brixelForm.Property.values.coverPhoto', null);
+              } else {
+                coverPhoto = res.data;
+              }
+              // coverPhoto = Object.keys(store.getState().form.Property.values.coverPhoto).length > 0 ? store.getState().form.Property.values.coverPhoto : res.data;
+              img.push(res.data);
+            }
+            if (uploadAction === 'floorPlans') {
+              plan.push(res.data);
+            }
+            if (lastImage) {
+              const data = {
+                id: pageID,
+                coverPhoto,
+                photos: img,
+                floorPlans: plan,
+                smallLoader,
+              };
+              store.dispatch({
+                type: SAVE_ACTIVE_SINGLE_PROPERTY,
+                payload: data,
+                setSuccessNotification: true,
+              });
+            }
+          } else if (uploadAction === 'singleUserAvatar') {
+            let userAvatar = store.getState().brixelForm.User.values.avatar[0];
+
+            userAvatar = res.data;
+
+            const userData = {
+              userID,
+              data: {
+                avatar: userAvatar.id,
+                type: 'singleUserAvatar',
+                fullAvatar: userAvatar,
+              },
+            };
+            store.dispatch({ type: SAVE_ACTIVE_SINGLE_USER, payload: userData });
+          }
+          if (smallLoader) {
+            store.dispatch({
+              type: SPINNER_SMALL,
+              payload: {
+                [smallLoader]: false,
+              },
+            });
+          } else {
+            store.dispatch({
+              type: SPINNER_OFF,
+            });
+          }
+        })
+        .catch(() => {
+          if (smallLoader) {
+            store.dispatch({
+              type: SPINNER_SMALL,
+              payload: {
+                [smallLoader]: false,
+              },
+            });
+          } else {
+            store.dispatch({
+              type: SPINNER_OFF,
+            });
+          }
+        });
+
+      break;
+    }
     // DISPATCH TO DELETE IMG - IMAGE ID
     case DELETE_IMG: {
       next(action);
@@ -69,6 +268,8 @@ const checkCommon = (store) => (next) => (action) => {
         type,
         smallLoader,
       } = action.payload;
+      const arrayImg = store.getState().brixelForm.Property.values[action.payload.type];
+      const idImg = arrayImg.findIndex((val) => val.id === action.payload.id);
       if (smallLoader) {
         store.dispatch({
           type: SPINNER_SMALL,
