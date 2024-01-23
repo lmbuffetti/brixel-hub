@@ -22,6 +22,7 @@ import type {PhotosPageType} from '../../../@types/Pages/SingleProperty/Media/Ph
 import getUrlImg from '@brixel-io/brixel-components/dist/utils/ImageUrl';
 import multiUpload from '@brixel-io/brixel-components/dist/helpers/uploads/MultiUpload';
 import {spinnerSmall} from '../../../actions/CommonActions';
+import {getActiveSingleProperty} from '../../../actions/PropertyActions';
 
 const Photos = (props: PhotosPageType) => {
   const history = {
@@ -78,11 +79,10 @@ const Photos = (props: PhotosPageType) => {
       photoID: id,
       pageID: get(activeSingleProperty, 'id'),
       type: 'image',
+      smallLoader: 'deleteMedia',
     };
     // eslint-disable-next-line no-alert
-    if (window.confirm('Are you sure you want to delete this item?')) {
-      handleDeleteImg(data);
-    }
+    handleDeleteImg(data);
   };
 
   // DROPZONE SETTINGS
@@ -385,6 +385,7 @@ const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
     dispatch(change('Property', field, value));
   },
+  handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
   handleDeleteImg: bindActionCreators(deleteImg, dispatch),
   handleChangeOrder: bindActionCreators(reorderImages, dispatch),
   handleDeleteDocument: bindActionCreators(deleteDocument, dispatch),
