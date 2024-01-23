@@ -12,11 +12,15 @@ import {
   useOutsideAlerter,
 } from '@brixel-io/brixel-components';
 import translateTo from '../../../utils/translation';
-import {BrixelTextArea, change, ReduxField, reset} from '@brixel-io/brixel-components/dist/form';
+import {BrixelTextArea, change, reset} from '@brixel-io/brixel-components/dist/form';
 import Loading from '../../../components/Loading';
-import {deleteImg, rotateImg, setCoverPhoto} from '../../../actions/UploadActions';
-import {saveActiveSingleProperty} from '../../../actions/PropertyActions';
+import {deleteImg, rotateImg, setCoverPhoto, updateDescriptionImage} from '../../../actions/UploadActions';
+import {getActiveSingleProperty, saveActiveSingleProperty} from '../../../actions/PropertyActions';
 import type {DetailMediaType} from '../../../@types/Pages/SingleProperty/Media/DeatailMedia';
+import {spinnerSmall} from '../../../actions/CommonActions';
+import {fromURLtoBase64} from '@brixel-io/brixel-components/dist/utils/helper';
+import singleUploadCall from '@brixel-io/brixel-components/dist/helpers/uploads/SingleUpload';
+import BrixelButtonPrimary from '@brixel-io/brixel-components/dist/components/BrixelButtonPrimary';
 
 const DetailMedia = (props: DetailMediaType) => {
   const history = {
@@ -26,14 +30,16 @@ const DetailMedia = (props: DetailMediaType) => {
   const match = useParams();
   const {
     formValue,
-    handleRotateImg,
+    handleGetActiveSingleProperty,
+    handleUpdateImageDescription,
     changeFieldValue,
+    handleSpinnerSmall,
     handleDeleteImg,
     isSmallLoading,
     lang,
   } = props;
   // STATE
-  const [rotation, setRotation] = useState(0);
+  const [valueDescription, setValueDescription] = useState('');
   const [idImg, setIdImg] = useState(null);
   const [changeSection] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
@@ -50,6 +56,7 @@ const DetailMedia = (props: DetailMediaType) => {
       if (formValue[mediaType]) {
         const curId = formValue[mediaType].findIndex((img) => img.id === mediaID);
         setIdImg(curId);
+        setValueDescription(formValue[mediaType][curId].description);
       }
     }
   }, [formValue, mediaType, match]);
@@ -70,12 +77,13 @@ const DetailMedia = (props: DetailMediaType) => {
     const foto = cloneDeep(formValue[mediaType]);
     const fotoID = foto.findIndex((item) => item.id === idImg);
     if (fotoID > -1) foto.splice(fotoID, 1);
+    const imgType = mediaType === 'photos' ? 'image' : 'floorPlan';
     const data = {
-      id: mediaID,
+      photoID: mediaID,
       pageID: propID,
-      type: mediaType,
+      type: imgType,
       imgToSave: foto,
-      smallLoader: 'saveData',
+      smallLoader: 'deleteMedia',
     };
     // eslint-disable-next-line no-alert
     handleDeleteImg(data);
@@ -83,17 +91,27 @@ const DetailMedia = (props: DetailMediaType) => {
   };
 
   // FUNCTION TO ROTATE THE IMAGES - FLOOR PLANS
-  const rotateImage = (e) => {
+  const rotateImage = async (e, photo) => {
     if (e) e.preventDefault();
-    const rotate = rotation + 90;
-    const data = {
-      type: mediaType,
-      id: mediaID,
-      rotate: 90,
-      smallLoader: 'saveData',
-    };
-    setRotation(rotate);
-    handleRotateImg(data);
+    if (propID) {
+      handleSpinnerSmall({rotateImg: true});
+      await fromURLtoBase64(photo.url, (res: string) => {
+        const file = {
+          ...photo,
+          type: photo.mimeType,
+          file: res,
+        }
+        const imgType = mediaType === 'photos' ? 'pageImage' : 'floorPlanImage';
+        singleUploadCall(file, imgType, {pageID: propID, companyID: '', imageID: photo.id})
+          .then(() => {
+            handleGetActiveSingleProperty({
+              id: propID,
+              smallLoader: 'rotateImg',
+            })
+            handleSpinnerSmall({[`rotateImg_${photo.id}`]: false});
+          })
+      })
+    }
   };
 
   // FUNCTION TO SET COVER IMAGE
@@ -107,6 +125,21 @@ const DetailMedia = (props: DetailMediaType) => {
       changeFieldValue('coverPhoto', photo);
     }
   };
+
+  // UPDATE DESCRIPTION
+  const updateDescription = (e) => {
+    if (e) e.preventDefault();
+    const type = mediaType === 'image' ? 'image' : 'floorPlan';
+    handleUpdateImageDescription({
+      pageID: propID,
+      imageID: mediaID,
+      type,
+      body: {
+        description: valueDescription,
+      },
+      smallLoader: 'updateDescription',
+    })
+  }
 
   // FUNCTION CLICK OUTSIDE OF IMAGE
   useOutsideAlerter(wrapImg, {
@@ -169,8 +202,8 @@ const DetailMedia = (props: DetailMediaType) => {
                     className="mr-1"
                     ghost
                     icon="rotate"
-                    isLoading={isSmallLoading.saveData}
-                    onClick={(e) => rotateImage(e)}
+                    isLoading={isSmallLoading.rotateImg}
+                    onClick={(e) => rotateImage(e, formValue[mediaType][idImg])}
                   />
                   {
                     confirmDelete ? (
@@ -196,21 +229,27 @@ const DetailMedia = (props: DetailMediaType) => {
                 </div>
               </>
             </div>
-            <ReduxField
-              form="Property"
+            <BrixelTextArea
+              placeholder={translateTo('Describe the photo', lang)}
               input={{
                 name: `${mediaType}[${idImg}].description`,
-                placeholder: translateTo('Describe the photo', lang),
                 type: 'text',
+                value: valueDescription,
+                onChange: (val) => setValueDescription(val),
               }}
-              labels={{
-                label: translateTo('Description', lang),
-              }}
-              component={BrixelTextArea}
-              design={{
-                className: 'p-lg-0 mb-2 txtText700 fweight-400',
-              }}
+              label={translateTo('Description', lang)}
+              className="p-lg-0 mb-2 txtText700 fweight-400"
             />
+            {
+              get(formValue, `[${mediaType}][${idImg}].description`, null) !== valueDescription && (
+                <BrixelButtonPrimary
+                  rounded
+                  isLoading={isSmallLoading.updateDescription}
+                  onClick={(e) => updateDescription(e)}
+                  label="Save description"
+                />
+              )
+            }
           </div>
         </div>
       </div>
@@ -233,10 +272,13 @@ const mapDispatchToProps = (dispatch) => ({
   handleReset(data) {
     dispatch(reset('Property', data));
   },
-  handleRotateImg: bindActionCreators(rotateImg, dispatch),
   handleDeleteImg: bindActionCreators(deleteImg, dispatch),
-  handleSetCoverPhoto: bindActionCreators(setCoverPhoto, dispatch),
+  handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
+  handleRotateImg: bindActionCreators(rotateImg, dispatch),
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
+  handleSetCoverPhoto: bindActionCreators(setCoverPhoto, dispatch),
+  handleSpinnerSmall: bindActionCreators(spinnerSmall, dispatch),
+  handleUpdateImageDescription: bindActionCreators(updateDescriptionImage, dispatch),
 });
 
 export default compose(
