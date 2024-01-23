@@ -11,7 +11,7 @@ import {setModal, spinnerOff, spinnerSmallOff} from '../../../../actions/CommonA
 import {getActiveSingleCompany} from '../../../../actions/CompanyActions';
 import {getActiveSingleDeal, getBuyerDeal, saveMakeOffer} from '../../../../actions/DealActions';
 import {getActiveSingleProperty} from '../../../../actions/PropertyActions';
-import {multiUploadDocument} from '../../../../actions/UploadActions';
+import multiUploadDocument from '@brixel-io/brixel-components/dist/helpers/uploads/MultiUpload';
 import {sendUserScanTrial} from '../../../../actions/UserActions';
 import {MakeOfferQuestions} from '../../../../resources/Deals/MakeOffer';
 import {getCookie, setCookie} from '../../../../utils/helpers';
@@ -36,7 +36,6 @@ const MakeOffer = (props: MakeOfferType) => {
     handleSpinnerSmallOff,
     handleGetActiveSingleProperty,
     handleGetBuyerDeal,
-    handleMultiUploadDocument,
     handleSaveMakeOffer,
     handleSetModal,
     initForm,
@@ -145,7 +144,7 @@ const MakeOffer = (props: MakeOfferType) => {
   // FUNCTION TO SAVE DATA
   const saveData = () => {
     const doc = get(formValue, 'document', []);
-    const docs = get(formValue, 'documents', doc);
+    const docs: any = get(formValue, 'documents', doc);
     // eslint-disable-next-line no-return-assign
     docs.forEach((_item, i) => set(docs[i], 'user', get(loggedInUser, 'id', undefined)));
     const dataDocuments = {
@@ -177,7 +176,12 @@ const MakeOffer = (props: MakeOfferType) => {
       } else {
         setIsToSave(false);
         if (docs.length > 0) {
-          handleMultiUploadDocument(data);
+          multiUploadDocument(docs, 'genericDocument', {pageID: activeSingleProperty.id, companyID: ''})
+            .then((res) => {
+              data.documents = res;
+              delete data.document;
+              handleSaveMakeOffer(data);
+            })
         } else {
           handleSaveMakeOffer(data);
         }
@@ -274,7 +278,6 @@ const mapDispatchToProps = (dispatch) => ({
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
   handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
   handleGetBuyerDeal: bindActionCreators(getBuyerDeal, dispatch),
-  handleMultiUploadDocument: bindActionCreators(multiUploadDocument, dispatch),
   handleSaveMakeOffer: bindActionCreators(saveMakeOffer, dispatch),
   handleSendScanTrial: bindActionCreators(sendUserScanTrial, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),

@@ -33,7 +33,6 @@ export interface MakeOfferType {
   handleGetActiveSingleCompany: (data: object) => void;
   handleGetActiveSingleProperty: (data: object) => void;
   handleGetBuyerDeal: (data: object) => void;
-  handleMultiUploadDocument: (data: object) => void;
   handleReset: (data: object) => void;
   handleSaveMakeOffer: (data: object) => void;
   handleSetModal: (data: object) => void;
