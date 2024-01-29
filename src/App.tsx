@@ -227,11 +227,11 @@ const App = (props: AppType) => {
   }
 
   const showCustomerSatisfactionFunc = () => {
-    return (!history.location.pathname.includes('scheduleVisit') && !history.location.pathname.includes('packageFlow') && getCookie('brixelBuyerPackage') !== 'true' && getCookie('brixelBuyerPackage') !== true);
+    return (history.location.pathname.includes('buy') && !history.location.pathname.includes('scheduleVisit') && !history.location.pathname.includes('packageFlow') && getCookie('brixelBuyerPackage') !== 'true' && getCookie('brixelBuyerPackage') !== true);
   }
 
   const buyerPackageFunc = () => {
-    if (!showCustomerSatisfaction && !isTodayFunc() && getCookie('brixelBuyerPackage') !== 'true') {
+    if (!showCustomerSatisfaction && !isTodayFunc() && getCookie('brixelBuyerPackage') !== 'true' && activeSingleCompany?.type && activeSingleCompany?.type !== 'partner') {
       const interval = 30;
       let countdown = interval;
       if (!localStorage.brixelSatisfactionEndTime) {
