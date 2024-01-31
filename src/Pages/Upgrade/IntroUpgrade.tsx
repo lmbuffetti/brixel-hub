@@ -364,7 +364,7 @@ const IntroUpgrade = (props: IntroUpgradeType) => {
                                       {translateTo('You only pay if the property is sold.', lang)}</span>
                                     <ul className="checked mt-2 txtText900">
                                       <li>{translateTo('Clarification of the existing mortgage', lang)}</li>
-                                      <li>{translateTo('Baloise gives you as a customer CHF 1,000 as a gift', lang)}</li>
+                                      <li>{translateTo('Baloise gives you as a customer CHF 2,000 as a gift', lang)}</li>
                                       <li>{translateTo('Information on inheritance and estate planning', lang)}</li>
                                     </ul>
                                   </>
