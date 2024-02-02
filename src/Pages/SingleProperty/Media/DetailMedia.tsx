@@ -128,7 +128,7 @@ const DetailMedia = (props: DetailMediaType) => {
   // UPDATE DESCRIPTION
   const updateDescription = (e) => {
     if (e) e.preventDefault();
-    const type = mediaType === 'image' ? 'image' : 'floorPlan';
+    const type = mediaType === 'photos' ? 'image' : 'floorPlan';
     handleUpdateImageDescription({
       pageID: propID,
       imageID: mediaID,
