@@ -11,6 +11,7 @@ import type {SearchProfileFormType} from '../../../@types/Pages/Market/SearchPro
 import {QuestionsListType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 const SearchProfileForm = (props: SearchProfileFormType) => {
+  const [isReady, setIsReady] = useState(false);
   const match = useParams();
   const idSearchProfile = get(match, 'id', null);
   const {
@@ -57,7 +58,7 @@ const SearchProfileForm = (props: SearchProfileFormType) => {
       if (!initialValue.isDefault) initialValue.isDefault = false;
       initForm(initialValue);
     }
-  }, [userSearchProfiles]);
+  }, [userSearchProfiles, isReady]);
 
   useEffect(() => {
     const inputform: QuestionsListType[] = [];
@@ -72,6 +73,8 @@ const SearchProfileForm = (props: SearchProfileFormType) => {
       });
     });
     setFullForm(inputform);
+    // Delay on init form is necessary to be sure to load updated data
+    setTimeout(() => {setIsReady(true)}, 100)
   }, [formValue]);
 
   return (
