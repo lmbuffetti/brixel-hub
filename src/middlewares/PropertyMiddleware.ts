@@ -290,7 +290,7 @@ const checkCommon = (store) => (next) => (action) => {
               store.dispatch({ type: CREATE_ESTIMATION, payload: estimationPayload });
             }
             if (sendNotification) store.dispatch({ type: SEND_PROESTIMATION_NOTIFICATION, payload: { id: estimationId } });
-            store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: res.data });
+            store.dispatch({ type: GET_ACTIVE_SINGLE_PROPERTY, payload: {id: id, smallLoader: smallLoader }});
             if (setSuccessNotification) {
               store.dispatch({
                 type: SET_SCREEN_NOTIFICATION,
@@ -497,7 +497,7 @@ const checkCommon = (store) => (next) => (action) => {
       }
       api.property.changePortalsReview(page, status)
         .then((res) => {
-          store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: res.data });
+          store.dispatch({ type: GET_ACTIVE_SINGLE_PROPERTY, payload: { id: res?.data?.id, smallLoader: smallLoader }});
           if (smallLoader) {
             store.dispatch({
               type: SPINNER_SMALL,
@@ -531,7 +531,7 @@ const checkCommon = (store) => (next) => (action) => {
       }
       api.property.changePublishReview(page, status)
         .then((res) => {
-          store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: res.data });
+          store.dispatch({ type: GET_ACTIVE_SINGLE_PROPERTY, payload: { id: res?.data?.id, smallLoader: smallLoader }});
           if (smallLoader) {
             store.dispatch({
               type: SPINNER_SMALL,
