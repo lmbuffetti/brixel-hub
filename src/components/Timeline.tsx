@@ -240,6 +240,17 @@ const Timeline = (props: TimelineType) => {
     },
   });
 
+  const parseNote = (text, show, index) => {
+    let textConverted = Truncate(text, 62, (show.id === index && show.active));
+    textConverted = textConverted.replace(/(?:\r\n|\r|\n)/g, '<br>');
+
+    const expMatch = /(\b(https?|):\/\/[-A-Z0-9+&@#\\/%?=~_|!:,.;]*[-A-Z0-9+&@#\\/%=~_|])/ig;
+    const elementContent = textConverted.replace(expMatch, '<a target="_blank" href="$1">$1</a>');
+    const newExpMatch = /(^|[^\\/])(www\.[\S]+(\b|$))/gim;
+    const newContent = elementContent.replace(newExpMatch, '$1<a target="_blank" href="http://$2">$2</a>');
+    return newContent;
+  };
+
   const collapseNote = () => {
     if (notBtnEl) notBtnEl.classList.add('clicked');
     document.getElementsByClassName('rdw-editor-toolbar')[0].classList.remove('hide');
@@ -366,7 +377,7 @@ const Timeline = (props: TimelineType) => {
                             <span
                               className="description"
                               dangerouslySetInnerHTML={{
-                                __html: (Truncate(get(event, 'content', ''), 62, (showFullNote.id === i && showFullNote.active)).replace(/(?:\r\n|\r|\n)/g, '<br>')),
+                                __html: parseNote(get(event, 'content', ''), showFullNote, i),
                               }}
                             />
                           )

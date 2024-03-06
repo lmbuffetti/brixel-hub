@@ -6,7 +6,7 @@ import {configureStore} from '../store';
 import {InputSheets} from '../resources/SingleProperty/inputSheets';
 import {BestimateQuestions} from '../resources/Flows/Bestimate';
 import {QuestionInputType, QuestionsListType} from '@brixel-io/brixel-components/dist/@types/Model';
-import {FactsOptions} from '@brixel-io/brixel-components';
+import {FactsOptions, Helpers} from '@brixel-io/brixel-components';
 
 const { factsOptions } = FactsOptions;
 
@@ -187,11 +187,13 @@ export const removeCookie = (key) => {
 
 export const Truncate = (text, limit, showAllDescription = false) => {
   let txt = text;
-  if (txt.length > limit && !showAllDescription) {
-    txt = `${txt.substr(0, limit).replace(/\s/g, '')}...`;
-  } else if (txt.length > limit && showAllDescription) {
-    txt = `${txt}`;
-  }
+  if (txt && txt.length > 0) {
+    if (txt.length > limit && !showAllDescription) {
+      txt = Helpers.sanitizeText(`${(txt.substr(0, limit).replace(/\s$/, ''))}...`);
+    } else if (txt.length > limit && showAllDescription) {
+      txt = `${Helpers.sanitizeText(txt)}`;
+    }
+  } else { txt = ''; }
   return txt;
 };
 
