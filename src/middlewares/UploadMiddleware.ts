@@ -9,12 +9,14 @@ import {
   UPDATE_DOCUMENT,
   REORDER_IMAGES,
   UPDATE_DESCRIPTION_IMAGE,
+  UPDATE_PAGE_DOCUMENT,
+  REORDER_PAGE_DOCUMENTS,
 } from '../actions/types/UploadTypes';
 
 import {GET_ACTIVE_SINGLE_PROPERTY, SAVE_ACTIVE_SINGLE_PROPERTY} from '../actions/types/PropertyTypes';
 
 import api from '../controllers/api/config';
-import {REQUEST_DONE, SPINNER_OFF, SPINNER_ON, SPINNER_SMALL} from '../actions/types/CommonTypes';
+import {REQUEST_DONE, SPINNER_OFF, SPINNER_ON, SPINNER_SMALL, SET_SCREEN_NOTIFICATION} from '../actions/types/CommonTypes';
 import {SAVE_CLOSING_IDENTIFICATION} from '../actions/types/DealTypes';
 
 const checkCommon = (store) => (next) => (action) => {
@@ -151,7 +153,167 @@ const checkCommon = (store) => (next) => (action) => {
         })
       break;
     }
+    case REORDER_PAGE_DOCUMENTS: {
+      const {
+        data,
+        pageID,
+        smallLoader,
+      } : {
+        data: object,
+        pageID: string,
+        type: 'image' | 'floorPlan' | 'additionalRoomPhoto',
+        smallLoader: string,
+      } = action.payload;
+      if (smallLoader) {
+        store.dispatch({
+          type: SPINNER_SMALL,
+          payload: {
+            [smallLoader]: true,
+          },
+        });
+      } else {
+        store.dispatch({
+          type: SPINNER_ON,
+        });
+      }
+      const dataPage = {
+        id: pageID,
+        smallLoader: smallLoader,
+      }
+      api.image.orderPageDocuments(pageID, data)
+        .then(() => {
+          store.dispatch({type: GET_ACTIVE_SINGLE_PROPERTY, payload: dataPage});
+          if (smallLoader) {
+            store.dispatch({
+              type: SPINNER_SMALL,
+              payload: {
+                [smallLoader]: false,
+              },
+            });
+          } else {
+            store.dispatch({
+              type: SPINNER_ON,
+            });
+          }
+        })
+        .catch(() => {
+          store.dispatch({
+            type: SET_SCREEN_NOTIFICATION,
+            payload: {
+              state: true,
+              label: 'An error ocurred while saving the new documents order',
+              type: 'alert',
+            },
+          });
+          store.dispatch({type: GET_ACTIVE_SINGLE_PROPERTY, payload: dataPage});
+          if (smallLoader) {
+            store.dispatch({
+              type: SPINNER_SMALL,
+              payload: {
+                [smallLoader]: false,
+              },
+            });
+          } else {
+            store.dispatch({
+              type: SPINNER_OFF,
+            });
+          }
+        })
+      break;
+    }
+    case UPDATE_PAGE_DOCUMENT: {
+      next(action);
+      const {
+        documentIds,
+        pageID,
+        smallLoader,
+      } = action.payload;
+      delete action.payload.pageID;
+      delete action.payload.user;
+      delete action.payload.body.mimeType;
+      if (smallLoader) {
+        store.dispatch({
+          type: SPINNER_SMALL,
+          payload: {
+            [smallLoader]: true,
+          },
+        });
+      } else {
+        store.dispatch({
+          type: SPINNER_ON,
+        });
+      }
+      delete action.payload.body.url;
+      delete action.payload.documentIds;
+      const dataPage = {
+        id: pageID,
+        smallLoader: smallLoader,
+      }
+      const {body} = action.payload;
+      // Remove data that is not needed and could create issues
+      delete body.user;
+      delete body.loadUrl;
+      delete body.url;
+      api.image.updatePageDocument(pageID, body)
+        .then(() => {
+          if (documentIds) {
+            const pageDocsReorder = {
+              pageID: pageID,
+              smallLoader: smallLoader,
+              data: {
+                documentIds: [...new Set(documentIds)],
+              },
+            }
+            store.dispatch({type: REORDER_PAGE_DOCUMENTS, payload: pageDocsReorder});
+          } else {
+            store.dispatch({type: GET_ACTIVE_SINGLE_PROPERTY, payload: dataPage});
+            if (smallLoader) {
+              store.dispatch({
+                type: SPINNER_SMALL,
+                payload: {
+                  [smallLoader]: false,
+                },
+              });
+              store.dispatch({
+                type: SPINNER_SMALL,
+                payload: {
+                  saveData: true,
+                },
+              });
+            } else {
+              store.dispatch({
+                type: SPINNER_OFF,
+              });
+            }
+          }
+        })
+        .catch(() => {
+          store.dispatch({
+            type: SET_SCREEN_NOTIFICATION,
+            payload: {
+              state: true,
+              label: 'An error ocurred while saving the document',
+              type: 'alert',
+            },
+          });
+          store.dispatch({type: GET_ACTIVE_SINGLE_PROPERTY, payload: dataPage});
+          if (smallLoader) {
+            store.dispatch({
+              type: SPINNER_SMALL,
+              payload: {
+                [smallLoader]: false,
+              },
+            });
+          } else {
+            store.dispatch({
+              type: SPINNER_OFF,
+            });
+          }
+        });
+      break;
+    }
     // DISPATCH TO SINGLE IMAGES - DOCUMENT OBJECT
+
     case DELETE_DOCUMENT: {
       next(action);
       const {

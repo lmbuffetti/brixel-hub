@@ -38,6 +38,16 @@ class Upload extends Base {
     return this.apiClient.put(url, { action: onUploading }, data);
   }
 
+  orderPageDocuments(id, data) {
+    const url = ep.upload.reorderDocument(id);
+    return this.apiClient.put(url, {}, data);
+  }
+
+  updatePageDocument(id, data) {
+    const url = ep.upload.updatePageDocument(id);
+    return this.apiClient.patch(url, {}, data);
+  }
+
   deletePageDocument(id, docID) {
     const url = ep.upload.deletePageDocument(id, docID);
     return this.apiClient.delete(url, {

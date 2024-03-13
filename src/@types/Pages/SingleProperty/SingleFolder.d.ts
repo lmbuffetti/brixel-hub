@@ -3,8 +3,11 @@ import {DocumentType, PropertyType} from '@brixel-io/brixel-components/dist/@typ
 export interface SingleFolderType {
   activeSingleProperty: PropertyType;
   changeFieldValue: (field: string, value: any) => void;
+  changeFieldValueDocs: (field: string, value: any) => void;
+  destroyForm: () => void;
   formValue: DocumentType;
   handleUpdateDocument: (data: object) => void;
+  handleSmallLoader: (data: object) => void;
   initForm: (val: object) => void;
   initialValues: DocumentType;
   isRequestDone: boolean;

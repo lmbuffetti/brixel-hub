@@ -50,3 +50,13 @@ export interface AppType {
   };
   translations: object;
 }
+
+export interface HelperType {
+  id?: string | number
+  type?: string
+  active?: boolean
+  label?: string
+  value?: string | number
+  name?: string
+  stub?: string
+}

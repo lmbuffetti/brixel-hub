@@ -96,6 +96,8 @@ export default {
     singleImage: (id) => `/image/${id}`,
     // DOCUMENTS
     deletePageDocument: (pageID, docID) => `/page/${pageID}/document/${docID}`,
+    updatePageDocument: (pageID) => `page/${pageID}/document/update`,
+    reorderDocument: (pageID) => `page/${pageID}/document/order`,
     // Photos
     orderImages: (pageID, type) => `/page/${pageID}/${type}/order`,
     deletePageImages: (pageID, type, imgID) => `/page/${pageID}/${type}/${imgID}`,

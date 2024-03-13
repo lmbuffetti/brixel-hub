@@ -22,7 +22,7 @@ const ScheduleVisit = lazy(() => import('./ScheduleVisit/ScheduleVisit'));
 
 const DealsDashboardBuyer = lazy(() => import('./DealsDashboardBuyer'));
 
-const Documents = lazy(() => import('../../SingleProperty/Documents'));
+const DocumentsBuyer = lazy(() => import('../../SingleProperty/Documents/DocumentsBuyer'));
 
 const Financing = lazy(() => import('./Financing'));
 
@@ -144,7 +144,7 @@ const Dashboard = (props: DashboardType) => {
               <Route path="/home" element={<DashboardHome />} />
               <Route path="/property/*" element={<PropertyBuyerDashboard />} />
               <Route path="/scheduleVisit/*" element={<ScheduleVisit />} />
-              <Route path="/docubox" element={<Documents isBuyer={true} />} />
+              <Route path="/docubox" element={<DocumentsBuyer />} />
               <Route path="/financing" element={<Financing />} />
               <Route path="/closing/*" element={<DealsDashboardBuyer />} />
               <Route path="*" element={<Navigate to={`/buyer/${propID}/home`} />} />

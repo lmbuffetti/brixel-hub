@@ -1,16 +1,16 @@
-import {DocumentType, PropertyType} from '@brixel-io/brixel-components/dist/@types/Model';
+import { PropertyType, DocumentType } from '@brixel-io/brixel-components/dist/@types/Model';
 
 export interface SingleDocumentType {
-  activeSingleProperty: PropertyType;
-  handleUpdateDocument: (data: object) => void;
-  initialValues: PropertyType;
-  isRequestDone: boolean;
+  activeSingleProperty: PropertyType
+  changeFieldValue: (field: string, value: string | object | Array) => void
+  formValue: DocumentType
+  lang: string
+  handleUpdateDocument:(data: object) => void
+  initForm:(data: object) => void
+  setRequestDone:(data: boolean) => void
+  initialValues: DocumentType
   isSmallLoading: {
-    saveData: boolean;
-  };
-  setRequestDone: (val: boolean) => void;
-  initForm: (val: object) => void;
-  changeFieldValue: (field: string, val: string | null | boolean | string[] | object | number) => void;
-  formValue: DocumentType;
-  lang: string;
+    updateDoc: boolean
+    saveData: boolean
+  }
 }

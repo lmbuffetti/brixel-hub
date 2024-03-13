@@ -5,6 +5,7 @@ import {
   BrixelRadioButton,
   BrixelSelect,
   change,
+  destroy,
   initializeForm,
   ReduxField,
 } from '@brixel-io/brixel-components/dist/form';
@@ -16,13 +17,13 @@ import uniqBy from 'lodash/uniqBy';
 import {connect} from 'react-redux';
 import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import {bindActionCreators, compose} from 'redux';
-import {requestDone} from '../../actions/CommonActions';
-import {updateDocument} from '../../actions/UploadActions';
+import {requestDone, spinnerSmall} from '../../../actions/CommonActions';
+import {updatePageDocument} from '../../../actions/UploadActions';
 
 // COMPONENTS
-import SplashScreen from '../../components/SplashScreen';
-import translateTo from '../../utils/translation';
-import type {SingleFolderType} from '../../@types/Pages/SingleProperty/SingleFolder';
+import SplashScreen from '../../../components/SplashScreen';
+import translateTo from '../../../utils/translation';
+import type {SingleFolderType} from '../../../@types/Pages/SingleProperty/SingleFolder';
 import {DocumentType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 const SingleFolder = (props: SingleFolderType) => {
@@ -33,15 +34,15 @@ const SingleFolder = (props: SingleFolderType) => {
   const match = useParams();
   const {
     activeSingleProperty,
+    destroyForm,
     changeFieldValue,
+    changeFieldValueDocs,
     formValue,
     handleUpdateDocument,
+    handleSmallLoader,
     initialValues,
-    initForm,
-    isRequestDone,
     isSmallLoading,
     lang,
-    setRequestDone,
   } = props;
 
   const [activeDocument, setActiveDocument] = useState<DocumentType>();
@@ -50,18 +51,11 @@ const SingleFolder = (props: SingleFolderType) => {
 
   const docID = get(match, 'docID', null);
 
-  useEffect(() => () => setRequestDone(false), []);
-
   useEffect(() => {
-    if (activeSingleProperty.documents) {
-      const currentDoc = activeSingleProperty.documents.find((doc) => doc.id === docID);
-      if (currentDoc && currentDoc.id !== formValue.id) {
-        if (currentDoc.folder && currentDoc.folder.toLowerCase() !== 'nofolder') setFolderAction('addToFolder');
-        if (currentDoc.folder && currentDoc.folder.toLowerCase() === 'nofolder') currentDoc.folder = '';
-        initForm(currentDoc);
-      }
+    return () => {
+      destroyForm();
     }
-  }, [activeSingleProperty.id, folderAction]);
+  }, []);
 
   useEffect(() => {
     const folderArrayAux: string[] = [];
@@ -93,31 +87,36 @@ const SingleFolder = (props: SingleFolderType) => {
   }, [activeSingleProperty.updatedAt, formValue]);
 
   useEffect(() => {
-    if (isSmallLoading.saveData === false && isRequestDone) {
-      history.push(`/${activeSingleProperty.id}/docubox`);
+    if (isSmallLoading.saveData === true) {
+      handleSmallLoader({saveData: false});
+      history.push(`/${activeSingleProperty.id}/property/docubox`);
     }
   }, [isSmallLoading]);
 
   // UPDATE DOCUMENTS
   const updateDoc = (e) => {
     e.preventDefault();
-    if (activeDocument) {
-      const docList = activeSingleProperty.documents;
-      const data = {
-        pageID: activeSingleProperty.id,
-        id: activeDocument.id,
-        docs: docList,
-        body: {
-          name: formValue.name,
-          isPrivate: (formValue.isPrivate === 1 || formValue.isPrivate === true) ? true : false,
-          folder: formValue.folder,
-          path: activeDocument.path,
-          type: formValue.type,
-        },
-        smallLoader: 'saveData',
-      };
-      handleUpdateDocument(data);
-      setDocumentFolders([]);
+    if (activeSingleProperty?.documents && activeDocument) {
+      const indexDoc = activeSingleProperty?.documents.findIndex((el) => el.id === activeDocument.id);
+      const docUp =[...activeSingleProperty.documents];
+      docUp[indexDoc].folder = formValue.folder;
+      changeFieldValueDocs('documents', docUp);
+      if (activeDocument) {
+        const upDoc: any = activeDocument;
+        delete upDoc.createdAt;
+        upDoc.user = upDoc?.user?.id;
+        delete upDoc.loadUrl;
+        delete upDoc.url;
+        const data = {
+          pageID: activeSingleProperty.id,
+          body: {
+            id: activeDocument.id,
+            folder: formValue.folder,
+          },
+          smallLoader: 'editDocument',
+        };
+        handleUpdateDocument(data);
+      }
     }
   };
 
@@ -144,7 +143,7 @@ const SingleFolder = (props: SingleFolderType) => {
                   className='pos-a-fix x-r-2'
                   theme="black"
                   onClick={() => {
-                    history.push(`/${activeSingleProperty.id}/docubox`);
+                    history.push(`/${activeSingleProperty.id}/property/docubox`);
                   }}
                 />
               </div>
@@ -253,7 +252,7 @@ const SingleFolder = (props: SingleFolderType) => {
                   rounded
                   label={translateTo('Cancel', lang)}
                   onClick={() => {
-                    history.push(`/${activeSingleProperty.id}/docubox`);
+                    history.push(`/${activeSingleProperty.id}/property/docubox`);
                   }}
                 />
                 <BrixelButtonPrimary
@@ -288,10 +287,17 @@ const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
     dispatch(change('SingleFolder', field, value));
   },
+  changeFieldValueDocs(field, value) {
+    dispatch(change('Property', field, value));
+  },
   initForm(value) {
     dispatch(initializeForm('SingleFolder', value));
   },
-  handleUpdateDocument: bindActionCreators(updateDocument, dispatch),
+  destroyForm() {
+    dispatch(destroy('SingleFolder'));
+  },
+  handleSmallLoader: bindActionCreators(spinnerSmall, dispatch),
+  handleUpdateDocument: bindActionCreators(updatePageDocument, dispatch),
   setRequestDone: bindActionCreators(requestDone, dispatch),
 });
 

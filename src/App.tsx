@@ -89,8 +89,8 @@ const ProEstimationFlow = lazy(() => import('./Pages/SingleProperty/ProEstimatio
 
 const BrixelModalFullScreen = lazy(() => import('./components/BrixelModalFullScreen'));
 
-const SingleDocument = lazy(() => import('./Pages/SingleProperty/SingleDocument'));
-const SingleFolder = lazy(() => import('./Pages/SingleProperty/SingleFolder'));
+const SingleDocument = lazy(() => import('./Pages/SingleProperty/Documents/SingleDocument'));
+const SingleFolder = lazy(() => import('./Pages/SingleProperty/Documents/SingleFolder'));
 
 const CreateDeal = lazy(() => import('./Pages/Deals/CreateDeal'));
 const VisitFeedback = lazy(() => import('./Pages/Deals/VisitFeedback'));

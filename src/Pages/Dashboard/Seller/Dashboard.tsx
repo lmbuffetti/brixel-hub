@@ -38,7 +38,7 @@ const Deals = lazyWithRetry(() => import('../../Deals/Deals'));
 
 const EmptyProperty = lazyWithRetry(() => import('./EmptyProperty'));
 
-const Documents = lazyWithRetry(() => import('../../SingleProperty/Documents'));
+const DocumentsSeller = lazyWithRetry(() => import('../../SingleProperty/Documents/DocumentsSeller'));
 
 const DashboardOffer = lazyWithRetry(() => import('../../Closing/Offers/DashboardOffer'));
 
@@ -274,7 +274,7 @@ const Dashboard = (props: DashboardType) => {
             <Routes>
               <Route path="/home" element={<DashboardHome />} />
               <Route path="/property/*" element={<PropertyDashboard />} />
-              <Route path="/docubox/*" element={<Documents />} />
+              <Route path="/docubox/*" element={<DocumentsSeller />} />
               <Route path="/marketing" element={<MarketingDashboard />} />
               <Route path="/prospects/*" element={<Deals />} />
               <Route path="/closing/*" element={<DashboardOffer />} />
