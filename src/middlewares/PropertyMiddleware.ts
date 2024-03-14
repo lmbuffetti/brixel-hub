@@ -686,7 +686,7 @@ const checkCommon = (store) => (next) => (action) => {
           type: SPINNER_ON,
         });
       }
-      const queryParams = `?order=${order || 'updatedAt'}&direction=${direction || 'DESC'}`;
+      const queryParams = `?order=${order || 'visit'}&direction=${direction || 'DESC'}`;
       api.property.getPageDeals(id, queryParams)
         .then((response) => {
           const calls = [];
