@@ -38,7 +38,6 @@ import EmptyHubImg from '../../images/emptyHub.svg';
 import marketSkeltonMobile from '../../images/Market/skeletonCardMobile.svg';
 // images
 import skeletonOwnCard from '../../images/Market/skeletonOwnCard.svg';
-import ArticlesList from '../../resources/Dashboard/homeArticles';
 import {getCookie, setCookie} from '../../utils/helpers';
 import translateTo from '../../utils/translation';
 import type {MarketCategoryListSellerType} from '../../@types/Pages/Market/MarketCategoryListSeller';
@@ -88,7 +87,6 @@ const MarketCategoryListSeller = (props: MarketCategoryListSellerType) => {
   const [propertyId, setPropertyId] = useState<string>();
   const [activeCompanyId, setActiveCompanyId] = useState<string>();
   const [filteredPackages, setFilteredPackages] = useState<ServicePackageType[]>([]);
-  const [artByCountry, setArtByCountry] = useState(ArticlesList.default);
 
   useEffect(() => {
     setBestimateMessage(marketCookie === 'true');
@@ -205,13 +203,6 @@ const MarketCategoryListSeller = (props: MarketCategoryListSellerType) => {
       if (catList) catList.classList.remove('market-listings');
     };
   }, []);
-
-  useEffect(() => {
-    if (activeSingleCompany.id) {
-      const actCountry = get(activeSingleCompany, 'country.code', '').toLowerCase();
-      setArtByCountry(ArticlesList[actCountry] || ArticlesList.default);
-    }
-  }, [activeSingleCompany]);
 
   useEffect(() => {
     if (activeCompanyId && !isSmallLoading.pkgComapny) {
@@ -582,34 +573,7 @@ const MarketCategoryListSeller = (props: MarketCategoryListSellerType) => {
         </div>
       </div>
 
-      <div className="mt-6 mt-sm-10">
-        <div className="container">
-          <h4 className="mb-4 fweight-600 txtText900">{translateTo('This may interest you', lang)}</h4>
-
-          <div className="dis-fl-col dis-fl-row-sm a-t flex-wrap">
-            {
-              artByCountry.map((article, i) => (
-                <div
-                  key={`artCnt_${i.toString()}`}
-                  className={`dis-fl-col jc-b a-t w-perc-100 w-perc-sm-50 mb-3 mb-sm-0 ${i % 2 === 0 ? 'pr-0 pr-sm-2' : 'pl-0 pl-sm-2'}`}
-                >
-                  <a className="txtText900 td-u fsize-300 mb-3 dis-b" href={article.url} target="_blank" rel="noreferrer">
-                    <img src={article.img} alt={`Article ${i}`} />
-                  </a>
-                  {article.title && (<h5 className=" fweight-600 mb-1">{translateTo(article.title, lang)}</h5>)}
-                  <p className="mb-2 txtText900">{translateTo(article.desc, lang)}</p>
-                  <a className="txtText900 td-u fsize-300" href={article.url} target="_blank" rel="noreferrer">{translateTo('Read more', lang)}</a>
-                </div>
-              ))
-            }
-          </div>
-
-        </div>
-      </div>
-
-      <span className="mt-4 mb-6 hr lighter" />
-
-      <div className="mb-5 mb-sm-10">
+      <div className="my-5 mb-sm-10">
         <div className="container">
           {
             premiumProperties.total > 0 && (
