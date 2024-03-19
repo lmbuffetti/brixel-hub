@@ -26,7 +26,6 @@ import {
   SEND_VISIT_FEEDBACK,
   SET_ACTIVE_SINGLE_DEAL,
   SET_OFFER_LISTINGS,
-  UPDATE_DEALS_ORDER,
   UPDATE_MULTIPLE_DEALS,
   SET_SCHEDULE_VISIT,
 } from '../actions/types/DealTypes';
@@ -519,54 +518,6 @@ const checkCommon = (store) => (next) => (action) => {
                 label: 'Error archiving the deal',
                 type: 'alert',
               },
-            });
-          }
-        });
-      break;
-    }
-    case UPDATE_DEALS_ORDER: {
-      next(action);
-      const {
-        data,
-        smallLoader,
-      } = action.payload;
-      if (smallLoader) {
-        store.dispatch({
-          type: SPINNER_SMALL,
-          payload: {
-            [smallLoader]: true,
-          },
-        });
-      } else {
-        store.dispatch({
-          type: SPINNER_ON,
-        });
-      }
-      const arr = cloneDeep(data);
-      api.deal.updateMultipleDeals(arr)
-        .then((res) => {
-          if (res.meta.status === 200) {
-            store.dispatch({
-              type: GET_PAGE_DEALS,
-              payload: {
-                id: store.getState().property.activeSingleProperty.id,
-                smallLoader,
-              },
-            });
-            store.dispatch({
-              type: SET_SCREEN_NOTIFICATION,
-              payload: {
-                state: true,
-                label: 'Deals updated',
-                type: 'done',
-              },
-            });
-          } else {
-            // TODO: Should dispatch error state
-          }
-          if (!smallLoader) {
-            store.dispatch({
-              type: SPINNER_OFF,
             });
           }
         });

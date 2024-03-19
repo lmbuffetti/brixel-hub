@@ -12,7 +12,7 @@ import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import {ReactSortable} from 'react-sortablejs';
 import {bindActionCreators, compose} from 'redux';
 import {preventExitFromScreen} from '../../actions/CommonActions';
-import {saveActiveSingleDeal, setActiveSingleDeal, updateDealsOrder} from '../../actions/DealActions';
+import {saveActiveSingleDeal, setActiveSingleDeal} from '../../actions/DealActions';
 import {getPageDeals, setPageDeals} from '../../actions/PropertyActions';
 import DealsCard from '../../components/Cards/DealsCard';
 import DealsTitle from '../../components/DealsTitle';
@@ -36,14 +36,12 @@ const Deals = (props: DealsType) => {
     handleSaveDeal,
     notification,
     resetSingleDeal,
-    saveMultipleDeals,
     setActiveSinglePropertyDeals,
     setPreventExit,
     smallLoader,
     lang,
     windowDimensions,
   } = props;
-  const [movedList, setMovedList] = useState();
   const [processedDeals, setProcessedDeals] = useState<DealsType['activeSinglePropertyDeals']>();
   const [filteredDeals, setFilteredDeals] = useState<DealsType['activeSinglePropertyDeals'] | object>();
   const [emptyDeals, setEmptyDeals] = useState(false);
@@ -159,36 +157,25 @@ const Deals = (props: DealsType) => {
     }
   };
 
-  function dragDocuments(order, key) {
-    if (processedDeals && filteredDeals) {
-      const activeDealsCopy = cloneDeep(processedDeals);
-      if (activeDealsCopy[key].length > order.length) setMovedList(key);
-      activeDealsCopy[key] = order;
-      activeDealsCopy[key].map((deal) => ({...deal, stage: key}));
-      setFilteredDeals((prevState) => ({
-        ...prevState,
-        [key]: activeDealsCopy[key],
-      }));
+  const moveDeal = (card) => {
+    const moveDealID = card.clone.firstChild.getAttribute('data-id');
+    const newDealList = card.to.offsetParent.getAttribute('data-id');
+    const capitalNewDealList = newDealList.charAt(0).toUpperCase() + newDealList.slice(1);
+    let findDeal;
+    Object.keys(activeSinglePropertyDeals).forEach(key => {
+      if (!findDeal) findDeal = activeSinglePropertyDeals[key].data.find((deal) => deal.id === moveDealID);
+    })
+    if (findDeal?.stage?.toLowerCase() !== newDealList.toLowerCase()) {
+      const data = {
+        id: moveDealID,
+        data: {
+          stage: capitalNewDealList,
+        },
+        type: 'reloadDeals',
+      };
+      handleSaveDeal(data);
     }
   }
-
-  useEffect(() => {
-    if (filteredDeals) {
-      const convertKey = {
-        interested: 'Interested',
-        offer: 'Offer',
-        visit: 'Visit',
-      }
-      const activeDealsCopy = cloneDeep(filteredDeals);
-      Object.keys(activeDealsCopy).forEach((key) => {
-        let dealToSave = [...activeDealsCopy[key]];
-        dealToSave = dealToSave.map((deal) => ({ id: deal.id, stage: convertKey[key] }));
-        if (dealToSave.length > activeSinglePropertyDeals[key].total) {
-          saveMultipleDeals({ data: dealToSave, smallLoader: 'loadDeal' });
-        }
-      });
-    }
-  }, [movedList]);
 
   const applyFilter = (_text, _type, _direction, _company, filterModal) => {
     if (processedDeals) {
@@ -327,41 +314,47 @@ const Deals = (props: DealsType) => {
                             (key === activeTab || windowDimensions.width > 768) && (
                               <div
                                 className={`singleCol ${key}`}
+                                data-id={key}
                               >
                                 <ReactSortable
                                   disabled={windowDimensions.width <= 1024}
                                   group="groupName"
                                   list={filteredDeals[key]}
-                                  setList={(order) => dragDocuments(order, key)}
+                                  setList={() => ''}
+                                  onEnd={(card) => moveDeal(card)}
                                 >
                                   {
                                     filteredDeals[key].filter((dl) => dl.active).map((singleDeal, k) => (
-                                      <div
-                                        className={windowDimensions.width > 768 ? 'cur-all-scroll' : ''}
-                                        key={`SingleDeal${k.toString()}`}
-                                      >
-
+                                      <React.Fragment key={`fltDls_${k.toString()}`}>
                                         <div
-                                          id={singleDeal.id}
-                                          className="list-item pos-r"
+                                          className={windowDimensions.width > 768 ? 'cur-all-scroll' : ''}
+                                          key={`SingleDeal${k.toString()}`}
+                                          data-id={key}
                                         >
-                                          <DealsCard
+
+                                          <div
+                                            data-id={singleDeal.id}
                                             id={singleDeal.id}
-                                            avatarImg={singleDeal.user.avatarUrl}
-                                            archOnClick={() => archiveDeal(singleDeal.id, singleDeal.stage, key)}
-                                            archived={!singleDeal.active}
-                                            className={`${!singleDeal.active ? 'bgText25' : 'bgWhite'} dealCard`}
-                                            date={DateTime.fromMillis(singleDeal.updatedAt, { locale: lang }).toFormat('dd LLL yy, H:mm')}
-                                            isNew={get(singleDeal, 'newSeller')}
-                                            isWinner={get(singleDeal, 'winner')}
-                                            name={Helpers.userNameVal(singleDeal.user.firstName, singleDeal.user.lastName, singleDeal.user.name) === 'No Name' ? get(singleDeal.user, 'email', '') : Helpers.userNameVal(singleDeal.user.firstName, singleDeal.user.lastName, singleDeal.user.name)}
-                                            offer={has(singleDeal, 'closing.stageOffer') ? singleDeal.closing.stageOffer : {}}
-                                            parentOnClick={() => openDeal(singleDeal.id)}
-                                            profileId={get(singleDeal, 'user.id', '')}
-                                            stage={singleDeal.stage}
-                                          />
+                                            className="list-item pos-r"
+                                          >
+                                            <DealsCard
+                                              id={singleDeal.id}
+                                              avatarImg={singleDeal.user.avatarUrl}
+                                              archOnClick={() => archiveDeal(singleDeal.id, singleDeal.stage, key)}
+                                              archived={!singleDeal.active}
+                                              className={`${!singleDeal.active ? 'bgText25' : 'bgWhite'} dealCard`}
+                                              date={DateTime.fromMillis(singleDeal.updatedAt, { locale: lang }).toFormat('dd LLL yy, H:mm')}
+                                              isNew={get(singleDeal, 'newSeller')}
+                                              isWinner={get(singleDeal, 'winner')}
+                                              name={Helpers.userNameVal(singleDeal.user.firstName, singleDeal.user.lastName, singleDeal.user.name) === 'No Name' ? get(singleDeal.user, 'email', '') : Helpers.userNameVal(singleDeal.user.firstName, singleDeal.user.lastName, singleDeal.user.name)}
+                                              offer={has(singleDeal, 'closing.stageOffer') ? singleDeal.closing.stageOffer : {}}
+                                              parentOnClick={() => openDeal(singleDeal.id)}
+                                              profileId={get(singleDeal, 'user.id', '')}
+                                              stage={singleDeal.stage}
+                                            />
+                                          </div>
                                         </div>
-                                      </div>
+                                      </React.Fragment>
                                     ))
                                   }
                                 </ReactSortable>
@@ -436,7 +429,6 @@ const mapDispatchToProps = (dispatch) => ({
   handleGetPageDeals: bindActionCreators(getPageDeals, dispatch),
   handleSaveDeal: bindActionCreators(saveActiveSingleDeal, dispatch),
   resetSingleDeal: bindActionCreators(setActiveSingleDeal, dispatch),
-  saveMultipleDeals: bindActionCreators(updateDealsOrder, dispatch),
   setActiveSinglePropertyDeals: bindActionCreators(setPageDeals, dispatch),
   setPreventExit: bindActionCreators(preventExitFromScreen, dispatch),
 });
