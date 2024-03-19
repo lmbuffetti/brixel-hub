@@ -71,7 +71,7 @@ const SingleDocument = (props: SingleDocumentType) => {
 
   useEffect(() => {
     if (isSmallLoading.saveData) {
-      history.push(`/${activeSingleProperty.id}/property/docubox`);
+      history.push(`/${activeSingleProperty.id}/docubox`);
     }
   }, [isSmallLoading]);
 
