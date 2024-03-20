@@ -83,7 +83,7 @@ class Property extends Base {
     return this.apiClient.get(url, {});
   }
 
-  getPropertyVisits(id, order = 'createdAt', direction = 'DESC', quantity = 50, offset = 0) {
+  getPropertyVisits(id, order = 'visit', direction = 'DESC', quantity = 50, offset = 0) {
     const url = ep.property.visitsList(id, order, direction, quantity, offset);
     return this.apiClient.get(url, {});
   }

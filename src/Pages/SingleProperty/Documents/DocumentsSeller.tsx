@@ -821,7 +821,7 @@ const Documents = (props: DocumentsPageType) => {
                                               delay={2}
                                               group="groupName"
                                               removeCloneOnHide={false}
-                                              list={cloneDeep(documents?.filter((dc) => dc.folder === 'docList'))}
+                                              list={cloneDeep(documents?.filter((dc) => dc.folder === 'docList')) || []}
                                               setList={(docs) => dragDocuments(docs, docList)}
                                               onStart={() => setIsMovingFolder(true)}
                                               onEnd={() => setIsMovingFolder(false)}
