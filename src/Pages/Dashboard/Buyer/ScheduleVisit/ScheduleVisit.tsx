@@ -323,16 +323,19 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
                       <div className="bgGreen50 brdRadius shadow-1dp mb-4 a-t a-c-sm py-3 py-sm-5 px-2 px-sm-4 dis-fl-col dis-fl-row-sm jc-b">
                         <div className="w-perc-100">
                           <h5 className="fweight-600 mb-1">
-                            {translateTo('Give Brixel more details', lang)}
+                            {translateTo('Be the first to visit 🏡', lang)}
                           </h5>
-                          <p className='txtText600 max-w-perc-sm-80'>
-                            {translateTo('Complete your buyer profile in seconds and get ahead of other visitors.', lang)}
+                          <p className="txtText600 max-w-perc-sm-80">
+                            {translateTo('Take a moment to provide us with more details, and get ahead of other buyers.', lang)}
+                          </p>
+                          <p className="txtText600 max-w-perc-sm-80">
+                            {translateTo('By completing your profile now, your visit will be scheduled faster.', lang)}
                           </p>
                         </div>
                         <BrixelButtonPrimary
                           rounded
                           className="ws-nw px-4 mt-2 mt-sm-0 w-perc-100 w-auto-sm"
-                          label={translateTo('Complete profile', lang)}
+                          label={translateTo('Let\'s start', lang)}
                           onClick={() => history.push(`/buyer/${activeSingleProperty.id}/scheduleVisit/${activeScheduleVisit.id}/completeProfileFlow`)}
                         />
                       </div>
