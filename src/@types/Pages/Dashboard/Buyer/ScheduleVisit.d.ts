@@ -25,6 +25,7 @@ export interface ScheduleVisitType {
   changeFieldValue: (data: string, value: any) => void;
   hanldeSaveScheduleVisit: (data: object) => void;
   handleSetModal: (data: object) => void;
+  handleSetSpinner: (data: string, data: string | boolean) => void;
   initForm: (data: object) => void;
   initialValues: FormValueType;
   isSmallLoading: {

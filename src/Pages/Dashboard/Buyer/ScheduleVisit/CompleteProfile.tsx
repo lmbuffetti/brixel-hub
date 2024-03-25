@@ -4,7 +4,7 @@ import get from 'lodash/get';
 import {connect} from 'react-redux';
 import {useParams} from 'react-router-dom';
 import {bindActionCreators, compose} from 'redux';
-import {spinnerOff, spinnerOn, spinnerSmallOff} from '../../../../actions/CommonActions';
+import {setModal, spinnerOff, spinnerOn, spinnerSmallOff} from '../../../../actions/CommonActions';
 import {getActiveSingleCompany} from '../../../../actions/CompanyActions';
 import {
   createActiveSingleProperty,
@@ -44,6 +44,7 @@ const CompleteProfile = (props: CompleteProfileType) => {
     handleSetIsSmallLoading,
     handleGetActiveSingleProperty,
     handleSaveBuyerQualification,
+    handleSpinnerOff,
     initForm,
     lang = 'en',
     translations,
@@ -60,6 +61,7 @@ const CompleteProfile = (props: CompleteProfileType) => {
 
   // DESTROY FORM ON EXIT
   useEffect(() => {
+    handleSpinnerOff();
     if (!activeSingleProperty.id || activeSingleProperty.id !== propID) {
       const data = {
         fullVersion: false,
@@ -159,6 +161,7 @@ const mapStateToProps = (state) => {
     errorValue: get(state, 'brixelForm.CompleteProfile.syncErrors', {}),
     formValue: get(state, 'brixelForm.CompleteProfile.values', {}),
     isLoading: get(state, 'common.isLoading', 0) > 0,
+    isSmallLoading: get(state, 'common.isSmallLoading', {}),
     lang: get(state, 'common.language', 'en'),
     packagesProperty: get(state, 'property.packagesProperty', []),
     startForm: get(state, 'brixelForm.CompleteProfile', null),
@@ -179,16 +182,17 @@ const mapDispatchToProps = (dispatch) => ({
   handleReset(initialValue) {
     (dispatch(reset('CompleteProfile', initialValue)));
   },
-  handleSaveBuyerQualification: bindActionCreators(saveBuyerQualification, dispatch),
-  handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
   handleCreateActiveSingleProperty: bindActionCreators(createActiveSingleProperty, dispatch),
+  handleCreateSearchProfile: bindActionCreators(createUserSearchProfile, dispatch),
   handleDoLogin: bindActionCreators(doLogin, dispatch),
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
-  handleSetIsSmallLoading: bindActionCreators(spinnerSmallOff, dispatch),
+  handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
-  handleCreateSearchProfile: bindActionCreators(createUserSearchProfile, dispatch),
-  handleSpinnerOn: bindActionCreators(spinnerOn, dispatch),
+  handleSaveBuyerQualification: bindActionCreators(saveBuyerQualification, dispatch),
+  handleSetIsSmallLoading: bindActionCreators(spinnerSmallOff, dispatch),
+  handleSetModal: bindActionCreators(setModal, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
+  handleSpinnerOn: bindActionCreators(spinnerOn, dispatch),
   handleValidateUser: bindActionCreators(validateUser, dispatch),
 });
 

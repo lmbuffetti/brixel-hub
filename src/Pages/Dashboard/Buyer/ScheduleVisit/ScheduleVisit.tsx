@@ -14,7 +14,7 @@ import get from 'lodash/get';
 import {connect} from 'react-redux';
 import {bindActionCreators, compose} from 'redux';
 import {useLocation, useNavigate} from 'react-router-dom';
-import {setModal} from '../../../../actions/CommonActions';
+import {setModal, spinnerSmall} from '../../../../actions/CommonActions';
 import {saveScheduleVisit, setScheduleVisit} from '../../../../actions/PropertyActions';
 import ScheduleVisitComponent from './ScheduleVisitDateModal';
 import translateTo from '../../../../utils/translation';
@@ -42,9 +42,10 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
     activeSingleDeal,
     activeSingleProperty,
     changeFieldValue,
-    formValue,
     destroyForm,
+    formValue,
     handleSetModal,
+    handleSetSpinner,
     hanldeSaveScheduleVisit,
     initForm,
     initialValues,
@@ -182,6 +183,40 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
       }
     }
   }, [isNewDate, activeScheduleVisits]);
+
+  useEffect(() => {
+    if (isSmallLoading.sendData === 'saved') {
+      handleSetModal({
+        state: true,
+        small: true,
+        layout: 'large',
+        titleTopClass: 'fweight-600 fsize-600 p-0',
+        titleTop: true,
+        title: translateTo('Be the first to visit 🏡', lang),
+        body: `<p>${translateTo('Take a moment to provide us with more details, and get ahead of other buyers. By completing your profile now, your visit will be scheduled faster.', lang)}</p>`,
+        multiActions: [
+          {
+            round: true,
+            clr: 'Text',
+            sat: 800,
+            btnType: 'Tertiary',
+            name: translateTo('I\'ll do it later', lang),
+            className: 'ml-0',
+            func: () => handleSetModal({}),
+          },
+          {
+            round: true,
+            clr: 'text',
+            className: 'mr-2',
+            btnType: 'Primary',
+            name: translateTo('Let\'s start', lang),
+            func: () => history.push(`/buyer/${activeSingleProperty.id}/scheduleVisit/${activeScheduleVisit?.id}/completeProfileFlow`),
+          },
+        ],
+      })
+      handleSetSpinner('sendData', false);
+    }
+  }, [isSmallLoading]);
 
   // SAVE FUNCTION
   const saveData = () => {
@@ -623,6 +658,7 @@ const mapDispatchToProps = (dispatch) => ({
   },
   hanldeSaveScheduleVisit: bindActionCreators(saveScheduleVisit, dispatch),
   hanldeSetScheduleVisit: bindActionCreators(setScheduleVisit, dispatch),
+  handleSetSpinner: bindActionCreators(spinnerSmall, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
 });
 

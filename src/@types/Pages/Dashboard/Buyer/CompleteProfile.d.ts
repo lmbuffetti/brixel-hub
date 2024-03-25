@@ -8,6 +8,7 @@ export interface CompleteProfileType {
   destroyForm: () => void;
   formValue: keyof typeof initVal,
   handleGetActiveSingleCompany: (data: object) => void,
+  handleSpinnerOff: () => void,
   handleSetIsSmallLoading: (data: object) => void,
   handleGetActiveSingleProperty: (data: object) => void,
   handleSaveBuyerQualification: (data: object) => void,

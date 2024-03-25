@@ -561,8 +561,6 @@ const App = (props: AppType) => {
       get(history, 'location.pathname', '').split('/')[1] === 'company';
   }
 
-
-
   const openMobileSupport = () => {
     handleSetModal({
       component: <Support isMobile={windowDimensions.width <= 1024} />,
@@ -586,7 +584,6 @@ const App = (props: AppType) => {
       setShowSupport(!showSupport);
     }
   }
-
 
   return (
     <>
@@ -728,6 +725,7 @@ const App = (props: AppType) => {
                       }
                       {
                         !history.location.pathname.includes('packageFlow') &&
+                        !history.location.pathname.includes('completeProfileFlow') &&
                         !history.location.pathname.includes('Flow') &&
                         !history.location.pathname.includes('visitFeedback') &&
                         !history.location.pathname.includes('onBoarding') &&
