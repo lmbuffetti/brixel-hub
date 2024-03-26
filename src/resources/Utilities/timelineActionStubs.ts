@@ -13,11 +13,13 @@ const TimelineStubs = {
   ],
   DealLastAction: [
     'user-add-favorite',
-    'user-phone-call',
-    'user-portal-create-deal',
-    'user-portal',
+    'user-get-document',
     'user-message',
+    'user-phone-call',
+    'user-portal',
+    'user-portal-create-deal',
     'user-portal-create-message',
+    'user-schedule',
     'user-send-message',
   ],
   BuyerSidebarPage: [
