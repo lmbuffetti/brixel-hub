@@ -190,10 +190,10 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
         state: true,
         small: true,
         layout: 'large',
-        titleTopClass: 'fweight-600 fsize-600 p-0 px-sm-4 py-sm-4 px-2 py-2',
+        titleTopClass: 'fweight-600 fsize-600 p-0 px-sm-4 py-sm-4 px-2 py-2 a-bl',
         titleTop: true,
         classHeight: 'min-h-fix-sm-272',
-        bodyClassColor: 'p-0 px-sm-4 px-2',
+        bodyClassColor: 'p-0 px-sm-4 px-2 pb-4',
         title: translateTo('Be the first to visit 🏡', lang),
         body: `<p>${translateTo('Take a moment to provide us with more details, and get ahead of other buyers. By completing your profile now, your visit will be scheduled faster.', lang)}</p>`,
         multiActions: [
