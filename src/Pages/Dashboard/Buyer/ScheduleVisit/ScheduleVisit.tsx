@@ -214,7 +214,7 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
           },
         ],
       })
-      handleSetSpinner('sendData', false);
+      handleSetSpinner({sendData: false});
     }
   }, [isSmallLoading]);
 
