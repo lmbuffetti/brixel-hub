@@ -339,6 +339,7 @@ const SingleDeal = (props: SingleDealType) => {
                             name={Helpers.userNameVal(get(activeSingleDeal, 'user.firstName', ''), get(activeSingleDeal, 'user.lastName', ''), get(activeSingleDeal, 'user.name', '')) === 'No Name' ? get(activeSingleDeal, 'user.email', '') : Helpers.userNameVal(get(activeSingleDeal, 'user.firstName', ''), get(activeSingleDeal, 'user.lastName', ''), get(activeSingleDeal, 'user.name', ''))}
                             profileId={get(activeSingleDeal.user, 'id', '')}
                           />
+
                           <div className="title dis-fl-col ml-2">
                             <span
                               className={`name dis-b fsize-500 fweight-500 ${get(activeSingleDeal, 'user.name') ? 'txtText900' : 'txtText500'}`}
@@ -369,6 +370,14 @@ const SingleDeal = (props: SingleDealType) => {
                                 )
                               }
                             </div>
+
+                            {
+                              get(activeSingleDeal, 'user.phone.number', null) ? (
+                                <span className="value txtText900">{Helpers.telephoneFormat(activeSingleDeal.user.phone)}</span>
+                              ) : (
+                                <span className="value txtText900">-</span>
+                              )
+                            }
                           </div>
                         </div>
                         {/* <div className="pos-r dis-f a-c">
@@ -381,39 +390,17 @@ const SingleDeal = (props: SingleDealType) => {
                       </div>
 
                       {/* middle panel */}
-                      <div className="mid dis-fl-row-md flex-wrap mb-lg-2 pos-r">
+                      <div className="mid dis-fl-row-md flex-wrap mb-lg-0 pos-r">
                         <div className="left dis-fl-col col-md-6 p-0">
-                          <span className="fsize-200 overline tt-up mb-2">{translateTo('Information', lang)}</span>
-
                           <div className="detail-part dis-fl-row">
                             <div className="dis-fl-col col-6 p-0">
-                              <div className="dis-fl-col ta-l mb-2">
-                                <span className="subtitle fsize-200 txtText600">{translateTo('Phone', lang)}</span>
-                                {
-                                  get(activeSingleDeal, 'user.phone.number', null) ? (
-                                    <span className="value txtText900">{Helpers.telephoneFormat(activeSingleDeal.user.phone)}</span>
-                                  ) : (
-                                    <span className="value txtText900">-</span>
-                                  )
-                                }
-                              </div>
+
                             </div>
                           </div>
 
                         </div>
                         <div className="right dis-fl-col col-md-6 p-0">
-                          {
-                            activeSingleDeal.id && (
-                              <ProgressBar
-                                lang={lang}
-                                className="mb-3"
-                                options={factsOptions.progressBarDealsOptions}
-                                progressState={has(activeSingleDeal, 'stage') ? activeSingleDeal.stage : ''}
-                                readOnly={false}
-                                updateProgressBarFunc={(value) => progressChange(value)}
-                              />
-                            )
-                          }
+
 
                           <div className="mb-3 hide">
                             <span className="overline mb-2">{translateTo('Showings', lang)}</span>
@@ -449,6 +436,20 @@ const SingleDeal = (props: SingleDealType) => {
                         <div className="dis-fl-col-md col-12 col-sm-6 px-0">
 
                           <div className="offers dis-fl-col mb-5">
+                            <div className="dis-fl-col ta-l mb-2">
+                              {
+                                activeSingleDeal.id && (
+                                  <ProgressBar
+                                    lang={lang}
+                                    className="mb-3"
+                                    options={factsOptions.progressBarDealsOptions}
+                                    progressState={has(activeSingleDeal, 'stage') ? activeSingleDeal.stage : ''}
+                                    readOnly={false}
+                                    updateProgressBarFunc={(value) => progressChange(value)}
+                                  />
+                                )
+                              }
+                            </div>
                             <div className="dis-fl-row a-c jc-b mb-3">
                               <span className="overline">{translateTo('Feedback', lang)}</span>
                             </div>
@@ -547,7 +548,7 @@ const SingleDeal = (props: SingleDealType) => {
 
 
                           <span className="overline dis-b mb-3">{translateTo('Offer', lang)}</span>
-                          <div className="brdRadius brdSmall brdText200 pos-r dis-fl-col bgWhite p-small-12 w-perc-100">
+                          <div className="brdRadius brdSmall brdText100 pos-r dis-fl-col bgWhite p-small-12 w-perc-100">
                             <div className="dis-fl-row jc-b">
                               <div className="dis-f a-c">
                                 <BrixelIcon
