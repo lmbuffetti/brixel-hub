@@ -212,7 +212,10 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
             className: 'mr-2',
             btnType: 'Primary',
             name: translateTo('Let\'s start', lang),
-            func: () => history.push(`/buyer/${activeSingleProperty.id}/scheduleVisit/${activeScheduleVisit?.id}/completeProfileFlow`),
+            func: () => {
+              handleSetSpinner({sendData: false});
+              history.push(`/buyer/${activeSingleProperty.id}/scheduleVisit/${activeScheduleVisit?.id}/completeProfileFlow`)
+            },
           },
         ],
       })
