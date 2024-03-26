@@ -1,4 +1,5 @@
 import {DealType, PropertyType} from '@brixel-io/brixel-components/dist/@types/Model';
+import ScheduleVisit from '../../../Pages/Dashboard/Buyer/ScheduleVisit/ScheduleVisit';
 
 export interface SingleDealType {
   activeSingleVisitFeedback: any;
@@ -19,6 +20,7 @@ export interface SingleDealType {
   setActiveSingleDealOwnerHistory: (data: object) => void;
   setDeal: (data: object) => void;
   setDealNotes: (data: object) => void;
+  scheduleVisit: ScheduleVisit
   lang: string;
   windowDimensions: {
     width: number;

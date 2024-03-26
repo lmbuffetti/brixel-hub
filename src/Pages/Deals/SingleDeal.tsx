@@ -57,6 +57,7 @@ const SingleDeal = (props: SingleDealType) => {
     handleSaveDeal,
     handleSaveMultipleDeal,
     lang,
+    scheduleVisit,
     setActiveSingleDealHistory,
     setActiveSingleDealOwnerHistory,
     setDeal,
@@ -265,7 +266,8 @@ const SingleDeal = (props: SingleDealType) => {
   };
 
   const getOfferText = () => {
-    if (has(activeSingleDeal, 'closing.stageOffer.offer.status')) return `${get(activeSingleDeal, 'closing.stageOffer.offer.currency', '')} ${formatPrice(get(activeSingleDeal, 'closing.stageOffer.offer.amount'), lang)}`;
+    const offer = activeSingleDeal?.closing?.stageOffer?.offer;
+    if (offer?.status) return `${offer?.currency} ${formatPrice(offer?.amount || 0, lang)}`;
     return translateTo('No offer', lang);
   };
 
@@ -306,6 +308,34 @@ const SingleDeal = (props: SingleDealType) => {
       setOptionsOpen(false);
     },
   });
+
+  const getStatusStyle = (type) => {
+    switch (type) {
+      case 'accepted':
+        return {
+          icon: 'check',
+          color: 'green',
+          saturation: 400,
+        };
+      case 'pending':
+        return {
+          icon: 'clock',
+          color: 'yellow',
+          saturation: 400,
+        };
+      case 'rejected':
+        return {
+          icon: 'close-circle',
+          color: 'red',
+          saturation: 400,
+        };
+      default: return {
+        icon: '',
+        color: '',
+        saturation: 0,
+      };
+    }
+  };
 
   setTimeout(() => {setIsReady(true)}, 300);
 
@@ -435,7 +465,7 @@ const SingleDeal = (props: SingleDealType) => {
                         />
                         <div className="dis-fl-col-md col-12 col-sm-6 px-0">
 
-                          <div className="offers dis-fl-col mb-5">
+                          <div className="feedback dis-fl-col mb-5">
                             <div className="dis-fl-col ta-l mb-2">
                               {
                                 activeSingleDeal.id && (
@@ -453,7 +483,8 @@ const SingleDeal = (props: SingleDealType) => {
                             <div className="dis-fl-row a-c jc-b mb-3">
                               <span className="overline">{translateTo('Feedback', lang)}</span>
                             </div>
-                            <div className="brdRadius bgWhite brdText100 brdSmall pos-r dis-fl-col p-small-12 w-perc-100">
+                            <div
+                              className="brdRadius bgWhite brdText100 brdSmall pos-r dis-fl-col p-small-12 w-perc-100">
                               <div className="dis-fl-row jc-b">
                                 <div className="dis-f a-c">
                                   <BrixelIcon
@@ -465,8 +496,9 @@ const SingleDeal = (props: SingleDealType) => {
                                     className="mr-2"
                                   />
                                   {typeof activeSingleVisitFeedback?.isInterested === 'boolean' ? (
-                                    <span className={activeSingleVisitFeedback?.isInterested ? 'txtGreen400' : 'txtRed400'}>
-                                      {activeSingleVisitFeedback?.isInterested ? translateTo('Interested 👍' , lang) : translateTo('Not interested 👎', lang)}
+                                    <span
+                                      className={activeSingleVisitFeedback?.isInterested ? 'txtGreen400' : 'txtRed400'}>
+                                      {activeSingleVisitFeedback?.isInterested ? translateTo('Interested 👍', lang) : translateTo('Not interested 👎', lang)}
                                     </span>
                                   ) : (
                                     <span>No feedback</span>
@@ -514,7 +546,8 @@ const SingleDeal = (props: SingleDealType) => {
                                                 }
                                                 {
                                                   activeSingleVisitFeedback?.reasons.filter(el => el === 'other').length === 1 && activeSingleVisitFeedback?.reasonsOther && (
-                                                    <>,<>&nbsp;</><span>{translateTo('Other: ', lang)}{activeSingleVisitFeedback?.reasonsOther}</span></>
+                                                    <>,<>&nbsp;</>
+                                                      <span>{translateTo('Other: ', lang)}{activeSingleVisitFeedback?.reasonsOther}</span></>
                                                   )
                                                 }
                                               </div>
@@ -545,47 +578,218 @@ const SingleDeal = (props: SingleDealType) => {
                             </div>
                           </div>
 
-
-
-                          <span className="overline dis-b mb-3">{translateTo('Offer', lang)}</span>
-                          <div className="brdRadius brdSmall brdText100 pos-r dis-fl-col bgWhite p-small-12 w-perc-100">
-                            <div className="dis-fl-row jc-b">
-                              <div className="dis-f a-c">
-                                <BrixelIcon
-                                  icon="money"
-                                  background={getOfferBackground()}
-                                  saturation={getOfferSaturation()}
-                                  color={getOfferColor()}
-                                  saturationTxt={700}
-                                  className="mr-2"
-                                />
-                                <span className={`txt${getOfferTextColor()}`}>{getOfferText()}</span>
-                              </div>
-                            </div>
-                            {
-                              has(activeSingleDeal, 'closing.stageOffer.offer.status') && (
-                                <div className="dis-fl-col">
-                                  <div className={`mt-1 dis-fl-row jc-b ${showFullOffer === true ? 'mb-2' : ''}`}>
-                                    <span className="txtText900 fsize-300">{translateTo('Offer details:', lang)}</span>
-                                    <BrixelIcon
-                                      icon={`${showFullOffer === true ? 'arrow-simple-up' : 'dropdown'}`}
-                                      className="txtText900 cur-poi pr-1"
-                                      onClick={() => setShowFullOffer(!showFullOffer)}
-                                    />
-                                  </div>
-                                  {
-                                    showFullOffer && (
-                                      <div
-                                        className="txtText900 fsize-300"
-                                        dangerouslySetInnerHTML={{
-                                          __html: getCompleteOffer(),
-                                        }}
-                                      />
-                                    )
-                                  }
+                          <div className="offers dis-fl-col mb-5">
+                            <span className="overline dis-b mb-3">{translateTo('Offer', lang)}</span>
+                            <div className="brdRadius brdSmall brdText100 pos-r dis-fl-col bgWhite p-small-12 w-perc-100">
+                              <div className="dis-fl-row jc-b">
+                                <div className="dis-f a-c">
+                                  <BrixelIcon
+                                    icon="money"
+                                    background={getOfferBackground()}
+                                    saturation={getOfferSaturation()}
+                                    color={getOfferColor()}
+                                    saturationTxt={700}
+                                    className="mr-2"
+                                  />
+                                  <span className={`txt${getOfferTextColor()}`}>{getOfferText()}</span>
                                 </div>
-                              )
-                            }
+                              </div>
+                              {
+                                has(activeSingleDeal, 'closing.stageOffer.offer.status') && (
+                                  <div className="dis-fl-col">
+                                    <div className={`mt-1 dis-fl-row jc-b ${showFullOffer === true ? 'mb-2' : ''}`}>
+                                      <span className="txtText900 fsize-300">{translateTo('Offer details:', lang)}</span>
+                                      <BrixelIcon
+                                        icon={`${showFullOffer === true ? 'arrow-simple-up' : 'dropdown'}`}
+                                        className="txtText900 cur-poi pr-1"
+                                        onClick={() => setShowFullOffer(!showFullOffer)}
+                                      />
+                                    </div>
+                                    {
+                                      showFullOffer && (
+                                        <div
+                                          className="txtText900 fsize-300"
+                                          dangerouslySetInnerHTML={{
+                                            __html: getCompleteOffer(),
+                                          }}
+                                        />
+                                      )
+                                    }
+                                  </div>
+                                )
+                              }
+                            </div>
+                          </div>
+
+                          <div className="offers dis-fl-col mb-5">
+                            <span className="overline dis-b mb-3">{translateTo('Visit', lang)}</span>
+                            <div>
+                              {
+                                scheduleVisit.length === 0 && (
+                                  <div className="dis-f a-c p-small-12 brdText100 brdSmall brdRadius bgWhite">
+                                    <BrixelIcon
+                                      icon="calendar"
+                                      background="blue"
+                                      saturation={50}
+                                      color="blue"
+                                      saturationTxt={400}
+                                      className="mr-2"
+                                    />
+                                    <span
+                                      className={`txt${getOfferTextColor()} fweight-500`}>{translateTo('No visit requests yet', lang)}</span>
+                                  </div>
+                                )
+                              }
+                              {
+                                scheduleVisit.map((slots, i) => (
+                                  <div
+                                    className="visit-container mb-2 brdRadius bgWhite brdText100 brdSmall dis-fl-col"
+                                    key={`visitsList${i.toString()}`}
+                                  >
+                                    {
+                                      slots.buyerAvailability.length > 0 && !slots?.visit?.date && (
+                                        <>
+                                          <div className="dis-fl-row p-small-12">
+                                            <BrixelIcon
+                                              icon="calendar"
+                                              background="blue"
+                                              saturation={50}
+                                              color="blue"
+                                              saturationTxt={400}
+                                              className="mr-2 as-fs"
+                                            />
+                                            <div className="dis-fl-col jc-b">
+                                              <h6 className="mb-1">{translateTo('Suggested Dates:', lang)}</h6>
+                                              {
+                                                slots.buyerAvailability.map((visit, f) => (
+                                                  <div
+                                                    key={`visit${f.toString()}`}
+                                                    className="dis-f a-c"
+                                                  >
+                                                    <span className="px-1"> &bull; </span>
+                                                    <span className="mr-1">
+                                                      {visit.start ? DateTime.fromMillis(visit.start, {
+                                                        locale: lang,
+                                                        zone: visit.timezone,
+                                                      }).toFormat('dd LLL yyyy') : null}
+                                                    </span>
+                                                    <span>
+                                                      {visit.start ? DateTime.fromMillis(visit.start, {
+                                                        locale: lang,
+                                                        zone: visit.timezone,
+                                                      }).toFormat('HH:mm') : null}
+                                                    </span>
+                                                    <span className="mx-snall-4">-</span>
+                                                    <span>
+                                                      {visit.end ? DateTime.fromMillis(visit.end, {
+                                                        locale: lang,
+                                                        zone: visit.timezone,
+                                                      }).toFormat('HH:mm') : null}
+                                                    </span>
+                                                  </div>
+                                                ))
+                                              }
+                                            </div>
+                                          </div>
+                                          <hr className="lighter my-2" />
+                                        </>
+                                      )
+                                    }
+                                    {
+                                      slots?.visit?.date && (
+                                        <>
+                                          <div className="dis-fl-row jc-fs px-small-12 pt-small-12">
+                                            <BrixelIcon
+                                              icon="calendar"
+                                              background="blue"
+                                              saturation={50}
+                                              color="blue"
+                                              saturationTxt={400}
+                                              className="mr-2 as-fs"
+                                            />
+                                            <div className="dis-fl-row a-c jc-b">
+                                              <div className="dis-fl-col">
+                                                <h6>{translateTo('Visit Date:', lang)}</h6>
+                                                <div className="dis-f a-c jc-b">
+                                                  <p className="txtGreen400 fweight-500">
+                                                    {DateTime.fromMillis(slots.visit.date, {
+                                                      locale: lang,
+                                                      zone: slots.visit.timezone,
+                                                    }).toFormat('dd LLL yyyy, HH:mm')}
+                                                  </p>
+                                                </div>
+                                              </div>
+                                            </div>
+
+                                          </div>
+                                          <div className="pb-small-12 px-small-12 ml-7">
+                                            <hr className="lighter my-2" />
+                                            <h6>{translateTo('Confirmation:', lang)}</h6>
+                                            <div>
+                                              <div className="dis-f a-c jc-b">
+                                                <span>{translateTo('Buyer', lang)}</span>
+                                                <BrixelIcon
+                                                  icon={getStatusStyle(slots.buyerStatus).icon}
+                                                  color={getStatusStyle(slots.buyerStatus).color}
+                                                  saturation={getStatusStyle(slots.buyerStatus).saturation}
+                                                />
+                                              </div>
+                                              <div className="dis-f a-c jc-b">
+                                                <span>{translateTo('Seller', lang)}</span>
+                                                <BrixelIcon
+                                                  icon={getStatusStyle(slots.sellerStatus).icon}
+                                                  color={getStatusStyle(slots.sellerStatus).color}
+                                                  saturation={getStatusStyle(slots.sellerStatus).saturation}
+                                                />
+                                              </div>
+                                            </div>
+                                          </div>
+                                          {
+                                            slots.buyerAvailability.length > 0 && (
+                                              <div className="pb-small-12 px-small-12 ml-7">
+                                                <hr className="lighter my-2" />
+                                                <div className="dis-fl-col jc-b">
+                                                  <h6 className="mb-1">{translateTo('Suggested Dates:', lang)}</h6>
+                                                  {
+                                                    slots.buyerAvailability.map((visit, f) => (
+                                                      <div
+                                                        key={`visit${f.toString()}`}
+                                                        className="dis-f a-c"
+                                                      >
+                                                        <span className="px-1"> &bull; </span>
+                                                        <span className="mr-1">
+                                                          {visit.start ? DateTime.fromMillis(visit.start, {
+                                                            locale: lang,
+                                                            zone: visit.timezone,
+                                                          }).toFormat('dd LLL yyyy') : null}
+                                                        </span>
+                                                        <span>
+                                                          {visit.start ? DateTime.fromMillis(visit.start, {
+                                                            locale: lang,
+                                                            zone: visit.timezone,
+                                                          }).toFormat('HH:mm') : null}
+                                                        </span>
+                                                        <span className="mx-snall-4">-</span>
+                                                        <span>
+                                                          {visit.end ? DateTime.fromMillis(visit.end, {
+                                                            locale: lang,
+                                                            zone: visit.timezone,
+                                                          }).toFormat('HH:mm') : null}
+                                                        </span>
+                                                      </div>
+                                                    ))
+                                                  }
+                                                </div>
+                                              </div>
+                                            )
+                                          }
+                                        </>
+                                      )
+                                    }
+                                  </div>
+                                ))
+                              }
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -660,6 +864,7 @@ const mapStateToProps = (state) => ({
   activeSinglePropertyDeals: get(state, 'property.activeSinglePropertyDeals', []),
   isSuperAdmin: get(state, 'common.superAdmin', false),
   lang: get(state, 'common.language', 'en'),
+  scheduleVisit: get(state, 'deal.scheduleVisit', []),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 

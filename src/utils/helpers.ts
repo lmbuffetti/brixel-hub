@@ -135,8 +135,9 @@ export const calcPercentageProEstimation = (form = 'Property', value = {}) => {
 };
 
 export const formatPrice = (value, lang) => {
+  const convertLang = lang || 'de';
   if (typeof value !== 'number' && !value) return '';
-  return Number(value).toLocaleString(lang);
+  return Number(value).toLocaleString(convertLang);
 };
 
 export const setCookie = (key, val) => {
