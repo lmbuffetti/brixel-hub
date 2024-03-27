@@ -465,8 +465,8 @@ const SingleDeal = (props: SingleDealType) => {
                         />
                         <div className="dis-fl-col-md col-12 col-sm-6 px-0">
 
-                          <div className="feedback dis-fl-col mb-5">
-                            <div className="dis-fl-col ta-l mb-2">
+                          <div className="progress dis-fl-col mb-5">
+                            <div>
                               {
                                 activeSingleDeal.id && (
                                   <ProgressBar
@@ -480,148 +480,9 @@ const SingleDeal = (props: SingleDealType) => {
                                 )
                               }
                             </div>
-                            <div className="dis-fl-row a-c jc-b mb-3">
-                              <span className="overline">{translateTo('Feedback', lang)}</span>
-                            </div>
-                            <div
-                              className="brdRadius bgWhite brdText100 brdSmall pos-r dis-fl-col p-small-12 w-perc-100">
-                              <div className="dis-fl-row jc-b">
-                                <div className="dis-f a-c">
-                                  <BrixelIcon
-                                    icon="calendar"
-                                    background={typeof activeSingleVisitFeedback?.isInterested === 'boolean' ? 'green' : 'light'}
-                                    saturation={typeof activeSingleVisitFeedback?.isInterested === 'boolean' ? 100 : 100}
-                                    color={typeof activeSingleVisitFeedback?.isInterested === 'boolean' ? 'green' : 'text'}
-                                    saturationTxt={typeof activeSingleVisitFeedback?.isInterested === 'boolean' ? 400 : 900}
-                                    className="mr-2"
-                                  />
-                                  {typeof activeSingleVisitFeedback?.isInterested === 'boolean' ? (
-                                    <span
-                                      className={activeSingleVisitFeedback?.isInterested ? 'txtGreen400' : 'txtRed400'}>
-                                      {activeSingleVisitFeedback?.isInterested ? translateTo('Interested 👍', lang) : translateTo('Not interested 👎', lang)}
-                                    </span>
-                                  ) : (
-                                    <span>No feedback</span>
-                                  )
-                                  }
-                                </div>
-                              </div>
-                              {
-                                typeof activeSingleVisitFeedback?.isInterested === 'boolean' && (
-                                  <div className="dis-fl-col">
-                                    {
-                                      typeof activeSingleVisitFeedback?.isInterested !== 'undefined' && (
-                                        <div className={`mt-1 dis-fl-row jc-b ${showFullFeedback === true ? 'mb-2' : ''}`}>
-                                          <span className="txtText900 fsize-300">{translateTo('Details:', lang)} </span>
-                                          <BrixelIcon
-                                            iconSize="small"
-                                            icon={`${showFullFeedback === true ? 'arrow-simple-up' : 'dropdown'}`}
-                                            className="txtText900 cur-poi pr-1"
-                                            onClick={(e) => {
-                                              if (e) e.preventDefault();
-                                              setShowFullFeedback(!showFullFeedback);
-                                            }}
-                                          />
-                                        </div>
-                                      )
-                                    }
-                                    {
-                                      showFullFeedback && (
-                                        <div className="dis-fl-col fsize-300 txtText600">
-                                          {
-                                            activeSingleVisitFeedback?.reasons && activeSingleVisitFeedback?.reasons.length > 0 && (
-                                              <div>
-                                                <span className="mr-1">Reasons:</span>
-                                                {
-                                                  activeSingleVisitFeedback?.reasons.filter(el => el !== 'other').map((reason, index) => (
-                                                    <React.Fragment key={`reason${index.toString()}`}>
-                                                      {index > 0 && (<span>, </span>)}
-                                                      <span key={`reason${index.toString()}`}>
-                                                        {feedbackReason.find((itm) => (itm.value === reason))?.label}
-                                                      </span>
-
-                                                    </React.Fragment>
-                                                  ))
-
-                                                }
-                                                {
-                                                  activeSingleVisitFeedback?.reasons.filter(el => el === 'other').length === 1 && activeSingleVisitFeedback?.reasonsOther && (
-                                                    <>,<>&nbsp;</>
-                                                      <span>{translateTo('Other: ', lang)}{activeSingleVisitFeedback?.reasonsOther}</span></>
-                                                  )
-                                                }
-                                              </div>
-                                            )
-                                          }
-                                          {
-                                            activeSingleVisitFeedback?.involvedPurchaseProperty && (
-                                              <div>
-                                                <span className="mr-1">Current status:</span>
-                                                <span>{feedbackInvoled.find((itm) => itm.value === activeSingleVisitFeedback.involvedPurchaseProperty)?.label}</span>
-                                              </div>
-                                            )
-                                          }
-                                          {
-                                            activeSingleVisitFeedback?.note && (
-                                              <div>
-                                                <span className="mr-1">Note:</span>
-                                                <span>{activeSingleVisitFeedback.note}</span>
-                                              </div>
-                                            )
-                                          }
-                                        </div>
-                                      )
-                                    }
-                                  </div>
-                                )
-                              }
-                            </div>
                           </div>
 
-                          <div className="offers dis-fl-col mb-5">
-                            <span className="overline dis-b mb-3">{translateTo('Offer', lang)}</span>
-                            <div className="brdRadius brdSmall brdText100 pos-r dis-fl-col bgWhite p-small-12 w-perc-100">
-                              <div className="dis-fl-row jc-b">
-                                <div className="dis-f a-c">
-                                  <BrixelIcon
-                                    icon="money"
-                                    background={getOfferBackground()}
-                                    saturation={getOfferSaturation()}
-                                    color={getOfferColor()}
-                                    saturationTxt={700}
-                                    className="mr-2"
-                                  />
-                                  <span className={`txt${getOfferTextColor()}`}>{getOfferText()}</span>
-                                </div>
-                              </div>
-                              {
-                                has(activeSingleDeal, 'closing.stageOffer.offer.status') && (
-                                  <div className="dis-fl-col">
-                                    <div className={`mt-1 dis-fl-row jc-b ${showFullOffer === true ? 'mb-2' : ''}`}>
-                                      <span className="txtText900 fsize-300">{translateTo('Offer details:', lang)}</span>
-                                      <BrixelIcon
-                                        icon={`${showFullOffer === true ? 'arrow-simple-up' : 'dropdown'}`}
-                                        className="txtText900 cur-poi pr-1"
-                                        onClick={() => setShowFullOffer(!showFullOffer)}
-                                      />
-                                    </div>
-                                    {
-                                      showFullOffer && (
-                                        <div
-                                          className="txtText900 fsize-300"
-                                          dangerouslySetInnerHTML={{
-                                            __html: getCompleteOffer(),
-                                          }}
-                                        />
-                                      )
-                                    }
-                                  </div>
-                                )
-                              }
-                            </div>
-                          </div>
-
-                          <div className="offers dis-fl-col mb-5">
+                          <div className="visit dis-fl-col mb-5">
                             <span className="overline dis-b mb-3">{translateTo('Visit', lang)}</span>
                             <div>
                               {
@@ -791,6 +652,149 @@ const SingleDeal = (props: SingleDealType) => {
                               }
                             </div>
                           </div>
+
+                          <div className="feedback dis-fl-col mb-5">
+                            <div className="dis-fl-row a-c jc-b mb-3">
+                              <span className="overline">{translateTo('Feedback', lang)}</span>
+                            </div>
+                            <div
+                              className="brdRadius bgWhite brdText100 brdSmall pos-r dis-fl-col p-small-12 w-perc-100">
+                              <div className="dis-fl-row jc-b">
+                                <div className="dis-f a-c">
+                                  <BrixelIcon
+                                    icon="calendar"
+                                    background={typeof activeSingleVisitFeedback?.isInterested === 'boolean' ? 'green' : 'light'}
+                                    saturation={typeof activeSingleVisitFeedback?.isInterested === 'boolean' ? 100 : 100}
+                                    color={typeof activeSingleVisitFeedback?.isInterested === 'boolean' ? 'green' : 'text'}
+                                    saturationTxt={typeof activeSingleVisitFeedback?.isInterested === 'boolean' ? 400 : 900}
+                                    className="mr-2"
+                                  />
+                                  {typeof activeSingleVisitFeedback?.isInterested === 'boolean' ? (
+                                    <span
+                                      className={activeSingleVisitFeedback?.isInterested ? 'txtGreen400' : 'txtRed400'}>
+                                      {activeSingleVisitFeedback?.isInterested ? translateTo('Interested 👍', lang) : translateTo('Not interested 👎', lang)}
+                                    </span>
+                                  ) : (
+                                    <span>No feedback</span>
+                                  )
+                                  }
+                                </div>
+                              </div>
+                              {
+                                typeof activeSingleVisitFeedback?.isInterested === 'boolean' && (
+                                  <div className="dis-fl-col">
+                                    {
+                                      typeof activeSingleVisitFeedback?.isInterested !== 'undefined' && (
+                                        <div className={`mt-1 dis-fl-row jc-b ${showFullFeedback === true ? 'mb-2' : ''}`}>
+                                          <span className="txtText900 fsize-300">{translateTo('Details:', lang)} </span>
+                                          <BrixelIcon
+                                            iconSize="small"
+                                            icon={`${showFullFeedback === true ? 'arrow-simple-up' : 'dropdown'}`}
+                                            className="txtText900 cur-poi pr-1"
+                                            onClick={(e) => {
+                                              if (e) e.preventDefault();
+                                              setShowFullFeedback(!showFullFeedback);
+                                            }}
+                                          />
+                                        </div>
+                                      )
+                                    }
+                                    {
+                                      showFullFeedback && (
+                                        <div className="dis-fl-col fsize-300 txtText600">
+                                          {
+                                            activeSingleVisitFeedback?.reasons && activeSingleVisitFeedback?.reasons.length > 0 && (
+                                              <div>
+                                                <span className="mr-1">Reasons:</span>
+                                                {
+                                                  activeSingleVisitFeedback?.reasons.filter(el => el !== 'other').map((reason, index) => (
+                                                    <React.Fragment key={`reason${index.toString()}`}>
+                                                      {index > 0 && (<span>, </span>)}
+                                                      <span key={`reason${index.toString()}`}>
+                                                        {feedbackReason.find((itm) => (itm.value === reason))?.label}
+                                                      </span>
+
+                                                    </React.Fragment>
+                                                  ))
+
+                                                }
+                                                {
+                                                  activeSingleVisitFeedback?.reasons.filter(el => el === 'other').length === 1 && activeSingleVisitFeedback?.reasonsOther && (
+                                                    <>,<>&nbsp;</>
+                                                      <span>{translateTo('Other: ', lang)}{activeSingleVisitFeedback?.reasonsOther}</span></>
+                                                  )
+                                                }
+                                              </div>
+                                            )
+                                          }
+                                          {
+                                            activeSingleVisitFeedback?.involvedPurchaseProperty && (
+                                              <div>
+                                                <span className="mr-1">Current status:</span>
+                                                <span>{feedbackInvoled.find((itm) => itm.value === activeSingleVisitFeedback.involvedPurchaseProperty)?.label}</span>
+                                              </div>
+                                            )
+                                          }
+                                          {
+                                            activeSingleVisitFeedback?.note && (
+                                              <div>
+                                                <span className="mr-1">Note:</span>
+                                                <span>{activeSingleVisitFeedback.note}</span>
+                                              </div>
+                                            )
+                                          }
+                                        </div>
+                                      )
+                                    }
+                                  </div>
+                                )
+                              }
+                            </div>
+                          </div>
+
+                          <div className="offers dis-fl-col mb-5">
+                            <span className="overline dis-b mb-3">{translateTo('Offer', lang)}</span>
+                            <div
+                              className="brdRadius brdSmall brdText100 pos-r dis-fl-col bgWhite p-small-12 w-perc-100">
+                              <div className="dis-fl-row jc-b">
+                                <div className="dis-f a-c">
+                                  <BrixelIcon
+                                    icon="money"
+                                    background={getOfferBackground()}
+                                    saturation={getOfferSaturation()}
+                                    color={getOfferColor()}
+                                    saturationTxt={700}
+                                    className="mr-2"
+                                  />
+                                  <span className={`txt${getOfferTextColor()}`}>{getOfferText()}</span>
+                                </div>
+                              </div>
+                              {
+                                has(activeSingleDeal, 'closing.stageOffer.offer.status') && (
+                                  <div className="dis-fl-col">
+                                    <div className={`mt-1 dis-fl-row jc-b ${showFullOffer === true ? 'mb-2' : ''}`}>
+                                      <span className="txtText900 fsize-300">{translateTo('Offer details:', lang)}</span>
+                                      <BrixelIcon
+                                        icon={`${showFullOffer === true ? 'arrow-simple-up' : 'dropdown'}`}
+                                        className="txtText900 cur-poi pr-1"
+                                        onClick={() => setShowFullOffer(!showFullOffer)}
+                                      />
+                                    </div>
+                                    {
+                                      showFullOffer && (
+                                        <div
+                                          className="txtText900 fsize-300"
+                                          dangerouslySetInnerHTML={{
+                                            __html: getCompleteOffer(),
+                                          }}
+                                        />
+                                      )
+                                    }
+                                  </div>
+                                )
+                              }
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -812,29 +816,29 @@ const SingleDeal = (props: SingleDealType) => {
             <div className="dis-f mt-2 mt-lg-0 p-2 p-lg-0 mb-lg-4">
               <div className="w-fix-40 h-fix-40 brdCircle skeletonBg"></div>
               <div className="div">
-                <div className='w-fix-96 skeletonBg h-fix-24 ml-2' />
-                <div className='w-fix-192 skeletonBg h-fix-16 mt-1 ml-2' />
+                <div className="w-fix-96 skeletonBg h-fix-24 ml-2" />
+                <div className="w-fix-192 skeletonBg h-fix-16 mt-1 ml-2" />
               </div>
             </div>
             <div className="py-2 px-lg-0 dis-f flex-wrap mb-lg-2 pos-r">
               <div className="col-12 col-lg-7 pr-0">
-                <div className='w-fix-96 skeletonBg h-fix-24' />
+                <div className="w-fix-96 skeletonBg h-fix-24" />
                 <div className="dis-f">
                   <div className="mt-2 dis-fl-col w-perc-50">
-                    <div className='w-fix-96 skeletonBg h-fix-8' />
-                    <div className='w-fix-192 skeletonBg h-fix-16 mt-1' />
+                    <div className="w-fix-96 skeletonBg h-fix-8" />
+                    <div className="w-fix-192 skeletonBg h-fix-16 mt-1" />
                   </div>
                   <div className="mt-2 dis-fl-col w-perc-50">
-                    <div className='w-fix-96 skeletonBg h-fix-8' />
-                    <div className='w-fix-192 skeletonBg h-fix-16 mt-1' />
+                    <div className="w-fix-96 skeletonBg h-fix-8" />
+                    <div className="w-fix-192 skeletonBg h-fix-16 mt-1" />
                   </div>
                 </div>
               </div>
               <div className="col-5 px-lg-0 mt-3 mt-lg-0">
-                <div className='w-fix-96 skeletonBg h-fix-24' />
+                <div className="w-fix-96 skeletonBg h-fix-24" />
                 <div className="dis-f jc-b">
                   <div className="mt-2 dis-fl-col">
-                    <div className='w-fix-192 skeletonBg h-fix-16 mt-1' />
+                    <div className="w-fix-192 skeletonBg h-fix-16 mt-1" />
                   </div>
                 </div>
               </div>
