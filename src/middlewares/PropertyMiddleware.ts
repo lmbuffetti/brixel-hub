@@ -47,7 +47,7 @@ import api from '../controllers/api/config';
 
 import ActionStubs from '../resources/Utilities/timelineActionStubs';
 import {DealType} from '@brixel-io/brixel-components/dist/@types/Model';
-import {SET_SCHEDULE_VISIT} from '../actions/types/DealTypes';
+import {GET_BUYER_DEAL, SET_SCHEDULE_VISIT} from '../actions/types/DealTypes';
 
 const checkCommon = (store) => (next) => (action) => {
   switch (action.type) {
@@ -909,7 +909,7 @@ const checkCommon = (store) => (next) => (action) => {
     }
     // SET TERMS ACCEPTANCE FOR RELEASING A NEW PROPERTY GO LIVE
     case SAVE_BUYER_QUALIFICATION: {
-      const { id, smallLoader, data } = action.payload;
+      const { id, smallLoader, data, pageID } = action.payload;
       if (smallLoader) {
         store.dispatch({
           type: SPINNER_SMALL,
@@ -924,6 +924,13 @@ const checkCommon = (store) => (next) => (action) => {
       }
       api.property.saveBuyerQualificationData(id, data)
         .then(() => {
+          store.dispatch({
+            type: GET_BUYER_DEAL,
+            payload: {
+              id: pageID,
+              smallLoader: smallLoader,
+            },
+          })
           if (smallLoader) {
             store.dispatch({
               type: SPINNER_SMALL,

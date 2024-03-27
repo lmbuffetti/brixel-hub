@@ -93,6 +93,7 @@ const CompleteProfile = (props: CompleteProfileType) => {
         id: scheduleVisitID,
         data: valueToSend,
         isSmallLoading: true,
+        pageID: propID,
       });
       setCurrentIndex(1);
       handleSetIsSmallLoading()
