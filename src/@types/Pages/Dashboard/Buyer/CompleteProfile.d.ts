@@ -9,7 +9,7 @@ export interface CompleteProfileType {
   formValue: keyof typeof initVal,
   handleGetActiveSingleCompany: (data: object) => void,
   handleSpinnerOff: () => void,
-  handleSetIsSmallLoading: (data: object) => void,
+  handleSetIsSmallLoading: () => void,
   handleGetActiveSingleProperty: (data: object) => void,
   handleSaveBuyerQualification: (data: object) => void,
   initForm: (data: object) => void

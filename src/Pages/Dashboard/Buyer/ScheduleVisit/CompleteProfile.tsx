@@ -70,6 +70,7 @@ const CompleteProfile = (props: CompleteProfileType) => {
       };
       handleGetActiveSingleProperty(data);
     }
+    handleSetIsSmallLoading()
     return () => destroyForm();
   }, [propID]);
 
@@ -94,7 +95,7 @@ const CompleteProfile = (props: CompleteProfileType) => {
         isSmallLoading: true,
       });
       setCurrentIndex(1);
-      handleSetIsSmallLoading({})
+      handleSetIsSmallLoading()
     }
   };
 
