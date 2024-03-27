@@ -87,7 +87,7 @@ const TermsConditionBaloise = (props: TermsConditionBaloiseType) => {
 
   const optInTitle = () => (
     <>
-      <h2 className="fsize-600 fsize-md-800 fweight-600 mb-2">
+      <h2 lang={lang} className={`fsize-600 fsize-md-800 fweight-600 mb-2 ${lang === 'de' ? 'hyphens' : ''}`}>
         {translateTo('Benefit from the consulting services of our partner Baloise', lang)}
       </h2>
     </>
