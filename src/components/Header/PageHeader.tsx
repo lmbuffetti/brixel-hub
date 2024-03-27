@@ -141,6 +141,7 @@ function PageHeader(props: PageHeaderType) {
         setLoggedInUser: true,
         smallLoader: 'saveData',
       };
+      document.documentElement.lang = defLangCode;
       handleSaveActiveSingleUser(userData);
     }
   };
