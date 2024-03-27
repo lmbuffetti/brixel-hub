@@ -398,39 +398,39 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
                     // CONFIRMED VISIT IN THE FUTURE
                     activeScheduleVisit?.visit?.date > new Date().valueOf() ? (
                       <>
-                        <div className="bgGreen50 brdRadius shadow-1dp mb-4 a-t a-c-sm py-3 py-sm-5 px-2 px-sm-4">
-                          <div className="dis-fl-col-rev dis-fl-row-sm pos-r">
-                            <div className="">
-                              <BrixelSingleTag
-                                className="mb-2 flotingTag"
-                                lang={lang}
-                                message={{
-                                  lang: lang,
-                                  accepted: translateTo('Visit confirmed', lang),
-                                }}
-                                status="accepted"
-                                text={translateTo('Visit confirmed', lang)}
-                              />
-                              <h4 className="fweight-600 mb-1 mb-sm-2 txtPrimary400">
-                                <span>
-                                  {DateTime.fromMillis(activeScheduleVisit?.visit?.date).toFormat('dd MMM yyyy', {locale: lang})}
-                                </span>
-                                <span className="mr-small-4">,</span>
-                                <span>
-                                  {DateTime.fromMillis(activeScheduleVisit?.visit?.date, { locale: lang }).toFormat('HH:mm')}
-                                </span>
-                              </h4>
-                              <p className='txtText700'>
-                                {translateTo('Great news! Your visit has been confirmed.', lang)}
-                              </p>
-                            </div>
+                        <div className="bgGreen50 brdRadius shadow-1dp mb-4 a-t a-c-sm py-3 py-sm-5 px-2 px-sm-4 dis-fl-col-rev dis-fl-row-sm pos-r pos-r">
 
-                            <img
-                              src={PropertyconfirmedVisit2Img}
-                              alt="Confirmed Visit"
-                              className="ml-a h-fix-96 h-fix-sm-140"
+                          <div className="mb-2 mb-sm-4">
+                            <BrixelSingleTag
+                              className="mb-2 flotingTag"
+                              lang={lang}
+                              message={{
+                                lang: lang,
+                                accepted: translateTo('Visit confirmed', lang),
+                              }}
+                              status="accepted"
+                              text={translateTo('Visit confirmed', lang)}
                             />
+                            <h4 className="fweight-600 mb-1 mb-sm-2 txtPrimary400">
+                              <span>
+                                {DateTime.fromMillis(activeScheduleVisit?.visit?.date).toFormat('dd MMM yyyy', {locale: lang})}
+                              </span>
+                              <span className="mr-small-4">,</span>
+                              <span>
+                                {DateTime.fromMillis(activeScheduleVisit?.visit?.date, { locale: lang }).toFormat('HH:mm')}
+                              </span>
+                            </h4>
+                            <p className='txtText700'>
+                              {translateTo('Great news! Your visit has been confirmed.', lang)}
+                            </p>
                           </div>
+
+                          <img
+                            src={PropertyconfirmedVisit2Img}
+                            alt="Confirmed Visit"
+                            className="ml-a-sm h-fix-64 h-fix-sm-160 mb-1 mb-sm-0"
+                          />
+
                         </div>
 
                         <div className="mt-4 dis-f jc-fe">
@@ -445,35 +445,34 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
                     ) : (
                       <>
                         {/* CONFIRMED VISIT IN THE PAST */}
-                        <div className="bgBlue50 brdRadius shadow-1dp mb-4 a-t a-c-sm py-3 py-sm-5 px-2 px-sm-4">
-                          <div className="dis-fl-col-rev dis-fl-row-sm pos-r">
-                            <div className="">
-                              <BrixelSingleTag
-                                className="mb-2 flotingTag"
-                                lang={lang}
-                                message={{
-                                  lang: lang,
-                                  visited: translateTo('Visited', lang),
-                                }}
-                                status="visited"
-                                text={translateTo('Visited', lang)}
-                              />
-                              <h4 className="fweight-600 mb-1 mb-sm-2">
-                                <span>
-                                  {translateTo('You visited the property', lang)}
-                                </span>
-                              </h4>
-                              <p className='txtText700'>
-                                {translateTo('We hope you had a great experience.', lang)}
-                              </p>
-                            </div>
+                        <div className="bgBlue50 bbrdRadius shadow-1dp mb-4 a-t a-c-sm py-3 py-sm-5 px-2 px-sm-4 dis-fl-col-rev dis-fl-row-sm pos-r pos-r">
 
-                            <img
-                              src={PropertyVisitedImg}
-                              alt="Property Visited"
-                              className="ml-a h-fix-120"
+                          <div className="mb-2 mb-sm-4">
+                            <BrixelSingleTag
+                              className="mb-2 flotingTag"
+                              lang={lang}
+                              message={{
+                                lang: lang,
+                                visited: translateTo('Visited', lang),
+                              }}
+                              status="visited"
+                              text={translateTo('Visited', lang)}
                             />
+                            <h4 className="fweight-600 mb-1 mb-sm-2">
+                              <span>
+                                {translateTo('You visited the property', lang)}
+                              </span>
+                            </h4>
+                            <p className='txtText700'>
+                              {translateTo('We hope you had a great experience.', lang)}
+                            </p>
                           </div>
+
+                          <img
+                            src={PropertyVisitedImg}
+                            alt="Property Visited"
+                            className="ml-a-sm h-fix-64 h-fix-sm-160 mb-1 mb-sm-0"
+                          />
                         </div>
 
                         <div className="mt-4 dis-f jc-fe">
