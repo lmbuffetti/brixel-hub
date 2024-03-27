@@ -552,7 +552,6 @@ const SingleDeal = (props: SingleDealType) => {
                                               }
                                             </div>
                                           </div>
-                                          <hr className="lighter my-2" />
                                         </>
                                       )
                                     }
