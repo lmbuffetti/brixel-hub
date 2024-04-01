@@ -249,16 +249,16 @@ const DashboardHome = (props: DashboardHomeType) => {
             </div>
           </div>
         ) : (
-          <div className="pr-md-1 w-perc-100 w-perc-md-50 min-h-perc-100">
+          <div className="w-perc-100 min-h-perc-100">
             <div
               className="dis-f jc-b brdRadius bgWhite shadow-2dp py-3 pl-3 ov-h h-perc-100"
               onClick={() => history.push(`/${activeSingleProperty.id}/trialRequest/on-site?url=/${activeSingleProperty.id}/home`)}
             >
-              <div className="w-perc-100 max-w-fix-208">
-                <h5 className="mb-2 fSizePx18 fweight-600">
+              <div className="w-perc-100 dis-fl-col">
+                <h5 className="mb-1 fSizePx20 fweight-600">
                   {translateTo('Test drive our service. No strings attached.', lang)}
                 </h5>
-                <p className="fsize-300 txtText900">
+                <p className="fsize-400 txtText900 pb-2">
                   <span>{translateTo('Get the full Brixel experience worth', lang)}</span>
                   <span className="ml-small-4">
                     {get(activeSingleCompany, 'meta.teaserPackage.currency', '')} {Helpers.formatNumberValue(get(activeSingleCompany, 'meta.teaserPackage.price', 0), get(activeSingleCompany, 'meta.teaserPackage.currency', ''))}.
@@ -266,7 +266,7 @@ const DashboardHome = (props: DashboardHomeType) => {
                 </p>
                 <BrixelButtonPrimary
                   onClick={() => history.push(`/${activeSingleProperty.id}/trialRequest/on-site?url=/${activeSingleProperty.id}/home`)}
-                  className="mt-3"
+                  className="as-b mt-a"
                   rounded
                   label={translateTo('Book now', lang)}
                 />
@@ -279,7 +279,7 @@ const DashboardHome = (props: DashboardHomeType) => {
         )
       }
 
-      <div className="mt-3 mt-md-0 pl-md-1 w-perc-100 w-perc-md-50 min-h-perc-100">
+      {/*  <div className="mt-3 mt-md-0 pl-md-1 w-perc-100 w-perc-md-50 min-h-perc-100">
         <div
           onClick={() => history.push(`/${activeSingleProperty.id}/trialRequest/remote?url=/${activeSingleProperty.id}/home`)}
           className="dis-f jc-b brdRadius bgWhite shadow-2dp py-3 pl-3 ov-h h-perc-100"
@@ -309,7 +309,7 @@ const DashboardHome = (props: DashboardHomeType) => {
             />
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 
