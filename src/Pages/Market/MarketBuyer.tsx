@@ -17,7 +17,6 @@ import type {MarketBuyerType} from '../../@types/Pages/Market/MarketBuyer';
 
 const MarketCategoryListBuyer = lazyWithRetry(() => import('./MarketCategoryListBuyer'));
 const FavoritesProperty = lazyWithRetry(() => import('./Buyer/FavoritesProperty'));
-const EstimationsPropertyList = lazyWithRetry(() => import('./Buyer/EstimationsPropertyList'));
 
 
 const MarketBuyer = (props: MarketBuyerType) => {
@@ -52,11 +51,6 @@ const MarketBuyer = (props: MarketBuyerType) => {
       active: false,
       label: 'Saved properties',
       value: 'favorites',
-    },
-    {
-      active: false,
-      label: 'Estimations',
-      value: 'estimations',
     },
   ];
 
@@ -189,7 +183,6 @@ const MarketBuyer = (props: MarketBuyerType) => {
             ))
           }
           <Route path="/favorites/*" element={<FavoritesProperty />} />
-          <Route path="/estimations/*" element={<EstimationsPropertyList />} />
           <Route path="*" element={<Navigate to="/buy/searchProfile/published/1" />} />
         </Routes>
       </Suspense>
