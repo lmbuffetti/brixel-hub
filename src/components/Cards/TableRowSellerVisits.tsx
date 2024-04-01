@@ -68,6 +68,7 @@ const TableRowSellerVisits = (props: TableRowSellerVisitsType) => {
           avatarImg={get(user, 'avatarUrl', undefined)}
           name={get(user, 'name', '') ? get(user, 'name', '') : 'No Name'}
           size="M"
+          profileId={get(user, 'id', '')}
         />
         <p className="ml-2">
           {get(user, 'name', '')}
