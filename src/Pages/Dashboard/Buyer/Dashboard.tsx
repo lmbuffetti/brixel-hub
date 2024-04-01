@@ -11,7 +11,7 @@ import {getFavoritesProperties} from '../../../actions/MarketActions';
 import {getActiveSingleProperty} from '../../../actions/PropertyActions';
 import {setUserTypes} from '../../../actions/UserActions';
 import lazyWithRetry from '../../../components/LazyWithRetry';
-import SidebarBuyer from './SidebarBuyer';
+// import SidebarBuyer from './SidebarBuyer';
 import type {DashboardType} from '../../../@types/Pages/Dashboard/Buyer/Dashboard';
 
 const DashboardHome = lazyWithRetry(() => import('./DashboardHome'));
@@ -151,13 +151,13 @@ const Dashboard = (props: DashboardType) => {
             </Routes>
           </Suspense>
         </div>
-        {
+        {/*
           get(history, 'location.pathname', '').includes('home') && (
             <div className="historySidebar  max-w-fix-360">
               <SidebarBuyer />
             </div>
           )
-        }
+        */}
       </div>
     </>
   );

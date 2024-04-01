@@ -25,7 +25,7 @@ import {setUserTypes} from '../../../actions/UserActions';
 import lazyWithRetry from '../../../components/LazyWithRetry';
 import {calcPercentageFacts} from '../../../utils/helpers';
 
-import SellerSidebar from './SellerSidebar';
+// import SellerSidebar from './SellerSidebar';
 import type {DashboardType} from '../../../@types/Pages/Dashboard/Seller/Dashboard';
 
 const DashboardHome = lazyWithRetry(() => import('./DashboardHome'));
@@ -285,13 +285,13 @@ const Dashboard = (props: DashboardType) => {
             </Routes>
           </Suspense>
         </div>
-        {
+        {/*
           get(history, 'location.pathname', '').includes('home') && (
             <div className="historySidebar w-perc-100 max-w-fix-360">
               <SellerSidebar />
             </div>
           )
-        }
+        */}
       </div>
     </>
   );
