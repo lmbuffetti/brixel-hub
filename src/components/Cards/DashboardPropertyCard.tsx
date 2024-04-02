@@ -96,7 +96,7 @@ const DashboardPropertyCard: (props: DashboardPropertyCardProps) => JSX.Element 
                       {
                         type === 'buy' ? (
                           <div className="dis-fl-col dis-fl-row-sm">
-                            <div className="dis-f flex-1 jc-b">
+                            <div className="dis-f flex-1 jc-b jc-fs-sm">
                               <div className="brdSmallRight brdText100 pr-2">
                                 <h6 className="ff-mono txtText400 fsize-300">
                                   {translateTo('Living area', lang)}
