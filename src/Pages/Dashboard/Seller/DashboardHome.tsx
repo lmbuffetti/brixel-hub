@@ -40,7 +40,6 @@ import placeholderTextPropertyImg from '../../../images/dashboard/placeholderTex
 import reviewSaleSvg from '../../../images/dashboard/reviewSale.svg';
 import surveySaleSvg from '../../../images/dashboard/surveySale.svg';
 import bookTestDriveImg from '../../../images/TestDrive/bookTestDrive.png';
-import contactTestDriveImg from '../../../images/TestDrive/contactTestDrive.svg';
 import bookedTestDriveImg from '../../../images/TestDrive/scanTrialRequested.svg';
 import {calcPercentageFacts, calcPercentageProEstimation} from '../../../utils/helpers';
 import translateTo from '../../../utils/translation';
