@@ -1,3 +1,5 @@
+import type {OfferDetailType} from '../../Pages/Closing/Offers/OfferDetail';
+
 export interface DealsCardProps {
   archOnClick?: () => void;
   archived?: boolean;
@@ -8,7 +10,7 @@ export interface DealsCardProps {
   isNew?: boolean;
   isWinner?: boolean;
   name?: string;
-  offer?: string;
+  offer?: string | {offer: {amount: number}};
   parentOnClick?: () => void;
   profileId?: string;
   stage?: string;

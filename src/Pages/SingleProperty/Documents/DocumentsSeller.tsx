@@ -96,8 +96,9 @@ const Documents = (props: DocumentsPageType) => {
 
   useEffect(() => {
     if (has(formValue, 'location.countryCode')) {
-      if (documentConfig.mandatoryDocuments[get(formValue, 'location.countryCode', '')]) {
-        setMandatoryDocuments(documentConfig.mandatoryDocuments[get(formValue, 'location.countryCode', '')][get(formValue, 'properties.propertyType')]);
+      const country = formValue?.location?.countryCode || '';
+      if (documentConfig.mandatoryDocuments[country]) {
+        setMandatoryDocuments(documentConfig.mandatoryDocuments[country][get(formValue, 'properties.propertyType')]);
       } else {
         setMandatoryDocuments(documentConfig.mandatoryDocuments.EN[get(formValue, 'properties.propertyType', '')]);
       }

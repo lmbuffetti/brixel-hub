@@ -351,7 +351,6 @@ const Portals = (props) => {
 Portals.propTypes = {
   activeSingleCompany: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
-  changeFieldValue: PropTypes.func.isRequired,
   companyPortals: PropTypes.object.isRequired,
   customPortals: PropTypes.object.isRequired,
   // formValue: PropTypes.object.isRequired,

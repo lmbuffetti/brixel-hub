@@ -41,7 +41,7 @@ import translateTo from '../../utils/translation';
 import CoverPropertyImage from '../CoverPropertyImage';
 import CardImageText from '../Skeleton/CardImageText';
 import type {MarketCardProps} from '../../@types/components/Cards/MarketCard';
-import type {ServicePackageType} from '@brixel-io/brixel-components/dist/@types/Model';
+import type {EstimationType, ServicePackageType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 const MarketCard = (props: MarketCardProps) => {
   const history = {
@@ -156,7 +156,7 @@ const MarketCard = (props: MarketCardProps) => {
     }
   };
 
-  const openBestimateOverlay = (e, location, estim, page, action) => {
+  const openBestimateOverlay = (e, location, estim: EstimationType, page, action) => {
     if (e) e.preventDefault();
     onSetActiveProperty(page.id);
     setMarketOverlayProperty(page);

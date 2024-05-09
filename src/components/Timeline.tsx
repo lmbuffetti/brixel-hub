@@ -96,18 +96,18 @@ const Timeline = (props: TimelineType) => {
     let array: object[] = [];
     if (isDeal === true && has(activeDeal, 'user.id')) {
       if (activeDealOwnerHistoryList.total > 0 && activeDealOwnerHistoryList.data.length > 0) {
-        forEach(activeDealOwnerHistoryList.data, (item) => {
+        forEach(activeDealOwnerHistoryList.data, (item: any) => {
           array.push(createTimelineEntry(item, lang));
         });
       }
       if (activeDealHistoryList.total > 0 && activeDealHistoryList.data.length > 0) {
         // eslint-disable-next-line consistent-return
-        forEach(activeDealHistoryList.data, (item) => {
+        forEach(activeDealHistoryList.data, (item: any) => {
           // We need to call this stub on the history api to process
           // the visit feedback on the deal but we don't need it on the timeline
           if (item.actionStub !== 'deal-feedback-visit') array.push(createTimelineEntry(item, lang));
         });
-        const DealFeedback = activeDealHistoryList.data.filter(item => item.actionStub === 'deal-feedback-visit');
+        const DealFeedback: any = activeDealHistoryList.data.filter(item => item.actionStub === 'deal-feedback-visit');
         if (DealFeedback.length > 0) array.push(createTimelineEntry(DealFeedback[0], lang));
       }
 
@@ -120,14 +120,14 @@ const Timeline = (props: TimelineType) => {
       });
     } else {
       if (activePropertyHistoryList.total > 0 && activePropertyHistoryList.data.length > 0) {
-        forEach(activePropertyHistoryList.data, (item) => {
+        forEach(activePropertyHistoryList.data, (item: any) => {
           // We ignore page object updates (besides the price), document updates, favorites, schedules and adding packages
           array.push(createTimelineEntry(item, lang));
         });
       }
 
       if (activePropertyOwnerHistoryList.total > 0 && activePropertyOwnerHistoryList.data.length > 0) {
-        forEach(activePropertyOwnerHistoryList.data, (item) => {
+        forEach(activePropertyOwnerHistoryList.data, (item: any) => {
           // We want to get the user recovery and welcome to Brixel messages
           array.push(createTimelineEntry(item, lang));
         });

@@ -107,15 +107,20 @@ const Support = (props: SupportType) => {
                 <div>
                   <img className='w-fix-40' src={textImg} alt='text icon' />
                 </div>
-                <div className="dis-fl-col jc-c pl-2">
-                  <span className='fsize-300'> {translateTo('Text us via WhatsApp', lang)}</span>
-                  <a href={`https://wa.me/${Helpers.telephoneFormat(whatsapp, false, false, false, true)}`} className="td-u txtGreen400">
-                    {Helpers.telephoneFormat(whatsapp)}
-                  </a>
-                </div>
+                {
+                  whatsapp && typeof whatsapp !== 'string' && (
+                    <div className="dis-fl-col jc-c pl-2">
+                      <span className="fsize-300"> {translateTo('Text us via WhatsApp', lang)}</span>
+                      <a href={`https://wa.me/${Helpers.telephoneFormat(whatsapp, false, false, false, true)}`}
+                        className="td-u txtGreen400">
+                        {Helpers.telephoneFormat(whatsapp)}
+                      </a>
+                    </div>
+                  )
+                }
               </div>
             </div>
-            <div className={`dis-f  pt-3 pb-1 mt-2 brdSmallTop brdText50 ${requestDone ? 'jc-c'  : 'jc-b'}`}>
+            <div className={`dis-f  pt-3 pb-1 mt-2 brdSmallTop brdText50 ${requestDone ? 'jc-c' : 'jc-b'}`}>
               {
                 requestDone ? (
                   <>

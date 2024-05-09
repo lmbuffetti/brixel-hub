@@ -103,7 +103,6 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
   // }, [cat]);
 
   useEffect(() => {
-    console.log(LearnMoreListingsProperty)
     if (modalLearnMoreSrchPrf.multiActions) {
       const NextLabel = stepLearnMoreSrchPrf === stepLearnMoreListingsProperty ? translateTo('Got it', lang) : translateTo('Next', lang);
       const NextIcon = stepLearnMoreSrchPrf === stepLearnMoreListingsProperty ? 'tick' : 'arrow-right';

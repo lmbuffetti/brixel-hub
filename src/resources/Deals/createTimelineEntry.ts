@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 import translateTo from '../../utils/translation';
 import getConfigEnv from '@brixel-io/brixel-components/dist/configuration/Settings';
 
@@ -10,7 +11,15 @@ import isNaN from 'lodash/isNaN';
 import {formatPrice} from '../../utils/helpers';
 import {feedbackInvoled, feedbackReason} from '@brixel-io/brixel-components/dist/constants/FeedbackEmail';
 
-export const createTimelineEntry = (item, userLang) => {
+type itemType = {
+  actionStub: string;
+  meta: any;
+  createdAt: number;
+  updatedAt: number;
+  parent: any;
+}
+
+export const createTimelineEntry = (item: itemType, userLang) => {
   const getHTMLDescription = () => {
     // ITEM IS HISTORY ENTRY
     if (has(item, 'actionStub')) {
@@ -272,7 +281,9 @@ export const createTimelineEntry = (item, userLang) => {
   return {
     description: getHTMLDescription(), // Content of the event
     icon: getIcon(), // Defines the type of icon on the event
+    // @ts-ignore
     formattedDate: item.createdAt ? DateTime.fromMillis(item.createdAt, { locale: userLang }).toFormat('d LLL yyyy, H:mm') : '', // Formatted date to be shown on the event
+    // @ts-ignore
     timestamp: item.createdAt, // Unix timestamp for sorting purposes
     pinned: false, // Flag for sorting purposes
   };

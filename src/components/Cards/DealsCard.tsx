@@ -170,7 +170,7 @@ const DealsCard = (props: DealsCardProps) => {
               stage === 'Offer' && (
                 <div className="dis-fl-row a-c metaMessage">
                   {
-                    has(offer, 'offer.amount') ? (
+                    has(offer, 'offer.amount') && typeof offer !== 'string' ? (
                       <>
                         <BrixelIcon
                           icon="money"
@@ -180,7 +180,7 @@ const DealsCard = (props: DealsCardProps) => {
                           iconWidth="w-fix-16"
                         />
                         <span className={`txt${getOfferColor()}400 fsize-200`}>
-                          {get(offer, 'offer.currency', '')} {Helpers.formatNumberValue(get(offer, 'offer.amount', 0), get(offer, 'offer.currency', ''))}
+                          {get(offer, 'offer.currency', '')} {Helpers.formatNumberValue(offer?.offer?.amount || 0, get(offer, 'offer.currency', ''))}
                         </span>
                       </>
                     ) : (

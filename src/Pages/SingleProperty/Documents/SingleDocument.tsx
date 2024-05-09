@@ -77,7 +77,7 @@ const SingleDocument = (props: SingleDocumentType) => {
 
   useEffect(() => {
     if (has(activeSingleProperty, 'location.countryCode')) {
-      const docsConfig = documentConfig.mandatoryDocuments[get(activeSingleProperty, 'location.countryCode', '')][get(activeSingleProperty, 'properties.propertyType')];
+      const docsConfig = documentConfig.mandatoryDocuments[activeSingleProperty?.location?.countryCode ||''][get(activeSingleProperty, 'properties.propertyType')];
       const docsOptions = [{
         label: translateTo('Generic', lang),
         value: 'Generic',
