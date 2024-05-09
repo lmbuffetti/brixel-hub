@@ -892,7 +892,7 @@ const MarketCard = (props: MarketCardProps) => {
                         {
                           item && get(item, 'tags', []).length > 0 && item.tags.includes('pre-market') ? (
                             <>
-                              <p className="pl-0 pl-md-0 pb-1 pb-md-0 fsize-300 txtText400" dangerouslySetInnerHTML={{ __html: `<span>${translateTo('Your property is visible on our pre-market.', lang)}</span> <a href="/${get(item,  'id', '')}/marketing" class="fsize-300 fweight-500 txtBlue700 cur-poi ml-1 td-u lh-in btnInline">${translateTo('Learn more.', lang)}</a>` }} />
+                              {/*<p className="pl-0 pl-md-0 pb-1 pb-md-0 fsize-300 txtText400" dangerouslySetInnerHTML={{ __html: `<span>${translateTo('Your property is visible on our pre-market.', lang)}</span> <a href="/${get(item,  'id', '')}/marketing" class="fsize-300 fweight-500 txtBlue700 cur-poi ml-1 td-u lh-in btnInline">${translateTo('Learn more.', lang)}</a>` }} />*/}
                             </>
                           ) : (
                             <>

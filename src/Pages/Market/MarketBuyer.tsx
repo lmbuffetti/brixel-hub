@@ -55,18 +55,24 @@ const MarketBuyer = (props: MarketBuyerType) => {
   ];
 
   // FILTER BY PROP TYPE
+  // const filterPropType = [
+  //   {
+  //     label: translateTo('All', lang),
+  //     value: 'all',
+  //   },
+  //   {
+  //     label: translateTo('Published', lang),
+  //     value: 'published',
+  //   },
+  //   {
+  //     label: translateTo('Pre-Market', lang),
+  //     value: 'pre-market',
+  //   },
+  // ]
   const filterPropType = [
-    {
-      label: translateTo('All', lang),
-      value: 'all',
-    },
     {
       label: translateTo('Published', lang),
       value: 'published',
-    },
-    {
-      label: translateTo('Pre-Market', lang),
-      value: 'pre-market',
     },
   ]
 
@@ -113,14 +119,14 @@ const MarketBuyer = (props: MarketBuyerType) => {
         type: '',
       };
       switch (type) {
-        case 'all':
-          data.type = 'all';
-          handleGetBuyerProperties(data);
-          break;
-        case 'pre-market':
-          data.type = 'premarket';
-          handleGetBuyerProperties(data);
-          break;
+        // case 'all':
+        //   data.type = 'all';
+        //   handleGetBuyerProperties(data);
+        //   break;
+        // case 'pre-market':
+        //   data.type = 'premarket';
+        //   handleGetBuyerProperties(data);
+        //   break;
         case 'published':
           data.type = 'published';
           handleGetBuyerProperties(data);

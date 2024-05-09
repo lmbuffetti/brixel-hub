@@ -6,7 +6,7 @@ import {bindActionCreators, compose} from 'redux';
 import {connect} from 'react-redux';
 import {BrixelButtonPrimary, BrixelButtonText, BrixelStatus} from '@brixel-io/brixel-components';
 import translateTo from '../../utils/translation';
-import {BrixelSwitchButton, change, reset} from '@brixel-io/brixel-components/dist/form';
+import {change, reset} from '@brixel-io/brixel-components/dist/form';
 import {updatePortalsReview} from '../../actions/PropertyActions';
 import {setModal} from '../../actions/CommonActions';
 import {MarketingModalData} from '../../resources/SingleProperty/marketingModal';
@@ -18,7 +18,7 @@ const Portals = (props) => {
   const {
     activeSingleCompany,
     activeSingleProperty,
-    changeFieldValue,
+    // changeFieldValue,
     companyPortals,
     customPortals,
     handleSetModal,
@@ -318,7 +318,7 @@ const Portals = (props) => {
       </div>
 
 
-      {
+      {/*
         get(activeSingleProperty, 'published', null) === false && (
           <div className="bgWhite brdRadius p-4 mt-2">
             <BrixelSwitchButton
@@ -342,7 +342,7 @@ const Portals = (props) => {
             }
           </div>
         )
-      }
+      */}
 
     </>
   );

@@ -1,4 +1,4 @@
-import {BrixelButtonIcon, BrixelButtonPrimary, BrixelDropdown, BrixelIcon} from '@brixel-io/brixel-components';
+import {BrixelButtonIcon, BrixelButtonPrimary, BrixelIcon} from '@brixel-io/brixel-components';
 import get from 'lodash/get';
 import React, {Suspense, useEffect, useState} from 'react';
 import {connect} from 'react-redux';
@@ -18,7 +18,7 @@ import {QuestionsList} from '../../resources/Flows/onBoardingBuyer';
 import {getCookie, setCookie} from '../../utils/helpers';
 import {titleSearchProfile} from '../../utils/titleCreationSearchProfile';
 import translateTo from '../../utils/translation';
-import LearnMoreListingsProperty from './Buyer/LearnMoreListingsProperty';
+import LearnMoreListingsProperty, {stepLearnMoreListingsProperty} from './Buyer/LearnMoreListingsProperty';
 import type {MarketCategoryListBuyerType} from '../../@types/Pages/Market/MarketCategoryListBuyer';
 
 const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
@@ -32,7 +32,7 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
     activeSingleCompany,
     activeSearchProfile,
     buyerProperties,
-    filterPropType = [],
+    // filterPropType = [],
     handleGetActiveSingleCompany,
     handleSetModal,
     lang,
@@ -46,7 +46,7 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
   } = props;
   // STATE
   const [fieldsSearchProfile, setFieldsSearchProfile] = useState<string[]>([]);
-  const [activeTab, setActiveTab] = useState(filterPropType[0]);
+  // const [activeTab, setActiveTab] = useState(filterPropType[0]);
   const [stepLearnMoreSrchPrf, setStepLearnMoreSrchPrf] = useState(1);
   // URL PARAMS
   const cat = get(match, 'cat', null);
@@ -97,26 +97,27 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
     };
   }, []);
 
-  useEffect(() => {
-    const fltProp = filterPropType.find((flt) => flt.value === cat);
-    if (fltProp) setActiveTab(fltProp);
-  }, [cat]);
+  // useEffect(() => {
+  //   const fltProp = filterPropType.find((flt) => flt.value === cat);
+  //   if (fltProp) setActiveTab(fltProp);
+  // }, [cat]);
 
   useEffect(() => {
+    console.log(LearnMoreListingsProperty)
     if (modalLearnMoreSrchPrf.multiActions) {
-      const NextLabel = stepLearnMoreSrchPrf === 5 ? translateTo('Got it', lang) : translateTo('Next', lang);
-      const NextIcon = stepLearnMoreSrchPrf === 5 ? 'tick' : 'arrow-right';
+      const NextLabel = stepLearnMoreSrchPrf === stepLearnMoreListingsProperty ? translateTo('Got it', lang) : translateTo('Next', lang);
+      const NextIcon = stepLearnMoreSrchPrf === stepLearnMoreListingsProperty ? 'tick' : 'arrow-right';
       const step1Translate = translateTo('Step', lang);
       const step2Translate = translateTo('of', lang);
       handleSetModal({
         ...modalLearnMoreSrchPrf,
         component: React.createElement(LearnMoreListingsProperty, {lang, step: stepLearnMoreSrchPrf}),
-        title: `${step1Translate} ${stepLearnMoreSrchPrf} ${step2Translate} 5`,
+        title: `${step1Translate} ${stepLearnMoreSrchPrf} ${step2Translate} ${stepLearnMoreListingsProperty}`,
         multiActions: [
           {
             ...modalLearnMoreSrchPrf.multiActions[0],
-            name: stepLearnMoreSrchPrf === 5 ? translateTo('Restart', lang) : translateTo('Skip', lang),
-            rightIcon: stepLearnMoreSrchPrf === 5 ? 'restart' : '',
+            name: stepLearnMoreSrchPrf === stepLearnMoreListingsProperty ? translateTo('Restart', lang) : translateTo('Skip', lang),
+            rightIcon: stepLearnMoreSrchPrf === stepLearnMoreListingsProperty ? 'restart' : '',
             func: () => {
               setStepLearnMoreSrchPrf(1);
               handleSetModal({})
@@ -129,7 +130,7 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
             leftIcon: windowDimensions.width < 768 ? 'arrow-left' : '',
             name: windowDimensions.width < 768 ? '' : translateTo('Back', lang),
             func: () => {
-              if (stepLearnMoreSrchPrf > 1 && stepLearnMoreSrchPrf <= 5) setStepLearnMoreSrchPrf((prev) => prev - 1);
+              if (stepLearnMoreSrchPrf > 1 && stepLearnMoreSrchPrf <= stepLearnMoreListingsProperty) setStepLearnMoreSrchPrf((prev) => prev - 1);
             },
           },
           {
@@ -139,7 +140,7 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
             btnType: windowDimensions.width < 768 ? 'Icon' : 'Primary',
             name: windowDimensions.width < 768 ? '' : NextLabel,
             func: () => {
-              if (stepLearnMoreSrchPrf < 5) setStepLearnMoreSrchPrf((prev) => prev + 1);
+              if (stepLearnMoreSrchPrf < stepLearnMoreListingsProperty) setStepLearnMoreSrchPrf((prev) => prev + 1);
               else {
                 setStepLearnMoreSrchPrf(1);
                 handleSetModal({});
@@ -152,11 +153,11 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
   }, [stepLearnMoreSrchPrf, windowDimensions]);
 
   const onLearnMore = () => {
-    const NextLabel = stepLearnMoreSrchPrf === 5 ? translateTo('Got it', lang) : translateTo('Next', lang);
-    const NextIcon = stepLearnMoreSrchPrf === 5 ? 'tick' : 'arrow-right';
+    const NextLabel = stepLearnMoreSrchPrf === stepLearnMoreListingsProperty ? translateTo('Got it', lang) : translateTo('Next', lang);
+    const NextIcon = stepLearnMoreSrchPrf === stepLearnMoreListingsProperty ? 'tick' : 'arrow-right';
     const step1Translate = translateTo('Step', lang);
     const step2Translate = translateTo('of', lang);
-    const title = `${step1Translate} 1 ${step2Translate} 5`;
+    const title = `${step1Translate} 1 ${step2Translate} ${stepLearnMoreListingsProperty}`;
     handleSetModal({
       className: 'modal-learn-more',
       bodyClassColor: 'white',
@@ -176,10 +177,10 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
         {
           round: true,
           clr: 'text',
-          rigthIcon: stepLearnMoreSrchPrf === 5 ? 'restart' : '',
+          rigthIcon: stepLearnMoreSrchPrf === stepLearnMoreListingsProperty ? 'restart' : '',
           btnType: 'Tertiary',
           className: 'mr-a ml-0',
-          name: stepLearnMoreSrchPrf === 5 ? translateTo('Restart', lang) : translateTo('Skip', lang),
+          name: stepLearnMoreSrchPrf === stepLearnMoreListingsProperty ? translateTo('Restart', lang) : translateTo('Skip', lang),
           func: () => {
             setStepLearnMoreSrchPrf(1);
             handleSetModal({})
@@ -196,7 +197,7 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
           leftIcon: windowDimensions.width < 768 ? 'arrow-left' : '',
           disabled: stepLearnMoreSrchPrf === 1,
           func: () => {
-            if (stepLearnMoreSrchPrf > 1 && stepLearnMoreSrchPrf <= 5) setStepLearnMoreSrchPrf((prev) => prev - 1);
+            if (stepLearnMoreSrchPrf > 1 && stepLearnMoreSrchPrf <= stepLearnMoreListingsProperty) setStepLearnMoreSrchPrf((prev) => prev - 1);
           },
         },
         {
@@ -207,18 +208,18 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
           leftIcon: windowDimensions.width < 768 ? NextIcon : '',
           btnType: windowDimensions.width < 768 ? 'Icon' : 'Primary',
           func: () => {
-            if (stepLearnMoreSrchPrf < 5) setStepLearnMoreSrchPrf((prev) => prev + 1);
+            if (stepLearnMoreSrchPrf < stepLearnMoreListingsProperty) setStepLearnMoreSrchPrf((prev) => prev + 1);
             else handleSetModal({});
           },
         },
       ],
     })
   }
-
-  const onChangeFilter = (val) => {
-    setActiveTab(val);
-    history.push(`/buy/searchProfile/${val.value}/1`);
-  }
+  //
+  // const onChangeFilter = (val) => {
+  //   setActiveTab(val);
+  //   history.push(`/buy/searchProfile/${val.value}/1`);
+  // }
 
   return (
     <>
@@ -438,13 +439,13 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
                   )
                 }
               </div>
-              <div>
-                <BrixelDropdown
-                  selected={translateTo(activeTab.label || '', lang)}
-                  onSelect={(_e, val) => onChangeFilter(val)}
-                  options={filterPropType}
-                />
-              </div>
+              {/*<div>*/}
+              {/*  <BrixelDropdown*/}
+              {/*    selected={translateTo(activeTab.label || '', lang)}*/}
+              {/*    onSelect={(_e, val) => onChangeFilter(val)}*/}
+              {/*    options={filterPropType}*/}
+              {/*  />*/}
+              {/*</div>*/}
             </div>
             <div className="row-cols-1-gut-3 row-cols-sm-2-gut-3 row-cols-md-3-gut-3">
               {
