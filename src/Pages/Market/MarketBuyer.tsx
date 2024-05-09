@@ -30,7 +30,7 @@ const MarketBuyer = (props: MarketBuyerType) => {
     destroyForm,
     handleGetActiveSingleCompany,
     handleGetBuyerProperties,
-    handleGetOwnedEstimations,
+    // handleGetOwnedEstimations,
     handleGetUserSearchProfiles,
     handleGetWishlistProperties,
     handleSpinnerOff,
@@ -91,7 +91,7 @@ const MarketBuyer = (props: MarketBuyerType) => {
         isBuyer: true,
       };
       handleGetUserSearchProfiles(loggedInUser.id);
-      handleGetOwnedEstimations(data);
+      // handleGetOwnedEstimations(data);
       data.resultsPerPage = 50;
       handleGetWishlistProperties(data);
       handleSpinnerOff();

@@ -1,5 +1,3 @@
-import type {OfferDetailType} from '../../Pages/Closing/Offers/OfferDetail';
-
 export interface DealsCardProps {
   archOnClick?: () => void;
   archived?: boolean;

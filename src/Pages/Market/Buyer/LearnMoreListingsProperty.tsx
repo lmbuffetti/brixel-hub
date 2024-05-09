@@ -79,7 +79,7 @@ const LearnMoreListingsProperty = (props: LearnMoreListingsPropertyType) => {
           <ul className="pl-3">
             <li>{translateTo('Easily see property location;', lang)}</li>
             <li className="my-1">{translateTo('Hide a property if you’re not interested;', lang)}</li>
-            <li>{translateTo('Like properties to add them to your saved list. If you save a Pre-Market property, you get notified when it’ll be available on the market.', lang)}</li>
+            <li>{translateTo('Like properties to add them to your saved list.', lang)}</li>
           </ul>
         </div>
       </div>
