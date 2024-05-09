@@ -212,9 +212,9 @@ const MarketList = (props: MarketListType) => {
       case 'premium': {
         return 'Premium properties';
       }
-      case 'preMarket': {
-        return 'Pre-market properties';
-      }
+      // case 'preMarket': {
+      //   return 'Pre-market properties';
+      // }
       default:
         return '';
     }
@@ -252,9 +252,6 @@ const MarketList = (props: MarketListType) => {
   const openCard = (item) => {
     if (catName === 'own') {
       history.push(`/${item.id}/home`, { state: { section: 'Market' }});
-    } else if (catName === 'preMarket' || get(item, 'tags', []).includes('pre-market')) {
-      setSplashScreen('marketOverlay');
-      setMarketOverlayProperty(item);
     } else if (catName === 'favorite' || catName === 'wishlist') {
       history.push(`/buyer/${item.id}/property/page`, { state: { section: 'Market' }});
     } else window.open(`${baseByData?.pageUrl}${item.stub}`, '_blank');

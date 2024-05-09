@@ -8,15 +8,15 @@ export const PackagesComparePlansTable = [
       one: { color: 'text' },
     },
   },
-  {
-    title: 'Pre-market',
-    td: {
-      basic: { color: 'green' },
-      private: { color: 'blue' },
-      premium: { color: 'red' },
-      one: { color: 'text' },
-    },
-  },
+  // {
+  //   title: 'Pre-market',
+  //   td: {
+  //     basic: { color: 'green' },
+  //     private: { color: 'blue' },
+  //     premium: { color: 'red' },
+  //     one: { color: 'text' },
+  //   },
+  // },
   {
     title: 'Brixel Page',
     td: {

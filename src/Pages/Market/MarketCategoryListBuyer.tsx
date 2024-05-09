@@ -420,7 +420,7 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
                           <div>
                             <p className="txtText700 fSizePx14">
                               <span>
-                                {translateTo('Properties could already be for sale or still in the Pre-Market.', lang)}
+                                {translateTo('Properties could already be for sale.', lang)}
                               </span>
                               <span>
                                 <button
