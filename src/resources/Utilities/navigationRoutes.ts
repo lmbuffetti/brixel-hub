@@ -22,6 +22,11 @@ export const sidebarNavigationSeller = [
         path: '/:propID/property/facts',
       },
       {
+        title: 'Description',
+        name: 'description',
+        path: '/:propID/property/description',
+      },
+      {
         title: 'Photos',
         name: 'photos',
         path: '/:propID/property/photos',

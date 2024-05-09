@@ -75,7 +75,7 @@ const Facts = (props: FactsType) => {
     if (calcPercentageFacts().calcPerc !== calcPercentageFacts().savedPerc) {
       const inputSheet = cloneDeep(get(formValue, 'inputSheet', {}) || {});
       set(inputSheet, 'totalComplete', calcPercentageFacts().calcPerc);
-      changeFieldValue('inputSheet', inputSheet);
+      changeFieldValue && changeFieldValue('inputSheet', inputSheet);
     }
     if (selectedQuest) {
       const findCurrentId = Questions.findIndex((quest) => quest.history === get(selectedQuest, 'history', null));
@@ -261,7 +261,6 @@ const mapStateToProps = (state) => ({
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
   activeSingleUser: get(state, 'user.activeSingleUser', {}),
   singleUserPropertyList: get(state, 'property.singleUserPropertyList', []),
-  notification: get(state, 'common.notification', []),
   initial: get(state, 'brixelForm.Property.initial', {}),
   lang: get(state, 'common.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser', {}),

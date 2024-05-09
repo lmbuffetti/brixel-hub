@@ -14,6 +14,8 @@ const Price = lazyWithRetry(() => import('../../SingleProperty/Price'));
 
 const Facts = lazyWithRetry(() => import('../../SingleProperty/Facts'));
 
+const Description = lazyWithRetry(() => import('../../SingleProperty/Description'));
+
 const Photos = lazyWithRetry(() => import('../../SingleProperty/Media/Photos'));
 
 const Plans = lazyWithRetry(() => import('../../SingleProperty/Media/Plans'));
@@ -102,6 +104,17 @@ const PropertyDashboard = (props: PropertyDashboardType) => {
                   <BrixelButtonBox
                     verticalView
                     bgTransparent
+                    icon="message"
+                    label={translateTo('Description', lang)}
+                    labelClass="fweight-400"
+                    className="w-perc-100 ml-1 shadow-1dp brdMedium brdTrans p-2"
+                    colorIcon="primary700"
+                    backIcon="primary100"
+                    onClick={() => history.push(`/${propID}/property/description`)}
+                  />
+                  <BrixelButtonBox
+                    verticalView
+                    bgTransparent
                     icon="gallery"
                     label={translateTo('Photos', lang)}
                     labelClass="fweight-400"
@@ -112,6 +125,8 @@ const PropertyDashboard = (props: PropertyDashboardType) => {
                     backIcon="primary100"
                     onClick={() => history.push(`/${propID}/property/photos`)}
                   />
+                </div>
+                <div className="dis-f mt-2">
                   <BrixelButtonBox
                     verticalView
                     bgTransparent
@@ -125,8 +140,6 @@ const PropertyDashboard = (props: PropertyDashboardType) => {
                     backIcon="primary100 "
                     onClick={() => history.push(`/${propID}/property/floorPlans`)}
                   />
-                </div>
-                <div className="dis-f mt-2 max-w-perc-50">
                   <BrixelButtonBox
                     verticalView
                     bgTransparent
@@ -153,6 +166,7 @@ const PropertyDashboard = (props: PropertyDashboardType) => {
               <Suspense fallback={<Loading skeleton isLoading />}>
                 <Routes>
                   <Route path="/facts/*" element={<Facts />} />
+                  <Route path="/description/*" element={<Description />} />
                   <Route path="/price/*" element={<Price />} />
                   <Route path="/photos/*" element={<Photos />} />
                   <Route path="/floorPlans/*" element={<Plans />} />
