@@ -881,20 +881,18 @@ const MarketCard = (props: MarketCardProps) => {
               <div
                 className="dis-fl-col dis-fl-row-sm a-c-sm jc-b-sm flex-wrap"
               >
-
-                {
-                  get(item, 'published', null) === true && (
-                    <div
-                      className="dis-fl-col dis-fl-row-sm ta-l"
-                    >
-                      <div className="dis-fl-row-sm">
-                        <p className="pl-1 fsize-300 txtText400">
-                          <span>{translateTo('Your property is visible on our market.', lang)}</span>
-                        </p>
-                      </div>
-                    </div>
-                  )
-                }
+                <div
+                  className="dis-fl-col dis-fl-row-sm ta-l"
+                >
+                  <div className="dis-fl-row-sm">
+                    <p className="pl-1 fsize-300 txtText400">
+                      {get(item, 'published', null) === true && (
+                        <span>{translateTo('Your property is visible on our market.', lang)}</span>
+                      )
+                      }
+                    </p>
+                  </div>
+                </div>
                 <div className="pt-1 pt-sm-0 ml-sm-a dis-fl-col dis-fl-row-sm a-c">
                   {
                     isSmallLoading[`loadPackage${get(item, 'id', '')}`] === false && (
