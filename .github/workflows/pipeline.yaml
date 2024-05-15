@@ -28,11 +28,11 @@ jobs:
       - name: Print installed version of brixel-components
         run: pnpm list --depth=0 | grep @brixel-io/brixel-components
       - run: pnpm run build-prod
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: dist
           path: ./dist
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: cypress
           path: ./cypress
