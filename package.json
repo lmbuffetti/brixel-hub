@@ -47,7 +47,7 @@
     "build-prod": "NODE_ENV=page-prod webpack --config webpack.config.js --progress --env PROD --mode production",
     "start-updated": "rm -rf node_modules/@brixel-io && rm -rf package-lock.json && npm install && npx kill-port 5000 && NODE_ENV=page-dev webpack serve --no-client-overlay --config webpack.config.js --progress profile --env DEV_LOCAL --mode development",
     "lint": "eslint --fix --config .eslintrc --ignore-path .eslintignore .",
-    "ncu-u": "ncu -x 'redux-actions universal-cookie' -u",
+    "ncu-u": "ncu -x 'redux-actions' -u",
     "e2e": "npx cypress run --e2e --headless --browser chrome",
     "test-cypress": "npm run start-test & npm run e2e",
     "run-cypress": "cypress run",
