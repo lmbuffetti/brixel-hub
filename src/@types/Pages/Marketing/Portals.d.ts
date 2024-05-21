@@ -1,18 +1,16 @@
-import {CompanyType, PropertyType} from '@brixel-io/brixel-components/dist/@types/Model';
-
+interface SinglePortal {
+  name: string,
+  displayName: string,
+  exportPossible: boolean,
+  canHavePropertyUrl: boolean,
+  portal: SinglePortal
+  url: string
+}
 export interface PortalsType {
-  activeSingleCompany: CompanyType;
-  activeSingleProperty: PropertyType;
-  changeFieldValue: (field: string, value: string) => void;
-  formValue: PropertyType;
-  handleSetModal: (data: object) => void;
-  handleUpdatePublishedReview: (data: object) => void;
-  isSmallLoading: {
-    saveMarketingPage: boolean;
-    pageReview: boolean;
-  };
-  lang: string;
-  modal: ModalType;
+  portal: SinglePortal,
+  exportEnabled: boolean,
+  url: string,
+  children: SinglePortal[]
 }
 
 export interface StatusType {

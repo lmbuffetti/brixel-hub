@@ -10,7 +10,8 @@ import {change, reset} from '@brixel-io/brixel-components/dist/form';
 import {updatePortalsReview} from '../../actions/PropertyActions';
 import {setModal} from '../../actions/CommonActions';
 import {MarketingModalData} from '../../resources/SingleProperty/marketingModal';
-import type {StatusType} from '../../@types/Pages/Marketing/Portals';
+import api from '../../controllers/api/config';
+import type {PortalsType, StatusType} from '../../@types/Pages/Marketing/Portals';
 
 const Portals = (props) => {
   const match = useParams();
@@ -19,17 +20,17 @@ const Portals = (props) => {
     activeSingleCompany,
     activeSingleProperty,
     // changeFieldValue,
-    companyPortals,
     customPortals,
     handleSetModal,
     handleUpdatePortalsReview,
     isSmallLoading,
     lang,
     modal,
-    portals,
   } = props;
   // STATE
   const [status, setStatus] = useState<StatusType>();
+  const [portalsList, setPortalsList] = useState<PortalsType[] | null>(null)
+
   // URL PARAMS
   const propID = get(match, 'propID', null);
   const MarketingModal = MarketingModalData(lang);
@@ -37,35 +38,70 @@ const Portals = (props) => {
   // GET PORTALS STATUS
   const checkPortalsOnline = () => {
     let isOnline = false;
-    Object.keys(portals).forEach((key) => {
-      if (portals[key] && get(customPortals, `${key}`, true) && !isOnline && !key.includes('Url')) isOnline = true;
-    });
-    Object.keys(customPortals).forEach((key) => {
-      if (customPortals[key] && !isOnline && !key.includes('Url')) isOnline = true;
-    });
+    if (portalsList && portalsList.length > 0) {
+      let counter = portalsList.length;
+      portalsList.forEach((el) => {
+        if (el.exportEnabled === true) counter++;
+        if (el.exportEnabled === null || el.exportEnabled === false) counter--;
+      });
+      if (counter === 0) {
+        isOnline = false;
+      }
+      if (counter > 0) {
+        isOnline = true;
+      }
+    }
     return isOnline;
   };
 
   // ASSIGN COLOR AND TEXT BY STATUS
   useEffect(() => {
-    if (activeSingleProperty.portalsReview) {
-      setStatus({
-        text: translateTo('Review', lang),
-        color: 'Yellow400',
-        state: 'review',
+    if (portalsList && portalsList.length > 0) {
+      if (activeSingleProperty.portalsReview) {
+        setStatus({
+          text: translateTo('Review', lang),
+          color: 'Yellow400',
+          state: 'review',
+        });
+      } else if (checkPortalsOnline() === true) {
+        setStatus({
+          text: translateTo('Published', lang),
+          color: 'Green400',
+          state: 'published',
+        });
+      } else {
+        setStatus({
+          text: translateTo('Unpublished', lang),
+          color: 'Red400',
+          state: 'unpublished',
+        });
+      }
+    }
+  }, [portalsList]);
+
+  const getPortals = () => {
+    let portals: PortalsType[] = [];
+    const callArray: Promise<void>[] = []
+    const call = api.portals.getPortals(activeSingleProperty.id)
+      .then((res) => {
+        if (res.meta.status === 200) {
+          portals = res.data;
+        }
+      })
+      .catch((err) => {
+        // eslint-disable-next-line no-console
+        console.error(err);
       });
-    } else if (checkPortalsOnline()) {
-      setStatus({
-        text: translateTo('Published', lang),
-        color: 'Green400',
-        state: 'published',
-      });
-    } else {
-      setStatus({
-        text: translateTo('Unpublished', lang),
-        color: 'Red400',
-        state: 'unpublished',
-      });
+
+    callArray.push(call);
+    Promise.allSettled(callArray).then(() => {
+      setPortalsList(portals)
+    })
+  }
+
+  useEffect(() => {
+    if (activeSingleProperty.id) {
+      getPortals()
     }
   }, [activeSingleProperty]);
 
@@ -175,54 +211,94 @@ const Portals = (props) => {
 
         <div className="portalsList mt-3">
           {
-            checkPortalsOnline() && Object.keys(companyPortals).map((key, i) => (
+            checkPortalsOnline() && portalsList && portalsList.length > 0 && portalsList.map((portal, i) => (
               <React.Fragment
                 key={`prt_${i.toString()}`}
               >
                 {
-                  companyPortals[key] && (
-                    <>
-                      {
-                        portals[key] ? (
-                          <>
-                            {
-                              portals[`${key}Url`] ? (
-                                <a
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  href={portals[`${key}Url`]}
-                                  className="dis-f a-c"
-                                >
-                                  <span className="fsize-300 txtGreen400 td-u">{translateTo(key, lang)}</span>
-                                  <BrixelStatus
-                                    color="green"
-                                  />
-                                </a>
-                              ) : (
-                                <div className="dis-f a-c">
-                                  <span className="fsize-300 txtText900">{translateTo(key, lang)}</span>
-                                  <BrixelStatus
-                                    color="green"
-                                  />
-                                </div>
-                              )
-                            }
-                          </>
-                        ) : (
-                          <div className="dis-f a-c singlePortal">
-                            <span className="fsize-300 txtText900">{translateTo(key, lang)}</span>
-                            <BrixelStatus
-                              color="red"
-                            />
-                          </div>
-                        )
-                      }
-                    </>
-                  )
-                }
+                  portal.children.length === 0 ? (
+                    portal.exportEnabled ? (
+                      <>
+                        {
+                          portal.url ? (
+                            <a
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              href={portal.url}
+                              className="dis-f a-c"
+                            >
+                              <BrixelStatus
+                                color={`${portal.exportEnabled ? 'green' : 'red'}`}
+                              />
+                              <span className={`fsize-300 ${portal.exportEnabled ? 'txtGreen400' : 'txtText900'} td-u ml-1`}>{translateTo(portal.portal.displayName, lang)}</span>
+                            </a>
+                          ) : (
+                            <div className="dis-f a-c">
+                              <BrixelStatus
+                                color={`${portal.exportEnabled ? 'green' : 'red'}`}
+                              />
+                              <span className="fsize-300 txtText900 ml-1">{translateTo(portal.portal.displayName, lang)}</span>
+                            </div>
+                          )
+                        }
+                      </>
+                    ) : (
+                      <div className="dis-f a-c singlePortal">
+                        <BrixelStatus
+                          color="red"
+                        />
+                        <span className="fsize-300 txtText900 ml-1">{translateTo(portal.portal.displayName, lang)}</span>
+                      </div>
+                    )
+                  
+                  ) : (
+                    portal.children.length > 0 && portal.children.map((portalChild, j) => (
+                      <React.Fragment
+                        key={`prtChld_${j.toString()}`}
+                      >
+                        {
+                          portal.exportEnabled ? (
+                            <>
+                              {
+                                portalChild.url ? (
+                                  <a
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    href={portalChild.url}
+                                    className="dis-f a-c"
+                                  >
+                                    <BrixelStatus
+                                      color={`${portal.exportEnabled ? 'green' : 'red'}`}
+                                    />
+                                    <span className={`fsize-300 ${portal.exportEnabled ? 'txtGreen400' : 'txtText900'} td-u ml-1`}>{translateTo(portalChild.portal.displayName, lang)}</span>
+                                  </a>
+                                ) : (
+                                  <div className="dis-f a-c">
+                                    <BrixelStatus
+                                      color={`${portal.exportEnabled ? 'green' : 'red'}`}
+                                    />
+                                    <span className="fsize-300 txtText900 ml-1">{translateTo(portalChild.portal.displayName, lang)}</span>
+                                  </div>
+                                )
+                              }
+                            </>
+                          ) : (
+                            <div className="dis-f a-c singlePortal">
+                              <BrixelStatus
+                                color="red"
+                              />
+                              <span className="fsize-300 txtText900 ml-1">{translateTo(portalChild.portal.displayName, lang)}</span>
+                            </div>
+                          )
+                        }
+                      </React.Fragment>
+                    ))
+                  )}
               </React.Fragment>
             ))
           }
+
+          {/* CUSTOM PORTALS */}
           {
             Object.keys(customPortals).map((key, i) => (
               <React.Fragment key={`cstPrt_${i.toString()}`}>
@@ -263,28 +339,6 @@ const Portals = (props) => {
             ))
           }
         </div>
-
-        {/* {
-          checkPortalsOnline() && !formValue.portalsReview && (
-            <>
-              <div>
-                <p className="fweight-500 txtText900 mb-1 mt-5">{translateTo('Portals description', lang)}</p>
-                <span className="txtText600">{translateTo('Description text which is shown on portals only.', lang)}</span>
-              </div>
-              <ReduxField
-                form="Property"
-                input={{
-                  name: 'description.portalHighlight',
-                  placeholder: translateTo('Add text', lang),
-                }}
-                design={{
-                  className: 'mt-2',
-                }}
-                component={BrixelTextArea}
-              />
-            </>
-          )
-        } */}
 
         <div className="dis-f a-c jc-fe mt-5">
           {
@@ -351,7 +405,6 @@ const Portals = (props) => {
 Portals.propTypes = {
   activeSingleCompany: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
-  companyPortals: PropTypes.object.isRequired,
   customPortals: PropTypes.object.isRequired,
   // formValue: PropTypes.object.isRequired,
   handleSetModal: PropTypes.func.isRequired,
@@ -359,7 +412,6 @@ Portals.propTypes = {
   isSmallLoading: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
   modal: PropTypes.object.isRequired,
-  portals: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => {
@@ -368,13 +420,11 @@ const mapStateToProps = (state) => {
   return ({
     activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
     activeSingleProperty,
-    companyPortals: get(state, 'companies.activeSingleCompany.availablePortals', {}),
     customPortals: get(activeSingleProperty, 'customPortals', {}),
     // formValue,
     lang: get(state, 'common.language', 'en'),
     isSmallLoading: get(state, 'common.isSmallLoading', {}),
     modal: get(state, 'common.modal', {}),
-    portals: get(activeSingleProperty, 'portals', {}),
   });
 };
 
