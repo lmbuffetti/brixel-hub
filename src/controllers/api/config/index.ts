@@ -12,6 +12,7 @@ import Property from '../actions/Property';
 import SearchProfile from '../actions/SearchProfile';
 import Upload from '../actions/Upload';
 import User from '../actions/User';
+import Portals from '../actions/Portals';
 import ApiClient from './ApiClient';
 
 import getConfigEnvWeb from '@brixel-io/brixel-components/dist/configuration/SettingsWebpack';
@@ -39,6 +40,7 @@ function apiFactory({ baseURL }: {baseURL: string}) {
     property: new Property(apiData),
     searchProfile: new SearchProfile(apiData),
     user: new User(apiData),
+    portals: new Portals(apiData),
   };
 }
 

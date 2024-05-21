@@ -63,6 +63,12 @@ export default {
     getListOfNotes: (type, id, paginationLimit, paginationSkip, data) => `/note/${type}/${id}/${paginationLimit}/${paginationSkip}${data}`,
     singleNote: (id) => `/note/${id}`,
   },
+  portals: {
+    getPortalsUrls: (pageId) => `/page/${pageId}/portals/urls`,
+    getPortals: (pageId) => `/page/${pageId}/portals/exports`,
+    portalUrl: (pageId, portalName) => `/page/${pageId}/portals/${portalName}/url`,
+    portalExport: (pageId, portalName) => `/page/${pageId}/portals/${portalName}/export`,
+  },
   property: {
     addPage: () => '/page/',
     estimation: (id) => `/page/${id}/estimation`,
