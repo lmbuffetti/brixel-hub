@@ -24,6 +24,7 @@ import {
   getEstimation,
   getPageDeals,
 } from '../../../actions/PropertyActions';
+import api from '../../../controllers/api/config';
 import DashboardPropertyCard from '../../../components/Cards/DashboardPropertyCard';
 import DashboardPropertyCardSold from '../../../components/Cards/DashboardPropertyCardSold';
 import CoverPropertyImage from '../../../components/CoverPropertyImage';
@@ -44,6 +45,7 @@ import bookedTestDriveImg from '../../../images/TestDrive/scanTrialRequested.svg
 import {calcPercentageFacts, calcPercentageProEstimation} from '../../../utils/helpers';
 import translateTo from '../../../utils/translation';
 import type {DashboardHomeType} from '../../../@types/Pages/Dashboard/Seller/DashboardHome';
+import type { PortalsType } from '../../../@types/Pages/Marketing/Portals';
 import {DealType, HistoryType} from '@brixel-io/brixel-components/dist/@types/Model';
 import TableRowSellerVisits from '../../../components/Cards/TableRowSellerVisits';
 
@@ -107,6 +109,7 @@ const DashboardHome = (props: DashboardHomeType) => {
   const [progressState, setProgressState] = useState<{step?: number; id?: number}>({});
   const [visitLists, setVisitLists] = useState<DealType[]>();
   const [activeScantrial, setActiveScanTrial] = useState<HistoryType>();
+  const [portalsList, setPortalsList] = useState<PortalsType[] | null>(null)
   const propID = get(match, 'propID', null);
 
   useEffect(() => {
@@ -116,6 +119,23 @@ const DashboardHome = (props: DashboardHomeType) => {
     if (progressState.step === 3 || progressState.step === 4 || progressState.step === 5) {
       handleGetActiveSinglePropertyDealsCount({ id: propID });
       handleGetPageDeals({ id: propID });
+      let portals: PortalsType[] = [];
+      const callArray: Promise<void>[] = []
+      const call = api.portals.getPortals(activeSingleProperty.id)
+        .then((res) => {
+          if (res.meta.status === 200) {
+            portals = res.data;
+          }
+        })
+        .catch((err) => {
+          // eslint-disable-next-line no-console
+          console.error(err);
+        });
+
+      callArray.push(call);
+      Promise.allSettled(callArray).then(() => {
+        setPortalsList(portals)
+      })
     }
     if (progressState.step === 1) {
       const payload = {
@@ -685,19 +705,29 @@ const DashboardHome = (props: DashboardHomeType) => {
                       </div>
                       <div className="px-3 py-2">
                         {
-                          Object.keys(get(activeSingleCompany, 'availablePortals', {})).map((portal, i) => (
-                            <React.Fragment
-                              key={`actCmp_${i.toString()}`}
-                            >
-                              {
-                                get(activeSingleCompany, `availablePortals[${portal}]`, null) && (
-                                  <span className="txtText900 fsize-300 fsize-sm-400 dis-f jc-b a-c w-perc-100 tt-c">
-                                    <span>{portal}</span>
-                                    <span className={`activeDot ${get(activeSingleProperty, `portals[${portal}]`, null) ? 'green' : 'grey'}`} />
+                          portalsList && portalsList.length > 0 && portalsList.map((portal, i) => (
+                            portal.children.length === 0 ? (
+                              <React.Fragment
+                                key={`actCmp_${i.toString()}`}
+                              >
+                                <span className="txtText900 fsize-300 fsize-sm-400 dis-f jc-b a-c w-perc-100">
+                                  <span>{portal.portal.displayName}</span>
+                                  <span className={`activeDot ${portal.exportEnabled ? 'green' : 'grey'}`} />
+                                </span>
+                              </React.Fragment>
+                            ) : (
+                              portal.children.length > 0 && portal.children.map((portalChild, j) => (
+                                <React.Fragment
+                                  key={`chldCmp_${j.toString()}`}
+                                >
+                                  <span className="txtText900 fsize-300 fsize-sm-400 dis-f jc-b a-c w-perc-100">
+                                    <span>{portalChild.portal.displayName}</span>
+                                    <span className={`activeDot ${portal.exportEnabled ? 'green' : 'grey'}`} />
                                   </span>
-                                )
-                              }
-                            </React.Fragment>
+                                </React.Fragment>
+                              ))
+                            )
+
                           ))
                         }
                       </div>

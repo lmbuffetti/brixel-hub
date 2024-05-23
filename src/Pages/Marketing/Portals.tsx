@@ -247,7 +247,7 @@ const Portals = (props) => {
                         <BrixelStatus
                           color="red"
                         />
-                        <span className="fsize-300 txtText900 ml-1">{translateTo(portal.portal.displayName, lang)}</span>
+                        <span className="fsize-300 txtText900 ml-1 no-transform">{translateTo(portal.portal.displayName, lang)}</span>
                       </div>
                     )
                   
@@ -287,7 +287,7 @@ const Portals = (props) => {
                               <BrixelStatus
                                 color="red"
                               />
-                              <span className="fsize-300 txtText900 ml-1">{translateTo(portalChild.portal.displayName, lang)}</span>
+                              <span className="fsize-300 txtText900 ml-1 no-transform">{translateTo(portalChild.portal.displayName, lang)}</span>
                             </div>
                           )
                         }
@@ -313,21 +313,21 @@ const Portals = (props) => {
                             href={customPortals[`${key}Url`]}
                             className="dis-f a-c"
                           >
-                            <span className="fsize-300 txtGreen400 td-u">
-                              {translateTo(key, lang)}
-                            </span>
                             <BrixelStatus
                               color="green"
                             />
+                            <span className="fsize-300 txtGreen400 td-u ml-1">
+                              {translateTo(key, lang)}
+                            </span>
                           </a>
                         ) : (
                           <div
                             className="dis-f a-c"
                           >
-                            <span className="fsize-300 txtText900">{translateTo(key, lang)}</span>
                             <BrixelStatus
                               color="green"
                             />
+                            <span className="fsize-300 txtText900 ml-1">{translateTo(key, lang)}</span>
                           </div>
                         )
                       }
