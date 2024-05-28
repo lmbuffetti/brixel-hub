@@ -87,44 +87,6 @@ const Bestimate = (props: BestimateType) => {
     }
   }, [currentIndex]);
 
-  useEffect(() => {
-    const extractExtraFeauturePT = (val: string) => {
-      const extractVal: string[] = get(formValue, 'properties.extraFeaturesBestimatePT', []);
-      return extractVal.includes(val);
-    }
-    if (get(formValue, 'properties.extraFeaturesBestimatePT', null)) {
-      changeFieldValue('properties.extraFeatures.equippedKitchen', extractExtraFeauturePT('equippedKitchen'));
-      changeFieldValue('properties.building.blinds.blindsElectric', extractExtraFeauturePT('electricBlinds'));
-      let windowsMaterials: string[] = [];
-      if (extractExtraFeauturePT('doubleGlazedWindows')) {
-        windowsMaterials = ['doubleGlazed'];
-      }
-      if (windowsMaterials[0] !== get(formValue, 'properties.building.windows.materials', [])[0]) changeFieldValue('properties.building.windows.materials', windowsMaterials);
-      changeFieldValue('properties.extraFeatures.suite', extractExtraFeauturePT('masterBedroom'));
-      changeFieldValue('properties.extraFeatures.wardrobe', extractExtraFeauturePT('wardrobe'));
-      changeFieldValue('properties.energy.ac', extractExtraFeauturePT('airConditioning'));
-      let centralHeating: string[] = [];
-      if (extractExtraFeauturePT('heatingSystem')) {
-        centralHeating = ['centralHeating'];
-      }
-      if (centralHeating[0] !== get(formValue, 'properties.energy.heatingSystem', [])[0]) changeFieldValue('properties.energy.heatingSystem', centralHeating);
-      const fireValue: string[] = get(formValue, 'properties.extraFeaturesBestimatePT', []);
-      changeFieldValue('properties.extraFeatures.fireplace', fireValue.includes('fireplace'));
-      changeFieldValue('properties.extraFeatures.swimmingPool', extractExtraFeauturePT('pool'));
-      changeFieldValue('properties.extraFeatures.gym', extractExtraFeauturePT('gym'));
-      changeFieldValue('properties.extraFeatures.elevator', extractExtraFeauturePT('elevator'));
-      changeFieldValue('properties.typology.storeroom', extractExtraFeauturePT('storageRoom'));
-      changeFieldValue('properties.typology.basement', extractExtraFeauturePT('basement'));
-      changeFieldValue('properties.extraFeatures.seaView', extractExtraFeauturePT('seaView'));
-      changeFieldValue('properties.extraFeatures.cityView', extractExtraFeauturePT('cityView'));
-      changeFieldValue('properties.typology.pantry', extractExtraFeauturePT('pantry'));
-      changeFieldValue('properties.extraFeatures.videoSecurity', extractExtraFeauturePT('dorbellVideo'));
-      changeFieldValue('properties.extraFeatures.alarm', extractExtraFeauturePT('alarm'));
-      const efficiencyCertified = get(formValue, 'properties.energy.efficiency', null) !== null ? 'yes' : null;
-      changeFieldValue('properties.energy.efficiencyCertified', efficiencyCertified);
-    }
-  }, [get(formValue, 'properties.extraFeaturesBestimatePT', null)]);
-
   // ON CLOSE WINDOW TWO DIFFERENT ACTION BY SCREEN RESOLUTION
   const closeWindow = () => {
     const redirectURL = localStorage.getItem('backUrl');

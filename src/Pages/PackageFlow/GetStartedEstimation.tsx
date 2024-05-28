@@ -74,40 +74,6 @@ const GetStartedEstimation = (props: GetStartedEstimationType) => {
     if (!isLoading) setLoadingRequest(false);
   }, [isLoading]);
 
-  useEffect(() => {
-    if (get(formValue, 'properties.extraFeaturesBestimatePT', null)) {
-      const extraFeatPT = get(formValue, 'properties.extraFeaturesBestimatePT', '') || '';
-      changeFieldValue('properties.extraFeatures.equippedKitchen', extraFeatPT.includes('equippedKitchen'));
-      changeFieldValue('properties.building.blinds.blindsElectric', extraFeatPT.includes('electricBlinds'));
-      let windowsMaterials: string[] = [];
-      if (extraFeatPT.includes('doubleGlazedWindows')) {
-        windowsMaterials = ['doubleGlazed'];
-      }
-      if (windowsMaterials[0] !== get(formValue, 'properties.building.windows.materials', [])[0]) changeFieldValue('properties.building.windows.materials', windowsMaterials);
-      changeFieldValue('properties.extraFeatures.suite', extraFeatPT.includes('masterBedroom'));
-      changeFieldValue('properties.extraFeatures.wardrobe', extraFeatPT.includes('wardrobe'));
-      changeFieldValue('properties.energy.ac', extraFeatPT.includes('airConditioning'));
-      let centralHeating: string[] = [];
-      if (extraFeatPT.includes('heatingSystem')) {
-        centralHeating = ['centralHeating'];
-      }
-      if (centralHeating[0] !== get(formValue, 'properties.energy.heatingSystem', [])[0]) changeFieldValue('properties.energy.heatingSystem', centralHeating);
-      changeFieldValue('properties.extraFeatures.fireplace', extraFeatPT.includes('fireplace'));
-      changeFieldValue('properties.extraFeatures.swimmingPool', extraFeatPT.includes('pool'));
-      changeFieldValue('properties.extraFeatures.gym', extraFeatPT.includes('gym'));
-      changeFieldValue('properties.extraFeatures.elevator', extraFeatPT.includes('elevator'));
-      changeFieldValue('properties.typology.storeroom', extraFeatPT.includes('storageRoom'));
-      changeFieldValue('properties.typology.basement', extraFeatPT.includes('basement'));
-      changeFieldValue('properties.extraFeatures.seaView', extraFeatPT.includes('seaView'));
-      changeFieldValue('properties.extraFeatures.cityView', extraFeatPT.includes('cityView'));
-      changeFieldValue('properties.typology.pantry', extraFeatPT.includes('pantry'));
-      changeFieldValue('properties.extraFeatures.videoSecurity', extraFeatPT.includes('dorbellVideo'));
-      changeFieldValue('properties.extraFeatures.alarm', extraFeatPT.includes('alarm'));
-      const efficiencyCertified = get(formValue, 'properties.energy.efficiency', null) !== null ? 'yes' : null;
-      changeFieldValue('properties.energy.efficiencyCertified', efficiencyCertified);
-    }
-  }, [get(formValue, 'properties.extraFeaturesBestimatePT', null)]);
-
   const getCurrency = () => {
     const result = {currency: 'EUR'};
     if (get(formValue, 'location.countryCode', '')) {
