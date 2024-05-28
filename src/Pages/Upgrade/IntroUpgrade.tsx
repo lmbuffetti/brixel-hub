@@ -19,11 +19,8 @@ import {getPackageProperty} from '../../actions/PropertyActions';
 import lazyWithRetry from '../../components/LazyWithRetry';
 import EmptyHubImg from '../../images/emptyHub.svg';
 import Testimonial1CH from '../../images/getstarted/testimonial-1_CH.jpeg';
-import Testimonial1PT from '../../images/getstarted/testimonial-1_PT.jpg';
 import Testimonial2CH from '../../images/getstarted/testimonial-2_CH.jpeg';
-import Testimonial2PT from '../../images/getstarted/testimonial-2_PT.jpg';
 import Testimonial3CH from '../../images/getstarted/testimonial-3_CH.jpeg';
-import Testimonial3PT from '../../images/getstarted/testimonial-3_PT.jpg';
 
 import BookOnlineImg from '../../images/Upgrade/bookOnline.svg';
 import CallUsImg from '../../images/Upgrade/callUs.svg';
@@ -619,7 +616,7 @@ const IntroUpgrade = (props: IntroUpgradeType) => {
         <div className="w-perc-100 ml-a mr-a testimonialsSlide">
 
           {
-            get(activeSingleProperty, 'location.countryCode', '') === 'CH' ? (
+            get(activeSingleProperty, 'location.countryCode', '') === 'CH' && (
               <Slider ref={sliderInstance} {...settingSlider}>
                 <div className="ta-c ml-a mr-a mb-2 max-w-fix-304">
                   <img loading="lazy" src={Testimonial1CH} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
@@ -643,32 +640,6 @@ const IntroUpgrade = (props: IntroUpgradeType) => {
 
                   <h5 className="ta-c txtPrimary400 fweight-600">{translateTo('M. Callaghan', lang)}</h5>
                   <p className="ta-c txtPrimary400 fsize-500">{translateTo('Saved CHF 44\'050', lang)}</p>
-                </div>
-              </Slider>
-            ) : (
-              <Slider ref={sliderInstance} {...settingSlider}>
-                <div className="ta-c ml-a mr-a mb-2 max-w-fix-304">
-                  <img loading="lazy" src={Testimonial1PT} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
-                  <h2 className="ta-c mb-2 fweight-600 fsize-600 fsize-sm-700"> <i>{translateTo('"Always quick in responding, friendly, professional."', lang)}</i></h2>
-
-                  <h5 className="ta-c txtPrimary400 fweight-600">{translateTo('Katrien Willems', lang)}</h5>
-                  <p className="ta-c txtPrimary400 fsize-500" />
-                </div>
-
-                <div className="ta-c ml-a mr-a mb-2 max-w-fix-304">
-                  <img loading="lazy" src={Testimonial2PT} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
-                  <h2 className="ta-c mb-2 fweight-600 fsize-600 fsize-sm-700"> <i>{translateTo('"Everything went incredibly well, it doesn\'t even seem real!"', lang)}</i></h2>
-
-                  <h5 className="ta-c txtPrimary400 fweight-600">{translateTo('Luca Benussi', lang)}</h5>
-                  <p className="ta-c txtPrimary400 fsize-500">{translateTo('Saved 18.400€', lang)}</p>
-                </div>
-
-                <div className="ta-c ml-a mr-a mb-2 max-w-fix-304">
-                  <img loading="lazy" src={Testimonial3PT} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
-                  <h2 className="ta-c mb-2 fweight-600 fsize-600 fsize-sm-700"> <i>{translateTo('"The sale was done even faster than expected."', lang)}</i></h2>
-
-                  <h5 className="ta-c txtPrimary400 fweight-600">{translateTo('Márcia Traça', lang)}</h5>
-                  <p className="ta-c txtPrimary400 fsize-500">{translateTo('Saved 13.000€', lang)}</p>
                 </div>
               </Slider>
             )
