@@ -88,7 +88,7 @@ describe('Seller Onboarding', () => {
 
         it('extra features', () => {
           cy.viewport(device);
-          cy.get('input[name="properties.extraFeaturesBestimatePT"]').check({ force: true });
+          cy.get('input[name="properties.extraFeature"]').check({ force: true });
           cy.wait(100).then(() => {
             cy.get('button[type="submit"]').click();
           })
