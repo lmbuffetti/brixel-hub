@@ -265,17 +265,6 @@ export const isEligible = (activeSingleProperty) => {
   if (has(activeSingleProperty, 'location.countryCode') && activeSingleProperty.location.countryCode === 'CH') {
     return true;
   }
-  if (has(activeSingleProperty, 'location.countryCode') && activeSingleProperty.location.countryCode === 'PT') {
-    if (has(activeSingleProperty, 'location.state')) {
-      if (activeSingleProperty.location.state === 'Lisboa' ||
-        activeSingleProperty.location.state === 'Porto' ||
-        activeSingleProperty.location.state === 'Setúbal') {
-        return true;
-      }
-      return false;
-    }
-    return false;
-  }
   return false;
 };
 
@@ -313,10 +302,9 @@ export const arrayMove = (arr, oldIndex, newIndex) => {
 };
 
 export const completedBestimate = (formValue) => {
-  const location = get(formValue, 'location.countryCode', '');
   const propertyType = get(formValue, 'properties.propertyType', '');
   const lang = get(configureStore.getState(), 'user.loggedInUser.user.language', 'en');
-  const BestimateQuest = BestimateQuestions('', location, propertyType, lang);
+  const BestimateQuest = BestimateQuestions('', propertyType, lang);
   let isValid = true;
   BestimateQuest.forEach((inputs) => {
     if (inputs.inputs) {

@@ -196,13 +196,7 @@ const Portals = (props) => {
                     <span className="mx-small-4">{get(activeSingleCompany, 'meta.portals.duration', 6)}</span>
                     <span>{translateTo('months', lang)}</span>
                   </li>
-                  {
-                    get(activeSingleProperty, 'location.countryCode', '') === 'PT' ? (
-                      <li>{translateTo('Idealista, Imovirtual, Casa Sapo, SuperCasa and many more.', lang)}</li>
-                    ) : (
-                      <li>{translateTo('Homegate, ImmoScout24, Comparis, Newhome and many more.', lang)}</li>
-                    )
-                  }
+                  <li>{translateTo('Homegate, ImmoScout24, Comparis, Newhome and many more.', lang)}</li>
                 </ul>
               </div>
             )

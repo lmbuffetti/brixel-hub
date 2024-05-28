@@ -160,11 +160,11 @@ const MarketCard = (props: MarketCardProps) => {
     if (e) e.preventDefault();
     onSetActiveProperty(page.id);
     setMarketOverlayProperty(page);
-    if (location.countryCode !== 'PT' && location.countryCode !== 'CH') {
+    if (location.countryCode !== 'CH') {
       setCookie('brixelMarketBestimate', false);
       setSplashScreen('bestimateTeaser');
     }
-    if (location.countryCode === 'CH' || location.countryCode === 'PT') {
+    if (location.countryCode === 'CH') {
       if (action === 'new') {
         setCookie('brixelMarketBestimate', false);
         setSplashScreen('bestimateTeaser');

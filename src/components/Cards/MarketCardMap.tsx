@@ -205,7 +205,7 @@ const MarketCardMap = (props: MarketCardMapType) => {
                     {FormatValue.formatRooms(get(item, 'properties.typology.bedrooms', 0), get(item, 'location.countryCode', 'CH'))}
                   </span>
                   <span>
-                    {get(item, 'location.countryCode', 'CH') === 'PT' ? '' : `${get(item, 'properties.typology.bedrooms', 0) ? ' Rooms' : ''}`}
+                    {`${get(item, 'properties.typology.bedrooms', 0) ? ' Rooms' : ''}`}
                   </span>
                 </span>
                 {

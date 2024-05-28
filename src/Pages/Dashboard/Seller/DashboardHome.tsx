@@ -222,8 +222,6 @@ const DashboardHome = (props: DashboardHomeType) => {
       } else {
         window.location.assign(`${baseByData?.pageUrl}preview/${activeSingleProperty.stub}?hubUrl=${get(window, 'location.href', '')}`);
       }
-    } else if (get(activeSingleProperty, 'location.countryCode', '') === 'PT') {
-      window.location.assign(`https://page.brixel.io/preview/Apartamento-T2-Renovado-Bairro-dos-Actores-Lisboa?hubUrl=${get(window, 'location.href', '')}`);
     } else {
       window.location.assign(`https://page.brixel.io/preview/maisonette-staefa?hubUrl=${get(window, 'location.href', '')}`);
     }

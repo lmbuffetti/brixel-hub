@@ -33,7 +33,6 @@ function ResumeBestimate(props: ResumeBestimateType) {
   // LOAD THE MARKET DATA
   useEffect(() => {
     if (get(activeSingleProperty, 'location.countryCode', null) !== 'CH' &&
-            get(activeSingleProperty, 'location.countryCode', null) !== 'PT' &&
             !get(estimation, 'result.value', null)) {
       const data = {
         owner: get(activeSingleProperty, 'owner.id', activeSingleProperty.owner),
@@ -42,8 +41,7 @@ function ResumeBestimate(props: ResumeBestimateType) {
       };
       handleCreateEstimation(data);
       history.push(`/${activeSingleProperty.id}/home/bestimate`);
-    } else if (propID && (get(activeSingleProperty, 'location.countryCode', null) === 'CH' ||
-      get(activeSingleProperty, 'location.countryCode', null) === 'PT')) handleGetEstimation(propID);
+    } else if (propID && (get(activeSingleProperty, 'location.countryCode', null) === 'CH')) handleGetEstimation(propID);
   }, [activeSingleProperty]);
 
   // LOAD THE ESTIMATION
@@ -75,22 +73,9 @@ function ResumeBestimate(props: ResumeBestimateType) {
               {
                 condition && condition.higherValue && (
                   <>
-                    {
-                      get(activeSingleProperty, 'location.countryCode', null) === 'PT' ? (
-                        <>
-                          <p className="ta-c mb-1 txtText900">
-                            {translateTo('Your property is worth', lang)}</p>
-                          <p className="heading4 ff-mono txtGreen400 fweight-600 ta-c mb-1">{get(activeSingleCompany, 'country.currency', '')} {Helpers.formatNumberValue(condition.value, get(activeSingleCompany, 'country.currency', 'CHF'))}</p>
-                        </>
-                      ) : (
-                        <>
-                          <p className="ta-c mb-1 txtText900">
-                            {translateTo('Your property is worth up to', lang)}
-                          </p>
-                          <p className="heading4 ff-mono txtGreen400 fweight-600 ta-c mb-1">{get(activeSingleCompany, 'country.currency', '')} {Helpers.formatNumberValue(condition.higherValue, get(activeSingleCompany, 'country.currency', 'CHF'))}</p>
-                        </>
-                      )
-                    }
+                    <p className="ta-c mb-1 txtText900">
+                      {translateTo('Your property is worth', lang)}</p>
+                    <p className="heading4 ff-mono txtGreen400 fweight-600 ta-c mb-1">{get(activeSingleCompany, 'country.currency', '')} {Helpers.formatNumberValue(condition.value, get(activeSingleCompany, 'country.currency', 'CHF'))}</p>
                     <p className="body2 ta-c mb-5 txtText900">
                       {translateTo('Based on similar transactions.', lang)}
                     </p>
@@ -99,11 +84,6 @@ function ResumeBestimate(props: ResumeBestimateType) {
                     </p>
                     <div className="ta-c mb-5">
                       <p className="ff-mono txtPrimary700 fweight-600 ta-c">{get(activeSingleCompany, 'country.currency', '')} {Helpers.formatNumberValue(condition.lowerValue, get(activeSingleCompany, 'country.currency', 'CHF'))} - {get(activeSingleCompany, 'country.currency', '')} {Helpers.formatNumberValue(condition.higherValue, get(activeSingleCompany, 'country.currency', 'CHF'))}</p>
-                      {
-                        get(activeSingleProperty, 'location.countryCode', null) === 'PT' && (
-                          <p className="fsize-200"><span>{translateTo('minimun value', lang)}</span><span className="mx-2" /><span>{translateTo('maximun value', lang)}</span></p>
-                        )
-                      }
                     </div>
                     <p className="fweight-400 ta-c txtText900">
                       {translateTo('Your Bestimate<sup>&reg;</sup> compared to local market data', lang)}

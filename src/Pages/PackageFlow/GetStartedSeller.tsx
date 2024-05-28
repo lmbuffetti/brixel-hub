@@ -260,16 +260,13 @@ const GetStartedSeller = (props: GetStartedSellerType) => {
     if (get(formValue, 'properties.typology.lotArea.value', 0) > 0) {
       changeFieldValue('properties.typology.livingArea.value', get(formValue, 'properties.typology.lotArea.value', 0));
     }
-    if ((get(formValue, 'properties.propertyType', null) === 'Commercial') && (formValue.location.countryCode === 'PT')) {
-      changeFieldValue('properties.typology.grossArea.value', get(formValue, 'properties.typology.floorSpace.value', 0));
-    }
   }, [currentIndex]);
 
   // FUNCTION TO CHANGE THE TITLE ON CHANGING LOCATION
   useEffect(() => {
     if (get(formValue, 'properties.propertyType', null) && get(formValue, 'location.address', null)) {
       const propertyType = get(formValue, 'properties.propertyType', null);
-      const pageTitle = titleProperty(formValue.location, propertyType, lang, formValue);
+      const pageTitle = titleProperty(formValue.location, propertyType, lang);
       if (pageTitle) changeFieldValue('pageTitle', pageTitle);
     }
   }, [get(formValue, 'properties.propertyType', null), get(formValue, 'location.city', null), lang]);
@@ -313,7 +310,7 @@ const mapStateToProps = (state, ownProps) => {
   const channelCookie = cookie.get('brixelChannelSignup') || null;
   const channel = get(urlSearch, 'channel', channelCookie);
   const propertyType = get(urlSearch, 'propertyType', null);
-  const companyCountryCode = get(state, 'companies.activeSingleCompany.country.code', 'PT');
+  const companyCountryCode = get(state, 'companies.activeSingleCompany.country.code', 'CH');
   const countryPhoneCode = phonecode.find((code) => code.code === companyCountryCode);
   const company = get(state, 'companies.activeSingleCompany.stub', null);
   const isTest = get(state, 'common.isTest', false);
@@ -332,7 +329,7 @@ const mapStateToProps = (state, ownProps) => {
       id: isTest && company ? companies[company].propID : null,
       location: {
         ...get(state, 'brixelForm.GetStarted.values.location', { }),
-        countryCode: get(state, 'companies.activeSingleCompany.country.code', 'PT'),
+        countryCode: get(state, 'companies.activeSingleCompany.country.code', 'CH'),
       },
       login: {},
       owner: get(state, 'user.loggedInUser.user.id', null),
@@ -342,9 +339,6 @@ const mapStateToProps = (state, ownProps) => {
           bathrooms: 0,
           bedrooms: 3,
           livingArea: {
-            unit: 'm2',
-          },
-          grossArea: {
             unit: 'm2',
           },
           floorSpace: {

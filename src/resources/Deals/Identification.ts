@@ -18,11 +18,8 @@ const { factsOptions } = FactsOptions;
 
 export const IdentificationQuestions = (editForm = false, userType, lang) => {
   let formValue = {};
-  let isPT;
   if (configureStore) {
     formValue = get(configureStore.getState(), 'brixelForm.Identification.values', []);
-    const countryCode = get(formValue, 'propertyLocation.countryCode', null);
-    isPT = countryCode === 'PT';
   }
 
   let textIntro = translateTo('Please fill in the full name as it is stated in your ID. Add all people who are legally seller the property, e.g. your spouse or an investment partner.', lang);
@@ -99,7 +96,7 @@ export const IdentificationQuestions = (editForm = false, userType, lang) => {
           component: BrixelSelect,
           label: translateTo('Your matrimonial property regime', lang),
           name: 'persons[0].matrimonialPropertyRegime',
-          options: isPT ? factsOptions.matrimonialPropertyRegimePT : factsOptions.matrimonialPropertyRegime,
+          options: factsOptions.matrimonialPropertyRegime,
           pdClass: 'py-3 py-md-5',
           large: true,
         },
@@ -109,7 +106,7 @@ export const IdentificationQuestions = (editForm = false, userType, lang) => {
           component: BrixelSelect,
           label: translateTo('Type of ownership', lang),
           name: 'persons[0].typeOfOwnership',
-          options: isPT ? factsOptions.purchaseTypePT : factsOptions.purchaseType,
+          options: factsOptions.purchaseType,
           pdClass: 'py-3 py-md-5',
           large: true,
           validation: [Validation.required],

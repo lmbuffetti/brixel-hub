@@ -92,8 +92,7 @@ const Price = (props: PriceType) => {
         ) &&
         estimation.id &&
         (
-          get(activeSingleProperty, 'location.countryCode', '') === 'CH' ||
-          get(activeSingleProperty, 'location.countryCode', '') === 'PT'
+          get(activeSingleProperty, 'location.countryCode', '') === 'CH'
         ) && (
           get(activeSingleProperty, 'properties.propertyType', '') === 'House' ||
           get(activeSingleProperty, 'properties.propertyType', '') === 'Apartment'

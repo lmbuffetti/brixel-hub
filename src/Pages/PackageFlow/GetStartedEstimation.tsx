@@ -341,16 +341,13 @@ const GetStartedEstimation = (props: GetStartedEstimationType) => {
     if (get(formValue, 'properties.typology.lotArea.value', 0) > 0) {
       changeFieldValue('properties.typology.livingArea.value', get(formValue, 'properties.typology.lotArea.value', 0));
     }
-    if ((get(formValue, 'properties.propertyType', null) === 'Commercial') && (formValue.location.countryCode === 'PT')) {
-      changeFieldValue('properties.typology.grossArea.value', get(formValue, 'properties.typology.floorSpace.value', 0));
-    }
   }, [currentIndex]);
 
   // FUNCTION TO CHANGE THE TITLE ON CHANGING LOCATION
   useEffect(() => {
     if (get(formValue, 'properties.propertyType', null) && get(formValue, 'location.address', null)) {
       const propertyType = get(formValue, 'properties.propertyType', null);
-      const pageTitle = titleProperty(formValue.location, propertyType, lang, formValue);
+      const pageTitle = titleProperty(formValue.location, propertyType, lang);
       if (pageTitle) changeFieldValue('pageTitle', pageTitle);
     }
   }, [get(formValue, 'properties.propertyType', null), get(formValue, 'location.city', null), lang]);

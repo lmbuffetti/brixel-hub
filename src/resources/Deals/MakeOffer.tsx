@@ -27,13 +27,10 @@ export const MakeOfferQuestions: (changeValue: (field: string, val: any) => void
   let formValue: {
     company?: string;
   } = {};
-  let isPT;
   let countryName = '';
   if (configureStore) {
     formValue = get(configureStore.getState(), 'brixelForm.offerFlow.values', []);
     const countryCode = get(formValue, 'propertyLocation.countryCode', null);
-    isPT = countryCode === 'PT';
-    if (isPT) countryName = 'Portuguese';
     if (countryCode === 'CH') countryName = 'Swiss';
   }
 
@@ -42,17 +39,7 @@ export const MakeOfferQuestions: (changeValue: (field: string, val: any) => void
     label: translateTo(item.label, lang),
   }));
 
-  const matrimonialPropertyRegimePT = factsOptions.matrimonialPropertyRegimePT.map((item) => ({
-    ...item,
-    label: translateTo(item.label, lang),
-  }));
-
   const matrimonialPropertyRegime = factsOptions.matrimonialPropertyRegime.map((item) => ({
-    ...item,
-    label: translateTo(item.label, lang),
-  }));
-
-  const purchaseTypePT = factsOptions.purchaseTypePT.map((item) => ({
     ...item,
     label: translateTo(item.label, lang),
   }));
@@ -247,7 +234,7 @@ export const MakeOfferQuestions: (changeValue: (field: string, val: any) => void
           component: BrixelSelect,
           label: translateTo('Your matrimonial property regime', lang),
           name: 'buyer.matrimonialPropertyRegime',
-          options: isPT ? matrimonialPropertyRegimePT : matrimonialPropertyRegime,
+          options: matrimonialPropertyRegime,
           pdClass: 'py-3 py-md-5',
           large: true,
         },
@@ -256,7 +243,7 @@ export const MakeOfferQuestions: (changeValue: (field: string, val: any) => void
           component: BrixelSelect,
           label: translateTo('Type of purchase', lang),
           name: 'buyer.typeOfPurchase',
-          options: isPT ? purchaseTypePT : purchaseType,
+          options: purchaseType,
           pdClass: 'py-3 py-md-5',
           large: true,
         },
@@ -356,7 +343,7 @@ export const MakeOfferQuestions: (changeValue: (field: string, val: any) => void
           validation: [Validation.required],
         },
         {
-          customComponent: isPT ? undefined : TextForm,
+          customComponent: TextForm,
           classNameBox: 'max-w-fix-600 ml-a mr-a',
           classBoxWrapper: 'py-5 ',
           ReduxFieldClass: '',

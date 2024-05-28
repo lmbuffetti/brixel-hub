@@ -121,7 +121,7 @@ const MarketCategoryListSeller = (props: MarketCategoryListSellerType) => {
   // Update market card when bestimate changes
   useEffect(() => {
     if (getCookie('brixelSplashHome') === 'bestimateResult' && get(ownerProperties, 'data', []).length > 0) {
-      if (ownerProperties.data[0].location.countryCode === 'CH' || ownerProperties.data[0].location.countryCode === 'PT') {
+      if (ownerProperties.data[0].location.countryCode === 'CH') {
         if (!has(ownerProperties.data[0], 'estimation.result')) {
           const payload = {
             type: 'market',
@@ -236,7 +236,7 @@ const MarketCategoryListSeller = (props: MarketCategoryListSellerType) => {
             closeOutside={false}
           >
             {
-              (get(activeMarketOverlayProperty, 'location.countryCode', null) !== 'PT' && get(activeMarketOverlayProperty, 'location.countryCode', null) !== 'CH') ? (
+              (get(activeMarketOverlayProperty, 'location.countryCode', null) !== 'CH') ? (
                 <>
                   <div className="dis-f jc-fe mb-2">
                     <BrixelButtonIcon

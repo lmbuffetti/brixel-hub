@@ -157,13 +157,7 @@ const PropertiesDashboard = (props: PropertiesDashboardType) => {
                       </div>
                       <div className="px-1">
                         <h6 className="fsize-100 txtText600 ws-nw">{translateTo('Living space', lang)}</h6>
-                        {
-                          get(property, 'location.countryCode', '') === 'PT' && get(property, 'properties.typology.grossArea.value', 0) > 0 ? (
-                            <span className="ff-mono txtText900">{get(property, 'properties.typology.grossArea.value', '0')} m</span>
-                          ) : (
-                            <span className="ff-mono txtText900">{get(property, 'properties.typology.livingArea.value', '0')} m</span>
-                          )
-                        }
+                        <span className="ff-mono txtText900">{get(property, 'properties.typology.livingArea.value', '0')} m</span>
                       </div>
                       <div className="px-1">
                         <h6 className="fsize-100 txtText600 ws-nw">{translateTo('Year', lang)}</h6>

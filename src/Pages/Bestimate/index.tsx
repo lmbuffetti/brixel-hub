@@ -43,8 +43,8 @@ const Bestimate = (props: BestimateType) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isEnter, setIsEnter] = useState(true);
   const [numberQuestions, setNumberQuestions] = useState(0);
-  const [quest, setQuest] = useState<QuestionsListType>(BestimateQuestions('en', '', get(formValue, 'properties.propertyType', ''), lang)[0]);
-  const [questions, setQuestions] = useState<QuestionsListType[]>(BestimateQuestions(null, '', get(formValue, 'properties.propertyType', ''), lang));
+  const [quest, setQuest] = useState<QuestionsListType>(BestimateQuestions('en', get(formValue, 'properties.propertyType', ''), lang)[0]);
+  const [questions, setQuestions] = useState<QuestionsListType[]>(BestimateQuestions(null, get(formValue, 'properties.propertyType', ''), lang));
   // GET URL PARAMS
   const getAchievement = () => history.location.pathname.split('/')[4];
   const urlData = queryString.parse(get(history, 'location.search', ''));
@@ -53,7 +53,7 @@ const Bestimate = (props: BestimateType) => {
   // INITIALIZE FORM
   useEffect(() => {
     initForm(cloneDeep(initialValues));
-    if (activeSingleProperty.id && get(initialValues, 'id', null) && get(initialValues, 'location.countryCode', null) === 'PT') {
+    if (activeSingleProperty.id && get(initialValues, 'id', null)) {
       if (get(initialValues, 'parking.garage', 0) === 0) {
         changeFieldValue('properties.parking.garage', 0);
       }
@@ -164,7 +164,7 @@ const Bestimate = (props: BestimateType) => {
   const analizeQuestions = () => {
     const newQuest: object[] = [];
     let numQuest = 0;
-    BestimateQuestions(null, '', get(formValue, 'properties.propertyType', ''), lang).forEach((questData) => {
+    BestimateQuestions(null, get(formValue, 'properties.propertyType', ''), lang).forEach((questData) => {
       if (questData.condition) {
         let isValid = true;
         questData.condition.forEach((item) => {

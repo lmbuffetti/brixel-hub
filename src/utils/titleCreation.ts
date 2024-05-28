@@ -1,5 +1,4 @@
 import get from 'lodash/get';
-import {FormatValue} from '@brixel-io/brixel-components';
 import translateTo from './translation';
 
 const aptAdjective = {
@@ -225,23 +224,14 @@ const buildingLandAdjective = {
 
 
 
-export const titleProperty = (location, propertyType, lang, formValue) => {
+export const titleProperty = (location, propertyType, lang) => {
   const getCountry = get(location, 'countryCode', null);
   let adjective = aptAdjective;
   let pageTitle;
   const translatedPropertyType = translateTo(propertyType, lang);
   if (propertyType === 'House' || propertyType === 'Commercial') adjective = houseAdjective;
   if (propertyType === 'Building land') adjective = buildingLandAdjective;
-  if (getCountry === 'PT') {
-    const bedrooms = get(formValue, 'properties.typology.bedrooms', null);
-    const livingSpace = get(formValue, 'properties.typology.grossArea.value', get(formValue, 'properties.typology.livingArea.value', null));
-
-    const curLocation = get(formValue, 'location', null);
-    if (bedrooms >= 0 && livingSpace && curLocation) {
-      const typology = FormatValue.formatRooms(bedrooms, 'pt');
-      pageTitle = `${translatedPropertyType} ${typology} com ${livingSpace}m2, ${curLocation.city}`;
-    }
-  } else if (getCountry && propertyType) {
+  if (getCountry && propertyType) {
     const array = new Uint8Array(256);
     const randomMthNr = crypto.getRandomValues(array);
     if (adjective[lang]) {

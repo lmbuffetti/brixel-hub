@@ -52,7 +52,7 @@ export const QuestionsList: (lang: string, country: string, changeValue: (field:
   if (configureStore) {
     propertyType = get(configureStore.getState(), 'brixelForm.GetStarted.values.properties.propertyType', '');
   }
-  let livingAreaTitle = translateTo(country === 'PT' ? 'What is the gross area size?' : 'What is the living space size?', lang);
+  let livingAreaTitle = translateTo('What is the living space size?', lang);
   if (propertyType === 'Commercial') livingAreaTitle = translateTo('What is the floor size?', lang);
 
   const propertyTypeOptions = [
@@ -126,8 +126,8 @@ export const QuestionsList: (lang: string, country: string, changeValue: (field:
             name: 'properties.typology.bedrooms',
             validation: [maxLengthNumRooms, Validation.required],
             step: 0.5,
-            placeholder: country === 'PT' ? 'T3' : '3',
-            formatType: country === 'PT' ? 'rooms-pt' : undefined,
+            placeholder: '3',
+            formatType:  undefined,
             min: 0,
             max: 30,
             fluid: true,
@@ -135,7 +135,7 @@ export const QuestionsList: (lang: string, country: string, changeValue: (field:
             large: true,
             tooltip: {
               label: translateTo('What is this?', lang),
-              description: translateTo(country === 'PT' ? 'Enter the number of rooms, including rooms with a minimum surface of 9 m² (+1). Kitchen and bathrooms are not counted as a proper room.' : 'Enter the number of rooms that have a minimum surface of 8 m². Kitchen and bathrooms are not counted as a proper room.', lang),
+              description: translateTo('Enter the number of rooms that have a minimum surface of 8 m². Kitchen and bathrooms are not counted as a proper room.', lang),
             },
           },
         ],
@@ -152,8 +152,8 @@ export const QuestionsList: (lang: string, country: string, changeValue: (field:
             component: BrixelInputText,
             classNameBox: 'brdRadius max-w-fix-400 px-2 px-sm-5 py-5 m-a fieldHolder bgWhite',
             className: '',
-            label: translateTo(country === 'PT' ? 'Gross area' : 'Net living space', lang),
-            name: country === 'PT' ? 'properties.typology.grossArea.value' : 'properties.typology.livingArea.value',
+            label: translateTo('Net living space', lang),
+            name: 'properties.typology.livingArea.value',
             type: 'number',
             validation: [Validation.isNumber, Validation.positiveNumber, maxLengthNumLivSpace, Validation.required],
             unit: 'm2',
@@ -162,7 +162,7 @@ export const QuestionsList: (lang: string, country: string, changeValue: (field:
             large: true,
             tooltip: {
               label: translateTo('What is this?', lang),
-              description: translateTo(country === 'PT' ? 'It is the total area measured by the external perimeter and axes of the walls or other separating elements of the building or property, including closed private balconies, basements, and private attics with the same use as the building or property. Open balconies, garages, and storage are excluded.' : 'The net living space is the part of the usable surface, which is specified for the primary use of the building. Included are entrance and courtyard, mobile walls, interior stairs, and fireplace. Excluded are external walls, internal walls, chimney, balcony, patio, attic, basement, rooms with room height under 1.2 m, and storerooms.', lang),
+              description: translateTo('The net living space is the part of the usable surface, which is specified for the primary use of the building. Included are entrance and courtyard, mobile walls, interior stairs, and fireplace. Excluded are external walls, internal walls, chimney, balcony, patio, attic, basement, rooms with room height under 1.2 m, and storerooms.', lang),
             },
           },
         ],
