@@ -32,8 +32,8 @@ const DashboardPropertyCard: (props: DashboardPropertyCardProps) => JSX.Element 
 
   return (
     <>
-      <div className={`shadow-2dp imgSection bgWhite brdRadius dis-fl-col dis-fl-row-sm flex-wrap ${smallLayout ? 'p-sm-3' : 'p-sm-3 pt-0 pb-2 mb-3'} ov-h`}>
-        <div className='pr-sm-3 pr-0 pr-sm-2'>
+      <div className={`shadow-2dp imgSection bgWhite brdRadius dis-fl-col dis-fl-row-sm ${smallLayout ? 'p-sm-3' : 'p-sm-3 pt-0 pb-2 mb-3'} ov-h`}>
+        <div className='pr-sm-3 pr-0 pr-sm-2 max-w-perc-sm-50'>
           <div
             onClick={() => history.push(`/${get(activeSingleProperty, 'id', '')}/property/facts`)}
             className={`dis-b w-perc-100 ${smallLayout ? 'min-w-fix-sm-208' : 'w-fix-sm-232'} h-fix-160 pos-r`}

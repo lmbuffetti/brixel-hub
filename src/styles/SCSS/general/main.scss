@@ -1191,3 +1191,9 @@ input::-webkit-date-and-time-value {
 .brixel-tooltip.dis-in > div {
   display: inline;
 }
+
+.imgSection {
+  @media (max-width: $responsive-small) {
+    flex-wrap: wrap;
+  }
+}
