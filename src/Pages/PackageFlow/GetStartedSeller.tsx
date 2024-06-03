@@ -244,16 +244,6 @@ const GetStartedSeller = (props: GetStartedSellerType) => {
 
   // FUNCTION TO CALC THE LIVING SPACE FROM GROSS AREA
   useEffect(() => {
-    const livingSpace = get(formValue, 'properties.typology.livingArea.value', 0);
-    const calcLivingSpace = Math.round(get(formValue, 'properties.typology.grossArea.value', 0) * 0.85);
-    const grossArea = get(formValue, 'properties.typology.grossArea.value', 0);
-    const calcGrossArea = Math.round(get(formValue, 'properties.typology.livingArea.value', 0) * 100 / 85);
-    if (get(formValue, 'properties.typology.grossArea.value', 0) > 0 && livingSpace !== calcLivingSpace) {
-      changeFieldValue('properties.typology.livingArea.value', calcLivingSpace);
-    }
-    if (get(formValue, 'properties.typology.livingArea.value', 0) > 0 && calcGrossArea !== grossArea) {
-      changeFieldValue('properties.typology.grossArea.value', calcGrossArea);
-    }
     if (get(formValue, 'properties.typology.floorSpace.value', 0) > 0) {
       changeFieldValue('properties.typology.livingArea.value', get(formValue, 'properties.typology.floorSpace.value', 0));
     }
