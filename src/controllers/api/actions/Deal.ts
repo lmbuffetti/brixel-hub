@@ -13,24 +13,9 @@ class Deal extends Base {
     return this.apiClient.get(url, {});
   }
 
-  deleteSingleDeal(id) {
-    const url = ep.deal.singleDeal(id);
-    return this.apiClient.delete(url, {});
-  }
-
   createSingleDeal(data) {
     const url = ep.deal.createSingleDeal();
     return this.apiClient.post(url, {}, data);
-  }
-
-  getDealsList(paginationLimit, paginationSkip, data) {
-    const url = ep.deal.getListOfDeals(paginationLimit, paginationSkip, data);
-    return this.apiClient.get(url);
-  }
-
-  updateMultipleDeals(data) {
-    const url = ep.deal.updateMultipleDeals();
-    return this.apiClient.put(url, {}, data);
   }
 
   makeOffer(id, data) {
