@@ -195,34 +195,70 @@ const MarketCardMap = (props: MarketCardMapType) => {
               </div>
             </div>
             <div className="mid dis-fl-row a-c fsize-300 txtText700 py-2">
-              <div>
-                <span>
+              <div className=''>
+                <span className={`${get(item, 'properties.propertyType', null) === 'Building land' ? '' : 'dis-ib pt-small-2'}`}>
                   {translateTo(get(item, 'properties.propertyType', ''), lang)}
                 </span>
-                <span className="px-1 notranslate"> &middot; </span>
-                <span>
-                  <span className="notranslate">
-                    {FormatValue.formatRooms(get(item, 'properties.typology.bedrooms', 0), get(item, 'location.countryCode', 'CH'))}
-                  </span>
-                  <span>
-                    {`${get(item, 'properties.typology.bedrooms', 0) ? ' Rooms' : ''}`}
-                  </span>
-                </span>
+
                 {
                   get(item, 'properties.typology.bedrooms', 0) > 0 && (
-                    <span className="px-1 notranslate"> &middot; </span>
-                  )
-                }
-                {
-                  get(item, 'properties.typology.livingArea.value', 0) && (
-                    <span className="notranslate">
-                      <span className="notranslate">
-                        {get(item, 'properties.typology.livingArea.value', 0)}
+                    <>
+                      <span className="px-1 notranslate"> &middot; </span>
+                      <span>
+                        <span className="notranslate">
+                          {FormatValue.formatRooms(get(item, 'properties.typology.bedrooms', 0), get(item, 'location.countryCode', 'CH'))}
+                        </span>
+                        <span>
+                          {`${get(item, 'properties.typology.bedrooms', 0) ? ' Rooms' : ''}`}
+                        </span>
                       </span>
-                      <span className="notranslate"> m2</span>
-                    </span>
+                    </>
                   )
                 }
+
+                {
+                  get(item, 'properties.propertyType', null) === 'Building land' ? (
+                    <>
+                      {
+                        get(item, 'properties.typology.lotArea.value', 0) > 0 && (
+                          <>
+                            <span className="px-1 notranslate"> &middot; </span>
+                            <span>{get(item, 'properties.typology.lotArea.value', 0)}</span>
+                            <span className="ff-mono fsize-200 ml-small-4">m2</span>
+                          </>
+                        )
+                      }
+
+                      {
+                        get(item, 'properties.typology.lotAreaUsable.value', 0) > 0 && (
+                          <>
+                            <span className="px-1 notranslate"> &middot; </span>
+                            <span>{get(item, 'properties.typology.lotAreaUsable.value', 0)}</span>
+                            <span className="ff-mono fsize-200 ml-small-4">m2</span>
+                          </>
+                        )
+                      }
+
+                    </>
+                  ) :
+                    <>
+                      {
+                        get(item, 'properties.typology.livingArea.value', 0) && (
+                          <>
+                            <span className="px-1 notranslate"> &middot; </span>
+                            <span className="notranslate">
+                              <span className="notranslate">
+                                {get(item, 'properties.typology.livingArea.value', 0)}
+                              </span>
+                              <span className="notranslate"> m2</span>
+                            </span>
+                          </>
+                        )
+                      }
+                    </>
+                }
+
+
               </div>
             </div>
             <div className={`bottom m-a ml-0 mb-0 dis-f a-c fsize-400 fweight-500 ${Helpers.statusColorClass(get(item, 'status', null))}`}>
