@@ -1197,3 +1197,40 @@ input::-webkit-date-and-time-value {
     flex-wrap: wrap;
   }
 }
+
+.comboQus:nth-child(3) {
+  border-top: 1px solid #fff;
+  top: -1px;
+  position: relative;
+  border-bottom: 1px solid map-get($textColor, 50) !important;
+  padding-bottom: 24px;
+  margin-bottom: 24px;
+}
+
+.comboQus {
+    border-bottom: 0 !important;
+    padding-bottom: $step;
+    margin-bottom: $step;
+}
+
+.comboQusLastSec {
+  border-top: 1px solid map-get($textColor, 50);
+  padding-top: $step * 3;
+  margin-bottom: $step * 2;
+  border-bottom: 0 !important;
+  margin-top: $step * 3 !important;
+}
+.comboQusLast {
+  border-top: 1px solid map-get($textColor, 50);
+  padding-top: $step * 3;
+  margin-top: $step * 3 !important;
+}
+
+.combQusNoBrd {
+  border-top: 1px solid #fff;
+  top: -1px;
+  position: relative;
+  padding-top: 0;
+  margin-top: -24px;
+  padding-bottom: 32px;
+}
