@@ -389,7 +389,11 @@ const Price = (props: PriceType) => {
                                   rounded
                                   className="mt-3 w-fit"
                                   label={translateTo('Contact support', lang)}
-                                  onClick={() => history.push(`/${activeSingleProperty.id}/trialRequest/remote?url=/${activeSingleProperty.id}/property/price`)}
+                                  onClick={() => {
+                                    history.push(history.location.pathname, {
+                                      state: { openSupport: true },
+                                    });
+                                  }}
                                 />
                               </>
                             )
