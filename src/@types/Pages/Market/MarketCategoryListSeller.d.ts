@@ -11,7 +11,6 @@ export interface MarketCategoryListSellerType {
   activeMarketOverlayProperty: PropertyType;
   activeSingleCompany: CompanyType;
   activeSingleCompanyPackages: ServicePackageType[];
-  activeSingleProperty: PropertyType;
   activeSinglePropertyActivePackage: ServicePackageType;
   activeSinglePropertyPackage: ServicePackageType[];
   bestimate: EstimationType['result'];

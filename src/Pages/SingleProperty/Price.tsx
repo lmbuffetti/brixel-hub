@@ -108,7 +108,7 @@ const Price = (props: PriceType) => {
 
   const openBestimate = () => {
     handleSetModal({
-      component: <BestimateCardOverlay activeSinglePropertyId={activeSingleProperty.id} clearEstimation={false} lang={lang} />,
+      component: <BestimateCardOverlay clearEstimation={false} lang={lang} />,
       state: true,
       small: true,
       layout: 'xxlarge',

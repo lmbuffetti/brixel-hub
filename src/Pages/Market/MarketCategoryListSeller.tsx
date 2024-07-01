@@ -55,7 +55,6 @@ const MarketCategoryListSeller = (props: MarketCategoryListSellerType) => {
     activeSingleCompany,
     activeMarketOverlayProperty,
     activeSingleCompanyPackages,
-    activeSingleProperty,
     activeSinglePropertyActivePackage,
     activeSinglePropertyPackage,
     bestimate,
@@ -220,7 +219,6 @@ const MarketCategoryListSeller = (props: MarketCategoryListSellerType) => {
       {
         !bestimateMessage && splashScreenType === 'bestimateResult' && bestimate.higherValue !== 0 && get(estimation, 'status', null) !== 'pending' && (
           <BestimateCardOverlay
-            activeSinglePropertyId={get(activeSingleProperty, 'customID', '')}
             setBestimateMessage={(val) => setBestimateMessage(val)}
             lang={lang}
             clearEstimation

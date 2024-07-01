@@ -319,7 +319,7 @@ const DashboardPropertyCard: (props: DashboardPropertyCardProps) => JSX.Element 
                                                 onClick={() => handleSetModal({
                                                   state: true,
                                                   small: true,
-                                                  component: <BestimateCardOverlay activeSinglePropertyId={activeSingleProperty.id} lang={lang} />,
+                                                  component: <BestimateCardOverlay lang={lang} />,
                                                   layout: 'xlarge',
                                                 })}
                                                 className="txtBlue700 no-state fweight-600 fsize-400 ml-1-neg"

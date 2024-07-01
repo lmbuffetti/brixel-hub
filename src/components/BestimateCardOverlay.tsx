@@ -19,7 +19,6 @@ const BestimateCardOverlay = (props: BestimateCardOverlayType) => {
     location: useLocation(),
   };
   const {
-    activeSinglePropertyId,
     bestimate,
     clearEstimation = true,
     handleSetModal,
@@ -37,7 +36,8 @@ const BestimateCardOverlay = (props: BestimateCardOverlayType) => {
 
   const openSupport = (e) => {
     e.preventDefault();
-    history.push(`/${activeSinglePropertyId}/trialRequest/remote?url=/sell`);
+    handleSetModal({});
+    history.push(history.location.pathname, {state: {openSupport: true}});
   };
 
   return (
@@ -54,7 +54,7 @@ const BestimateCardOverlay = (props: BestimateCardOverlayType) => {
             )
           }
           {
-            get(bestimate, 'higherValue', 0) === 0 ? (
+            get(bestimate, 'higherValue', 0) !== 0 ? (
               <>
                 <h3>{translateTo('Bestimate® is missing 🙁', lang)}</h3>
                 <span className="max-w-fix-448 ta-c txtText900 py-2">

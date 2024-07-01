@@ -173,6 +173,14 @@ const App = (props: AppType) => {
   const el = document.getElementsByClassName('thirdLevel');
 
   useEffect(() => {
+    const openSupportState = history?.location.state?.openSupport;
+    if (openSupportState) {
+      history.push(history.location.pathname, { state: { openSupport: false } });
+      setShowSupport(true);
+    }
+  }, [history]);
+
+  useEffect(() => {
     if (smoothscrollPolyfill) smoothscrollPolyfill.polyfill();
     const queryURL: { lang?: string } = queryString.parse(get(history, 'location.search', ''));
     if (queryURL?.lang) setLangURL(queryURL.lang.toLowerCase());
@@ -934,7 +942,6 @@ const App = (props: AppType) => {
             modal.state && modal.type === 'bestimate' && (
               <BestimateCardOverlay
                 lang={lang}
-                activeSinglePropertyId={activeSingleProperty.id}
                 clearEstimation={false}
               />
             )

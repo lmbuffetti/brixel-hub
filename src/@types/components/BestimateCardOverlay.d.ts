@@ -1,7 +1,6 @@
 import {EstimationType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 export interface BestimateCardOverlayType {
-  activeSinglePropertyId: string;
   bestimate: EstimationType['result'];
   clearEstimation?: boolean;
   handleSetModal: (data: object) => void;
