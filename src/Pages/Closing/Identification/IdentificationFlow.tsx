@@ -52,16 +52,16 @@ const IdentificationFlow = (props: IdentificationFlowType) => {
   // GET URL PARAMS
   const propID = get(match, 'propID', null);
   const dealID = get(match, 'dealID', null);
-  const userType = get(match, 'userType', null);
+  const userType = get(match, 'userType', '');
   // STATE
   // SET THE QUESTIONS IN BASE OF THE COUNTRY
-  const [questions, setQuestions] = useState<QuestionsListType[]>(IdentificationQuestions(false, userType, lang));
+  const [questions, setQuestions] = useState<QuestionsListType[]>(IdentificationQuestions(false, userType || '', lang));
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showError, setShowError] = useState(false);
   const [action, setAction] = useState('next');
   const [isEnter, setIsEnter] = useState(true);
   // SET QUEST TO FIRST QUESTION OF IdentificationQuestions()
-  const [quest, setQuest] = useState<QuestionsListType>(IdentificationQuestions(false, userType, lang)[0]);
+  const [quest, setQuest] = useState<QuestionsListType>(IdentificationQuestions(false, userType || '', lang)[0]);
 
   // REFS
   const singleStepRef = useRef(null);
@@ -167,7 +167,7 @@ const IdentificationFlow = (props: IdentificationFlowType) => {
   // FUNCTION TO SHOW/HIDE BLOCK IN BASE OF JSON CONDITION
   const checkCondition = (id, act) => {
     let newIndex = id;
-    const newQuestions: QuestionsListType[] = IdentificationQuestions(false, userType, lang);
+    const newQuestions: QuestionsListType[] = IdentificationQuestions(false, userType || '', lang);
     if (get(newQuestions, `[${newIndex}].conditions`, null)) {
       let checkCond = true;
       get(newQuestions[newIndex], 'conditions', []).map((cond) => {
@@ -238,7 +238,7 @@ const IdentificationFlow = (props: IdentificationFlowType) => {
       if (defId !== newIndex) defId = checkCondition(defId, act);
       if (newQuestions[defId]) {
         // setPosition(newIndex);
-        if (newQuestions[defId].toSave && !isSmallLoading.sendDataSent) {
+        if (newQuestions[defId]?.toSave && !isSmallLoading.sendDataSent) {
           saveData();
           delete isSmallLoading.sendDataSent;
           handleChangeSmallLoading(isSmallLoading);

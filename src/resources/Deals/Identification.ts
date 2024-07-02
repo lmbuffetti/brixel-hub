@@ -38,6 +38,7 @@ type IdentificationQuestionType = {
   }[];
   subtitleSmall?: string;
   title?: string;
+  toSave?: boolean;
 }
 
 export const IdentificationQuestions: (editForm: boolean, userType: string, lang: string) => IdentificationQuestionType[] = (editForm = false, userType, lang) => {
