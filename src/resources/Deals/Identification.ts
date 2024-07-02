@@ -16,7 +16,31 @@ import {configureStore} from '../../store';
 
 const { factsOptions } = FactsOptions;
 
-export const IdentificationQuestions = (editForm = false, userType, lang) => {
+type IdentificationQuestionType = {
+  className?: string;
+  footerWidth?: string;
+  history: string;
+  inputs?: {
+    component: any;
+    className?: string;
+    classNameBox?: string;
+    classBoxWrapper?: string;
+    classWidthBox?: string;
+    label?: string;
+    name: string;
+    placeholder?: string;
+    pdClass?: string;
+    ReduxFieldClass?: string;
+    type?: string;
+    large?: boolean;
+    options?: { label: string; value: string }[];
+    validation?: any[];
+  }[];
+  subtitleSmall?: string;
+  title?: string;
+}
+
+export const IdentificationQuestions: (editForm: boolean, userType: string, lang: string) => IdentificationQuestionType[] = (editForm = false, userType, lang) => {
   let formValue = {};
   if (configureStore) {
     formValue = get(configureStore.getState(), 'brixelForm.Identification.values', []);

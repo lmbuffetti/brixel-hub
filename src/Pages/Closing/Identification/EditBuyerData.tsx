@@ -38,7 +38,7 @@ const EditBuyerData = (props: EditBuyerDataType) => {
     const getBuyerNameData = IdentificationQuestions(true, userType, lang).find((quest) => quest.history === 'userName') || [];
     const getBuyerData = IdentificationQuestions(true, userType, lang).find((quest) => quest.history === 'userData') || [];
 
-    const fullFormBuyerData = getBuyerData ? get(getBuyerNameData, 'inputs', []).concat(get(getBuyerData, 'inputs', []) || []) : [];
+    const fullFormBuyerData = getBuyerData ? [...get(getBuyerNameData, 'inputs', []), ...get(getBuyerData, 'inputs', [])] : [];
     const getUploadData = IdentificationQuestions(true, userType, lang).find((quest) => quest.history === 'document');
     const formDataUpload = get(getUploadData, 'inputs', []);
     if (forceStep === 1) {
