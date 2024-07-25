@@ -1,4 +1,4 @@
-import {DealType} from '@brixel-io/brixel-components/dist/@types/Model';
+import {CompanyType, DealType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 export interface NavigationType {
   path: string;
@@ -13,6 +13,7 @@ export interface NavigationType {
 }
 
 export interface MenuSidebarType {
+  activeSingleCompany: CompanyType
   activeSingleDeal: DealType;
   isBuyer?: boolean;
   lang: string;

@@ -69,53 +69,62 @@ export const sidebarNavigationSeller = [
   },
 ];
 
-export const sidebarNavigationBuyer = [
-  {
-    title: 'Home',
-    name: 'home',
-    icon: 'four-circles',
-    path: '/buyer/:propID/home',
-  },
-  {
-    title: 'Property',
-    name: 'property',
-    icon: 'property-new',
-    path: '/buyer/:propID/property/page',
-    submenu: [
-      /* {
-        title: 'Contact',
-        name: 'contact',
-        path: '/buyer/:propID/property/contact',
-      }, */
+export const sidebarNavigationBuyer = (activeSingleCompany) => {
+
+  const menu = [
+    {
+      title: 'Home',
+      name: 'home',
+      icon: 'four-circles',
+      path: '/buyer/:propID/home',
+    },
+    {
+      title: 'Property',
+      name: 'property',
+      icon: 'property-new',
+      path: '/buyer/:propID/property/page',
+      submenu: [
+        {
+          title: 'Page',
+          name: 'page',
+          path: '/buyer/:propID/property/page',
+        },
+      ],
+    },
+    {
+      title: 'Financing',
+      name: 'financing',
+      icon: 'calculator',
+      path: '/buyer/:propID/financing',
+    },
+    {
+      title: 'Visit',
+      name: 'scheduleVisit',
+      icon: 'calendar',
+      path: '/buyer/:propID/scheduleVisit',
+    },
+    {
+      title: 'Docubox',
+      name: 'docubox',
+      icon: 'docs',
+      path: '/buyer/:propID/docubox',
+    },
+    {
+      title: 'Closing',
+      name: 'closing',
+      icon: 'flag-wave',
+      path: '/buyer/:propID/closing/:dealID',
+    },
+  ];
+  if (activeSingleCompany?.stub) {
+    menu.splice(2, 0,
       {
-        title: 'Page',
-        name: 'page',
-        path: '/buyer/:propID/property/page',
+        title: 'Energy',
+        name: 'energy',
+        icon: 'energy',
+        path: '/buyer/:propID/energy',
       },
-    ],
-  },
-  {
-    title: 'Financing',
-    name: 'financing',
-    icon: 'calculator',
-    path: '/buyer/:propID/financing',
-  },
-  {
-    title: 'Visit',
-    name: 'scheduleVisit',
-    icon: 'calendar',
-    path: '/buyer/:propID/scheduleVisit',
-  },
-  {
-    title: 'Docubox',
-    name: 'docubox',
-    icon: 'docs',
-    path: '/buyer/:propID/docubox',
-  },
-  {
-    title: 'Closing',
-    name: 'closing',
-    icon: 'flag-wave',
-    path: '/buyer/:propID/closing/:dealID',
-  },
-];
+    );
+  }
+  return menu;
+}

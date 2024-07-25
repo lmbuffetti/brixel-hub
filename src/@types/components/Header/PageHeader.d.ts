@@ -1,4 +1,4 @@
-import {ServicePackageType} from '@brixel-io/brixel-components/dist/@types/Model';
+import {CompanyType, ServicePackageType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 export interface LanguagesType {
   value?: string;
@@ -11,6 +11,7 @@ export interface LanguagesType {
 
 export interface PageHeaderType {
   activeCompanyPackages: ServicePackageType[];
+  activeSingleCompany: CompanyType
   handleSetModal: (data: object) => void;
   activeSingleProperty: object;
   changeZIndex?: (val: number) => void;

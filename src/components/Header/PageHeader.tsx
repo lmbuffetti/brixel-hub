@@ -50,6 +50,7 @@ function PageHeader(props: PageHeaderType) {
   const {
     activeCompanyPackages,
     activeSingleProperty,
+    activeSingleCompany,
     handleSaveActiveSingleUser,
     handleSetActiveSinglePropertyActivePackage,
     handleSetLanguage,
@@ -220,7 +221,7 @@ function PageHeader(props: PageHeaderType) {
   // FUNCTION TO GET CURRENT URL LOCATION
   const getCurrentRoute = () => {
     const path = history.location.pathname;
-    const currentPath = sidebarNavigationSeller.concat(sidebarNavigationBuyer).find((item) => path.includes(item.name) && item.name !== 'Prospects');
+    const currentPath = sidebarNavigationSeller.concat(sidebarNavigationBuyer(activeSingleCompany)).find((item) => path.includes(item.name) && item.name !== 'Prospects');
     return currentPath || {name: '', path: '', title: ''};
   };
 

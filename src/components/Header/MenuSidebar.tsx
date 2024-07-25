@@ -17,6 +17,7 @@ const MenuSidebar = (props: MenuSidebarType) => {
     location: useLocation(),
   };
   const {
+    activeSingleCompany,
     activeSingleDeal,
     isBuyer,
     lang,
@@ -38,11 +39,11 @@ const MenuSidebar = (props: MenuSidebarType) => {
 
   useEffect(() => {
     if (history.location.pathname.includes('buyer')) {
-      setNavigationMenu(sidebarNavigationBuyer);
+      setNavigationMenu(sidebarNavigationBuyer(activeSingleCompany));
     } else {
       setNavigationMenu(sidebarNavigationSeller);
     }
-  }, [get(history, 'location.pathname', null)]);
+  }, [get(history, 'location.pathname', null), activeSingleCompany]);
 
   return (
     <>
@@ -132,6 +133,7 @@ const MenuSidebar = (props: MenuSidebarType) => {
 };
 
 const mapStateToProps = (state) => ({
+  activeSingleCompany: state?.companies?.activeSingleCompany || {},
   activeSingleDeal: get(state, 'deal.activeSingleDeal', {}),
   lang: get(state, 'common.language', 'en'),
   windowDimensions: get(state, 'common.windowDimensions', {}),
