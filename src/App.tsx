@@ -104,6 +104,8 @@ const MarketSeller = lazy(() => import('./Pages/Market/MarketSeller'));
 const MarketBuyer = lazy(() => import('./Pages/Market/MarketBuyer'));
 
 const WarningScreen = lazy(() => import('./components/WarningScreen'));
+const EnergyFlow = lazy(() => import('./Pages/Dashboard/Buyer/Energy/EnergyFlow'))
+;
 
 const cookies = new Cookies();
 
@@ -233,7 +235,7 @@ const App = (props: AppType) => {
   }
 
   const showCustomerSatisfactionFunc = () => {
-    return (history.location.pathname.includes('buy') && !history.location.pathname.includes('scheduleVisit') && !history.location.pathname.includes('packageFlow') && getCookie('brixelBuyerPackage') !== 'true' && getCookie('brixelBuyerPackage') !== true);
+    return (history.location.pathname.includes('buy') && !history.location.pathname.includes('scheduleVisit') && !history.location.pathname.includes('packageFlow') && !history.location.pathname.includes('energyFlow') && getCookie('brixelBuyerPackage') !== 'true' && getCookie('brixelBuyerPackage') !== true);
   }
 
   const buyerPackageFunc = () => {
@@ -429,7 +431,7 @@ const App = (props: AppType) => {
 
   // FUCNTION TO SEPARATE THE DESIGN IN BASE OF HISTORY LOCATION (packageFLow, onBoarding, upgrade)
   useEffect(() => {
-    const flowClass = ['packageFlow', 'visitFeedback', 'upgrade', 'trialRequest', 'contactFlow', 'termsConditionFlow', 'termsConditionPage', 'completeProfileFlow'];
+    const flowClass = ['packageFlow', 'visitFeedback', 'upgrade', 'trialRequest', 'contactFlow', 'termsConditionFlow', 'termsConditionPage', 'completeProfileFlow', 'energyFlow'];
     const isFlowClass = flowClass.some((url) => history.location.pathname.includes(url));
 
     setIsFlow(false);
@@ -704,11 +706,17 @@ const App = (props: AppType) => {
                       <Route path="/packageFlow/:id/makeOffer/*" element={<ProtectedRoute><MakeOffer /></ProtectedRoute>} />
                       <Route path="/packageFlow/:propID/:dealID/closing/:userType/identification/*" element={<ProtectedRoute><IdentificationFlow /></ProtectedRoute>} />
 
+                      { /* SECTION: ENERGY CERTIFICATE FLOWS */}
+                      <Route
+                        path="/buyer/:propID/energy/energyFlow/*"
+                        element={<ProtectedRoute><EnergyFlow /></ProtectedRoute>}
+                      />
                       { /* SECTION: HUB DASHBOARD */ }
                       {
                         !history.location.pathname.includes('packageFlow') &&
                         !history.location.pathname.includes('completeProfileFlow') &&
                         !history.location.pathname.includes('Flow') &&
+                        !history.location.pathname.includes('energyFlow') &&
                         !history.location.pathname.includes('visitFeedback') &&
                         !history.location.pathname.includes('onBoarding') &&
                         !history.location.pathname.includes('buyer') &&
@@ -735,6 +743,7 @@ const App = (props: AppType) => {
                         !history.location.pathname.includes('packageFlow') &&
                         !history.location.pathname.includes('completeProfileFlow') &&
                         !history.location.pathname.includes('Flow') &&
+                        !history.location.pathname.includes('energyFlow') &&
                         !history.location.pathname.includes('visitFeedback') &&
                         !history.location.pathname.includes('onBoarding') &&
                         (

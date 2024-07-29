@@ -150,11 +150,18 @@ img {
 
 .hr,
 hr {
-  border: none;
-  display: block;
-  width: 100%;
-  border-top: 1px solid map-get($textColor, 200);
-
+  & {
+    border: none;
+    display: block;
+    width: 100%;
+    border-top: 1px solid map-get($textColor, 200);
+  }
+  &.vertical {
+    width: 1px;
+    min-height: 100%;
+    background: map-get($textColor, 200);
+    border-top: 0
+  }
   &.lighter {
     border-color: map-get($textColor, 50);
   }

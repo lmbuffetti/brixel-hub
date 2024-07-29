@@ -158,6 +158,18 @@ const clientConfig = (env) => {
             filename: 'fonts/[name][ext][query]',
           },
         },
+        
+        {
+          test: /\.pdf$/,
+          use: [
+            {
+              loader: 'file-loader',
+              options: {
+                name: 'pdf/[name].[ext]',
+              },
+            },
+          ],
+        },
         // Fonts loader
         {
           test: /\.(woff(2)?|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/,
