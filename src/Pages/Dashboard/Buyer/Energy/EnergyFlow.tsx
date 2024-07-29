@@ -7,6 +7,7 @@ import {QuestionsList} from '../../../../resources/Dashboard/EnergyCertificate';
 import {bindActionCreators} from 'redux';
 import {getActiveSingleProperty} from '../../../../actions/PropertyActions';
 import {spinnerSmall} from '../../../../actions/CommonActions';
+import {translateTo} from '@brixel-io/brixel-components/dist';
 
 
 type EnergieCertificateProps = {
@@ -58,7 +59,7 @@ const EnergyFlow = ({
         QuestionsList={QuestionData}
         closeLink={`/buyer/${propID}/energy`}
         newCurrentIndex={currentIndex}
-        closeLabel="Back to home"
+        closeLabel={translateTo('Back to home', lang)}
       />
     </>
   )
