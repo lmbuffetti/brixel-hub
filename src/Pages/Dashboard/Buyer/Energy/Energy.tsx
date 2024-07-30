@@ -71,7 +71,7 @@ const EnergieCertificate = ({
   }
 
   return (
-    <div className="max-w-fix-1024">
+    <div className="max-w-fix-1024 dis-fl-col pr-md-2">
       <h3 className="mb-3 hide dis-b-lg fweight-600">
         {translateTo('Energy', lang)}
       </h3>
@@ -83,7 +83,7 @@ const EnergieCertificate = ({
         </div>
       </div>
 
-      <div className="bgWhite">
+      <div className="shadow-2dp bgWhite brdRadius p-sm-3 pt-0 pb-2 mb-3 ov-h">
         {
           EfficiencyValue && (
             <>

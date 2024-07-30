@@ -388,6 +388,7 @@ const DashboardHome = (props: DashboardHomeType) => {
             <>
 
               <DashboardPropertyCard
+                activeSingleCompany={activeSingleCompany}
                 lang={lang}
               />
 
@@ -476,6 +477,7 @@ const DashboardHome = (props: DashboardHomeType) => {
           progressState.step === 2 && (
             <>
               <DashboardPropertyCard
+                activeSingleCompany={activeSingleCompany}
                 lang={lang}
               />
 
@@ -679,6 +681,7 @@ const DashboardHome = (props: DashboardHomeType) => {
               <div className="dis-fl-col dis-fl-row-md jc-b flex-wrap">
                 <div className="w-perc-100 w-perc-md-67 pr-md-1">
                   <DashboardPropertyCard
+                    activeSingleCompany={activeSingleCompany}
                     lang={lang}
                     smallLayout
                   />

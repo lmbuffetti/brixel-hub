@@ -90,7 +90,11 @@ const DashboardHome = (props: ContactType) => {
 
         <>
 
-          <DashboardPropertyCard type="buy" lang={lang} />
+          <DashboardPropertyCard
+            activeSingleCompany={activeSingleCompany}
+            type="buy"
+            lang={lang}
+          />
 
           <div className="dis-fl-col dis-fl-row-sm">
 
