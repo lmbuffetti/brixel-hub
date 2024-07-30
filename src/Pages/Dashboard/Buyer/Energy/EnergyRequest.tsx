@@ -1,8 +1,10 @@
 import React, {useEffect} from 'react';
-import {change, ReduxField,
+import {
+  change, ReduxField,
   BrixelInputPhone,
   BrixelInputText,
-  BrixelCheckboxSingle,
+  BrixelRadioButton,
+  Validation,
 } from '@brixel-io/brixel-components/dist/form';
 import {BrixelButtonSecondary} from '@brixel-io/brixel-components';
 import get from 'lodash/get';
@@ -17,6 +19,7 @@ type EnergyRequestProps = {
   loggedInUser: UserType;
   changeFieldValue: (field: string, value: any) => void;
   onClick: () => void;
+  syncErrors: object
 }
 
 const EnergyRequest = (props: EnergyRequestProps) => {
@@ -26,7 +29,16 @@ const EnergyRequest = (props: EnergyRequestProps) => {
     loggedInUser,
     onClick,
     lang,
+    syncErrors,
   } = props;
+
+  const validateField = () => {
+    let isValid = true
+    Object.keys(syncErrors).forEach((key) => {
+      if (isValid &&syncErrors[key] !== true) isValid = false
+    })
+    return isValid;
+  }
 
   useEffect(() => {
     if (loggedInUser?.id) {
@@ -111,6 +123,7 @@ const EnergyRequest = (props: EnergyRequestProps) => {
             }}
             input={{
               name: 'name',
+              validate: [Validation.required],
             }}
           />
 
@@ -126,6 +139,7 @@ const EnergyRequest = (props: EnergyRequestProps) => {
             input={{
               name: 'email',
               type: 'email',
+              validate: [Validation.required],
             }}
           />
 
@@ -140,44 +154,31 @@ const EnergyRequest = (props: EnergyRequestProps) => {
             }}
             input={{
               name: 'phone',
+              validate: [Validation.required],
             }}
           />
 
           <ReduxField
             form="energyRequest"
-            component={BrixelCheckboxSingle}
+            component={BrixelRadioButton}
             design={{
               className: 'mt-4',
             }}
             input={{
+              deactivable: false,
               disableDelay: false,
-              name: 'customerReceiveData',
+              name: 'isUBSCustomer',
               options: [
                 {
                   label: translateTo('I am a UBS customer and would like to benefit from the preferential price and advice from UBS on tailor-made financing solutions and energy-saving renovation measures.', lang),
                   value: true,
                 },
-              ],
-              validate: [],
-            }}
-          />
-
-          <ReduxField
-            form="energyRequest"
-            component={BrixelCheckboxSingle}
-            design={{
-              className: 'mt-2',
-            }}
-            input={{
-              disableDelay: false,
-              name: 'newCustomerReceiveData',
-              options: [
                 {
                   label: translateTo('I am not yet a customer, but would like to benefit from free advice from UBS and tailor-made financing solutions and energy-saving renovation measures.', lang),
-                  value: true,
+                  value: false,
                 },
               ],
-              validate: [],
+              validate: [Validation.required],
             }}
           />
 
@@ -186,6 +187,7 @@ const EnergyRequest = (props: EnergyRequestProps) => {
             className="mx-a mt-4"
             label="Order now for a fee"
             onClick={() => onClick()}
+            disabled={!validateField()}
           />
 
           <p className="txtText700 fsize-300 mt-2">
@@ -199,6 +201,7 @@ const EnergyRequest = (props: EnergyRequestProps) => {
 };
 
 const mapStateToProps = (state) => ({
+  syncErrors: state?.brixelForm?.energyRequest?.syncErrors || {},
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
   lang: get(state, 'common.language', 'en'),
 });

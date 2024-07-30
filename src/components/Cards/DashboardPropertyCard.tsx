@@ -388,7 +388,7 @@ const DashboardPropertyCard: (props: DashboardPropertyCardProps) => JSX.Element 
                   </p>
                 </div>
                 <BrixelButtonPrimary
-                  className="ws-nw ml-2"
+                  className="ws-nw ml-2 flex-none"
                   rounded
                   rightIcon="arrow-right"
                   label={translateTo('Get informed', lang)}
