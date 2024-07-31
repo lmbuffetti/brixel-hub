@@ -87,8 +87,8 @@ const EnergieCertificate = ({
         {
           EfficiencyValue && (
             <>
-              <div className="p-3">
-                <div className="dis-f jc-b a-c mb-3">
+              <div className="p-1">
+                <div className="dis-f jc-b a-c mb-3 p-1">
                   <h6 className="fweight-600">
                     {translateTo('Energy class', lang)}
                   </h6>
