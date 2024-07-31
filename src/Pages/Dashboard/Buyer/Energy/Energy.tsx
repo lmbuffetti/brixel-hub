@@ -113,38 +113,43 @@ const EnergieCertificate = ({
           <h5 className="fweight-600">
             {translateTo('The offer: verified energy performance certificate with individual renovation roadmap, digital and efficient.', lang)}
           </h5>
-
-          <img src={EnergyImg()} alt="Energy Certificate" />
         </div>
 
-        <div className="p-3">
-          <div className="dis-f jc-b a-t">
+        <img src={EnergyImg()} alt="Energy Certificate" className="hide dis-b-md" />
+
+        <div className="px-3 pb-3">
+          <div className="dis-f-md jc-b a-t">
             <div>
-              <div className="dis-f a-c mt-2">
-                <span className='fsize-500 fsize-sm-600 fweight-600'>CHF 1&apos;550</span>
-                <span className='fsize-300 pl-1'>incl. VAT</span>
+              <div className="dis-f a-c">
+                <span className="fsize-500 fsize-sm-600 fweight-600">CHF 1&apos;550</span>
+                <span className="fsize-300 pl-1">incl. VAT</span>
               </div>
-              <p className='my-2'>
+              <p className="my-2">
                 {translateTo('CHF 1\'190 Reduced price for UBS clients', lang)}
               </p>
 
               <div className="">
                 <BrixelButtonPrimary
                   rightIcon="arrow-right"
-                  className="no-wrap ws-nw mr-2 as-fs mb-2 mb-lg-0"
+                  className="no-wrap ws-nw mr-md-2 as-fs mb-2 mb-lg-0 w-perc-100"
                   rounded
                   label={translateTo('Order energy report', lang)}
                   onClick={() => history.push(`/buyer/${propID}/energy/energyFlow`)}
                 />
                 <BrixelButtonSecondary
                   rounded
-                  className="no-wrap ws-nw as-fs mt-2"
+                  className="no-wrap ws-nw as-fs mt-2 w-perc-100"
                   rightIcon="document"
                   label={translateTo('View exmple', lang)}
                   onClick={() => EnergyPdf()}
                 />
               </div>
             </div>
+            <img
+              src={EnergyImg()}
+              alt="Energy Certificate"
+              className="hide-md min-w-fix-800 mt-2"
+            />
             <div>
               <p className="fweight-600 mb-2">{translateTo('Your advantages', lang)}</p>
               <ul className="checkList fsize-400 green">

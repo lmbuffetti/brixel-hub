@@ -34,9 +34,9 @@ const DashboardPropertyCard: (props: DashboardPropertyCardProps) => JSX.Element 
 
 
   return (
-    <>
+    <div className={smallLayout ? '' : 'mb-3'}>
       <div
-        className={`shadow-2dp imgSection bgWhite brdRadius ov-h ${smallLayout ? '' : 'mb-3'}`}>
+        className={'shadow-2dp imgSection bgWhite brdRadius ov-h'}>
         <div className={`dis-fl-col dis-fl-row-sm ${smallLayout ? 'p-sm-3' : 'p-sm-3 pt-0 pb-2'}`}>
           <div className="pr-sm-3 pr-0 pr-sm-2 max-w-perc-sm-50">
             <div
@@ -368,38 +368,44 @@ const DashboardPropertyCard: (props: DashboardPropertyCardProps) => JSX.Element 
             }
           </div>
         </div>
-        {
-          energyCertificate && activeSingleCompany?.stub === 'ubs' && (
-            <>
-              <hr />
-              <div className={`dis-f a-c jc-b ${smallLayout ? 'p-sm-3' : 'p-sm-3 pt-0 pb-2'}`}>
-                <div
-                  className={`singleEnergyValue active ${energyCertificate} w-fix-72`}
-                >
-                  <span className="labelValue">{energyCertificate}</span>
-                </div>
-                <div className="ml-2">
-                  <h6 className="fweight-600">
-                    <span>{translateTo('This property has an indicative energy class', lang)}</span>
-                    <span className="ml-small-4">{energyCertificate.toUpperCase()}.</span>
-                  </h6>
-                  <p>
-                    {translateTo('Order the energy performance certificate with renovation schedule from Norm and benefit from attractive conditions.', lang)}
-                  </p>
-                </div>
+      </div>
+      {
+        activeSingleCompany?.stub === 'ubs' && (
+          <div className="bgWhite brdRadius mt-sm-1-neg mt-2">
+            <hr className="hide dis-b-md" />
+            <div className={`dis-f-md a-c jc-b ${smallLayout ? 'p-sm-3' : 'p-sm-3 pt-0 pb-2'}`}>
+              <div
+                className={`m-2 m-md-0 singleEnergyValue active ${energyCertificate} w-fix-72`}
+              >
+                <span className="labelValue">{energyCertificate || '?'}</span>
+              </div>
+              <div className="ml-2">
+                {
+                  energyCertificate && (
+                    <h6 className="fweight-600">
+                      <span>{translateTo('This property has an indicative energy class', lang)}</span>
+                      <span className="ml-small-4">{energyCertificate.toUpperCase()}.</span>
+                    </h6>
+                  )
+                }
+                <p>
+                  {translateTo('Order the energy performance certificate with renovation schedule from Norm and benefit from attractive conditions.', lang)}
+                </p>
+              </div>
+              <div className="p-2 p-sm-0 ml-0 ml-sm-2">
                 <BrixelButtonPrimary
-                  className="ws-nw ml-2 flex-none"
+                  className="ws-nw flex-none w-perc-100"
                   rounded
                   rightIcon="arrow-right"
                   label={translateTo('Get informed', lang)}
                   onClick={() => history.push(`/buyer/${activeSingleProperty.id}/energy`)}
                 />
               </div>
-            </>
-          )
-        }
-      </div>
-    </>
+            </div>
+          </div>
+        )
+      }
+    </div>
   );
 };
 

@@ -69,14 +69,14 @@ const EnergyRequest = (props: EnergyRequestProps) => {
 
   return (
     <main className="introScanFlow pt-2 pt-md-4 pb-2 pb-md-4 h-perc-100 txtText900">
-      <div className="bgWhite dis-f jc-b brdRadius max-w-fix-1024 mx-a">
-        <div className="p-8 w-perc-40">
+      <div className="bgWhite dis-f-md jc-b brdRadius max-w-fix-1024 mx-a">
+        <div className="p-md-8 p-2 w-perc-md-40">
           <h5>
             {translateTo('Order your verified energy certificate with an individual renovation roadmap', lang)}
           </h5>
 
           <div>
-            <div className="dis-f a-c mt-2">
+            <div className="dis-f-md a-c mt-2">
               <span className="fsize-500 fsize-sm-600 fweight-600">CHF 1&apos;550</span>
               <span className="fsize-300 pl-1">incl. VAT</span>
             </div>
@@ -114,7 +114,7 @@ const EnergyRequest = (props: EnergyRequestProps) => {
 
         </div>
         <hr className="vertical" />
-        <div className="p-8 w-perc-58">
+        <div className="p-md-8 p-2 w-perc-md-58">
           <ReduxField
             form="energyRequest"
             component={BrixelInputText}
