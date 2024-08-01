@@ -35,8 +35,9 @@ const DashboardPropertyCard: (props: DashboardPropertyCardProps) => JSX.Element 
 
   return (
     <div className={smallLayout ? '' : 'mb-3'}>
+
       <div
-        className={'shadow-2dp imgSection bgWhite brdRadius ov-h'}>
+        className={`${activeSingleCompany?.stub === 'ubs' ? 'engBrdTop' : 'brdRadius' } imgSection ov-h bgWhite brdSmall brdText100`}>
         <div className={`dis-fl-col dis-fl-row-sm ${smallLayout ? 'p-sm-3' : 'p-sm-3 pt-0 pb-2'}`}>
           <div className="pr-sm-3 pr-0 pr-sm-2 max-w-perc-sm-50">
             <div
@@ -371,28 +372,31 @@ const DashboardPropertyCard: (props: DashboardPropertyCardProps) => JSX.Element 
       </div>
       {
         activeSingleCompany?.stub === 'ubs' && (
-          <div className="bgWhite brdRadius mt-sm-1-neg mt-2">
-            <hr className="hide dis-b-md" />
+          <div className="brdSmall engBrdRadius brdText100 bgWhite mt-2 mt-md-1-neg">
             <div className={`dis-f-md a-c jc-b ${smallLayout ? 'p-sm-3' : 'p-sm-3 pt-0 pb-2'}`}>
               <div
                 className={`m-2 m-md-0 singleEnergyValue active ${energyCertificate} w-fix-72`}
               >
                 <span className="labelValue">{energyCertificate || '?'}</span>
               </div>
-              <div className="ml-2">
+              <div className="ml-2 fsize-300">
                 {
-                  energyCertificate && (
-                    <h6 className="fweight-600">
+                  energyCertificate ? (
+                    <h6 className="fsize-sm-300 fweight-600 pb-small-4">
                       <span>{translateTo('This property has an indicative energy class', lang)}</span>
                       <span className="ml-small-4">{energyCertificate.toUpperCase()}.</span>
                     </h6>
+                  ) : (
+                    <span className='fsize-300'>
+                      {translateTo('This property doesn\'t have a specified energy class yet.', lang)}
+                    </span>
                   )
                 }
-                <p>
+                <p className='fsize-300'>
                   {translateTo('Order the energy performance certificate with renovation schedule from Norm and benefit from attractive conditions.', lang)}
                 </p>
               </div>
-              <div className="p-2 p-sm-0 ml-0 ml-sm-2">
+              <div className="ml-0 pt-2 pt-md-0 ml-sm-2 px-2 px-md-0">
                 <BrixelButtonPrimary
                   className="ws-nw flex-none w-perc-100"
                   rounded
@@ -405,6 +409,7 @@ const DashboardPropertyCard: (props: DashboardPropertyCardProps) => JSX.Element 
           </div>
         )
       }
+
     </div>
   );
 };

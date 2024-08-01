@@ -159,7 +159,7 @@ hr {
   &.vertical {
     width: 1px;
     min-height: 100%;
-    background: map-get($textColor, 200);
+    background: map-get($textColor, 100);
     border-top: 0
   }
   &.lighter {
@@ -1241,4 +1241,35 @@ input::-webkit-date-and-time-value {
   padding-top: 0;
   margin-top: -24px;
   padding-bottom: 32px;
+}
+
+.engBrdTop {
+  @media (max-width: 768px) {
+    border-radius: $step;
+  }
+  @media (min-width: 768px) {
+    border-top-left-radius: $step;
+    border-top-right-radius: $step;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+}
+.engBrdRadius {
+
+  @media (max-width: 768px) {
+    border-radius: $step;
+  }
+  @media (min-width: 768px) {
+    border-bottom-left-radius: $step;
+    border-bottom-right-radius: $step;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+}
+
+.engBg {
+  @media (min-width: 768px) {
+    background: white;
+    box-shadow: $shadow-1dp;
+  }
 }

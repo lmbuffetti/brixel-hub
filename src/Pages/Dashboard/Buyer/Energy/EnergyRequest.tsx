@@ -69,18 +69,18 @@ const EnergyRequest = (props: EnergyRequestProps) => {
 
   return (
     <main className="introScanFlow pt-2 pt-md-4 pb-2 pb-md-4 h-perc-100 txtText900">
-      <div className="bgWhite dis-f-md jc-b brdRadius max-w-fix-1024 mx-a">
-        <div className="p-md-8 p-2 w-perc-md-40">
-          <h5>
+      <div className="engBg dis-f-md jc-b brdRadius max-w-fix-1024 mx-a">
+        <div className="p-md-8 w-perc-md-45">
+          <h5 className='fweight-600 fsize-600 fsize-sm-700'>
             {translateTo('Order your verified energy certificate with an individual renovation roadmap', lang)}
           </h5>
 
           <div>
-            <div className="dis-f-md a-c mt-2">
-              <span className="fsize-500 fsize-sm-600 fweight-600">CHF 1&apos;550</span>
+            <div className="dis-f a-c my-3">
+              <span className="fsize-600 fsize-sm-700 fweight-600">CHF 1&apos;550</span>
               <span className="fsize-300 pl-1">incl. VAT</span>
             </div>
-            <p className="my-2">
+            <p className="mb-3 fsize-500">
               {translateTo('CHF 1\'190 Reduced price for UBS clients', lang)}
             </p>
           </div>
@@ -102,7 +102,7 @@ const EnergyRequest = (props: EnergyRequestProps) => {
             </ul>
           </div>
 
-          <div className="">
+          <div className="my-5">
             <BrixelButtonSecondary
               rounded
               className="no-wrap ws-nw as-fs mt-2"
@@ -113,13 +113,16 @@ const EnergyRequest = (props: EnergyRequestProps) => {
           </div>
 
         </div>
-        <hr className="vertical" />
-        <div className="p-md-8 p-2 w-perc-md-58">
+        <hr className="vertical lighter" />
+        <div className="p-md-8 w-perc-md-55">
           <ReduxField
             form="energyRequest"
             component={BrixelInputText}
             labels={{
               label: translateTo('Full name', lang),
+            }}
+            design={{
+              large: true,
             }}
             input={{
               name: 'name',
@@ -132,6 +135,7 @@ const EnergyRequest = (props: EnergyRequestProps) => {
             component={BrixelInputText}
             design={{
               className: 'mt-2',
+              large: true,
             }}
             labels={{
               label: translateTo('E-mail address', lang),
@@ -148,6 +152,7 @@ const EnergyRequest = (props: EnergyRequestProps) => {
             component={BrixelInputPhone}
             design={{
               className: 'mt-2',
+              large: true,
             }}
             labels={{
               label: translateTo('Phone number', lang),
