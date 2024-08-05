@@ -20,6 +20,7 @@ export default {
     deleteOffer: (id) => `/deal/${id}/closing/deleteOffer`,
     makeOffer: (id) => `/deal/${id}/closing/makeOffer`,
     offerListings: (id) => `/page/${id}/offers`,
+    requestVerifiedEnergyCertificate: (dealID) => `/deal/${dealID}/requestVerifiedEnergyCertificate`,
     reviewOffer: (id) => `/deal/${id}/closing/reviewOffer`,
     singleDeal: (id) => `/deal/${id}`,
     scheduleVisit: (id, order, direction) => `/deal/${id}/scheduleVisitRequest?order=${order}&direction=${direction}`,

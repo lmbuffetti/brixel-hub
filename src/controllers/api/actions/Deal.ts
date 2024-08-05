@@ -57,6 +57,11 @@ class Deal extends Base {
     const url = ep.deal.scheduleVisit(id, order, direction);
     return this.apiClient.get(url);
   }
+
+  sendSequestVerifiedEnergyCertificate(data, dealID) {
+    const url = ep.deal.requestVerifiedEnergyCertificate(dealID);
+    return this.apiClient.post(url, {}, data);
+  }
 }
 
 export default Deal;

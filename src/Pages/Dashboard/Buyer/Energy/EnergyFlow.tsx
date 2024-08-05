@@ -1,25 +1,30 @@
 import React, {useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
 import {connect} from 'react-redux';
-import {PropertyType} from '@brixel-io/brixel-components/dist/@types/Model';
+import {DealType, PropertyType} from '@brixel-io/brixel-components/dist/@types/Model';
+import {translateTo} from '@brixel-io/brixel-components/dist';
 import FlowScreen from '../../../../components/FlowScreen';
 import {QuestionsList} from '../../../../resources/Dashboard/EnergyCertificate';
 import {bindActionCreators} from 'redux';
 import {getActiveSingleProperty} from '../../../../actions/PropertyActions';
 import {spinnerSmall} from '../../../../actions/CommonActions';
-import {translateTo} from '@brixel-io/brixel-components/dist';
+import api from '../../../../controllers/api/config';
 
 
 type EnergieCertificateProps = {
+  activeSingleDeal: DealType
   activeSingleProperty: PropertyType
   handleGetActiveSingleProperty: (data: object) => void
+  formValue: object
   handleSetSmallLoading: (data: object) => void
   lang: string;
 }
 
 const EnergyFlow = ({
+  activeSingleDeal,
   activeSingleProperty,
   handleGetActiveSingleProperty,
+  formValue,
   handleSetSmallLoading,
   lang,
 }: EnergieCertificateProps) => {
@@ -42,9 +47,17 @@ const EnergyFlow = ({
   const saveData = () => {
     handleSetSmallLoading({sendData: true});
     setCurrentIndex(currentIndex + 1);
-    setTimeout(() => {
-      handleSetSmallLoading({sendData: false});
-    }, 1000)
+    const data = {
+      ...formValue,
+    }
+    if (activeSingleDeal?.id) {
+      api.deal.sendSequestVerifiedEnergyCertificate(data, activeSingleDeal?.id)
+        .then((res) => {
+          console.log(res);
+          handleSetSmallLoading({sendData: false});
+          setCurrentIndex(currentIndex + 1);
+        })
+    }
   }
 
   return (
@@ -64,7 +77,9 @@ const EnergyFlow = ({
 }
 
 const mapStateToProps = (state) => ({
+  activeSingleDeal: state?.deal?.activeSingleDeal || {},
   activeSingleProperty: state?.property?.activeSingleProperty || {},
+  formValue: state?.brixelForm?.energyRequest?.values || {},
   lang: state?.common?.language || 'en',
 });
 
