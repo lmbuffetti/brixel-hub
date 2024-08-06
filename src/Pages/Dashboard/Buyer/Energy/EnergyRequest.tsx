@@ -172,7 +172,7 @@ const EnergyRequest = (props: EnergyRequestProps) => {
             input={{
               deactivable: false,
               disableDelay: false,
-              name: 'isUBSCustomer',
+              name: 'isCustomerOfUBS',
               options: [
                 {
                   label: translateTo('I am a UBS customer and would like to benefit from the preferential price and advice from UBS on tailor-made financing solutions and energy-saving renovation measures.', lang),

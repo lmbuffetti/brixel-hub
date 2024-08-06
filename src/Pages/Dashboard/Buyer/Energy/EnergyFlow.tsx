@@ -9,13 +9,15 @@ import {bindActionCreators} from 'redux';
 import {getActiveSingleProperty} from '../../../../actions/PropertyActions';
 import {spinnerSmall} from '../../../../actions/CommonActions';
 import api from '../../../../controllers/api/config';
+import {getBuyerDeal} from '../../../../actions/DealActions';
 
 
 type EnergieCertificateProps = {
   activeSingleDeal: DealType
   activeSingleProperty: PropertyType
-  handleGetActiveSingleProperty: (data: object) => void
   formValue: object
+  handleGetActiveSingleProperty: (data: object) => void
+  handleGetBuyerDeal: (data: object) => void
   handleSetSmallLoading: (data: object) => void
   lang: string;
 }
@@ -23,8 +25,9 @@ type EnergieCertificateProps = {
 const EnergyFlow = ({
   activeSingleDeal,
   activeSingleProperty,
-  handleGetActiveSingleProperty,
   formValue,
+  handleGetActiveSingleProperty,
+  handleGetBuyerDeal,
   handleSetSmallLoading,
   lang,
 }: EnergieCertificateProps) => {
@@ -34,7 +37,7 @@ const EnergyFlow = ({
   const propID = match?.propID || '';
 
   useEffect(() => {
-    if (propID && propID !== 'propertyLists' && propID !== activeSingleProperty?.id) {
+    if (propID && propID !== activeSingleProperty?.id) {
       const data = {
         fullVersion: false,
         smallLoader: 'property',
@@ -42,20 +45,27 @@ const EnergyFlow = ({
       };
       handleGetActiveSingleProperty(data);
     }
+    if (!activeSingleDeal.id) {
+      const buyerDealData = {
+        id: propID,
+        actionsStub: 'make-offer',
+      };
+      handleGetBuyerDeal(buyerDealData);
+    }
   }, [propID]);
 
   const saveData = () => {
     handleSetSmallLoading({sendData: true});
-    setCurrentIndex(currentIndex + 1);
     const data = {
       ...formValue,
     }
     if (activeSingleDeal?.id) {
       api.deal.sendSequestVerifiedEnergyCertificate(data, activeSingleDeal?.id)
         .then((res) => {
-          console.log(res);
+          if (res.meta.status === 200) {
+            setCurrentIndex(currentIndex + 1);
+          }
           handleSetSmallLoading({sendData: false});
-          setCurrentIndex(currentIndex + 1);
         })
     }
   }
@@ -84,6 +94,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  handleGetBuyerDeal: bindActionCreators(getBuyerDeal, dispatch),
   handleSetSmallLoading: bindActionCreators(spinnerSmall, dispatch),
   handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
 });
