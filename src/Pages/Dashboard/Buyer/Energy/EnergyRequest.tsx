@@ -72,7 +72,7 @@ const EnergyRequest = (props: EnergyRequestProps) => {
       <div className="engBg dis-f-md jc-b brdRadius max-w-fix-1024 mx-a">
         <div className="p-md-8 w-perc-md-45">
           <h5 className='fweight-600 fsize-600 fsize-sm-700'>
-            {translateTo('Order your verified energy certificate with an individual renovation roadmap', lang)}
+            {translateTo('Order your verified energy certificate with an individual renovation plan', lang)}
           </h5>
 
           <div>
