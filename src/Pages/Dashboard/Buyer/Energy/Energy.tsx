@@ -14,7 +14,7 @@ import EnergyCertificateImgFr from '../../../../images/EnergyCertificate/energy-
 import EnergyCertificateImgIt from '../../../../images/EnergyCertificate/energy-certificate-it.png'
 import EnergyCertificatePdfEn from '../../../../images/EnergyCertificate/performance-certificate-en.pdf'
 import EnergyCertificatePdfDe from '../../../../images/EnergyCertificate/performance-certificate-de.pdf'
-import EnergyCertificatePdfFr from '../../../../images/EnergyCertificate/performance-certificate-Fr.pdf'
+import EnergyCertificatePdfFr from '../../../../images/EnergyCertificate/performance-certificate-fr.pdf'
 import EnergyCertificatePdfIt from '../../../../images/EnergyCertificate/performance-certificate-it.pdf'
 import BrixelSmartBanner from '@brixel-io/brixel-components/dist/components/BrixelSmartBanner';
 
