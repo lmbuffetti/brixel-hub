@@ -43,7 +43,7 @@ const MenuSidebar = (props: MenuSidebarType) => {
     } else {
       setNavigationMenu(sidebarNavigationSeller);
     }
-  }, [get(history, 'location.pathname', null), activeSingleCompany]);
+  }, [get(history, 'location.pathname', null), activeSingleCompany, propID]);
 
   return (
     <>
