@@ -25,6 +25,7 @@ const DealsCard = (props: DealsCardProps) => {
     id,
     isNew,
     isWinner,
+    isQualified,
     lang,
     name,
     offer,
@@ -110,7 +111,19 @@ const DealsCard = (props: DealsCardProps) => {
         </div>
         <div className="rightPanel dis-fl-col jc-b">
           <div className="topPart">
-            <span className={`name dis-b txtText900 fsize-300 notranslate fweight-600 ${name === 'No name' ? 'txtText500' : 'txtText900'}`}> {name} </span>
+            <div className="dis-fl-row a-c">
+              <span className={`name dis-b txtText900 fsize-300 notranslate fweight-600 ${name === 'No name' ? 'txtText500' : 'txtText900'}`}> {name} </span>
+              {
+                isQualified && (
+                  <BrixelIcon
+                    color="green"
+                    className="ml-1"
+                    iconWidth="w-fix-16 h-fix-16"
+                    icon="qualified"
+                  />
+                )
+              }
+            </div>
             {
               stage === 'Interested' && (
                 <span

@@ -346,6 +346,7 @@ const Deals = (props: DealsType) => {
                                               date={DateTime.fromMillis(singleDeal.updatedAt, { locale: lang }).toFormat('dd LLL yy, H:mm')}
                                               isNew={get(singleDeal, 'newSeller')}
                                               isWinner={get(singleDeal, 'winner')}
+                                              isQualified={get(singleDeal, 'qualified')}
                                               name={Helpers.userNameVal(singleDeal.user.firstName, singleDeal.user.lastName, singleDeal.user.name) === 'No Name' ? get(singleDeal.user, 'email', '') : Helpers.userNameVal(singleDeal.user.firstName, singleDeal.user.lastName, singleDeal.user.name)}
                                               offer={has(singleDeal, 'closing.stageOffer') ? singleDeal.closing.stageOffer : {}}
                                               parentOnClick={() => openDeal(singleDeal.id)}
@@ -387,6 +388,7 @@ const Deals = (props: DealsType) => {
                                           date={DateTime.fromMillis(singleDeal.updatedAt, { locale: lang }).toFormat('dd LLL yy, H:mm')}
                                           isNew={get(singleDeal, 'newSeller')}
                                           isWinner={get(singleDeal, 'winner')}
+                                          isQualified={get(singleDeal, 'qualified')}
                                           name={Helpers.userNameVal(singleDeal.user.firstName, singleDeal.user.lastName, singleDeal.user.name) === 'No Name' ? get(singleDeal.user, 'email', '') : Helpers.userNameVal(singleDeal.user.firstName, singleDeal.user.lastName, singleDeal.user.name)}
                                           offer={has(singleDeal, 'closing.stageOffer') ? singleDeal.closing.stageOffer : {}}
                                           parentOnClick={() => openDeal(singleDeal.id)}

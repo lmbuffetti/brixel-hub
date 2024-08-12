@@ -7,6 +7,7 @@ export interface DealsCardProps {
   id?: string;
   isNew?: boolean;
   isWinner?: boolean;
+  isQualified?: boolean;
   name?: string;
   offer?: string | {offer: {amount: number}};
   parentOnClick?: () => void;
