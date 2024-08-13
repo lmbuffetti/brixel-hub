@@ -1,4 +1,4 @@
-import { BrixelAvatar, BrixelButtonIcon, BrixelIcon, BrixelStatus, Helpers } from '@brixel-io/brixel-components';
+import { BrixelAvatar, BrixelButtonIcon, BrixelIcon, BrixelStatus, BrixelTooltip, Helpers } from '@brixel-io/brixel-components';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import { DateTime } from 'luxon';
@@ -115,10 +115,12 @@ const DealsCard = (props: DealsCardProps) => {
               <span className={`name dis-b txtText900 fsize-300 notranslate fweight-600 ${name === 'No name' ? 'txtText500' : 'txtText900'}`}> {name} </span>
               {
                 isQualified && (
-                  <BrixelIcon
-                    color="green"
+                  <BrixelTooltip
                     className="ml-1"
-                    iconWidth="w-fix-16 h-fix-16"
+                    theme="blue"
+                    description={`${translateTo('Qualified buyer', lang)}`}
+                    width="128"
+                    iconColor="green"
                     icon="qualified"
                   />
                 )
