@@ -217,7 +217,7 @@ const Plans = (props: FloorPlansPageType) => {
                           </p>
                           {(!fixPhotos || (fixPhotos && fixPhotos.length === 0)) && (<span className='brdSmallTop brdText100 w-fix-104 my-2 ml-a mr-a'></span>)}
 
-                          <span className="fsize-300 txtText400 max-width-304">{translateTo('Formats .jpeg or .png with a maximum of 10 MB', lang)}</span>
+                          <span className="fsize-300 txtText400 max-width-304">{translateTo('All standard formats are supported, with a maximum file size of 10 MB', lang)}</span>
                         </div>
                       </div>
                     </>
