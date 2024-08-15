@@ -159,7 +159,7 @@ const EnergieCertificate = ({
                   className="no-wrap ws-nw as-fs mt-2"
                   rightIcon="document"
                   fullWidth={windowDimensions.width <= 600 }
-                  label={translateTo('View exmple', lang)}
+                  label={translateTo('View example', lang)}
                   onClick={() => EnergyPdf()}
                 />
               </div>
