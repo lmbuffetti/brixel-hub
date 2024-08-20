@@ -49,7 +49,7 @@ const TermsConditionSwitch = (props: TermsConditionSwitchType) => {
 
   const openModal = (e) => {
     e.preventDefault();
-    let textMoreInfo = `
+    const textMoreInfo = `
     <p>
       ${translateTo('Baloise Insurance Ltd (“Baloise”) acts as lead intermediary for its business partner Brixel AG ("Brixel") on the basis of a joint cooperation agreement. Brixel operates a real estate transaction platform and provides IT services in the real estate sector.', lang)}
     </p>
@@ -63,24 +63,8 @@ const TermsConditionSwitch = (props: TermsConditionSwitchType) => {
       ${translateTo('The customer confirms and agrees that Baloise can keep the remuneration received from Brixel and hereby waives the right to have this remuneration passed on to them.', lang)}
     </p>
     `
-    if (activeSingleCompany.stub === 'ubs') {
-      textMoreInfo = `
-    <p>
-      ${translateTo('UBS Switzerland AG (“UBS”) receives monetary benefits from Brixel for the referral of Brixel to clients that sell their real estate with the help of Brixel. In particular, UBS advertises Brixel’s services to appropriate clients and directs them to Brixel.', lang)}
-    </p>
-    <p class="mt-2">
-      ${translateTo('Monetary benefits may lead to conflicts of interests on the part of UBS. They may in particular create incentives for UBS to refer Brixel over other companies paying no, or less, monetary benefits. UBS has appropriate organizational measures in place to mitigate the risks resulting from such conflict of interests.', lang)}
-    </p>
-    <p class="mt-2">
-      ${translateTo('UBS may receive a maximum one-off payment in the amount of CHF 1’000 for every real estate of a referred client which was sold with the help of Brixel.', lang)}
-    </p>
-    <p class="mt-2 fweight-600">
-      ${translateTo('I agree that UBS fully retains any monetary benefits received from Brixel and herewith expressly waive the respective right to receive any monetary benefits. I acknowledge that this arrangement deviates from the statutory right to claim for restitution according to art. 400 para. 1 of the Swiss Code of Obligations or any other statutory provision with similar content.', lang)}
-    </p>
-    `
-    }
     handleSetModal({
-      title: activeSingleCompany.stub === 'ubs' ? translateTo('Waiver declaration – Brixel', lang) : translateTo('Waiver of coverage form – Brixel', lang),
+      title: translateTo('Waiver of coverage form – Brixel', lang),
       body: textMoreInfo,
       state: true,
       small: true,
@@ -304,56 +288,6 @@ const TermsConditionSwitch = (props: TermsConditionSwitchType) => {
                   </p>
                   <p>
                     {translateTo('I confirm and agree that Baloise can keep the remuneration received from Brixel and hereby waive the right to have this remuneration passed on to me.', lang)}
-                  </p>
-                </div>
-              </div>
-            </>
-          )
-        }
-
-        {
-          activeSingleCompany.stub === 'ubs' && (
-            <>
-              <hr className="my-3 brdText100"/>
-              <div className="dis-f jc-b a-t">
-                {
-                  activeSingleProperty?.acceptWaiverDeclaration ? (
-                    <div className='mt-1 min-w-fix-32 min-w-fix-sm-64'>
-                      <img
-                        src={successCheckImg}
-                        className='h-fix-32 w-fix-32 h-fix-sm-64 w-fix-sm-64'
-                        alt="accepted confirmContentOnBrixelPage"
-                      />
-                    </div>
-                  ) : (
-                    <ReduxField
-                      component={BrixelSwitchButton}
-                      form="TermsCondition"
-                      input={{
-                        name: 'acceptWaiverDeclaration',
-                        validate: [Validation.required],
-                      }}
-                    />
-                  )
-                }
-                <div className="pl-3 w-perc-100">
-                  <p className="dis-ib fsize-400 fweight-600 mb-1">
-                    <span>
-                      {translateTo('Accept the', lang)}
-                    </span>
-                    <span
-                      onClick={(e) => openModal(e)}
-                      className="fsize-400 cur-poi ml-small-4 td-u fweight-600 txtGreen400"
-                    >
-                      {translateTo('waiver declaration', lang)}
-                    </span>
-                    <span className='pl-small-4'>
-                      {translateTo('to Ubs', lang)}
-                    </span>
-                    <span className="txtRed400 pos-a-fix ml-small-4"> *</span>
-                  </p>
-                  <p>
-                    {translateTo('I waive Brixel\'s monetary contributions to UBS.', lang)}
                   </p>
                 </div>
               </div>
