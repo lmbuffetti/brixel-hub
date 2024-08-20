@@ -267,7 +267,7 @@ const TermsConditionSwitch = (props: TermsConditionSwitchType) => {
               <hr className="my-3 brdText100"/>
               <div className="dis-f jc-b a-t">
                 {
-                  activeSingleProperty?.acceptWaiverDeclaration ? (
+                  activeSingleProperty?.acceptWaiverDeclarationToBaloise ? (
                     <div className='mt-1 min-w-fix-32 min-w-fix-sm-64'>
                       <img
                         src={successCheckImg}
@@ -317,7 +317,7 @@ const TermsConditionSwitch = (props: TermsConditionSwitchType) => {
               <hr className="my-3 brdText100"/>
               <div className="dis-f jc-b a-t">
                 {
-                  activeSingleProperty?.acceptWaiverDeclaration ? (
+                  activeSingleProperty?.acceptWaiverDeclarationToUBS ? (
                     <div className='mt-1 min-w-fix-32 min-w-fix-sm-64'>
                       <img
                         src={successCheckImg}
