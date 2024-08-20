@@ -371,7 +371,7 @@ const DashboardPropertyCard: (props: DashboardPropertyCardProps) => JSX.Element 
         </div>
       </div>
       {
-        activeSingleCompany?.stub === 'ubs' && (
+        activeSingleCompany?.stub === 'ubs' && type === 'buy' && (
           <div className="brdSmall engBrdRadius brdText100 bgWhite mt-2 mt-md-1-neg">
             <div className={`dis-f-md a-c jc-b ${smallLayout ? 'p-sm-3' : 'p-sm-3 pt-0 pb-2'}`}>
               <div
@@ -387,9 +387,11 @@ const DashboardPropertyCard: (props: DashboardPropertyCardProps) => JSX.Element 
                       <span className="ml-small-4">{energyCertificate.toUpperCase()}.</span>
                     </h6>
                   ) : (
-                    <span className='fsize-300'>
-                      {translateTo('This property doesn\'t have a specified energy class yet.', lang)}
-                    </span>
+                    <h6 className="fsize-sm-300 fweight-600 pb-small-4">
+                      <span>
+                        {translateTo('This property doesn\'t have a specified energy class yet.', lang)}
+                      </span>
+                    </h6>
                   )
                 }
                 <p className='fsize-300'>
