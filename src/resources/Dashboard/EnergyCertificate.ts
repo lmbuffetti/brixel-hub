@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import lazyWithRetry from '../../components/LazyWithRetry';
-import ClipboardImg from '../../images/scanTrial/decide.png';
+import ClipboardImg from '../../images/Contact/checkContact.svg';
 import translateTo from '../../utils/translation';
 import {QuestionsListType} from '@brixel-io/brixel-components/dist/@types/Model';
 
@@ -26,7 +26,7 @@ export const QuestionsList = (lang) => {
       cardType: 'card',
       title: translateTo('Thank you for your request', lang),
       img: ClipboardImg,
-      imgMaxWidth: 'max-w-fix-160',
+      imgMaxWidth: 'max-w-fix-160 w-fix-144',
       cardClass: 'max-w-fix-440 ml-a mr-a pb-5',
       subtitle: translateTo('Our team will contact you shortly to clarify any questions and to proceed with the next steps.', lang),
       history: 'success',
