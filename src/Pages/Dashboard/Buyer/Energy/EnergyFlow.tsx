@@ -78,7 +78,7 @@ const EnergyFlow = ({
         formName="currentIndex"
         onSaveData={() => saveData()}
         QuestionsList={QuestionData}
-        closeLink={`/buyer/${propID}/energy`}
+        closeLink={`/buyer/${propID}/home`}
         newCurrentIndex={currentIndex}
         closeLabel={translateTo('Back to home', lang)}
       />
