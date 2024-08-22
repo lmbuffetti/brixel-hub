@@ -400,7 +400,7 @@ const LoginSignup = (props: LoginSignupType) => {
 };
 
 const mapStateToProps = (state, ownProps) => ({
-  company: get(state, 'companies.activeSingleCompany', {}),
+  company: get(state, 'companies.activeSingleCompany', undefined),
   errorValue: get(state, `brixelForm.${ownProps.formName}.syncErrors`, {}),
   formError: get(state, 'common.formError', {}),
   formValue: get(state, `brixelForm.${ownProps.formName}.values`, {}),

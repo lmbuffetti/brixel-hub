@@ -164,11 +164,13 @@ const GetStartedSeller = (props: GetStartedSellerType) => {
       changeFieldValue('login.email', register?.email || '');
       // IF USER DO THE SIGN UP, DO THE REGISTRATION AND THEN SAVE DIRECTLY THE PAGE
       // USER DATA
-      if (activeSingleCompany.stub === 'baloise' || activeSingleCompany.stub === 'ubs') set(data, 'redirectToUrl', `/termsConditionFlow/${activeSingleCompany.stub}/seller?url=/:pageID/home`);
       set(data, 'user', {
         ...register,
         email: (register?.email || '').toLowerCase(),
         acceptTerms: get(register, 'privacy[0]', true),
+        termsUBS: get(register, 'termsUBS[0]', false),
+        termsBaloiseBank: get(register, 'termsBaloiseBank[0]', false),
+        termsBaloiseInsurance: get(register, 'termsBaloiseInsurance[0]', false),
         acceptMarketing: get(register, 'acceptMarketing[0]', false),
         name: get(formValue, 'register.name', ''),
         userType: 'seller',

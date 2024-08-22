@@ -230,7 +230,7 @@ const FlowScreen = (props: FlowScreenType) => {
         get(newQuest[currentIndex], 'inputs[0].options', []).length > 0 &&
         get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), null) &&
         typeof get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), '') === 'string' &&
-        !get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), '').toLowerCase().includes('other') && !history.location.pathname.includes('termsConditionFlow') && oldIndex <= currentIndex
+        !get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), '').toLowerCase().includes('other') && oldIndex <= currentIndex
       ) {
         changeStep('next', null, 1, true);
       }
@@ -559,7 +559,7 @@ const FlowScreen = (props: FlowScreenType) => {
                         )
                       }
                       {
-                        get(quest, 'history', null) !== 'resume' && (get(quest, 'inputs', []).length > 0 || action === 'back' || history.location.pathname.includes('termsConditionFlow')) ? (
+                        get(quest, 'history', null) !== 'resume' && (get(quest, 'inputs', []).length > 0 || action === 'back') ? (
                           <BrixelButtonPrimary
                             className={`mr-a ml-a noWrap ${get(quest, 'history', null)}`}
                             rounded
@@ -618,17 +618,6 @@ const FlowScreen = (props: FlowScreenType) => {
                               )
                             }
                           </div>
-                        )
-                      }
-                      {
-                        history.location.pathname.includes('termsConditionFlow') && (
-                          <BrixelButtonText
-                            theme="text"
-                            themeSat={200}
-                            className="pos-a-sm x-r"
-                            label={translateTo('Skip', lang)}
-                            onClick={() => onSaveData('skip')}
-                          />
                         )
                       }
                     </div>

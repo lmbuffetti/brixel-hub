@@ -135,6 +135,9 @@ const GetStartedBuyer = (props: GetStartedType) => {
         email: (register?.email || '').toLowerCase(),
         acceptTerms: get(register, 'privacy[0]', true),
         acceptMarketing: get(register, 'acceptMarketing[0]', false),
+        termsUBS: get(register, 'termsUBS[0]', false),
+        termsBaloiseBank: get(register, 'termsBaloiseBank[0]', false),
+        termsBaloiseInsurance: get(register, 'termsBaloiseInsurance[0]', false),
         name: `${register.firstName} ${get(register, 'lastName', '')}`,
         userType: 'buyer',
         signupAccept: true,
@@ -151,10 +154,6 @@ const GetStartedBuyer = (props: GetStartedType) => {
         },
       };
       set(data, 'user', userData);
-      if (activeSingleCompany.stub === 'baloise' || activeSingleCompany.stub === 'ubs') {
-        const userType = 'buyer';
-        set(data, 'redirectToUrl', `/termsConditionFlow/${activeSingleCompany.stub}/${userType}?url=/buy`);
-      }
       // DISPATCH TO DO REGISTRATION USER
       setLoadingRequest(true);
       setCookie('brixelFirstTime', 'true');
