@@ -371,7 +371,7 @@
 
       .signUpScreen {
 
-        .onBoardingSignUp {
+        /* .onBoardingSignUp {
 
           .topBar {
             border-bottom-left-radius: $step;
@@ -413,7 +413,7 @@
           .col-reverse {
             flex-direction: column-reverse;
           }
-        }
+        } */
       }
 
       .footerAction {
@@ -536,11 +536,15 @@ body:not(.overlayOpen).locationInputResume {
     }
   }
   .supportBtn {
-    background-color: map-get($primaryColor, 50);
+    // background-color: map-get($primaryColor, 50);
     @media (min-width: $responsive-medium) {
       background-color: transparent;
     }
   }
+}
+
+.policyConcent {
+    margin-bottom: $step * 2;
 }
 
 .testimonialsSlide {

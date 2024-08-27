@@ -5,15 +5,20 @@ import {BrixelLogin, BrixelRegister, BrixelReset, change, Validation} from '@bri
 import get from 'lodash/get';
 import {bindActionCreators, compose} from 'redux';
 import {connect} from 'react-redux';
+import {useLocation, useNavigate} from 'react-router-dom';
 import baseByData from '@brixel-io/brixel-components/dist/configuration/Settings';
 import Slider from 'react-slick';
 import {setFormError} from '../actions/CommonActions';
 import {recoverPassword} from '../actions/UserActions';
 import {checkBrowser} from '../utils/helpers';
-import illustration01 from '../images/getstarted/illustrations/signup-illustration-01.svg';
-import illustration02 from '../images/getstarted/illustrations/signup-illustration-02.svg';
-import illustration03 from '../images/getstarted/illustrations/signup-illustration-03.svg';
-import illustration04 from '../images/getstarted/illustrations/signup-illustration-04.svg';
+
+import iconHand from '../images/getstarted/signup/Brixel-Icons-handshake.svg';
+import iconCalc from '../images/getstarted/signup/Brixel-Icons-calc.svg';
+import iconCalendar from '../images/getstarted/signup/Brixel-Icons-calendar.svg';
+import valuationIcon from '../images/getstarted/signup/Brixel-Icons-valuation.svg';
+import iconFinance from '../images/getstarted/signup/Brixel-Icons-finance.svg';
+import iconOffer from '../images/getstarted/signup/Brixel-Icons-offer.svg';
+
 import translateTo from '../utils/translation';
 import type {LoginSignupType} from '../@types/components/LoginSignup';
 
@@ -38,12 +43,18 @@ const LoginSignup = (props: LoginSignupType) => {
     onDisableValidation = () => '',
     onSubmit = () => '',
     skipPhone = false,
+    windowDimensions,
   } = props;
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
   // STATE
+  const [isDesktop, setIsDesktop] = useState(false);
   const [loginPage, setLoginPage] = useState('register');
   const [showErrors, setShowErrors] = useState(false);
   const [disabledButton, setDisabledButton] = useState(false);
-  const sliderInstance = useRef(null);
+  /*  const sliderInstance = useRef(null);
   const settingSlider = {
     dots: true,
     infinite: true,
@@ -55,11 +66,16 @@ const LoginSignup = (props: LoginSignupType) => {
     slidesToScroll: 1,
     draggable: false,
     centerPadding: '8px',
-  };
+  }; */
 
   useEffect(() => {
     onDisableValidation(true);
   }, []);
+
+  useEffect(() => {
+    if (get(windowDimensions, 'width', 0) > 768) setIsDesktop(true);
+    else setIsDesktop(false);
+  }, [get(windowDimensions, 'width', 0)]);
 
   useEffect(() => {
     document.body.classList.add('flowProfile');
@@ -184,218 +200,401 @@ const LoginSignup = (props: LoginSignupType) => {
     }
   };
 
+  const SignupDescription = (langVal: string, companyVal: string, isDesktopVal: boolean, isBuyerVal: boolean) => {
+    const sliderInstance = useRef(null);
+
+    // Define icons for buyers and non-buyers
+    const icons: Record<string, Record<string, string>> = {
+      baloise: isBuyerVal ? {
+        icon1: iconOffer,
+        icon2: valuationIcon,
+        icon3: iconCalendar,
+        icon4: iconFinance,
+      } : {
+        icon1: iconOffer,
+        icon2: iconHand,
+        icon3: iconCalc,
+      },
+      ubs: isBuyerVal ? {
+        icon1: valuationIcon,
+        icon2: iconCalendar,
+        icon3: iconOffer,
+      } : {
+        icon1: iconOffer,
+        icon2: iconHand,
+        icon3: iconCalc,
+      },
+      default: isBuyerVal ? {
+        icon1: iconOffer,
+        icon2: valuationIcon,
+        icon3: iconCalendar,
+        icon4: iconFinance,
+      } : {
+        icon1: iconOffer,
+        icon2: iconHand,
+        icon3: iconCalc,
+      },
+    };
+
+    // Define texts for buyers and non-buyers
+    const texts: Record<string, Record<string, string>> = {
+      baloise: isBuyerVal ? {
+        text1: 'Mortgage offer with exclusive benefits from Baloise ',
+        text2: 'Independent valuation of the property by Baloise',
+        text3: 'Request a visit appointment directly',
+        text4: 'Access to the most relevant documents',
+      } : {
+        text1: 'You receive a CHF 5,000 discount',
+        text2: 'You only pay if the sale is successful',
+        text3: 'You will get advised on your existing mortgage',
+      },
+      ubs: isBuyerVal ? {
+        text1: 'Support on all financial questions',
+        text2: '10-days of exclusive access to new properties',
+        text3: 'Benefit from a 0.30% interest rate reduction',
+      } : {
+        text1: 'CHF 2,000 discount',
+        text2: 'Payment only in case of successful sale',
+        text3: 'Verification of the sales price',
+      },
+      default: isBuyerVal ? {
+        text1: 'Make an offer to the seller',
+        text2: 'Apply for a financing certificate',
+        text3: 'Request a visit appointment directly',
+        text4: 'Access to the most relevant documents',
+      } : {
+        text1: 'Get personal support from A to Z',
+        text2: 'Stay in the loop with your customer portal',
+        text3: 'Sell without an exclusive brokerage contract',
+      },
+    };
+
+    const getIconsAndTexts = (companyName: string) => {
+      return {
+        icons: icons[companyName] || icons.default,
+        texts: texts[companyName] || texts.default,
+      };
+    };
+
+    const { icons: companyIcons, texts: companyTexts } = getIconsAndTexts(companyVal);
+
+    const sections = [
+      {
+        icon: companyIcons.icon1,
+        text: companyTexts.text1,
+        key: '1',
+      },
+      {
+        icon: companyIcons.icon2,
+        text: companyTexts.text2,
+        key: '2',
+      },
+      {
+        icon: companyIcons.icon3,
+        text: companyTexts.text3,
+        key: '3',
+      },
+    ];
+
+    if (isBuyerVal && (companyVal === 'baloise' || companyVal === 'default')) {
+      sections.push({
+        icon: companyIcons.icon4 as string,
+        text: companyTexts.text4 as string,
+        key: '4',
+      });
+    }
+
+    const settingSlider = {
+      rtl: false,
+      infinite: true,
+      centerMode: true,
+      variableWidth: true,
+      slidesToShow: 1,
+      focusOnSelect: true,
+      dots: false,
+      speed: 500,
+      draggable: true,
+      autoplay: true,
+      autoplaySpeed: 3000,
+      arrows: false,
+    };
+
+    return (
+      <>
+        {isDesktopVal ? (
+        // Static layout for desktop
+          <>
+            {sections.map(section => (
+              <div className="icon-wrap dis-f a-c pb-2" key={section.key}>
+                {section.icon && (
+                  <div className="icon-circle bgWhite brdCircle as-fc dis-f jc-c p-2">
+                    <img
+                      src={section.icon}
+                      alt={`Icon ${section.text.split(' ')[0]}`}
+                      width={'48px'}
+                      height={'48px'}
+                    />
+                  </div>
+                )}
+                <p className="fsize-400 pl-2 max-w-fix-264">
+                  {translateTo(section.text, langVal)}
+                </p>
+              </div>
+            ))}
+          </>
+        ) : (
+        // Slider layout for mobile
+          <div className='centerSlider'>
+            <Slider ref={sliderInstance} {...settingSlider}>
+              {sections.map(section => (
+                <div className="icon-wrap dis-f a-c pb-2" key={section.key}>
+                  {section.icon && (
+                    <div className="icon-circle bgWhite brdCircle as-fc dis-f jc-c p-2">
+                      <img
+                        src={section.icon}
+                        alt={`Icon ${section.text.split(' ')[0]}`}
+                        width={'48px'}
+                        height={'48px'}
+                      />
+                    </div>
+                  )}
+                  <p className="fsize-400 pl-sm-2">
+                    {translateTo(section.text, langVal)}
+                  </p>
+                </div>
+              ))}
+            </Slider>
+          </div>
+        )}
+      </>
+    );
+  };
+
+
   if (!formValue) {
     return (
       <div />
     );
   }
 
+  const contentMap = (companyStub, isBuyer) => {
+    const content = {
+      ubs: {
+        true: {
+          topTitle: 'Activate your UBS advantages',
+          topSubtitle: '',
+          footnoteTitle: '',
+          footnoteDescription: 'In order for you to benefit from these advantages, we need your consent to transfer your personal data to UBS.',
+        },
+        false: {
+          topTitle: 'Activate your UBS advantages',
+          topSubtitle: '',
+          footnoteTitle: '',
+          footnoteDescription: 'In order for you to benefit from these advantages, we need your consent to transfer your personal data to UBS.',
+        },
+      },
+      baloise: {
+        true: {
+          topTitle: 'What are my advantages?',
+          topSubtitle: '',
+          footnoteTitle: 'Why do I have to register?',
+          footnoteDescription: 'Due to our privacy policy, only registered users have access to sensitive documents and data.',
+        },
+        false: {
+          topTitle: 'What are my advantages?',
+          topSubtitle: '',
+          footnoteTitle: '',
+          footnoteDescription: '',
+        },
+      },
+      default: {
+        true: {
+          topTitle: 'What are my advantages?',
+          topSubtitle: '',
+          footnoteTitle: 'Why do I have to register?',
+          footnoteDescription: 'Due to our privacy policy, only registered users have access to sensitive documents and data.',
+        },
+        false: {
+          topTitle: 'What are my advantages?',
+          topSubtitle: '',
+          footnoteTitle: '',
+          footnoteDescription: '',
+        },
+      },
+    };
+
+    const companyContent = content[companyStub] || content.default;
+    return companyContent[isBuyer.toString()] || companyContent[false];
+  };
+
+
+  const companyStub = get(company, 'stub', '');
+  const isBuyer = history.location.pathname.includes('Buyer/');
+
+  const { topTitle, topSubtitle, footnoteTitle, footnoteDescription } = contentMap(companyStub, isBuyer);
+
+
   return (
-    <div className="signUpScreen pos-r dis-fl-col dis-fl-row-lg jc-c w-perc-100">
-      <div className="m-a mt-0 max-w-fix-600 w-perc-100">
-        <div className="mr-a ml-a onBoardingSignUp">
-          <div className="max-w-fix-376 dis-fl-col a-c jc-c ta-c w-perc-100 ml-a mr-a mb-3  hide-lg">
-            <h2 className="fSizePx26-sm fsize-500 fweight-600">
-              <span>{translateTo('Join', lang)}</span>
-              <span className="txtGreen400 mx-1">{translateTo('thousands of buyers and sellers', lang)}</span>
-              <span>{translateTo('who have already registered.', lang)}</span>
-            </h2>
-          </div>
-          {
-            (loginPage === 'register' || loginPage === 'login' || loginPage === 'reset') && (
-              <>
-                <div className="innerBox bgWhite pb-2 pt-1 px-2 px-sm-5">
-                  {
-                    loginPage === 'login' && (
-                      <>
-                        {
-                          get(formError, 'state', false) && (
-                            <p className="txtRed400">
-                              {translateTo(get(formError, 'message', ''), lang)}
-                            </p>
-                          )
-                        }
-                        <BrixelLogin
-                          company={company}
-                          formName={formName}
-                          showErrors={showErrors}
-                          lang={lang}
-                        />
-                        <p className="mt-1">
-                          <BrixelButtonText
-                            label={translateTo('Forgot password?', lang)}
-                            onClick={() => changeScreen('reset')}
-                          />
-                        </p>
-                      </>
-                    )
-                  }
-                  {
-                    loginPage === 'register' && (
-                      <>
-                        {
-                          get(formError, 'state', false) && (
-                            <p className="txtRed400">
-                              {translateTo(get(formError, 'message', ''), lang)}
-                            </p>
-                          )
-                        }
-                        {
-                          get(notification[0], 'state', false) && get(notification[0], 'type', '') === 'done' && (
-                            <p className="txtGreen400">
-                              {translateTo('Registration complete.', lang)}
-                            </p>
-                          )
-                        }
-                        <BrixelRegister
-                          disableEmailRegister={disableEmailRegister}
-                          baseURL={baseByData?.apiRoot}
-                          showGeneratePassword={false}
-                          company={company}
-                          formName={formName}
-                          showErrors={showErrors}
-                          lang={lang}
-                          // validateEmail
-                          skipPhone={skipPhone}
-                        />
-                      </>
-                    )
-                  }
-                  {
-                    loginPage === 'reset' && (
-                      <div className="mb-2">
-                        {
-                          get(formError, 'state', false) && (
-                            <p className="txtRed400">
-                              {get(formError, 'message', '')}
-                            </p>
-                          )
-                        }
-                        <BrixelReset
-                          company={company}
-                          formName={formName}
-                          showErrors={showErrors}
-                          lang={lang}
-                        />
-                        {
-                          get(notification[0], 'label', null) && (
-                            <>
-                              <p className="fsize-300 mt-1 txtGreen400">
-                                {notification[0].label}
-                              </p>
-                              <BrixelButtonText
-                                className="mt-2 ml-a mr-a"
-                                label={translateTo('Resend password', lang)}
-                                onClick={() => onSubmitForm()}
-                              />
-                            </>
-                          )
-                        }
-                      </div>
-                    )
-                  }
-                  <BrixelButtonPrimary
-                    rounded
-                    className="ml-a mr-a mt-2 mb-2 minimum-w-210"
-                    label={translateTo(PrimaryButton().label, lang)}
-                    onClick={!disabledButton ? PrimaryButton().action : () => ''}
-                    isLoading={isSmallLoading.recoverPassword}
-                    type="submit"
-                  />
-                </div>
-                <div className="topBar fsize-400 p-2 ta-c">
-                  {
-                    (loginPage === 'register' || loginPage === 'reset') && (
-                      <p className="txtWhite">
-                        <span>{translateTo('Already have an account?', lang)}</span>
-                        <span>&nbsp;</span>
-                        <span className="cur-poi td-u txtWhite" onClick={() => changeScreen('login')}>
-                          <span>{translateTo('Login here', lang)}</span>
-                        </span>
-                      </p>
-                    )
-                  }
-                  {
-                    loginPage === 'login' && (
-                      <p className="txtWhite">
-                        <span>{translateTo('Login or', lang)}</span>
-                        <span
-                          className="cur-poi td-u txtWhite ml-small-4"
-                          onClick={() => changeScreen('register')}
-                        >
-                          <span>{translateTo('create profile here', lang)}</span>
-                        </span>
-                      </p>
-                    )
-                  }
-                </div>
-              </>
-            )
-          }
 
+    <div className="signUpScreen ov-h brdRadius flex-wrap dis-f m-a max-w-fix-1120 jc-c">
+
+      <div className="w-perc-100 bgWhite w-perc-md-55 p-2 p-sm-4 p-lg-8">
+        {
+          (loginPage === 'register' || loginPage === 'login' || loginPage === 'reset') && (
+            <>
+              <div className="innerBox bgWhite">
+                {
+                  loginPage === 'login' && (
+                    <>
+                      {
+                        get(formError, 'state', false) && (
+                          <p className="txtRed400">
+                            {translateTo(get(formError, 'message', ''), lang)}
+                          </p>
+                        )
+                      }
+                      <BrixelLogin
+                        company={company}
+                        formName={formName}
+                        showErrors={showErrors}
+                        lang={lang}
+                      />
+                      <p className="mt-1">
+                        <BrixelButtonText
+                          label={translateTo('Forgot password?', lang)}
+                          onClick={() => changeScreen('reset')}
+                        />
+                      </p>
+                    </>
+                  )
+                }
+                {
+                  loginPage === 'register' && (
+                    <>
+                      {
+                        get(formError, 'state', false) && (
+                          <p className="txtRed400">
+                            {translateTo(get(formError, 'message', ''), lang)}
+                          </p>
+                        )
+                      }
+                      {
+                        get(notification[0], 'state', false) && get(notification[0], 'type', '') === 'done' && (
+                          <p className="txtGreen400">
+                            {translateTo('Registration complete.', lang)}
+                          </p>
+                        )
+                      }
+                      <BrixelRegister
+                        disableEmailRegister={disableEmailRegister}
+                        baseURL={baseByData?.apiRoot}
+                        showGeneratePassword={false}
+                        company={company}
+                        formName={formName}
+                        showErrors={showErrors}
+                        lang={lang}
+                        // validateEmail
+                        skipPhone={skipPhone}
+                      />
+                    </>
+                  )
+                }
+                {
+                  loginPage === 'reset' && (
+                    <div className="mb-2">
+                      {
+                        get(formError, 'state', false) && (
+                          <p className="txtRed400">
+                            {get(formError, 'message', '')}
+                          </p>
+                        )
+                      }
+                      <BrixelReset
+                        company={company}
+                        formName={formName}
+                        showErrors={showErrors}
+                        lang={lang}
+                      />
+                      {
+                        get(notification[0], 'label', null) && (
+                          <>
+                            <p className="fsize-300 mt-1 txtGreen400">
+                              {notification[0].label}
+                            </p>
+                            <BrixelButtonText
+                              className="mt-2 ml-a mr-a"
+                              label={translateTo('Resend password', lang)}
+                              onClick={() => onSubmitForm()}
+                            />
+                          </>
+                        )
+                      }
+                    </div>
+                  )
+                }
+                <BrixelButtonPrimary
+                  rounded
+                  className="ml-a mr-a mt-2 mb-2 minimum-w-210"
+                  label={translateTo(PrimaryButton().label, lang)}
+                  onClick={!disabledButton ? PrimaryButton().action : () => ''}
+                  isLoading={isSmallLoading.recoverPassword}
+                  type="submit"
+                />
+              </div>
+              <div className="topBar fsize-400 ta-c">
+                {
+                  (loginPage === 'register' || loginPage === 'reset') && (
+                    <p className="">
+                      <span>{translateTo('Already have an account?', lang)}</span>
+                      <span>&nbsp;</span>
+                      <span className="cur-poi " onClick={() => changeScreen('login')}>
+                        <span className='td-u'>{translateTo('Login here', lang)}</span>
+                      </span>
+                    </p>
+                  )
+                }
+                {
+                  loginPage === 'login' && (
+                    <p className="txtWhite">
+                      <span>{translateTo('Login or', lang)}</span>
+                      <span
+                        className="cur-poi td-u txtWhite ml-small-4"
+                        onClick={() => changeScreen('register')}
+                      >
+                        <span>{translateTo('create profile here', lang)}</span>
+                      </span>
+                    </p>
+                  )
+                }
+              </div>
+            </>
+          )
+        }
+      </div>
+      <div className="dis-fl-col w-perc-100 w-perc-md-45 bgGreen25 a-c a-bl-md p-2 py-4 p-sm-4 p-lg-8">
+
+        <div className=" ta-c ta-l-md pb-2 pb-md-4">
+          <span className="fsize-500 fsize-sm-600 fweight-600">
+            {translateTo(topTitle, lang)}
+          </span>
+          <p className='fsize-400 fsize-sm-500 pt-1'>{translateTo(topSubtitle, lang)}</p>
+        </div>
+
+
+        {SignupDescription(lang, companyStub, isDesktop, isBuyer)}
+
+        <div className="w-perc-100 bgGreen50 brdRadius p-1 px-2 mt-3">
+          <p className="fweight-600 fsize-300">
+            {translateTo(footnoteTitle, lang)}
+          </p>
+          <p className="pt-small-4 fsize-300">
+            {translateTo(footnoteDescription, lang)}
+          </p>
         </div>
       </div>
-      <div className="w-perc-100 w-perc-lg-50 dis-fl-col a-c jc-c py-2 pt-md-0 pb-lg-10">
-        <div className="max-w-fix-376 dis-fl-col-lg a-c jc-c ta-c w-perc-100 ml-a mr-a mb-3 hide">
-          <h2
-            className="fSizePx26-sm fsize-500 mt-3 fweight-600"
-          >
-            <span>{translateTo('Join', lang)}</span>
-            <span className="txtGreen400 mx-1">{translateTo('thousands of buyers and sellers', lang)}</span>
-            <span>{translateTo('who have already registered.', lang)}</span>
-          </h2>
-        </div>
-        <div className="max-w-fix-440 w-perc-100 ml-a mr-a testimonialsSlide">
 
-          <Slider ref={sliderInstance} {...settingSlider}>
-            <div className="ta-c ml-a mr-a mb-2">
-              <img  src={illustration01} alt="Fabian Testimonial" className="max-w-fix-176 ml-a mr-a mb-3" />
-              <h2 className="ta-c mb-2 fweight-500 fsize-500">
-                {translateTo('“The presentation was the best we had seen in our search.”', lang)}
-              </h2>
-
-              <p className="ta-c txtPrimary400">
-                {translateTo('R. Willi bought an apartment', lang)}
-              </p>
-            </div>
-
-            <div className="ta-c ml-a mr-a mb-2">
-              <img src={illustration02} alt="Fabian Testimonial" className="max-w-fix-176 ml-a mr-a mb-3" />
-              <h2 className="ta-c mb-2 fweight-500 fsize-500">
-                {translateTo('"Brixel gave me a lot of support in the purchase of my property and was always there to help and advise."', lang)}
-              </h2>
-
-              <p className="ta-c txtPrimary400">
-                {translateTo('J. Beurret bought a house', lang)}
-              </p>
-            </div>
-
-            <div className="ta-c ml-a mr-a mb-2">
-              <img  src={illustration03} alt="Fabian Testimonial" className="max-w-fix-176 ml-a mr-a mb-3" />
-              <h2 className="ta-c mb-2 fweight-500 fsize-500">
-                {translateTo('"Absolutely perfect and uncomplicated."', lang)}
-              </h2>
-
-              <p className="ta-c txtPrimary400">
-                {translateTo('M. Hardegger sold a house', lang)}
-              </p>
-            </div>
-
-            <div className="ta-c ml-a mr-a mb-2">
-              <img  src={illustration04} alt="Fabian Testimonial" className="max-w-fix-176 ml-a mr-a mb-3" />
-              <h2 className="ta-c mb-2 fweight-500 fsize-500">
-                {translateTo('"Excellent service with flexible fees."', lang)}
-              </h2>
-
-              <p className="ta-c txtPrimary400">
-                {translateTo('M. Callaghan saved CHF 44\'050', lang)}
-              </p>
-            </div>
-          </Slider>
-
-        </div>
-      </div>
     </div>
+
   );
 };
 
@@ -408,6 +607,7 @@ const mapStateToProps = (state, ownProps) => ({
   lang: get(state, 'common.language', {}),
   loggedInUser: get(state, 'user.loggedInUser', {}),
   notification: get(state, 'common.notification', []),
+  windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({

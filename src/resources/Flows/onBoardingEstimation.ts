@@ -267,7 +267,7 @@ export const QuestionsList: (lang: string, country: string, changeValue: (field:
         value: null,
       }],
       history: 'createProfile',
-      background: 'bgCardGreen',
+      // background: 'bgCardGreen',
       component: LoginSignup,
       signupTitle: translateTo( 'Create your profile to save your progress.', lang),
       loginTitle: translateTo( 'Login to your profile to save your progress.', lang),

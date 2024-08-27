@@ -6,6 +6,7 @@ export interface LoginSignupType {
   disableEmailRegister?: boolean;
   errorValue: object;
   formError: object;
+  windowDimensions: object,
   formName: string;
   formValue: {
     location: LocationType;
