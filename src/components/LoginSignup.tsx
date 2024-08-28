@@ -490,6 +490,7 @@ const LoginSignup = (props: LoginSignupType) => {
                         showGeneratePassword={false}
                         company={company}
                         formName={formName}
+                        isBuyer={isBuyer}
                         showErrors={showErrors}
                         lang={lang}
                         // validateEmail
