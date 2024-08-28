@@ -175,11 +175,11 @@ const EnergyRequest = (props: EnergyRequestProps) => {
               name: 'isCustomerOfUBS',
               options: [
                 {
-                  label: translateTo('I am a UBS customer and would like to benefit from the preferential price and advice from UBS on tailor-made financing solutions and energy-saving renovation measures.', lang),
+                  label: translateTo('I am a UBS customer and would like to benefit from the preferential price and order a verified energy performance certificate with an individual renovation plan from NORM.', lang),
                   value: true,
                 },
                 {
-                  label: translateTo('I am not yet a customer, but would like to benefit from free advice from UBS and tailor-made financing solutions and energy-saving renovation measures.', lang),
+                  label: translateTo('I am not a UBS customer and would like to order a verified energy performance certificate with an individual refurbishment plan from NORM.', lang),
                   value: false,
                 },
               ],
