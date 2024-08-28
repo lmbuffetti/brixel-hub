@@ -1273,3 +1273,7 @@ input::-webkit-date-and-time-value {
     box-shadow: $shadow-1dp;
   }
 }
+
+.policyConcent>label {
+  line-height: inherit !important;
+}

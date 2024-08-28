@@ -336,7 +336,7 @@ const LoginSignup = (props: LoginSignupType) => {
                     />
                   </div>
                 )}
-                <p className="fsize-400 pl-2 max-w-fix-264">
+                <p className="fsize-400 pl-2 max-w-fix-280">
                   {translateTo(section.text, langVal)}
                 </p>
               </div>
@@ -573,24 +573,24 @@ const LoginSignup = (props: LoginSignupType) => {
       </div>
       <div className="dis-fl-col w-perc-100 w-perc-md-45 bgGreen25 a-c a-bl-md p-2 py-4 p-sm-4 p-lg-8">
 
-        <div className=" ta-c ta-l-md pb-2 pb-md-4">
-          <span className="fsize-500 fsize-sm-600 fweight-600">
-            {translateTo(topTitle, lang)}
-          </span>
-          <p className='fsize-400 fsize-sm-500 pt-1'>{translateTo(topSubtitle, lang)}</p>
+        <div className="topPart ta-c ta-l-md pb-2 pb-md-4">
+          {topTitle && (<span className="fsize-500 fsize-sm-600 fweight-600"> {translateTo(topTitle, lang)} </span>)}
+          {topSubtitle && (<p className='fsize-400 fsize-sm-500 pt-1'>{translateTo(topSubtitle, lang)}</p>)}
         </div>
 
 
         {SignupDescription(lang, companyStub, isDesktop, isBuyer)}
 
-        <div className="w-perc-100 bgGreen50 brdRadius p-1 px-2 mt-3">
-          <p className="fweight-600 fsize-300">
-            {translateTo(footnoteTitle, lang)}
-          </p>
-          <p className="pt-small-4 fsize-300">
-            {translateTo(footnoteDescription, lang)}
-          </p>
-        </div>
+        {
+          footnoteTitle || footnoteDescription && (
+            <div className="footNote w-perc-100 bgGreen50 brdRadius p-1 px-2 mt-3">
+              <p className="fweight-600 fsize-300"> {translateTo(footnoteTitle, lang)} </p>
+              <p className="pt-small-4 fsize-300">
+                {translateTo(footnoteDescription, lang)}
+              </p>
+            </div>
+          )
+        }
       </div>
 
     </div>

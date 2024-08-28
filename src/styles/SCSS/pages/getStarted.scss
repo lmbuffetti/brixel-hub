@@ -370,7 +370,10 @@
       } */
 
       .signUpScreen {
-
+        .topPart  {
+          :empty,
+          .footNote:empty { display: none;}
+        }
         /* .onBoardingSignUp {
 
           .topBar {
