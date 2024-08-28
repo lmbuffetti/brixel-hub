@@ -109,12 +109,6 @@ const EnergieCertificate = ({
                       {EfficiencyValue}
                     </span>
                   </div>
-                  <div className="dis-fl-row-md a-c hide">
-                    <p className="fsize-200 txtText400 ml-1 mr-2">
-                      {translateTo('Powered by', lang)}
-                    </p>
-                    <img src={LogoNormImg} alt="Logo Norm" width={90} />
-                  </div>
                 </div>
                 <BrixelEnergyCertificate
                   value={EfficiencyValue}
@@ -126,7 +120,14 @@ const EnergieCertificate = ({
           )
         }
 
-        <div className="p-md-4 py-4">
+        <div className="dis-fl-row-md jc-fe my-2 hide mr-3">
+          <p className="fsize-200 txtText400 ml-1 mr-2">
+            {translateTo('Powered by', lang)}
+          </p>
+          <img src={LogoNormImg} alt="Logo Norm" width={90} />
+        </div>
+
+        <div className="px-md-4 pb-md-4 pb-4">
           <p className="fSizePx20 fweight-600">
             {translateTo('The offer: verified energy performance certificate with individual renovation roadmap, digital and efficient.', lang)}
           </p>
