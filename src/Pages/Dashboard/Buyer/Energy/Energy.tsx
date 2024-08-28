@@ -138,11 +138,11 @@ const EnergieCertificate = ({
           <div className="dis-f-md jc-b a-t">
             <div>
               <div className="dis-f a-c">
-                <span className="fsize-600 fsize-sm-700 fweight-600">CHF 1&apos;550</span>
+                <span className="fsize-600 fsize-sm-700 fweight-600">CHF 1&apos;190</span>
                 <span className="fsize-300 pl-1">incl. VAT</span>
               </div>
               <p className="my-2 fsize-500">
-                {translateTo('CHF 1\'190 Reduced price for UBS clients', lang)}
+                <span className="td-lt">{translateTo('CHF 1\'550', lang)}</span> <span>{translateTo('Reduced price for UBS clients', lang)}</span>
               </p>
 
               <div className="">

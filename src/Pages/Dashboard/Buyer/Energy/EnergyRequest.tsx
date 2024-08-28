@@ -77,11 +77,11 @@ const EnergyRequest = (props: EnergyRequestProps) => {
 
           <div>
             <div className="dis-f a-c my-3">
-              <span className="fsize-600 fsize-sm-700 fweight-600">CHF 1&apos;550</span>
+              <span className="fsize-600 fsize-sm-700 fweight-600">CHF 1&apos;190</span>
               <span className="fsize-300 pl-1">incl. VAT</span>
             </div>
             <p className="mb-3 fsize-500">
-              {translateTo('CHF 1\'190 Reduced price for UBS clients', lang)}
+              <span className="td-lt">{translateTo('CHF 1\'550', lang)}</span> <span>{translateTo('Reduced price for UBS clients', lang)}</span>
             </p>
           </div>
           <div>
@@ -187,6 +187,11 @@ const EnergyRequest = (props: EnergyRequestProps) => {
             }}
           />
 
+          <p className="txtText700 fsize-300 mt-4">
+            {/* eslint-disable-next-line max-len */}
+            {translateTo('I agree that my data (surname, first name, telephone number, e-mail) may be transmitted to NORM Technologies AG (“NORM”) for the provision of the service. NORM collects and processes further personal data as part of the services offered by NORM, in particular for the purpose of preparing detailed energy performance certificates for the property. Details are contained in NORM\'s General Terms and Conditions and the data protection document, which will be made available to you. If you have accepted UBS\'s terms and conditions when registering on Brixel, NORM will forward the report produced for you as part of Norm\'s service to UBS so that UBS can discuss with you options for financing the upcoming renovation costs. By clicking on “Order now for a fee”, I agree to the processing of my personal data as described above.', lang)}
+          </p>
+
           <BrixelButtonPrimary
             rounded
             className="mx-a mt-4"
@@ -194,10 +199,6 @@ const EnergyRequest = (props: EnergyRequestProps) => {
             onClick={() => onClick()}
             disabled={!validateField()}
           />
-
-          <p className="txtText700 fsize-300 mt-2">
-            {translateTo('I agree that my data (surname, first name, telephone number, e-mail) may be transmitted to UBS Switzerland AG and Norm Technologies AG for the purpose of providing the advisory service.', lang)}
-          </p>
 
         </div>
       </div>
