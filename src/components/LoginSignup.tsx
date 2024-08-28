@@ -433,7 +433,6 @@ const LoginSignup = (props: LoginSignupType) => {
 
   const { topTitle, topSubtitle, footnoteTitle, footnoteDescription } = contentMap(companyStub, isBuyer);
 
-
   return (
 
     <div className="signUpScreen ov-h brdRadius flex-wrap dis-f m-a max-w-fix-1120 jc-c">
@@ -581,16 +580,12 @@ const LoginSignup = (props: LoginSignupType) => {
 
         {SignupDescription(lang, companyStub, isDesktop, isBuyer)}
 
-        {
-          footnoteTitle || footnoteDescription && (
-            <div className="footNote w-perc-100 bgGreen50 brdRadius p-1 px-2 mt-3">
-              <p className="fweight-600 fsize-300"> {translateTo(footnoteTitle, lang)} </p>
-              <p className="pt-small-4 fsize-300">
-                {translateTo(footnoteDescription, lang)}
-              </p>
-            </div>
-          )
-        }
+        <div className={`footNote w-perc-100 bgGreen50 brdRadius p-1 px-2 mt-3 ${footnoteDescription !== '' || footnoteTitle !== '' ? '' : 'hide'}`}>
+          <p className="fweight-600 fsize-300"> {translateTo(footnoteTitle, lang)} </p>
+          <p className="pt-small-4 fsize-300">
+            {translateTo(footnoteDescription, lang)}
+          </p>
+        </div>
       </div>
 
     </div>
