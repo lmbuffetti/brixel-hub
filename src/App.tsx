@@ -104,7 +104,7 @@ const MarketSeller = lazy(() => import('./Pages/Market/MarketSeller'));
 const MarketBuyer = lazy(() => import('./Pages/Market/MarketBuyer'));
 
 const WarningScreen = lazy(() => import('./components/WarningScreen'));
-// const EnergyFlow = lazy(() => import('./Pages/Dashboard/Buyer/Energy/EnergyFlow'))
+const EnergyFlow = lazy(() => import('./Pages/Dashboard/Buyer/Energy/EnergyFlow'))
 
 
 const cookies = new Cookies();
@@ -706,11 +706,11 @@ const App = (props: AppType) => {
                       <Route path="/packageFlow/:id/makeOffer/*" element={<ProtectedRoute><MakeOffer /></ProtectedRoute>} />
                       <Route path="/packageFlow/:propID/:dealID/closing/:userType/identification/*" element={<ProtectedRoute><IdentificationFlow /></ProtectedRoute>} />
 
-                      { /* SECTION: ENERGY CERTIFICATE FLOWS TODO */}
-                      {/* <Route
+                      { /* SECTION: ENERGY CERTIFICATE FLOWS */}
+                      <Route
                         path="/buyer/:propID/energy/energyFlow/*"
                         element={<ProtectedRoute><EnergyFlow /></ProtectedRoute>}
-                      /> */}
+                      />
                       { /* SECTION: HUB DASHBOARD */ }
                       {
                         !history.location.pathname.includes('packageFlow') &&
