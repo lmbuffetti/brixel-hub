@@ -456,8 +456,8 @@ const checkCommon = (store) => (next) => (action) => {
           const statusCode = get(err, 'meta.statusText.response.data.statusCode', null);
           if (statusCode === 404) {
             const data = {
-              owner: store.getState().user.loggedInUser.user.id,
-              page: type === true ? id : store.getState().brixelForm.Property.values.id,
+              owner: get(store.getState(), 'user.loggedInUser.user.id', store.getState().property.activeSingleProperty.owner),
+              page: type === true ? id : get(store.getState(), 'brixelForm.Property.values.id'),
               generate: has(action.payload, 'generate') ? generate : true,
               reloadOnwProperties: get(action.payload, 'reloadOnwProperties', false),
             };
