@@ -239,7 +239,7 @@ const LoginSignup = (props: LoginSignupType) => {
     // Define texts for buyers and non-buyers
     const texts: Record<string, Record<string, string>> = {
       baloise: isBuyerVal ? {
-        text1: 'Mortgage offer with exclusive benefits from Baloise ',
+        text1: 'Mortgage offer with exclusive benefits from Baloise',
         text2: 'Independent valuation of the property by Baloise',
         text3: 'Request a visit appointment directly',
         text4: 'Access to the most relevant documents',
