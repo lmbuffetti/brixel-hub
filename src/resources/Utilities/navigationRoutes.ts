@@ -116,7 +116,8 @@ export const sidebarNavigationBuyer = (activeSingleCompany) => {
       path: '/buyer/:propID/closing/:dealID',
     },
   ];
-  // TODO fix to enable energy for UBS
+
+  // TODO
   if (activeSingleCompany?.stub === 'ubssss') {
     menu.splice(2, 0,
       {

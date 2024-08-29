@@ -144,7 +144,7 @@ const Dashboard = (props: DashboardType) => {
               { /* SECTION: ROUTES FOR ONLY LOGGED USER - MAIN HUB PAGES  */ }
               <Route path="/home" element={<DashboardHome />} />
               <Route path="/property/*" element={<PropertyBuyerDashboard />} />
-              {/*<Route path="/energy/*" element={<Energy />} />*/}
+              {/* <Route path="/energy/*" element={<Energy />} /> */}
               <Route path="/scheduleVisit/*" element={<ScheduleVisit />} />
               <Route path="/docubox" element={<DocumentsBuyer />} />
               <Route path="/financing" element={<Financing />} />

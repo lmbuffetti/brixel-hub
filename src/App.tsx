@@ -706,12 +706,11 @@ const App = (props: AppType) => {
                       <Route path="/packageFlow/:id/makeOffer/*" element={<ProtectedRoute><MakeOffer /></ProtectedRoute>} />
                       <Route path="/packageFlow/:propID/:dealID/closing/:userType/identification/*" element={<ProtectedRoute><IdentificationFlow /></ProtectedRoute>} />
 
-                      { /* SECTION: ENERGY CERTIFICATE FLOWS */}
-                      {/* TODO enable for enerrgy UBS /* }
-                      // <Route
-                      //   path="/buyer/:propID/energy/energyFlow/*"
-                      //   element={<ProtectedRoute><EnergyFlow /></ProtectedRoute>}
-                      // />
+                      { /* SECTION: ENERGY CERTIFICATE FLOWS TODO */}
+                      {/* <Route
+                        path="/buyer/:propID/energy/energyFlow/*"
+                        element={<ProtectedRoute><EnergyFlow /></ProtectedRoute>}
+                      /> */}
                       { /* SECTION: HUB DASHBOARD */ }
                       {
                         !history.location.pathname.includes('packageFlow') &&
