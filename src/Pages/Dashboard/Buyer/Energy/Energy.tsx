@@ -129,7 +129,7 @@ const EnergieCertificate = ({
           </div>
         </div>
 
-        <div className="px-md-4 pb-md-4 pb-4">
+        <div className="px-md-4 py-md-4 py-4">
           <p className="fSizePx20 fweight-600">
             {translateTo('The offer: verified energy performance certificate with individual renovation roadmap, digital and efficient.', lang)}
           </p>
