@@ -1272,6 +1272,12 @@ input::-webkit-date-and-time-value {
     background: white;
     box-shadow: $shadow-1dp;
   }
+  span.radioBtnLabel {
+    font-size: 14px;
+  }
+  p.txtText700.fsize-300.mt-4 {
+      font-size: 12px;
+  }
 }
 
 .policyConcent>label {

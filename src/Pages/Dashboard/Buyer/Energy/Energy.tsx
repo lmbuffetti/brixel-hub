@@ -120,11 +120,13 @@ const EnergieCertificate = ({
           )
         }
 
-        <div className="dis-fl-row-md jc-fe my-2 hide mr-3">
+        <div className="dis-fl-row-md jc-fe a-c my-3 hide mr-3">
           <p className="fsize-200 txtText400 ml-1 mr-2">
             {translateTo('Powered by', lang)}
           </p>
-          <img src={LogoNormImg} alt="Logo Norm" width={90} />
+          <div className="max-w-fix-80">
+            <img src={LogoNormImg} alt="Logo Norm" />
+          </div>
         </div>
 
         <div className="px-md-4 pb-md-4 pb-4">
