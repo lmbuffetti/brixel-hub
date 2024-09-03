@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, {useEffect} from 'react';
 import {
   change, ReduxField,
@@ -31,6 +32,8 @@ const EnergyRequest = (props: EnergyRequestProps) => {
     lang,
     syncErrors,
   } = props;
+
+  const Terms = `${translateTo('I agree that my data (surname, first name, telephone number, e-mail) may be transmitted to NORM Technologies AG (“NORM”) for the provision of the service. NORM collects and processes further personal data as part of the services offered by NORM, in particular for the purpose of preparing detailed energy performance certificates for the property. Details are contained in NORM\'s General Terms and Conditions and the data protection document, which will be made available to you. If you have accepted <a href="{{0}}" class="mr-small-4 lh-link" target="_blank">UBS\'s terms and conditions</a>when registering on Brixel, NORM will forward the report produced for you as part of Norm\'s service to UBS so that UBS can discuss with you options for financing the upcoming renovation costs. By clicking on “Order now for a fee”, I agree to the processing of my personal data as described above.', lang, [`https://www.ubs.com/global/${lang}/legal/privacy.html`])}`
 
   const validateField = () => {
     let isValid = true
@@ -187,10 +190,7 @@ const EnergyRequest = (props: EnergyRequestProps) => {
             }}
           />
 
-          <p className="txtText700 fsize-300 mt-4">
-            {/* eslint-disable-next-line max-len */}
-            {translateTo('I agree that my data (surname, first name, telephone number, e-mail) may be transmitted to NORM Technologies AG (“NORM”) for the provision of the service. NORM collects and processes further personal data as part of the services offered by NORM, in particular for the purpose of preparing detailed energy performance certificates for the property. Details are contained in NORM\'s General Terms and Conditions and the data protection document, which will be made available to you. If you have accepted UBS\'s terms and conditions when registering on Brixel, NORM will forward the report produced for you as part of Norm\'s service to UBS so that UBS can discuss with you options for financing the upcoming renovation costs. By clicking on “Order now for a fee”, I agree to the processing of my personal data as described above.', lang)}
-          </p>
+          <p className="txtText700 fsize-300 mt-4" dangerouslySetInnerHTML={{ __html: Terms }} />          
 
           <BrixelButtonPrimary
             rounded
