@@ -360,9 +360,9 @@ const IntroUpgrade = (props: IntroUpgradeType) => {
                                     <span className="fweight-600 mt-1 dis-b p-2 bgBlue50">
                                       {translateTo('You only pay if the property is sold.', lang)}</span>
                                     <ul className="checked mt-2 txtText900">
-                                      <li>{translateTo('Clarification of the existing mortgage', lang)}</li>
+                                      <li>{translateTo('Assistance with resolving or transferring the mortgage', lang)}</li>
                                       <li>{translateTo('Baloise gives you as a customer CHF 2,000 as a gift', lang)}</li>
-                                      <li>{translateTo('Information on inheritance and estate planning', lang)}</li>
+                                      <li>{translateTo('Pension and investment advice', lang)}</li>
                                     </ul>
                                   </>
                                 )
@@ -506,9 +506,9 @@ const IntroUpgrade = (props: IntroUpgradeType) => {
                                             {translateTo('You only pay if the property is sold.', lang)}
                                           </span>
                                           <ul className="checked mt-2 txtText900">
-                                            <li>{translateTo('Clarification of the existing mortgage', lang)}</li>
+                                            <li>{translateTo('Assistance with resolving or transferring the mortgage', lang)}</li>
                                             <li>{translateTo('Baloise gives you as a customer CHF 1,000 as a gift', lang)}</li>
-                                            <li>{translateTo('Information on inheritance and estate planning', lang)}</li>
+                                            <li>{translateTo('Pension and investment advice', lang)}</li>
                                           </ul>
                                         </>
                                       )
