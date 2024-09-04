@@ -30,7 +30,7 @@ const DashboardPropertyCard: (props: DashboardPropertyCardProps) => JSX.Element 
 
   const isEstimation = !get(estimation, 'status', null) || !completedBestimate(activeSingleProperty) && get(estimation, 'status', null) === 'processed';
 
-  const energyCertificate = activeSingleProperty?.properties?.energy?.totalEnergyEfficiency;
+  // const energyCertificate = activeSingleProperty?.properties?.energy?.totalEnergyEfficiency;
 
 
   return (
@@ -370,7 +370,8 @@ const DashboardPropertyCard: (props: DashboardPropertyCardProps) => JSX.Element 
           </div>
         </div>
       </div>
-      {
+      {/* TODO */}
+      {/* {
         activeSingleCompany?.stub === 'ubs' && type === 'buy' && (
           <div className="brdSmall engBrdRadius brdText100 bgWhite mt-2 mt-md-1-neg">
             <div className={`dis-f-md a-c jc-b ${smallLayout ? 'p-sm-3' : 'p-sm-3 pt-0 pb-2'}`}>
@@ -410,7 +411,7 @@ const DashboardPropertyCard: (props: DashboardPropertyCardProps) => JSX.Element 
             </div>
           </div>
         )
-      }
+      } */}
 
     </div>
   );
