@@ -118,7 +118,7 @@ export const sidebarNavigationBuyer = (activeSingleCompany) => {
   ];
 
   // TODO
-  if (activeSingleCompany?.stub === 'ubs') {
+  if (activeSingleCompany?.stub === 'ubssss') {
     menu.splice(2, 0,
       {
         title: 'Energy',
