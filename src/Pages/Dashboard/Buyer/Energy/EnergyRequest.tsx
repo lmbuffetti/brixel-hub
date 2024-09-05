@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   change, ReduxField,
   BrixelInputPhone,
@@ -33,7 +33,12 @@ const EnergyRequest = (props: EnergyRequestProps) => {
     syncErrors,
   } = props;
 
-  const Terms = `${translateTo('I agree that my data (surname, first name, telephone number, e-mail) may be transmitted to NORM Technologies AG (“NORM”) for the provision of the service. NORM collects and processes further personal data as part of the services offered by NORM, in particular for the purpose of preparing detailed energy performance certificates for the property. Details are contained in NORM\'s General Terms and Conditions and the data protection document, which will be made available to you. If you have accepted <a href="{{0}}" class="mr-small-4 lh-link" target="_blank">UBS\'s terms and conditions</a>when registering on Brixel, NORM will forward the report produced for you as part of Norm\'s service to UBS so that UBS can discuss with you options for financing the upcoming renovation costs. By clicking on “Order now for a fee”, I agree to the processing of my personal data as described above.', lang, [`https://www.ubs.com/global/${lang}/legal/privacy.html`])}`
+  // STATE
+  const [termsMore, setTermsMore] = useState(false);
+
+  const Terms = `${translateTo('By clicking on "Order now for a fee", I agree to the processing of my personal data by third-parties as described in the "Read more" section.', lang)}`
+
+  const termsExpanded = `${translateTo('I agree that my data (surname, first name, telephone number, e-mail) may be transmitted to NORM Technologies AG (“NORM”) for the provision of the service. NORM collects and processes further personal data as part of the services offered by NORM, in particular for the purpose of preparing detailed energy performance certificates for the property. Details are contained in the General Terms and Conditions and the data protection document of NORM, which will be made available to you. If you have accepted <a href="{{0}}" class="mr-small-4 lh-link" target="_blank">UBS\'s terms and conditions</a> when registering on Brixel, NORM will forward the report produced for you as part of Norm\'s service to UBS so that UBS can discuss with you options for financing the upcoming renovation costs.', lang, [`https://www.ubs.com/global/${lang}/legal/privacy.html`])}`
 
   const validateField = () => {
     let isValid = true
@@ -190,12 +195,21 @@ const EnergyRequest = (props: EnergyRequestProps) => {
             }}
           />
 
-          <p className="txtText700 fsize-300 mt-4" dangerouslySetInnerHTML={{ __html: Terms }} />          
+          <p className='mt-4'>
+            <span className='txtText700 fsize-300 pr-1' dangerouslySetInnerHTML={{ __html: Terms }} />
+            {
+              !termsMore && ( <span onClick={()=> setTermsMore(!termsMore)} className='td-u txtText700 fsize-300 cur-poi'>{translateTo('Read more', lang)} </span>)
+            }
+
+          </p>
+          {
+            termsMore && (<p className="txtText700 fsize-300 mt-1" dangerouslySetInnerHTML={{ __html: termsExpanded }} />)
+          }
 
           <BrixelButtonPrimary
             rounded
             className="mx-a mt-4"
-            label="Order now for a fee"
+            label={translateTo('Order now for a fee', lang)}
             onClick={() => onClick()}
             disabled={!validateField()}
           />
