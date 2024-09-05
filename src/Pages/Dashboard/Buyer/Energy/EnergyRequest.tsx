@@ -86,7 +86,7 @@ const EnergyRequest = (props: EnergyRequestProps) => {
           <div>
             <div className="dis-f a-c my-3">
               <span className="fsize-600 fsize-sm-700 fweight-600">CHF 1&apos;190</span>
-              <span className="fsize-300 pl-1">incl. VAT</span>
+              <span className="fsize-300 pl-1">{translateTo('incl. VAT', lang)}</span>
             </div>
             <p className="mb-3 fsize-500">
               <span className="td-lt">{translateTo('CHF 1\'550', lang)}</span> <span>{translateTo('Reduced price for UBS clients', lang)}</span>
