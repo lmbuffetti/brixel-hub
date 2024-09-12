@@ -263,6 +263,8 @@ const checkCommon = (store) => (next) => (action) => {
       if (get(data, 'photos', []).length > 0) {
         data.coverPhoto = data.photos[0];
       }
+      if(get(obj, 'properties.typology.livingArea.value') === '') set(obj, 'properties.typology.livingArea.value', null)
+      if(get(obj, 'properties.typology.balconyArea.value') === '') set(obj, 'properties.typology.balconyArea.value', null)
       api.property.updateProperty(id, obj)
         .then((res) => {
           // Page integrity is violated
