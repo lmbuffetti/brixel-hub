@@ -1,3 +1,4 @@
+/* eslint-disable react/no-is-mounted */
 import {failureHandler} from '../utils/api.helper';
 import {articlesQuery, bannersQuery} from './query.costants';
 

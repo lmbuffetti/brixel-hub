@@ -1,3 +1,4 @@
+/* eslint-disable react/no-is-mounted */
 import getConfigEnv from '@brixel-io/brixel-components/dist/configuration/Settings';
 import axios, {AxiosRequestConfig } from 'axios';
 import get from 'lodash/get';
