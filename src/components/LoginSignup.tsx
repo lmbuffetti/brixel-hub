@@ -244,7 +244,7 @@ const LoginSignup = (props: LoginSignupType) => {
         text3: 'Request a visit appointment directly',
         text4: 'Access to the most relevant documents',
       } : {
-        text1: 'You receive a CHF 5,000 discount',
+        text1: 'You receive a CHF 2,000 discount',
         text2: 'You only pay if the sale is successful',
         text3: 'You will get advised on your existing mortgage',
       },
