@@ -266,6 +266,16 @@ const checkCommon = (store) => (next) => (action) => {
       if(get(obj, 'properties.typology.livingArea.value') === '') set(obj, 'properties.typology.livingArea.value', null)
       if(get(obj, 'properties.typology.balconyArea.value') === '') set(obj, 'properties.typology.balconyArea.value', null)
       if(get(obj, 'properties.typology.roomHeight.value') === '') set(obj, 'properties.typology.roomHeight.value', null)
+      if(get(obj, 'properties.typology.terraceArea.value') === '') set(obj, 'properties.typology.terraceArea.value', null)
+      if(get(obj, 'properties.typology.gardenArea.value') === '') set(obj, 'properties.typology.gardenArea.value', null)
+      if(get(obj, 'properties.typology.lotArea.value') === '') set(obj, 'properties.typology.lotArea.value', null)
+      if(get(obj, 'properties.typology.grossArea.value') === '') set(obj, 'properties.typology.grossArea.value', null)
+      if(get(obj, 'properties.typology.additionalArea.value') === '') set(obj, 'properties.typology.additionalArea.value', null)
+      if(get(obj, 'properties.typology.lotAreaUsable.value') === '') set(obj, 'properties.typology.lotAreaUsable.value', null)
+      if(get(obj, 'properties.typology.constructedVolume.value') === '') set(obj, 'properties.typology.constructedVolume.value', null)
+      if(get(obj, 'properties.typology.loggiaArea.value') === '') set(obj, 'properties.typology.loggiaArea.value', null)
+      if(get(obj, 'properties.typology.basementArea.value') === '') set(obj, 'properties.typology.basementArea.value', null)
+      if(get(obj, 'properties.typology.collectiveSpacesArea.value') === '') set(obj, 'properties.typology.collectiveSpacesArea.value', null)
       api.property.updateProperty(id, obj)
         .then((res) => {
           // Page integrity is violated
