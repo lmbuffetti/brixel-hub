@@ -265,6 +265,7 @@ const checkCommon = (store) => (next) => (action) => {
       }
       if(get(obj, 'properties.typology.livingArea.value') === '') set(obj, 'properties.typology.livingArea.value', null)
       if(get(obj, 'properties.typology.balconyArea.value') === '') set(obj, 'properties.typology.balconyArea.value', null)
+      if(get(obj, 'properties.typology.roomHeight.value') === '') set(obj, 'properties.typology.roomHeight.value', null)
       api.property.updateProperty(id, obj)
         .then((res) => {
           // Page integrity is violated
