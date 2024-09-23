@@ -93,7 +93,7 @@ const WelecomeOnboardingStage = (props: WelecomeOnboardingStageType) => {
               </p>
 
               <p className="mt-3 txtBlack max-w-fix-448 m-a fweight-400 fsize-500 fsize-sm-600">
-                Are you ready too?
+                {translateTo('Are you ready too?', lang)}
               </p>
 
               <BrixelButtonPrimary
