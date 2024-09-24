@@ -1,6 +1,5 @@
 import {change, reset} from '@brixel-io/brixel-components/dist/utils/ReduxForm.Functions';
 import get from 'lodash/get';
-import cloneDeep from 'lodash/cloneDeep';
 import {
   DELETE_DOCUMENT,
   DELETE_IMG,
@@ -17,7 +16,6 @@ import {GET_ACTIVE_SINGLE_PROPERTY, SAVE_ACTIVE_SINGLE_PROPERTY} from '../action
 
 import api from '../controllers/api/config';
 import {REQUEST_DONE, SPINNER_OFF, SPINNER_ON, SPINNER_SMALL, SET_SCREEN_NOTIFICATION} from '../actions/types/CommonTypes';
-import {SAVE_CLOSING_IDENTIFICATION} from '../actions/types/DealTypes';
 
 const checkCommon = (store) => (next) => (action) => {
   switch (action.type) {
@@ -371,7 +369,6 @@ const checkCommon = (store) => (next) => (action) => {
                 if (idDocToDelete > -1) {
                   data.persons[indexPerson].document.splice(idDocToDelete, 1);
                 }
-                store.dispatch({ type: SAVE_CLOSING_IDENTIFICATION, payload: data });
               } else {
                 const arrayImg = store.getState().property.activeSingleProperty.documents;
                 const idImg = arrayImg.findIndex((val) => val.id === action.payload.id);
@@ -415,13 +412,8 @@ const checkCommon = (store) => (next) => (action) => {
     case UPDATE_DOCUMENT: {
       next(action);
       const {
-        dealID,
         docs,
-        formValue,
-        indexDoc,
-        indexPerson,
         pageID,
-        saveAction,
         smallLoader,
       } = action.payload;
       delete action.payload.dealID;
@@ -446,23 +438,16 @@ const checkCommon = (store) => (next) => (action) => {
       }
       api.image.updateDocument(action.payload.id, action.payload.body, '')
         .then((res) => {
-          if (saveAction === 'closingIdentification') {
-            const data = cloneDeep(formValue);
-            data.persons[indexPerson].document[indexDoc] = res.data;
-            data.id = dealID;
-            store.dispatch({ type: SAVE_CLOSING_IDENTIFICATION, payload: data });
-          } else {
-            const docList = docs || store.getState().brixelForm.Property.values.documents;
-            const docIndex = docList.findIndex((el) => el.id === res.data.id);
-            if (docIndex > -1) docList[docIndex] = res.data;
-            else docList.push(res.data);
-            const data = {
-              id: pageID,
-              documents: docList,
-              setSuccessNotification: true,
-            };
-            store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: data });
-          }
+          const docList = docs || store.getState().brixelForm.Property.values.documents;
+          const docIndex = docList.findIndex((el) => el.id === res.data.id);
+          if (docIndex > -1) docList[docIndex] = res.data;
+          else docList.push(res.data);
+          const data = {
+            id: pageID,
+            documents: docList,
+            setSuccessNotification: true,
+          };
+          store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: data });
           store.dispatch({
             type: REQUEST_DONE,
             payload: true,

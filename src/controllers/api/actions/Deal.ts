@@ -43,11 +43,6 @@ class Deal extends Base {
     return this.apiClient.put(url, {}, data);
   }
 
-  closingIdentification(id, personType, data) {
-    const url = ep.deal.closingIdentification(id, personType);
-    return this.apiClient.post(url, {}, data);
-  }
-
   saveFinanceCertificate(data) {
     const url = ep.financing.financialCertificate();
     return this.apiClient.post(url, {}, data);

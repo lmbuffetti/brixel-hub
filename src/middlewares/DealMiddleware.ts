@@ -19,7 +19,6 @@ import {
   GET_BUYER_DEAL,
   GET_OFFER_LISTINGS,
   SAVE_ACTIVE_SINGLE_DEAL,
-  SAVE_CLOSING_IDENTIFICATION,
   SAVE_FINANCING_REQUEST,
   SAVE_MAKE_OFFER,
   SAVE_REVIEW_OFFER,
@@ -832,62 +831,6 @@ const checkCommon = (store) => (next) => (action) => {
       }
       api.deal.sendVisitFeedback(id, visitID, sendSlack, objData)
         .then(() => {
-          if (smallLoader) {
-            store.dispatch({
-              type: SPINNER_SMALL,
-              payload: {
-                [smallLoader]: false,
-                [`${smallLoader}Sent`]: true,
-              },
-            });
-          } else {
-            store.dispatch({
-              type: SPINNER_OFF,
-            });
-          }
-        })
-        .catch((err) => {
-          // eslint-disable-next-line no-console
-          console.error(err);
-        });
-      break;
-    }
-    case SAVE_CLOSING_IDENTIFICATION: {
-      next(action);
-      const objData = cloneDeep(action.payload);
-      const {
-        smallLoader,
-        id,
-        personType,
-      } = objData;
-      delete objData.smallLoader;
-      delete objData.id;
-      delete objData.personType;
-      delete objData.status;
-      delete objData.allImgs;
-      delete objData.actions;
-      delete objData.saveAction;
-      delete objData.user;
-      delete objData.completedAt;
-      delete objData.completedBy;
-      if (smallLoader) {
-        store.dispatch({
-          type: SPINNER_SMALL,
-          payload: {
-            [smallLoader]: true,
-          },
-        });
-      } else {
-        store.dispatch({
-          type: SPINNER_ON,
-        });
-      }
-      api.deal.closingIdentification(id, personType, objData)
-        .then((response) => {
-          store.dispatch({
-            type: SET_ACTIVE_SINGLE_DEAL,
-            payload: response.data,
-          });
           if (smallLoader) {
             store.dispatch({
               type: SPINNER_SMALL,

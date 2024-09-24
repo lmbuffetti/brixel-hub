@@ -41,7 +41,6 @@ import AppleTouch180 from './images/apple-touch-icon-180x180.png';
 import AppleTouch76 from './images/apple-touch-icon-76x76.png';
 import translateTo from './utils/translation';
 import type {AppType} from './@types/App';
-import Financing from './Pages/Closing/Financing/Financing';
 import {getActiveSingleCompany} from './actions/CompanyActions';
 import {getCookie, setCookie} from './utils/helpers';
 import baseByData from '@brixel-io/brixel-components/dist/configuration/Settings';
@@ -60,8 +59,6 @@ const TermsCondition = lazy(() => import('./Pages/PackageFlow/TermsCondition'));
 const TermsConditionPage = lazy(() => import('./Pages/PackageFlow/TermsConditionPage'));
 const WelcomeSeller = lazy(() => import('./Pages/WelcomeSellerModal/WelcomeSeller'));
 const ScanTrialFlow = lazy(() => import('./Pages/PackageFlow/ScanTrialFlow'));
-const MakeOffer = lazy(() => import('./Pages/Closing/Offers/Flow/MakeOffer'));
-const IdentificationFlow = lazy(() => import('./Pages/Closing/Identification/IdentificationFlow'));
 
 // GENERAL COMPONENTS
 const PageHeader = lazy(() => import('./components/Header/PageHeader'));
@@ -694,7 +691,6 @@ const App = (props: AppType) => {
                       <Route path="/packageFlow/:propID/WelcomeSeller/*" element={<ProtectedRoute><WelcomeSeller /></ProtectedRoute>} />
                       <Route path="/packageFlow/testDrive/*" element={<ScanTrialFlow />} />
                       <Route path="/visitFeedback/:dealID/:pageID/:visitID" element={<VisitFeedback />} />
-                      <Route path="/buyer/:id/financingFlow/*" element={<ProtectedRoute><Financing /></ProtectedRoute>} />
                       <Route path="/buyer/:id/scheduleVisit/:scheduleVisitID/completeProfileFlow/*" element={<ProtectedRoute><CompleteProfile /></ProtectedRoute>} />
 
                       { /* PARTNER CONTACT FLOW */}
@@ -703,10 +699,6 @@ const App = (props: AppType) => {
 
                       { /* SECTION: INSERT TOKEN */}
                       <Route path="/tokeninput" element={<InsertToken />} />
-
-                      { /* SECTION: CLOSING FLOWS */}
-                      <Route path="/packageFlow/:id/makeOffer/*" element={<ProtectedRoute><MakeOffer /></ProtectedRoute>} />
-                      <Route path="/packageFlow/:propID/:dealID/closing/:userType/identification/*" element={<ProtectedRoute><IdentificationFlow /></ProtectedRoute>} />
 
                       { /* SECTION: ENERGY CERTIFICATE FLOWS */}
                       <Route
