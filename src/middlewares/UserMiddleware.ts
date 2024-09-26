@@ -152,18 +152,29 @@ const checkUser = (store) => (next) => (action) => {
     // DISPATCH TO CREATE USER - USER OBJECT
     case CREATE_USER: {
       next(action);
-      store.dispatch({ type: SPINNER_ON });
       const data = action.payload.user;
       const addProperty = action.payload.addProperty || false;
       const addSearchProfile = action.payload.addSearchProfile || false;
       const extraLoading = action.payload.user.extraLoading || false;
       const createEstimation = action.payload.createEstimation || false;
-      const { redirectTo, setOwner, forceRedirect } = action.payload.user;
+      const { redirectTo, setOwner, forceRedirect, smallLoader } = action.payload.user;
       delete action.payload.user;
       delete action.payload.addProperty;
       delete action.payload.createEstimation;
       delete data.redirectTo;
       delete data.forceRedirect;
+      if (smallLoader) {
+        store.dispatch({
+          type: SPINNER_SMALL,
+          payload: {
+            [smallLoader]: true,
+          },
+        });
+      } else {
+        store.dispatch({
+          type: SPINNER_ON,
+        });
+      }
       api.user.createUser(data)
         .then((res) => {
           if (typeof res.data.statusCode === 'undefined') {
@@ -184,6 +195,7 @@ const checkUser = (store) => (next) => (action) => {
               const dataProperty = cloneDeep(action.payload);
               dataProperty.token = userData.token;
               dataProperty.owner = userData.user.id;
+              dataProperty.smallLoader = smallLoader;
               store.dispatch({ type: CREATE_ACTIVE_SINGLE_PROPERTY, payload: dataProperty });
             } else if (addSearchProfile) {
               const dataProfile = action.payload;
@@ -210,7 +222,18 @@ const checkUser = (store) => (next) => (action) => {
               noRedirect: true,
             };
             store.dispatch({ type: SET_FORM_ERROR, payload: alertProps });
-            store.dispatch({ type: SPINNER_OFF });
+            if (smallLoader) {
+              store.dispatch({
+                type: SPINNER_SMALL,
+                payload: {
+                  [smallLoader]: false,
+                },
+              });
+            } else {
+              store.dispatch({
+                type: SPINNER_OFF,
+              });
+            }
             if (extraLoading) store.dispatch({ type: SPINNER_OFF });
           }
         })
@@ -293,10 +316,22 @@ const checkUser = (store) => (next) => (action) => {
     case VALIDATE_USER: {
       next(action);
       // store.dispatch({ type: SPINNER_ON });
+      const { smallLoader } = action.payload;
       const newUser = action.payload.user.createUser || false;
       const extraLoading = action.payload.user.extraLoading || false;
       delete action.payload.user.createUser;
-      store.dispatch({ type: SPINNER_ON });
+      if (smallLoader) {
+        store.dispatch({
+          type: SPINNER_SMALL,
+          payload: {
+            [smallLoader]: true,
+          },
+        });
+      } else {
+        store.dispatch({
+          type: SPINNER_ON,
+        });
+      }
       api.user.validateUser(action.payload.user.email)
         .then((res) => {
           if (newUser && res.meta.status === 200) {
@@ -317,7 +352,18 @@ const checkUser = (store) => (next) => (action) => {
             store.dispatch({ type: SET_FORM_ERROR, payload: alertProps });
             store.dispatch({ type: SPINNER_OFF });
           }
-          store.dispatch({ type: SPINNER_OFF });
+          if (smallLoader) {
+            store.dispatch({
+              type: SPINNER_SMALL,
+              payload: {
+                [smallLoader]: false,
+              },
+            });
+          } else {
+            store.dispatch({
+              type: SPINNER_OFF,
+            });
+          }
         })
         .catch((err) => {
           const statusCode = get(err, 'meta.statusText.response.data.statusCode', null);
@@ -329,9 +375,31 @@ const checkUser = (store) => (next) => (action) => {
               state: true,
             };
             store.dispatch({ type: SET_FORM_ERROR, payload: alertProps });
-            store.dispatch({ type: SPINNER_OFF });
+            if (smallLoader) {
+              store.dispatch({
+                type: SPINNER_SMALL,
+                payload: {
+                  [smallLoader]: false,
+                },
+              });
+            } else {
+              store.dispatch({
+                type: SPINNER_OFF,
+              });
+            }
           }
-          store.dispatch({ type: SPINNER_OFF });
+          if (smallLoader) {
+            store.dispatch({
+              type: SPINNER_SMALL,
+              payload: {
+                [smallLoader]: false,
+              },
+            });
+          } else {
+            store.dispatch({
+              type: SPINNER_OFF,
+            });
+          }
           if (extraLoading) store.dispatch({ type: SPINNER_OFF });
         });
       break;

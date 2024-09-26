@@ -192,12 +192,12 @@ const checkCommon = (store) => (next) => (action) => {
               store.dispatch({
                 type: SPINNER_SMALL,
                 payload: {
-                  [smallLoader]: true,
+                  [smallLoader]: false,
                 },
               });
             } else {
               store.dispatch({
-                type: SPINNER_ON,
+                type: SPINNER_OFF,
               });
             }
           }
@@ -208,7 +208,7 @@ const checkCommon = (store) => (next) => (action) => {
             store.dispatch({
               type: SPINNER_SMALL,
               payload: {
-                [smallLoader]: true,
+                [smallLoader]: false,
               },
             });
           } else {
