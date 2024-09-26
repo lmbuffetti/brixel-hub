@@ -378,12 +378,12 @@ const FlowScreen = (props: FlowScreenType) => {
                         }
                         {
                           quest.titleGreen && (
-                            <h3 className="txtGreen400 w-perc-100">{quest.titleGreen}</h3>
+                            <h3 className="txtGreen400 w-perc-100 boutiqueFont">{quest.titleGreen}</h3>
                           )
                         }
                         {
                           quest.title && (
-                            <h3 className={`fweight-600 max-w-fix-640 ta-c fsize-600 fsize-sm-800 m-a ${quest.subtitle ? 'mb-1' : 'mb-5'}`} dangerouslySetInnerHTML={{ __html: quest.title }} />
+                            <h3 className={`boutiqueFont fweight-600 max-w-fix-640 ta-c fsize-600 fsize-sm-800 m-a ${quest.subtitle ? 'mb-1' : 'mb-5'}`} dangerouslySetInnerHTML={{ __html: quest.title }} />
                           )
                         }
                         {
@@ -440,7 +440,7 @@ const FlowScreen = (props: FlowScreenType) => {
                         {
                           quest.title && (
                             <h2
-                              className="fweight-600 ta-c"
+                              className="fweight-600 ta-c boutiqueFont"
                               dangerouslySetInnerHTML={{ __html: quest.title }}
                             />
                           )
@@ -543,7 +543,8 @@ const FlowScreen = (props: FlowScreenType) => {
                               (
                                 currentIndex !== questions.length - 2 &&
                               get(quest, 'history', '') !== 'baloiseInfo' &&
-                              quest?.history !== 'success'
+                              quest?.history !== 'success' &&
+                                !get(quest, 'hideBackArrow', false)
                               ) && (
                                 <BrixelButtonIcon
                                   className="backBtn pos-a x-l"

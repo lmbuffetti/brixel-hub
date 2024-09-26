@@ -157,7 +157,8 @@ const checkUser = (store) => (next) => (action) => {
       const addSearchProfile = action.payload.addSearchProfile || false;
       const extraLoading = action.payload.user.extraLoading || false;
       const createEstimation = action.payload.createEstimation || false;
-      const { redirectTo, setOwner, forceRedirect, smallLoader } = action.payload.user;
+      const { redirectTo, setOwner, forceRedirect } = action.payload.user;
+      const { smallLoader } = action.payload;
       delete action.payload.user;
       delete action.payload.addProperty;
       delete action.payload.createEstimation;
@@ -222,7 +223,7 @@ const checkUser = (store) => (next) => (action) => {
               noRedirect: true,
             };
             store.dispatch({ type: SET_FORM_ERROR, payload: alertProps });
-            if (smallLoader) {
+            if (smallLoader && !addProperty) {
               store.dispatch({
                 type: SPINNER_SMALL,
                 payload: {
@@ -319,6 +320,7 @@ const checkUser = (store) => (next) => (action) => {
       const { smallLoader } = action.payload;
       const newUser = action.payload.user.createUser || false;
       const extraLoading = action.payload.user.extraLoading || false;
+      const addProperty = action.payload.addProperty || false;
       delete action.payload.user.createUser;
       if (smallLoader) {
         store.dispatch({
@@ -352,7 +354,7 @@ const checkUser = (store) => (next) => (action) => {
             store.dispatch({ type: SET_FORM_ERROR, payload: alertProps });
             store.dispatch({ type: SPINNER_OFF });
           }
-          if (smallLoader) {
+          if (smallLoader && !addProperty) {
             store.dispatch({
               type: SPINNER_SMALL,
               payload: {
@@ -375,7 +377,7 @@ const checkUser = (store) => (next) => (action) => {
               state: true,
             };
             store.dispatch({ type: SET_FORM_ERROR, payload: alertProps });
-            if (smallLoader) {
+            if (smallLoader && !addProperty) {
               store.dispatch({
                 type: SPINNER_SMALL,
                 payload: {
@@ -388,7 +390,7 @@ const checkUser = (store) => (next) => (action) => {
               });
             }
           }
-          if (smallLoader) {
+          if (smallLoader && !addProperty) {
             store.dispatch({
               type: SPINNER_SMALL,
               payload: {
