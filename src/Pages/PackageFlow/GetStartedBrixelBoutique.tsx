@@ -292,7 +292,7 @@ const GetStartedBrixelBoutique = (props: GetStartedBrixelBoutiqueType) => {
   }, [get(company, 'id', null)]);
 
   return (
-    <div className="brixelBoutique">
+    <div className="brixelBoutique flex-1">
       {
         activeSingleCompany.id && (
           <FlowScreen
