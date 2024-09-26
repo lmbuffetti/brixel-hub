@@ -110,7 +110,11 @@ function RightHeaderFlow(props: RightHeaderFlowType) {
       onClose();
     } else {
       const linkToRedirect = redirectUrl(history.location.pathname, {propID, dealID, isBuyer, userType});
-      history.push(linkToRedirect);
+      if (linkToRedirect.includes('http')) {
+        window.location.assign(linkToRedirect);
+      } else {
+        history.push(linkToRedirect);
+      }
     }
   };
 

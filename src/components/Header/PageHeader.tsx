@@ -5,6 +5,8 @@ import {
   useOutsideAlerter,
 } from '@brixel-io/brixel-components';
 import logoMobile from '@brixel-io/brixel-components/dist/configuration/images/logo_colors_icon_new.svg';
+import logoScribble from '@brixel-io/brixel-components/dist/configuration/images/logoScribble.svg';
+import logoBoutique from '@brixel-io/brixel-components/dist/configuration/images/logoBoutique.svg';
 import logo from '@brixel-io/brixel-components/dist/configuration/images/logo_colors_v2.svg';
 import baseByData from '@brixel-io/brixel-components/dist/configuration/Settings';
 import {BrixelSelect, destroy} from '@brixel-io/brixel-components/dist/form';
@@ -267,18 +269,35 @@ function PageHeader(props: PageHeaderType) {
               <div
                 className={`dis-f a-c pl-0 pl-lg-3 logoWrapper w-fit min-w-fix-40 ${(propID === 'sell' || propID === 'buy' || isFlow || isBuyer || windowDimensions.width <= 590) ? '' : 'brdSmallRight brdText100 w-fix-lg-232'} w-fit`}
               >
-                <button
-                  className="min-w-88 w-perc-100 h-fix-72 dis-f a-c pr-2"
-                  onClick={() => history.push(isBuyer ? '/buy' : '/sell')}
-                >
-                  <img
-                    loading="lazy"
-                    className={`${windowDimensions.width <= 590 ? 'max-w-fix-32' : ''} pos-r cur-poi`}
-                    src={windowDimensions.width <= 590 ? logoMobile : logo}
-                    alt="Brixel Logo"
-                    id="logo"
-                  />
-                </button>
+                {
+                  activeSingleCompany.stub === 'brixel_boutique' ? (
+                    <button
+                      className="min-w-88 w-perc-100 h-fix-72 dis-f a-c pr-2"
+                      onClick={() => ''}
+                    >
+                      <img
+                        loading="lazy"
+                        className={`${windowDimensions.width <= 590 ? 'max-w-fix-32' : ''} pos-r cur-poi`}
+                        src={logoScribble}
+                        alt="Brixel Logo"
+                        id="logo"
+                      />
+                    </button>
+                  ) : (
+                    <button
+                      className="min-w-88 w-perc-100 h-fix-72 dis-f a-c pr-2"
+                      onClick={() => history.push(isBuyer ? '/buy' : '/sell')}
+                    >
+                      <img
+                        loading="lazy"
+                        className={`${windowDimensions.width <= 590 ? 'max-w-fix-32' : ''} pos-r cur-poi`}
+                        src={windowDimensions.width <= 590 ? logoMobile : logo}
+                        alt="Brixel Logo"
+                        id="logo"
+                      />
+                    </button>
+                  )
+                }
               </div>
               {
                 showProgressStage && (
@@ -309,6 +328,16 @@ function PageHeader(props: PageHeaderType) {
                 )
               }
             </div>
+            {
+              activeSingleCompany.stub === 'brixel_boutique' && (
+                <div>
+                  <img
+                    src={logoBoutique}
+                    alt="logo boutique"
+                  />
+                </div>
+              )
+            }
             {
               ((propID === 'buy' || propID === 'sell') && !showMobileMenu) && (
                 <div className="hubMenu delayFadeIn">

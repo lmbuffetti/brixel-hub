@@ -66,6 +66,16 @@ export const QuestionsList: (lang: string, country: string, changeValue: (field:
   ];
 
   const question: QuestionsListType[] = [
+    {
+      background: 'bgGreen100',
+      hideProgress: true,
+      hideFooter: true,
+      cardType: 'loadComponent',
+      component: BrixelBoutiqueThankYou,
+      history: 'success',
+      vCentered: true,
+      toSave: true,
+    },
     /* subtitle: translateTo('Choose between apartment, house, building land and commercial.'), */
     {
       title: translateTo('What do you want to sell?', lang),
