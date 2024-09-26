@@ -54,6 +54,7 @@ const ErrorBoundering = lazy(() => import('./components/ErrorBoundering'));
 const GetStarted = lazy(() => import('./Pages/PackageFlow/GetStarted'));
 const GetStartedSeller = lazy(() => import('./Pages/PackageFlow/GetStartedSeller'));
 const GetStartedBuyer = lazy(() => import('./Pages/PackageFlow/GetStartedBuyer'));
+const GetStartedBrixelBoutique = lazy(() => import('./Pages/PackageFlow/GetStartedBrixelBoutique'));
 const GetStartedEstimation = lazy(() => import('./Pages/PackageFlow/GetStartedEstimation'));
 const TermsCondition = lazy(() => import('./Pages/PackageFlow/TermsCondition'));
 const TermsConditionPage = lazy(() => import('./Pages/PackageFlow/TermsConditionPage'));
@@ -681,6 +682,7 @@ const App = (props: AppType) => {
                       <Route path="/packageFlow/getstarted/*" element={<GetStartedSeller />} />
                       <Route path="/packageFlow/getstartedBuyer/*" element={<GetStartedBuyer />} />
                       <Route path="/packageFlow/getstartedEstimation/*" element={<GetStartedEstimation />} />
+                      <Route path="/packageFlow/brixelBoutique/*" element={<GetStartedBrixelBoutique />} />
                       { /* SECTION: ONBOARDING WITH COMPANY STUB */}
                       <Route path="/packageFlow/:companyStub" element={<GetStarted />} />
                       <Route path="/packageFlow/getstarted/:companyStub/*" element={<GetStartedSeller />} />
