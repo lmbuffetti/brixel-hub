@@ -1,6 +1,5 @@
 import {
   CompanyType,
-  LoggedUserType,
   LoginType,
   PropertyType,
   QuestionsListType,

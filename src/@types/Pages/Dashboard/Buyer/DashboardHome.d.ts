@@ -2,7 +2,6 @@ import {
   CompanyType,
   LoggedUserType,
   PropertyType, ScheduleVisitRequestType,
-  SinglePropertyBookingSlotsType,
 } from '@brixel-io/brixel-components/dist/@types/Model';
 
 export interface ContactType {
