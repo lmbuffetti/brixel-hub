@@ -195,7 +195,7 @@ const GetStartedBrixelBoutique = (props: GetStartedBrixelBoutiqueType) => {
         ignoreEmail: false,
         seller: true,
         redirectTo: {
-          pathname: `/packageFlow/brixelBoutique/${activeSingleCompany.stub}/success`,
+          pathname: '/packageFlow/brixelBoutique/success',
           state: { hideClose: true },
         },
       });
