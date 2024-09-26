@@ -19,6 +19,7 @@ export interface LoginSignupType {
   handleSetFormError: (data: object) => void
   isSmallLoading: {
     recoverPassword: boolean;
+    savingData?: boolean;
   };
   lang: string;
   loggedInUser: {

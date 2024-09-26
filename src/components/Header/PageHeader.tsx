@@ -270,7 +270,7 @@ function PageHeader(props: PageHeaderType) {
                 className={`dis-f a-c pl-0 pl-lg-3 logoWrapper w-fit min-w-fix-40 ${(propID === 'sell' || propID === 'buy' || isFlow || isBuyer || windowDimensions.width <= 590) ? '' : 'brdSmallRight brdText100 w-fix-lg-232'} w-fit`}
               >
                 {
-                  activeSingleCompany.stub === 'brixel_boutique' ? (
+                  activeSingleCompany.stub === 'brixel_boutique' && history?.location?.pathname?.toLowerCase()?.includes('packageflow') ? (
                     <button
                       className="min-w-88 w-perc-100 h-fix-72 dis-f a-c pr-2"
                       onClick={() => ''}
@@ -329,7 +329,7 @@ function PageHeader(props: PageHeaderType) {
               }
             </div>
             {
-              activeSingleCompany.stub === 'brixel_boutique' && (
+              activeSingleCompany.stub === 'brixel_boutique' && history?.location?.pathname?.toLowerCase()?.includes('packageflow') && (
                 <div>
                   <img
                     src={logoBoutique}

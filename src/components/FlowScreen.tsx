@@ -253,7 +253,7 @@ const FlowScreen = (props: FlowScreenType) => {
 
   // MOVE STEP FORWARD AFTER SAVING
   useEffect(() => {
-    if (isSmallLoading.sendData === true && questions[currentIndex + 1] && !questions[currentIndex + 1].skipResume) {
+    if ((isSmallLoading.sendData === true && questions[currentIndex + 1] && !questions[currentIndex + 1].skipResume) || (isSmallLoading.savedData === true && questions[currentIndex + 1])) {
       const newIndex = currentIndex + 1;
       setCurrentIndex(newIndex);
       setQuest(questions[newIndex]);
@@ -610,7 +610,7 @@ const FlowScreen = (props: FlowScreenType) => {
                                     rounded
                                     theme="green"
                                     label={closeLabel ? translateTo(closeLabel, lang) : translateTo('Close', lang)}
-                                    isLoading={isSmallLoading.sendData}
+                                    isLoading={isSmallLoading.sendData || isSmallLoading.savingData}
                                     onClick={() => closeWindow()}
                                     onShowError={() => setShowError(true)}
                                     type="submit"

@@ -153,7 +153,7 @@ const GetStartedBrixelBoutique = (props: GetStartedBrixelBoutiqueType) => {
       // redirectToUrl: '/sell',
       company: formCompany,
       extraLoading: true,
-      smallLoader: 'sendData',
+      smallLoader: 'savingData',
     };
     if (formValue.pageID) data.id = formValue.pageID;
     const page = get(formValue, 'signupScreen', null);

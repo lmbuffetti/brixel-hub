@@ -60,6 +60,8 @@ export interface FlowScreenType {
   isSaveEnable?: boolean
   isSmallLoading: {
     sendData: boolean;
+    savedData?: boolean;
+    savingData?: boolean;
   };
   lang: string;
   newCurrentIndex?: number;

@@ -200,6 +200,14 @@ const checkCommon = (store) => (next) => (action) => {
                 type: SPINNER_OFF,
               });
             }
+            if (smallLoader) {
+              store.dispatch({
+                type: SPINNER_SMALL,
+                payload: {
+                  savedData: true,
+                },
+              });
+            }
           }
           // store.dispatch(reset('Property'));
         })

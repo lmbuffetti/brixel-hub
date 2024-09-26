@@ -537,7 +537,7 @@ const LoginSignup = (props: LoginSignupType) => {
                   className="ml-a mr-a mt-2 mb-2 minimum-w-210"
                   label={translateTo(PrimaryButton().label, lang)}
                   onClick={!disabledButton ? PrimaryButton().action : () => ''}
-                  isLoading={isSmallLoading.recoverPassword}
+                  isLoading={isSmallLoading.recoverPassword || isSmallLoading.savingData}
                   type="submit"
                 />
               </div>
