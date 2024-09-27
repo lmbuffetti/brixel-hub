@@ -180,7 +180,11 @@
 }
 
 #bodyModalWrapper {
-
+  .brixel-label.labelLarge,
+  .wTooltip.labelLarge > span {
+    display: flex;
+    align-items: center;
+  }
   &.getStarted {
     z-index: 1;
 
