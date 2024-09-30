@@ -67,6 +67,16 @@ export const QuestionsList: (lang: string, country: string, changeValue: (field:
 
   const question: QuestionsListType[] = [
     {
+      background: 'bgGreen100',
+      hideProgress: true,
+      hideFooter: true,
+      cardType: 'loadComponent',
+      component: BrixelBoutiqueThankYou,
+      history: 'success',
+      vCentered: true,
+      toSave: true,
+    },
+    {
       title: translateTo('What type of property would you like to sell?', lang),
       history: 'propertyType',
       footerWidth: 'ml-a mr-a max-w-fix-576',
@@ -244,16 +254,6 @@ export const QuestionsList: (lang: string, country: string, changeValue: (field:
         }],
       },
       // GENERAL SAVING FUNCTION FOR EVERYONE
-      {
-        background: 'bgGreen100',
-        hideProgress: true,
-        hideFooter: true,
-        cardType: 'loadComponent',
-        component: BrixelBoutiqueThankYou,
-        history: 'success',
-        vCentered: true,
-        toSave: true,
-      },
     );
   }
   return question;

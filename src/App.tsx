@@ -815,28 +815,32 @@ const App = (props: AppType) => {
                             </>
                           ) : (
                             <>
-                              <div
-                                className={`supportBubble  jc-b a-c cur-poi bgWhite p-1 brdFullRadius zIndex1 pr-2 shadow-2dp ${showSupport ? 'hide' : 'dis-f'}`}
-                                onClick={() => contactModal()}
-                              >
-                                <div className="dis-f jc-b a-c">
-                                  {
-                                    teamAvatars.map((imgTeam, i) => (
-                                      <BrixelImage
-                                        loading="lazy"
-                                        key={`avt_${i.toString()}`}
-                                        url={imgTeam.url}
-                                        size={'XS'}
-                                        alt="Support Team"
-                                        className="w-fix-32 mr-1-neg square brdLarge brdWhite brdCircle"
-                                      />
-                                    ))
-                                  }
-                                </div>
-                                <span className="ml-2 txtText900 fweight-500">
-                                  {translateTo('Brixel Support', lang)}
-                                </span>
-                              </div>
+                              {
+                                !history.location.pathname.toLowerCase().includes('packageflow/brixelboutique') && (
+                                  <div
+                                    className={`supportBubble  jc-b a-c cur-poi bgWhite p-1 brdFullRadius zIndex1 pr-2 shadow-2dp ${showSupport ? 'hide' : 'dis-f'}`}
+                                    onClick={() => contactModal()}
+                                  >
+                                    <div className="dis-f jc-b a-c">
+                                      {
+                                        teamAvatars.map((imgTeam, i) => (
+                                          <BrixelImage
+                                            loading="lazy"
+                                            key={`avt_${i.toString()}`}
+                                            url={imgTeam.url}
+                                            size={'XS'}
+                                            alt="Support Team"
+                                            className="w-fix-32 mr-1-neg square brdLarge brdWhite brdCircle"
+                                          />
+                                        ))
+                                      }
+                                    </div>
+                                    <span className="ml-2 txtText900 fweight-500">
+                                      {translateTo('Brixel Support', lang)}
+                                    </span>
+                                  </div>
+                                )
+                              }
                             </>
                           )
                         }
@@ -859,15 +863,17 @@ const App = (props: AppType) => {
             </div>
           </div>
 
-          { /* SECTION: ACHIVEMENT FLOW */ }
+          { /* SECTION: ACHIVEMENT FLOW */}
           <Routes>
             <Route
               path="/:propID/singleFlow/achievement/bestimate/*"
               element={<ProtectedRoute><Bestimate /></ProtectedRoute>}
             />
-            <Route path="/buyer/:propID/property/page/contact" element={<ProtectedRoute><AddContactBuyer /></ProtectedRoute>} />
+            <Route path="/buyer/:propID/property/page/contact"
+              element={<ProtectedRoute><AddContactBuyer /></ProtectedRoute>} />
             <Route path="/:propID/prospects/newDeal" element={<ProtectedRoute><CreateDeal /></ProtectedRoute>} />
-            <Route path="/:propID/property/price/proEstimation" element={<ProtectedRoute><ProEstimationFlow /></ProtectedRoute>} />
+            <Route path="/:propID/property/price/proEstimation"
+              element={<ProtectedRoute><ProEstimationFlow /></ProtectedRoute>} />
             <Route path="*" element={null} />
           </Routes>
 
