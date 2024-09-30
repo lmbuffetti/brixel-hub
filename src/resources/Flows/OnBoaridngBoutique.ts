@@ -67,26 +67,6 @@ export const QuestionsList: (lang: string, country: string, changeValue: (field:
 
   const question: QuestionsListType[] = [
     {
-      condition: [{
-        name: 'owner',
-        value: null,
-      }],
-      //background: 'bgCardGreen',
-      history: 'createProfile',
-      component: LoginSignup,
-      signupTitle: translateTo('Create your profile to save your progress.', lang),
-      loginTitle: translateTo('Login to your profile to save your progress.', lang),
-      cardType: 'createProfile',
-      inputs: [{
-        skipPhone: true,
-        component: LoginSignup,
-        pageType: 'boutique',
-        name: 'register.name',
-        validation: [Validation.required],
-      }],
-    },
-    /* subtitle: translateTo('Choose between apartment, house, building land and commercial.'), */
-    {
       title: translateTo('What type of property would you like to sell?', lang),
       history: 'propertyType',
       footerWidth: 'ml-a mr-a max-w-fix-576',
@@ -250,7 +230,6 @@ export const QuestionsList: (lang: string, country: string, changeValue: (field:
           name: 'owner',
           value: null,
         }],
-        //background: 'bgCardGreen',
         history: 'createProfile',
         component: LoginSignup,
         signupTitle: translateTo('Create your profile to save your progress.', lang),
@@ -259,6 +238,7 @@ export const QuestionsList: (lang: string, country: string, changeValue: (field:
         inputs: [{
           skipPhone: true,
           component: LoginSignup,
+          pageType: 'boutique',
           name: 'register.name',
           validation: [Validation.required],
         }],
