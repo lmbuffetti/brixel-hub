@@ -1296,3 +1296,15 @@ input::-webkit-date-and-time-value {
 .lh-link {
   line-height: 18px;
 }
+
+@media (max-width: 768px) {
+  .brixelBoutique .signUpScreen {
+    flex-direction: column-reverse;
+  }
+  .singleStep {
+    padding-top: 0px !important;
+  }
+  .benifitSlider {
+    padding-bottom: $step !important;
+  }
+}
