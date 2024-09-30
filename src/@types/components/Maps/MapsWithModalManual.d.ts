@@ -10,6 +10,7 @@ export interface MapsWithModalManualType {
   formName: string;
   formValue: PropertyListType;
   lang: string;
+  modalTitle?: string;
   showMap?: boolean;
   syncErrors: object;
   windowDimensions: {

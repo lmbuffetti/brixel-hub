@@ -30,5 +30,6 @@ export interface LoginSignupType {
   onChangeLogin?: (page: string) => void
   onDisableValidation?: (val: boolean) => void
   onSubmit?: (val: string) => void
+  pageType?: 'boutique';
   skipPhone?: boolean;
 }

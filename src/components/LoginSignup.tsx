@@ -18,6 +18,9 @@ import iconCalendar from '../images/getstarted/signup/Brixel-Icons-calendar.svg'
 import valuationIcon from '../images/getstarted/signup/Brixel-Icons-valuation.svg';
 import iconFinance from '../images/getstarted/signup/Brixel-Icons-finance.svg';
 import iconOffer from '../images/getstarted/signup/Brixel-Icons-offer.svg';
+import iconExperts from '../images/getstarted/signup/Brixel-Icons-experts.svg';
+import iconMarketing from '../images/getstarted/signup/Brixel-Icons-marketing.svg';
+import iconPresentation from '../images/getstarted/signup/Brixel-Icons-presentation.svg';
 
 import translateTo from '../utils/translation';
 import type {LoginSignupType} from '../@types/components/LoginSignup';
@@ -42,9 +45,11 @@ const LoginSignup = (props: LoginSignupType) => {
     onChangeLogin = () => '',
     onDisableValidation = () => '',
     onSubmit = () => '',
+    pageType,
     skipPhone = false,
     windowDimensions,
   } = props;
+
   const history = {
     push: useNavigate(),
     location: useLocation(),
@@ -195,7 +200,7 @@ const LoginSignup = (props: LoginSignupType) => {
             setDisabledButton(true);
             onSubmitForm();
           },
-          label: translateTo('Sign up', lang),
+          label: pageType === 'boutique' ? translateTo('Register here', lang) : translateTo('Sign up', lang),
         };
     }
   };
@@ -230,9 +235,9 @@ const LoginSignup = (props: LoginSignupType) => {
         icon3: iconCalendar,
         icon4: iconFinance,
       } : {
-        icon1: iconOffer,
-        icon2: iconHand,
-        icon3: iconCalc,
+        icon1: pageType === 'boutique' ? iconPresentation : iconOffer,
+        icon2: pageType === 'boutique' ? iconMarketing : iconHand,
+        icon3: pageType === 'boutique' ? iconExperts : iconCalc,
       },
     };
 
@@ -263,9 +268,9 @@ const LoginSignup = (props: LoginSignupType) => {
         text3: 'Request a visit appointment directly',
         text4: 'Access to the most relevant documents',
       } : {
-        text1: 'Get personal support from A to Z',
-        text2: 'Stay in the loop with your customer portal',
-        text3: 'Sell without an exclusive brokerage contract',
+        text1: pageType === 'boutique' ? 'Unique presentation': 'Get personal support from A to Z',
+        text2: pageType === 'boutique' ? 'Bespoken marketing': 'Stay in the loop with your customer portal',
+        text3: pageType === 'boutique' ? 'Your personal experts': 'Sell without an exclusive brokerage contract',
       },
     };
 
@@ -415,7 +420,7 @@ const LoginSignup = (props: LoginSignupType) => {
           footnoteDescription: 'Due to our privacy policy, only registered users have access to sensitive documents and data.',
         },
         false: {
-          topTitle: 'What are my advantages?',
+          topTitle: pageType === 'boutique' ? 'What are my benefits?' : 'What are my advantages?',
           topSubtitle: '',
           footnoteTitle: '',
           footnoteDescription: '',
@@ -493,6 +498,7 @@ const LoginSignup = (props: LoginSignupType) => {
                         isBuyer={isBuyer}
                         showErrors={showErrors}
                         lang={lang}
+                        pageType={pageType}
                         // validateEmail
                         skipPhone={skipPhone}
                       />
@@ -545,7 +551,13 @@ const LoginSignup = (props: LoginSignupType) => {
                 {
                   (loginPage === 'register' || loginPage === 'reset') && (
                     <p className="">
-                      <span>{translateTo('Already have an account?', lang)}</span>
+                      {
+                        pageType === 'boutique' ? (
+                          <span>{translateTo('Do you already have an account?', lang)}</span>
+                        ) : (
+                          <span>{translateTo('Already have an account?', lang)}</span>
+                        )
+                      }
                       <span>&nbsp;</span>
                       <span className="cur-poi " onClick={() => changeScreen('login')}>
                         <span className='td-u'>{translateTo('Login here', lang)}</span>

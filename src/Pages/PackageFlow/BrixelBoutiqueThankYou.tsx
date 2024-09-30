@@ -34,7 +34,7 @@ const BrixelBoutiqueThankYou = (props: BrixelBoutiqueThankYouType) => {
 
       <div className="mt-10">
         <b className="ta-c dis-b">
-          {translateTo('Feel free to contact us in the meantime', lang)}
+          {translateTo('Feel free to contact us.', lang)}
         </b>
 
         <div className="dis-f a-c jc-b mt-3">
@@ -43,7 +43,7 @@ const BrixelBoutiqueThankYou = (props: BrixelBoutiqueThankYouType) => {
             <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0 ta-c-md">
               <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0 mt-3">
 
-                <h6>{translateTo('Call Us', lang)}</h6>
+                <h6>{translateTo('Give us a call', lang)}</h6>
                 <BrixelButtonText
                   bgTransparent
                   onClick={() => window.location.assign(Helpers.telephoneFormat(get(activeSingleCompany, 'contact.phone', ''), false, false, true))}
@@ -57,7 +57,7 @@ const BrixelBoutiqueThankYou = (props: BrixelBoutiqueThankYouType) => {
             <img loading="lazy" className="w-fix-56 w-fix-lg-104" src={MessageIcon} alt="Call Us" />
             <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0 mt-3">
 
-              <h6>{translateTo('Text us via WhatsApp', lang)}</h6>
+              <h6>{translateTo('Message us on WhatsApp', lang)}</h6>
               <BrixelButtonText
                 bgTransparent
                 onClick={() => window.location.assign(Helpers.telephoneFormat(get(activeSingleCompany, 'contact.whatsapp', ''), false, false, true))}
@@ -70,7 +70,7 @@ const BrixelBoutiqueThankYou = (props: BrixelBoutiqueThankYouType) => {
             <img loading="lazy" className="w-fix-56 w-fix-lg-104" src={MailIcon} alt="Call Us" />
             <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0 mt-3">
 
-              <h6>{translateTo('Write Us', lang)}</h6>
+              <h6>{translateTo('Send us an email', lang)}</h6>
               <BrixelButtonText
                 bgTransparent
                 onClick={() => window.location.assign(`mailto:${get(activeSingleCompany, 'contact.email', '')}`)}
