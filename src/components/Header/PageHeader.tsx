@@ -278,7 +278,6 @@ function PageHeader(props: PageHeaderType) {
                       <img
                         loading="lazy"
                         className={`${windowDimensions.width <= 590 ? 'max-w-fix-32' : ''} pos-r cur-poi`}
-                        style={{ height: windowDimensions.width <= 590 ? '' : '27px' }}
                         src={logoScribble}
                         alt="Brixel Logo"
                         id="logo"

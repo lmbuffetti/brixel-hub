@@ -224,13 +224,11 @@ const GetStartedBrixelBoutique = (props: GetStartedBrixelBoutiqueType) => {
   useEffect(() => {
     // GET THE COMPANY BY URL OR COOKIE
     const companyByUrl = queryString.parse(get(history, 'location.search', ''));
-    const companyCookie = cookie.get('brixelStubCompany') || null;
     const channelCookie = cookie.get('brixelChannelSignup') || null;
-    let defComp = get(companyByUrl, 'company', companyStub) || companyCookie;
+    let defComp = get(companyByUrl, 'company', companyStub);
     if (companyStub && companyStub !== get(questions, '[0].history', null)) defComp = companyStub;
     if (defComp) {
       handleGetActiveSingleCompany({ stub: defComp || 'default' });
-      setCookie('brixelStubCompany', defComp);
       changeFieldValue('company', defComp);
       if (currentIndex < 1) {
         history.push(`/packageFlow/brixelBoutique/${get(questions, '[0].history', null)}`);
@@ -244,7 +242,6 @@ const GetStartedBrixelBoutique = (props: GetStartedBrixelBoutiqueType) => {
     if (get(companyByUrl, 'channel', channelCookie)) {
       const defChan = get(companyByUrl, 'channel', channelCookie);
       changeFieldValue('channel', defChan);
-      setCookie('brixelChannelSignup', defChan);
     } else {
       changeFieldValue('channel', channelCookie);
     }

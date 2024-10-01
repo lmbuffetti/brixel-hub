@@ -586,7 +586,7 @@ const LoginSignup = (props: LoginSignupType) => {
       <div className="dis-fl-col w-perc-100 w-perc-md-45 bgGreen25 a-c a-bl-md p-2 py-4 p-sm-4 p-lg-8 benifitSlider">
 
         <div className="topPart ta-c ta-l-md pb-2 pb-md-4">
-          {topTitle && (<span className="fsize-500 fsize-sm-600 fweight-600"> {translateTo(topTitle, lang)} </span>)}
+          {topTitle && (<span className="fsize-500 fsize-sm-600 fweight-600 boutiqueFont"> {translateTo(topTitle, lang)} </span>)}
           {topSubtitle && (<p className='fsize-400 fsize-sm-500 pt-1'>{translateTo(topSubtitle, lang)}</p>)}
         </div>
 

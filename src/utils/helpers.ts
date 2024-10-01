@@ -371,7 +371,7 @@ export const redirectUrl = (link, options) => {
   } = options;
   if (url) return url;
   if (link.toLowerCase().includes('packageflow/brixelboutique')) {
-    return 'https://boutique.brixel.io';
+    return 'https://boutique.brixel.ch';
   } else if (
     link.toLowerCase().includes('getstartedbuyer') ||
     link.toLowerCase().includes('visitfeedback')

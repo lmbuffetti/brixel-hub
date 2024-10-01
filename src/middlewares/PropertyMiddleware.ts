@@ -54,11 +54,19 @@ const checkCommon = (store) => (next) => (action) => {
     // DISPATCH TO CREATE SINGLE PROPERTY - used on onBoarding
     case CREATE_ACTIVE_SINGLE_PROPERTY: {
       next(action);
-      const objData = action.payload;
+      const objData = {...action.payload};
       const {
-        getEstimation, token, redirectToUserFlow, redirectToRewards,
-        redirectToHome, smallLoader, createEstimation, redirectToUrl,
-        extraLoading, baloiseInfo, termsUBS,
+        baloiseInfo,
+        createEstimation,
+        extraLoading,
+        getEstimation,
+        redirectToHome,
+        redirectToRewards,
+        redirectToUrl,
+        redirectToUserFlow,
+        smallLoader,
+        termsUBS,
+        token,
       } = objData;
       delete objData.getEstimation;
       delete objData.token;
@@ -85,7 +93,7 @@ const checkCommon = (store) => (next) => (action) => {
       api.property.addProperty(objData, token)
         .then((res) => {
           // store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: res.data });
-          if (!res.data.id) {
+          if (!res.data?.id) {
             store.dispatch({
               type: SET_MODAL,
               payload: {
@@ -110,8 +118,19 @@ const checkCommon = (store) => (next) => (action) => {
               store.dispatch({ type: SPINNER_OFF });
             }
           } else {
-            store.dispatch(change('GetStarted', 'pageID', res.data.id));
-            store.dispatch(change('GetStarted', 'pageAnswer', res.data.packageFlowProcess));
+            if (smallLoader) {
+              store.dispatch({
+                type: SPINNER_SMALL,
+                payload: {
+                  savedData: true,
+                  [smallLoader]: false,
+                },
+              });
+            } else {
+              store.dispatch({
+                type: SPINNER_OFF,
+              });
+            }
             if (baloiseInfo) {
               const data = {
                 id: res.data.owner,
@@ -188,26 +207,9 @@ const checkCommon = (store) => (next) => (action) => {
                 },
               });
               window.location.assign('/onBoarding/brixelComingInTown');
-            } else if (smallLoader) {
-              store.dispatch({
-                type: SPINNER_SMALL,
-                payload: {
-                  [smallLoader]: false,
-                },
-              });
-            } else {
-              store.dispatch({
-                type: SPINNER_OFF,
-              });
             }
-            if (smallLoader) {
-              store.dispatch({
-                type: SPINNER_SMALL,
-                payload: {
-                  savedData: true,
-                },
-              });
-            }
+            store.dispatch(change('GetStarted', 'pageID', res.data.id));
+            store.dispatch(change('GetStarted', 'pageAnswer', res.data.packageFlowProcess));
           }
           // store.dispatch(reset('Property'));
         })

@@ -69,8 +69,11 @@ body {
 .brixelBoutique h3.boutiqueFont,
 .brixelBoutique h4.boutiqueFont,
 .brixelBoutique h5.boutiqueFont,
-.brixelBoutique h6.boutiqueFont{
+.brixelBoutique h6.boutiqueFont,
+.brixelBoutique p.boutiqueFont,
+.brixelBoutique span.boutiqueFont {
   font-family: 'EB Garamond';
+  font-weight: 400;
 }
 
 html {

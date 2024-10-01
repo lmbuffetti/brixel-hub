@@ -567,7 +567,7 @@ const FlowScreen = (props: FlowScreenType) => {
                             theme="green"
                             disabled={!isSaveEnable}
                             label={saveLabel ? translateTo(saveLabel, lang) : translateTo(buttonLabel(), lang)}
-                            isLoading={isSmallLoading.sendData}
+                            isLoading={isSmallLoading.sendData || isSmallLoading.savingData}
                             rightIcon="arrow-right-small"
                             onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
                             onShowError={() => setShowError(true)}
@@ -588,6 +588,7 @@ const FlowScreen = (props: FlowScreenType) => {
                                             key="btn1"
                                             onClick={() => btn.func()}
                                             label={translateTo(btn.label, lang)}
+                                            isLoading={isSmallLoading.sendData || isSmallLoading.savingData}
                                           />
                                         )
                                       }
