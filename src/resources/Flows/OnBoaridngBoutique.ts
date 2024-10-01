@@ -139,7 +139,7 @@ export const QuestionsList: (lang: string, country: string, changeValue: (field:
           large: true,
           tooltip: {
             label: translateTo('What is this?', lang),
-            description: translateTo('The net living space is the part of the usable surface, which is specified for the primary use of the building. Included are entrance and courtyard, mobile walls, interior stairs, and fireplace. Excluded are external walls, internal walls, chimney, balcony, patio, attic, basement, rooms with room height under 1.2 m, and storerooms.', lang),
+            description: translateTo('The net living space is the part of the usable surface, which is specified for the primary use of the building. The entrance and courtyard, mobile walls, interior stairs, and fireplace are included. The external walls, internal walls, chimney, balcony, patio, attic, basement, rooms with room height under 1.2 m, and storerooms are excluded.', lang),
           },
         },
       ],

@@ -29,12 +29,12 @@ const BrixelBoutiqueThankYou = (props: BrixelBoutiqueThankYouType) => {
       <div className="ta-c">
         <img src={ThankYouImg} />
         <h2 className="boutiqueFont mt-5">{translateTo('Thank You', lang)}</h2>
-        <p className="mt-2">{translateTo('Our Boutique local experts will contact you shortly to clarify any questions and to proceed with the next steps.', lang)}</p>
+        <p className="mt-2">{translateTo('Our Boutique experts will contact you shortly to clarify any questions and to proceed with the next steps.', lang)}</p>
       </div>
 
       <div className="mt-10">
         <b className="ta-c dis-b">
-          {translateTo('Feel free to contact us.', lang)}
+          {translateTo('We look forward to hearing you', lang)}
         </b>
 
         <div className="dis-f a-c jc-b mt-3">
@@ -70,7 +70,7 @@ const BrixelBoutiqueThankYou = (props: BrixelBoutiqueThankYouType) => {
             <img loading="lazy" className="w-fix-56 w-fix-lg-104" src={MailIcon} alt="Call Us" />
             <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0 mt-3">
 
-              <h6>{translateTo('Write Us', lang)}</h6>
+              <h6>{translateTo('Send us an email', lang)}</h6>
               <BrixelButtonText
                 bgTransparent
                 onClick={() => window.location.assign(`mailto:${get(activeSingleCompany, 'contact.email', '')}`)}
