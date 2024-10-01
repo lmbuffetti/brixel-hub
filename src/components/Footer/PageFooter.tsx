@@ -28,7 +28,10 @@ function PageFooter(props: PageFooterType) {
           {
             activeSingleCompany.stub === 'brixel_boutique' ? (
               <div>
-                <span className="mr-2 fsize-300 txtText400">{translateTo('Boutique is part of Brixel', lang)}</span>
+                <span className="fsize-300 txtText400">{translateTo('Boutique is part of', lang)}</span>
+                <a href="https://brixel.ch" className="fsize-300 txtText400 link ml-small-4 td-u" target="_blank" rel="noreferrer">
+                  Brixel
+                </a>
               </div>
             ) : (
               <>
