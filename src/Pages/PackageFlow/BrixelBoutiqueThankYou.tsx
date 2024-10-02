@@ -34,7 +34,7 @@ const BrixelBoutiqueThankYou = (props: BrixelBoutiqueThankYouType) => {
 
       <div className="mt-10">
         <b className="ta-c dis-b">
-          {translateTo('We look forward to hearing you', lang)}
+          {translateTo('We look forward to hearing from you', lang)}
         </b>
 
         <div className="dis-f a-c jc-b mt-3">
