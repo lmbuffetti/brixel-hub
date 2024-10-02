@@ -45,7 +45,7 @@ function RightHeaderFlow(props: RightHeaderFlowType) {
       localStorage.setItem('backUrl', url.toString());
       localStorage.setItem('backUrlBis', url.toString());
     }
-    if (history.location.pathname.includes('visitFeedbackss')) {
+    if (history.location.pathname.includes('visitFeedbackss') || history.location.pathname.toLowerCase().includes('brixelboutique')) {
       setHideLang(true);
     } else {
       setHideLang(false);
@@ -138,7 +138,7 @@ function RightHeaderFlow(props: RightHeaderFlowType) {
         }
       </div>
       {
-        loggedInUser?.id && (
+        (loggedInUser?.id || history.location.pathname.toLowerCase().includes('brixelboutique')) && (
           <div className="ml-1">
             <BrixelButtonIcon
               ghost

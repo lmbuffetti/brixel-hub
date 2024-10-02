@@ -112,7 +112,7 @@ export const QuestionsList: (lang: string, country: string, changeValue: (field:
           large: true,
           tooltip: {
             label: translateTo('What is this?', lang),
-            description: translateTo('Enter the number of rooms that have a minimum surface of 8 m². Kitchen and bathrooms are not counted as a proper room.', lang),
+            description: translateTo('The number of rooms are counted by the number of rooms that have a minimum surface of 8 m². Kitchen and bathrooms are not counted as a proper room.', lang),
           },
         },
       ],

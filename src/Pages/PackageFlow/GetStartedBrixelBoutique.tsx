@@ -396,7 +396,7 @@ const mapStateToProps = (state, ownProps) => {
     },
     isLoading: get(state, 'common.isLoading', 0) > 0,
     isTest: get(state, 'common.isTest', false),
-    lang: get(state, 'common.language', 'en'),
+    lang: get(state, 'common.language', 'de'),
     loggedInUser: get(state, 'user.loggedInUser.user', {}),
     packagesProperty: get(state, 'property.packagesProperty', []),
     startForm: get(state, 'brixelForm.GetStarted', null),
