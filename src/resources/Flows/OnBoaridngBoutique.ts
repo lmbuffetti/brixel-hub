@@ -180,7 +180,7 @@ export const QuestionsList: (lang: string, country: string, changeValue: (field:
             showMap: false,
             name: 'location.searchAddress',
             type: 'Map',
-            placeholder: 'Write the street name',
+            placeholder: translateTo('Write the street name', lang),
             classNameBox: 'brdRadius max-w-fix-600 w-perc-100 px-2 px-sm-5 py-5 brdRadius fieldHolder bgWhite m-a',
             classBoxWrapper: 'mt-0 searchMapFields',
             onSelectAddress: (val) => changeValue('location', val),
