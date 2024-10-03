@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import {
-  BrixelButtonPrimary,
   BrixelButtonSecondary,
   Helpers,
 } from '@brixel-io/brixel-components';
@@ -17,11 +16,6 @@ import BannerBox from '../../../components/CraftCMS/BannerBox';
 
 import Loading from '../../../components/Loading';
 import financingSvg from '../../../images/dashboard/financingDashboard.svg';
-import scheduleSvg from '../../../images/dashboard/PropertyVisit.svg';
-import scheduleAcceptedSvg from '../../../images/dashboard/PropertyConfimedVisit.svg';
-import PropertyCalendarSvg from '../../../images/dashboard/PropertyCalendar.svg';
-import PropertyVisitedSvg from '../../../images/dashboard/propertyVisited.svg';
-import PropertyCanceledSvg from '../../../images/dashboard/scheduleCanceled.svg';
 import {getCookie, setCookie} from '../../../utils/helpers';
 import translateTo from '../../../utils/translation';
 import type {ContactType} from '../../../@types/Pages/Dashboard/Buyer/DashboardHome';
