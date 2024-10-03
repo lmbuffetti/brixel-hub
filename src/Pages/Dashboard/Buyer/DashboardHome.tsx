@@ -114,7 +114,7 @@ const DashboardHome = (props: ContactType) => {
                 visitStatus?.status === 'cancelled' && (
                   <div
                     className="cardWithBg rightPosBg"
-                    style={{ backgroundImage: `url(${PropertyCanceledSvg})` }}
+                    style={{backgroundImage: `url(${PropertyCanceledSvg})`}}
                   >
                     <div className="dis-fl-col max-w-perc-100">
                       <h5 className="fweight-600">
@@ -142,7 +142,7 @@ const DashboardHome = (props: ContactType) => {
                 visitStatus?.status === 'accepted' && (
                   <div
                     className="cardWithBg"
-                    style={{ backgroundImage: `url(${scheduleAcceptedSvg})` }}
+                    style={{backgroundImage: `url(${scheduleAcceptedSvg})`}}
                   >
                     <div className="dis-fl-col max-w-perc-100">
                       <h5 className="fweight-600">
@@ -152,7 +152,7 @@ const DashboardHome = (props: ContactType) => {
                         {
                           scheduleVisit && (
                             <h5 className="pr-2 txtGreen400 fweight-600 mb-3">
-                              {DateTime.fromMillis(scheduleVisit[0].visit.date).toFormat('dd LLL yyyy, HH:mm', { locale: lang})}
+                              {DateTime.fromMillis(scheduleVisit[0].visit.date).toFormat('dd LLL yyyy, HH:mm', {locale: lang})}
                             </h5>
                           )
                         }
@@ -173,7 +173,7 @@ const DashboardHome = (props: ContactType) => {
                 visitStatus?.status === 'visited' && (
                   <div
                     className="cardWithBg rightPosBg"
-                    style={{ backgroundImage: `url(${PropertyVisitedSvg})` }}
+                    style={{backgroundImage: `url(${PropertyVisitedSvg})`}}
                   >
                     <div className="dis-fl-col max-w-perc-100">
                       <h5 className="fweight-600">
@@ -206,7 +206,7 @@ const DashboardHome = (props: ContactType) => {
                       scheduleVisit && scheduleVisit[0]?.buyerAvailability.length > 0 ? (
                         <div
                           className="cardWithBg"
-                          style={{ backgroundImage: `url(${scheduleSvg})` }}
+                          style={{backgroundImage: `url(${scheduleSvg})`}}
                         >
                           <div className="dis-fl-col ">
                             <h5 className="fweight-600">
@@ -227,10 +227,10 @@ const DashboardHome = (props: ContactType) => {
                             />
                           </div>
                         </div>
-                      )  : (
+                      ) : (
                         <div
                           className="cardWithBg"
-                          style={{backgroundImage: `url(${PropertyCalendarSvg})` }}
+                          style={{backgroundImage: `url(${PropertyCalendarSvg})`}}
                         >
                           <div className="dis-fl-col ">
                             <h5 className="fweight-600">
@@ -260,12 +260,176 @@ const DashboardHome = (props: ContactType) => {
             </button>
 
             <button
+              className={`shadow-2dp brdRadius dis-f jc-b pt-2 pl-2 pl-sm-3 ml-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi ta-l ${visitStatus?.bg} ${visitStatus?.status === 'pending' ? 'bgWhite' : ''}`}
+            >
+              {
+                (!scheduleVisit) && (
+                  <div className="dis-fl-col w-perc-100 pr-2 pr-sm-3">
+                    <div className="skeletonh4" />
+                    <div className="skeletonh4 mt-1" />
+                    <div className="skeletonSmall mt-2" />
+                  </div>
+                )
+              }
+              {
+                visitStatus?.status === 'cancelled' && (
+                  <div
+                    className="cardWithBg rightPosBg"
+                    style={{backgroundImage: `url(${PropertyCanceledSvg})`}}
+                  >
+                    <div className="dis-fl-col max-w-perc-100">
+                      <h5 className="fweight-600">
+                        {translateTo('Your visit has been cancelled', lang)}
+                      </h5>
+                      <div className="dis-f a-c max-w-perc-80 mt-1">
+                        <p className="pr-2 mb-3">
+                          {translateTo('Please contact our team for more details.', lang)}
+                        </p>
+                      </div>
+
+                      <div className="mt-a">
+                        <BrixelButtonPrimary
+                          label={translateTo('Request new visit', lang)}
+                          rounded
+                          leftIcon="plus"
+                          onClick={() => history.push(`/buyer/${propID}/scheduleVisit/addDate`)}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )
+              }
+              {
+                visitStatus?.status === 'accepted' && (
+                  <div
+                    className="cardWithBg"
+                    style={{backgroundImage: `url(${scheduleAcceptedSvg})`}}
+                  >
+                    <div className="dis-fl-col max-w-perc-100">
+                      <h5 className="fweight-600">
+                        {translateTo('Your visit is confirmed', lang)}
+                      </h5>
+                      <div className="dis-f a-c max-w-perc-80 mt-1">
+                        {
+                          scheduleVisit && (
+                            <h5 className="pr-2 txtGreen400 fweight-600 mb-3">
+                              {DateTime.fromMillis(scheduleVisit[0].visit.date).toFormat('dd LLL yyyy, HH:mm', {locale: lang})}
+                            </h5>
+                          )
+                        }
+                      </div>
+
+                      <div className="mt-a">
+                        <BrixelButtonPrimary
+                          label={translateTo('View details', lang)}
+                          rounded
+                          onClick={() => history.push(`/buyer/${propID}/scheduleVisit`)}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )
+              }
+              {
+                visitStatus?.status === 'visited' && (
+                  <div
+                    className="cardWithBg rightPosBg"
+                    style={{backgroundImage: `url(${PropertyVisitedSvg})`}}
+                  >
+                    <div className="dis-fl-col max-w-perc-100">
+                      <h5 className="fweight-600">
+                        {translateTo('You visited the property', lang)}
+                      </h5>
+                      <div className="dis-f a-c max-w-perc-70 mt-1">
+                        <p className="pr-2 mb-3">
+                          {translateTo('We hope you had a great experience.', lang)}
+                        </p>
+                      </div>
+
+                      <div className="mt-a">
+                        <BrixelButtonSecondary
+                          className="max-w-perc-60 max-w-perc-lg-100"
+                          bgTransparent
+                          label={translateTo('Add new dates', lang)}
+                          leftIcon="plus"
+                          rounded
+                          onClick={() => history.push(`/buyer/${propID}/scheduleVisit/addDate`)}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )
+              }
+              {
+                visitStatus?.status === 'pending' && (
+                  <>
+                    {
+                      scheduleVisit && scheduleVisit[0]?.buyerAvailability.length > 0 ? (
+                        <div
+                          className="cardWithBg"
+                          style={{backgroundImage: `url(${scheduleSvg})`}}
+                        >
+                          <div className="dis-fl-col ">
+                            <h5 className="fweight-600">
+                              {translateTo('Thank you for your request', lang)}
+                            </h5>
+                            <div className="dis-f a-c max-w-perc-70 mt-1 mb-3">
+                              <p className="pr-2 fsize-300 txtText700">
+                                {translateTo('We will contact you shortly to confirm your visit.', lang)}
+                              </p>
+                            </div>
+
+                            <BrixelButtonSecondary
+                              bgTransparent
+                              onClick={() => history.push(`/buyer/${propID}/scheduleVisit`)}
+                              className="mt-a as-fs"
+                              rounded
+                              label={translateTo('View details', lang)}
+                            />
+                          </div>
+                        </div>
+                      ) : (
+                        <div
+                          className="cardWithBg"
+                          style={{backgroundImage: `url(${PropertyCalendarSvg})`}}
+                        >
+                          <div className="dis-fl-col ">
+                            <h5 className="fweight-600">
+                              {translateTo('Request a visit', lang)}
+                            </h5>
+                            <div className="dis-f a-c max-w-perc-70 mt-1 mb-3">
+                              <p className="pr-2 txtText700 fsize-300">
+                                {translateTo('Share your availability to visit your favourite property.', lang)}
+                              </p>
+                            </div>
+
+                            <BrixelButtonPrimary
+                              onClick={() => history.push(`/buyer/${propID}/scheduleVisit/addDate`)}
+                              className="mt-a as-fs"
+                              leftIcon="plus"
+                              rounded
+                              label={translateTo('Add dates', lang)}
+                            />
+                          </div>
+                        </div>
+                      )
+                    }
+                  </>
+
+                )
+              }
+            </button>
+          </div>
+
+          <div className="dis-fl-col dis-fl-row-sm mt-2">
+
+            <button
               onClick={() => history.push(`/buyer/${propID}/financing`)}
-              className="shadow-2dp brdRadius dis-f jc-b pt-2 px-2 px-sm-3 ml-sm-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi bgWhite ta-l"
+              className="shadow-2dp brdRadius dis-f jc-b pt-2 px-2 px-sm-3 mr-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi bgWhite ta-l"
             >
               <div
                 className="cardWithBg"
-                style={{ backgroundImage: `url(${financingSvg})` }}
+                style={{backgroundImage: `url(${financingSvg})`}}
               >
                 <div className="dis-fl-col max-w-perc-70">
                   <h5 className="fweight-600">
@@ -287,6 +451,7 @@ const DashboardHome = (props: ContactType) => {
               </div>
             </button>
           </div>
+
           {
             progressState.step < 5 && (
               <>
