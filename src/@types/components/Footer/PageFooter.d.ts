@@ -5,4 +5,5 @@ export interface PageFooterType {
   activeSingleCompany: CompanyType;
   className?: string;
   lang: string;
+  translations: object
 }

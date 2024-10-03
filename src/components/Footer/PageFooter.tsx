@@ -12,6 +12,7 @@ function PageFooter(props: PageFooterType) {
     activeSingleCompany,
     className = '',
     lang,
+    translations,
   } = props;
   // STATE
   const [activeCompanyData, setActiveCompanyData] = useState({});
@@ -19,7 +20,7 @@ function PageFooter(props: PageFooterType) {
   useEffect(() => {
     if (CompaniesData[activeSingleCompany.stub]) setActiveCompanyData(CompaniesData[activeSingleCompany.stub].footer);
     else setActiveCompanyData(CompaniesData.default.footer);
-  }, [activeSingleCompany.id]);
+  }, [activeSingleCompany.id, translations]);
 
   return (
     <>
@@ -102,6 +103,7 @@ function PageFooter(props: PageFooterType) {
 const mapStateToProps = (state) => ({
   activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   lang: get(state, 'common.language', {}),
+  translations: get(state, 'translations', {}),
 });
 
 export default connect(mapStateToProps, null)(PageFooter);
