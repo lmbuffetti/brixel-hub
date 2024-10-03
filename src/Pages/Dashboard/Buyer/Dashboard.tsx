@@ -24,6 +24,7 @@ const ScheduleVisit = lazy(() => import('./ScheduleVisit/ScheduleVisit'));
 const DocumentsBuyer = lazy(() => import('../../SingleProperty/Documents/DocumentsBuyer'));
 
 const Financing = lazy(() => import('./Financing'));
+const SingleOffer = lazy(() => import('./Offer/SingleOffer'));
 
 const Dashboard = (props: DashboardType) => {
   const history = {
@@ -146,6 +147,7 @@ const Dashboard = (props: DashboardType) => {
               <Route path="/scheduleVisit/*" element={<ScheduleVisit />} />
               <Route path="/docubox" element={<DocumentsBuyer />} />
               <Route path="/financing" element={<Financing />} />
+              <Route path="/offer/*" element={<SingleOffer />} />
               <Route path="*" element={<Navigate to={`/buyer/${propID}/home`} />} />
             </Routes>
           </Suspense>

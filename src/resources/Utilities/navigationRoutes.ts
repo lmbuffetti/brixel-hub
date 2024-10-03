@@ -65,7 +65,7 @@ export const sidebarNavigationSeller = [
     title: 'Offer',
     name: 'offer',
     icon: 'search-user',
-    path: '/:propID/offers',
+    path: '/:propID/offer',
   },
 ];
 

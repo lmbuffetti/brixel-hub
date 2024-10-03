@@ -6,14 +6,14 @@ import {
 } from '@brixel-io/brixel-components';
 import BrixelButtonSecondary from '@brixel-io/brixel-components/dist/components/BrixelButtonSecondary';
 
-type BannerBuyerByStatusType = {
+export type BannerBuyerByStatusType = {
   className?: string;
   customDescription?: string,
   history: any;
   isLoading: boolean;
   lang: string;
   propID: string
-  status: 'accepted' | 'cancelled' | 'pending' | 'visited' | 'default';
+  status: 'accepted' | 'cancelled' | 'pending' | 'visited' | 'default' | 'rejected';
   type: 'visit' | 'offer'
 }
 
@@ -28,7 +28,7 @@ const BannerBuyerByStatus = ({
   status,
 } : BannerBuyerByStatusType) => {
   const bannerData = BuyerBannerData(propID, customDescription)[type][status];
-  console.log(bannerData, status);
+
   return (
     <button
       className={`shadow-2dp brdRadius dis-f jc-b pt-2 pl-2 pl-sm-3 ${className} pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi ta-l ${bannerData.bg}`}

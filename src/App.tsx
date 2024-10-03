@@ -389,7 +389,7 @@ const App = (props: AppType) => {
   }, [redirectTo]);
 
   const mainClass = () => {
-    const mainPropertyClass = ['property', 'closing', 'docubox', 'prospects', 'prospect', 'financing', 'scheduleVisit', 'energy'];
+    const mainPropertyClass = ['property', 'closing', 'docubox', 'prospects', 'prospect', 'financing', 'scheduleVisit', 'energy', 'offer'];
     const isMainClass = mainPropertyClass.some((url) => history.location.pathname.includes(url));
 
     const homesClass = ['sell', 'buy'];

@@ -92,7 +92,7 @@ const BuyerBannerData = (propID, customDescription) => ({
       buttonIcon: '',
       buttonType: 'secondary',
     },
-    cancelled: {
+    rejected: {
       bg: 'bgRed50',
       title: 'Your offer was declined!',
       description: ['Feel free to propose a new price if you\'re still interested!'],

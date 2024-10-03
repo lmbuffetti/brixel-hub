@@ -1,7 +1,9 @@
 import {
   CompanyType,
   LoggedUserType,
-  PropertyType, ScheduleVisitRequestType,
+  StageOfferType,
+  PropertyType,
+  ScheduleVisitRequestType,
 } from '@brixel-io/brixel-components/dist/@types/Model';
 
 export interface ContactType {
@@ -13,6 +15,7 @@ export interface ContactType {
   };
   lang: string;
   loggedInUser: LoggedUserType;
+  offer: StageOfferType['offer']
   scheduleVisit: ScheduleVisitRequestType[] | null;
   userTypes?: string;
 }

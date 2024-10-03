@@ -19,7 +19,9 @@ import financingSvg from '../../../images/dashboard/financingDashboard.svg';
 import {getCookie, setCookie} from '../../../utils/helpers';
 import translateTo from '../../../utils/translation';
 import type {ContactType} from '../../../@types/Pages/Dashboard/Buyer/DashboardHome';
-import BannerBuyerByStatus from '../../../components/BannerBuyerByStatus/BannerBuyerByStatus';
+import BannerBuyerByStatus, {
+  BannerBuyerByStatusType,
+} from '../../../components/BannerBuyerByStatus/BannerBuyerByStatus';
 
 const DashboardHome = (props: ContactType) => {
   const history = {
@@ -34,11 +36,12 @@ const DashboardHome = (props: ContactType) => {
     isSmallLoading,
     lang,
     loggedInUser,
+    offer,
     scheduleVisit,
     userTypes = 'user',
   } = props;
   // STATE
-  const [visitStatus, setVisitStatus] = useState<{status: string; text: string; color: string;bg: string;}>();
+  const [visitStatus, setVisitStatus] = useState<{status: BannerBuyerByStatusType['status']; text: string; color: string;bg: string;}>();
   const [progressState, setProgressState] = useState({step: 1});
   const [showFirstWelcomMessage, setShowFirstWelcomMessage] = useState(false);
   const propID = get(match, 'propID', null);
@@ -115,7 +118,7 @@ const DashboardHome = (props: ContactType) => {
                   history={history}
                   lang={lang}
                   propID={propID}
-                  status={'cancelled'}
+                  status={offer.status || 'default'}
                   type="offer"
                   isLoading={!scheduleVisit}
                 />
@@ -221,6 +224,7 @@ const mapStateToProps = (state) => ({
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
   lang: get(state, 'common.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
+  offer: state?.deal?.activeSingleDeal?.closing?.stageOffer?.offer || {},
   scheduleVisit: get(state, 'deal.scheduleVisit', null),
   searchProfile: get(state, 'user.userSearchProfiles[0]', {}),
 });
