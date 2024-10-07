@@ -106,7 +106,7 @@ const DashboardHome = (props: ContactType) => {
                   status={visitStatus?.status || 'default'}
                   type="visit"
                   isLoading={!scheduleVisit}
-                  customDescription={scheduleVisit ? DateTime.fromMillis(scheduleVisit[0].visit.date).toFormat('dd LLL yyyy, HH:mm', {locale: lang}) : ''}
+                  customDescription={scheduleVisit && scheduleVisit[0] ? DateTime.fromMillis(scheduleVisit[0]?.visit?.date).toFormat('dd LLL yyyy, HH:mm', {locale: lang}) : ''}
                 />
               )
             }
