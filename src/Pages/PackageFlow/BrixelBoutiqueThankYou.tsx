@@ -37,44 +37,44 @@ const BrixelBoutiqueThankYou = (props: BrixelBoutiqueThankYouType) => {
           {translateTo('We look forward to hearing from you', lang)}
         </b>
 
-        <div className="dis-f a-c jc-b mt-3 flex-wrap">
-          <div className="dis-fl-row dis-fl-col-md a-c mb-2 mb-lg-0 ta-c-md mx-a">
+        <div className="dis-fl-col dis-fl-row-sm flex-wrap jc-b-sm jc-fs mt-3">
+          <div className="dis-fl-row dis-fl-col-md a-c mb-2 mb-lg-0 ta-c-sm">
             <img loading="lazy" className="w-fix-56 w-fix-lg-104" src={PhoneIcon} alt="Call Us" />
-            <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0 ta-c-md">
-              <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0 mt-3">
+            <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0 ta-c-sm">
+              <div className="dis-fl-col as-fs a-c-lg pl-2 pl-lg-0 mt-3">
 
                 <h6>{translateTo('Give us a call', lang)}</h6>
                 <BrixelButtonText
                   bgTransparent
                   onClick={() => window.location.assign(Helpers.telephoneFormat(get(activeSingleCompany, 'contact.phone', ''), false, false, true))}
-                  className="ml-a mr-a"
                   label={Helpers.telephoneFormat(get(activeSingleCompany, 'contact.phone', ''))}
                 />
               </div>
             </div>
           </div>
-          <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0 ta-c-md mx-a">
+          <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0 ta-c-sm">
             <img loading="lazy" className="w-fix-56 w-fix-lg-104" src={MessageIcon} alt="Call Us" />
-            <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0 mt-3">
+            <div className="dis-fl-col pl-2 pl-lg-0 mt-3">
 
               <h6>{translateTo('Message us on WhatsApp', lang)}</h6>
-              <BrixelButtonText
-                bgTransparent
-                onClick={() => window.open(`https://wa.me/${get(activeSingleCompany, 'contact.whatsapp.prefix', '')}${get(activeSingleCompany, 'contact.whatsapp.number', '')}`, '_blank')}
-                className="ml-a mr-a"
-                label={Helpers.telephoneFormat(get(activeSingleCompany, 'contact.whatsapp', ''))}
-              />
+              <div className='as-c-sm'>
+
+                <BrixelButtonText
+                  bgTransparent
+                  onClick={() => window.open(`https://wa.me/${get(activeSingleCompany, 'contact.whatsapp.prefix', '')}${get(activeSingleCompany, 'contact.whatsapp.number', '')}`, '_blank')}
+                  label={Helpers.telephoneFormat(get(activeSingleCompany, 'contact.whatsapp', ''))}
+                />
+              </div>
             </div>
           </div>
-          <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0 ta-c-md mx-a">
+          <div className="dis-fl-row dis-fl-col-md a-c mb-2 mb-lg-0 ta-c-sm">
             <img loading="lazy" className="w-fix-56 w-fix-lg-104" src={MailIcon} alt="Call Us" />
-            <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0 mt-3">
+            <div className="dis-fl-col as-fs a-c-lg pl-2 pl-lg-0 mt-3">
 
               <h6>{translateTo('Send us an email', lang)}</h6>
               <BrixelButtonText
                 bgTransparent
                 onClick={() => window.location.assign(`mailto:${get(activeSingleCompany, 'contact.email', '')}`)}
-                className="ml-a mr-a"
                 label={get(activeSingleCompany, 'contact.email', '')}
               />
             </div>
