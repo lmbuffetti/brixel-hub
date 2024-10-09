@@ -239,6 +239,7 @@ export const QuestionsList: (lang: string, country: string, changeValue: (field:
           skipPhone: true,
           component: LoginSignup,
           name: 'register.name',
+          pageType: 'boutique',
           validation: [Validation.required],
         }],
       },
