@@ -56,7 +56,7 @@ const ReviewOffer = (props: ReviewOfferType) => {
       const dataForm = cloneDeep(formValue);
       dataForm.status = action;
       dataForm.id = activeSingleDeal.id;
-      const newDealData = cloneDeep(activeSingleDeal);
+      const newDealData: any = cloneDeep(activeSingleDeal);
       dataForm.action = action;
       if (action === 'saveNote') {
         dataForm.smallLoader = 'saveOffer';

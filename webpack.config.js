@@ -55,7 +55,7 @@ const clientConfig = (env) => {
       },
       liveReload: true,
       compress: ModeType(testMode) === 'full',
-      port: 5500,
+      port: 5050,
       historyApiFallback: true,
       open: ModeType(testMode) === 'dev',
     },

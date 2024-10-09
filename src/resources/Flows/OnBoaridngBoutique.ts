@@ -66,8 +66,9 @@ export const QuestionsList: (lang: string, country: string, changeValue: (field:
   ];
 
   const question: QuestionsListType[] = [
+    /* subtitle: translateTo('Choose between apartment, house, building land and commercial.'), */
     {
-      title: translateTo('What type of property would you like to sell?', lang),
+      title: translateTo('What do you want to sell?', lang),
       history: 'propertyType',
       footerWidth: 'ml-a mr-a max-w-fix-576',
       hideBackArrow: true,
@@ -91,7 +92,7 @@ export const QuestionsList: (lang: string, country: string, changeValue: (field:
       successMessage: translateTo('Ok. Got it.', lang),
     },
     {
-      title: translateTo('How many rooms are in the property?', lang),
+      title: translateTo('How many rooms?', lang),
       history: 'allRooms',
       cardType: 'allRooms',
       footerWidth: 'max-w-fix-384',
@@ -112,7 +113,7 @@ export const QuestionsList: (lang: string, country: string, changeValue: (field:
           large: true,
           tooltip: {
             label: translateTo('What is this?', lang),
-            description: translateTo('The number of rooms are counted by the number of rooms that have a minimum surface of 8 m². Kitchen and bathrooms are not counted as a proper room.', lang),
+            description: translateTo('Enter the number of rooms that have a minimum surface of 8 m². Kitchen and bathrooms are not counted as a proper room.', lang),
           },
         },
       ],
@@ -139,7 +140,7 @@ export const QuestionsList: (lang: string, country: string, changeValue: (field:
           large: true,
           tooltip: {
             label: translateTo('What is this?', lang),
-            description: translateTo('The net living space is the part of the usable surface, which is specified for the primary use of the building. The entrance and courtyard, mobile walls, interior stairs, and fireplace are included. The external walls, internal walls, chimney, balcony, patio, attic, basement, rooms with room height under 1.2 m, and storerooms are excluded.', lang),
+            description: translateTo('The net living space is the part of the usable surface, which is specified for the primary use of the building. Included are entrance and courtyard, mobile walls, interior stairs, and fireplace. Excluded are external walls, internal walls, chimney, balcony, patio, attic, basement, rooms with room height under 1.2 m, and storerooms.', lang),
           },
         },
       ],
@@ -170,7 +171,7 @@ export const QuestionsList: (lang: string, country: string, changeValue: (field:
   if (propertyType) {
     question.push(
       {
-        title: translateTo('Where is the property located?', lang),
+        title: translateTo('What is the location?', lang),
         history: 'locationInput',
         cardType: 'locationInput',
         footerWidth: 'max-w-fix-600',
@@ -180,7 +181,6 @@ export const QuestionsList: (lang: string, country: string, changeValue: (field:
             showMap: false,
             name: 'location.searchAddress',
             type: 'Map',
-            placeholder: translateTo('Write the street name', lang),
             classNameBox: 'brdRadius max-w-fix-600 w-perc-100 px-2 px-sm-5 py-5 brdRadius fieldHolder bgWhite m-a',
             classBoxWrapper: 'mt-0 searchMapFields',
             onSelectAddress: (val) => changeValue('location', val),
@@ -198,7 +198,7 @@ export const QuestionsList: (lang: string, country: string, changeValue: (field:
         ],
       },
       {
-        title: translateTo('Is this the correct location?', lang),
+        title: translateTo('Is this your correct location?', lang),
         history: 'locationInputResume',
         cardType: 'locationInputResume',
         footerWidth: 'max-w-fix-600',
@@ -211,7 +211,6 @@ export const QuestionsList: (lang: string, country: string, changeValue: (field:
             classBoxWrapper: 'brdRadius max-w-fix-600 w-perc-100 pb-3 pb-sm-5 brdRadius fieldHolder bgWhite m-a',
             widthBox: '100',
             mapOptions: {
-              modalTitle: translateTo('Location', lang),
               showMap: true,
               hideSearch: true,
               showSelectCountry: false,
@@ -230,6 +229,7 @@ export const QuestionsList: (lang: string, country: string, changeValue: (field:
           name: 'owner',
           value: null,
         }],
+        //background: 'bgCardGreen',
         history: 'createProfile',
         component: LoginSignup,
         signupTitle: translateTo('Create your profile to save your progress.', lang),
@@ -238,7 +238,6 @@ export const QuestionsList: (lang: string, country: string, changeValue: (field:
         inputs: [{
           skipPhone: true,
           component: LoginSignup,
-          pageType: 'boutique',
           name: 'register.name',
           validation: [Validation.required],
         }],

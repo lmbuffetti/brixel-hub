@@ -37,8 +37,8 @@ const BrixelBoutiqueThankYou = (props: BrixelBoutiqueThankYouType) => {
           {translateTo('We look forward to hearing from you', lang)}
         </b>
 
-        <div className="dis-f a-c jc-b mt-3">
-          <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0 ta-c-md">
+        <div className="dis-f a-c jc-b mt-3 flex-wrap">
+          <div className="dis-fl-row dis-fl-col-md a-c mb-2 mb-lg-0 ta-c-md mx-a">
             <img loading="lazy" className="w-fix-56 w-fix-lg-104" src={PhoneIcon} alt="Call Us" />
             <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0 ta-c-md">
               <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0 mt-3">
@@ -53,7 +53,7 @@ const BrixelBoutiqueThankYou = (props: BrixelBoutiqueThankYouType) => {
               </div>
             </div>
           </div>
-          <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0 ta-c-md">
+          <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0 ta-c-md mx-a">
             <img loading="lazy" className="w-fix-56 w-fix-lg-104" src={MessageIcon} alt="Call Us" />
             <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0 mt-3">
 
@@ -66,7 +66,7 @@ const BrixelBoutiqueThankYou = (props: BrixelBoutiqueThankYouType) => {
               />
             </div>
           </div>
-          <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0 ta-c-md">
+          <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0 ta-c-md mx-a">
             <img loading="lazy" className="w-fix-56 w-fix-lg-104" src={MailIcon} alt="Call Us" />
             <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0 mt-3">
 
