@@ -338,7 +338,7 @@ const checkUser = (store) => (next) => (action) => {
         .then((res) => {
           if (newUser && res.meta.status === 200) {
             const alertProps = {
-              message: 'You already have a profile, please do a login',
+              message: 'Something went wrong. You might use a different email address.',
               state: true,
             };
             store.dispatch({ type: SET_FORM_ERROR, payload: alertProps });

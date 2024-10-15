@@ -101,7 +101,7 @@ const LoginSignup = (props: LoginSignupType) => {
 
   useEffect(() => {
     if (loginPage === 'register' && get(formError, 'state', false) && !get(formError, 'noRedirect', false)) {
-      setLoginPage('login');
+      setShowErrors(true);
     }
   }, [formError]);
 
@@ -450,19 +450,19 @@ const LoginSignup = (props: LoginSignupType) => {
                 {
                   loginPage === 'login' && (
                     <>
-                      {
-                        get(formError, 'state', false) && (
-                          <p className="txtRed400">
-                            {translateTo(get(formError, 'message', ''), lang)}
-                          </p>
-                        )
-                      }
                       <BrixelLogin
                         company={company}
                         formName={formName}
                         showErrors={showErrors}
                         lang={lang}
                       />
+                      {/*  {
+                        get(formError, 'state', false) && (
+                          <p className="txtRed400">
+                            {translateTo(get(formError, 'message', ''), lang)}
+                          </p>
+                        )
+                      } */}
                       <p className="mt-1">
                         <BrixelButtonText
                           label={translateTo('Forgot password?', lang)}
@@ -475,20 +475,6 @@ const LoginSignup = (props: LoginSignupType) => {
                 {
                   loginPage === 'register' && (
                     <>
-                      {
-                        get(formError, 'state', false) && (
-                          <p className="txtRed400">
-                            {translateTo(get(formError, 'message', ''), lang)}
-                          </p>
-                        )
-                      }
-                      {
-                        get(notification[0], 'state', false) && get(notification[0], 'type', '') === 'done' && (
-                          <p className="txtGreen400">
-                            {translateTo('Registration complete.', lang)}
-                          </p>
-                        )
-                      }
                       <BrixelRegister
                         disableEmailRegister={disableEmailRegister}
                         baseURL={baseByData?.apiRoot}
@@ -508,13 +494,13 @@ const LoginSignup = (props: LoginSignupType) => {
                 {
                   loginPage === 'reset' && (
                     <div className="mb-2">
-                      {
+                      {/* {
                         get(formError, 'state', false) && (
                           <p className="txtRed400">
-                            {get(formError, 'message', '')}
+                            {translateTo(get(formError, 'message', ''), lang)}
                           </p>
                         )
-                      }
+                      } */}
                       <BrixelReset
                         company={company}
                         formName={formName}
@@ -546,6 +532,21 @@ const LoginSignup = (props: LoginSignupType) => {
                   isLoading={isSmallLoading.recoverPassword || isSmallLoading.savingData}
                   type="submit"
                 />
+
+                {
+                  get(formError, 'state', false) && (
+                    <p className="txtRed400 fsize-300 ta-c mb-2 mt-1">
+                      {translateTo(get(formError, 'message', ''), lang)}
+                    </p>
+                  )
+                }
+                {
+                  get(notification[0], 'state', false) && get(notification[0], 'type', '') === 'done' && (
+                    <p className="txtGreen400">
+                      {translateTo('Registration complete.', lang)}
+                    </p>
+                  )
+                }
               </div>
               <div className="topBar fsize-400 ta-c">
                 {
