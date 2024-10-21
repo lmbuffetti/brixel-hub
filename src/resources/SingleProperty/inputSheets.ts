@@ -11,7 +11,7 @@ export const InputSheets = (type = 'facts', lang, changeField?) => {
   if (configureStore) {
     const store: any = configureStore.getState();
     if (type === 'proEstimation') Input = ProEstimationConfig('hub', store, 'brixelForm', lang);
-    else if (type === 'description') Input = PropertyDescriptionConfig(store, lang)
+    else if (type === 'description') Input = PropertyDescriptionConfig('hub', store, lang)
     else Input = InputSheetsConfig('hub', store, 'brixelForm', lang, changeField, baseByData);
   }
   const filteredInput: QuestionsListType[] = [];
