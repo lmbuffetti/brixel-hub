@@ -145,7 +145,7 @@ const ProofOfFinancingThankYou = ({
 const mapStateToProps = (state) => ({
   activeSingleProperty: state?.property?.activeSingleProperty || {},
   activeSingleCompany: state?.companies?.activeSingleCompany || {},
-  formValue: get(state, 'brixelForm.GetStarted.values', {}),
+  formValue: get(state, 'brixelForm.ProofOfFinancing.values', {}),
   windowDimensions: get(state, 'common.windowDimensions', {}),
   lang: state?.common?.language || 'en',
 });

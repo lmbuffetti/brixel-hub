@@ -11,7 +11,7 @@ import {
   saveActiveSingleProperty,
 } from '../../../../../actions/PropertyActions';
 import {doLogin, saveActiveSingleUser, validateUser} from '../../../../../actions/UserActions';
-import {QuestionsList} from '../../../../../resources/Offers/ProofOfFinancing';
+import {QuestionsList} from '../../../../../resources/Offers/MakeOffer';
 import {
   CompanyType,
   PropertyType,

@@ -18,14 +18,14 @@ import {
   QuestionsListType,
 } from '@brixel-io/brixel-components/dist/@types/Model';
 import FlowScreen from '../../../../../components/FlowScreen';
-import type {FormValueType} from '../../../../../@types/Pages/PackageFlow/GetStartedSeller';
+import type {formValueType} from '../../../../../resources/Offers/ProofOfFinancing';
 
 type ProofFinancingType = {
   activeSingleProperty: PropertyType
   activeSingleCompany: CompanyType;
   changeFieldValue: (field: string, val: string | null | boolean | string[] | object | number) => void;
   destroyForm: () => void;
-  formValue: FormValueType;
+  formValue: formValueType;
   handleGetActiveSingleProperty: (data: object) => void;
   handelSetSmallSpinner: (data: object) => void;
   lang?: string;
@@ -76,6 +76,9 @@ const ProofFinancing = (props: ProofFinancingType) => {
     }, 2000)
   };
 
+  const affordabilityCheck = typeof formValue?.affordabilityCheck === 'undefined' ? null :  formValue?.affordabilityCheck
+  const loanValueCheck = typeof formValue?.loanValueCheck === 'undefined' ? null :  formValue?.loanValueCheck
+
   return (
     <div className="flex-1">
       {
@@ -86,6 +89,7 @@ const ProofFinancing = (props: ProofFinancingType) => {
             onSaveData={() => saveData()}
             QuestionsList={questions}
             successCustomButtons={[]}
+            isSaveEnable={affordabilityCheck !== null && loanValueCheck !== null}
           />
         )
       }

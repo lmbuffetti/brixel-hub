@@ -393,6 +393,21 @@ const FlowScreen = (props: FlowScreenType) => {
                       </>
                     )
                   }
+
+                  {
+                    get(quest, 'cardType', null) === 'loadComponentBeforeInput' && (
+                      React.createElement(
+                        quest.component,
+                        {
+                          formName,
+                          initialValue: formValue,
+                          ...quest,
+                          onClick: () => (questions[currentIndex + 1] ? changeStep() : closeWindow()),
+                          onSaveData: (val) => onSaveData(val),
+                        },
+                      )
+                    )
+                  }
                   {
                     get(quest, 'inputs', null) && (
                       <div className="dis-fl-col a-c flex-wrap">
@@ -526,8 +541,7 @@ const FlowScreen = (props: FlowScreenType) => {
                                 }
                                 <p
                                   className="fsize-300 mb-2 dis-b"
-                                  dangerouslySetInnerHTML={{ __html: text.description }}
-                                />
+                                  dangerouslySetInnerHTML={{ __html: text.description }} />
                               </div>
                             ))
                           }

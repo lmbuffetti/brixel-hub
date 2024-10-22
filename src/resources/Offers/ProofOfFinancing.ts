@@ -24,8 +24,6 @@ export const QuestionsList = (changeVal, lang) => {
     formValue = get(configureStore.getState(), 'brixelForm.ProofOfFinancing.values', []);
     isElegible = (formValue.affordabilityCheck && formValue?.loanValueCheck) || false;
   }
-  const affordabilityCheck = typeof formValue?.affordabilityCheck === 'undefined' ? null :  formValue?.affordabilityCheck
-  const loanValueCheck = typeof formValue?.loanValueCheck === 'undefined' ? null :  formValue?.loanValueCheck
 
   return [
     // FOR PARTNER
@@ -44,7 +42,8 @@ export const QuestionsList = (changeVal, lang) => {
       hideText: true,
       customButton: [],
       hideBackArrow: true,
-      showSendButton: affordabilityCheck !== null && loanValueCheck !== null,
+      showSendButton: true,
+      btnLabel: translateTo('Next', lang),
       unsuccessMessage: `<p>${translateTo('Based on the details you have provided, financing your dream home is not quite possible yet.', lang)}</p>`,
       successMessage: `<p>${translateTo('Based on the details you have provided, financing your dream home is possible.', lang)}</p>`,
       showMsgOnTop: true,
