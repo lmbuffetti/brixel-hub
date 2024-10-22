@@ -70,7 +70,7 @@ const ProofOfFinancingThankYou = ({
                 }
               </div>
 
-              <p className="txtText600 mt-3 fsize-300">
+              <p className="txtText600 mt-3 fsize-300 fs-i">
                 {translateTo('You can check this later again.', lang)}
               </p>
             </div>
@@ -91,46 +91,53 @@ const ProofOfFinancingThankYou = ({
               onClick={() => history.push(`/buyer/${propID}/offer`)}
               className="mt-4 mx-a"
             />
-            <div className="dis-f a-c jc-b mt-3">
-              <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0 ta-c-md">
-                <img loading="lazy" className="w-fix-56 w-fix-lg-104" src={PhoneIcon} alt="Call Us" />
-                <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0 ta-c-md">
-                  <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0 mt-3">
-
-                    <h6>{translateTo('Call Us', lang)}</h6>
-                    <BrixelButtonText
-                      bgTransparent
-                      onClick={() => window.location.assign(Helpers.telephoneFormat(get(activeSingleCompany, 'contact.phone', ''), false, false, true))}
-                      className="ml-a mr-a"
-                      label={Helpers.telephoneFormat(get(activeSingleCompany, 'contact.phone', ''))}
-                    />
-                  </div>
+            <div className="dis-fl-col dis-fl-row-md a-c jc-c mx-a mt-10 contactSection">
+              <div className="dis-fl-row dis-fl-col-md a-c mb-2 mb-lg-0 ta-c-md as-fs  min-w-fix-240 bgGreen25 p-1 brdRadius w-perc-md-auto w-perc-100">
+                <div className="bgGreen100 brdCircle p-1">
+                  <img loading="lazy" className="w-fix-40 w-fix-md-56" src={PhoneIcon} alt="Call Us" />
                 </div>
+
+                <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0 mt-md-3">
+
+                  <h6>{translateTo('Call Us', lang)}</h6>
+                  <span
+                    className='dis-b cur-poi txtGreen400 td-u'
+                    onClick={() => window.location.assign(Helpers.telephoneFormat(get(activeSingleCompany, 'contact.phone', ''), false, false, true))}
+                  >
+                    {Helpers.telephoneFormat(get(activeSingleCompany, 'contact.phone', ''))}
+                  </span>
+                </div>
+
               </div>
-              <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0 ta-c-md">
-                <img loading="lazy" className="w-fix-56 w-fix-lg-104" src={MessageIcon} alt="Call Us" />
-                <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0 mt-3">
+              <div className="dis-fl-row dis-fl-col-md a-c mb-2 mb-lg-0 ta-c-md as-fs  min-w-fix-240 bgGreen25 p-1 brdRadius w-perc-md-auto w-perc-100 mx-md-2">
+                <div className="bgGreen100 brdCircle p-1">
+                  <img loading="lazy" className="w-fix-40 w-fix-md-56" src={MessageIcon} alt="Call Us" />
+                </div>
+                <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0 mt-md-3">
 
                   <h6>{translateTo('Text us via WhatsApp', lang)}</h6>
-                  <BrixelButtonText
-                    bgTransparent
+
+                  <span
+                    className='dis-b cur-poi txtGreen400 td-u'
                     onClick={() => window.location.assign(Helpers.telephoneFormat(get(activeSingleCompany, 'contact.whatsapp', ''), false, false, true))}
-                    className="ml-a mr-a"
-                    label={Helpers.telephoneFormat(get(activeSingleCompany, 'contact.whatsapp', ''))}
-                  />
+                  >
+                    {Helpers.telephoneFormat(get(activeSingleCompany, 'contact.whatsapp', ''))}
+                  </span>
                 </div>
               </div>
-              <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0 ta-c-md">
-                <img loading="lazy" className="w-fix-56 w-fix-lg-104" src={MailIcon} alt="Call Us" />
-                <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0 mt-3">
+              <div className="dis-fl-row dis-fl-col-md a-c mb-2 mb-lg-0 ta-c-md as-fs  min-w-fix-240 bgGreen25 p-1 brdRadius w-perc-md-auto w-perc-100">
+                <div className="bgGreen100 brdCircle p-1">
+                  <img loading="lazy" className="w-fix-40 w-fix-md-56" src={MailIcon} alt="Call Us" />
+                </div>
+                <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0 mt-md-3">
 
                   <h6>{translateTo('Write Us', lang)}</h6>
-                  <BrixelButtonText
-                    bgTransparent
+                  <span
+                    className='dis-b cur-poi txtGreen400 td-u'
                     onClick={() => window.location.assign(`mailto:${get(activeSingleCompany, 'contact.email', '')}`)}
-                    className="ml-a mr-a"
-                    label={get(activeSingleCompany, 'contact.email', '')}
-                  />
+                  >
+                    {get(activeSingleCompany, 'contact.email', '')}
+                  </span>
                 </div>
               </div>
             </div>

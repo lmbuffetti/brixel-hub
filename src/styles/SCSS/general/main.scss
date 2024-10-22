@@ -1313,4 +1313,21 @@ input::-webkit-date-and-time-value {
       padding-bottom: $step !important;
     }
   }
+  .contactSection {
+    .bgGreen100 {
+      background-color: map-get($greenColor, 25);
+    }
+  }
+}
+
+
+@media (min-width: 768px) {
+  .contactSection {
+    .w-perc-md-auto {
+      width: auto;
+    }
+    .bgGreen25 {
+      background-color: inherit;
+    }
+  }
 }
