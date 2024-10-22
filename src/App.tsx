@@ -103,6 +103,9 @@ const MarketBuyer = lazy(() => import('./Pages/Market/MarketBuyer'));
 
 const WarningScreen = lazy(() => import('./components/WarningScreen'));
 const EnergyFlow = lazy(() => import('./Pages/Dashboard/Buyer/Energy/EnergyFlow'))
+// OFFER
+const MakeOffer = lazy(() => import('./Pages/Dashboard/Buyer/Offer/MakeOffer/MakeOffer'))
+const ProofFinancing = lazy(() => import('./Pages/Dashboard/Buyer/Offer/ProofOfFinancing/ProofFinancing'))
 
 
 const cookies = new Cookies();
@@ -429,7 +432,7 @@ const App = (props: AppType) => {
 
   // FUCNTION TO SEPARATE THE DESIGN IN BASE OF HISTORY LOCATION (packageFLow, onBoarding, upgrade)
   useEffect(() => {
-    const flowClass = ['packageFlow', 'visitFeedback', 'upgrade', 'trialRequest', 'contactFlow', 'termsConditionFlow', 'termsConditionPage', 'completeProfileFlow', 'energyFlow'];
+    const flowClass = ['packageFlow', 'visitFeedback', 'upgrade', 'trialRequest', 'contactFlow', 'termsConditionFlow', 'termsConditionPage', 'completeProfileFlow', 'energyFlow', 'offerFlow'];
     const isFlowClass = flowClass.some((url) => history.location.pathname.includes(url));
 
     setIsFlow(false);
@@ -693,9 +696,13 @@ const App = (props: AppType) => {
                       <Route path="/visitFeedback/:dealID/:pageID/:visitID" element={<VisitFeedback />} />
                       <Route path="/buyer/:id/scheduleVisit/:scheduleVisitID/completeProfileFlow/*" element={<ProtectedRoute><CompleteProfile /></ProtectedRoute>} />
 
-                      { /* PARTNER CONTACT FLOW */}
+                      { /* PARTNER CONTACT FLOW */ }
                       <Route path="/:propID/contactFlow/*" element={<ProtectedRoute><Contact /></ProtectedRoute>} />
                       <Route path="/buyer/:propID/contactFlow/*" element={<ProtectedRoute><Contact /></ProtectedRoute>} />
+
+                      { /* SECTION: OFFER FLOW */}
+                      <Route path="/buyer/:propID/offerFlow/makeOffer/*" element={<ProtectedRoute><MakeOffer /></ProtectedRoute>} />
+                      <Route path="/buyer/:propID/offerFlow/proofFinancing/*" element={<ProtectedRoute><ProofFinancing /></ProtectedRoute>} />
 
                       { /* SECTION: INSERT TOKEN */}
                       <Route path="/tokeninput" element={<InsertToken />} />

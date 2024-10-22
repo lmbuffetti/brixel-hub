@@ -6,15 +6,22 @@ import SectionMobileTitle from '../../../../components/SectionMobileTitle';
 import BannerFullSize from '../../../../components/BannerFullSize';
 import DocumentIcon from '../../../../images/documentsIcon/documentFull.svg'
 import BannerOfferDefault from '../../../../images/dashboard/bannerOffer-deafault.svg';
+import {useLocation, useNavigate, useParams} from 'react-router-dom';
 
 type SingleOfferType = {
   lang: string
 }
 
 const SingleOffer = (props: SingleOfferType) => {
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
+  const match = useParams();
   const {
     lang,
   } = props;
+  const propID = match?.propID || '';
   return (
     <>
       <h3 className="mb-3 hide dis-b-lg  fweight-600">{translateTo('Offer', lang)}</h3>
@@ -33,7 +40,7 @@ const SingleOffer = (props: SingleOfferType) => {
               button={{
                 label: 'Apply',
                 iconRight: 'arrow-right',
-                onClick: () => {},
+                onClick: () => history.push(`/buyer/${propID}/offerFlow/proofFinancing`),
                 type: 'primary',
               }}
             />
@@ -48,7 +55,7 @@ const SingleOffer = (props: SingleOfferType) => {
               button={{
                 label: 'Add offer',
                 iconLeft: 'plus',
-                onClick: () => {},
+                onClick: () => history.push(`/buyer/${propID}/offerFlow/makeOffer`),
                 type: 'primary',
               }}
             />

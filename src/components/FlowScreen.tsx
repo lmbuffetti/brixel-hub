@@ -436,7 +436,16 @@ const FlowScreen = (props: FlowScreenType) => {
                   {
                     (get(quest, 'cardType', null) === 'card') && (
                       <div className={`scaleAnim ta-c ${quest.cardClass}`}>
-                        <img loading="lazy" src={quest.img} alt={quest.title} className={` mb-5 ${quest.imgMaxWidth ? quest.imgMaxWidth : 'max-w-fix-240'}`} />
+                        {
+                          quest.img && (
+                            <img
+                              loading="lazy"
+                              src={quest.img}
+                              alt={quest.title}
+                              className={` mb-5 ${quest.imgMaxWidth ? quest.imgMaxWidth : 'max-w-fix-240'}`}
+                            />
+                          )
+                        }
                         {
                           quest.title && (
                             <h2
@@ -505,13 +514,20 @@ const FlowScreen = (props: FlowScreenType) => {
                               <div
                                 key={i.toString()}
                               >
-                                <span className="fweight-600 my-3 dis-b">{text.title}</span>
+                                {
+                                  text.title && (
+                                    <span className="fweight-600 my-3 dis-b">{text.title}</span>
+                                  )
+                                }
                                 {
                                   text.subtitle && (
                                     <p className="fsize-300 fweight-500 mb-1 dis-b">{text.subtitle}</p>
                                   )
                                 }
-                                <p className="fsize-300 mb-2 dis-b" dangerouslySetInnerHTML={{ __html: text.description }} />
+                                <p
+                                  className="fsize-300 mb-2 dis-b"
+                                  dangerouslySetInnerHTML={{ __html: text.description }}
+                                />
                               </div>
                             ))
                           }
@@ -560,7 +576,7 @@ const FlowScreen = (props: FlowScreenType) => {
                         )
                       }
                       {
-                        get(quest, 'history', null) !== 'resume' && (get(quest, 'inputs', []).length > 0 || action === 'back') ? (
+                        (get(quest, 'history', null) !== 'resume' && (get(quest, 'inputs', []).length > 0 || action === 'back') || quest.showSendButton) ? (
                           <BrixelButtonPrimary
                             className={`mr-a ml-a noWrap ${get(quest, 'history', null)}`}
                             rounded
