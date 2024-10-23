@@ -12,10 +12,11 @@ import {
 } from '../../../../../actions/PropertyActions';
 import {doLogin, saveActiveSingleUser, validateUser} from '../../../../../actions/UserActions';
 import {QuestionsList} from '../../../../../resources/Offers/MakeOffer';
-import {
+import type {
   CompanyType,
   PropertyType,
   QuestionsListType,
+  LoggedUserType,
 } from '@brixel-io/brixel-components/dist/@types/Model';
 import FlowScreen from '../../../../../components/FlowScreen';
 import type {FormValueType} from '../../../../../@types/Pages/PackageFlow/GetStartedSeller';
@@ -32,6 +33,7 @@ type MakeOfferType = {
   initForm: (data: object) => void;
   initialValues: object;
   lang?: string;
+  loggedInUser?: LoggedUserType
 }
 
 const MakeOffer = (props: MakeOfferType) => {
@@ -49,11 +51,12 @@ const MakeOffer = (props: MakeOfferType) => {
     initForm,
     initialValues,
     lang = 'en',
+    loggedInUser,
   } = props;
   const propID = get(match, 'propID', null);
   // STATE
   // SET THE QUESTIONS IN BASE OF THE COUNTRY
-  const [questions, setQuestions] = useState<QuestionsListType[]>(QuestionsList(changeFieldValue, lang));
+  const [questions, setQuestions] = useState<QuestionsListType[]>(QuestionsList(lang));
   // SET QUEST TO FIRST QUESTION OF QuestionsList()
   // const [roomValue, setRoomValue] = useState('');
   // GET URL PARAMS
@@ -70,7 +73,18 @@ const MakeOffer = (props: MakeOfferType) => {
   }, [propID]);
 
   useEffect(() => {
-    setQuestions(QuestionsList(changeFieldValue, lang));
+    if (loggedInUser?.id) {
+      const buyer = {
+        fullName: loggedInUser.name,
+        email: loggedInUser.email,
+        phone: loggedInUser.phone,
+      }
+      initForm({buyer: buyer});
+    }
+  }, [loggedInUser]);
+
+  useEffect(() => {
+    setQuestions(QuestionsList(lang));
   }, [formValue]);
 
   // FUNCTION TO SAVE DATA
@@ -95,7 +109,7 @@ const MakeOffer = (props: MakeOfferType) => {
         activeSingleCompany.id && (
           <FlowScreen
             baseURL={`/buyer/${propID}/offerFlow/MakeOffer`}
-            formName="ProofOfFinancing"
+            formName="makeOffer"
             onSaveData={() => saveData()}
             QuestionsList={questions}
           />
@@ -113,31 +127,31 @@ const mapStateToProps = (state) => {
     activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
     activeSingleProperty: get(state, 'property.activeSingleProperty', null),
     company: get(state, 'companies.activeSingleCompany', {}),
-    errorValue: get(state, 'brixelForm.GetStarted.syncErrors', {}),
-    formValue: get(state, 'brixelForm.GetStarted.values', {}),
+    errorValue: get(state, 'brixelForm.makeOffer.syncErrors', {}),
+    formValue: get(state, 'brixelForm.makeOffer.values', {}),
     initialValues,
     isLoading: get(state, 'common.isLoading', 0) > 0,
     isTest: get(state, 'common.isTest', false),
     lang: get(state, 'common.language', 'de'),
     loggedInUser: get(state, 'user.loggedInUser.user', {}),
     packagesProperty: get(state, 'property.packagesProperty', []),
-    startForm: get(state, 'brixelForm.GetStarted', null),
+    startForm: get(state, 'brixelForm.makeOffer', null),
     translations: get(state, 'translations', { }),
   });
 };
 
 const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
-    dispatch(change('ProofOfFinancing', field, value));
+    dispatch(change('makeOffer', field, value));
   },
   destroyForm() {
-    dispatch(destroy('ProofOfFinancing'));
+    dispatch(destroy('makeOffer'));
   },
   initForm(value) {
-    dispatch(initializeForm('ProofOfFinancing', value));
+    dispatch(initializeForm('makeOffer', value));
   },
   handleReset(initialValue) {
-    (dispatch(reset('ProofOfFinancing', initialValue)));
+    (dispatch(reset('makeOffer', initialValue)));
   },
   handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
   handleDoLogin: bindActionCreators(doLogin, dispatch),

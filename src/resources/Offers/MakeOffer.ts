@@ -1,102 +1,233 @@
 /* eslint-disable max-len */
 import get from 'lodash/get';
+import {FactsOptions} from '@brixel-io/brixel-components';
 import {configureStore} from '../../store';
 import translateTo from '../../utils/translation';
-import ProofOfFinancingTermsCondition from '../../Pages/Dashboard/Buyer/Offer/ProofOfFinancing/ProofOfFinancingTermsCondition';
 import ProofOfFinancingThankYou from '../../Pages/Dashboard/Buyer/Offer/ProofOfFinancing/ProofOfFIinancingThankYou';
 import DocumentFullIcon from '../../images/documentsIcon/documentFull.svg';
-import CheckIcon from '@brixel-io/brixel-components/dist/images/IconsColored/checkIcon.svg';
-import {BrixelCheckbox, Validation} from '@brixel-io/brixel-components/dist/form';
-import {svgIcons} from '../Utilities/svgIcons';
+import {
+  BrixelTextArea,
+  BrixelSelect,
+  BrixelInputText,
+  Validation,
+  BrixelInputPhone,
+  BrixelInputDatePicker,
+} from '@brixel-io/brixel-components/dist/form';
 import MakeOfferPropertyCard from '../../Pages/Dashboard/Buyer/Offer/MakeOffer/MakeOfferPropertyCard';
+import MakeOfferUploadProofOfFinancing from '../../Pages/Dashboard/Buyer/Offer/MakeOffer/MakeOfferUploadProofFinancing';
+import {QuestionsListType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 export type formValueType = {
-  affordability?: string;
-  affordabilityCheck?: boolean;
-  loanValueCheck?: boolean;
-  company?: string;
-  loanToValueRatio?: string;
-  propertyPrice?: string;
+  proofOfFinancing?: File[]
 }
 
-export const QuestionsList = (_changeVal, lang) => {
+const { factsOptions } = FactsOptions;
+
+export const QuestionsList: (lang: string) => QuestionsListType[] = (lang) => {
   let formValue: formValueType = {};
-  let isElegible = false;
+  let hasProofDocument = false;
   if (configureStore) {
-    formValue = get(configureStore.getState(), 'brixelForm.ProofOfFinancing.values', []);
-    isElegible = (formValue.affordabilityCheck && formValue?.loanValueCheck) || false;
+    formValue = get(configureStore.getState(), 'brixelForm.makeOffer.values', []);
+    hasProofDocument = (formValue.proofOfFinancing && formValue.proofOfFinancing.length > 0) || false;
   }
 
+  const purchaseType = factsOptions.purchaseType.map((item) => ({
+    ...item,
+    label: translateTo(item.label, lang),
+  }));
+
+  const martialStatus = factsOptions.martialStatus.map((item) => ({
+    ...item,
+    label: translateTo(item.label, lang),
+  }));
+
+  const matrimonialPropertyRegime = factsOptions.matrimonialPropertyRegime.map((item) => ({
+    ...item,
+    label: translateTo(item.label, lang),
+  }));
+
   return [
-    // FOR PARTNER
     {
       title: translateTo('Make an offer', lang),
       subtitle: translateTo('Fill out the offer form with your proposed price and personal details.', lang),
       history: 'makeOffer',
-      className: '',
+      className: 'max-w-fix-768',
       footerWidth: 'max-w-fix-768',
       cardType: 'loadComponentBeforeInput',
+      hideBackArrow: true,
       component: MakeOfferPropertyCard,
       inputs: [
         {
-          component: BrixelCheckbox,
-          className: 'radioBtnImg',
-          ReduxFieldClass: '',
-          classNameBox: 'max-w-fix-880 ml-a mr-a',
-          label: '',
-          name: 'characteristics.propertyType',
+          currency: get(formValue, 'propertyPriceCurrency', 'CHF'),
+          unit: get(formValue, 'propertyPriceCurrency', 'CHF'),
+          formatType: 'price',
+          component: BrixelInputText,
+          classNameBox: 'ml-a mr-a',
+          label: translateTo('Your offer', lang),
+          name: 'amount',
           validation: [Validation.required],
-          icons: true,
-          cardLayout: true,
-          cardSmall: true,
-          svgSupport: true,
-          isHorizontal: true,
-          svgWidth: 'max-w-fix-120 max-w-fix-sm-200',
-          pdClass: 'py-sm-5',
-          options: [
-            {
-              label: translateTo('Apartment', lang),
-              value: 'Apartment',
-              img: svgIcons.apartment,
-              color: 'blue',
-            },
-            {
-              label: translateTo('House', lang),
-              value: 'House',
-              img: svgIcons.house,
-              color: 'blue',
-            },
-            {
-              label: translateTo('Building land', lang),
-              value: 'Building land',
-              img: svgIcons.land,
-              color: 'blue',
-            },
-          ],
+          pdClass: 'py-3 py-md-5',
+          large: true,
+        },
+        {
+          classNameBox: 'ml-a mr-a',
+          component: BrixelSelect,
+          label: translateTo('Type of purchase', lang),
+          name: 'buyer.typeOfPurchase',
+          options: purchaseType,
+          pdClass: 'py-3 py-md-5',
+          large: true,
+        },
+        {
+          classNameBox: 'ml-a mr-a',
+          component: BrixelTextArea,
+          label: translateTo('Add a comment (optional)', lang),
+          placeholder: translateTo('Add here relevant information regarding your offer, such as special conditions, requests, dates, etc', lang),
+          name: 'noteByBuyer',
+          pdClass: 'py-3 py-md-5',
+          large: true,
+        },
+        {
+          className: 'mt-3',
+          name: 'tooltipText',
+          type: 'tooltipText',
+          title: translateTo('This is a non-binding offer', lang),
+          text: translateTo('This offer does not create any legal obligations and serves as a preliminary proposal. Final terms may change after further discussion.', lang),
         },
       ],
     },
-    // ONLY FOR BALOISE
     {
-      condition: [
+      title: translateTo('Your personal details', lang),
+      subtitle: translateTo('Add your personal information to complete your offer.', lang),
+      history: 'buyerInformation',
+      className: 'max-w-fix-768 dis-f flex-wrap a-c',
+      footerWidth: 'max-w-fix-768',
+      inputs: [
         {
-          name: 'affordabilityCheck',
-          value: true,
+          component: BrixelInputText,
+          classNameBox: 'ml-a mr-a',
+          label: translateTo('Full name', lang),
+          name: 'buyer.fullName',
+          validation: [Validation.required],
+          pdClass: 'py-3 py-md-5',
+          large: true,
         },
         {
-          name: 'loanValueCheck',
-          value: true,
+          component: BrixelInputText,
+          classNameBox: 'ml-a mr-a',
+          label: translateTo('Email', lang),
+          name: 'buyer.email',
+          type: 'email',
+          validation: [Validation.required, Validation.isEmail],
+          pdClass: 'py-3 py-md-5',
+          large: true,
+        },
+        {
+          component: BrixelInputPhone,
+          name: 'buyer.phone',
+          label: translateTo('Phone', lang),
+          large: true,
+          pdClass: 'py-3 py-md-5',
+          validation: [Validation.required],
+        },
+        {
+          component: BrixelInputDatePicker,
+          className: '',
+          classNameBox: 'ml-a mr-a',
+          ReduxFieldClass: '',
+          label: translateTo('Birth date', lang),
+          name: 'buyer.dateBirth',
+          showFullSelectDate: true,
+          large: true,
+        },
+        {
+          classNameBox: 'ml-a mr-a',
+          component: BrixelSelect,
+          label: translateTo('Marital status', lang),
+          name: 'buyer.maritialStatus',
+          options: martialStatus,
+          pdClass: 'py-3 py-md-5',
+          large: true,
+        },
+        {
+          conditionsOr: [{
+            name: 'buyer.maritialStatus',
+            value: 'married',
+          }, {
+            name: 'buyer.maritialStatus',
+            value: 'partnership',
+          }],
+          classNameBox: 'ml-a mr-a',
+          component: BrixelSelect,
+          label: translateTo('Marital property regime', lang),
+          name: 'buyer.matrimonialPropertyRegime',
+          options: matrimonialPropertyRegime,
+          pdClass: 'py-3 py-md-5',
+          large: true,
+        },
+        {
+          name: 'seperator',
+          type: 'separator',
+          showLine: true,
+          title: translateTo('Your living address', lang),
+        },
+        {
+          component: BrixelInputText,
+          classNameBox: 'ml-a mr-a',
+          classWidthBox: 'w-perc-80',
+          classBoxWrapper: 'pr-2',
+          ReduxFieldClass: '',
+          label: translateTo('Street name', lang),
+          name: 'location.street',
+          validation: [Validation.required],
+          large: true,
+        },
+        {
+          component: BrixelInputText,
+          classBoxWrapper: 'pr-0 mt-0',
+          classWidthBox: 'w-perc-20',
+          classNameBox: 'ml-a mr-a',
+          ReduxFieldClass: '',
+          label: translateTo('Street number', lang),
+          name: 'location.streetNumber',
+          large: true,
+        },
+        {
+          component: BrixelInputText,
+          className: '',
+          classWidthBox: 'w-perc-40',
+          classBoxWrapper: 'pr-2 mt-3',
+          classNameBox: 'ml-a mr-a',
+          ReduxFieldClass: '',
+          label: translateTo('Zip', lang),
+          name: 'location.zipCode',
+          validation: [Validation.required],
+          large: true,
+        },
+        {
+          component: BrixelInputText,
+          className: '',
+          classWidthBox: 'w-perc-60',
+          classBoxWrapper: 'mt-3',
+          classNameBox: 'ml-a mr-a',
+          ReduxFieldClass: '',
+          label: translateTo('City', lang),
+          name: 'location.City',
+          validation: [Validation.required],
+          large: true,
         },
       ],
-      title: translateTo('Your details will be forwarded to Baloise/UBS', lang),
-      subtitle: translateTo('We will forward your details to an advisor. You will be contacted shortly.', lang),
-      showSendButton: true,
-      cardType: 'loadComponent',
-      component: ProofOfFinancingTermsCondition,
-      btnLabel: translateTo('Accept and submit', lang),
-      history: 'proofFinancingTermsCondition',
-      className: 'max-w-fix-768 ml-a mr-a brdRadius bgWhite brdSmall brdText50 p-3 p-sm-5',
+    },
+    {
+      title: translateTo('Upload your proof of financing', lang),
+      subtitle: translateTo('Share the proof of financing from a Swiss financial institution to speed up the process. Don’t have it yet? You can request it after submitting your offer.', lang),
+      history: 'makeOffer',
+      className: 'max-w-fix-768',
       footerWidth: 'max-w-fix-768',
+      cardType: 'loadComponent',
+      showSendButton: true,
+      btnLabel: hasProofDocument ? translateTo('Next', lang) : translateTo('Skip', lang),
+      component: MakeOfferUploadProofOfFinancing,
     },
     // GENERAL SAVING FUNCTION FOR EVERYONE
     {
@@ -104,12 +235,11 @@ export const QuestionsList = (_changeVal, lang) => {
       hideProgress: true,
       cardType: 'loadComponent',
       component: ProofOfFinancingThankYou,
-      titleIcon: isElegible ? CheckIcon : DocumentFullIcon,
+      titleIcon: DocumentFullIcon,
       imgMaxWidth: 'max-w-fix-160',
       showSendButton: false,
       cardClass: 'max-w-fix-360 ml-a mr-a pb-5',
-      title: isElegible ? translateTo('Thank you for applying!', lang) : translateTo('Thank you!', lang),
-      subtitle: isElegible ? translateTo('Your details will be forwarded to an advisor. They will contact you shortly to assist you further.', lang) : translateTo('Unfortunately, you\'re not eligible for a proof of financing at this time. Our property experts are here to help you, feel free to contact us.', lang),
+      title: translateTo('Unfortunately, you\'re not eligible for a proof of financing at this time. Our property experts are here to help you, feel free to contact us.', lang),
       history: 'success',
       vCentered: true,
       toSave: true,
