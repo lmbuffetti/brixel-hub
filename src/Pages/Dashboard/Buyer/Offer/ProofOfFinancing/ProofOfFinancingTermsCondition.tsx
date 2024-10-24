@@ -24,8 +24,8 @@ const ProofOfFinancingTermsCondition = ({
   if (activeSingleCompany?.stub && activeSingleCompany?.stub !== 'ubs') history.push(`/buyer/${propID}/home`)
 
   return (
-    <div className="max-w-fix-768 ml-a mr-a brdRadius bgWhite brdSmall brdText50 p-3 p-sm-5">
-      <p>
+    <div className="max-w-fix-768 ml-a mr-a brdRadius bgWhite brdSmall brdText100 p-2 p-sm-4">
+      <p className='fsize-300 txtText700'>
         {
           activeSingleCompany.stub === 'baloise' ? (
             <>

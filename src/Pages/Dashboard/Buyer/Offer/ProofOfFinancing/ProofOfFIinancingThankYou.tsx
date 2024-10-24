@@ -46,7 +46,7 @@ const ProofOfFinancingThankYou = ({
       {
         isElegible ? (
           <>
-            <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdText50 p-3 p-sm-5">
+            <div className="max-w-fix-456 ml-a mr-a brdRadius bgWhite brdSmall brdText50 p-3 p-sm-4">
               <p className="fweight-600">
                 {translateTo('To ensure a smooth process, please prepare the following documents:', lang)}
               </p>

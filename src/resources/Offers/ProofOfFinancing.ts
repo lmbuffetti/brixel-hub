@@ -6,7 +6,7 @@ import translateTo from '../../utils/translation';
 import ProofOfFinancingTermsCondition from '../../Pages/Dashboard/Buyer/Offer/ProofOfFinancing/ProofOfFinancingTermsCondition';
 import ProofOfFinancingThankYou from '../../Pages/Dashboard/Buyer/Offer/ProofOfFinancing/ProofOfFIinancingThankYou';
 import DocumentFullIcon from '../../images/documentsIcon/documentFull.svg';
-import CheckIcon from '@brixel-io/brixel-components/dist/images/IconsColored/checkIcon.svg';
+import checkSvg from '../../images/Contact/checkContact.svg';
 
 export type formValueType = {
   affordability?: string;
@@ -86,7 +86,7 @@ export const QuestionsList = (changeVal, lang) => {
       hideProgress: true,
       cardType: 'loadComponent',
       component: ProofOfFinancingThankYou,
-      titleIcon: isElegible ? CheckIcon : DocumentFullIcon,
+      titleIcon: isElegible ? checkSvg : DocumentFullIcon,
       imgMaxWidth: 'max-w-fix-160',
       showSendButton: false,
       cardClass: 'max-w-fix-360 ml-a mr-a pb-5',
