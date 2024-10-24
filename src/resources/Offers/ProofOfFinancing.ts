@@ -1,12 +1,13 @@
+import ProofOfFinancingThankYou from '../../Pages/Dashboard/Buyer/Offer/ProofOfFinancing/ProofOfFIinancingThankYou';
 /* eslint-disable max-len */
 import {FinancingCalculator} from '@brixel-io/brixel-components';
 import get from 'lodash/get';
 import {configureStore} from '../../store';
 import translateTo from '../../utils/translation';
 import ProofOfFinancingTermsCondition from '../../Pages/Dashboard/Buyer/Offer/ProofOfFinancing/ProofOfFinancingTermsCondition';
-import ProofOfFinancingThankYou from '../../Pages/Dashboard/Buyer/Offer/ProofOfFinancing/ProofOfFIinancingThankYou';
 import DocumentFullIcon from '../../images/documentsIcon/documentFull.svg';
 import checkSvg from '../../images/Contact/checkContact.svg';
+import type {CompanyType} from '@brixel-io/brixel-components/dist/@types/Models/Companies';
 
 export type formValueType = {
   affordability?: string;
@@ -17,13 +18,14 @@ export type formValueType = {
   propertyPrice?: string;
 }
 
-export const QuestionsList = (changeVal, lang) => {
+export const QuestionsList = (changeVal, lang, activeSingleCompany: CompanyType) => {
   let formValue: formValueType = {};
   let isElegible = false;
   if (configureStore) {
     formValue = get(configureStore.getState(), 'brixelForm.ProofOfFinancing.values', []);
     isElegible = (formValue.affordabilityCheck && formValue?.loanValueCheck) || false;
   }
+  const companyName = activeSingleCompany.stub === 'baloise' ? 'Baloise' : 'UBS';
 
   return [
     // FOR PARTNER
@@ -43,7 +45,6 @@ export const QuestionsList = (changeVal, lang) => {
       customButton: [],
       hideBackArrow: true,
       showSendButton: true,
-      btnLabel: translateTo('Next', lang),
       unsuccessMessage: `<p>${translateTo('Based on the details you have provided, financing your dream home is not quite possible yet.', lang)}</p>`,
       successMessage: `<p>${translateTo('Based on the details you have provided, financing your dream home is possible.', lang)}</p>`,
       showMsgOnTop: true,
@@ -70,12 +71,12 @@ export const QuestionsList = (changeVal, lang) => {
           value: true,
         },
       ],
-      title: translateTo('Your details will be forwarded to Baloise/UBS', lang),
+      title: translateTo(`Your details will be forwarded to ${companyName}`, lang),
       subtitle: translateTo('We will forward your details to an advisor. You will be contacted shortly.', lang),
       showSendButton: true,
       cardType: 'loadComponent',
       component: ProofOfFinancingTermsCondition,
-      btnLabel: translateTo('Accept and submit', lang),
+      btnLabel: translateTo('Accept and save', lang),
       history: 'proofFinancingTermsCondition',
       className: 'max-w-fix-768 ml-a mr-a brdRadius bgWhite brdSmall brdText50 p-3 p-sm-5',
       footerWidth: 'max-w-fix-768',

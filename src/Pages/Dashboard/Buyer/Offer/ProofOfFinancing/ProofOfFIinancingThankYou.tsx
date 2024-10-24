@@ -1,7 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {
-  BrixelButtonText,
   BrixelButtonSecondary,
   Helpers,
 } from '@brixel-io/brixel-components';
@@ -13,7 +12,7 @@ import PhoneIcon from '../../../../../images/Boutique/phoneIcon.svg';
 import MessageIcon from '../../../../../images/Boutique/messageIcon.svg';
 import MailIcon from '../../../../../images/Boutique/mailIcon.svg';
 import DocumentFullIcon from '../../../../../images/documentsIcon/documentFull.svg';
-import {formValueType} from '../../../../../resources/Offers/ProofOfFinancing';
+import type {formValueType} from '../../../../../resources/Offers/ProofOfFinancing';
 
 type ProofOfFinancingThankYouProps = {
   activeSingleCompany: CompanyType

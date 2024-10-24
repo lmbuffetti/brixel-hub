@@ -47,7 +47,7 @@ const ProofFinancing = (props: ProofFinancingType) => {
   const propID = get(match, 'propID', null);
   // STATE
   // SET THE QUESTIONS IN BASE OF THE COUNTRY
-  const [questions, setQuestions] = useState<QuestionsListType[]>(QuestionsList(changeFieldValue, lang));
+  const [questions, setQuestions] = useState<QuestionsListType[]>(QuestionsList(changeFieldValue, lang, activeSingleCompany));
 
   // SET QUEST TO FIRST QUESTION OF QuestionsList()
   // const [roomValue, setRoomValue] = useState('');
@@ -65,7 +65,7 @@ const ProofFinancing = (props: ProofFinancingType) => {
   }, [propID]);
 
   useEffect(() => {
-    setQuestions(QuestionsList(changeFieldValue, lang));
+    setQuestions(QuestionsList(changeFieldValue, lang, activeSingleCompany));
   }, [formValue]);
 
   // FUNCTION TO SAVE DATA

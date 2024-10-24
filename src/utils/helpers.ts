@@ -204,6 +204,12 @@ export const toBase64 = (file) => new Promise((resolve, reject) => {
   reader.onload = () => resolve({
     file: reader.result,
     name: file.name,
+    path: file.path,
+    lastModified: file.lastModified,
+    lastModifiedDate: file.lastModifiedDate,
+    size: file.size,
+    type: file.type,
+    webkitRelativePath: file.webkitRelativePath,
   });
   reader.onerror = (error) => reject(error);
 });
@@ -365,7 +371,6 @@ export const redirectUrl = (link, options) => {
   localStorage.removeItem('backUrl');
   const {
     propID,
-    dealID,
     isBuyer,
     userType,
   } = options;
@@ -379,9 +384,9 @@ export const redirectUrl = (link, options) => {
     return '/buy';
   } else if (link.toLowerCase().includes('makeoffer') || link.toLowerCase().includes('closing')) {
     if (userType === 'buyer' || link.toLowerCase().includes('buyer')) {
-      return `/buyer/${propID}/closing`;
+      return `/buyer/${propID}/offer`;
     } else {
-      return `/${propID}/closing/${dealID}`;
+      return `/${propID}/offer`;
     }
   } else if (link.toLowerCase().includes('contactflow')) {
     const BASEURL = isBuyer ? '/buyer' : '';

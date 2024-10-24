@@ -12,6 +12,7 @@ import {checkBrowser, redirectUrl} from '../utils/helpers';
 import translateTo from '../utils/translation';
 import {QuestionsListType} from '@brixel-io/brixel-components/dist/@types/Model';
 import type {FlowScreenType} from '../@types/components/FlowScreen';
+import BrixelButtonSecondary from '@brixel-io/brixel-components/dist/components/BrixelButtonSecondary';
 
 const FlowScreen = (props: FlowScreenType) => {
   const history = {
@@ -624,6 +625,18 @@ const FlowScreen = (props: FlowScreenType) => {
                                         )
                                       }
                                       {
+                                        btn.type === 'secondary' && (
+                                          <BrixelButtonPrimary
+                                            className={btn.className}
+                                            rounded
+                                            key="btn1"
+                                            onClick={() => btn.func()}
+                                            label={translateTo(btn.label, lang)}
+                                            isLoading={isSmallLoading.sendData || isSmallLoading.savingData}
+                                          />
+                                        )
+                                      }
+                                      {
                                         btn.type === 'text' && (
                                           <BrixelButtonText
                                             className={btn.className}
@@ -637,16 +650,34 @@ const FlowScreen = (props: FlowScreenType) => {
                                     </>
                                   ))
                                 ) : (
-                                  <BrixelButtonPrimary
-                                    className={`mr-a ml-a w-perc-100 w-auto-sm noWrap ${get(quest, 'history', null)}`}
-                                    rounded
-                                    theme="green"
-                                    label={closeLabel ? translateTo(closeLabel, lang) : translateTo('Close', lang)}
-                                    isLoading={isSmallLoading.sendData || isSmallLoading.savingData}
-                                    onClick={() => closeWindow()}
-                                    onShowError={() => setShowError(true)}
-                                    type="submit"
-                                  />
+                                  <>
+                                    {
+                                      quest.btnType === 'secondary' ? (
+                                        <BrixelButtonSecondary
+                                          bgTransparent
+                                          className={`mr-a ml-a w-perc-100 w-auto-sm noWrap ${get(quest, 'history', null)}`}
+                                          rounded
+                                          theme="green"
+                                          label={closeLabel ? translateTo(closeLabel, lang) : translateTo('Close', lang)}
+                                          isLoading={isSmallLoading.sendData || isSmallLoading.savingData}
+                                          onClick={() => closeWindow()}
+                                          onShowError={() => setShowError(true)}
+                                          type="submit"
+                                        />
+                                      ) : (
+                                        <BrixelButtonPrimary
+                                          className={`mr-a ml-a w-perc-100 w-auto-sm noWrap ${get(quest, 'history', null)}`}
+                                          rounded
+                                          theme="green"
+                                          label={closeLabel ? translateTo(closeLabel, lang) : translateTo('Close', lang)}
+                                          isLoading={isSmallLoading.sendData || isSmallLoading.savingData}
+                                          onClick={() => closeWindow()}
+                                          onShowError={() => setShowError(true)}
+                                          type="submit"
+                                        />
+                                      )
+                                    }
+                                  </>
                                 )
                               )
                             }

@@ -11,7 +11,7 @@ import {
   saveActiveSingleProperty,
 } from '../../../../../actions/PropertyActions';
 import {doLogin, saveActiveSingleUser, validateUser} from '../../../../../actions/UserActions';
-import {QuestionsList} from '../../../../../resources/Offers/MakeOffer';
+import {formValueMekOffer, QuestionsList} from '../../../../../resources/Offers/MakeOffer';
 import type {
   CompanyType,
   PropertyType,
@@ -19,7 +19,6 @@ import type {
   LoggedUserType,
 } from '@brixel-io/brixel-components/dist/@types/Model';
 import FlowScreen from '../../../../../components/FlowScreen';
-import type {FormValueType} from '../../../../../@types/Pages/PackageFlow/GetStartedSeller';
 
 type MakeOfferType = {
   activeSingleProperty: PropertyType
@@ -27,11 +26,10 @@ type MakeOfferType = {
   changeFieldValue: (field: string, val: string | null | boolean | string[] | object | number) => void;
   company: CompanyType;
   destroyForm: () => void;
-  formValue: FormValueType;
+  formValue: formValueMekOffer;
   handleGetActiveSingleProperty: (data: object) => void;
   handelSetSmallSpinner: (data: object) => void;
   initForm: (data: object) => void;
-  initialValues: object;
   lang?: string;
   loggedInUser?: LoggedUserType
 }
@@ -49,7 +47,6 @@ const MakeOffer = (props: MakeOfferType) => {
     handleGetActiveSingleProperty,
     handelSetSmallSpinner,
     initForm,
-    initialValues,
     lang = 'en',
     loggedInUser,
   } = props;
@@ -73,15 +70,20 @@ const MakeOffer = (props: MakeOfferType) => {
   }, [propID]);
 
   useEffect(() => {
-    if (loggedInUser?.id) {
+    if (loggedInUser?.id && activeSingleProperty?.id) {
       const buyer = {
         fullName: loggedInUser.name,
         email: loggedInUser.email,
         phone: loggedInUser.phone,
       }
-      initForm({buyer: buyer});
+      const defaultData = {
+        additionalBuyerInfo: {
+          ...buyer,
+        },
+      }
+      initForm(defaultData);
     }
-  }, [loggedInUser]);
+  }, [loggedInUser,activeSingleProperty]);
 
   useEffect(() => {
     setQuestions(QuestionsList(lang));
@@ -100,7 +102,6 @@ const MakeOffer = (props: MakeOfferType) => {
     if (get(company, 'stub', null)) {
       changeFieldValue('company', company.stub);
     }
-    initForm(initialValues);
   }, [get(company, 'id', null)]);
 
   return (
@@ -112,6 +113,7 @@ const MakeOffer = (props: MakeOfferType) => {
             formName="makeOffer"
             onSaveData={() => saveData()}
             QuestionsList={questions}
+            closeLabel="Go to offer overview"
           />
         )
       }
@@ -120,16 +122,12 @@ const MakeOffer = (props: MakeOfferType) => {
 };
 
 const mapStateToProps = (state) => {
-  const initialValues = {
-    propertyPrice: 100000,
-  }
   return ({
     activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
     activeSingleProperty: get(state, 'property.activeSingleProperty', null),
     company: get(state, 'companies.activeSingleCompany', {}),
     errorValue: get(state, 'brixelForm.makeOffer.syncErrors', {}),
     formValue: get(state, 'brixelForm.makeOffer.values', {}),
-    initialValues,
     isLoading: get(state, 'common.isLoading', 0) > 0,
     isTest: get(state, 'common.isTest', false),
     lang: get(state, 'common.language', 'de'),

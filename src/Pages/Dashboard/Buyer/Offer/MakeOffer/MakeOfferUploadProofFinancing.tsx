@@ -9,6 +9,7 @@ import translateTo from '../../../../../utils/translation';
 import Dropzone from 'react-dropzone';
 import isArray from 'lodash/isArray';
 import {change} from '@brixel-io/brixel-components/dist/form';
+import {toBase64} from '../../../../../utils/helpers';
 
 type MakeOfferUploadProofFinancingType = {
   changeFieldValue: (name: string, value: File[]) => void
@@ -20,16 +21,21 @@ const MakeOfferUploadProofFinancing = ({
   changeFieldValue,
   lang,
 }: MakeOfferUploadProofFinancingType) => {
-  const [documentsUploaded, setDocumentsUploaded] = useState<File[]>([]);
+  const [documentsUploaded, setDocumentsUploaded] = useState<any[]>([]);
   const [showError, setShowError] = useState('');
   // DROPZONE SETTINGS
   useEffect(() => {
-    changeFieldValue('proofOfFinancing', documentsUploaded);
+    changeFieldValue('documents', documentsUploaded);
   }, [documentsUploaded]);
 
   const onDrop = async (acceptedFiles) => {
     if (acceptedFiles.length > 0) {
-      setDocumentsUploaded([...documentsUploaded, ...acceptedFiles]);
+      const newFiles = [...acceptedFiles];
+      acceptedFiles.forEach(async (file) => {
+        const base64 = await toBase64(file);
+        setDocumentsUploaded((prev) => ([...prev, base64]));
+      })
+      console.log(newFiles, acceptedFiles)
       setShowError('')
     } else {
       setShowError('Please make sure file is in correct format and size');
@@ -90,7 +96,7 @@ const MakeOfferUploadProofFinancing = ({
                   saturationTxt={400}
                   icon="document"
                 />
-                <p className="fsize-300 txtText600 ml-2">{file.name}</p>
+                <p className="fsize-300 txtText600 ml-2">{file.file}</p>
               </div>
               <BrixelIcon
                 color="red"

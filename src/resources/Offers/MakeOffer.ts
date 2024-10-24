@@ -3,8 +3,6 @@ import get from 'lodash/get';
 import {FactsOptions} from '@brixel-io/brixel-components';
 import {configureStore} from '../../store';
 import translateTo from '../../utils/translation';
-import ProofOfFinancingThankYou from '../../Pages/Dashboard/Buyer/Offer/ProofOfFinancing/ProofOfFIinancingThankYou';
-import DocumentFullIcon from '../../images/documentsIcon/documentFull.svg';
 import {
   BrixelTextArea,
   BrixelSelect,
@@ -14,14 +12,39 @@ import {
   BrixelInputDatePicker,
 } from '@brixel-io/brixel-components/dist/form';
 import MakeOfferPropertyCard from '../../Pages/Dashboard/Buyer/Offer/MakeOffer/MakeOfferPropertyCard';
+import MakeOfferResume from '../../Pages/Dashboard/Buyer/Offer/MakeOffer/MakeOfferResume';
+import SavingMoneyIcon from '@brixel-io/brixel-components/dist/images/IconsColored/general/savingMoney.svg';
 import MakeOfferUploadProofOfFinancing from '../../Pages/Dashboard/Buyer/Offer/MakeOffer/MakeOfferUploadProofFinancing';
-import {QuestionsListType} from '@brixel-io/brixel-components/dist/@types/Model';
+import {DocumentType, QuestionsListType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 export type formValueType = {
   proofOfFinancing?: File[]
 }
 
 const { factsOptions } = FactsOptions;
+
+export type formValueMekOffer = {
+  amount: number
+  currency: string
+  additionalBuyerInfo: {
+    fullName: string
+    email: string
+    phone:{prefix: string, number: number}
+    placeOfOrigin: string
+    dateBirth: number
+    maritialStatus: string
+    matrimonialPropertyRegime?: string
+    typeOfPurchase: string
+  },
+  noteByBuyer: string,
+  location: {
+    street: string
+    streetNumber: string
+    zipCode: string
+    city: string
+  },
+  documents: DocumentType[]
+}
 
 export const QuestionsList: (lang: string) => QuestionsListType[] = (lang) => {
   let formValue: formValueType = {};
@@ -73,7 +96,7 @@ export const QuestionsList: (lang: string) => QuestionsListType[] = (lang) => {
           classNameBox: 'ml-a mr-a',
           component: BrixelSelect,
           label: translateTo('Type of purchase', lang),
-          name: 'buyer.typeOfPurchase',
+          name: 'additionalBuyerInfo.typeOfPurchase',
           options: purchaseType,
           pdClass: 'py-3 py-md-5',
           large: true,
@@ -106,29 +129,29 @@ export const QuestionsList: (lang: string) => QuestionsListType[] = (lang) => {
         {
           component: BrixelInputText,
           classNameBox: 'ml-a mr-a',
+          disabled: true,
           label: translateTo('Full name', lang),
-          name: 'buyer.fullName',
-          validation: [Validation.required],
+          name: 'additionalBuyerInfo.fullName',
           pdClass: 'py-3 py-md-5',
           large: true,
         },
         {
           component: BrixelInputText,
           classNameBox: 'ml-a mr-a',
+          disabled: true,
           label: translateTo('Email', lang),
-          name: 'buyer.email',
+          name: 'additionalBuyerInfo.email',
           type: 'email',
-          validation: [Validation.required, Validation.isEmail],
           pdClass: 'py-3 py-md-5',
           large: true,
         },
         {
           component: BrixelInputPhone,
-          name: 'buyer.phone',
+          name: 'additionalBuyerInfo.phone',
           label: translateTo('Phone', lang),
+          disabled: true,
           large: true,
           pdClass: 'py-3 py-md-5',
-          validation: [Validation.required],
         },
         {
           component: BrixelInputDatePicker,
@@ -136,7 +159,7 @@ export const QuestionsList: (lang: string) => QuestionsListType[] = (lang) => {
           classNameBox: 'ml-a mr-a',
           ReduxFieldClass: '',
           label: translateTo('Birth date', lang),
-          name: 'buyer.dateBirth',
+          name: 'additionalBuyerInfo.dateBirth',
           showFullSelectDate: true,
           large: true,
         },
@@ -144,23 +167,23 @@ export const QuestionsList: (lang: string) => QuestionsListType[] = (lang) => {
           classNameBox: 'ml-a mr-a',
           component: BrixelSelect,
           label: translateTo('Marital status', lang),
-          name: 'buyer.maritialStatus',
+          name: 'additionalBuyerInfo.maritialStatus',
           options: martialStatus,
           pdClass: 'py-3 py-md-5',
           large: true,
         },
         {
           conditionsOr: [{
-            name: 'buyer.maritialStatus',
+            name: 'additionalBuyerInfo.maritialStatus',
             value: 'married',
           }, {
-            name: 'buyer.maritialStatus',
+            name: 'additionalBuyerInfo.maritialStatus',
             value: 'partnership',
           }],
           classNameBox: 'ml-a mr-a',
           component: BrixelSelect,
           label: translateTo('Marital property regime', lang),
-          name: 'buyer.matrimonialPropertyRegime',
+          name: 'additionalBuyerInfo.matrimonialPropertyRegime',
           options: matrimonialPropertyRegime,
           pdClass: 'py-3 py-md-5',
           large: true,
@@ -212,7 +235,7 @@ export const QuestionsList: (lang: string) => QuestionsListType[] = (lang) => {
           classNameBox: 'ml-a mr-a',
           ReduxFieldClass: '',
           label: translateTo('City', lang),
-          name: 'location.City',
+          name: 'location.city',
           validation: [Validation.required],
           large: true,
         },
@@ -229,18 +252,33 @@ export const QuestionsList: (lang: string) => QuestionsListType[] = (lang) => {
       btnLabel: hasProofDocument ? translateTo('Next', lang) : translateTo('Skip', lang),
       component: MakeOfferUploadProofOfFinancing,
     },
-    // GENERAL SAVING FUNCTION FOR EVERYONE
     {
       background: 'bgCardGreen',
       hideProgress: true,
       cardType: 'loadComponent',
-      component: ProofOfFinancingThankYou,
-      titleIcon: DocumentFullIcon,
+      component: MakeOfferResume,
+      footerWidth: 'max-w-fix-768',
+      showSendButton: true,
+      title: translateTo('Review and submit your offer', lang),
+      subtitle: translateTo('Please review the details below. If everything is correct, click "Submit offer" to finalize.', lang),
+      history: 'resumeMakeOffer',
+    },
+    // GENERAL SAVING FUNCTION FOR EVERYONE
+    {
+      hideProgress: true,
+      background: 'bgCardGreen',
+      cardType: 'card',
+      img: SavingMoneyIcon,
       imgMaxWidth: 'max-w-fix-160',
-      showSendButton: false,
       cardClass: 'max-w-fix-360 ml-a mr-a pb-5',
-      title: translateTo('Unfortunately, you\'re not eligible for a proof of financing at this time. Our property experts are here to help you, feel free to contact us.', lang),
+      btnType: 'secondary',
+      title: translateTo('Thank you!', lang),
+      subtitle: translateTo('Your offer is being reviewed. \n' +
+        'We will contact you with any updates.', lang),
       history: 'success',
+      successCustomButtons: [{
+        type: 'secondary',
+      }],
       vCentered: true,
       toSave: true,
     },
