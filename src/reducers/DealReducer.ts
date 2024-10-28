@@ -4,6 +4,7 @@ import {
   SET_ACTIVE_SINGLE_DEAL,
   SET_OFFER_LISTINGS,
   SET_SCHEDULE_VISIT,
+  SET_ACTIVE_SINGLE_OFFER,
 } from '../actions/types/DealTypes';
 
 import {SET_DEAL_NOTE_LISTINGS} from '../actions/types/NoteTypes';
@@ -16,6 +17,7 @@ import type {DealReducerType} from '../@types/reducer/DealReducer';
 
 export const defaultState: DealReducerType = {
   activeSingleDeal: {},
+  activeSingleOffer: null,
   activeSingleDealHistory: {},
   activeSingleDealNotes: [],
   activeSingleDealOwnerHistory: {},
@@ -36,6 +38,10 @@ export default handleActions<any>(
     [SET_DEAL_HISTORY_LISTINGS]: (state, action) => ({
       ...state,
       activeSingleDealHistory: action.payload,
+    }),
+    [SET_ACTIVE_SINGLE_OFFER]: (state, action) => ({
+      ...state,
+      activeSingleOffer: action.payload,
     }),
     [SET_DEAL_OWNER_HISTORY_LISTINGS]: (state, action) => ({
       ...state,

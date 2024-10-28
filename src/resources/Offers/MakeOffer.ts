@@ -11,7 +11,7 @@ import {
   BrixelInputPhone,
   BrixelInputDatePicker,
 } from '@brixel-io/brixel-components/dist/form';
-import MakeOfferPropertyCard from '../../Pages/Dashboard/Buyer/Offer/MakeOffer/MakeOfferPropertyCard';
+import MakeOfferPropertyCard from '../../components/Cards/MakeOfferPropertyCard';
 import MakeOfferResume from '../../Pages/Dashboard/Buyer/Offer/MakeOffer/MakeOfferResume';
 import SavingMoneyIcon from '@brixel-io/brixel-components/dist/images/IconsColored/general/savingMoney.svg';
 import MakeOfferUploadProofOfFinancing from '../../Pages/Dashboard/Buyer/Offer/MakeOffer/MakeOfferUploadProofFinancing';

@@ -5,7 +5,7 @@ import {
   FactsOptions,
   Helpers,
 } from '@brixel-io/brixel-components';
-import MakeOfferPropertyCard from './MakeOfferPropertyCard';
+import MakeOfferPropertyCard from '../../../../../components/Cards/MakeOfferPropertyCard';
 import {connect} from 'react-redux';
 import get from 'lodash/get';
 import translateTo from '../../../../../utils/translation';

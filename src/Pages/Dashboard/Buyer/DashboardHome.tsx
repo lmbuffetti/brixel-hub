@@ -106,7 +106,7 @@ const DashboardHome = (props: ContactType) => {
                   status={visitStatus?.status || 'default'}
                   type="visit"
                   isLoading={!scheduleVisit}
-                  customDescription={scheduleVisit && scheduleVisit[0] ? DateTime.fromMillis(scheduleVisit[0]?.visit?.date).toFormat('dd LLL yyyy, HH:mm', {locale: lang}) : ''}
+                  //customDescription={scheduleVisit && scheduleVisit[0] ? DateTime.fromMillis(scheduleVisit[0]?.visit?.date).toFormat('dd LLL yyyy, HH:mm', {locale: lang}) : ''}
                 />
               )
             }
@@ -118,7 +118,7 @@ const DashboardHome = (props: ContactType) => {
                   history={history}
                   lang={lang}
                   propID={propID}
-                  status={offer.status || 'default'}
+                  status={offer?.status || 'default'}
                   type="offer"
                   isLoading={!scheduleVisit}
                 />

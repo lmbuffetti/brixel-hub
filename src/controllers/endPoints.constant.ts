@@ -17,7 +17,7 @@ export default {
     buyerDeal: (id) => `/page/${id}/deal/buyer`,
     createSingleDeal: () => '/deal',
     deleteOffer: (id) => `/deal/${id}/deleteOffer`,
-    makeOffer: (id) => `/deal/${id}/offer`,
+    offerByDealID: (id) => `/deal/${id}/offer`,
     offerListings: (id) => `/page/${id}/offers`,
     requestVerifiedEnergyCertificate: (dealID) => `/deal/${dealID}/requestVerifiedEnergyCertificate`,
     reviewOffer: (id) => `/deal/${id}/reviewOffer`,

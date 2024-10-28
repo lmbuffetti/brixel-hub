@@ -19,8 +19,13 @@ class Deal extends Base {
   }
 
   makeOffer(id, data) {
-    const url = ep.deal.makeOffer(id);
+    const url = ep.deal.offerByDealID(id);
     return this.apiClient.post(url, {}, data);
+  }
+
+  getOffer(id) {
+    const url = ep.deal.offerByDealID(id);
+    return this.apiClient.get(url, {});
   }
 
   reviewOffer(id, data) {

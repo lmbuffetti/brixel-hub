@@ -4,8 +4,8 @@ import {connect} from 'react-redux';
 import { has } from 'lodash';
 import {PropertyType} from '@brixel-io/brixel-components/dist/@types/Model';
 import {Helpers, FormatValue, BrixelImage} from '@brixel-io/brixel-components';
-import CoverPropertyImage from '../../../../../components/CoverPropertyImage';
-import translateTo from '../../../../../utils/translation';
+import CoverPropertyImage from '../CoverPropertyImage';
+import translateTo from '../../utils/translation';
 
 type MakePropertyCardType = {
   activeSingleProperty: PropertyType

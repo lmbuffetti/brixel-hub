@@ -26,7 +26,7 @@ import {
   SET_ACTIVE_SINGLE_DEAL,
   SET_OFFER_LISTINGS,
   UPDATE_MULTIPLE_DEALS,
-  SET_SCHEDULE_VISIT,
+  SET_SCHEDULE_VISIT, GET_ACTIVE_SINGLE_OFFER, SET_ACTIVE_SINGLE_OFFER,
 } from '../actions/types/DealTypes';
 
 import {GET_HISTORY_LISTINGS, SET_DEAL_OWNER_HISTORY_LISTINGS} from '../actions/types/HistoryTypes';
@@ -636,6 +636,65 @@ const checkCommon = (store) => (next) => (action) => {
         .catch((err) => {
           // eslint-disable-next-line no-console
           console.error(err);
+        });
+      break;
+    }
+    case GET_ACTIVE_SINGLE_OFFER: {
+      next(action);
+      const {
+        id,
+        smallLoader,
+      } = action.payload;
+      if (smallLoader) {
+        store.dispatch({
+          type: SPINNER_SMALL,
+          payload: {
+            [smallLoader]: true,
+          },
+        });
+      } else {
+        store.dispatch({
+          type: SPINNER_ON,
+        });
+      }
+      api.deal.getOffer(id)
+        .then((res) => {
+          if (res.meta.status === 200) {
+            store.dispatch({
+              type: SET_ACTIVE_SINGLE_OFFER,
+              payload: res.data.payload,
+            });
+          }
+          if (smallLoader) {
+            store.dispatch({
+              type: SPINNER_SMALL,
+              payload: {
+                [smallLoader]: false,
+              },
+            });
+          } else {
+            store.dispatch({
+              type: SPINNER_OFF,
+            });
+          }
+        })
+        .catch(() => {
+          if (smallLoader) {
+            store.dispatch({
+              type: SPINNER_SMALL,
+              payload: {
+                [smallLoader]: false,
+              },
+            });
+          } else {
+            store.dispatch({
+              type: SPINNER_OFF,
+            });
+          }
+          store.dispatch({
+            type: SET_ACTIVE_SINGLE_OFFER,
+            payload: {},
+          });
         });
       break;
     }
