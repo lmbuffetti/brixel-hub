@@ -45,6 +45,7 @@ export interface FlowScreenType {
   disableEmailRegister: boolean;
   baseURL: string;
   closeButton?: boolean;
+  smallMargin?: boolean;
   closeLabel?: string;
   saveLabel?: string;
   closeLink?: string;

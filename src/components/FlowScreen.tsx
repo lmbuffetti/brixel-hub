@@ -46,6 +46,7 @@ const FlowScreen = (props: FlowScreenType) => {
     onChangeCurrentIndex = () => '',
     onSaveData,
     QuestionsList,
+    smallMargin,
   } = props;
   // STATE
   // SET THE QUESTIONS IN BASE OF THE COUNTRY
@@ -421,6 +422,7 @@ const FlowScreen = (props: FlowScreenType) => {
                             form={formName}
                             disableNextBtn={false}
                             formValue={formValue}
+                            smallMargin={smallMargin}
                             inputs={quest.inputs}
                             onClick={() => changeStep()}
                             onCloseGoBack={() => changeStep('back')}

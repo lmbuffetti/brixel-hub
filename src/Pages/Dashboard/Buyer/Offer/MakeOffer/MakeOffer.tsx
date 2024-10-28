@@ -135,6 +135,7 @@ const MakeOffer = (props: MakeOfferType) => {
             formName="makeOffer"
             onSaveData={() => saveData()}
             QuestionsList={questions}
+            smallMargin
             closeLabel="Go to offer overview"
           />
         )

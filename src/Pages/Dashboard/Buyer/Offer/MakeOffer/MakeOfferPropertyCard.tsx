@@ -1,8 +1,9 @@
 import React from 'react';
 import get from 'lodash/get';
 import {connect} from 'react-redux';
+import { has } from 'lodash';
 import {PropertyType} from '@brixel-io/brixel-components/dist/@types/Model';
-import {Helpers} from '@brixel-io/brixel-components';
+import {Helpers, FormatValue, BrixelImage} from '@brixel-io/brixel-components';
 import CoverPropertyImage from '../../../../../components/CoverPropertyImage';
 import translateTo from '../../../../../utils/translation';
 
@@ -13,64 +14,68 @@ type MakePropertyCardType = {
 
 const MakeOfferPropertyCard = ({ activeSingleProperty, lang }: MakePropertyCardType) => {
   return (
-    <div className="dis-f a-c jc-b bgWhite brdRadius mb-5">
-      <div>
-        <CoverPropertyImage
-          coverPhoto={activeSingleProperty?.coverPhoto?.url}
-          size="XS"
+    <>
+      <div className="brdRadius dis-fl-row-sm dis-fl-col brdSmall brdText100 ov-h bgWhite">
+        <BrixelImage
+          className="avatar w-fix-sm-200 max-h-fix-200 pos-r cover"
+          url={get(activeSingleProperty, 'coverPhoto.url', '')}
+          alt="Property"
+          size="L"
+          isSquare
+          loading="lazy"
         />
-      </div>
-      <div className="w-perc-100 p-3">
-        <div>
-          <p className="fsize-300 txtText600">
+        <div className="dis-fl-col w-perc-100 py-2 px-2">
+          <span className="dis-b pb-small-4 fsize-300 txtText600">
             {Helpers.formatAddress(activeSingleProperty.location)}
-          </p>
-          <h5 className="fsize-400 fweight-600">{activeSingleProperty?.title}</h5>
-        </div>
-        <div className="dis-f a-c">
-          <p className="ff-mono fsize-300 txtText600">
-            <span>{activeSingleProperty.properties?.typology?.bedrooms}</span>
-            <span className="ml-small-4">{translateTo('rooms', lang)}</span>
-          </p>
-          <span className="dis-b brdFullRadius bgText800 w-fix-small-4 h-fix-small-4 mx-1"></span>
-          <p className="ff-mono fsize-300 txtText600">
-            <span>{activeSingleProperty.properties?.typology?.livingArea?.value}</span>
-            <span className="ml-small-4">{translateTo('m2', lang)}</span>
-          </p>
-          <span className="dis-b brdFullRadius bgText800 w-fix-small-4 h-fix-small-4 mx-1"></span>
-          <p className="ff-mono fsize-300 txtText600">
-            <span>{activeSingleProperty.properties?.building?.built}</span>
-          </p>
-        </div>
-        <div className="mt-3">
-          <h6 className="fsize-300 txtText600">Listing price:</h6>
-          {
-            activeSingleProperty?.status === 'on-sale' && activeSingleProperty?.price?.total && (
-              <p className="txtGreen400">
-                <span>CHF</span>
-                <span className="ff-mono fsize-500">{Helpers.formatNumberValue(activeSingleProperty.price.total, activeSingleProperty?.price?.currency || 'CHF')}
-                </span>
-              </p>
-            )
-          }
-          {
-            activeSingleProperty?.status === 'on-request' && (
-              <span className="txtText700">{translateTo('On Request', lang)}</span>
-            )
-          }
-          {
-            activeSingleProperty?.status === 'sold' && (
-              <span className="txtText700">{translateTo('Sold', lang)}</span>
-            )
-          }
-          {
-            activeSingleProperty?.status === 'reserved' && (
-              <span className="txtText700">{translateTo('Reserved', lang)}</span>
-            )
-          }
+          </span>
+          <p className={'itemTitle fweight-600 dis-b txtText900'}>{activeSingleProperty.title}</p>
+          <div className="dis-fl-row mb-2 ff-mono fsize-300">
+            <span className="rooms">
+              {FormatValue.formatRooms(get(activeSingleProperty, 'properties.typology.bedrooms', 0), get(activeSingleProperty, 'location.countryCode', 'CH'))} {get(activeSingleProperty, 'location.countryCode', 'CH') === 'CH' && translateTo('Rooms', lang)}
+            </span>
+            <span  className="px-1"> &bull; </span>
+            <div className="dis-f">
+              <span className="">
+                {(activeSingleProperty && activeSingleProperty.properties && activeSingleProperty.properties.typology && has(activeSingleProperty.properties, 'typology') && activeSingleProperty.properties.typology.livingArea) ? activeSingleProperty.properties.typology.livingArea.value : '-'}
+              </span>
+              <span className="pl-small-4">m2</span>
+            </div>
+            <span className="px-1"> &bull; </span>
+            <span>
+              {(activeSingleProperty && activeSingleProperty.properties && activeSingleProperty.properties.building && has(activeSingleProperty.properties, 'building') && activeSingleProperty.properties.building.built) ? activeSingleProperty.properties.building.built : '-'}
+            </span>
+          </div>
+          <div className="dis-fl-col mt-a">
+
+            <h6 className="fsize-300 hide dis-b-sm fweight-300 txtText600">Listing price:</h6>
+            {
+              activeSingleProperty?.status === 'on-sale' && activeSingleProperty?.price?.total && (
+                <p className="txtGreen400 ff-mono">
+                  <span>CHF</span>
+                  <span className="ff-mono fsize-500">{Helpers.formatNumberValue(activeSingleProperty.price.total, activeSingleProperty?.price?.currency || 'CHF')}
+                  </span>
+                </p>
+              )
+            }
+            {
+              activeSingleProperty?.status === 'on-request' && (
+                <span className="txtText700 ff-mono">{translateTo('On Request', lang)}</span>
+              )
+            }
+            {
+              activeSingleProperty?.status === 'sold' && (
+                <span className="txtText700 ff-mono">{translateTo('Sold', lang)}</span>
+              )
+            }
+            {
+              activeSingleProperty?.status === 'reserved' && (
+                <span className="txtText700 ff-mono">{translateTo('Reserved', lang)}</span>
+              )
+            }
+          </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }
 
