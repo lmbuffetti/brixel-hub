@@ -15,21 +15,19 @@ import MakeOfferPropertyCard from '../../Pages/Dashboard/Buyer/Offer/MakeOffer/M
 import MakeOfferResume from '../../Pages/Dashboard/Buyer/Offer/MakeOffer/MakeOfferResume';
 import SavingMoneyIcon from '@brixel-io/brixel-components/dist/images/IconsColored/general/savingMoney.svg';
 import MakeOfferUploadProofOfFinancing from '../../Pages/Dashboard/Buyer/Offer/MakeOffer/MakeOfferUploadProofFinancing';
-import {DocumentType, QuestionsListType} from '@brixel-io/brixel-components/dist/@types/Model';
-
-export type formValueType = {
-  proofOfFinancing?: File[]
-}
+import {DocumentType, PhoneNumberType, QuestionsListType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 const { factsOptions } = FactsOptions;
 
 export type formValueMekOffer = {
   amount: number
   currency: string
+  id: string
+  smallLoader?: string
   additionalBuyerInfo: {
-    fullName: string
-    email: string
-    phone:{prefix: string, number: number}
+    fullName?: string
+    email?: string
+    phone?: PhoneNumberType
     placeOfOrigin: string
     dateBirth: number
     maritialStatus: string
@@ -47,11 +45,11 @@ export type formValueMekOffer = {
 }
 
 export const QuestionsList: (lang: string) => QuestionsListType[] = (lang) => {
-  let formValue: formValueType = {};
+  let formValue: formValueMekOffer | undefined = undefined;
   let hasProofDocument = false;
   if (configureStore) {
     formValue = get(configureStore.getState(), 'brixelForm.makeOffer.values', []);
-    hasProofDocument = (formValue.proofOfFinancing && formValue.proofOfFinancing.length > 0) || false;
+    hasProofDocument = (formValue?.documents && formValue.documents.length > 0) || false;
   }
 
   const purchaseType = factsOptions.purchaseType.map((item) => ({

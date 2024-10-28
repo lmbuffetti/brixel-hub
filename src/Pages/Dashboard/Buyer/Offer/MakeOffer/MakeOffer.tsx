@@ -4,13 +4,10 @@ import get from 'lodash/get';
 import {connect} from 'react-redux';
 import {useParams} from 'react-router-dom';
 import {bindActionCreators, compose} from 'redux';
-import {spinnerOff, spinnerOn, spinnerSmall} from '../../../../../actions/CommonActions';
-import {getActiveSingleCompany} from '../../../../../actions/CompanyActions';
 import {
   getActiveSingleProperty,
   saveActiveSingleProperty,
 } from '../../../../../actions/PropertyActions';
-import {doLogin, saveActiveSingleUser, validateUser} from '../../../../../actions/UserActions';
 import {formValueMekOffer, QuestionsList} from '../../../../../resources/Offers/MakeOffer';
 import type {
   CompanyType,
@@ -18,17 +15,21 @@ import type {
   QuestionsListType,
   LoggedUserType,
 } from '@brixel-io/brixel-components/dist/@types/Model';
+import multiUploadDocument from '@brixel-io/brixel-components/dist/helpers/uploads/MultiUpload';
 import FlowScreen from '../../../../../components/FlowScreen';
+import {getBuyerDeal, saveMakeOffer} from '../../../../../actions/DealActions';
 
 type MakeOfferType = {
-  activeSingleProperty: PropertyType
   activeSingleCompany: CompanyType;
+  activeSingleProperty: PropertyType
   changeFieldValue: (field: string, val: string | null | boolean | string[] | object | number) => void;
   company: CompanyType;
+  dealID?: string;
   destroyForm: () => void;
   formValue: formValueMekOffer;
   handleGetActiveSingleProperty: (data: object) => void;
-  handelSetSmallSpinner: (data: object) => void;
+  handleGetBuyerDeal: (data: object) => void;
+  handleSaveMakeOffer: (data: object) => void;
   initForm: (data: object) => void;
   lang?: string;
   loggedInUser?: LoggedUserType
@@ -38,19 +39,21 @@ const MakeOffer = (props: MakeOfferType) => {
   const match = useParams();
   // PROPS
   const {
-    activeSingleProperty,
     activeSingleCompany,
+    activeSingleProperty,
     changeFieldValue,
     company,
+    dealID,
     destroyForm,
     formValue,
     handleGetActiveSingleProperty,
-    handelSetSmallSpinner,
+    handleGetBuyerDeal,
+    handleSaveMakeOffer,
     initForm,
     lang = 'en',
     loggedInUser,
   } = props;
-  const propID = get(match, 'propID', null);
+  const propID = match?.propID || ''
   // STATE
   // SET THE QUESTIONS IN BASE OF THE COUNTRY
   const [questions, setQuestions] = useState<QuestionsListType[]>(QuestionsList(lang));
@@ -66,6 +69,9 @@ const MakeOffer = (props: MakeOfferType) => {
   useEffect(() => {
     if (!activeSingleProperty.id) {
       handleGetActiveSingleProperty({ id: propID });
+    }
+    if (!dealID) {
+      handleGetBuyerDeal({ id: propID, actionStub: null });
     }
   }, [propID]);
 
@@ -91,10 +97,26 @@ const MakeOffer = (props: MakeOfferType) => {
 
   // FUNCTION TO SAVE DATA
   const saveData = async () => {
-    handelSetSmallSpinner({sendData: true});
-    setTimeout(() => {
-      handelSetSmallSpinner({sendData: false});
-    }, 2000)
+    if (dealID) {
+      const docs: any = formValue?.documents || [];
+      const data: formValueMekOffer = {
+        ...formValue,
+        id: dealID,
+        smallLoader: 'sendData',
+      };
+      delete data.additionalBuyerInfo.fullName
+      delete data.additionalBuyerInfo.email
+      delete data.additionalBuyerInfo.phone
+      if (docs.length > 0) {
+        multiUploadDocument(docs, 'genericDocument', {pageID: propID, companyID: ''})
+          .then((res) => {
+            data.documents = res;
+            handleSaveMakeOffer(data);
+          })
+      } else {
+        handleSaveMakeOffer(data);
+      }
+    }
   };
 
   // SET DATA BY COMPANY
@@ -126,6 +148,7 @@ const mapStateToProps = (state) => {
     activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
     activeSingleProperty: get(state, 'property.activeSingleProperty', null),
     company: get(state, 'companies.activeSingleCompany', {}),
+    dealID: state?.deal?.activeSingleDeal?.id || null,
     errorValue: get(state, 'brixelForm.makeOffer.syncErrors', {}),
     formValue: get(state, 'brixelForm.makeOffer.values', {}),
     isLoading: get(state, 'common.isLoading', 0) > 0,
@@ -152,14 +175,9 @@ const mapDispatchToProps = (dispatch) => ({
     (dispatch(reset('makeOffer', initialValue)));
   },
   handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
-  handleDoLogin: bindActionCreators(doLogin, dispatch),
-  handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
+  handleSaveMakeOffer: bindActionCreators(saveMakeOffer, dispatch),
+  handleGetBuyerDeal: bindActionCreators(getBuyerDeal, dispatch),
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
-  handleSaveActiveSingleUser: bindActionCreators(saveActiveSingleUser, dispatch),
-  handleSpinnerOn: bindActionCreators(spinnerOn, dispatch),
-  handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
-  handelSetSmallSpinner: bindActionCreators(spinnerSmall, dispatch),
-  handleValidateUser: bindActionCreators(validateUser, dispatch),
 });
 
 export default compose(

@@ -96,7 +96,7 @@ const MakeOfferUploadProofFinancing = ({
                   saturationTxt={400}
                   icon="document"
                 />
-                <p className="fsize-300 txtText600 ml-2">{file.file}</p>
+                <p className="fsize-300 txtText600 ml-2">{file.name}</p>
               </div>
               <BrixelIcon
                 color="red"
