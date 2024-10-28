@@ -30,12 +30,10 @@ const MakeOfferUploadProofFinancing = ({
 
   const onDrop = async (acceptedFiles) => {
     if (acceptedFiles.length > 0) {
-      const newFiles = [...acceptedFiles];
       acceptedFiles.forEach(async (file) => {
         const base64 = await toBase64(file);
         setDocumentsUploaded((prev) => ([...prev, base64]));
       })
-      console.log(newFiles, acceptedFiles)
       setShowError('')
     } else {
       setShowError('Please make sure file is in correct format and size');

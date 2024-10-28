@@ -99,7 +99,6 @@ const MakeOfferResume = ({
     const pdfWindow = window.open('');
     if (pdfWindow) {
       const base64Info = data.split('base64,')
-      console.log(base64Info)
       pdfWindow.document.write('<html<head><title>PDF</title><style>body{margin: 0px;}</style></head>');
       pdfWindow.document.write(`<body><embed width='100%' height='100%' src='${base64Info[0]}base64, ${encodeURI(base64Info[1])}#toolbar=0&navpanes=0&scrollbar=0'></embed></body></html>`);
       pdfWindow.document.close();
