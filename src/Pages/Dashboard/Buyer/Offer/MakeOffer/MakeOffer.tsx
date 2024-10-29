@@ -136,6 +136,7 @@ const MakeOffer = (props: MakeOfferType) => {
             onSaveData={() => saveData()}
             QuestionsList={questions}
             smallMargin
+            className="offerFlow"
             closeLabel="Go to offer overview"
           />
         )

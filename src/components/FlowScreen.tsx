@@ -47,6 +47,7 @@ const FlowScreen = (props: FlowScreenType) => {
     onSaveData,
     QuestionsList,
     smallMargin,
+    className,
   } = props;
   // STATE
   // SET THE QUESTIONS IN BASE OF THE COUNTRY
@@ -334,7 +335,7 @@ const FlowScreen = (props: FlowScreenType) => {
 
   return (
     <>
-      <div id="bodyModalWrapper" className={`withHeader getStarted slideUpTrans ${get(quest, 'background', '')} ${get(quest, 'history', '')} ${get(quest, 'classNameWrapper', '')}`}>
+      <div id="bodyModalWrapper" className={`withHeader getStarted slideUpTrans ${get(quest, 'background', '')} ${className} ${get(quest, 'history', '')} ${get(quest, 'classNameWrapper', '')}`}>
         {
           get(quest, 'inputs', null) && get(quest, 'history', '') !== 'createProfile' && get(quest, 'history', null) !== 'resume' && (
             <div className="pos-r">

@@ -45,7 +45,7 @@ const MakeOfferUploadProofFinancing = ({
   }
 
   return (
-    <div className="max-w-fix-768 mx-a">
+    <div className="max-w-fix-600 mx-a">
       <p className="dis-f jc-fe a-c mb-2">
         <span className="fsize-200 mr-1">{translateTo('What is this?', lang)}</span>
         <BrixelTooltip
@@ -62,7 +62,7 @@ const MakeOfferUploadProofFinancing = ({
           {({getRootProps, getInputProps}) => (
             <div
               {...getRootProps()}
-              className="bgGreen50 brdRadius ta-c py-10 px-5 upload-container brdSmallDashed brdGreen200"
+              className="bgGreen25 brdRadius ta-c py-3 px-2 py-sm-10 px-sm-5 upload-container"
             >
               <input {...getInputProps()}/>
               <>
@@ -72,7 +72,7 @@ const MakeOfferUploadProofFinancing = ({
                 </p>
                 {(!documentsUploaded || (isArray(documentsUploaded) && documentsUploaded.length === 0)) && (<span className='brdSmallTop brdText100 w-fix-104 my-2 ml-a mr-a'></span>)}
 
-                <span className="fsize-300 txtText400">{translateTo('All standard formats are supported, with a maximum file size of 10 MB', lang)}</span>
+                <span className="fsize-300 max-w-fix-304 ml-a mr-a mt-1 txtText400 dis-b">{translateTo('All standard formats are supported, with a maximum file size of 10 MB', lang)}</span>
               </>
               {
                 showError && (
@@ -85,7 +85,7 @@ const MakeOfferUploadProofFinancing = ({
 
         {
           documentsUploaded.map((file, index) => (
-            <div key={index} className="dis-f a-c jc-sb bgWhite brdRadius p-3 mt-3 dis-f jc-b a-c">
+            <div key={index} className="dis-f a-c jc-sb bgWhite brdRadius p-2 brdSmall brdText100 mt-3 dis-f jc-b a-c">
               <div className="dis-f a-c">
                 <BrixelIcon
                   background="green"
@@ -94,7 +94,7 @@ const MakeOfferUploadProofFinancing = ({
                   saturationTxt={400}
                   icon="document"
                 />
-                <p className="fsize-300 txtText600 ml-2">{file.name}</p>
+                <p className="fsize-300 ml-2">{file.name}</p>
               </div>
               <BrixelIcon
                 color="red"

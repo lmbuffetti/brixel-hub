@@ -50,8 +50,7 @@ const MakeOfferPropertyCard = ({ activeSingleProperty, lang }: MakePropertyCardT
             <h6 className="fsize-300 hide dis-b-sm fweight-300 txtText600">Listing price:</h6>
             {
               activeSingleProperty?.status === 'on-sale' && activeSingleProperty?.price?.total && (
-                <p className="txtGreen400 ff-mono">
-                  <span>CHF</span>
+                <p className="txtGreen400 dis-f a-c ff-mono">
                   <span className="ff-mono fsize-500">{Helpers.formatNumberValue(activeSingleProperty.price.total, activeSingleProperty?.price?.currency || 'CHF')}
                   </span>
                 </p>

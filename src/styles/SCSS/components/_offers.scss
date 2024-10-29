@@ -47,3 +47,40 @@
 .brdRadiusSmall {
   border-radius: 4px;
 }
+
+.offerFlow {
+  .brixel-label span {
+    font-size: 14px;
+    font-weight: 400;
+    color: map-get($textColor, 900);
+  }
+  .brixel-text-input-container .brixel-text-input:disabled {
+    background-color: #fff;
+    color: map-get($textColor, 900);
+  }
+  .brixel-select-wrapper .brixel-select.disabled .dropdown {
+    background-color: #fff;
+    .current {
+      color: map-get($textColor, 400);
+    }
+  }
+  .disabledLabel span {
+    color: map-get($textColor, 400);
+  }
+  .upload-container {
+    background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='%236ed9ac' stroke-width='2' stroke-dasharray='4' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
+  }
+  .bodyModal.success {
+    justify-content: flex-start;
+  }
+  .multiFieldWrap {
+    margin-top: $step * 3;
+  }
+  .error-message {
+    position: absolute;
+    bottom: -18px;
+  }
+  textarea::placeholder {
+    font-size: 14px !important;
+  }
+}

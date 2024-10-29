@@ -106,15 +106,15 @@ const MakeOfferResume = ({
   }
 
   return (
-    <div className="max-w-fix-768 mx-a">
+    <div className="max-w-fix-600 mx-a">
       <MakeOfferPropertyCard />
 
-      <div>
-        <h6 className="mb-2">{translateTo('Your offer details', lang)}</h6>
+      <div className='mt-4'>
+        <h6 className="mb-2 fweight-600">{translateTo('Your offer details', lang)}</h6>
 
         <div className="brdRadius bgWhite brdSmall brdText100 p-3">
           <div className="mb-3">
-            <p className="fsize-300 fweight-500 mb-small-4">{translateTo('Offer price', lang)}</p>
+            <p className="fsize-300 fweight-500 mb-small-4">{translateTo('Your offer', lang)}</p>
             <p className="fsize-600 txtGreen400">
               <span className="mr-1">{formValue.currency}</span>
               <span className="ff-mono">{Helpers.formatNumberValue(formValue.amount, formValue)}</span>
@@ -140,8 +140,8 @@ const MakeOfferResume = ({
 
         </div>
 
-        <div className="dis-f a-c mt-2">
-          <p className="mr-1">{translateTo('This is a non-binding offer.', lang)}</p>
+        <div className="dis-f a-c mt-1">
+          <p className="mr-1 fsize-200 txtText400">{translateTo('This is a non-binding offer.', lang)}</p>
           <BrixelTooltip
             description={translateTo('This offer does not create any legal obligations and serves as a preliminary proposal. Final terms may change after further discussion.', lang)}
           />
@@ -150,7 +150,7 @@ const MakeOfferResume = ({
       </div>
       <div className="mt-4">
 
-        <h6 className="mb-2">{translateTo('Your personal details', lang)}</h6>
+        <h6 className="mb-2 fweight-600">{translateTo('Your personal details', lang)}</h6>
 
         <div className="brdRadius bgWhite brdSmall brdText100 p-3">
 
@@ -175,8 +175,8 @@ const MakeOfferResume = ({
       </div>
 
       <div className="mt-4">
-        <h6 className="mb-2">{translateTo('Proof of financing', lang)}</h6>
-        <div className="brdRadius bgWhite brdSmall brdText100 p-3">
+        <h6 className="mb-2 fweight-600">{translateTo('Proof of financing', lang)}</h6>
+        <div className="brdRadius bgWhite brdSmall brdText100 p-2">
           {
             formValue.documents && formValue.documents.length > 0 ? (
               <>
@@ -194,10 +194,11 @@ const MakeOfferResume = ({
                           saturationTxt={400}
                           icon="document"
                         />
-                        <p className="fsize-300 txtText600 ml-2">{file.name}</p>
+                        <p className="fsize-300 ml-2">{file.name}</p>
                       </div>
                       <BrixelButtonSecondary
                         rounded
+                        small
                         label={translateTo('View', lang)}
                         onClick={() => showPDF(file.file)}
                       />
@@ -212,8 +213,8 @@ const MakeOfferResume = ({
                   color='green'
                 />
                 <div className="ml-1">
-                  <p className="fweight-600">{translateTo('No proof of financing uploaded yet.', lang)}</p>
-                  <p>{translateTo('You can apply for a free proof of financing from our partners later.', lang)}</p>
+                  <p className="fweight-600 fsize-300">{translateTo('No proof of financing uploaded yet.', lang)}</p>
+                  <p className='fsize-300'>{translateTo('You can apply for a free proof of financing from our partners later.', lang)}</p>
                 </div>
               </div>
             )
