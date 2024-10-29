@@ -5,17 +5,21 @@ import SectionMobileTitle from '../../../../components/SectionMobileTitle';
 import BannerFullSize from '../../../../components/BannerFullSize';
 import DocumentIcon from '../../../../images/documentsIcon/documentFull.svg'
 import BannerOfferDefault from '../../../../images/dashboard/bannerOffer-deafault.svg';
+import MoneySaverImg from '@brixel-io/brixel-components/dist/images/IconsColored/general/SavingMoney.svg';
 import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import {getActiveSingleOffer} from '../../../../actions/DealActions';
 import {bindActionCreators} from 'redux';
 import type {OfferType} from '@brixel-io/brixel-components/dist/@types/Models/Deals';
 import MakeOfferPropertyCardVertical from '../../../../components/Cards/MakeOfferPropertyCardVertical';
 import ContactPageCard from '../../../../components/Cards/ContactPageCard';
+import {setModal} from '../../../../actions/CommonActions';
+import MakeOfferModalUpdate from './MakeOffer/MakeOfferModalUpdate';
 
 type SingleOfferType = {
   activeSingleOffer: OfferType
   dealID: string
   handleGetActiveSingleOffer: (data: object) => void;
+  handleSetModal: (data: object) => void;
   lang: string
 }
 
@@ -23,6 +27,7 @@ const SingleOffer = ({
   activeSingleOffer,
   dealID,
   handleGetActiveSingleOffer,
+  handleSetModal,
   lang,
 }: SingleOfferType) => {
   const history = {
@@ -33,10 +38,28 @@ const SingleOffer = ({
   const propID = match?.propID || '';
 
   useEffect(() => {
+    updateOffer()
+  }, []);
+
+  useEffect(() => {
     if (dealID) {
       handleGetActiveSingleOffer({id: dealID, smallLoader: 'getOffer'});
     }
   }, [dealID]);
+
+  const updateOffer = () => {
+    handleSetModal({
+      clickOutsideToClose: false,
+      bodyClassColor: 'p-0 dis-fl-col',
+      bodyInnerClass: 'h-perc-100 dis-fl-col flex-1',
+      title: 'Make new offer',
+      state: true,
+      small: true,
+      titleTop: true,
+      layout: 'large',
+      component: <MakeOfferModalUpdate closeModal={() => handleSetModal({})} />,
+    })
+  }
 
   if (!activeSingleOffer) {
     return <div/>
@@ -54,7 +77,7 @@ const SingleOffer = ({
           />
           {
             activeSingleOffer.id ? (
-              <div>
+              <div className="dis-f">
                 <div className="max-w-fix-336">
                   <div>
                     <h4 className="mb-2 fsize-500 fweight-600">{translateTo('Property details', lang)}</h4>
@@ -66,6 +89,32 @@ const SingleOffer = ({
                     <ContactPageCard />
                   </div>
                 </div>
+
+                <div className="pl-5">
+                  <h5 className="mb-2">Progress</h5>
+
+                  {
+                    !activeSingleOffer?.id || activeSingleOffer?.status === 'rejected' && (
+                      <BannerFullSize
+                        type="green"
+                        lang={lang}
+                        image={MoneySaverImg}
+                        title="Let’s add a new offer!"
+                        description={['Your offer was declined. Feel free to propose a new price if you\'re still interested!']}
+                        button={{
+                          label: 'Add new offer',
+                          iconLeft: 'plus',
+                          onClick: () => updateOffer(),
+                          type: 'primary',
+                        }}
+                      />
+                    )
+                  }
+
+
+
+                </div>
+
               </div>
             ) : (
               <div>
@@ -114,6 +163,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   handleGetActiveSingleOffer:bindActionCreators(getActiveSingleOffer, dispatch),
+  handleSetModal: bindActionCreators(setModal, dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SingleOffer);

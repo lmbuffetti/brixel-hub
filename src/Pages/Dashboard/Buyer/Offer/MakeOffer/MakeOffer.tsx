@@ -82,7 +82,9 @@ const MakeOffer = (props: MakeOfferType) => {
         email: loggedInUser.email,
         phone: loggedInUser.phone,
       }
+
       const defaultData = {
+        currency: activeSingleProperty?.price?.currency || 'CHF',
         additionalBuyerInfo: {
           ...buyer,
         },

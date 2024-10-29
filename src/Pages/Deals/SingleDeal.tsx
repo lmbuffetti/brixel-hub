@@ -32,7 +32,6 @@ import {getNoteListings, setDealNoteListings} from '../../actions/NoteActions';
 // COMPONENTS
 import ProgressBar from '../../components/ProgressBar';
 import Timeline from '../../components/Timeline';
-import {formatPrice} from '../../utils/helpers';
 import translateTo from '../../utils/translation';
 
 import TimelineStubs from '../../resources/Utilities/timelineActionStubs';
@@ -266,37 +265,17 @@ const SingleDeal = (props: SingleDealType) => {
   };
 
   const getOfferText = () => {
-    const offer = activeSingleDeal?.closing?.stageOffer?.offer;
-    if (offer?.status) return `${offer?.currency} ${formatPrice(offer?.amount || 0, lang)}`;
     return translateTo('No offer', lang);
   };
 
   const getCompleteOffer = () => {
     let answerText = '';
-    if (get(activeSingleDeal, 'closing.stageOffer.offer.buyer') && Object.keys(activeSingleDeal.closing.stageOffer.offer.buyer).length > 0) {
-      answerText += `<span>${translateTo('Buyer details:', lang)}</span></br>
-      <span class="dis-b"><span>${translateTo('Date of birth:', lang)}</span><span class="fweight-500">
-      ${(typeof get(activeSingleDeal, 'closing.stageOffer.offer.buyer.dateBirth', '') === 'string' && get(activeSingleDeal, 'closing.stageOffer.offer.buyer.dateBirth', '').includes('-')) ? get(activeSingleDeal, 'closing.stageOffer.offer.buyer.dateBirth', '') : DateTime.fromMillis(
-    get(activeSingleDeal, 'closing.stageOffer.offer.buyer.dateBirth', 0),
-    {
-      locale: lang,
-    },
-  ).toFormat('yyyy-MM-dd')}
-    </span></span>      </br><span>${translateTo('Marital status:', lang)}</span><span class="ml-small-4">${translateTo(get(activeSingleDeal, 'closing.stageOffer.offer.buyer.maritialStatus', ''), lang)} </span>
-      </br><span>${translateTo('Place of origin:', lang)}</span><span class="ml-small-4">${translateTo(get(activeSingleDeal, 'closing.stageOffer.offer.buyer.placeOfOrigin', ''), lang)} </span>
-      </br><span>${translateTo('Type of purchase:', lang)}</span><span class="ml-small-4">${translateTo(get(activeSingleDeal, 'closing.stageOffer.offer.buyer.typeOfPurchase', ''), lang)} </span>
-      <span class="dis-b"><span>${translateTo('Comment', lang)}<span class="lh-in">:</span> </span><span class="word-b fweight-500">${get(activeSingleDeal, 'closing.stageOffer.offer.noteByBuyer', '')} </span></span></br>`;
-    }
     if (get(activeSingleDeal, 'closing.stageOffer.offer.location') && Object.keys(activeSingleDeal.closing.stageOffer.offer.location).length > 0) {
       answerText += `</br></br><span>${translateTo('Buyer location:', lang)}</span></br>
       <span>${translateTo(get(activeSingleDeal, 'closing.stageOffer.offer.location.street', ''), lang)}</span>
       <span class="ml-small-4">${translateTo(get(activeSingleDeal, 'closing.stageOffer.offer.location.streetNumber', ''), lang)}</span>
       <span class="ml-small-4">${translateTo(`, ${get(activeSingleDeal, 'closing.stageOffer.offer.location.zipCode', '')}`, lang)} </span>
       <span class="ml-small-4">${translateTo(get(activeSingleDeal, 'closing.stageOffer.offer.location.City', ''), lang)}</span>`;
-    }
-
-    if (get(activeSingleDeal, 'closing.stageOffer.offer.financeCertificate') === 0 || get(activeSingleDeal, 'closing.stageOffer.offer.financeCertificate') === 1) {
-      answerText += `</br></br><span>${translateTo('Financial certificate:', lang)}</span><span class="ml-small-4">${translateTo(activeSingleDeal.closing.stageOffer.offer.financeCertificate === 1 ? 'Yes' : 'No', lang)} </span>`;
     }
     return answerText;
   };

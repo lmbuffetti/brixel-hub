@@ -10,7 +10,6 @@ import {
 
 type ContactPageCardType = {
   contactPage: ContactType
-  lang: string
 }
 
 const ContactPageCard = ({ contactPage }: ContactPageCardType) => {

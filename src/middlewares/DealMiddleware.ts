@@ -616,9 +616,11 @@ const checkCommon = (store) => (next) => (action) => {
       }
       api.deal.makeOffer(id, objData)
         .then((res) => {
-          if (!get(res.data, 'statusCode', null)) {
-            const { data } = res;
-            store.dispatch({ type: SET_ACTIVE_SINGLE_DEAL, payload: data });
+          if (res.meta.status === 200) {
+            store.dispatch({
+              type: SET_ACTIVE_SINGLE_OFFER,
+              payload: res.data.payload,
+            });
           }
           if (smallLoader) {
             store.dispatch({

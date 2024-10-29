@@ -4,7 +4,6 @@ import {
   Helpers,
 } from '@brixel-io/brixel-components';
 import get from 'lodash/get';
-import {DateTime} from 'luxon';
 import {connect} from 'react-redux';
 import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import {bindActionCreators, compose} from 'redux';
