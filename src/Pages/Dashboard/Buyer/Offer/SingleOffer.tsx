@@ -57,12 +57,12 @@ const SingleOffer = ({
               <div>
                 <div className="max-w-fix-336">
                   <div>
-                    <h5 className="mb-2">{translateTo('Property details', lang)}</h5>
+                    <h4 className="mb-2 fsize-500 fweight-600">{translateTo('Property details', lang)}</h4>
                     <MakeOfferPropertyCardVertical />
                   </div>
 
                   <div className="mt-3">
-                    <h5 className="mb-2">{translateTo('Contact', lang)}</h5>
+                    <h5 className="mb-2 fsize-500 fweight-600">{translateTo('Contact', lang)}</h5>
                     <ContactPageCard />
                   </div>
                 </div>
