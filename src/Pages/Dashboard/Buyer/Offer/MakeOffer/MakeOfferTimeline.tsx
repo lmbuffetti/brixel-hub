@@ -22,7 +22,7 @@ const MakeOfferTimeline = ({
 }: MakeOfferTimelineType) => {
 
 
-  const offerRow = (singleOffer, status, icon, showViewBtn = false) => {
+  const offerRow = (singleOffer, status, icon, showViewBtn = false, isActive = false) => {
     let titleText = ''
     let colorPrice = 'txtRed400'
     if (icon === 'house') {
@@ -65,8 +65,8 @@ const MakeOfferTimeline = ({
       <li className={`${icon}`}>
         <div className="brdBottom dis-f a-c jc-b">
           <div>
-            <h6 className="time">
-              <span>
+            <h6>
+              <span className={`${isActive ? 'fweight-600' : 'fweight-500'}`}>
                 {translateTo(titleText, lang)}
               </span>
               <span className={`${colorPrice} fweight-700 ml-1`}>
@@ -128,7 +128,7 @@ const MakeOfferTimeline = ({
         activeSingleOffer.status !== 'pending' && (
           <div className=" bgWhite brdRadius py-3 px-6 mb-2">
             <ul className="sessions">
-              {offerRow(activeSingleOffer, activeSingleOffer.status, 'house')}
+              {offerRow(activeSingleOffer, activeSingleOffer.status, 'house', false, true)}
               {activeSingleOffer.status === 'rejected' && offerRow(activeSingleOffer, activeSingleOffer.status, 'key', true)}
             </ul>
           </div>
