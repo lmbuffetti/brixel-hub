@@ -13,7 +13,7 @@ import {
 } from '@brixel-io/brixel-components/dist/form';
 import MakeOfferPropertyCard from '../../components/Cards/MakeOfferPropertyCard';
 import MakeOfferResume from '../../Pages/Dashboard/Buyer/Offer/MakeOffer/MakeOfferResume';
-import SavingMoneyIcon from '@brixel-io/brixel-components/dist/images/IconsColored/general/savingMoney.svg';
+import SavingMoneyIcon from '@brixel-io/brixel-components/dist/images/IconsColored/general/SavingMoney.svg';
 import MakeOfferUploadProofOfFinancing from '../../Pages/Dashboard/Buyer/Offer/MakeOffer/MakeOfferUploadProofFinancing';
 import {DocumentType, PhoneNumberType, QuestionsListType} from '@brixel-io/brixel-components/dist/@types/Model';
 

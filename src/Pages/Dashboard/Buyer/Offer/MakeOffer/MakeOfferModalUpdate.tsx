@@ -59,7 +59,7 @@ const MakeOffer = (props: MakeOfferType) => {
       handleSaveMakeOffer(data);
     }
   };
-  console.log(formValue)
+
   return (
     <div className="flex-1 p-4">
       <div className="bgBlue100 brdRadius dis-f a-c p-2">
