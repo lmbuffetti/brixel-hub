@@ -10,10 +10,18 @@ import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import {getActiveSingleOffer} from '../../../../actions/DealActions';
 import {bindActionCreators} from 'redux';
 import type {OfferType} from '@brixel-io/brixel-components/dist/@types/Models/Deals';
+import {
+  BrixelIcon,
+  Helpers,
+} from '@brixel-io/brixel-components';
 import MakeOfferPropertyCardVertical from '../../../../components/Cards/MakeOfferPropertyCardVertical';
 import ContactPageCard from '../../../../components/Cards/ContactPageCard';
 import {setModal} from '../../../../actions/CommonActions';
 import MakeOfferModalUpdate from './MakeOffer/MakeOfferModalUpdate';
+import MakeOfferModalView from './MakeOffer/MakeOfferModalView';
+import MakeOfferTimeline from './MakeOffer/MakeOfferTimeline';
+import {DateTime} from 'luxon';
+import BrixelButtonSecondary from '@brixel-io/brixel-components/dist/components/BrixelButtonSecondary';
 
 type SingleOfferType = {
   activeSingleOffer: OfferType
@@ -38,10 +46,6 @@ const SingleOffer = ({
   const propID = match?.propID || '';
 
   useEffect(() => {
-    updateOffer()
-  }, []);
-
-  useEffect(() => {
     if (dealID) {
       handleGetActiveSingleOffer({id: dealID, smallLoader: 'getOffer'});
     }
@@ -61,13 +65,26 @@ const SingleOffer = ({
     })
   }
 
+  const viewOffer = () => {
+    handleSetModal({
+      clickOutsideToClose: false,
+      bodyClassColor: 'p-0 dis-fl-col',
+      bodyInnerClass: 'h-perc-100 dis-fl-col flex-1',
+      state: true,
+      small: true,
+      hideHeader: true,
+      layout: 'fullscreen',
+      component: <MakeOfferModalView closeModal={() => handleSetModal({})} />,
+    })
+  }
+
   if (!activeSingleOffer) {
     return <div/>
   }
 
   return (
     <>
-      <h3 className="mb-3 hide dis-b-lg  fweight-600">
+      <h3 className="mb-3 hide dis-b-lg fweight-600">
         {translateTo(activeSingleOffer.id  ? 'Your Offer' : 'Offer', lang)}
       </h3>
       <div className="dis-f h-perc-lg-100">
@@ -78,7 +95,7 @@ const SingleOffer = ({
           {
             activeSingleOffer.id ? (
               <div className="dis-f">
-                <div className="max-w-fix-336">
+                <div className="w-perc-30">
                   <div>
                     <h4 className="mb-2 fsize-500 fweight-600">{translateTo('Property details', lang)}</h4>
                     <MakeOfferPropertyCardVertical />
@@ -90,12 +107,13 @@ const SingleOffer = ({
                   </div>
                 </div>
 
-                <div className="pl-5">
+                <div className="pl-5 w-perc-70">
                   <h5 className="mb-2">Progress</h5>
 
                   {
                     !activeSingleOffer?.id || activeSingleOffer?.status === 'rejected' && (
                       <BannerFullSize
+                        className="mb-2"
                         type="green"
                         lang={lang}
                         image={MoneySaverImg}
@@ -111,9 +129,71 @@ const SingleOffer = ({
                     )
                   }
 
+                  {
+                    !activeSingleOffer?.id || activeSingleOffer?.status === 'pending' && (
+                      <div>
 
+                        <div className="bgWhite p-3 brdRadius mb-3 dis-f a-t">
+                          <BrixelIcon
+                            rounded
+                            icon="key"
+                            background="red"
+                            saturation={50}
+                            color="red"
+                            saturationTxt={500}
+                          />
+                          <div className="ml-2 dis-f w-perc-100 a-c jc-b">
+                            <div>
+                              <p className="fweight-600">
+                                <span>
+                                  {translateTo('You made an offer of:', lang)}
+                                </span>
+                                <span className="txtGreen400 ml-1">
+                                  <span className="mr-1">
+                                    {activeSingleOffer?.currency || 'CHF'}
+                                  </span>
+                                  <span>
+                                    {Helpers.formatNumberValue(activeSingleOffer?.amount, activeSingleOffer?.currency || 'CHF')}
+                                  </span>
+                                </span>
+                              </p>
+                              {
+                                activeSingleOffer?.noteByBuyer && (
+                                  <p className="fs-i">
+                                    {activeSingleOffer?.noteByBuyer}
+                                  </p>
+                                )
+                              }
+                              {
+                                activeSingleOffer?.updatedAt && (
+                                  <p className="fsize-300 txtText600">
+                                    {DateTime.fromMillis(activeSingleOffer?.updatedAt, {locale: lang}).toFormat('dd LLL yyyy, H:mm')}
+                                  </p>
+                                )
+                              }
+                            </div>
+                            <BrixelButtonSecondary
+                              rounded
+                              label={translateTo('View', lang)}
+                              onClick={() => viewOffer()}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    )
+                  }
 
+                  {
+                    (activeSingleOffer?.status !== 'pending' || (activeSingleOffer.history && activeSingleOffer.history?.length > 0)) && (
+                      <MakeOfferTimeline
+                        activeSingleOffer={activeSingleOffer}
+                        handleViewOffer={() => viewOffer()}
+                        lang={lang}
+                      />
+                    )
+                  }
                 </div>
+
 
               </div>
             ) : (

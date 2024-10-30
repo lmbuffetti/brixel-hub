@@ -1,0 +1,93 @@
+@import '@brixel-io/brixel-components/dist/styles/SCSS/general/variables';
+@mixin tablet-and-up {
+  @media screen and (min-width: 769px) { @content; }
+}
+@mixin mobile-and-up {
+  @media screen and (min-width: 601px) { @content; }
+}
+@mixin tablet-and-down  {
+  @media screen and (max-width: 768px) { @content; }
+}
+@mixin mobile-only {
+  @media screen and (max-width: 600px) { @content; }
+}
+
+.makeOfferTimeline {
+  ul, li {
+    list-style: none;
+    padding: 0;
+  }
+
+  .sessions {
+    position: relative;
+  }
+
+  li {
+    padding-bottom: 1.5rem;
+    border-left: 2px dashed map-get($textColor, 200);
+    position: relative;
+    padding-left: 32px;
+
+    .brdBottom {
+      padding-bottom: $step * 3;
+      border-bottom: 1px solid map-get($textColor, 200);
+    }
+
+    &:last-child {
+      border-color: transparent;
+      padding-bottom: 0;
+
+      .brdBottom {
+        padding-bottom: 0;
+        border-bottom: 0;
+      }
+
+    }
+
+    &:before {
+      content: '';
+      width: 32px;
+      height: 32px;
+      background: white;
+      border-radius: 50%;
+      position: absolute;
+      left: -17px;
+      top: 0px;
+    }
+
+    &:after {
+      content: '';
+      width: 18px;
+      height: 18px;
+      display: block;
+      position: absolute;
+      left: -9px;
+      top: 7px;
+      mask-repeat: no-repeat;
+      mask-position: center;
+      mask-size: contain;
+    }
+
+    &.key {
+      &:after {
+        background-color: map-get($redColor, 500);
+        mask-image: url('@brixel-io/brixel-components/dist/images/Icons/svg/key.svg?url');
+      }
+
+      &:before {
+        background-color: map-get($redColor, 50);
+      }
+    }
+
+    &.house {
+      &:after {
+        background-color: map-get($greenColor, 500);
+        mask-image: url('@brixel-io/brixel-components/dist/images/Icons/svg/house-heart.svg?url');
+      }
+
+      &:before {
+        background-color: map-get($greenColor, 50);
+      }
+    }
+  }
+}
