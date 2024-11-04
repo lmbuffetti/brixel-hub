@@ -51,9 +51,10 @@ const MakeOfferPropertyCardVertical = ({ activeSingleProperty, lang }: MakeOffer
         </div>
 
         <BrixelButtonText
-          className="mt-2 ml-2"
+          className="mt-2 ml-3"
           label={translateTo('View property page ', lang)}
           rightIcon="link-open"
+          bgTransparent
           small
           onClick={() => window.open(`${baseByData.pageUrl}${lang}/${activeSingleProperty.stub}`, '_blank')}
         />
@@ -67,7 +68,7 @@ const MakeOfferPropertyCardVertical = ({ activeSingleProperty, lang }: MakeOffer
           {
             activeSingleProperty?.status === 'on-sale' && activeSingleProperty?.price?.total && (
               <p className="txtGreen400 dis-f a-c">
-                <span>CHF</span>
+                <span className='ff-mono'>CHF</span>
                 <span className="ff-mono fsize-500 pl-small-4">{Helpers.formatNumberValue(activeSingleProperty.price.total, activeSingleProperty?.price?.currency || 'CHF')}
                 </span>
               </p>

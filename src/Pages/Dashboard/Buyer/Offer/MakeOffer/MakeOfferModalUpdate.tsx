@@ -77,7 +77,7 @@ const MakeOffer = (props: MakeOfferType) => {
           {
             activeSingleProperty?.status === 'on-sale' && activeSingleProperty?.price?.total && (
               <p className="txtText800 dis-f a-c ff-mono">
-                <span className="mr-1">
+                <span className="mr-1 ff-mono">
                   {activeSingleProperty?.price?.currency}
                 </span>
                 <span className="ff-mono fsize-500">
@@ -110,7 +110,7 @@ const MakeOffer = (props: MakeOfferType) => {
           {
             activeSingleOffer?.amount && (
               <p className="txtGreen400 dis-f a-c ff-mono">
-                <span className="mr-1">
+                <span className="mr-1 ff-mono">
                   {activeSingleOffer?.currency || 'CHF'}
                 </span>
                 <span className="ff-mono fsize-500">

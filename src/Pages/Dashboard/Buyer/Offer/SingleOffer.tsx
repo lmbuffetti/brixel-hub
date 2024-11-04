@@ -6,6 +6,8 @@ import BannerFullSize from '../../../../components/BannerFullSize';
 import DocumentIcon from '../../../../images/documentsIcon/documentFull.svg'
 import BannerOfferDefault from '../../../../images/dashboard/bannerOffer-deafault.svg';
 import MoneySaverImg from '@brixel-io/brixel-components/dist/images/IconsColored/general/SavingMoney.svg';
+import {
+  BrixelIcon } from '@brixel-io/brixel-components';
 import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import {getActiveSingleOffer} from '../../../../actions/DealActions';
 import {bindActionCreators} from 'redux';
@@ -76,16 +78,67 @@ const SingleOffer = ({
     return <div/>
   }
 
+  const getOfferBackground = () => {
+    if (activeSingleOffer?.status === 'accepted') return 'Green';
+    if (activeSingleOffer?.status === 'pending') return 'Yellow';
+    if (activeSingleOffer?.status === 'rejected') return 'Red';
+    return 'light';
+  };
+
+  const getOfferTextColor = () => {
+    if (activeSingleOffer?.status === 'accepted') return 'Green400';
+    if (activeSingleOffer?.status === 'pending') return 'Yellow400';
+    if (activeSingleOffer?.status === 'rejected') return 'Red400';
+    return 'Text900';
+  };
+
+  const getStatusIcon = () => {
+    if (activeSingleOffer?.status === 'accepted') return 'check';
+    if (activeSingleOffer?.status === 'pending') return 'clock';
+    if (activeSingleOffer?.status === 'rejected') return 'close';
+    return 'clock';
+  };
+
   return (
     <>
-      <h3 className="mb-3 hide dis-b-lg fweight-600">
-        {translateTo(activeSingleOffer.id  ? 'Your Offer' : 'Offer', lang)}
-      </h3>
+      <div className='hide dis-f-lg mb-3 a-c'>
+        <h3 className="fweight-600">
+          {translateTo(activeSingleOffer.id  ? 'Your Offer' : 'Offer', lang)}
+        </h3>
+        {
+          activeSingleOffer?.status && (
+            <div className={`status-box mt-a mb-a ml-2 dis-if a-c as-fs brdRadius px-1 py-small-4 bg${getOfferBackground()}100`}>
+              <BrixelIcon
+                iconSize='w-fix-16'
+                color="yellow"
+                className='mr-1'
+                icon={getStatusIcon()}
+              />
+              <span className={`txt${getOfferTextColor()} fsize-200 fweight-500`}>{translateTo(activeSingleOffer?.status.charAt(0).toUpperCase() + activeSingleOffer?.status.slice(1), lang)}</span>
+            </div>
+          )
+        }
+      </div>
       <div className="dis-f h-perc-lg-100">
         <div className="dis-fl-col w-perc-100 h-perc-lg-100">
-          <SectionMobileTitle
-            title={activeSingleOffer.id  ? 'Your Offer' : 'Offer'}
-          />
+          <div className="dis-f hide-lg">
+            <SectionMobileTitle
+              title={activeSingleOffer.id  ? 'Your Offer' : 'Offer'}
+            />
+            {
+              activeSingleOffer?.status && (
+                <div className={`status-box dis-f a-b as-fe mb-2 ml-2 brdRadius px-1 py-small-4 bg${getOfferBackground()}100`}>
+                  <BrixelIcon
+                    iconSize='w-fix-16'
+                    color="yellow"
+                    className='mr-1'
+                    icon={getStatusIcon()}
+                  />
+                  <span className={`txt${getOfferTextColor()} fsize-200 fweight-500`}>{translateTo(activeSingleOffer?.status.charAt(0).toUpperCase() + activeSingleOffer?.status.slice(1), lang)}</span>
+                </div>
+              )
+            }
+          </div>
           {
             activeSingleOffer.id ? (
               <div className="dis-fl-col-rev dis-fl-row-md">
@@ -102,8 +155,7 @@ const SingleOffer = ({
                 </div>
 
                 <div className="pl-md-5 w-perc-md-70">
-                  <h5 className="mb-2 fweight-600 mt-3 mt-md-0">Progress</h5>
-
+                  <h5 className="mb-2 fweight-600 mt-3 mt-md-0">{translateTo('Progress', lang)}</h5>
                   {
                     !activeSingleOffer?.id || activeSingleOffer?.status === 'rejected' && (
                       <BannerFullSize

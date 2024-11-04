@@ -75,7 +75,7 @@ const MakeOfferTimeline = ({
                 {translateTo(titleText, lang)}
               </span>
               <span className={`${colorPrice} fweight-700 ml-1`}>
-                <span className="mr-1">
+                <span className="mr-1 ff-mono">
                   {singleOffer?.currency || 'CHF'}
                 </span>
                 <span className="ff-mono">
