@@ -367,7 +367,7 @@ const App = (props: AppType) => {
     }
     const scrollFlow = document.getElementsByClassName('flowScrollWrap')[0];
     if (scrollFlow) scrollFlow.scrollTop = 0;
-  }, [history.location, loggedInUser.id]);
+  }, [history?.location?.pathname, loggedInUser.id]);
 
   useEffect(() => {
     // @ts-ignore

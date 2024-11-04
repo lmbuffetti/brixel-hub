@@ -13,6 +13,7 @@ export interface SingleDealType {
   getActiveDeal: (data: object) => void;
   getDealNotes: (data: object) => void;
   getHistoryList: (data: object) => void;
+  handleGetActiveSingleOffer: (data: object) => void
   handleGetScheduleVisit: (data: object) => void
   handleSaveDeal: (data: object) => void;
   handleSaveMultipleDeal: (data: object) => void;

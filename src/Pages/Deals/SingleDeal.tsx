@@ -21,7 +21,7 @@ import {connect} from 'react-redux';
 import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import {bindActionCreators, compose} from 'redux';
 import {
-  getActiveSingleDeal, getScheduleVisit,
+  getActiveSingleDeal, getActiveSingleOffer, getScheduleVisit,
   saveActiveSingleDeal,
   setActiveSingleDeal,
   updateMultipleDeals,
@@ -52,6 +52,7 @@ const SingleDeal = (props: SingleDealType) => {
     getActiveDeal,
     getDealNotes,
     getHistoryList,
+    handleGetActiveSingleOffer,
     handleGetScheduleVisit,
     handleSaveDeal,
     handleSaveMultipleDeal,
@@ -75,6 +76,7 @@ const SingleDeal = (props: SingleDealType) => {
   } = FactsOptions;
 
   const propID = get(match, 'propID', null);
+  const dealID = get(match, 'dealID', null);
 
   const optionsRef = useRef(null);
 
@@ -86,7 +88,7 @@ const SingleDeal = (props: SingleDealType) => {
   }, []);
 
   useEffect(() => {
-    const dealID = get(match, 'dealID', null);
+
     if (activeSingleDeal) {
       const payloadNote = {
         object: dealID,
@@ -120,6 +122,12 @@ const SingleDeal = (props: SingleDealType) => {
       })
     }
   }, [activeSingleDeal.id]);
+
+  useEffect(() => {
+    if (dealID) {
+      handleGetActiveSingleOffer({ id: dealID, smallLoader: 'getOffer' });
+    }
+  }, [dealID]);
 
   useEffect(() => {
     forEach(activeSinglePropertyDeals, (el) => {
@@ -181,7 +189,7 @@ const SingleDeal = (props: SingleDealType) => {
   };
 
   const progressChange = (value) => {
-    find(factsOptions.progressBarDealsOptions, (element) => {
+    find(factsOptions.progressBarDealsOptions, (element: {label: string, value: string}) => {
       if (element.value === value) {
         const response = element.value;
         set(activeSingleDeal, 'stage', response);
@@ -857,6 +865,7 @@ const mapDispatchToProps = (dispatch) => ({
   getActiveDeal: bindActionCreators(getActiveSingleDeal, dispatch),
   getDealNotes: bindActionCreators(getNoteListings, dispatch),
   getHistoryList: bindActionCreators(getHistoryListings, dispatch),
+  handleGetActiveSingleOffer:bindActionCreators(getActiveSingleOffer, dispatch),
   handleGetScheduleVisit: bindActionCreators(getScheduleVisit, dispatch),
   handleSaveDeal: bindActionCreators(saveActiveSingleDeal, dispatch),
   handleSaveMultipleDeal: bindActionCreators(updateMultipleDeals, dispatch),

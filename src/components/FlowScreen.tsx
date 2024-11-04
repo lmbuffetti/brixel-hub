@@ -22,6 +22,7 @@ const FlowScreen = (props: FlowScreenType) => {
   const match = useParams();
   // PROPS
   const {
+    autoFocus = true,
     baseURL,
     disableEmailRegister,
     closeButton = false,
@@ -417,6 +418,7 @@ const FlowScreen = (props: FlowScreenType) => {
                           }
 
                           <MultiFileldsReduxForm
+                            autofocus={autoFocus}
                             disableEmailRegister={disableEmailRegister}
                             baseByData={baseByData}
                             onSaveData={() => onSaveData()}

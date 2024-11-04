@@ -41,6 +41,7 @@ export interface FormValueType {
 }
 
 export interface FlowScreenType {
+  autoFocus?: boolean;
   className?: string;
   closeLabelFlow?: string;
   disableEmailRegister: boolean;

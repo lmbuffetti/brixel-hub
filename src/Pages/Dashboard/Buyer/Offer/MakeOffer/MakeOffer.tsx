@@ -133,6 +133,7 @@ const MakeOffer = (props: MakeOfferType) => {
       {
         activeSingleCompany.id && (
           <FlowScreen
+            autoFocus={false}
             baseURL={`/buyer/${propID}/offerFlow/MakeOffer`}
             formName="makeOffer"
             onSaveData={() => saveData()}
