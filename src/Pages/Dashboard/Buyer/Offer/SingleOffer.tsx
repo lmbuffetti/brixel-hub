@@ -88,10 +88,10 @@ const SingleOffer = ({
           />
           {
             activeSingleOffer.id ? (
-              <div className="dis-f">
-                <div className="w-perc-30">
+              <div className="dis-fl-col-rev dis-fl-row-md">
+                <div className="w-perc-md-30">
                   <div>
-                    <h4 className="mb-2 fsize-500 fweight-600">{translateTo('Property details', lang)}</h4>
+                    <h4 className="mb-2 fsize-500 fweight-600 mt-2 mt-md-0">{translateTo('Property details', lang)}</h4>
                     <MakeOfferPropertyCardVertical />
                   </div>
 
@@ -101,8 +101,8 @@ const SingleOffer = ({
                   </div>
                 </div>
 
-                <div className="pl-5 w-perc-70">
-                  <h5 className="mb-2">Progress</h5>
+                <div className="pl-md-5 w-perc-md-70">
+                  <h5 className="mb-2 fweight-600 mt-3 mt-md-0">Progress</h5>
 
                   {
                     !activeSingleOffer?.id || activeSingleOffer?.status === 'rejected' && (

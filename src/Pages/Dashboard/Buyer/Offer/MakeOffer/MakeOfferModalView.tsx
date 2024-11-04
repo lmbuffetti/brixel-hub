@@ -99,14 +99,14 @@ const MakeOfferModalView = ({
   }
 
   return (
-    <div className="h-perc-100 dis-fl-col bgText25">
+    <div className="dis-fl-col bgText25">
       <PageHeader
         isFlow
         onClose={() => closeModal()}
         showFooter
       />
-      <div className="max-w-fix-600 mx-a w-perc-100 h-perc-100">
-        <h2 className="ta-c pt-3">
+      <div className="max-w-fix-600 px-3 mx-a w-perc-100 h-perc-100">
+        <h2 className="ta-c fweight-600 pt-3">
           {translateTo('Your offer details', lang)}
         </h2>
         <div className='mt-4'>
@@ -169,7 +169,7 @@ const MakeOfferModalView = ({
           </div>
         </div>
 
-        <div className="mt-4">
+        <div className="mt-4 pb-5">
           <h6 className="mb-2 fweight-600">{translateTo('Proof of financing', lang)}</h6>
           <div className="brdRadius bgWhite brdSmall brdText100 p-2">
             {
@@ -181,7 +181,7 @@ const MakeOfferModalView = ({
                         key={index}
                         className={`dis-f a-c jc-sb dis-f jc-b a-c ${index < activeSingleOffer.documents.length - 1 ? 'mb-3' : ''}`}
                       >
-                        <div className="dis-f a-c">
+                        <div className="dis-f a-c mt-a mb-a">
                           <BrixelIcon
                             background="green"
                             saturation={100}
