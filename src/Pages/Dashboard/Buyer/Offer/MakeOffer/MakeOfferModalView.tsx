@@ -122,7 +122,7 @@ const MakeOfferModalView = ({
             <div className="mb-3">
               <p className="fsize-300 fweight-500 mb-small-4">{translateTo('Your offer', lang)}</p>
               <p className="fsize-600 txtGreen400">
-                <span className="mr-1">{activeSingleOffer.currency}</span>
+                <span className="mr-1 ff-mono">{activeSingleOffer.currency}</span>
                 <span className="ff-mono">
                   {Helpers.formatNumberValue(activeSingleOffer.amount, activeSingleOffer.currency)}
                 </span>
@@ -136,7 +136,7 @@ const MakeOfferModalView = ({
                     returnData(item) && (
                       <div className={index < objAnswer.offerDetail.length - 1 ? 'mb-3' : ''}>
                         <p className="fsize-300 fweight-500 mb-small-4">{translateTo(item.title, lang)}</p>
-                        <p>
+                        <p className={`txtText700 ${item.title === 'Comment' ? 'fs-i' : ''}`}>
                           {returnData(item)}
                         </p>
                       </div>
@@ -162,7 +162,7 @@ const MakeOfferModalView = ({
                     returnData(item)&& (
                       <div className={index < objAnswer.personalDetail.length - 1 ? 'mb-3' : ''}>
                         <p className="fsize-300 fweight-500 mb-small-4">{translateTo(item.title, lang)}</p>
-                        <p>
+                        <p className='txtText700'>
                           {returnData(item)}
                         </p>
                       </div>
@@ -195,7 +195,7 @@ const MakeOfferModalView = ({
                             saturationTxt={400}
                             icon="document"
                           />
-                          <p className="fsize-300 ml-2">{file.name}</p>
+                          <p className="fsize-300 ml-2 mt-a mb-a">{file.name}</p>
                         </div>
                         <BrixelButtonSecondary
                           rounded
