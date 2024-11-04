@@ -36,15 +36,15 @@ const objAnswer = {
   personalDetail: [
     {
       title: 'Full name',
-      name: 'additionalBuyerInfo.fullName',
+      name: 'uer.name',
     },
     {
       title: 'Email',
-      name: 'additionalBuyerInfo.email',
+      name: 'user.email',
     },
     {
       title: 'Phone number',
-      name: 'additionalBuyerInfo.phone',
+      name: 'user.phone',
     },
     {
       title: 'Birth date',
@@ -69,6 +69,7 @@ const MakeOfferModalView = ({
   activeSingleOffer,
   closeModal,
   lang,
+  loggedInUser,
 }: MakeOfferModalViewType) => {
   const purchaseType = factsOptions.purchaseType.find((item) => item.value === get(activeSingleOffer, 'additionalBuyerInfo.typeOfPurchase', ''));
   const martialStatus = factsOptions.martialStatus.find((item) => item.value === get(activeSingleOffer, 'additionalBuyerInfo.maritialStatus', ''));
@@ -76,8 +77,11 @@ const MakeOfferModalView = ({
 
 
   const returnData = (item) => {
-    if (item.name === 'additionalBuyerInfo.phone') {
-      return Helpers.telephoneFormat(get(activeSingleOffer, item.name, ''));
+    if (item.name.includes('user')) {
+      if (item.name === 'user.phone') {
+        return Helpers.telephoneFormat(get(loggedInUser, item.name, ''));
+      }
+      return get(loggedInUser, item.name, '')
     }
     if (item.name === 'additionalBuyerInfo.dateBirth') {
       return DateTime.fromMillis(get(activeSingleOffer, item.name, 0), {locale: lang}).toFormat('dd/MM/yyyy')
@@ -127,7 +131,7 @@ const MakeOfferModalView = ({
               objAnswer.offerDetail.map((item, index) => (
                 <React.Fragment key={`offerDetail${index.toString()}`}>
                   {
-                    get(activeSingleOffer, item.name, '') && (
+                    returnData(item) && (
                       <div className={index < objAnswer.offerDetail.length - 1 ? 'mb-3' : ''}>
                         <p className="fsize-300 fweight-500 mb-small-4">{translateTo(item.title, lang)}</p>
                         <p>
@@ -153,7 +157,7 @@ const MakeOfferModalView = ({
               objAnswer.personalDetail.map((item, index) => (
                 <React.Fragment key={`personalDetail${index.toString()}`}>
                   {
-                    get(activeSingleOffer, item.name, '') && (
+                    returnData(item)&& (
                       <div className={index < objAnswer.personalDetail.length - 1 ? 'mb-3' : ''}>
                         <p className="fsize-300 fweight-500 mb-small-4">{translateTo(item.title, lang)}</p>
                         <p>
@@ -229,6 +233,7 @@ const mapStateToProps = (state) => ({
   activeSingleOffer: state?.deal?.activeSingleOffer || {},
   formValue: state?.brixelForm?.makeOffer?.values || {},
   lang: state?.common?.language || 'en',
+  loggedInUser: state?.user?.loggedInUser || {},
 });
 
 export default connect(mapStateToProps, null)(MakeOfferModalView);

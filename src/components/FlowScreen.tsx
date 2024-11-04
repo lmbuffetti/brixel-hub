@@ -578,10 +578,10 @@ const FlowScreen = (props: FlowScreenType) => {
                           <>
                             {
                               (
-                                currentIndex !== questions.length - 2 &&
+                                (currentIndex !== questions.length - 2 &&
                               get(quest, 'history', '') !== 'baloiseInfo' &&
                               quest?.history !== 'success' &&
-                                !get(quest, 'hideBackArrow', false)
+                                !get(quest, 'hideBackArrow', false) || quest?.showBackButton)
                               ) && (
                                 <BrixelButtonIcon
                                   className="backBtn pos-a x-l"

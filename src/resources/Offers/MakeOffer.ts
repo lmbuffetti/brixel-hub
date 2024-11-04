@@ -241,7 +241,7 @@ export const QuestionsList: (lang: string) => QuestionsListType[] = (lang) => {
     },
     {
       title: translateTo('Upload your proof of financing', lang),
-      subtitle: translateTo('Share the proof of financing from a Swiss financial institution to speed up the process. Don’t have it yet? You can request it after submitting your offer.', lang),
+      subtitle: translateTo('Share a recent proof of financing from a Swiss financial institution to speed up the process. If you don’t have it yet, you can request it after submitting your offer.', lang),
       history: 'makeOffer',
       className: 'max-w-fix-600',
       footerWidth: 'max-w-fix-600',
@@ -256,6 +256,8 @@ export const QuestionsList: (lang: string) => QuestionsListType[] = (lang) => {
       component: MakeOfferResume,
       footerWidth: 'max-w-fix-600',
       showSendButton: true,
+      showBackButton: true,
+      btnLabel: translateTo('Submit offer', lang),
       title: translateTo('Review and submit your offer', lang),
       subtitle: translateTo('Please review the details below. If everything is correct, click "Submit offer" to finalize.', lang),
       history: 'resumeMakeOffer',
