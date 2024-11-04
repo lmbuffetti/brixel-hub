@@ -1,7 +1,9 @@
 import {DealType, PropertyType} from '@brixel-io/brixel-components/dist/@types/Model';
 import ScheduleVisit from '../../../Pages/Dashboard/Buyer/ScheduleVisit/ScheduleVisit';
+import {OfferType} from '@brixel-io/brixel-components/dist/@types/Models/Deals';
 
 export interface SingleDealType {
+  activeSingleOffer: OfferType
   activeSingleVisitFeedback: any;
   activeSingleDeal: DealType;
   activeDealHistoryList: {
@@ -17,6 +19,7 @@ export interface SingleDealType {
   handleGetScheduleVisit: (data: object) => void
   handleSaveDeal: (data: object) => void;
   handleSaveMultipleDeal: (data: object) => void;
+  handleSetModal: (data: object) => void;
   setActiveSingleDealHistory: (data: object) => void;
   setActiveSingleDealOwnerHistory: (data: object) => void;
   setDeal: (data: object) => void;

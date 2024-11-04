@@ -30,7 +30,7 @@ class Deal extends Base {
 
   reviewOffer(id, data) {
     const url = ep.deal.reviewOffer(id);
-    return this.apiClient.post(url, {}, data);
+    return this.apiClient.put(url, {}, data);
   }
 
   getBuyerDeal(id) {

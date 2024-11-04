@@ -13,6 +13,7 @@ import translateTo from '../../utils/translation';
 import type { DealsCardProps } from '../../@types/components/Cards/DealsCard';
 import { HistoryType, ScheduleVisitRequestType } from '@brixel-io/brixel-components/dist/@types/Model';
 import BrixelSingleTag from '@brixel-io/brixel-components/dist/components/BrixelSingleTag';
+import {OfferType} from '@brixel-io/brixel-components/dist/@types/Models/Deals';
 
 const DealsCard = (props: DealsCardProps) => {
   const match = useParams();
@@ -37,6 +38,7 @@ const DealsCard = (props: DealsCardProps) => {
   const [lastAction, setLastAction] = useState<HistoryType>({});
   const [visitDate, setVisitDate] = useState<ScheduleVisitRequestType['visit']>();
   const [visitStatus, setVisitStatus] = useState<{status: string; text: string; color: string;}>();
+  const [offerData, setOfferData] = useState<OfferType | object>()
   const [feedback, setFeedback] = useState({})
 
 
@@ -69,6 +71,14 @@ const DealsCard = (props: DealsCardProps) => {
         setVisitStatus(visitInfo);
       })
     }
+    if (id && stage === 'Offer') {
+      api.deal.getOffer(id).then((res) => {
+        setOfferData(res.data.payload)
+      })
+        .catch(() => {
+          setOfferData({})
+        })
+    }
   }, [id]);
 
   useEffect(() => {
@@ -82,9 +92,9 @@ const DealsCard = (props: DealsCardProps) => {
   }, [profileId]);
 
   const getOfferColor = () => {
-    if (get(offer, 'offer.status') === 'pending') return 'Yellow';
-    if (get(offer, 'offer.status') === 'accepted') return 'Green';
-    if (get(offer, 'offer.status') === 'rejected') return 'Red';
+    if (get(offerData, 'status') === 'pending') return 'Yellow';
+    if (get(offerData, 'status') === 'accepted') return 'Green';
+    if (get(offerData, 'status') === 'rejected') return 'Red';
     return 'Dark';
   };
 
@@ -185,7 +195,7 @@ const DealsCard = (props: DealsCardProps) => {
               stage === 'Offer' && (
                 <div className="dis-fl-row a-c metaMessage">
                   {
-                    has(offer, 'offer.amount') && typeof offer !== 'string' ? (
+                    has(offerData, 'amount') ? (
                       <>
                         <BrixelIcon
                           icon="money"
@@ -195,7 +205,7 @@ const DealsCard = (props: DealsCardProps) => {
                           iconWidth="w-fix-16"
                         />
                         <span className={`txt${getOfferColor()}400 fsize-200`}>
-                          {get(offer, 'offer.currency', '')} {Helpers.formatNumberValue(offer?.offer?.amount || 0, get(offer, 'offer.currency', ''))}
+                          {get(offerData, 'currency', '')} {Helpers.formatNumberValue(offerData?.amount || 0, get(offerData, 'currency', ''))}
                         </span>
                       </>
                     ) : (

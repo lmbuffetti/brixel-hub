@@ -45,7 +45,7 @@ function RightHeaderFlow(props: RightHeaderFlowType) {
       localStorage.setItem('backUrl', url.toString());
       localStorage.setItem('backUrlBis', url.toString());
     }
-    if (history.location.pathname.includes('visitFeedbackss') || history.location.pathname.toLowerCase().includes('brixelboutique') || history.location.pathname.toLowerCase().includes('offer')) {
+    if (history.location.pathname.includes('visitFeedbackss') || history.location.pathname.toLowerCase().includes('brixelboutique') || history.location.pathname.toLowerCase().includes('offer') || history.location.pathname.toLowerCase().includes('prospect')) {
       setHideLang(true);
     } else {
       setHideLang(false);

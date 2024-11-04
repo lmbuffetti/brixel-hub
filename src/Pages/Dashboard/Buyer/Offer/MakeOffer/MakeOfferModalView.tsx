@@ -12,13 +12,15 @@ import BrixelButtonSecondary from '@brixel-io/brixel-components/dist/components/
 import {OfferType} from '@brixel-io/brixel-components/dist/@types/Models/Deals';
 import PageHeader from '../../../../../components/Header/PageHeader';
 import PageFooter from '../../../../../components/Footer/PageFooter';
+import {LoggedUserType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 const { factsOptions } = FactsOptions;
 
 type MakeOfferModalViewType = {
-  activeSingleOffer: OfferType;
-  closeModal: () => void;
-  lang: string;
+  activeSingleOffer: OfferType
+  closeModal: () => void
+  lang: string
+  loggedInUser: LoggedUserType
 }
 
 const objAnswer = {
@@ -36,7 +38,7 @@ const objAnswer = {
   personalDetail: [
     {
       title: 'Full name',
-      name: 'uer.name',
+      name: 'user.name',
     },
     {
       title: 'Email',
@@ -96,7 +98,7 @@ const MakeOfferModalView = ({
       return matrimonialPropertyRegime?.label || '';
     }
     if (item.name === 'location')  {
-      return `${get(activeSingleOffer, item.name, {}).street} ${get(activeSingleOffer, item.name, {}).streetNumber}, ${get(activeSingleOffer, item.name, {}).zipCode} ${get(activeSingleOffer, item.name, {}).city}`;
+      return `${get(activeSingleOffer, item.name, {}).street || ''} ${get(activeSingleOffer, item.name, {}).streetNumber || ''}, ${get(activeSingleOffer, item.name, {}).zipCode || ''} ${get(activeSingleOffer, item.name, {}).city || ''}`;
     }
 
     return get(activeSingleOffer, item.name, '')

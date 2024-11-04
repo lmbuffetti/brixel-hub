@@ -5,6 +5,7 @@ import {
   BrixelButtonSecondary,
   BrixelDropdownMini,
   BrixelIcon,
+  BrixelSingleTag,
   FactsOptions,
   Helpers,
   useOutsideAlerter,
@@ -37,6 +38,9 @@ import translateTo from '../../utils/translation';
 import TimelineStubs from '../../resources/Utilities/timelineActionStubs';
 import type {SingleDealType} from '../../@types/Pages/Deals/SingleDeal';
 import {feedbackInvoled, feedbackReason} from '@brixel-io/brixel-components/dist/constants/FeedbackEmail';
+import BrixelButtonPrimary from '@brixel-io/brixel-components/dist/components/BrixelButtonPrimary';
+import ReviewOfferModal from './Offer/ReviewOfferModal';
+import {setModal} from '../../actions/CommonActions';
 
 const SingleDeal = (props: SingleDealType) => {
   const history = {
@@ -45,6 +49,7 @@ const SingleDeal = (props: SingleDealType) => {
   };
   const match = useParams();
   const {
+    activeSingleOffer,
     activeSingleDeal,
     activeSingleProperty,
     activeSinglePropertyDeals,
@@ -56,6 +61,7 @@ const SingleDeal = (props: SingleDealType) => {
     handleGetScheduleVisit,
     handleSaveDeal,
     handleSaveMultipleDeal,
+    handleSetModal,
     lang,
     scheduleVisit,
     setActiveSingleDealHistory,
@@ -67,7 +73,6 @@ const SingleDeal = (props: SingleDealType) => {
 
   const [optionsOpen, setOptionsOpen] = useState(false);
   const [winnerId, setWinnerId] = useState('');
-  const [showFullOffer, setShowFullOffer] = useState(false);
   const [showFullFeedback, setShowFullFeedback] = useState(false);
   const [isReady, setIsReady] = useState(false);
 
@@ -272,21 +277,18 @@ const SingleDeal = (props: SingleDealType) => {
     return 'Text900';
   };
 
-  const getOfferText = () => {
-    return translateTo('No offer', lang);
-  };
-
-  const getCompleteOffer = () => {
-    let answerText = '';
-    if (get(activeSingleDeal, 'closing.stageOffer.offer.location') && Object.keys(activeSingleDeal.closing.stageOffer.offer.location).length > 0) {
-      answerText += `</br></br><span>${translateTo('Buyer location:', lang)}</span></br>
-      <span>${translateTo(get(activeSingleDeal, 'closing.stageOffer.offer.location.street', ''), lang)}</span>
-      <span class="ml-small-4">${translateTo(get(activeSingleDeal, 'closing.stageOffer.offer.location.streetNumber', ''), lang)}</span>
-      <span class="ml-small-4">${translateTo(`, ${get(activeSingleDeal, 'closing.stageOffer.offer.location.zipCode', '')}`, lang)} </span>
-      <span class="ml-small-4">${translateTo(get(activeSingleDeal, 'closing.stageOffer.offer.location.City', ''), lang)}</span>`;
-    }
-    return answerText;
-  };
+  const onClickReview = () => {
+    handleSetModal({
+      clickOutsideToClose: false,
+      bodyClassColor: 'p-0 dis-fl-col',
+      bodyInnerClass: 'h-perc-100 dis-fl-col flex-1',
+      state: true,
+      small: true,
+      hideHeader: true,
+      layout: 'fullscreen',
+      component: <ReviewOfferModal closeModal={() => handleSetModal({})} />,
+    })
+  }
 
   // FUNCTION TO MANAGE THE CLICK OUTSIDE OF ELEMENT
   useOutsideAlerter(optionsRef, {
@@ -741,41 +743,60 @@ const SingleDeal = (props: SingleDealType) => {
                           <div className="offers dis-fl-col mb-5">
                             <span className="overline dis-b mb-3">{translateTo('Offer', lang)}</span>
                             <div
-                              className="brdRadius brdSmall brdText100 pos-r dis-fl-col bgWhite p-small-12 w-perc-100">
-                              <div className="dis-fl-row jc-b">
-                                <div className="dis-f a-c">
-                                  <BrixelIcon
-                                    icon="money"
-                                    background={getOfferBackground()}
-                                    saturation={getOfferSaturation()}
-                                    color={getOfferColor()}
-                                    saturationTxt={700}
-                                    className="mr-2"
-                                  />
-                                  <span className={`txt${getOfferTextColor()}`}>{getOfferText()}</span>
-                                </div>
-                              </div>
+                              className="brdRadius brdSmall brdText100 pos-r dis-fl-col bgWhite p-2 w-perc-100">
                               {
-                                has(activeSingleDeal, 'closing.stageOffer.offer.status') && (
-                                  <div className="dis-fl-col">
-                                    <div className={`mt-1 dis-fl-row jc-b ${showFullOffer === true ? 'mb-2' : ''}`}>
-                                      <span className="txtText900 fsize-300">{translateTo('Offer details:', lang)}</span>
+                                !activeSingleOffer.id && (
+                                  <div className="dis-fl-row jc-b">
+                                    <div className="dis-f a-c">
                                       <BrixelIcon
-                                        icon={`${showFullOffer === true ? 'arrow-simple-up' : 'dropdown'}`}
-                                        className="txtText900 cur-poi pr-1"
-                                        onClick={() => setShowFullOffer(!showFullOffer)}
+                                        icon="money"
+                                        background={getOfferBackground()}
+                                        saturation={getOfferSaturation()}
+                                        color={getOfferColor()}
+                                        saturationTxt={400}
+                                        className="mr-2"
                                       />
+                                      <span
+                                        className={`txt${getOfferTextColor()} fweight-500`}>
+                                        {translateTo('No Offer', lang)}
+                                      </span>
                                     </div>
+                                  </div>
+                                )
+                              }
+                              {
+                                activeSingleOffer.id && (
+                                  <div className={`dis-fl-col fsize-300 txt${getOfferTextColor()}`}>
+                                    <BrixelSingleTag
+                                      status={activeSingleOffer?.status}
+                                      message={{
+                                        pending: 'Pending',
+                                        accepted: 'Accepted',
+                                        rejected: 'Rejected',
+                                      }}
+                                      lang={lang}
+                                    />
+                                    <h3 className="mt-2">
+                                      <span className="mr-1">{activeSingleOffer.currency || 'CHF'}</span>
+                                      <span>{Helpers.formatNumberValue(activeSingleOffer.amount, activeSingleOffer.currency)}</span>
+                                    </h3>
+
                                     {
-                                      showFullOffer && (
-                                        <div
-                                          className="txtText900 fsize-300"
-                                          dangerouslySetInnerHTML={{
-                                            __html: getCompleteOffer(),
-                                          }}
-                                        />
+                                      activeSingleOffer.updatedAt && (
+                                        <p>
+                                          {DateTime.fromMillis(activeSingleOffer.updatedAt, {}).toFormat('dd LLL yyyy, HH:mm')}
+                                        </p>
                                       )
                                     }
+
+
+                                    <BrixelButtonPrimary
+                                      className="mt-2 mr-a ml-0"
+                                      rounded
+                                      label={translateTo('Review offer', lang)}
+                                      onClick={() => onClickReview()}
+                                    />
+
                                   </div>
                                 )
                               }
@@ -847,6 +868,7 @@ const SingleDeal = (props: SingleDealType) => {
 };
 
 const mapStateToProps = (state) => ({
+  activeSingleOffer: state?.deal?.activeSingleOffer || {},
   activeSingleVisitFeedback: get(state, 'property.activeScheduleVisit[0].visitFeedback', {}),
   activeDealHistoryList: get(state, 'deal.activeSingleDealHistory', {}),
   activeSingleDeal: get(state, 'deal.activeSingleDeal', {}),
@@ -867,6 +889,7 @@ const mapDispatchToProps = (dispatch) => ({
   getHistoryList: bindActionCreators(getHistoryListings, dispatch),
   handleGetActiveSingleOffer:bindActionCreators(getActiveSingleOffer, dispatch),
   handleGetScheduleVisit: bindActionCreators(getScheduleVisit, dispatch),
+  handleSetModal: bindActionCreators(setModal, dispatch),
   handleSaveDeal: bindActionCreators(saveActiveSingleDeal, dispatch),
   handleSaveMultipleDeal: bindActionCreators(updateMultipleDeals, dispatch),
   setActiveSingleDealHistory: bindActionCreators(setDealHistoryListings, dispatch),
