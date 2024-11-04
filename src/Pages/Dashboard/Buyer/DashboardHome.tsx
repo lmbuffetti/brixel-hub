@@ -17,12 +17,13 @@ import Loading from '../../../components/Loading';
 import financingSvg from '../../../images/dashboard/financingDashboard.svg';
 import {getCookie, setCookie} from '../../../utils/helpers';
 import translateTo from '../../../utils/translation';
-import type {ContactType} from '../../../@types/Pages/Dashboard/Buyer/DashboardHome';
+import type {DashboardHomeType} from '../../../@types/Pages/Dashboard/Buyer/DashboardHome';
 import BannerBuyerByStatus, {
   BannerBuyerByStatusType,
 } from '../../../components/BannerBuyerByStatus/BannerBuyerByStatus';
+import {getActiveSingleOffer} from '../../../actions/DealActions';
 
-const DashboardHome = (props: ContactType) => {
+const DashboardHome = (props: DashboardHomeType) => {
   const history = {
     push: useNavigate(),
     location: useLocation(),
@@ -30,12 +31,14 @@ const DashboardHome = (props: ContactType) => {
   const match = useParams();
   // PROPS
   const {
+    activeSingleOffer,
     activeSingleCompany,
     activeSingleProperty,
+    dealID,
+    handleGetActiveSingleOffer,
     isSmallLoading,
     lang,
     loggedInUser,
-    offer,
     scheduleVisit,
     userTypes = 'user',
   } = props;
@@ -51,6 +54,12 @@ const DashboardHome = (props: ContactType) => {
       setVisitStatus(visitInfo);
     }
   }, [scheduleVisit && scheduleVisit[0]]);
+
+  useEffect(() => {
+    if (dealID) {
+      handleGetActiveSingleOffer({id: dealID, smallLoader: 'getOffer'});
+    }
+  }, [dealID]);
 
 
   useEffect(() => {
@@ -117,7 +126,7 @@ const DashboardHome = (props: ContactType) => {
                   history={history}
                   lang={lang}
                   propID={propID}
-                  status={offer?.status || 'default'}
+                  status={activeSingleOffer?.status || 'default'}
                   type="offer"
                   isLoading={!scheduleVisit}
                 />
@@ -217,9 +226,11 @@ const DashboardHome = (props: ContactType) => {
 };
 
 const mapStateToProps = (state) => ({
+  activeSingleOffer: state?.deal.activeSingleOffer || null,
   activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   activeSingleDeal: get(state, 'deal.activeSingleDeal', {}),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
+  dealID: state?.deal?.activeSingleDeal?.id || null,
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
   lang: get(state, 'common.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
@@ -229,6 +240,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  handleGetActiveSingleOffer:bindActionCreators(getActiveSingleOffer, dispatch),
   handleGetUserSearchProfiles: bindActionCreators(getUserSearchProfiles, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
