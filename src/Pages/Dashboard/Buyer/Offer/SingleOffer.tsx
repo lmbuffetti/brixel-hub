@@ -10,18 +10,12 @@ import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import {getActiveSingleOffer} from '../../../../actions/DealActions';
 import {bindActionCreators} from 'redux';
 import type {OfferType} from '@brixel-io/brixel-components/dist/@types/Models/Deals';
-import {
-  BrixelIcon,
-  Helpers,
-} from '@brixel-io/brixel-components';
 import MakeOfferPropertyCardVertical from '../../../../components/Cards/MakeOfferPropertyCardVertical';
 import ContactPageCard from '../../../../components/Cards/ContactPageCard';
 import {setModal} from '../../../../actions/CommonActions';
 import MakeOfferModalUpdate from './MakeOffer/MakeOfferModalUpdate';
 import MakeOfferModalView from './MakeOffer/MakeOfferModalView';
 import MakeOfferTimeline from './MakeOffer/MakeOfferTimeline';
-import {DateTime} from 'luxon';
-import BrixelButtonSecondary from '@brixel-io/brixel-components/dist/components/BrixelButtonSecondary';
 
 type SingleOfferType = {
   activeSingleOffer: OfferType
@@ -129,69 +123,12 @@ const SingleOffer = ({
                     )
                   }
 
-                  {
-                    !activeSingleOffer?.id || activeSingleOffer?.status === 'pending' && (
-                      <div>
+                  <MakeOfferTimeline
+                    activeSingleOffer={activeSingleOffer}
+                    handleViewOffer={() => viewOffer()}
+                    lang={lang}
+                  />
 
-                        <div className="bgWhite p-3 brdRadius mb-3 dis-f a-t">
-                          <BrixelIcon
-                            rounded
-                            icon="key"
-                            background="red"
-                            saturation={50}
-                            color="red"
-                            saturationTxt={500}
-                          />
-                          <div className="ml-2 dis-f w-perc-100 a-c jc-b">
-                            <div>
-                              <p className="fweight-600">
-                                <span>
-                                  {translateTo('You made an offer of:', lang)}
-                                </span>
-                                <span className="txtGreen400 ml-1">
-                                  <span className="mr-1">
-                                    {activeSingleOffer?.currency || 'CHF'}
-                                  </span>
-                                  <span>
-                                    {Helpers.formatNumberValue(activeSingleOffer?.amount, activeSingleOffer?.currency || 'CHF')}
-                                  </span>
-                                </span>
-                              </p>
-                              {
-                                activeSingleOffer?.noteByBuyer && (
-                                  <p className="fs-i">
-                                    {activeSingleOffer?.noteByBuyer}
-                                  </p>
-                                )
-                              }
-                              {
-                                activeSingleOffer?.updatedAt && (
-                                  <p className="fsize-300 txtText600">
-                                    {DateTime.fromMillis(activeSingleOffer?.updatedAt, {locale: lang}).toFormat('dd LLL yyyy, H:mm')}
-                                  </p>
-                                )
-                              }
-                            </div>
-                            <BrixelButtonSecondary
-                              rounded
-                              label={translateTo('View', lang)}
-                              onClick={() => viewOffer()}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    )
-                  }
-
-                  {
-                    (activeSingleOffer?.status !== 'pending' || (activeSingleOffer.history && activeSingleOffer.history?.length > 0)) && (
-                      <MakeOfferTimeline
-                        activeSingleOffer={activeSingleOffer}
-                        handleViewOffer={() => viewOffer()}
-                        lang={lang}
-                      />
-                    )
-                  }
                 </div>
 
 

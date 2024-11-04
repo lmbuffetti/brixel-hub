@@ -4,7 +4,7 @@ import {
   BrixelSingleTag,
   Helpers,
 } from '@brixel-io/brixel-components';
-import {OfferType} from '@brixel-io/brixel-components/dist/@types/Models/Deals';
+import {HistoryOfferType, OfferType} from '@brixel-io/brixel-components/dist/@types/Models/Deals';
 import {DateTime} from 'luxon';
 import BrixelButtonSecondary from '@brixel-io/brixel-components/dist/components/BrixelButtonSecondary';
 import translateTo from '../../../../../utils/translation';
@@ -22,29 +22,34 @@ const MakeOfferTimeline = ({
 }: MakeOfferTimelineType) => {
 
 
-  const offerRow = (singleOffer, status, icon, showViewBtn = false, isActive = false) => {
+  const offerRow = (singleOffer: HistoryOfferType, isArchived: boolean, index: number) => {
     let titleText = ''
     let colorPrice = 'txtRed400'
-    if (icon === 'house') {
-      switch (status) {
+    const type = singleOffer?.noteByBuyer ? 'seller' : 'buyer'
+    let icon = type === 'seller' ? 'key' : 'house'
+    const isActive = false
+    if (type === 'seller') {
+      switch (singleOffer?.status) {
         case 'accepted':
           titleText = 'The property owner accepted your offer of:'
           colorPrice = 'txtGreen400'
+          icon = 'house'
           break;
         case 'rejected':
           titleText = 'The property owner rejected your offer of:'
           colorPrice = 'txtRed400'
+          icon = 'house'
           break;
         case 'pending':
-          titleText = 'Your offer is pending'
+          titleText = 'You made an offer:'
+          icon = 'key'
           break;
         default:
-          titleText = 'Your offer is pending'
+          titleText = 'You made an offer:'
           break;
       }
-    }
-    if (icon === 'key') {
-      switch (status) {
+    } else {
+      switch (singleOffer?.status) {
         case 'accepted':
           titleText = 'You made an offer of:'
           colorPrice = 'txtGreen400'
@@ -93,22 +98,15 @@ const MakeOfferTimeline = ({
               )
             }
             {
-              singleOffer?.updatedAt && icon === 'house' && (
+              singleOffer?.historyCreatedAt && (
                 <p className="fsize-300 txtText600">
-                  {DateTime.fromMillis(singleOffer?.updatedAt, {locale: lang}).toFormat('dd LLL yyyy, H:mm')}
-                </p>
-              )
-            }
-            {
-              singleOffer?.createdAt && icon === 'key' && (
-                <p className="fsize-300 txtText600">
-                  {DateTime.fromMillis(singleOffer?.createdAt, {locale: lang}).toFormat('dd LLL yyyy, H:mm')}
+                  {DateTime.fromMillis(singleOffer?.historyCreatedAt, {locale: lang}).toFormat('dd LLL yyyy, H:mm')}
                 </p>
               )
             }
           </div>
           {
-            showViewBtn && (
+            !isArchived && ((index === 0 && activeSingleOffer.status === 'pending') || index === 1 && activeSingleOffer.status !== 'pending') && (
               <BrixelButtonSecondary
                 rounded
                 label={translateTo('View', lang)}
@@ -121,34 +119,49 @@ const MakeOfferTimeline = ({
     )
   }
 
+  const offerTimelineGroup = () => {
+    const defResult: HistoryOfferType[][] = [[]];
+    if (activeSingleOffer.history) {
+      let numArray = 0;
+      activeSingleOffer.history.forEach((history, index) => {
+        if (!defResult[numArray]) defResult[numArray] = [];
+        defResult[numArray].push(history);
+        if (activeSingleOffer.status === 'pending' && index % 2 === 0 ) numArray++;
+        else if (index > 0 && index % 2 !== 0) numArray++;
+      })
+    }
+    return defResult;
+  }
+
   return (
     <div className="makeOfferTimeline">
-
       {
-        activeSingleOffer.status !== 'pending' && (
-          <div className=" bgWhite brdRadius py-3 px-6 mb-2">
-            <ul className="sessions">
-              {offerRow(activeSingleOffer, activeSingleOffer.status, 'house', false, true)}
-              {activeSingleOffer.status === 'rejected' && offerRow(activeSingleOffer, activeSingleOffer.status, 'key', true)}
-            </ul>
-          </div>
-        )
-      }
-      {
-        activeSingleOffer.history && activeSingleOffer.history.map((history, index) => (
+        offerTimelineGroup() && offerTimelineGroup().map((group, index) => (
           <div
             className="bgWhite brdRadius py-3 pl-6 pr-3 mb-2 pos-r"
-            key={`history${index.toString()}`}
+            key={`historyParent${index.toString()}`}
           >
-            <BrixelSingleTag
-              className="pos-a-fix x-r-3"
-              lang={lang}
-              status="archived"
-              message={{archived: 'archived'}}
-            />
-            <ul className="session opacity6">
-              {offerRow(history, history.status, 'house')}
-              {history.status === 'rejected' && offerRow(history, history.status, 'key')}
+            {
+              index > 0 && (
+                <BrixelSingleTag
+                  className="pos-a-fix x-r-3"
+                  lang={lang}
+                  status="archived"
+                  message={{archived: 'archived'}}
+                />
+              )
+            }
+            <ul className={`session ${index > 0 ? 'opacity6' : ''}`}>
+              {
+                group.map((history, subIndex) => (
+                  <React.Fragment
+                    key={`history${subIndex.toString()}`}
+                  >
+                    {offerRow(history, index > 0, subIndex)}
+
+                  </React.Fragment>
+                ))
+              }
             </ul>
           </div>
         ))
