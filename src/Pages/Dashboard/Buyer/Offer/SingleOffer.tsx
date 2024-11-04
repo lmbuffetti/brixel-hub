@@ -145,7 +145,9 @@ const SingleOffer = ({
                 <div className="w-perc-md-30">
                   <div>
                     <h4 className="mb-2 fsize-500 fweight-600 mt-2 mt-md-0">{translateTo('Property details', lang)}</h4>
-                    <MakeOfferPropertyCardVertical />
+                    <MakeOfferPropertyCardVertical
+                      status={activeSingleOffer?.status}
+                    />
                   </div>
 
                   <div className="mt-3">

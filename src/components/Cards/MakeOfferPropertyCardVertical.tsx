@@ -13,9 +13,19 @@ import baseByData from '@brixel-io/brixel-components/dist/configuration/Settings
 type MakeOfferPropertyCardVerticalType = {
   activeSingleProperty: PropertyType
   lang: string
+  status: string
 }
 
-const MakeOfferPropertyCardVertical = ({ activeSingleProperty, lang }: MakeOfferPropertyCardVerticalType) => {
+// Updated to accept activeSingleProperty as a parameter
+const getOfferTextColor = (status) => {
+  if (status === 'accepted') return 'Green400';
+  if (status === 'pending') return 'Yellow400';
+  if (status === 'rejected') return 'Red400';
+  return 'Text900';
+};
+
+
+const MakeOfferPropertyCardVertical = ({ activeSingleProperty, lang, status }: MakeOfferPropertyCardVerticalType) => {
   return (
     <div className="max-w-fix-800 w-perc-100">
       <div className="dis-f-col a-c jc-b bgWhite brdRadius mb-1 ov-h brdSmall brdText100 pb-3">
@@ -67,7 +77,7 @@ const MakeOfferPropertyCardVertical = ({ activeSingleProperty, lang }: MakeOffer
         <div>
           {
             activeSingleProperty?.status === 'on-sale' && activeSingleProperty?.price?.total && (
-              <p className="txtGreen400 dis-f a-c">
+              <p className={`txtGreen400 dis-f a-c txt${getOfferTextColor(status)}`}>
                 <span className='ff-mono'>CHF</span>
                 <span className="ff-mono fsize-500 pl-small-4">{Helpers.formatNumberValue(activeSingleProperty.price.total, activeSingleProperty?.price?.currency || 'CHF')}
                 </span>
