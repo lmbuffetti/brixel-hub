@@ -25,14 +25,14 @@ const TableRowSellerVisits = (props: TableRowSellerVisitsType) => {
   } = props;
   // STATE
   const [user, setUser] = useState<UserType>();
-  const [visitStatus, setVisitStatus] = useState<{status: string; text: string; color: string;}>(Helpers.visitDateStatus(visit));
+  const [visitStatus, setVisitStatus] = useState<{status: string; text: string; color: string;}>(Helpers.getDataByStatus(visit));
 
   useEffect(() => {
     if (visit.user) {
       api.user.getUserProfile(visit.user)
         .then((res) => {
           setUser(res.data);
-          setVisitStatus(Helpers.visitDateStatus(visit));
+          setVisitStatus(Helpers.getDataByStatus(visit));
         });
     }
   }, [visit.user]);

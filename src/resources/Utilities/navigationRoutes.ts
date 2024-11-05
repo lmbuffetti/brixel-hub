@@ -61,12 +61,6 @@ export const sidebarNavigationSeller = [
     icon: 'search-user',
     path: '/:propID/prospects',
   },
-  {
-    title: 'Offer',
-    name: 'offer',
-    icon: 'search-user',
-    path: '/:propID/offer',
-  },
 ];
 
 export const sidebarNavigationBuyer = (activeSingleCompany) => {

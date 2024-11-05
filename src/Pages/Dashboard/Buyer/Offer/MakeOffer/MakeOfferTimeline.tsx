@@ -8,16 +8,21 @@ import {HistoryOfferType, OfferType} from '@brixel-io/brixel-components/dist/@ty
 import {DateTime} from 'luxon';
 import BrixelButtonSecondary from '@brixel-io/brixel-components/dist/components/BrixelButtonSecondary';
 import translateTo from '../../../../../utils/translation';
+import {DealType} from '@brixel-io/brixel-components/dist/@types/Model';
 
 type MakeOfferTimelineType = {
   activeSingleOffer: OfferType;
+  buyerInfo?: DealType['user']
   handleViewOffer: () => void;
+  isSeller?: boolean;
   lang: string;
 }
 
 const MakeOfferTimeline = ({
   activeSingleOffer,
+  buyerInfo,
   handleViewOffer,
+  isSeller,
   lang,
 }: MakeOfferTimelineType) => {
 
@@ -32,22 +37,29 @@ const MakeOfferTimeline = ({
       switch (singleOffer?.status) {
         case 'accepted':
           titleText = 'The property owner accepted your offer of:'
+          if (isSeller) titleText = 'You accepted your offer of:'
           colorPrice = 'txtGreen400'
           icon = 'house'
           break;
         case 'rejected':
           titleText = 'The property owner rejected your offer of:'
+          if (isSeller) titleText = 'You rejected your offer of:'
           colorPrice = 'txtRed400'
           icon = 'house'
           break;
         case 'pending':
           titleText = 'You made an offer:'
+          if (isSeller) titleText = '{{0}} made an offer:'
           icon = 'key'
           break;
         default:
           titleText = 'You made an offer:'
+          if (isSeller) titleText = '{{0}} made an offer:'
           break;
       }
+    } else if (!singleOffer.status) {
+      titleText = 'You made an offer of:'
+      colorPrice = 'txtGreen400'
     } else {
       switch (singleOffer?.status) {
         case 'accepted':
@@ -72,7 +84,7 @@ const MakeOfferTimeline = ({
           <div>
             <h6>
               <span className={`${isActive ? 'fweight-600' : 'fweight-500'}`}>
-                {translateTo(titleText, lang)}
+                {translateTo(titleText, lang, [buyerInfo?.firstName])}
               </span>
               <span className={`${colorPrice} fweight-700 ml-1`}>
                 <span className="mr-1 ff-mono">
@@ -125,9 +137,14 @@ const MakeOfferTimeline = ({
       let numArray = 0;
       activeSingleOffer.history.forEach((history, index) => {
         if (!defResult[numArray]) defResult[numArray] = [];
-        defResult[numArray].push(history);
-        if (activeSingleOffer.status === 'pending' && index % 2 === 0 ) numArray++;
-        else if (index > 0 && index % 2 !== 0) numArray++;
+
+        const checkStatus = defResult[numArray].find((item) => item.status);
+
+        if (!checkStatus || (checkStatus && !history.status)) {
+          defResult[numArray].push(history);
+          if (activeSingleOffer.status === 'pending' && index % 2 === 0) numArray++;
+          else if (index > 0 && index % 2 !== 0) numArray++;
+        }
       })
     }
     return defResult;

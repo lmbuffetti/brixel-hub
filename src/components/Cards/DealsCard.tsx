@@ -67,7 +67,7 @@ const DealsCard = (props: DealsCardProps) => {
       api.deal.getScheduleVisit(id).then((res) => {
         setFeedback(res?.data[0].visitFeedback);
         setVisitDate(res?.data[0]?.visit || {});
-        const visitInfo = Helpers.visitDateStatus(res?.data[0] || {});
+        const visitInfo = Helpers.getDataByStatus(res?.data[0] || {});
         setVisitStatus(visitInfo);
       })
     }

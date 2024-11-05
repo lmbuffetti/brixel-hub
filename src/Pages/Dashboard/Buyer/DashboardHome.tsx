@@ -50,7 +50,7 @@ const DashboardHome = (props: DashboardHomeType) => {
 
   useEffect(() => {
     if (scheduleVisit) {
-      const visitInfo = Helpers.visitDateStatus(scheduleVisit[0]);
+      const visitInfo = Helpers.getDataByStatus(scheduleVisit[0]);
       setVisitStatus(visitInfo);
     }
   }, [scheduleVisit && scheduleVisit[0]]);

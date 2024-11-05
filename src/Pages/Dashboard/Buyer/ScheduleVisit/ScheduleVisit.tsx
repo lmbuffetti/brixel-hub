@@ -111,7 +111,7 @@ const ScheduleVisit = (props: ScheduleVisitType) => {
     if (activeScheduleVisit?.buyerAvailability) setSectionPage('buyerRequest');
     if (activeScheduleVisit?.visit?.date && activeScheduleVisit?.sellerStatus === 'accepted' && activeScheduleVisit?.buyerStatus === 'accepted') setSectionPage('confirmed');
     if (activeScheduleVisit?.sellerStatus === 'rejected' || activeScheduleVisit?.buyerStatus === 'rejected') setSectionPage('rejected');
-    setVisitStatus(Helpers.visitDateStatus(activeScheduleVisit))
+    setVisitStatus(Helpers.getDataByStatus(activeScheduleVisit))
     let isEnable = true;
     if(activeScheduleVisit?.buyerQualificationData) {
       Object.keys(activeScheduleVisit?.buyerQualificationData).forEach((key) => {

@@ -96,6 +96,7 @@ const VisitFeedback = lazy(() => import('./Pages/Deals/VisitFeedback'));
 const AddContactBuyer = lazy(() => import('./Pages/Dashboard/Buyer/AddContactBuyer'));
 
 const SingleDeal = lazy(() => import('./Pages/Deals/SingleDeal'));
+const SingleOffer = lazy(() => import('./Pages/Deals/SingleOffer'));
 
 const MarketSeller = lazy(() => import('./Pages/Market/MarketSeller'));
 
@@ -734,6 +735,7 @@ const App = (props: AppType) => {
                                   <Route path="/:propID?/support" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
                                   <Route path="/:propID?/deal/*" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
                                   <Route path="/:propID/prospect/:dealID" element={<ProtectedRoute><SingleDeal /></ProtectedRoute>} />
+                                  <Route path="/:propID/prospect/:dealID/offer" element={<ProtectedRoute><SingleOffer /></ProtectedRoute>} />
                                 </>
                               )
                             }

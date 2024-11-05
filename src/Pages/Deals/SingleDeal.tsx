@@ -757,7 +757,7 @@ const SingleDeal = (props: SingleDealType) => {
                                         className="mr-2"
                                       />
                                       <span
-                                        className={`txt${getOfferTextColor()} fweight-500`}>
+                                        className={'fweight-500'}>
                                         {translateTo('No Offer', lang)}
                                       </span>
                                     </div>
@@ -776,27 +776,32 @@ const SingleDeal = (props: SingleDealType) => {
                                       }}
                                       lang={lang}
                                     />
-                                    <h3 className="mt-2">
+                                    <h3 className={`mt-2 ${Helpers.getDataByStatus(activeSingleOffer).color}`}>
                                       <span className="mr-1">{activeSingleOffer.currency || 'CHF'}</span>
                                       <span>{Helpers.formatNumberValue(activeSingleOffer.amount, activeSingleOffer.currency)}</span>
                                     </h3>
 
                                     {
                                       activeSingleOffer.updatedAt && (
-                                        <p>
+                                        <p className="txtText600 fsize-300">
                                           {DateTime.fromMillis(activeSingleOffer.updatedAt, {}).toFormat('dd LLL yyyy, HH:mm')}
                                         </p>
                                       )
                                     }
-
-
-                                    <BrixelButtonPrimary
-                                      className="mt-2 mr-a ml-0"
-                                      rounded
-                                      label={translateTo('Review offer', lang)}
-                                      onClick={() => onClickReview()}
-                                    />
-
+                                    <div className="dis-f a-c mt-2">
+                                      <BrixelButtonSecondary
+                                        className="mr-2"
+                                        rounded
+                                        label={translateTo('View details', lang)}
+                                        onClick={() => history.push(`/${propID}/prospect/${dealID}/offer`)}
+                                      />
+                                      <BrixelButtonPrimary
+                                        className=""
+                                        rounded
+                                        label={translateTo('Review', lang)}
+                                        onClick={() => onClickReview()}
+                                      />
+                                    </div>
                                   </div>
                                 )
                               }
