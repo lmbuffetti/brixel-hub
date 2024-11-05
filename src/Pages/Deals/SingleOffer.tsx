@@ -135,9 +135,7 @@ const SingleOffer = (props: SingleOfferType) => {
                             <div>
                               <h4
                                 className="mb-2 fsize-500 fweight-600 mt-2 mt-md-0">{translateTo('Property details', lang)}</h4>
-                              <MakeOfferPropertyCardVertical
-                                status={activeSingleOffer?.status}
-                              />
+                              <MakeOfferPropertyCardVertical />
                             </div>
 
                             <div className="mt-3">

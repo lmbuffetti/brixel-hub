@@ -13,10 +13,9 @@ import baseByData from '@brixel-io/brixel-components/dist/configuration/Settings
 type MakeOfferPropertyCardVerticalType = {
   activeSingleProperty: PropertyType
   lang: string
-  status: string
 }
 
-const MakeOfferPropertyCardVertical = ({ activeSingleProperty, lang, status }: MakeOfferPropertyCardVerticalType) => {
+const MakeOfferPropertyCardVertical = ({ activeSingleProperty, lang }: MakeOfferPropertyCardVerticalType) => {
   return (
     <div className="max-w-fix-800 w-perc-100">
       <div className="dis-f-col a-c jc-b bgWhite brdRadius mb-1 ov-h brdSmall brdText100 pb-3">
