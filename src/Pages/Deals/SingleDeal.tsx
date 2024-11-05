@@ -475,7 +475,7 @@ const SingleDeal = (props: SingleDealType) => {
                             <span className="overline dis-b mb-3">{translateTo('Visit', lang)}</span>
                             <div>
                               {
-                                scheduleVisit.length === 0 && (
+                                scheduleVisit?.length === 0 && (
                                   <div className="dis-f a-c p-small-12 brdText100 brdSmall brdRadius bgWhite">
                                     <BrixelIcon
                                       icon="calendar"

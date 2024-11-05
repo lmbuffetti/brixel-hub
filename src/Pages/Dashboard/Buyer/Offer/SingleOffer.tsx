@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import translateTo from '../../../../utils/translation';
 import SectionMobileTitle from '../../../../components/SectionMobileTitle';
 import BannerFullSize from '../../../../components/BannerFullSize';
-import DocumentIcon from '../../../../images/documentsIcon/documentFull.svg'
+// import DocumentIcon from '../../../../images/documentsIcon/documentFull.svg'
 import lightBulbIcon from '../../../../images/offer-flow/light-bulb.svg'
 import medelIcon from '../../../../images/offer-flow/medel.svg'
 import BannerOfferDefault from '../../../../images/dashboard/bannerOffer-deafault.svg';
@@ -202,19 +202,19 @@ const SingleOffer = ({
               </div>
             ) : (
               <div>
-                <BannerFullSize
-                  type="green"
-                  lang={lang}
-                  image={DocumentIcon}
-                  title="Need a proof of financing?"
-                  description={['Order a non-binding proof of financing from our trusted partners before making an offer. It can help you secure the best deal.']}
-                  button={{
-                    label: 'Apply',
-                    iconRight: 'arrow-right',
-                    onClick: () => history.push(`/buyer/${propID}/offerFlow/proofFinancing`),
-                    type: 'primary',
-                  }}
-                />
+                {/*<BannerFullSize*/}
+                {/*  type="green"*/}
+                {/*  lang={lang}*/}
+                {/*  image={DocumentIcon}*/}
+                {/*  title="Need a proof of financing?"*/}
+                {/*  description={['Order a non-binding proof of financing from our trusted partners before making an offer. It can help you secure the best deal.']}*/}
+                {/*  button={{*/}
+                {/*    label: 'Apply',*/}
+                {/*    iconRight: 'arrow-right',*/}
+                {/*    onClick: () => history.push(`/buyer/${propID}/offerFlow/proofFinancing`),*/}
+                {/*    type: 'primary',*/}
+                {/*  }}*/}
+                {/*/>*/}
 
                 <BannerFullSize
                   className="mt-2"
