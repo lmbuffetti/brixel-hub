@@ -10,33 +10,36 @@ import Dropzone from 'react-dropzone';
 import isArray from 'lodash/isArray';
 import {change} from '@brixel-io/brixel-components/dist/form';
 import {toBase64} from '../../../../../utils/helpers';
+import type {formValueMekOffer} from '../../../../../resources/Offers/MakeOffer';
 
 type MakeOfferUploadProofFinancingType = {
   changeFieldValue: (name: string, value: File[]) => void
+  formValues: formValueMekOffer
   activeSingleProperty: PropertyType
   lang: string
 }
 
 const MakeOfferUploadProofFinancing = ({
+  formValues,
   changeFieldValue,
   lang,
 }: MakeOfferUploadProofFinancingType) => {
-  const [documentsUploaded, setDocumentsUploaded] = useState<any[]>([]);
+  const [documentsUploaded, setDocumentsUploaded] = useState<any[] | null>(null);
   const [showError, setShowError] = useState('');
 
   useEffect(() => {
-
+    setDocumentsUploaded(formValues?.documents || []);
   }, []);
   // DROPZONE SETTINGS
   useEffect(() => {
-    changeFieldValue('documents', documentsUploaded);
+    if (documentsUploaded !== null) changeFieldValue('documents', documentsUploaded);
   }, [documentsUploaded]);
 
   const onDrop = async (acceptedFiles) => {
     if (acceptedFiles.length > 0) {
       acceptedFiles.forEach(async (file) => {
         const base64 = await toBase64(file);
-        setDocumentsUploaded((prev) => ([...prev, base64]));
+        setDocumentsUploaded((prev) => ([...prev || [], base64]));
       })
       setShowError('')
     } else {
@@ -45,7 +48,9 @@ const MakeOfferUploadProofFinancing = ({
   };
 
   const removeFile = (index) => {
-    setDocumentsUploaded(documentsUploaded.filter((_, i) => i !== index))
+    if (documentsUploaded) {
+      setDocumentsUploaded(documentsUploaded.filter((_, i) => i !== index))
+    }
   }
 
   return (
@@ -88,7 +93,7 @@ const MakeOfferUploadProofFinancing = ({
         </Dropzone>
 
         {
-          documentsUploaded.map((file, index) => (
+          documentsUploaded && documentsUploaded.map((file, index) => (
             <div key={index} className="dis-f a-c jc-sb bgWhite brdRadius p-2 brdSmall brdText100 mt-3 dis-f jc-b a-c">
               <div className="dis-f a-c">
                 <BrixelIcon
@@ -118,6 +123,7 @@ const MakeOfferUploadProofFinancing = ({
 const mapStateToProps = (state) => ({
   activeSingleProperty: state?.property?.activeSingleProperty || null,
   documentsUploaded: state?.brixelForm?.makeOffer?.values?.proofOfFinancing || [],
+  formValues: state?.brixelForm?.makeOffer?.values || {},
   lang: state?.common?.language || 'en',
 });
 
