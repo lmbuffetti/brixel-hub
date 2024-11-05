@@ -66,7 +66,6 @@ const SingleDeal = (props: SingleDealType) => {
     scheduleVisit,
     setActiveSingleDealHistory,
     setActiveSingleDealOwnerHistory,
-    setDeal,
     setDealNotes,
     windowDimensions,
   } = props;
@@ -86,10 +85,10 @@ const SingleDeal = (props: SingleDealType) => {
   const optionsRef = useRef(null);
 
   useEffect(() => () => {
-    setDeal({});
     setDealNotes([]);
     setActiveSingleDealHistory({});
     setActiveSingleDealOwnerHistory({});
+
   }, []);
 
   useEffect(() => {

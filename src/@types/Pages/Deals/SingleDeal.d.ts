@@ -22,7 +22,6 @@ export interface SingleDealType {
   handleSetModal: (data: object) => void;
   setActiveSingleDealHistory: (data: object) => void;
   setActiveSingleDealOwnerHistory: (data: object) => void;
-  setDeal: (data: object) => void;
   setDealNotes: (data: object) => void;
   scheduleVisit: ScheduleVisit
   lang: string;
