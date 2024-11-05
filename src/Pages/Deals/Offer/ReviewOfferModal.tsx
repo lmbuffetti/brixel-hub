@@ -18,6 +18,11 @@ type ReviewOfferModalType = {
   lang: string
 }
 
+type FormValueType = {
+  status: 'accepted' | 'rejected'
+  note: string
+}
+
 const ReviewOfferModal = ({
   activeSingleOffer,
   closeModal,
@@ -26,8 +31,8 @@ const ReviewOfferModal = ({
   activeSingleDeal,
 }: ReviewOfferModalType) => {
 
-  const [formValue, setFormValue] = React.useState({
-    status: '',
+  const [formValue, setFormValue] = React.useState<FormValueType>({
+    status: 'accepted',
     note: '',
   });
   const [formStep, setFormStep] = React.useState<number>(0);
@@ -76,6 +81,7 @@ const ReviewOfferModal = ({
               changeStep={(isBack: boolean) => changeStep(isBack)}
               onChangeValue={(name, value) => onChangeValue(name, value)}
               onClick={() => saveData()}
+              status={formValue.status}
             />
           )
         }
