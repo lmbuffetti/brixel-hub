@@ -25,6 +25,7 @@ import BannerOfferDefault from '../../images/dashboard/bannerOffer-deafault.svg'
 import {OfferType} from '@brixel-io/brixel-components/dist/@types/Models/Deals';
 import {getActiveSingleProperty} from '../../actions/PropertyActions';
 import ReviewOfferModal from './Offer/ReviewOfferModal';
+import medelIcon from '../../images/offer-flow/medel.svg';
 
 type SingleOfferType = {
   activeSingleDeal: DealType
@@ -82,6 +83,10 @@ const SingleOffer = (props: SingleOfferType) => {
       component: <ReviewOfferModal closeModal={() => handleSetModal({})} />,
     })
   }
+
+  useEffect(() => {
+    viewOffer()
+  }, []);
 
   return (
     <>
@@ -160,6 +165,19 @@ const SingleOffer = (props: SingleOfferType) => {
 
                           <div className="pl-md-5 w-perc-md-70">
                             <h5 className="mb-2 fweight-600 mt-3 mt-md-0">{translateTo('Progress', lang)}</h5>
+
+                            {
+                              !activeSingleOffer?.id || activeSingleOffer?.status === 'accepted' && (
+                                <BannerFullSize
+                                  smallIcon
+                                  className="mb-2"
+                                  type="green"
+                                  lang={lang}
+                                  image={medelIcon}
+                                  description={['Congratulations on reaching an agreement!', 'You will be contacted shortly to proceed with the next steps.']}
+                                />
+                              )
+                            }
 
                             <MakeOfferTimeline
                               buyerInfo={activeSingleDeal.user}

@@ -101,12 +101,29 @@ const ResumeOffer = ({
 
     return get(activeSingleOffer, item.name, '')
   }
-
+  console.log(Helpers.getDataByStatus(activeSingleOffer), activeSingleOffer.status)
   return (
     <>
       <h2 className="ta-c fweight-600 pt-3">
         {translateTo('{{0}}\'s offer details', lang, ['Marta'])}
       </h2>
+
+      {
+        activeSingleOffer.status && activeSingleOffer.status !== 'pending' && (
+          <div className={`${Helpers.getDataByStatus(activeSingleOffer).bg} dis-f a-c brdRadius p-2 mt-3`}>
+            <BrixelIcon
+              className="mr-1"
+              icon={Helpers.getDataByStatus(activeSingleOffer).iconAlt}
+              color={Helpers.getDataByStatus(activeSingleOffer).colorName}
+            />
+            <p className={Helpers.getDataByStatus(activeSingleOffer).color}>
+              {translateTo(activeSingleOffer.status === 'accepted' ? 'You’ve accepted this offer.' : 'You’ve rejected this offer.', lang)}
+            </p>
+          </div>
+        )
+      }
+
+
       <div className='mt-4'>
         <h6 className="mb-2 fweight-600">{translateTo('Offer details', lang)}</h6>
 
