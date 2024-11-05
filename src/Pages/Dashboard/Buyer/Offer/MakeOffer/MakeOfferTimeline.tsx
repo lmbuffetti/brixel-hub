@@ -29,7 +29,7 @@ const MakeOfferTimeline = ({
 
   const offerRow = (singleOffer: HistoryOfferType, isArchived: boolean, index: number) => {
     let titleText = ''
-    let colorPrice = 'txtRed400'
+    let colorPrice = 'txtGreen400'
     const type = singleOffer?.noteByBuyer ? 'seller' : 'buyer'
     let icon = type === 'seller' ? 'key' : 'house'
     const isActive = false
@@ -72,6 +72,7 @@ const MakeOfferTimeline = ({
           break;
         case 'pending':
           titleText = 'You made an offer of:'
+          colorPrice = 'txtGreen400'
           break;
         default:
           titleText = 'You made an offer of:'
@@ -83,9 +84,10 @@ const MakeOfferTimeline = ({
         <div className="brdBottom dis-f a-c jc-b">
           <div>
             <h6>
-              <span className={`${isActive ? 'fweight-600' : 'fweight-500'}`}>
-                {translateTo(titleText, lang, [buyerInfo?.firstName])}
-              </span>
+              <span
+                className={`${singleOffer.status === 'accepted' ? `${colorPrice} fweight-700` : ''} ${isActive ? 'fweight-600' : 'fweight-500'}`}
+                dangerouslySetInnerHTML={{__html: translateTo(titleText, lang, [`<b>${buyerInfo?.firstName}</b>`])}}
+              />
               <span className={`${colorPrice} fweight-700 ml-1`}>
                 <span className="mr-1 ff-mono">
                   {singleOffer?.currency || 'CHF'}

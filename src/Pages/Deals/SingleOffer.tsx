@@ -144,7 +144,12 @@ const SingleOffer = (props: SingleOfferType) => {
                               {
                                 activeSingleDeal.user && (
                                   <ContactPageCard
+                                    avatarIcon={{
+                                      icon: 'key',
+                                      color: 'red',
+                                    }}
                                     className="mb-3"
+                                    contactRole="Buyer"
                                     contactDetails={activeSingleDeal.user}
                                   />
                                 )

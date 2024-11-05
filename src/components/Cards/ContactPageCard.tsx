@@ -1,21 +1,28 @@
 import React from 'react';
+import {
+  BrixelIcon,
+  BrixelAvatar,
+  BrixelButtonContactIcon,
+  Helpers} from '@brixel-io/brixel-components';
 import get from 'lodash/get';
 import {connect} from 'react-redux';
 import {ContactType} from '@brixel-io/brixel-components/dist/@types/Models/Property';
-import {
-  BrixelAvatar,
-  BrixelButtonContactIcon,
-  Helpers,
-} from '@brixel-io/brixel-components';
 
 type ContactPageCardType = {
+  avatarIcon?: {
+    icon: string
+    color?: string
+  }
   className?: string
   contactPage: ContactType
   contactDetails?: ContactType
+  contactRole?: string
 }
 
 const ContactPageCard = ({
+  avatarIcon,
   className,
+  contactRole,
   contactDetails,
   contactPage,
 }: ContactPageCardType) => {
@@ -26,14 +33,35 @@ const ContactPageCard = ({
   return (
     <div className={`dis-f a-c jc-b bgWhite brdRadius p-2 w-perc-100 dis-f a-c jc-b ${className}`}>
       <div className="dis-f a-c">
-        <BrixelAvatar
-          name={contactDetails?.name || contactPage?.name}
-          profileId={contactPage?.avatar?.id}
-        />
+        {
+          avatarIcon ? (
+            <BrixelIcon
+              rounded
+              className="mr-2"
+              icon={avatarIcon.icon}
+              color={avatarIcon.color || 'green'}
+              background={avatarIcon.color || 'green'}
+              saturation={50}
+            />
+          ) : (
+            <BrixelAvatar
+              avatarImg={contactDetails?.name ? contactDetails?.avatar?.avatarUrl : contactPage?.avatar?.avatarUrl}
+              name={contactDetails?.name || contactPage?.name}
+              profileId={contactPage?.avatar?.id}
+            />
+          )
+        }
         <div className="ml-2">
           <h6>
             {contactDetails?.name || contactPage?.name}
           </h6>
+          {
+            contactRole && (
+              <p className="fsize-300 txtText600">
+                {contactRole}
+              </p>
+            )
+          }
         </div>
       </div>
       <div>
