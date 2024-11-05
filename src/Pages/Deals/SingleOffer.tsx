@@ -84,10 +84,6 @@ const SingleOffer = (props: SingleOfferType) => {
     })
   }
 
-  useEffect(() => {
-    viewOffer()
-  }, []);
-
   return (
     <>
       {

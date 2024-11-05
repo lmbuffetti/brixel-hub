@@ -139,14 +139,9 @@ const MakeOfferTimeline = ({
       let numArray = 0;
       activeSingleOffer.history.forEach((history, index) => {
         if (!defResult[numArray]) defResult[numArray] = [];
-
-        const checkStatus = defResult[numArray].find((item) => item.status);
-
-        if (!checkStatus || (checkStatus && !history.status)) {
-          defResult[numArray].push(history);
-          if (activeSingleOffer.status === 'pending' && index % 2 === 0) numArray++;
-          else if (index > 0 && index % 2 !== 0) numArray++;
-        }
+        defResult[numArray].push(history);
+        if (activeSingleOffer.status === 'pending' && index % 2 === 0) numArray++;
+        else if (activeSingleOffer.status !== 'pending' && index > 0 && index % 2 !== 0) numArray++;
       })
     }
     return defResult;

@@ -101,7 +101,7 @@ const ResumeOffer = ({
 
     return get(activeSingleOffer, item.name, '')
   }
-  console.log(Helpers.getDataByStatus(activeSingleOffer), activeSingleOffer.status)
+
   return (
     <>
       <h2 className="ta-c fweight-600 pt-3">
