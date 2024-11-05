@@ -57,6 +57,7 @@ const SingleOffer = ({
       state: true,
       small: true,
       titleTop: true,
+      titleTopClass: 'fweight-600 fsize-500 ml-1',
       layout: 'large',
       component: <MakeOfferModalUpdate closeModal={() => handleSetModal({})} />,
     })

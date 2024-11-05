@@ -61,8 +61,8 @@ const MakeOffer = (props: MakeOfferType) => {
   };
 
   return (
-    <div className="flex-1 p-4">
-      <div className="bgBlue100 brdRadius dis-f a-c p-2">
+    <div className="flex-1 dis-fl-col px-2 px-md-4 py-2">
+      <div className="bgBlue50 brdSmall brdBlue100 brdRadius dis-f a-c p-2">
         <BrixelIcon icon="info" color="blue" saturationTxt={500} />
         <p className="txtBlue500 ml-2">
           {translateTo('We\'ve kept your previous details saved, so you only need to enter your new price.', lang)}
@@ -70,17 +70,17 @@ const MakeOffer = (props: MakeOfferType) => {
       </div>
 
       <div className="bgText25 brdRadius dis-f a-c p-3 mt-3 jc-b">
-        <div>
-          <h6 className="mb-1">
+        <div className='dis-fl-col'>
+          <span className="mb-small-4 txtText700 fsize-300">
             {translateTo('Listing price:', lang)}
-          </h6>
+          </span>
           {
             activeSingleProperty?.status === 'on-sale' && activeSingleProperty?.price?.total && (
               <p className="txtText800 dis-f a-c ff-mono">
-                <span className="mr-1 ff-mono">
+                <span className="mr-1 ff-mono fsize-300 fsize-md-400">
                   {activeSingleProperty?.price?.currency}
                 </span>
-                <span className="ff-mono fsize-500">
+                <span className="ff-mono fsize-500 ff-mono fsize-md-500">
                   {Helpers.formatNumberValue(activeSingleProperty.price.total, activeSingleProperty?.price?.currency || 'CHF')}
                 </span>
               </p>
@@ -88,32 +88,32 @@ const MakeOffer = (props: MakeOfferType) => {
           }
           {
             activeSingleProperty?.status === 'on-request' && (
-              <span className="txtText700 ff-mono">{translateTo('On Request', lang)}</span>
+              <span className="txtText700 ff-mono fsize-500">{translateTo('On Request', lang)}</span>
             )
           }
           {
             activeSingleProperty?.status === 'sold' && (
-              <span className="txtText700 ff-mono">{translateTo('Sold', lang)}</span>
+              <span className="txtRed700 ff-mono fsize-500">{translateTo('Sold', lang)}</span>
             )
           }
           {
             activeSingleProperty?.status === 'reserved' && (
-              <span className="txtText700 ff-mono">{translateTo('Reserved', lang)}</span>
+              <span className="txtBlue700 ff-mono fsize-500">{translateTo('Reserved', lang)}</span>
             )
           }
         </div>
         <div className="w-fix-small-1 h-fix-56 bgText200" />
-        <div>
-          <h6 className="mb-1">
+        <div className='dis-fl-col'>
+          <span className="mb-small-4 txtText700 fsize-300">
             {translateTo('Last offer:', lang)}
-          </h6>
+          </span>
           {
             activeSingleOffer?.amount && (
               <p className="txtGreen400 dis-f a-c ff-mono">
-                <span className="mr-1 ff-mono">
+                <span className="mr-1 ff-mono fsize-300 fsize-md-400">
                   {activeSingleOffer?.currency || 'CHF'}
                 </span>
-                <span className="ff-mono fsize-500">
+                <span className="ff-mono fsize-500 ff-mono fsize-md-500">
                   {Helpers.formatNumberValue(activeSingleOffer?.amount, activeSingleOffer?.currency || 'CHF')}
                 </span>
               </p>
@@ -146,7 +146,7 @@ const MakeOffer = (props: MakeOfferType) => {
           }}
         />
         <div className="dis-f a-c mt-3">
-          <p className="mr-1 fsize-200 txtText400">{translateTo('This is a non-binding offer.', lang)}</p>
+          <p className="mr-1 mt-a mb-a fsize-200 txtText400">{translateTo('This is a non-binding offer.', lang)}</p>
           <BrixelTooltip
             hideIcon={false}
             description={translateTo('This offer does not create any legal obligations and serves as a preliminary proposal. Final terms may change after further discussion.', lang)}
@@ -154,7 +154,7 @@ const MakeOffer = (props: MakeOfferType) => {
         </div>
       </div>
 
-      <div className="dis-f jc-fe mt-4 pb-2">
+      <div className="dis-f mt-a jc-fe pt-md-4 pt-2">
         <BrixelButtonText
           className="mr-2"
           theme="text"
