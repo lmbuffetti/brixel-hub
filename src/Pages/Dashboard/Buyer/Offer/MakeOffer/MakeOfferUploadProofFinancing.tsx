@@ -56,7 +56,7 @@ const MakeOfferUploadProofFinancing = ({
   return (
     <div className="max-w-fix-600 mx-a">
       <p className="dis-f jc-fe a-c mb-2">
-        <span className="fsize-200 mr-1">{translateTo('What is this?', lang)}</span>
+        <span className="fsize-200 txtText600 mr-1">{translateTo('What is this?', lang)}</span>
         <BrixelTooltip
           description={translateTo('A proof of financing (also called financing certificate) is a non-binding assessment of your financial situation. You can use it to prove to us that you can afford the house or apartment.', lang)}
           lang={lang}
@@ -71,7 +71,7 @@ const MakeOfferUploadProofFinancing = ({
           {({getRootProps, getInputProps}) => (
             <div
               {...getRootProps()}
-              className="bgGreen25 brdRadius ta-c py-3 px-2 py-sm-10 px-sm-5 upload-container"
+              className="bgGreen25 mb-2 brdRadius ta-c py-3 px-2 py-sm-10 px-sm-5 upload-container"
             >
               <input {...getInputProps()}/>
               <>
@@ -94,7 +94,7 @@ const MakeOfferUploadProofFinancing = ({
 
         {
           documentsUploaded && documentsUploaded.map((file, index) => (
-            <div key={index} className="dis-f a-c jc-sb bgWhite brdRadius p-2 brdSmall brdText100 mt-3 dis-f jc-b a-c">
+            <div key={index} className="dis-f a-c jc-sb bgWhite brdRadius p-2 brdSmall brdText100 mt-2 dis-f jc-b a-c">
               <div className="dis-f a-c">
                 <BrixelIcon
                   background="green"
