@@ -4,8 +4,9 @@ import translateTo from '../../../../utils/translation';
 import SectionMobileTitle from '../../../../components/SectionMobileTitle';
 import BannerFullSize from '../../../../components/BannerFullSize';
 import DocumentIcon from '../../../../images/documentsIcon/documentFull.svg'
+import lightBulbIcon from '../../../../images/offer-flow/light-bulb.svg'
+import medelIcon from '../../../../images/offer-flow/medel.svg'
 import BannerOfferDefault from '../../../../images/dashboard/bannerOffer-deafault.svg';
-import MoneySaverImg from '@brixel-io/brixel-components/dist/images/IconsColored/general/SavingMoney.svg';
 import {
   BrixelIcon } from '@brixel-io/brixel-components';
 import {useLocation, useNavigate, useParams} from 'react-router-dom';
@@ -127,10 +128,10 @@ const SingleOffer = ({
             />
             {
               activeSingleOffer?.status && (
-                <div className={`status-box dis-f a-b as-fe mb-2 ml-2 brdRadius px-1 py-small-4 bg${getOfferBackground()}100`}>
+                <div className={`status-box dis-f a-b as-fe mb-2 ml-2 brdRadius px-1 py-small-4 bg${getOfferBackground()}50`}>
                   <BrixelIcon
                     iconSize='w-fix-16'
-                    color="yellow"
+                    color={getOfferBackground()}
                     className='mr-1'
                     icon={getStatusIcon()}
                   />
@@ -161,18 +162,30 @@ const SingleOffer = ({
                   {
                     !activeSingleOffer?.id || activeSingleOffer?.status === 'rejected' && (
                       <BannerFullSize
+                        smallIcon
                         className="mb-2"
-                        type="green"
+                        type="default"
                         lang={lang}
-                        image={MoneySaverImg}
-                        title="Let’s add a new offer!"
-                        description={['Your offer was declined. Feel free to propose a new price if you\'re still interested!']}
+                        image={lightBulbIcon}
+                        description={['Your offer was rejected. ', 'If you\'re still interested, feel free to propose a new price.']}
                         button={{
                           label: 'Add new offer',
                           iconLeft: 'plus',
                           onClick: () => updateOffer(),
                           type: 'primary',
                         }}
+                      />
+                    )
+                  }
+                  {
+                    !activeSingleOffer?.id || activeSingleOffer?.status === 'accepted' && (
+                      <BannerFullSize
+                        smallIcon
+                        className="mb-2"
+                        type="green"
+                        lang={lang}
+                        image={medelIcon}
+                        description={['Congratulations on reaching an agreement!', 'You will be contacted shortly to proceed with the next steps.']}
                       />
                     )
                   }
