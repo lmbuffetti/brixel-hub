@@ -9,33 +9,47 @@ import {
 } from '@brixel-io/brixel-components';
 
 type ContactPageCardType = {
+  className?: string
   contactPage: ContactType
+  contactDetails?: ContactType
 }
 
-const ContactPageCard = ({ contactPage }: ContactPageCardType) => {
+const ContactPageCard = ({
+  className,
+  contactDetails,
+  contactPage,
+}: ContactPageCardType) => {
+  let contactPhone = contactPage?.phone;
+  let contactEmail = contactPage?.email;
+  if (contactDetails?.name) contactPhone = contactDetails?.phone
+  if (contactDetails?.name) contactEmail = contactDetails?.email
   return (
-    <div className="dis-f a-c jc-b bgWhite brdRadius p-2 w-perc-100 dis-f a-c jc-b">
+    <div className={`dis-f a-c jc-b bgWhite brdRadius p-2 w-perc-100 dis-f a-c jc-b ${className}`}>
       <div className="dis-f a-c">
         <BrixelAvatar
-          name={contactPage?.name}
+          name={contactDetails?.name || contactPage?.name}
           profileId={contactPage?.avatar?.id}
         />
         <div className="ml-2">
           <h6>
-            {contactPage?.name}
+            {contactDetails?.name || contactPage?.name}
           </h6>
         </div>
       </div>
       <div>
-        <BrixelButtonContactIcon
-          data={contactPage?.email}
-          icon="mail"
-        />
         {
-          contactPage?.phone && (
+          contactEmail && (
+            <BrixelButtonContactIcon
+              data={contactEmail}
+              icon="mail"
+            />
+          )
+        }
+        {
+          contactPhone && (
             <BrixelButtonContactIcon
               className="ml-2"
-              data={Helpers.telephoneFormat(contactPage?.phone, false, false, false, false, true)}
+              data={Helpers.telephoneFormat(contactPhone, false, false, false, false, true)}
               icon="phone"
             />
           )

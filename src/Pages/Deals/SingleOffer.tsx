@@ -119,7 +119,10 @@ const SingleOffer = (props: SingleOfferType) => {
                               icon={Helpers.getDataByStatus(activeSingleOffer).icon}
                             />
                             <span
-                              className={`${Helpers.getDataByStatus(activeSingleOffer).color} fsize-200 fweight-500`}>{translateTo(activeSingleOffer?.status.charAt(0).toUpperCase() + activeSingleOffer?.status.slice(1), lang)}</span>
+                              className={`${Helpers.getDataByStatus(activeSingleOffer).color} fsize-200 fweight-500`}
+                            >
+                              {translateTo(Helpers.getDataByStatus(activeSingleOffer.status).text, lang)}
+                            </span>
                           </div>
                         )
                       }
@@ -138,6 +141,14 @@ const SingleOffer = (props: SingleOfferType) => {
 
                             <div className="mt-3">
                               <h5 className="mb-2 fsize-500 fweight-600">{translateTo('Contact', lang)}</h5>
+                              {
+                                activeSingleDeal.user && (
+                                  <ContactPageCard
+                                    className="mb-3"
+                                    contactDetails={activeSingleDeal.user}
+                                  />
+                                )
+                              }
                               <ContactPageCard />
                             </div>
                           </div>
