@@ -14,7 +14,6 @@ import {
 } from '../../actions/DealActions';
 import {setModal} from '../../actions/CommonActions';
 import {DealType, PropertyType} from '@brixel-io/brixel-components/dist/@types/Model';
-import SectionMobileTitle from '../../components/SectionMobileTitle';
 import translateTo from '../../utils/translation';
 import MakeOfferPropertyCardVertical from '../../components/Cards/MakeOfferPropertyCardVertical';
 import ContactPageCard from '../../components/Cards/ContactPageCard';
@@ -63,7 +62,7 @@ const SingleOffer = (props: SingleOfferType) => {
       handleGetActiveDeal({ id: dealID, property: propID, smallLoader: 'getDeal' });
       handleGetActiveSingleOffer({ id: dealID, smallLoader: 'getOffer' });
     }
-  }, [dealID]);
+  }, [history?.location?.pathname]);
 
   useEffect(() => {
     if (activeSingleProperty.id !== propID || !activeSingleProperty.id) {

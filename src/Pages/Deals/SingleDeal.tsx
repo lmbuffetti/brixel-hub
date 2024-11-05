@@ -251,25 +251,6 @@ const SingleDeal = (props: SingleDealType) => {
     return null;
   };
 
-  const getOfferBackground = () => {
-    if (get(activeSingleDeal, 'closing.stageOffer.offer.status') === 'accepted') return 'green';
-    if (get(activeSingleDeal, 'closing.stageOffer.offer.status') === 'pending') return 'yellow';
-    if (get(activeSingleDeal, 'closing.stageOffer.offer.status') === 'rejected') return 'red';
-    return 'light';
-  };
-
-  const getOfferColor = () => {
-    if (get(activeSingleDeal, 'closing.stageOffer.offer.status') === 'accepted') return 'green';
-    if (get(activeSingleDeal, 'closing.stageOffer.offer.status') === 'pending') return 'yellow';
-    if (get(activeSingleDeal, 'closing.stageOffer.offer.status') === 'rejected') return 'red';
-    return 'text';
-  };
-
-  const getOfferSaturation = () => {
-    if (has(activeSingleDeal, 'closing.stageOffer.offer.status')) return 100;
-    return 200;
-  };
-
   const getOfferTextColor = () => {
     if (get(activeSingleDeal, 'closing.stageOffer.offer.status') === 'accepted') return 'Green400';
     if (get(activeSingleDeal, 'closing.stageOffer.offer.status') === 'pending') return 'Yellow400';
@@ -491,7 +472,7 @@ const SingleDeal = (props: SingleDealType) => {
                                 )
                               }
                               {
-                                scheduleVisit.map((slots, i) => (
+                                scheduleVisit && scheduleVisit.map((slots, i) => (
                                   <div
                                     className="visit-container mb-2 brdRadius bgWhite brdText100 brdSmall dis-fl-col"
                                     key={`visitsList${i.toString()}`}
