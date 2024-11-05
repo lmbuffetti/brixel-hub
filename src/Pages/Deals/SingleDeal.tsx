@@ -750,15 +750,15 @@ const SingleDeal = (props: SingleDealType) => {
                                     <div className="dis-f a-c">
                                       <BrixelIcon
                                         icon="money"
-                                        background={getOfferBackground()}
-                                        saturation={getOfferSaturation()}
-                                        color={getOfferColor()}
-                                        saturationTxt={400}
-                                        className="mr-2"
+                                        background="yellow"
+                                        saturation={50}
+                                        color="yellow"
+                                        saturationTxt={800}
+                                        className="mr-1"
                                       />
                                       <span
                                         className={'fweight-500'}>
-                                        {translateTo('No Offer', lang)}
+                                        {translateTo('No offer yet', lang)}
                                       </span>
                                     </div>
                                   </div>
@@ -776,10 +776,10 @@ const SingleDeal = (props: SingleDealType) => {
                                       }}
                                       lang={lang}
                                     />
-                                    <h3 className={`mt-2 ff-mono ${Helpers.getDataByStatus(activeSingleOffer).color}`}>
+                                    <h5 className={`mt-2 ff-mono ${Helpers.getDataByStatus(activeSingleOffer).color}`}>
                                       <span className="mr-1">{activeSingleOffer.currency || 'CHF'}</span>
                                       <span>{Helpers.formatNumberValue(activeSingleOffer.amount, activeSingleOffer.currency)}</span>
-                                    </h3>
+                                    </h5>
 
                                     {
                                       activeSingleOffer.updatedAt && (

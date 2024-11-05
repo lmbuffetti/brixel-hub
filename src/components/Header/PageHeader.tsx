@@ -525,7 +525,7 @@ function PageHeader(props: PageHeaderType) {
         </div>
       </header>
       {
-        windowDimensions.width <= 1024 && !history.location.pathname.includes('home') && !history.location.pathname.includes('/buyer/') && getCurrentRoute().title && getCurrentRoute().title !== 'Prospects' && !history.location.pathname.includes('closing/') && !isFlow && !isSecondLevelClass && (
+        windowDimensions.width <= 1024 && !history.location.pathname.includes('home') && !history.location.pathname.includes('/buyer/') && getCurrentRoute().title && getCurrentRoute().title !== 'Prospects' && !history.location.pathname.includes('closing/') && !history.location.pathname.includes('/offer') && !isFlow && !isSecondLevelClass && (
           <div className="mobileTitle dis-f jc-b a-c px-2 py-1">
             {
               getCurrentRoute().title && (

@@ -84,6 +84,11 @@ const SingleOffer = (props: SingleOfferType) => {
     })
   }
 
+  const getFirstName = () => {
+    const fullName = get(activeSingleDeal, 'user.name', '');
+    return fullName.split(' ')[0] || '';
+  };
+
   return (
     <>
       {
@@ -92,7 +97,7 @@ const SingleOffer = (props: SingleOfferType) => {
             <div className="w-perc-100">
               <div className="single-deal dis-fl-col max-w-fix-1024">
                 {/* top panel */}
-                <div className="actions dis-fl-row-lg jc-b pb-2 hide">
+                <div className="actions dis-fl-row jc-b pb-2">
                   <div className="pt-2 pr-1 pr-lg-0 pt-lg-0">
                     <BrixelButtonIcon
                       icon="arrow-left-small"
@@ -105,17 +110,19 @@ const SingleOffer = (props: SingleOfferType) => {
 
                 <div className="dis-f h-perc-lg-100">
                   <div className="dis-fl-col w-perc-100 h-perc-lg-100">
-                    <div className="dis-f hide-lg">
-                      <SectionMobileTitle
-                        title={activeSingleOffer.id ? 'Your Offer' : 'Offer'}
-                      />
+                    <div className="dis-f mb-1 mb-sm-3 a-c">
+                      <h3 className="fsize-500 fsize-sm-600 fweight-600">
+
+                        {translateTo('{{0}}\'s offer', lang, [getFirstName])}
+                      </h3>
                       {
                         activeSingleOffer?.status && (
                           <div
-                            className={`status-box dis-f a-b as-fe mb-2 ml-2 brdRadius px-1 py-small-4 ${Helpers.getDataByStatus(activeSingleOffer).bg}`}>
+                            className={`status-box dis-f a-b
+                             ml-2 brdRadius px-1 py-small-4 ${Helpers.getDataByStatus(activeSingleOffer).bg}`}>
                             <BrixelIcon
                               iconSize='w-fix-16'
-                              color="yellow"
+                              color={Helpers.getDataByStatus(activeSingleOffer).colorName}
                               className='mr-1'
                               icon={Helpers.getDataByStatus(activeSingleOffer).icon}
                             />
@@ -158,7 +165,7 @@ const SingleOffer = (props: SingleOfferType) => {
                           </div>
 
                           <div className="pl-md-5 w-perc-md-70">
-                            <h5 className="mb-2 fweight-600 mt-3 mt-md-0">{translateTo('Progress', lang)}</h5>
+                            <h5 className="mb-2 fweight-600 mt-2 mt-md-0">{translateTo('Progress', lang)}</h5>
 
                             {
                               !activeSingleOffer?.id || activeSingleOffer?.status === 'accepted' && (

@@ -103,10 +103,15 @@ const ResumeOffer = ({
     return get(activeSingleOffer, item.name, '')
   }
 
+  const getFirstName = () => {
+    const fullName = get(activeSingleDeal, 'user.name', '');
+    return fullName.split(' ')[0] || '';
+  };
+
   return (
     <>
       <h2 className="ta-c fweight-600 pt-3">
-        {translateTo('{{0}}\'s offer details', lang, ['Marta'])}
+        {translateTo('{{0}}\'s offer details', lang, [getFirstName])}
       </h2>
 
       {

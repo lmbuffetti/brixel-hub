@@ -48,7 +48,7 @@ const BannerFullSize = ({
           />
         )
       }
-      <div className="max-w-fix-576 ml-0 mr-a mb-2 mb-lg-0">
+      <div className={`max-w-fix-576 ml-0 mr-a ${button ? 'mb-2 mb-lg-0' : ''}`}>
         {
           title && (
             <h6 className="fweight-600 fsize-500 mb-1 mt-2 mt-lg-0">{translateTo(title, lang)}</h6>
