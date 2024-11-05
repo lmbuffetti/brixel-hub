@@ -776,7 +776,7 @@ const SingleDeal = (props: SingleDealType) => {
                                       }}
                                       lang={lang}
                                     />
-                                    <h3 className={`mt-2 ${Helpers.getDataByStatus(activeSingleOffer).color}`}>
+                                    <h3 className={`mt-2 ff-mono ${Helpers.getDataByStatus(activeSingleOffer).color}`}>
                                       <span className="mr-1">{activeSingleOffer.currency || 'CHF'}</span>
                                       <span>{Helpers.formatNumberValue(activeSingleOffer.amount, activeSingleOffer.currency)}</span>
                                     </h3>

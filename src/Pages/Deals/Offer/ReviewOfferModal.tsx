@@ -49,7 +49,7 @@ const ReviewOfferModal = ({
   }
 
   return (
-    <div className="dis-fl-col bgText25 flex-1">
+    <div className={`dis-fl-col flex-1 ${formStep === 2 ? 'bgGreen25' : 'bgText25'}`}>
       <PageHeader
         isFlow
         onClose={() => closeModal()}

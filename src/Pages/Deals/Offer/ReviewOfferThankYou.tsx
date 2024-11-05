@@ -22,16 +22,18 @@ const ReviewOfferThankYou = ({
   const match = useParams();
   const propID = get(match, 'propID', null);
   return (
-    <div>
+    <div className='dis-fl-col ta-c jc-c a-c my-4 my-md-8'>
       <img src={PhoneIcSavingMoneyIcon} />
-      <h2>
+      <h3 className='fweight-600 mt-2'>
         {translateTo('Thank you!', lang)}
-      </h2>
-      <p>
+      </h3>
+      <p className='my-3'>
         {translateTo('The buyer will be notified and you will be contacted shortly to proceed with the next steps.', lang)}
       </p>
 
       <BrixelButtonSecondary
+        rounded
+        className='mt-3'
         onClick={() => history.push(`/buyer/${propID}/offer`)}
         label={translateTo('Go to offer overview', lang)}
       />

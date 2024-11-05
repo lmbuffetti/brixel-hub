@@ -22,11 +22,14 @@ const AddCommentReview = ({
 
   return (
     <>
-      <h2 className="ta-c fweight-600 pt-3">
+      <h2 className="ta-c fweight-600 pt-3 mb-1">
         {translateTo('Confirm acceptance', lang)}
       </h2>
       <h6 className="fweight-400 ta-c txtText600">
-        {translateTo('You are about to accept the offer. Would you like to add a comment?', lang)}
+        {translateTo('You are about to accept the offer.', lang)}
+      </h6>
+      <h6 className="fweight-400 ta-c txtText600">
+        {translateTo('Would you like to add a comment?', lang)}
       </h6>
       <div className='mt-4'>
         <BrixelTextArea
