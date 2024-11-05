@@ -31,7 +31,7 @@ const ContactPageCard = ({
   if (contactDetails?.name) contactPhone = contactDetails?.phone
   if (contactDetails?.name) contactEmail = contactDetails?.email
   return (
-    <div className={`dis-f a-c jc-b bgWhite brdRadius p-2 w-perc-100 dis-f a-c jc-b ${className}`}>
+    <div className={`dis-f a-c jc-b bgWhite brdRadius brdSmall brdText100 p-2 w-perc-100 dis-f a-c jc-b ${className}`}>
       <div className="dis-f a-c">
         {
           avatarIcon ? (

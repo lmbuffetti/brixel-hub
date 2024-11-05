@@ -36,7 +36,7 @@ const BannerFullSize = ({
   smallIcon,
   windowDimensions,
 }: BannerFullSizeProps) => {
-  const bannerClass = type === 'green' ? 'bgGreen100 brdGreen200 brdSmall' : 'bgWhite brdText200 brdSmall';
+  const bannerClass = type === 'green' ? 'bgGreen50 brdGreen100 brdSmall' : 'bgWhite brdText100 brdSmall';
   return (
     <div className={`${bannerClass} ${className} dis-fl-col dis-fl-row-lg a-t a-c-lg jc-b p-2 p-lg-3 brdRadius`}>
       {

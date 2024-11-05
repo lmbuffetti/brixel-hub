@@ -162,7 +162,7 @@ const MakeOfferTimeline = ({
       {
         offerTimelineGroup() && offerTimelineGroup().map((group, index) => (
           <div
-            className="bgWhite brdRadius py-2 pl-4 pr-2 py-md-3 pl-md-5 pr-md-3 mb-2 pos-r"
+            className="bgWhite brdRadius py-2 pl-4 pr-2 py-md-3 pl-md-5 pr-md-3 mb-2 pos-r brdSmall brdText100"
             key={`historyParent${index.toString()}`}
           >
             {
