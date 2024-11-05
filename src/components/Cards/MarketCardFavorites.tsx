@@ -24,6 +24,8 @@ import CoverPropertyImage from '../CoverPropertyImage';
 import Tags from '../Tags';
 import type {MarketCardFavoritesType} from '../../@types/components/Cards/MarketCardFavorites';
 import {convertLabel} from '../../utils/helpers';
+import {DealType} from '@brixel-io/brixel-components/dist/@types/Model';
+import {OfferType} from '@brixel-io/brixel-components/dist/@types/Models/Deals';
 
 const MarketCardFavorites = (props: MarketCardFavoritesType) => {
   const history = {
@@ -38,8 +40,8 @@ const MarketCardFavorites = (props: MarketCardFavoritesType) => {
     lang,
     loggedInUser,
   } = props;
-  const [dealDetail, setDealDetail] = useState(null);
-  const [offerDetail, setOfferDetail] = useState({});
+  const [dealDetail, setDealDetail] = useState<DealType>();
+  const [offerDetail, setOfferDetail] = useState<OfferType | null | undefined>(null);
   const [activeSlide, setActiveSlide] = useState(0);
   const [showSlideData, setShowSlideData] = useState(false);
   const [isUnFavorite, setIsUnFavorite] = useState(false);
@@ -70,11 +72,13 @@ const MarketCardFavorites = (props: MarketCardFavoritesType) => {
 
   useEffect(() => {
     if (get(dealDetail, 'id', null)) {
-      const offerData = get(dealDetail, 'closing.stageOffer', {});
-      if (!get(offerData, 'offer.status', null)) {
-        set(offerData, 'offer.status', 'none');
-      }
-      setOfferDetail(offerData);
+      api.deal.getOffer(dealDetail?.id)
+        .then((res) => {
+          setOfferDetail(res.data.payload);
+        })
+        .catch(() => {
+          setOfferDetail(undefined);
+        })
     }
   }, [dealDetail]);
 
@@ -351,28 +355,32 @@ const MarketCardFavorites = (props: MarketCardFavoritesType) => {
               </div>
             </div>
 
-            <div className="mt-a mb-a ml-sm-a">
-              {
-                (get(offerDetail, 'offer.status', null) === 'none' || get(offerDetail, 'offer.status', null) === 'rejected') && !isPreMarket() && (
-                  <BrixelButtonPrimary
-                    rounded
-                    label={translateTo('Make an offer', lang)}
-                    isLoading={!get(dealDetail, 'id', false)}
-                    onClick={() => history.push(`/packageFlow/${activeSingleProperty.id}/makeOffer/priceInfo?url=${history.location.pathname}`)}
-                  />
-                )
-              }
-              {
-                (get(offerDetail, 'offer.status', null) === 'accepted' || get(offerDetail, 'offer.status', null) === 'pending') && !isPreMarket() && (
-                  <BrixelButtonSecondary
-                    rounded
-                    label={translateTo('View offer', lang)}
-                    isLoading={!get(dealDetail, 'id', false)}
-                    onClick={() => history.push(`/buyer/${activeSingleProperty.id}/closing/${get(dealDetail, 'id', '')}?url=${history.location.pathname}`)}
-                  />
-                )
-              }
-            </div>
+            {
+              offerDetail !== null && (
+                <div className="mt-a mb-a ml-sm-a">
+                  {
+                    (!offerDetail?.status || offerDetail?.status === 'rejected') && !isPreMarket() && (
+                      <BrixelButtonPrimary
+                        rounded
+                        label={translateTo('Make an offer', lang)}
+                        isLoading={!get(dealDetail, 'id', false)}
+                        onClick={() => history.push(`/buyer/${activeSingleProperty.id}/offerFlow/makeOffer`)}
+                      />
+                    )
+                  }
+                  {
+                    (get(offerDetail, 'status', null) === 'accepted' || get(offerDetail, 'status', null) === 'pending') && !isPreMarket() && (
+                      <BrixelButtonSecondary
+                        rounded
+                        label={translateTo('View offer', lang)}
+                        isLoading={!get(dealDetail, 'id', false)}
+                        onClick={() => history.push(`/buyer/${activeSingleProperty.id}/offer`)}
+                      />
+                    )
+                  }
+                </div>
+              )
+            }
           </div>
         </div>
       </div>
