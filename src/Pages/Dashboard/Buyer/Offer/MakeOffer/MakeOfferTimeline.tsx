@@ -10,12 +10,18 @@ import BrixelButtonSecondary from '@brixel-io/brixel-components/dist/components/
 import translateTo from '../../../../../utils/translation';
 import {DealType} from '@brixel-io/brixel-components/dist/@types/Model';
 
+import {setWindowDimensions} from '../../../../../actions/CommonActions';
+import get from 'lodash/get';
+import { compose, bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+
 type MakeOfferTimelineType = {
   activeSingleOffer: OfferType;
   buyerInfo?: DealType['user']
   handleViewOffer: () => void;
   isSeller?: boolean;
   lang: string;
+  windowDimensions: { width: number, height: number }
 }
 
 const MakeOfferTimeline = ({
@@ -24,6 +30,7 @@ const MakeOfferTimeline = ({
   handleViewOffer,
   isSeller,
   lang,
+  windowDimensions,
 }: MakeOfferTimelineType) => {
 
 
@@ -81,7 +88,7 @@ const MakeOfferTimeline = ({
     }
     return (
       <li className={`${icon}`}>
-        <div className="brdBottom dis-f a-c jc-b">
+        <div className="brdBottom dis-fl-col dis-fl-row-md jc-b">
           <div>
             <h6>
               <span
@@ -121,11 +128,14 @@ const MakeOfferTimeline = ({
           </div>
           {
             !isArchived && ((index === 0 && activeSingleOffer.status === 'pending') || index === 1 && activeSingleOffer.status !== 'pending') && (
-              <BrixelButtonSecondary
-                rounded
-                label={translateTo('View', lang)}
-                onClick={() => handleViewOffer()}
-              />
+              <div className='mt-1 mt-md-0'>
+                <BrixelButtonSecondary
+                  rounded
+                  fullWidth={windowDimensions.width <= 1024}
+                  label={translateTo('View', lang)}
+                  onClick={() => handleViewOffer()}
+                />
+              </div>
             )
           }
         </div>
@@ -184,4 +194,14 @@ const MakeOfferTimeline = ({
   )
 }
 
-export default MakeOfferTimeline;
+const mapStateToProps = (state) => ({
+  windowDimensions: get(state, 'common.windowDimensions', { width: 0, height: 0 }),
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  handleSetWindowsDimension: bindActionCreators(setWindowDimensions, dispatch),
+});
+
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+)(MakeOfferTimeline);

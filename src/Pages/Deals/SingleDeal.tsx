@@ -294,7 +294,7 @@ const SingleDeal = (props: SingleDealType) => {
         };
       case 'rejected':
         return {
-          icon: 'close-circle',
+          icon: 'delete',
           color: 'red',
           saturation: 400,
         };

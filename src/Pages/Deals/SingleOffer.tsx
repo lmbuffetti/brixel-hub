@@ -88,6 +88,28 @@ const SingleOffer = (props: SingleOfferType) => {
     return fullName.split(' ')[0] || '';
   };
 
+
+  const getOfferBackground = () => {
+    if (activeSingleOffer?.status === 'accepted') return 'Green';
+    if (activeSingleOffer?.status === 'pending') return 'Yellow';
+    if (activeSingleOffer?.status === 'rejected') return 'Red';
+    return 'light';
+  };
+
+  const getOfferTextColor = () => {
+    if (activeSingleOffer?.status === 'accepted') return 'Green400';
+    if (activeSingleOffer?.status === 'pending') return 'Yellow400';
+    if (activeSingleOffer?.status === 'rejected') return 'Red400';
+    return 'Text900';
+  };
+
+  const getStatusIcon = () => {
+    if (activeSingleOffer?.status === 'accepted') return 'check-thin';
+    if (activeSingleOffer?.status === 'pending') return 'clock';
+    if (activeSingleOffer?.status === 'rejected') return 'delete';
+    return 'clock';
+  };
+
   return (
     <>
       {
@@ -118,18 +140,14 @@ const SingleOffer = (props: SingleOfferType) => {
                         activeSingleOffer?.status && (
                           <div
                             className={`status-box dis-f a-b
-                             ml-2 brdRadius px-1 py-small-4 ${Helpers.getDataByStatus(activeSingleOffer).bg}`}>
+                             ml-2 brdRadius px-1 py-small-4 bg${getOfferBackground()}100`}>
                             <BrixelIcon
                               iconSize='w-fix-16'
-                              color={Helpers.getDataByStatus(activeSingleOffer).colorName}
+                              color={getOfferBackground()}
                               className='mr-1'
-                              icon={Helpers.getDataByStatus(activeSingleOffer).icon}
+                              icon={getStatusIcon()}
                             />
-                            <span
-                              className={`${Helpers.getDataByStatus(activeSingleOffer).color} fsize-200 fweight-500`}
-                            >
-                              {translateTo(Helpers.getDataByStatus(activeSingleOffer.status).text, lang)}
-                            </span>
+                            <span className={`txt${getOfferTextColor()} fsize-200 fweight-500`}>{translateTo(activeSingleOffer?.status.charAt(0).toUpperCase() + activeSingleOffer?.status.slice(1), lang)}</span>
                           </div>
                         )
                       }
