@@ -23,6 +23,10 @@ const MakeOfferUploadProofFinancing = ({
 }: MakeOfferUploadProofFinancingType) => {
   const [documentsUploaded, setDocumentsUploaded] = useState<any[]>([]);
   const [showError, setShowError] = useState('');
+
+  useEffect(() => {
+
+  }, []);
   // DROPZONE SETTINGS
   useEffect(() => {
     changeFieldValue('documents', documentsUploaded);

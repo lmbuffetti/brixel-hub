@@ -10,7 +10,6 @@ import {
 } from '@brixel-io/brixel-components';
 import baseByData from '@brixel-io/brixel-components/dist/configuration/Settings';
 import get from 'lodash/get';
-import set from 'lodash/set';
 import {connect} from 'react-redux';
 import {useLocation, useNavigate} from 'react-router-dom';
 import Slider from 'react-slick';
