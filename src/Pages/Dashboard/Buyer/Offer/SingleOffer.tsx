@@ -93,9 +93,9 @@ const SingleOffer = ({
   };
 
   const getStatusIcon = () => {
-    if (activeSingleOffer?.status === 'accepted') return 'check';
+    if (activeSingleOffer?.status === 'accepted') return 'check-thin';
     if (activeSingleOffer?.status === 'pending') return 'clock';
-    if (activeSingleOffer?.status === 'rejected') return 'close';
+    if (activeSingleOffer?.status === 'rejected') return 'delete';
     return 'clock';
   };
 
@@ -110,7 +110,7 @@ const SingleOffer = ({
             <div className={`status-box mt-a mb-a ml-2 dis-if a-c as-fs brdRadius px-1 py-small-4 bg${getOfferBackground()}100`}>
               <BrixelIcon
                 iconSize='w-fix-16'
-                color="yellow"
+                color={getOfferBackground()}
                 className='mr-1'
                 icon={getStatusIcon()}
               />

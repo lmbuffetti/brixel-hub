@@ -49,7 +49,7 @@ const ReviewOfferModal = ({
   }
 
   return (
-    <div className="dis-fl-col bgText25">
+    <div className="dis-fl-col bgText25 flex-1">
       <PageHeader
         isFlow
         onClose={() => closeModal()}

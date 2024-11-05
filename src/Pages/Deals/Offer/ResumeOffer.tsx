@@ -215,7 +215,7 @@ const ResumeOffer = ({
         </div>
       </div>
 
-      <div className="dis-f jc-c a-c">
+      <div className="dis-f jc-c a-c mb-4">
         <BrixelButtonSecondary
           rounded
           className="mr-small-4"
