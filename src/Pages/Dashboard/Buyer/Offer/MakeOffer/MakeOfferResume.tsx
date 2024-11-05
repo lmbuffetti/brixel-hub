@@ -89,7 +89,7 @@ const MakeOfferResume = ({
       return matrimonialPropertyRegime?.label || '';
     }
     if (item.name === 'location')  {
-      return `${get(formValue, item.name, {}).street} ${get(formValue, item.name, {}).streetNumber}, ${get(formValue, item.name, {}).zipCode} ${get(formValue, item.name, {}).city}`;
+      return `${get(formValue, item.name, {})?.street} ${get(formValue, item.name, {})?.streetNumber}, ${get(formValue, item.name, {})?.zipCode} ${get(formValue, item.name, {})?.city}`;
     }
 
     return get(formValue, item.name, '')

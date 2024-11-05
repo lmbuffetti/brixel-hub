@@ -16,15 +16,6 @@ type MakeOfferPropertyCardVerticalType = {
   status: string
 }
 
-// Updated to accept activeSingleProperty as a parameter
-const getOfferTextColor = (status) => {
-  if (status === 'accepted') return 'Green400';
-  if (status === 'pending') return 'Yellow400';
-  if (status === 'rejected') return 'Red400';
-  return 'Text900';
-};
-
-
 const MakeOfferPropertyCardVertical = ({ activeSingleProperty, lang, status }: MakeOfferPropertyCardVerticalType) => {
   return (
     <div className="max-w-fix-800 w-perc-100">
@@ -77,7 +68,7 @@ const MakeOfferPropertyCardVertical = ({ activeSingleProperty, lang, status }: M
         <div>
           {
             activeSingleProperty?.status === 'on-sale' && activeSingleProperty?.price?.total && (
-              <p className={`txtGreen400 dis-f a-c txt${getOfferTextColor(status)}`}>
+              <p className={'txtGreen400 dis-f a-c txtGreen400'}>
                 <span className='ff-mono'>CHF</span>
                 <span className="ff-mono fsize-500 pl-small-4">{Helpers.formatNumberValue(activeSingleProperty.price.total, activeSingleProperty?.price?.currency || 'CHF')}
                 </span>

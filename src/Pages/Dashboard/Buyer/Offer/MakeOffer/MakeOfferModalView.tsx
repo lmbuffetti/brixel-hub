@@ -98,7 +98,7 @@ const MakeOfferModalView = ({
       return matrimonialPropertyRegime?.label || '';
     }
     if (item.name === 'location')  {
-      return `${get(activeSingleOffer, item.name, {}).street || ''} ${get(activeSingleOffer, item.name, {}).streetNumber || ''}, ${get(activeSingleOffer, item.name, {}).zipCode || ''} ${get(activeSingleOffer, item.name, {}).city || ''}`;
+      return `${get(activeSingleOffer, item.name, {})?.street || ''} ${get(activeSingleOffer, item.name, {})?.streetNumber || ''}, ${get(activeSingleOffer, item.name, {})?.zipCode || ''} ${get(activeSingleOffer, item.name, {})?.city || ''}`;
     }
 
     return get(activeSingleOffer, item.name, '')
