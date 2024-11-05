@@ -273,10 +273,10 @@ const MarketCardFavorites = (props: MarketCardFavoritesType) => {
             <div className="w-perc-100 mb-1 mb-sm-0 w-auto-sm">
               <div className="dis-f w-perc-100 w-auto-sm jc-b a-c">
                 {
-                  get(offerDetail, 'offer.status', 'none') !== 'none' && get(offerDetail, 'offer.status', null) !== 'rejected' && !isPreMarket() && (
+                  get(offerDetail, 'status', 'none') !== 'none' && get(offerDetail, 'status', null) !== 'rejected' && !isPreMarket() && (
                     <Tags
                       lang={lang}
-                      status={get(offerDetail, 'offer.status', '')}
+                      status={get(offerDetail, 'status', '')}
                       text="Offer"
                       message={{
                         accepted: translateTo('Offer accepted', lang),
