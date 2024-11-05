@@ -2,7 +2,6 @@ import React, {useEffect} from 'react';
 import {
   BrixelButtonIcon,
   BrixelIcon,
-  Helpers,
 } from '@brixel-io/brixel-components';
 import {change} from '@brixel-io/brixel-components/dist/form';
 import get from 'lodash/get';
