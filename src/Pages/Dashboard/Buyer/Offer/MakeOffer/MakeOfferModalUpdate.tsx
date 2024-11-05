@@ -46,7 +46,7 @@ const MakeOffer = (props: MakeOfferType) => {
     if (isSmallLoading?.sendData === false) {
       closeModal();
     }
-  }, []);
+  }, [isSmallLoading]);
 
   // FUNCTION TO SAVE DATA
   const saveData = async () => {
@@ -131,6 +131,7 @@ const MakeOffer = (props: MakeOfferType) => {
             type: 'text',
             onChange: (val) => setFormValue({...formValue, amount: val}),
           }}
+          currency={activeSingleOffer?.currency || 'CHF'}
           formatType="price"
           unit={activeSingleOffer?.currency || 'CHF'}
           large
