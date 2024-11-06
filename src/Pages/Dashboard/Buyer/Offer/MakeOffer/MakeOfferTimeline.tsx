@@ -37,7 +37,7 @@ const MakeOfferTimeline = ({
   const offerRow = (singleOffer: HistoryOfferType, isArchived: boolean, index: number) => {
     let titleText = ''
     let colorPrice = 'txtGreen400'
-    const type = singleOffer?.noteByBuyer ? 'seller' : 'buyer'
+    const type = isSeller ? 'seller' : 'buyer'
     let icon = type === 'seller' ? 'key' : 'house'
     const isActive = false
     if (type === 'seller') {
