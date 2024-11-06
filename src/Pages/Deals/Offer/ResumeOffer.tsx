@@ -242,7 +242,7 @@ const ResumeOffer = ({
       </div>
 
       {
-        activeSingleOffer.status !== 'pending' ? (
+        activeSingleOffer.status && activeSingleOffer.status !== 'pending' ? (
           <div className="dis-f jc-c a-c mb-4">
             <BrixelButtonPrimary
               rounded

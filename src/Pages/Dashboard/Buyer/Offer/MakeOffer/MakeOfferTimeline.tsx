@@ -37,7 +37,7 @@ const MakeOfferTimeline = ({
   const offerRow = (singleOffer: HistoryOfferType, isArchived: boolean, index: number) => {
     let titleText = ['']
     let colorPrice = 'txtGreen400'
-    const type = singleOffer?.status ? 'seller' : 'buyer'
+    const type = singleOffer?.status && singleOffer.status !== 'pending' ? 'seller' : 'buyer'
     let icon = singleOffer?.status ? 'house' : 'key'
     const isActive = false
     if (type === 'seller') {
@@ -153,7 +153,7 @@ const MakeOfferTimeline = ({
                 <BrixelButtonSecondary
                   rounded
                   fullWidth={windowDimensions.width <= 1024}
-                  label={translateTo(isSeller && singleOffer.status === 'pending' ? 'Review' : 'View', lang)}
+                  label={translateTo(isSeller && (singleOffer.status === 'pending' || !singleOffer.status) ? 'Review' : 'View', lang)}
                   onClick={() => handleViewOffer()}
                 />
               </div>
