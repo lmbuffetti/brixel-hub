@@ -21,6 +21,7 @@ const ReviewOfferThankYou = ({
   };
   const match = useParams();
   const propID = get(match, 'propID', null);
+  const dealID = get(match, 'dealID', null);
   return (
     <div className='dis-fl-col ta-c jc-c a-c my-4 my-md-8'>
       <img src={PhoneIcSavingMoneyIcon} />
@@ -34,7 +35,7 @@ const ReviewOfferThankYou = ({
       <BrixelButtonSecondary
         rounded
         className='mt-3'
-        onClick={() => history.push(`/buyer/${propID}/offer`)}
+        onClick={() => history.push(`/${propID}/prospect/${dealID}/offer`)}
         label={translateTo('Go to offer overview', lang)}
       />
     </div>

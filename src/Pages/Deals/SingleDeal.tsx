@@ -775,12 +775,16 @@ const SingleDeal = (props: SingleDealType) => {
                                         label={translateTo('View details', lang)}
                                         onClick={() => history.push(`/${propID}/prospect/${dealID}/offer`)}
                                       />
-                                      <BrixelButtonPrimary
-                                        className=""
-                                        rounded
-                                        label={translateTo('Review', lang)}
-                                        onClick={() => onClickReview()}
-                                      />
+                                      {
+                                        activeSingleOffer?.status === 'pending' && (
+                                          <BrixelButtonPrimary
+                                            className=""
+                                            rounded
+                                            label={translateTo('Review', lang)}
+                                            onClick={() => onClickReview()}
+                                          />
+                                        )
+                                      }
                                     </div>
                                   </div>
                                 )

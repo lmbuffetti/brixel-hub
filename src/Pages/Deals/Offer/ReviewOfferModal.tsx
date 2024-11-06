@@ -67,6 +67,7 @@ const ReviewOfferModal = ({
               lang={lang}
               activeSingleDeal={activeSingleDeal}
               activeSingleOffer={activeSingleOffer}
+              closeModal={() => closeModal()}
               onClick={(action: 'accepted' | 'rejected') => {
                 onChangeValue('status', action)
                 changeStep()

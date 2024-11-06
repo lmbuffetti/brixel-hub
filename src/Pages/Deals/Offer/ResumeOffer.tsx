@@ -17,6 +17,7 @@ const { factsOptions } = FactsOptions;
 type ResumeOfferType = {
   activeSingleDeal: DealType
   activeSingleOffer: OfferType
+  closeModal: () => void
   lang: string
   onClick: (action: 'accepted' | 'rejected') => void
 }
@@ -68,6 +69,7 @@ const objAnswer = {
 const ResumeOffer = ({
   activeSingleDeal,
   activeSingleOffer,
+  closeModal,
   lang,
   onClick,
 }: ResumeOfferType) => {
@@ -238,21 +240,35 @@ const ResumeOffer = ({
         </div>
       </div>
 
-      <div className="dis-f jc-c a-c mb-4">
-        <BrixelButtonSecondary
-          rounded
-          className="mr-small-4"
-          label={translateTo('Reject', lang)}
-          onClick={() => onClick('rejected')}
-          theme="red"
-        />
-        <BrixelButtonPrimary
-          rounded
-          className="ml-small-4"
-          label={translateTo('Accept', lang)}
-          onClick={() => onClick('accepted')}
-        />
-      </div>
+      {
+        activeSingleOffer.status !== 'pending' ? (
+          <div className="dis-f jc-c a-c mb-4">
+            <BrixelButtonPrimary
+              rounded
+              className="ml-small-4"
+              label={translateTo('Close', lang)}
+              onClick={() => closeModal()}
+            />
+          </div>
+        ) : (
+          <div className="dis-f jc-c a-c mb-4">
+            <BrixelButtonSecondary
+              rounded
+              className="mr-small-4"
+              label={translateTo('Reject', lang)}
+              onClick={() => onClick('rejected')}
+              theme="red"
+            />
+            <BrixelButtonPrimary
+              rounded
+              className="ml-small-4"
+              label={translateTo('Accept', lang)}
+              onClick={() => onClick('accepted')}
+            />
+          </div>
+        )
+      }
+
 
     </>
   )

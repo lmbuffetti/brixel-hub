@@ -382,7 +382,7 @@ export const redirectUrl = (link, options) => {
     link.toLowerCase().includes('visitfeedback')
   ) {
     return '/buy';
-  } else if (link.toLowerCase().includes('makeoffer') || link.toLowerCase().includes('closing')) {
+  } else if (link.toLowerCase().includes('offer')) {
     if (userType === 'buyer' || link.toLowerCase().includes('buyer')) {
       return `/buyer/${propID}/offer`;
     } else {
