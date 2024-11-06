@@ -121,7 +121,7 @@ const ResumeOffer = ({
           <div className={`${Helpers.getDataByStatus(activeSingleOffer).bg} dis-f a-c brdRadius p-2 mt-3`}>
             <BrixelIcon
               className="mr-1"
-              icon={Helpers.getDataByStatus(activeSingleOffer).iconAlt}
+              icon={Helpers.getDataByStatus(activeSingleOffer).icon}
               color={Helpers.getDataByStatus(activeSingleOffer).colorName}
             />
             <p className={Helpers.getDataByStatus(activeSingleOffer).color}>
