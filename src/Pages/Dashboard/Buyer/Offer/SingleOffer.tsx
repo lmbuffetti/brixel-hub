@@ -97,7 +97,7 @@ const SingleOffer = ({
   const getStatusIcon = () => {
     if (activeSingleOffer?.status === 'accepted') return 'check-thin';
     if (activeSingleOffer?.status === 'pending') return 'clock';
-    if (activeSingleOffer?.status === 'rejected') return 'delete';
+    if (activeSingleOffer?.status === 'rejected') return 'close-small';
     return 'clock';
   };
 

@@ -105,7 +105,7 @@ const SingleOffer = (props: SingleOfferType) => {
   const getStatusIcon = () => {
     if (activeSingleOffer?.status === 'accepted') return 'check-thin';
     if (activeSingleOffer?.status === 'pending') return 'clock';
-    if (activeSingleOffer?.status === 'rejected') return 'delete';
+    if (activeSingleOffer?.status === 'rejected') return 'close-small';
     return 'clock';
   };
 
@@ -154,7 +154,7 @@ const SingleOffer = (props: SingleOfferType) => {
                     {
                       activeSingleOffer.id ? (
                         <div className="dis-fl-col-rev dis-fl-row-md">
-                          <div className="w-perc-md-30">
+                          <div className="w-perc-100 max-w-fix-md-344">
                             <div>
                               <h4
                                 className="mb-2 fsize-500 fweight-600 mt-2 mt-md-0">{translateTo('Property details', lang)}</h4>
@@ -170,7 +170,7 @@ const SingleOffer = (props: SingleOfferType) => {
                                       icon: 'key',
                                       color: 'red',
                                     }}
-                                    className="mb-3"
+                                    className="mb-1"
                                     contactRole="Buyer"
                                     contactDetails={activeSingleDeal.user}
                                   />

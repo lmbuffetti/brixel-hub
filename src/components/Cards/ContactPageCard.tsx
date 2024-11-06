@@ -32,12 +32,12 @@ const ContactPageCard = ({
   if (contactDetails?.name) contactEmail = contactDetails?.email
   return (
     <div className={`dis-f a-c jc-b bgWhite brdRadius brdSmall brdText100 p-2 w-perc-100 dis-f a-c jc-b ${className}`}>
-      <div className="dis-f a-c">
+      <div className="dis-f a-c flex-1">
         {
           avatarIcon ? (
             <BrixelIcon
               rounded
-              className="mr-2"
+              iconSize='w-fix-32 h-fix-32'
               icon={avatarIcon.icon}
               color={avatarIcon.color || 'green'}
               background={avatarIcon.color || 'green'}
@@ -45,6 +45,7 @@ const ContactPageCard = ({
             />
           ) : (
             <BrixelAvatar
+              size='XXS'
               avatarImg={contactDetails?.name ? contactDetails?.avatar?.avatarUrl : contactPage?.avatar?.avatarUrl}
               name={contactDetails?.name || contactPage?.name}
               profileId={contactPage?.avatar?.id}
@@ -64,19 +65,20 @@ const ContactPageCard = ({
           }
         </div>
       </div>
-      <div>
+      <div className='dis-f flex-wrap jc-fe'>
         {
           contactEmail && (
             <BrixelButtonContactIcon
               data={contactEmail}
               icon="mail"
+              className='w-fix-32 h-fix-32'
             />
           )
         }
         {
           contactPhone && (
             <BrixelButtonContactIcon
-              className="ml-2"
+              className="ml-1"
               data={Helpers.telephoneFormat(contactPhone, false, false, false, false, true)}
               icon="phone"
             />

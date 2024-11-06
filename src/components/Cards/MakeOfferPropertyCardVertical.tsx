@@ -18,7 +18,7 @@ type MakeOfferPropertyCardVerticalType = {
 const MakeOfferPropertyCardVertical = ({ activeSingleProperty, lang }: MakeOfferPropertyCardVerticalType) => {
   return (
     <div className="max-w-fix-800 w-perc-100">
-      <div className="dis-f-col a-c jc-b bgWhite brdRadius mb-1 ov-h brdSmall brdText100 pb-3">
+      <div className="dis-f-col a-c jc-b bgWhite brdRadius mb-1 ov-h brdSmall brdText100 pb-2 pb-sm-3">
         <div className='w-perc-100 dis-f'>
           <CoverPropertyImage
             coverPhoto={activeSingleProperty?.coverPhoto?.url}
@@ -26,7 +26,7 @@ const MakeOfferPropertyCardVertical = ({ activeSingleProperty, lang }: MakeOffer
             className="max-h-fix-240 pos-r cover flex-1"
           />
         </div>
-        <div className="w-perc-100 px-3 mt-3">
+        <div className="w-perc-100 p-2 p-sm-3">
           <div>
             <h5 className="fsize-400 fweight-600">{activeSingleProperty?.title}</h5>
             <p className="fsize-300 txtText600">
