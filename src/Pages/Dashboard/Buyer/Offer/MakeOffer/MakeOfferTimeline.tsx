@@ -149,7 +149,7 @@ const MakeOfferTimeline = ({
           </div>
           {
             !isArchived && ((index === 0 && activeSingleOffer.status === 'pending') || index === 1 && activeSingleOffer.status !== 'pending') && (
-              <div className='mt-1 mt-md-0 ml-2'>
+              <div className='mt-1 mt-md-0 ml-0 ml-lg-2'>
                 <BrixelButtonSecondary
                   rounded
                   fullWidth={windowDimensions.width <= 1024}

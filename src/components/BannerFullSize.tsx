@@ -44,14 +44,14 @@ const BannerFullSize = ({
           <img
             src={image}
             alt={title}
-            className={`${smallIcon ? 'w-fix-40' : 'w-fix-40 w-fix-md-64'}  mr-2 mb-2 mb-lg-0`}
+            className={`${smallIcon ? 'w-fix-40' : 'w-fix-40 w-fix-md-64'}  mr-2`}
           />
         )
       }
       <div className={`max-w-fix-576 ml-0 mr-a ${button ? 'mb-2 mb-lg-0' : ''}`}>
         {
           title && (
-            <h6 className="fweight-600 fsize-500 mb-1 mt-2 mt-lg-0">{translateTo(title, lang)}</h6>
+            <h6 className="fweight-600 fsize-500 mt-2 mt-lg-0">{translateTo(title, lang)}</h6>
           )
         }
         {
@@ -59,7 +59,7 @@ const BannerFullSize = ({
             <div className=''>
               {
                 description.map((desc, index) => (
-                  <p className="txtText800 fsize-300 pr-2 pr-sm-4 mb-lg-0" key={index}>{translateTo(desc, lang)}</p>
+                  <p className={`txtText800 mt-2 pr-2 pr-sm-4 mb-lg-0 ${smallIcon ? 'fsize-300' : ''}`} key={index}>{translateTo(desc, lang)}</p>
                 ))
               }
             </div>
