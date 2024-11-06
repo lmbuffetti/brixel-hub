@@ -44,24 +44,24 @@ const MakeOfferTimeline = ({
       switch (singleOffer?.status) {
         case 'accepted':
           titleText = ['The property owner accepted your offer of:']
-          if (isSeller) titleText = ['You accepted your offer of:']
+          if (isSeller) titleText = ['You accepted the offer:'],
           colorPrice = 'txtGreen400'
           icon = 'house'
           break;
         case 'rejected':
           titleText =[ 'The property owner rejected your offer of:']
-          if (isSeller) titleText = ['You rejected your offer of:']
+          if (isSeller) titleText = ['You rejected your offer of:'],
           colorPrice = 'txtRed400'
           icon = 'house'
           break;
         case 'pending':
           titleText = ['You made an offer:']
-          if (isSeller) titleText = [buyerInfo?.firstName, 'made an offer:'],
+          if (isSeller) titleText = [buyerInfo?.firstName, 'made the offer:'],
           icon = 'key'
           break;
         default:
           titleText = ['You made an offer:']
-          if (isSeller) titleText = [buyerInfo?.firstName, 'made an offer:']
+          if (isSeller) titleText = [buyerInfo?.firstName, 'made the offer:']
           break;
       }
     } else if (!singleOffer.status) {

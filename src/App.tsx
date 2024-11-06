@@ -237,7 +237,7 @@ const App = (props: AppType) => {
   }
 
   const showCustomerSatisfactionFunc = () => {
-    return (history.location.pathname.includes('buy') && !history.location.pathname.includes('scheduleVisit') && !history.location.pathname.includes('packageFlow') && !history.location.pathname.includes('energyFlow') && getCookie('brixelBuyerPackage') !== 'true' && getCookie('brixelBuyerPackage') !== true);
+    return (history.location.pathname.includes('buy') && !history.location.pathname.includes('scheduleVisit') && !history.location.pathname.includes('packageFlow') && !history.location.pathname.includes('energyFlow') && getCookie('brixelBuyerPackage') !== 'true' && getCookie('brixelBuyerPackage') !== true && !history.location.pathname.includes('offerFlow'));
   }
 
   const buyerPackageFunc = () => {
