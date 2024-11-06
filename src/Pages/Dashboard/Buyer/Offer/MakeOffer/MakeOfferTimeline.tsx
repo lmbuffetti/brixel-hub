@@ -93,10 +93,10 @@ const MakeOfferTimeline = ({
             <div className='dis-f a-t'>
               <div className='flex-1'>
                 {
-                  titleText.map((text, index) => (
+                  titleText.map((text, f) => (
                     <span
-                      key={`title${index.toString()}`}
-                      className={`${singleOffer.status === 'accepted' ? `${colorPrice} fweight-700` : ''} ${isActive ? 'fweight-600' : 'fweight-500'} ${titleText.length > 1 && index === 0 ? 'fweight-600 mr-small-4' : ''}`}
+                      key={`title${f.toString()}`}
+                      className={`${singleOffer.status === 'accepted' ? `${colorPrice} fweight-700` : ''} ${isActive ? 'fweight-600' : 'fweight-500'} ${titleText.length > 1 && f === 0 ? 'fweight-600 mr-small-4' : ''}`}
                     >
                       {translateTo(text, lang)}
                     </span>
