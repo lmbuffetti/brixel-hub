@@ -541,6 +541,7 @@ const App = (props: AppType) => {
     if (!isFlow) classes += ' hubDashboard h-perc-100';
     else classes += ' flowWrapper';
     if (history.location.pathname.includes('upgrade/packages')) classes += ' upgradePackages';
+    if (history.location.pathname.includes('MakeOffer/success')) classes += ' successBg';
     if (showFooter) classes += ' activeFooter';
     if (!isOpenTransifex) classes += ' notranslate';
     return classes;

@@ -1331,3 +1331,8 @@ input::-webkit-date-and-time-value {
     }
   }
 }
+
+.mobile-version.disabled select {
+  background-color: transparent;
+  border: none;
+}

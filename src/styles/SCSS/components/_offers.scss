@@ -84,3 +84,7 @@
     font-size: 14px !important;
   }
 }
+
+.successBg .supportBtn {
+  background-color: map-get($greenColor, 50);
+}
