@@ -115,7 +115,7 @@ const SingleOffer = (props: SingleOfferType) => {
         activeSingleOffer.id && (
           <div className="dashboardContainer mt-0 mt-md-3 dis-f jc-b" id="dashboard">
             <div className="w-perc-100">
-              <div className="single-deal dis-fl-col max-w-fix-1024">
+              <div className="single-deal dis-fl-col w-perc-100">
                 {/* top panel */}
                 <div className="actions dis-fl-row jc-b pb-2">
                   <div className="pt-2 pr-1 pr-lg-0 pt-lg-0">
@@ -154,7 +154,7 @@ const SingleOffer = (props: SingleOfferType) => {
                     {
                       activeSingleOffer.id ? (
                         <div className="dis-fl-col-rev dis-fl-row-md">
-                          <div className="w-perc-100 max-w-fix-md-344">
+                          <div className="w-perc-100 max-w-fix-md-360">
                             <div>
                               <h4
                                 className="mb-2 fsize-500 fweight-600 mt-2 mt-md-0">{translateTo('Property details', lang)}</h4>
