@@ -35,7 +35,7 @@ const MakeOfferTimeline = ({
 
 
   const offerRow = (singleOffer: HistoryOfferType, isArchived: boolean, index: number) => {
-    let titleText = ''
+    let titleText = ['']
     let colorPrice = 'txtGreen400'
     const type = isSeller ? 'seller' : 'buyer'
     let icon = type === 'seller' ? 'key' : 'house'
@@ -43,46 +43,46 @@ const MakeOfferTimeline = ({
     if (type === 'seller') {
       switch (singleOffer?.status) {
         case 'accepted':
-          titleText = 'The property owner accepted your offer of:'
-          if (isSeller) titleText = 'You accepted your offer of:'
+          titleText = ['The property owner accepted your offer of:']
+          if (isSeller) titleText = ['You accepted your offer of:']
           colorPrice = 'txtGreen400'
           icon = 'house'
           break;
         case 'rejected':
-          titleText = 'The property owner rejected your offer of:'
-          if (isSeller) titleText = 'You rejected your offer of:'
+          titleText =[ 'The property owner rejected your offer of:']
+          if (isSeller) titleText = ['You rejected your offer of:']
           colorPrice = 'txtRed400'
           icon = 'house'
           break;
         case 'pending':
-          titleText = 'You made an offer:'
-          if (isSeller) titleText = '{{0}} made an offer:'
+          titleText = ['You made an offer:']
+          if (isSeller) titleText = [buyerInfo?.firstName, 'made an offer:'],
           icon = 'key'
           break;
         default:
-          titleText = 'You made an offer:'
-          if (isSeller) titleText = '{{0}} made an offer:'
+          titleText = ['You made an offer:']
+          if (isSeller) titleText = [buyerInfo?.firstName, 'made an offer:']
           break;
       }
     } else if (!singleOffer.status) {
-      titleText = 'You made an offer of:'
+      titleText = ['You made an offer of:']
       colorPrice = 'txtGreen400'
     } else {
       switch (singleOffer?.status) {
         case 'accepted':
-          titleText = 'You made an offer of:'
+          titleText = ['You made an offer of:']
           colorPrice = 'txtGreen400'
           break;
         case 'rejected':
-          titleText = 'You made an offer of:'
+          titleText = ['You made an offer of:']
           colorPrice = 'txtRed400'
           break;
         case 'pending':
-          titleText = 'You made an offer of:'
+          titleText = ['You made an offer of:']
           colorPrice = 'txtGreen400'
           break;
         default:
-          titleText = 'You made an offer of:'
+          titleText = ['You made an offer of:']
           break;
       }
     }
@@ -92,9 +92,18 @@ const MakeOfferTimeline = ({
           <div className='w-perc-100'>
             <div className='dis-f a-t'>
               <div className='flex-1'>
+                {
+                  titleText.map((text, index) => (
+                    <span
+                      key={`title${index.toString()}`}
+                      className={`${singleOffer.status === 'accepted' ? `${colorPrice} fweight-700` : ''} ${isActive ? 'fweight-600' : 'fweight-500'} ${titleText.length > 1 && index === 0 ? 'fweight-600 mr-small-4' : ''}`}
+                    >
+                      {translateTo(text, lang)}
+                    </span>
+                  ))
+                }
                 <span
                   className={`${singleOffer.status === 'accepted' ? `${colorPrice} fweight-700` : ''} ${isActive ? 'fweight-600' : 'fweight-500'}`}
-                  dangerouslySetInnerHTML={{__html: translateTo(titleText, lang, [`<b>${buyerInfo?.firstName}</b>`])}}
                 />
                 <span className={`${colorPrice} fweight-700 pl-1`}>
                   <span className="pr-1 ff-mono">
