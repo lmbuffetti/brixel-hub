@@ -114,7 +114,7 @@ const ResumeOffer = ({
     <>
       <h2 className="ta-c fweight-600 pt-3">
         <span>{getFirstName()}</span>
-        {translateTo('\'s offer details', lang)}
+        <span>{translateTo('\'s offer details', lang)}</span>
       </h2>
 
       {

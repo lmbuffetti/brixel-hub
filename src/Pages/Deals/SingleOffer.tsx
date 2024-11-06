@@ -133,7 +133,7 @@ const SingleOffer = (props: SingleOfferType) => {
                     <div className="dis-f mb-1 mb-sm-3 a-c">
                       <h3 className="fsize-500 fsize-sm-600 fweight-600">
                         <span>{getFirstName()}</span>
-                        {translateTo('\'s offer', lang)}
+                        <span>{translateTo('\'s offer', lang)}</span>
                       </h3>
                       {
                         activeSingleOffer?.status && (
