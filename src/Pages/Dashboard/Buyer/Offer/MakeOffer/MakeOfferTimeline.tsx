@@ -153,7 +153,7 @@ const MakeOfferTimeline = ({
                 <BrixelButtonSecondary
                   rounded
                   fullWidth={windowDimensions.width <= 1024}
-                  label={translateTo(isSeller && (singleOffer.status === 'pending' || !singleOffer.status) ? 'Review' : 'View', lang)}
+                  label={translateTo(isSeller && (activeSingleOffer.status === 'pending' || !activeSingleOffer.status) ? 'Review' : 'View', lang)}
                   onClick={() => handleViewOffer()}
                 />
               </div>
