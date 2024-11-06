@@ -89,21 +89,33 @@ const MakeOfferTimeline = ({
     return (
       <li className={`${icon}`}>
         <div className="brdBottom dis-fl-col dis-fl-row-md jc-b">
-          <div>
-            <h6>
-              <span
-                className={`${singleOffer.status === 'accepted' ? `${colorPrice} fweight-700` : ''} ${isActive ? 'fweight-600' : 'fweight-500'}`}
-                dangerouslySetInnerHTML={{__html: translateTo(titleText, lang, [`<b>${buyerInfo?.firstName}</b>`])}}
-              />
-              <span className={`${colorPrice} fweight-700 ml-1`}>
-                <span className="mr-1 ff-mono">
-                  {singleOffer?.currency || 'CHF'}
+          <div className='w-perc-100'>
+            <div className='dis-f a-t'>
+              <div className='flex-1'>
+                <span
+                  className={`${singleOffer.status === 'accepted' ? `${colorPrice} fweight-700` : ''} ${isActive ? 'fweight-600' : 'fweight-500'}`}
+                  dangerouslySetInnerHTML={{__html: translateTo(titleText, lang, [`<b>${buyerInfo?.firstName}</b>`])}}
+                />
+                <span className={`${colorPrice} fweight-700 pl-1`}>
+                  <span className="pr-1 ff-mono">
+                    {singleOffer?.currency || 'CHF'}
+                  </span>
+                  <span className="ff-mono">
+                    {Helpers.formatNumberValue(singleOffer?.amount, singleOffer?.currency || 'CHF')}
+                  </span>
                 </span>
-                <span className="ff-mono">
-                  {Helpers.formatNumberValue(singleOffer?.amount, singleOffer?.currency || 'CHF')}
-                </span>
-              </span>
-            </h6>
+              </div>
+              {
+                isArchived && index === 0 && (
+
+                  <BrixelSingleTag
+                    lang={lang}
+                    status="archived"
+                    message={{archived: 'archived'}}
+                  />
+                )
+              }
+            </div>
             {
               singleOffer?.noteBySeller && icon === 'house' && (
                 <p className="fs-i txtText600">
@@ -128,7 +140,7 @@ const MakeOfferTimeline = ({
           </div>
           {
             !isArchived && ((index === 0 && activeSingleOffer.status === 'pending') || index === 1 && activeSingleOffer.status !== 'pending') && (
-              <div className='mt-1 mt-md-0'>
+              <div className='mt-1 mt-md-0 ml-2'>
                 <BrixelButtonSecondary
                   rounded
                   fullWidth={windowDimensions.width <= 1024}
@@ -165,16 +177,6 @@ const MakeOfferTimeline = ({
             className="bgWhite brdRadius py-2 pl-4 pr-2 py-md-3 pl-md-5 pr-md-3 mb-2 pos-r brdSmall brdText100"
             key={`historyParent${index.toString()}`}
           >
-            {
-              index > 0 && (
-                <BrixelSingleTag
-                  className="pos-a-fix x-r-3"
-                  lang={lang}
-                  status="archived"
-                  message={{archived: 'archived'}}
-                />
-              )
-            }
             <ul className={`session ${index > 0 ? 'opacity6' : ''}`}>
               {
                 group.map((history, subIndex) => (
