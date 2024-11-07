@@ -53,7 +53,7 @@ const SingleOffer = ({
       clickOutsideToClose: false,
       bodyClassColor: 'p-0 dis-fl-col',
       bodyInnerClass: 'h-perc-100 dis-fl-col flex-1',
-      title: 'Make new offer',
+      title: translateTo('Make new offer', lang),
       state: true,
       small: true,
       titleTop: true,
