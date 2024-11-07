@@ -37,10 +37,10 @@ const MakeOfferTimeline = ({
   const offerRow = (singleOffer: HistoryOfferType, isArchived: boolean, index: number) => {
     let titleText = ['']
     let colorPrice = 'txtGreen400'
-    const type = singleOffer?.status && singleOffer.status !== 'pending' ? 'seller' : 'buyer'
+    // const type = singleOffer?.status && singleOffer.status !== 'pending' ? 'seller' : 'buyer'
     let icon = singleOffer?.status ? 'house' : 'key'
     const isActive = false
-    if (type === 'seller') {
+    if (isSeller) {
       switch (singleOffer?.status) {
         case 'accepted':
           titleText = ['The property owner accepted your offer of:']
