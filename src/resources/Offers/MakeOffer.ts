@@ -272,8 +272,7 @@ export const QuestionsList: (lang: string) => QuestionsListType[] = (lang) => {
       cardClass: 'max-w-fix-360 ml-a mr-a',
       btnType: 'secondary',
       title: translateTo('Thank you!', lang),
-      subtitle: translateTo('Your offer is being reviewed. \n' +
-        'We will contact you with any updates.', lang),
+      subtitle: translateTo('Your offer is being reviewed. We will contact you with any updates.', lang),
       history: 'success',
       successCustomButtons: [{
         type: 'secondary',

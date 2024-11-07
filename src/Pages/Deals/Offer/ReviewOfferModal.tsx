@@ -8,12 +8,14 @@ import ResumeOffer from './ResumeOffer';
 import AddCommentReview from './AddCommentReview';
 import ReviewOfferThankYou from './ReviewOfferThankYou';
 import api from '../../../controllers/api/config'
+import {bindActionCreators} from 'redux';
 
 
 type ReviewOfferModalType = {
   activeSingleDeal: DealType
   dealID: string
   activeSingleOffer: OfferType
+  handleGetOffer: (data: object) => void
   closeModal: () => void
   lang: string
 }
@@ -24,11 +26,12 @@ type FormValueType = {
 }
 
 const ReviewOfferModal = ({
+  handleGetOffer,
+  activeSingleDeal,
   activeSingleOffer,
   closeModal,
   dealID,
   lang,
-  activeSingleDeal,
 }: ReviewOfferModalType) => {
 
   const [formValue, setFormValue] = React.useState<FormValueType>({
@@ -49,6 +52,7 @@ const ReviewOfferModal = ({
   const saveData = () => {
     api.deal.reviewOffer(dealID, formValue)
       .then(() => {
+        handleGetOffer({id: dealID, smallLoader: 'getOffer'})
         changeStep()
       })
   }
@@ -111,4 +115,12 @@ const mapStateToProps = (state) => ({
   activeSingleDeal: state?.deal?.activeSingleDeal || {},
 });
 
-export default connect(mapStateToProps, null)(ReviewOfferModal);
+function getOffer() {
+
+}
+
+const mapDispatchToProps = (dispatch) => ({
+  handleGetOffer: bindActionCreators(getOffer, dispatch),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(ReviewOfferModal);
