@@ -52,7 +52,8 @@ const MakeOffer = (props: MakeOfferType) => {
   const saveData = async () => {
     if (dealID && formValue?.amount) {
       const data = {
-        ...formValue,
+        amount: formValue?.amount,
+        noteByBuyer: formValue?.noteByBuyer,
         id: dealID,
         smallLoader: 'sendData',
       };
