@@ -9,6 +9,8 @@ import AddCommentReview from './AddCommentReview';
 import ReviewOfferThankYou from './ReviewOfferThankYou';
 import api from '../../../controllers/api/config'
 import {bindActionCreators} from 'redux';
+import {getActiveSingleOffer} from '../../../actions/DealActions';
+import {spinnerSmall} from '../../../actions/CommonActions';
 
 
 type ReviewOfferModalType = {
@@ -16,6 +18,8 @@ type ReviewOfferModalType = {
   dealID: string
   activeSingleOffer: OfferType
   handleGetOffer: (data: object) => void
+  handleSetSmallLoading: (data: object) => void
+  isSmallLoading: { saveData?: boolean }
   closeModal: () => void
   lang: string
 }
@@ -27,6 +31,8 @@ type FormValueType = {
 
 const ReviewOfferModal = ({
   handleGetOffer,
+  handleSetSmallLoading,
+  isSmallLoading,
   activeSingleDeal,
   activeSingleOffer,
   closeModal,
@@ -50,9 +56,10 @@ const ReviewOfferModal = ({
   }
 
   const saveData = () => {
+    handleSetSmallLoading({saveOffer: true})
     api.deal.reviewOffer(dealID, formValue)
       .then(() => {
-        handleGetOffer({id: dealID, smallLoader: 'getOffer'})
+        handleGetOffer({id: dealID, smallLoader: 'saveOffer'})
         changeStep()
       })
   }
@@ -87,6 +94,7 @@ const ReviewOfferModal = ({
               onChangeValue={(name, value) => onChangeValue(name, value)}
               onClick={() => saveData()}
               status={formValue.status}
+              isLoadingSave={isSmallLoading.saveData || false}
             />
           )
         }
@@ -111,16 +119,14 @@ const mapStateToProps = (state) => ({
   activeSingleOffer: state?.deal?.activeSingleOffer || {},
   dealID: state?.deal?.activeSingleDeal?.id || '',
   formValue: state?.brixelForm?.makeOffer?.values || {},
+  isSmallLoading: state?.isSmallLoading || {},
   lang: state?.common?.language || 'en',
   activeSingleDeal: state?.deal?.activeSingleDeal || {},
 });
 
-function getOffer() {
-
-}
-
 const mapDispatchToProps = (dispatch) => ({
-  handleGetOffer: bindActionCreators(getOffer, dispatch),
+  handleGetOffer: bindActionCreators(getActiveSingleOffer, dispatch),
+  handleSetSmallLoading: bindActionCreators(spinnerSmall, dispatch),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ReviewOfferModal);

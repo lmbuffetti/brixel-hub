@@ -9,6 +9,7 @@ import {BrixelTextArea} from '@brixel-io/brixel-components/dist/form';
 type AddCommentReviewType = {
   lang: string
   changeStep: (isBack: boolean) => void
+  isLoadingSave: boolean
   onClick: () => void
   onChangeValue: (name: string, value: string) => void
   status: 'accepted' | 'rejected'
@@ -17,6 +18,7 @@ type AddCommentReviewType = {
 const AddCommentReview = ({
   onChangeValue,
   changeStep,
+  isLoadingSave,
   lang,
   onClick,
   status,
@@ -73,6 +75,7 @@ const AddCommentReview = ({
           label={translateTo('Submit', lang)}
           rightIcon="arrow-right-small"
           onClick={() => onClick()}
+          isLoading={isLoadingSave}
         />
       </div>
 
