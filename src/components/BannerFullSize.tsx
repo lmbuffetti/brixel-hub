@@ -15,14 +15,15 @@ type BannerFullSizeProps = {
     onClick: () => void
     type: 'primary' | 'secondary'
   }
-  windowDimensions: { width: number, height: number }
   className?: string
   description?: string[]
   image?: string
   lang: string
-  title?: string
   smallIcon?: boolean
+  smallSize: boolean
+  title?: string
   type: 'green' | 'default'
+  windowDimensions: { width: number, height: number }
 }
 
 const BannerFullSize = ({
@@ -31,9 +32,10 @@ const BannerFullSize = ({
   description,
   image,
   lang,
+  smallIcon,
+  smallSize,
   title,
   type,
-  smallIcon,
   windowDimensions,
 }: BannerFullSizeProps) => {
   const bannerClass = type === 'green' ? 'bgGreen50 brdGreen100 brdSmall' : 'bgWhite brdText100 brdSmall';
@@ -62,7 +64,7 @@ const BannerFullSize = ({
             <div className=''>
               {
                 description.map((desc, index) => (
-                  <p className={`txtText800 mt-2 pr-2 pr-sm-4 mb-lg-0 ${smallIcon ? 'fsize-300' : ''}`} key={index}>
+                  <p className={`txtText800 ${smallSize ? '' : 'mt-2'} pr-2 pr-sm-4 mb-lg-0 ${smallIcon ? 'fsize-300' : ''}`} key={index}>
                     {translateTo(desc, lang)}
                   </p>
                 ))

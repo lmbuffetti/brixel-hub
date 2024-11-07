@@ -18,7 +18,7 @@ import MakeOfferPropertyCardVertical from '../../components/Cards/MakeOfferPrope
 import ContactPageCard from '../../components/Cards/ContactPageCard';
 import BannerFullSize from '../../components/BannerFullSize';
 import MakeOfferTimeline from '../Dashboard/Buyer/Offer/MakeOffer/MakeOfferTimeline';
-import DocumentIcon from '../../images/documentsIcon/documentFull.svg';
+// import DocumentIcon from '../../images/documentsIcon/documentFull.svg';
 import BannerOfferDefault from '../../images/dashboard/bannerOffer-deafault.svg';
 import {OfferType} from '@brixel-io/brixel-components/dist/@types/Models/Deals';
 import {getActiveSingleProperty} from '../../actions/PropertyActions';
@@ -186,6 +186,7 @@ const SingleOffer = (props: SingleOfferType) => {
                             {
                               !activeSingleOffer?.id || activeSingleOffer?.status === 'accepted' && (
                                 <BannerFullSize
+                                  smallSize
                                   smallIcon
                                   className="mb-2"
                                   type="green"
@@ -210,21 +211,22 @@ const SingleOffer = (props: SingleOfferType) => {
                         </div>
                       ) : (
                         <div>
-                          <BannerFullSize
-                            type="green"
-                            lang={lang}
-                            image={DocumentIcon}
-                            title="Need a proof of financing?"
-                            description={['Order a non-binding proof of financing from our trusted partners before making an offer. It can help you secure the best deal.']}
-                            button={{
-                              label: 'Apply',
-                              iconRight: 'arrow-right',
-                              onClick: () => history.push(`/buyer/${propID}/offerFlow/proofFinancing`),
-                              type: 'primary',
-                            }}
-                          />
+                          {/*<BannerFullSize*/}
+                          {/*  type="green"*/}
+                          {/*  lang={lang}*/}
+                          {/*  image={DocumentIcon}*/}
+                          {/*  title="Need a proof of financing?"*/}
+                          {/*  description={['Order a non-binding proof of financing from our trusted partners before making an offer. It can help you secure the best deal.']}*/}
+                          {/*  button={{*/}
+                          {/*    label: 'Apply',*/}
+                          {/*    iconRight: 'arrow-right',*/}
+                          {/*    onClick: () => history.push(`/buyer/${propID}/offerFlow/proofFinancing`),*/}
+                          {/*    type: 'primary',*/}
+                          {/*  }}*/}
+                          {/*/>*/}
 
                           <BannerFullSize
+                            smallSize={false}
                             className="mt-2"
                             type="default"
                             lang={lang}

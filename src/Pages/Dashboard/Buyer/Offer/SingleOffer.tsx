@@ -161,6 +161,7 @@ const SingleOffer = ({
                   {
                     !activeSingleOffer?.id || activeSingleOffer?.status === 'rejected' && (
                       <BannerFullSize
+                        smallSize
                         smallIcon
                         className="mb-2"
                         type="default"
@@ -179,6 +180,7 @@ const SingleOffer = ({
                   {
                     !activeSingleOffer?.id || activeSingleOffer?.status === 'accepted' && (
                       <BannerFullSize
+                        smallSize
                         smallIcon
                         className="mb-2"
                         type="green"
@@ -216,6 +218,7 @@ const SingleOffer = ({
                 {/*/>*/}
 
                 <BannerFullSize
+                  smallSize={false}
                   className="mt-2"
                   type="default"
                   lang={lang}

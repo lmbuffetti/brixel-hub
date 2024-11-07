@@ -128,14 +128,14 @@ const MakeOfferTimeline = ({
             {
               singleOffer?.noteBySeller && icon === 'house' && (
                 <p className="fs-i txtText600">
-                  {singleOffer?.noteBySeller}
+                  {translateTo(singleOffer?.noteBySeller, lang)}
                 </p>
               )
             }
             {
               singleOffer?.noteByBuyer && icon === 'key' && (
                 <p className="fs-i txtText600">
-                  {singleOffer?.noteByBuyer}
+                  {translateTo(singleOffer?.noteByBuyer, lang)}
                 </p>
               )
             }
