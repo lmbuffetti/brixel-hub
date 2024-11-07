@@ -3,25 +3,17 @@ import {
   BrixelButtonSecondary,
 } from '@brixel-io/brixel-components';
 import translateTo from '../../../utils/translation';
-import {useLocation, useNavigate, useParams} from 'react-router-dom';
-import get from 'lodash/get';
 import PhoneIcSavingMoneyIcon from '@brixel-io/brixel-components/dist/images/IconsColored/general/SavingMoney.svg';
 
 type ReviewOfferThankYouProps = {
+  closeModal: () => void;
   lang: string;
 }
 
 const ReviewOfferThankYou = ({
+  closeModal,
   lang,
 }: ReviewOfferThankYouProps) => {
-
-  const history = {
-    push: useNavigate(),
-    location: useLocation(),
-  };
-  const match = useParams();
-  const propID = get(match, 'propID', null);
-  const dealID = get(match, 'dealID', null);
   return (
     <div className='dis-fl-col ta-c jc-c a-c my-4 my-md-8'>
       <img src={PhoneIcSavingMoneyIcon} />
@@ -35,7 +27,7 @@ const ReviewOfferThankYou = ({
       <BrixelButtonSecondary
         rounded
         className='mt-3'
-        onClick={() => history.push(`/${propID}/prospect/${dealID}/offer`)}
+        onClick={() => closeModal()}
         label={translateTo('Go to offer overview', lang)}
       />
     </div>

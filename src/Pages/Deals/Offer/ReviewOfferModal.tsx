@@ -89,6 +89,7 @@ const ReviewOfferModal = ({
         {
           formStep === 2 && (
             <ReviewOfferThankYou
+              closeModal={() => closeModal()}
               lang={lang}
             />
           )
