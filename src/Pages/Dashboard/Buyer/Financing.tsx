@@ -34,7 +34,7 @@ const Financing = (props: FinancingType) => {
                   propertyPrice={get(activeSingleProperty, 'status', null) === 'on-sale' ? get(activeSingleProperty, 'price.total', 0) : 0}
                   currency={get(activeSingleProperty, 'price.currency', '')}
                   project="hub"
-                  offerURL={`/buyer/${activeSingleProperty.id}/closing`}
+                  offerURL={`/buyer/${activeSingleProperty.id}/offer`}
                   onOpenModal={(text) => handleSetModal(text)}
                   openParentModal
                   className="w-perc-100"
