@@ -1,5 +1,5 @@
 import React from 'react';
-import {translateTo} from '@brixel-io/brixel-components/dist';
+import translateTo from '../utils/translation';
 import BrixelButtonPrimary from '@brixel-io/brixel-components/dist/components/BrixelButtonPrimary';
 import BrixelButtonSecondary from '@brixel-io/brixel-components/dist/components/BrixelButtonSecondary';
 import {setWindowDimensions} from '../actions/CommonActions';
@@ -37,6 +37,7 @@ const BannerFullSize = ({
   windowDimensions,
 }: BannerFullSizeProps) => {
   const bannerClass = type === 'green' ? 'bgGreen50 brdGreen100 brdSmall' : 'bgWhite brdText100 brdSmall';
+
   return (
     <div className={`${bannerClass} ${className} dis-fl-col dis-fl-row-lg a-t a-c-lg jc-b p-2 p-lg-3 brdRadius`}>
       {
@@ -51,7 +52,9 @@ const BannerFullSize = ({
       <div className={`max-w-fix-576 ml-0 mr-a ${button ? 'mb-2 mb-lg-0' : ''}`}>
         {
           title && (
-            <h6 className="fweight-600 fsize-500 mt-2 mt-lg-0">{translateTo(title, lang)}</h6>
+            <h6 className="fweight-600 fsize-500 mt-2 mt-lg-0">
+              {translateTo(title, lang)}
+            </h6>
           )
         }
         {
@@ -59,7 +62,9 @@ const BannerFullSize = ({
             <div className=''>
               {
                 description.map((desc, index) => (
-                  <p className={`txtText800 mt-2 pr-2 pr-sm-4 mb-lg-0 ${smallIcon ? 'fsize-300' : ''}`} key={index}>{translateTo(desc, lang)}</p>
+                  <p className={`txtText800 mt-2 pr-2 pr-sm-4 mb-lg-0 ${smallIcon ? 'fsize-300' : ''}`} key={index}>
+                    {translateTo(desc, lang)}
+                  </p>
                 ))
               }
             </div>
