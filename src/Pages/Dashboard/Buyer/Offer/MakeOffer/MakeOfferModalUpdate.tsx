@@ -53,7 +53,7 @@ const MakeOffer = (props: MakeOfferType) => {
     if (dealID && formValue?.amount) {
       const data = {
         amount: formValue?.amount,
-        noteByBuyer: formValue?.noteByBuyer,
+        noteByBuyer: formValue?.message || '',
         id: dealID,
         smallLoader: 'sendData',
       };
