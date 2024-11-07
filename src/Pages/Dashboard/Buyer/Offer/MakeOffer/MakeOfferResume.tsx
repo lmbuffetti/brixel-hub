@@ -129,7 +129,7 @@ const MakeOfferResume = ({
                     <div className={index < objAnswer.offerDetail.length - 1 ? 'mb-3' : ''}>
                       <p className="fsize-300 fweight-500 mb-small-4">{translateTo(item.title, lang)}</p>
                       <p>
-                        {returnData(item)}
+                        {translateTo(returnData(item), lang)}
                       </p>
                     </div>
                   )

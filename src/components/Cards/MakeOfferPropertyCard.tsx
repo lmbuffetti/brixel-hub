@@ -46,7 +46,9 @@ const MakeOfferPropertyCard = ({ activeSingleProperty, lang }: MakePropertyCardT
           </div>
           <div className="dis-fl-col mt-a">
 
-            <h6 className="fsize-300 hide dis-b-sm fweight-300 txtText600">Listing price:</h6>
+            <h6 className="fsize-300 hide dis-b-sm fweight-300 txtText600">
+              {translateTo('Listing price:', lang)}
+            </h6>
             {
               activeSingleProperty?.status === 'on-sale' && activeSingleProperty?.price?.total && (
                 <p className="txtGreen400 dis-f a-c ff-mono">
