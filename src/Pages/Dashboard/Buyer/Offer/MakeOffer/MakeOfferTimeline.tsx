@@ -43,7 +43,7 @@ const MakeOfferTimeline = ({
     if (isSeller) {
       switch (singleOffer?.status) {
         case 'accepted':
-          titleText = ['You accepted the offer:'];
+          titleText = ['You accepted the offer of:'];
           colorPrice = 'txtGreen400'
           icon = 'house'
           break;
@@ -63,7 +63,7 @@ const MakeOfferTimeline = ({
     } else {
       switch (singleOffer?.status) {
         case 'accepted':
-          titleText = ['The owner accepted the offer:'];
+          titleText = ['The owner accepted your offer of:'];
           colorPrice = 'txtGreen400'
           icon = 'house'
           break;
