@@ -53,11 +53,11 @@ const MakeOfferTimeline = ({
           icon = 'house'
           break;
         case 'pending':
-          titleText = [buyerInfo?.firstName, 'made the offer:'];
+          titleText = [buyerInfo?.firstName, 'made an offer:'];
           icon = 'key'
           break;
         default:
-          titleText = [buyerInfo?.firstName, 'made the offer:']
+          titleText = [buyerInfo?.firstName, 'made an offer:']
           break;
       }
     } else {
