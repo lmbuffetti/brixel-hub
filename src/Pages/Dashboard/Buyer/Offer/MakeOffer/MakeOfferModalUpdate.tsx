@@ -40,7 +40,7 @@ const MakeOffer = (props: MakeOfferType) => {
     isSmallLoading,
     lang = 'en',
   } = props;
-  const [formValue, setFormValue] = useState<{ amount: number, message?: string }>({amount: 0, message: ''});
+  const [formValue, setFormValue] = useState<{ amount: number, noteByBuyer?: string }>({amount: 0, noteByBuyer: ''});
 
   useEffect(() => {
     if (isSmallLoading?.sendData === false) {
@@ -53,7 +53,7 @@ const MakeOffer = (props: MakeOfferType) => {
     if (dealID && formValue?.amount) {
       const data = {
         amount: formValue?.amount,
-        message: formValue?.message || '',
+        noteByBuyer: formValue?.noteByBuyer || '',
         id: dealID,
         smallLoader: 'sendData',
       };
@@ -142,9 +142,9 @@ const MakeOffer = (props: MakeOfferType) => {
           large
           label={translateTo('Add a comment (optional)', lang)}
           input={{
-            name: 'message',
+            name: 'noteByBuyer',
             type: 'text',
-            onChange: (val) => setFormValue({...formValue, message: val}),
+            onChange: (val) => setFormValue({...formValue, noteByBuyer: val}),
           }}
         />
         <div className="dis-f a-c mt-3">
