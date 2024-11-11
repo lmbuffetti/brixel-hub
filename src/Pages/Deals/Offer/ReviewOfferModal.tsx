@@ -56,10 +56,10 @@ const ReviewOfferModal = ({
   }
 
   const saveData = () => {
-    handleSetSmallLoading({saveOffer: true})
+    handleSetSmallLoading({saveData: true})
     api.deal.reviewOffer(dealID, formValue)
       .then(() => {
-        handleGetOffer({id: dealID, smallLoader: 'saveOffer'})
+        handleGetOffer({id: dealID, smallLoader: 'saveData'})
         changeStep()
       })
   }
