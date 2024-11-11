@@ -154,7 +154,7 @@ const VisitFeedback = (props: VisitFeedbackType) => {
         sendSlack: true,
         isInterested: status,
       };
-      if (formValue.status) set(data, 'link', `/packageFlow/${activeSingleProperty.id}/makeOffer`)
+      if (formValue.status) set(data, 'link', `/buyer/${activeSingleProperty.id}/offerFlow/MakeOffer/makeOffer`)
       setNewCurrentIndex(newCurrentIndex + 1)
       handleSendVisitFeedback(data);
     }
@@ -214,7 +214,7 @@ const VisitFeedback = (props: VisitFeedbackType) => {
         className: 'mx-a',
         type: 'primary',
         label: 'Add offer',
-        func: () => onClickSuccessButton(`/packageFlow/${pageID}/makeOffer/priceInfo`),
+        func: () => onClickSuccessButton(`/buyer/${activeSingleProperty.id}/offerFlow/MakeOffer/makeOffer`),
       })
     }
     btn.push({

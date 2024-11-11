@@ -41,7 +41,7 @@ describe('viewport testing', () => {
 
           it('visit url', () => {
             cy.viewport(device);
-            cy.visit(`http://localhost:5000/packageFlow/${companies[key].propID}/makeOffer/priceInfo`);
+            cy.visit(`http://localhost:5000/buyer/${companies[key].propID}/offerFlow/makeOffer`);
           })
 
           it('offer price', () => {
