@@ -60,7 +60,7 @@ const ProofFinancing = (props: ProofFinancingType) => {
 
   useEffect(() => {
     if (!activeSingleProperty.id) {
-      handleGetActiveSingleProperty({ id: propID });
+      handleGetActiveSingleProperty({ id: propID, fullVersion: false });
     }
   }, [propID]);
 

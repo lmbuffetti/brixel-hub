@@ -68,7 +68,7 @@ const MakeOffer = (props: MakeOfferType) => {
 
   useEffect(() => {
     if (!activeSingleProperty.id) {
-      handleGetActiveSingleProperty({ id: propID });
+      handleGetActiveSingleProperty({ id: propID, fullVersion: false });
     }
     if (!dealID) {
       handleGetBuyerDeal({ id: propID, actionStub: null });
