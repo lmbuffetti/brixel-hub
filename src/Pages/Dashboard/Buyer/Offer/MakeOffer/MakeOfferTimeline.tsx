@@ -40,28 +40,46 @@ const MakeOfferTimeline = ({
     // const type = singleOffer?.status && singleOffer.status !== 'pending' ? 'seller' : 'buyer'
     let icon = singleOffer?.status ? 'house' : 'key'
     const isActive = false
-    if (singleOffer?.status) {
+    if (isSeller) {
       switch (singleOffer?.status) {
         case 'accepted':
-          titleText = ['You accepted the offer:'],
+          titleText = ['You accepted the offer:'];
           colorPrice = 'txtGreen400'
           icon = 'house'
           break;
         case 'rejected':
-          titleText = ['You rejected your offer of:'],
+          titleText = ['You rejected your offer of:'];
           colorPrice = 'txtRed400'
           icon = 'house'
           break;
         case 'pending':
-          titleText = [buyerInfo?.firstName, 'made the offer:'],
+          titleText = [buyerInfo?.firstName, 'made the offer:'];
           icon = 'key'
           break;
         default:
           titleText = [buyerInfo?.firstName, 'made the offer:']
           break;
       }
-    } else if (!singleOffer?.status || singleOffer?.status === 'pending') {
-      titleText = ['You made an offer of:']
+    } else {
+      switch (singleOffer?.status) {
+        case 'accepted':
+          titleText = ['The owner accepted the offer:'];
+          colorPrice = 'txtGreen400'
+          icon = 'house'
+          break;
+        case 'rejected':
+          titleText = ['The owner rejected your offer of:'];
+          colorPrice = 'txtRed400'
+          icon = 'house'
+          break;
+        case 'pending':
+          titleText = ['You made an offer:'];
+          icon = 'key'
+          break;
+        default:
+          titleText = ['You made an offer:'];
+          break;
+      }
     }
     return (
       <li className={`${icon}`}>
