@@ -40,51 +40,28 @@ const MakeOfferTimeline = ({
     // const type = singleOffer?.status && singleOffer.status !== 'pending' ? 'seller' : 'buyer'
     let icon = singleOffer?.status ? 'house' : 'key'
     const isActive = false
-    if (isSeller) {
+    if (singleOffer?.status) {
       switch (singleOffer?.status) {
         case 'accepted':
-          titleText = ['The property owner accepted your offer of:']
-          if (isSeller) titleText = ['You accepted the offer:'],
+          titleText = ['You accepted the offer:'],
           colorPrice = 'txtGreen400'
           icon = 'house'
           break;
         case 'rejected':
-          titleText =[ 'The property owner rejected your offer of:']
-          if (isSeller) titleText = ['You rejected your offer of:'],
+          titleText = ['You rejected your offer of:'],
           colorPrice = 'txtRed400'
           icon = 'house'
           break;
         case 'pending':
-          titleText = ['You made an offer:']
-          if (isSeller) titleText = [buyerInfo?.firstName, 'made the offer:'],
+          titleText = [buyerInfo?.firstName, 'made the offer:'],
           icon = 'key'
           break;
         default:
-          titleText = ['You made an offer:']
-          if (isSeller) titleText = [buyerInfo?.firstName, 'made the offer:']
+          titleText = [buyerInfo?.firstName, 'made the offer:']
           break;
       }
-    } else if (!singleOffer.status) {
+    } else if (!singleOffer?.status || singleOffer?.status === 'pending') {
       titleText = ['You made an offer of:']
-      colorPrice = 'txtGreen400'
-    } else {
-      switch (singleOffer?.status) {
-        case 'accepted':
-          titleText = ['You made an offer of:']
-          colorPrice = 'txtGreen400'
-          break;
-        case 'rejected':
-          titleText = ['You made an offer of:']
-          colorPrice = 'txtRed400'
-          break;
-        case 'pending':
-          titleText = ['You made an offer of:']
-          colorPrice = 'txtGreen400'
-          break;
-        default:
-          titleText = ['You made an offer of:']
-          break;
-      }
     }
     return (
       <li className={`${icon}`}>
