@@ -89,13 +89,13 @@ const MakeOfferModalView = ({
       return DateTime.fromMillis(get(activeSingleOffer, item.name, 0), {locale: lang}).toFormat('dd/MM/yyyy')
     }
     if (item.name === 'additionalBuyerInfo.typeOfPurchase') {
-      return purchaseType?.label || '';
+      return translateTo(purchaseType?.label || '', lang)
     }
     if (item.name === 'additionalBuyerInfo.maritialStatus') {
-      return martialStatus?.label || '';
+      return translateTo(martialStatus?.label || '', lang)
     }
     if (item.name === 'additionalBuyerInfo.matrimonialPropertyRegime') {
-      return matrimonialPropertyRegime?.label || '';
+      return translateTo(matrimonialPropertyRegime?.label || '', lang)
     }
     if (item.name === 'location')  {
       return `${get(activeSingleOffer, item.name, {})?.street || ''} ${get(activeSingleOffer, item.name, {})?.streetNumber || ''}, ${get(activeSingleOffer, item.name, {})?.zipCode || ''} ${get(activeSingleOffer, item.name, {})?.city || ''}`;

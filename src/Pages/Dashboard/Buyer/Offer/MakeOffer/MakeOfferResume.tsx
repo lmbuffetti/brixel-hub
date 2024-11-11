@@ -80,13 +80,13 @@ const MakeOfferResume = ({
       return DateTime.fromMillis(get(formValue, item.name, 0), {locale: lang}).toFormat('dd/MM/yyyy')
     }
     if (item.name === 'additionalBuyerInfo.typeOfPurchase') {
-      return purchaseType?.label || '';
+      return translateTo(purchaseType?.label || '', lang)
     }
     if (item.name === 'additionalBuyerInfo.maritialStatus') {
-      return martialStatus?.label || '';
+      return translateTo(martialStatus?.label || '', lang)
     }
     if (item.name === 'additionalBuyerInfo.matrimonialPropertyRegime') {
-      return matrimonialPropertyRegime?.label || '';
+      return translateTo(matrimonialPropertyRegime?.label || '', lang)
     }
     if (item.name === 'location')  {
       return `${get(formValue, item.name, {})?.street} ${get(formValue, item.name, {})?.streetNumber}, ${get(formValue, item.name, {})?.zipCode} ${get(formValue, item.name, {})?.city}`;

@@ -167,7 +167,7 @@ const SingleOffer = ({
                         type="default"
                         lang={lang}
                         image={lightBulbIcon}
-                        description={['Your offer was rejected. ', 'If you\'re still interested, feel free to propose a new price.']}
+                        description={['Your offer was rejected.', 'If you\'re still interested, feel free to propose a new price.']}
                         button={{
                           label: 'Add new offer',
                           iconLeft: 'plus',

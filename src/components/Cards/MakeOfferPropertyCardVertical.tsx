@@ -52,7 +52,7 @@ const MakeOfferPropertyCardVertical = ({ activeSingleProperty, lang }: MakeOffer
 
         <BrixelButtonText
           className="mt-2 ml-3"
-          label={translateTo('View property page ', lang)}
+          label={translateTo('View property page', lang)}
           rightIcon="link-open"
           bgTransparent
           small
