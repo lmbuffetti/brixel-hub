@@ -79,6 +79,7 @@ const ResumeOffer = ({
 
 
   const returnData = (item) => {
+    if (!item.name) return '';
     if (item.name.includes('user')) {
       if (item.name === 'user.phone') {
         return Helpers.telephoneFormat(get(activeSingleDeal, item.name, ''));
@@ -101,7 +102,6 @@ const ResumeOffer = ({
       return `${get(activeSingleOffer, item.name, {})?.street || ''} ${get(activeSingleOffer, item.name, {})?.streetNumber || ''}, ${get(activeSingleOffer, item.name, {})
         ?.zipCode || ''} ${get(activeSingleOffer, item.name, {})?.city || ''}`;
     }
-
     return translateTo(get(activeSingleOffer, item.name, ''), lang)
   }
 

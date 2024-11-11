@@ -48,7 +48,7 @@ const MakeOfferTimeline = ({
           icon = 'house'
           break;
         case 'rejected':
-          titleText = ['You rejected your offer of:'];
+          titleText = ['You rejected the offer of:'];
           colorPrice = 'txtRed400'
           icon = 'house'
           break;
