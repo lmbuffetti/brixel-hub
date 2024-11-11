@@ -81,7 +81,6 @@ const BannerFullSize = ({
                 <BrixelButtonPrimary
                   label={translateTo(button.label, lang)}
                   rounded
-                  className='ws-nw'
                   onClick={() => button.onClick()}
                   leftIcon={button.iconLeft}
                   rightIcon={button.iconRight}
