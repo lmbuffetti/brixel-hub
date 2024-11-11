@@ -64,7 +64,7 @@ const MakeOfferUploadProofFinancing = ({
       </p>
       <div>
         <Dropzone
-          accept={{'': ['.jpeg', '.pdf']}}
+          accept={{'': ['.jpeg', '.pdf', '.jpg', '.png']}}
           maxSize={10000000}
           onDrop={(acceptedFiles)=> onDrop(acceptedFiles)}
         >
