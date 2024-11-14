@@ -136,9 +136,7 @@ body .dashboardContainer.prospects {
           overflow-y: auto;
           overflow-x: hidden;
           position: relative;
-          background: $brx-white;
-          border: 1px solid $brx-white;
-          padding-top: 16px;
+          border: 1px solid transparent;
           &.active {
             border-color: map-get($primaryColor, 400);
           }
@@ -220,11 +218,8 @@ body .dashboardContainer.prospects {
     z-index: 3;
 
     .rightCol {
-      background: $brx-white;
       display: flex;
       width: 100%;
-      border-top-left-radius: $step;
-      border-top-right-radius: $step;
       > div {
         flex: 1;
       }
@@ -254,7 +249,7 @@ body .dashboardContainer.prospects {
 
 
 .cardTag {
-  background-color: map-get($textColor, 50);
+  background-color: map-get($textColor, 100);
   padding: calc($step / (2 * $step));
   @include fontStyle(100);
   color: map-get($textColor, 900);
@@ -271,8 +266,6 @@ body .dashboardContainer.prospects {
 
 /* Hide scrollbar for Chrome, Safari and Opera */
 .singleCol {
-  padding-top: 16px;
-  padding-left: 16px;
   padding-right: 16px;
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */

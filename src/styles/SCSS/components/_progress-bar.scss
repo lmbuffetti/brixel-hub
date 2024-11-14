@@ -5,11 +5,13 @@
       color: map-get($greenColor, 400);
     }
   }
-
   .bars {
 
     .single-bar {
-      background-color: map-get($textColor, 200);
+
+      &:not(.card) {
+        background-color: map-get($textColor, 100);
+      }
 
       &.hover-active {
         &:hover {

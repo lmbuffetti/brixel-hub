@@ -1,4 +1,4 @@
-import { BrixelAvatar, BrixelButtonIcon, BrixelIcon, BrixelStatus, BrixelTooltip, Helpers } from '@brixel-io/brixel-components';
+import { BrixelButtonIcon, BrixelStatus, BrixelTooltip, Helpers } from '@brixel-io/brixel-components';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import { DateTime } from 'luxon';
@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { compose } from 'redux';
 import api from '../../controllers/api/config';
+import ProgressBarPercentage from '../ProgressBarPercentage';
 import timelineActionStubs from '../../resources/Utilities/timelineActionStubs';
 import translateTo from '../../utils/translation';
 
@@ -20,7 +21,6 @@ const DealsCard = (props: DealsCardProps) => {
   const {
     archOnClick = () => '',
     archived,
-    avatarImg,
     className,
     date,
     id,
@@ -33,6 +33,7 @@ const DealsCard = (props: DealsCardProps) => {
     parentOnClick = () => '',
     profileId,
     stage,
+    probability,
   } = props;
 
   const [lastAction, setLastAction] = useState<HistoryType>({});
@@ -104,156 +105,153 @@ const DealsCard = (props: DealsCardProps) => {
     return translateTo('Visited', lang);
   };
 
+  const progressState = probability ? probability : undefined;
+
+
   return (
     <>
       <div
-        className={`dealsCard ${archived ? '' : 'cur-as'} dis-f p-small-12 mb-3 shadow-1dp brdRadius min-h-fix-104 ${className}`}
+        className={`dealsCard ${archived ? '' : 'cur-as'} dis-fl-col p-small-12 mb-1 brdSmall brdText100 brdRadius min-h-fix-136 ${className}`}
         onClick={() => parentOnClick()}
       >
-        <div className="leftPanel pr-2">
-          <BrixelAvatar
-            avatarImg={avatarImg}
-            name={name}
-            size='M'
-            profileId={profileId}
-            className="notranslate"
+        <div className="dis-f jc-b a-c">
+
+          <ProgressBarPercentage
+            progressState={progressState}
+            dealCard
+            small
+            readOnly
           />
+
+          {
+            !isWinner && visitStatus && stage === 'Visit' && (
+              <BrixelSingleTag
+                lang={lang}
+                message={{
+                  lang: lang,
+                  [visitStatus.status]: translateTo(visitStatus.text, lang),
+                }}
+                status={visitStatus.status}
+                text={translateTo(visitStatus.text, lang)}
+              />
+            )
+          }
+          {
+            isWinner && (
+              <span className="dis-f jc-c a-c px-1 pt-small-4 pb-small-2 bgGreen400 txtWhite fsize-200 brdRadiusSmall ml-1"> {translateTo('Winner', lang)} </span>
+            )
+          }
         </div>
-        <div className="rightPanel dis-fl-col jc-b">
-          <div className="topPart">
-            <div className="dis-fl-row a-c">
-              <span className={`name dis-b txtText900 fsize-300 notranslate fweight-600 ${name === 'No name' ? 'txtText500' : 'txtText900'}`}> {name} </span>
+
+
+        <div className="dis-fl-row a-c mt-1">
+          <span className={`name dis-b txtText800 notranslate fweight-600 ${name === 'No name' ? 'txtText500' : 'txtText800'}`}> {name} </span>
+          {
+            isQualified && (
+              <BrixelTooltip
+                className="ml-1"
+                theme="blue"
+                description={`${translateTo('Qualified', lang)}`}
+                width="auto"
+                iconColor="green"
+                icon="qualified"
+              />
+            )
+          }
+        </div>
+        {
+          stage === 'Interested' && (
+            <span
+              className={`metaMessage fsize-300 txtText700 dis-b ${!lastAction ? 'isLoadingDiv' : ''}`}
+              dangerouslySetInnerHTML={{
+                __html: Helpers.sanitizeText(returnMessage()),
+              }}
+            />
+          )
+        }
+        {
+          stage === 'Visit' && (
+            <>
+
+              <div className="mb-small-6">
+                {
+                  visitStatus && (
+                    <>
+
+                      {
+                        !visitDate?.date ? (
+                          <p className="fsize-300">
+                            {translateTo('Waiting for visit date', lang)}
+                          </p>
+                        ) : (
+                          <p className={`fsize-300 fweight-600 ${visitStatus.color} ${visitStatus.status === 'cancelled' ? 'td-lt' : ''}`}>
+                            {DateTime.fromMillis(visitDate.date, { locale: lang }).toFormat('d LLL yyyy, H:mm')}
+                          </p>
+                        )
+                      }
+                    </>
+                  )
+                }
+              </div>
+
               {
-                isQualified && (
-                  <BrixelTooltip
-                    className="ml-1"
-                    theme="blue"
-                    description={`${translateTo('Qualified buyer', lang)}`}
-                    width="128"
-                    iconColor="green"
-                    icon="qualified"
-                  />
+                (get(feedback, 'isInterested') === true || get(feedback, 'isInterested') === false) && (
+                  <p>
+                    <span className="fsize-300 txtText700">Feedback: </span>
+                    <span className="fsize-300 txtText700" dangerouslySetInnerHTML={{ __html: getFeedback()}} />
+                  </p>
+                )
+              }
+            </>
+          )
+        }
+        {
+          stage === 'Offer' && (
+            <div className="dis-fl-row a-c metaMessage">
+              {
+                has(offerData, 'amount') ? (
+                  <>
+                    <span className={`txt${getOfferColor()}400 fweight-600 ff-mono fsize-400 ${get(offerData, 'status') === 'rejected' ? 'td-lt' : ''}`}>
+                      {get(offerData, 'currency', '')} {Helpers.formatNumberValue(offerData?.amount || 0, get(offerData, 'currency', ''))}
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <span className="fsize-400 txtText700">{translateTo('No offer', lang)}</span>
+                  </>
                 )
               }
             </div>
-            {
-              stage === 'Interested' && (
-                <span
-                  className={`metaMessage fsize-200 txtText700 dis-b ${!lastAction ? 'isLoadingDiv' : ''}`}
-                  dangerouslySetInnerHTML={{
-                    __html: Helpers.sanitizeText(returnMessage()),
-                  }}
+          )
+        }
+
+        <div className="dis-f a-c notranslate mt-a">
+          {
+            isNew ? (
+              <div className="dis-fl-row a-c">
+
+                <BrixelStatus
+                  className="zIndex0"
+                  color="primary"
                 />
-              )
-            }
-            {
-              stage === 'Visit' && (
-                <>
 
-                  <div className="mb-small-6">
-                    {
-                      visitStatus && (
-                        <>
-                          <BrixelSingleTag
-                            className="my-small-6"
-                            lang={lang}
-                            message={{
-                              lang: lang,
-                              [visitStatus.status]: translateTo(visitStatus.text, lang),
-                            }}
-                            status={visitStatus.status}
-                            text={translateTo(visitStatus.text, lang)}
-                          />
-                          {
-                            !visitDate?.date ? (
-                              <p className="fsize-200">
-                                {translateTo('Waiting for visit date', lang)}
-                              </p>
-                            ) : (
-                              <p className={`fsize-200 ${visitStatus.color} ${visitStatus.status === 'cancelled' ? 'td-lt' : ''}`}>
-                                {DateTime.fromMillis(visitDate.date, { locale: lang }).toFormat('d LLL yyyy, H:mm')}
-                              </p>
-                            )
-                          }
-                        </>
-                      )
-                    }
-                  </div>
-
-                  {
-                    (get(feedback, 'isInterested') === true || get(feedback, 'isInterested') === false) && (
-                      <p>
-                        <span className="fsize-200 txtText700">Feedback: </span>
-                        <span className="fsize-200 txtText700" dangerouslySetInnerHTML={{ __html: getFeedback()}} />
-                      </p>
-                    )
-                  }
-                </>
-              )
-            }
-            {
-              stage === 'Offer' && (
-                <div className="dis-fl-row a-c metaMessage">
-                  {
-                    has(offerData, 'amount') ? (
-                      <>
-                        <BrixelIcon
-                          icon="money"
-                          color={getOfferColor()}
-                          saturationTxt={400}
-                          className="mr-1"
-                          iconWidth="w-fix-16"
-                        />
-                        <span className={`txt${getOfferColor()}400 fsize-200`}>
-                          {get(offerData, 'currency', '')} {Helpers.formatNumberValue(offerData?.amount || 0, get(offerData, 'currency', ''))}
-                        </span>
-                      </>
-                    ) : (
-                      <>
-                        <BrixelIcon
-                          icon="money"
-                          color="text"
-                          saturationTxt={200}
-                          className="mr-1"
-                          iconWidth="w-fix-16"
-                        />
-                        <span className="fsize-200 txtText600">{translateTo('No offer', lang)}</span>
-                      </>
-                    )
-                  }
-                </div>
-              )
-            }
-          </div>
-          <div className="dis-f a-c notranslate">
-            {
-              isNew ? (
-                <div className="dis-fl-row a-c">
-                  <BrixelStatus
-                    className="mr-1 zIndex0"
-                    color="primary"
-                  />
-                  <span className="date fsize-200 fweight-600 txtText900">
-                    {date}
-                  </span>
-                </div>
-              ) : (
-                <span className="date fsize-200 txtText300">
+                <span className="date pl-1 fsize-300 fweight-600 txtText900">
                   {date}
                 </span>
-              )
-            }
-            {
-              isWinner && (
-                <span className="cardTag green ml-1"> {translateTo('Winner', lang)} </span>
-              )
-            }
-          </div>
+              </div>
+            ) : (
+              <span className="date fsize-300 txtText300">
+                {date}
+              </span>
+            )
+          }
         </div>
+
       </div>
       <BrixelButtonIcon
         theme="text"
         ghost
+        small
         icon="archive"
         className={`archiveBtn pos-a bt x-r mr-1 ${archived? 'mb-4' : 'mb-1'}`}
         onClick={(e) => {

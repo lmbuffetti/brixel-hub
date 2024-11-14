@@ -360,7 +360,7 @@ const SingleDeal = (props: SingleDealType) => {
                               }
                               {
                                 get(activeSingleDeal, 'winner', null) && (
-                                  <span className="cardTag green mr-2">{translateTo('Winner', lang)}</span>
+                                  <span className="cardTag winner dis-f jc-c a-c green mr-2">{translateTo('Winner', lang)}</span>
                                 )
                               }
                               {

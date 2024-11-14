@@ -258,7 +258,7 @@ const Deals = (props: DealsType) => {
               )
             }
           </div>
-          <div className={`dealsWrapper shadow-1dp p-1 bgWhite brdRadius mt-3 ${emptyDeals ? 'emptyDeals' : ''}`}>
+          <div className={`dealsWrapper mt-2 ${emptyDeals ? 'emptyDeals' : ''}`}>
             <div className="titleContainer">
               {
                 filteredDeals && Object.keys(filteredDeals).map((key, i) => (
@@ -284,7 +284,7 @@ const Deals = (props: DealsType) => {
               }
             </div>
             <div className="dealsContainer">
-              <div className="topParent bgWhite">
+              <div className="topParent">
                 <div className="rightCol parentScroll">
                   <div className="scrollContent">
                     {
@@ -338,6 +338,7 @@ const Deals = (props: DealsType) => {
                                             className="list-item pos-r"
                                           >
                                             <DealsCard
+                                              probability={singleDeal?.stageProbability}
                                               id={singleDeal.id}
                                               avatarImg={singleDeal.user.avatarUrl}
                                               archOnClick={() => archiveDeal(singleDeal.id, singleDeal.stage, key)}
@@ -367,10 +368,12 @@ const Deals = (props: DealsType) => {
                                       {
                                         k === 0 && (
                                           <div
-                                            className="mb-3 dis-fl-row jc-c"
+                                            className="mt-2 mb-1 dis-fl-row"
                                           >
                                             <span className="fsize-200 txtText200">
                                               {translateTo('Archived', lang)}
+                                            </span>
+                                            <span className='fsize-200 pl-1 txtText200'> ({filteredDeals[key].filter((dl) => !dl.active).length})
                                             </span>
                                           </div>
                                         )

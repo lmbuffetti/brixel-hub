@@ -8,8 +8,9 @@ export interface DealsCardProps {
   isNew?: boolean;
   isWinner?: boolean;
   isQualified?: boolean;
+  probability?: number | null; // Use `null` to signal "no value" instead of a boolean
   name?: string;
-  offer?: string | {offer: {amount: number}};
+  offer?: string | { amount: number }; // Simplified type for `offer`
   parentOnClick?: () => void;
   profileId?: string;
   stage?: string;
