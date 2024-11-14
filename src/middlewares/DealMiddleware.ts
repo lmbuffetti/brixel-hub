@@ -26,7 +26,12 @@ import {
   SET_ACTIVE_SINGLE_DEAL,
   SET_OFFER_LISTINGS,
   UPDATE_MULTIPLE_DEALS,
-  SET_SCHEDULE_VISIT, GET_ACTIVE_SINGLE_OFFER, SET_ACTIVE_SINGLE_OFFER,
+  SET_SCHEDULE_VISIT,
+  GET_ACTIVE_SINGLE_OFFER,
+  SET_ACTIVE_SINGLE_OFFER,
+  GET_PROOF_OF_FINANCING,
+  SET_PROOF_OF_FINANCING,
+  SAVE_PROOF_OF_FINANCING,
 } from '../actions/types/DealTypes';
 
 import {GET_HISTORY_LISTINGS, SET_DEAL_OWNER_HISTORY_LISTINGS} from '../actions/types/HistoryTypes';
@@ -695,6 +700,113 @@ const checkCommon = (store) => (next) => (action) => {
           }
           store.dispatch({
             type: SET_ACTIVE_SINGLE_OFFER,
+            payload: {},
+          });
+        });
+      break;
+    }
+    case SAVE_PROOF_OF_FINANCING: {
+      next(action);
+      const objData = cloneDeep(action.payload);
+      const {
+        smallLoader,
+        id,
+      } = objData;
+      delete objData.smallLoader;
+      delete objData.id;
+      if (smallLoader) {
+        store.dispatch({
+          type: SPINNER_SMALL,
+          payload: {
+            [smallLoader]: true,
+          },
+        });
+      } else {
+        store.dispatch({
+          type: SPINNER_ON,
+        });
+      }
+      api.deal.saveProofOfFInancing(id, objData)
+        .then((res) => {
+          if (res.meta.status === 200) {
+            store.dispatch({
+              type: SET_PROOF_OF_FINANCING,
+              payload: res.data.payload,
+            });
+          }
+          if (smallLoader) {
+            store.dispatch({
+              type: SPINNER_SMALL,
+              payload: {
+                [smallLoader]: false,
+              },
+            });
+          } else {
+            store.dispatch({
+              type: SPINNER_OFF,
+            });
+          }
+        })
+        .catch((err) => {
+          // eslint-disable-next-line no-console
+          console.error(err);
+        });
+      break;
+    }
+    case GET_PROOF_OF_FINANCING: {
+      next(action);
+      const {
+        id,
+        smallLoader,
+      } = action.payload;
+      if (smallLoader) {
+        store.dispatch({
+          type: SPINNER_SMALL,
+          payload: {
+            [smallLoader]: true,
+          },
+        });
+      } else {
+        store.dispatch({
+          type: SPINNER_ON,
+        });
+      }
+      api.deal.getProofOfFInancing(id)
+        .then((res) => {
+          if (res.meta.status === 200) {
+            store.dispatch({
+              type: SET_PROOF_OF_FINANCING,
+              payload: res.data.payload,
+            });
+          }
+          if (smallLoader) {
+            store.dispatch({
+              type: SPINNER_SMALL,
+              payload: {
+                [smallLoader]: false,
+              },
+            });
+          } else {
+            store.dispatch({
+              type: SPINNER_OFF,
+            });
+          }
+        })
+        .catch(() => {
+          if (smallLoader) {
+            store.dispatch({
+              type: SPINNER_SMALL,
+              payload: {
+                [smallLoader]: false,
+              },
+            });
+          } else {
+            store.dispatch({
+              type: SPINNER_OFF,
+            });
+          }
+          store.dispatch({
+            type: SET_PROOF_OF_FINANCING,
             payload: {},
           });
         });

@@ -3,14 +3,14 @@ import {connect} from 'react-redux';
 import translateTo from '../../../../utils/translation';
 import SectionMobileTitle from '../../../../components/SectionMobileTitle';
 import BannerFullSize from '../../../../components/BannerFullSize';
-// import DocumentIcon from '../../../../images/documentsIcon/documentFull.svg'
+import DocumentIcon from '../../../../images/documentsIcon/documentFull.svg'
 import lightBulbIcon from '../../../../images/offer-flow/light-bulb.svg'
 import medelIcon from '../../../../images/offer-flow/medel.svg'
 import BannerOfferDefault from '../../../../images/dashboard/bannerOffer-deafault.svg';
 import {
   BrixelIcon } from '@brixel-io/brixel-components';
 import {useLocation, useNavigate, useParams} from 'react-router-dom';
-import {getActiveSingleOffer} from '../../../../actions/DealActions';
+import {getActiveSingleOffer, getProofOfFinancing} from '../../../../actions/DealActions';
 import {bindActionCreators} from 'redux';
 import type {OfferType} from '@brixel-io/brixel-components/dist/@types/Models/Deals';
 import MakeOfferPropertyCardVertical from '../../../../components/Cards/MakeOfferPropertyCardVertical';
@@ -19,19 +19,24 @@ import {setModal} from '../../../../actions/CommonActions';
 import MakeOfferModalUpdate from './MakeOffer/MakeOfferModalUpdate';
 import MakeOfferModalView from './MakeOffer/MakeOfferModalView';
 import MakeOfferTimeline from './MakeOffer/MakeOfferTimeline';
+import ProofOfFinancingModalPrepare from './ProofOfFinancing/ProofOfFinancingModalPrepare';
 
 type SingleOfferType = {
+  activeProofofFinancing: any,
   activeSingleOffer: OfferType
   dealID: string
   handleGetActiveSingleOffer: (data: object) => void;
+  handleGetProofofFinancing: (data: object) => void;
   handleSetModal: (data: object) => void;
   lang: string
 }
 
 const SingleOffer = ({
+  activeProofofFinancing,
   activeSingleOffer,
   dealID,
   handleGetActiveSingleOffer,
+  handleGetProofofFinancing,
   handleSetModal,
   lang,
 }: SingleOfferType) => {
@@ -45,6 +50,7 @@ const SingleOffer = ({
   useEffect(() => {
     if (dealID) {
       handleGetActiveSingleOffer({id: dealID, smallLoader: 'getOffer'});
+      handleGetProofofFinancing({id: dealID, smallLoader: 'getProofOfFinancing'});
     }
   }, [dealID]);
 
@@ -73,6 +79,19 @@ const SingleOffer = ({
       hideHeader: true,
       layout: 'fullscreen',
       component: <MakeOfferModalView closeModal={() => handleSetModal({})} />,
+    })
+  }
+
+  const openPrepareModal = () => {
+    handleSetModal({
+      clickOutsideToClose: false,
+      bodyClassColor: 'p-0 dis-fl-col',
+      bodyInnerClass: 'h-perc-100 dis-fl-col flex-1',
+      state: true,
+      small: true,
+      hideHeader: true,
+      layout: 'fullscreen',
+      component: <ProofOfFinancingModalPrepare closeModal={() => handleSetModal({})} />,
     })
   }
 
@@ -203,20 +222,72 @@ const SingleOffer = ({
               </div>
             ) : (
               <div>
-                {/*<BannerFullSize*/}
-                {/*  type="green"*/}
-                {/*  lang={lang}*/}
-                {/*  image={DocumentIcon}*/}
-                {/*  title="Need a proof of financing?"*/}
-                {/*  description={['Order a non-binding proof of financing from our trusted partners before making an offer. It can help you secure the best deal.']}*/}
-                {/*  button={{*/}
-                {/*    label: 'Apply',*/}
-                {/*    iconRight: 'arrow-right',*/}
-                {/*    onClick: () => history.push(`/buyer/${propID}/offerFlow/proofFinancing`),*/}
-                {/*    type: 'primary',*/}
-                {/*  }}*/}
-                {/*/>*/}
-
+                {
+                  activeProofofFinancing !== null && (
+                    <>
+                      {
+                        activeProofofFinancing.id ? (
+                          <>
+                            {
+                              activeProofofFinancing.calculator.isLoan ? (
+                                <>
+                                  <BannerFullSize
+                                    smallSize={false}
+                                    type="green"
+                                    lang={lang}
+                                    image={DocumentIcon}
+                                    title="You applied for a proof of financing with our partners"
+                                    description={['They will review your information and get back to you within 2 business days.']}
+                                    button={{
+                                      label: 'Start preparing',
+                                      iconRight: 'arrow-right',
+                                      onClick: () => openPrepareModal(),
+                                      type: 'primary',
+                                    }}
+                                  />
+                                </>
+                              ) : (
+                                <>
+                                  <BannerFullSize
+                                    smallSize={false}
+                                    type="red"
+                                    lang={lang}
+                                    image={DocumentIcon}
+                                    title="Unfortunately, you're not eligible for proof of financing at this time"
+                                    description={['You can still proceed with submitting an offer or contact the support.']}
+                                    button={{
+                                      label: 'Contact support',
+                                      iconRight: 'arrow-right',
+                                      onClick: () => history.push(history.location.pathname, { state: { openSupport: false } }),
+                                      type: 'primary',
+                                    }}
+                                  />
+                                </>
+                              )
+                            }
+                          </>
+                        ) : (
+                          <>
+                            <BannerFullSize
+                              smallSize={false}
+                              type="green"
+                              lang={lang}
+                              image={DocumentIcon}
+                              title="Need a proof of financing?"
+                              description={['Order a non-binding proof of financing from our trusted partners before making an offer. It can help you secure the best deal.']}
+                              button={{
+                                label: 'Apply',
+                                iconRight: 'arrow-right',
+                                onClick: () => history.push(`/buyer/${propID}/offerFlow/proofFinancing`),
+                                type: 'primary',
+                              }}
+                            />
+                          </>
+                        )
+                      }
+                    </>
+                  )
+                }
                 <BannerFullSize
                   smallSize={false}
                   className="mt-2"
@@ -242,6 +313,7 @@ const SingleOffer = ({
 };
 
 const mapStateToProps = (state) => ({
+  activeProofofFinancing: state?.deal.activeProofofFinancing || null,
   activeSingleOffer: state?.deal.activeSingleOffer || null,
   dealID: state?.deal?.activeSingleDeal?.id || null,
   lang: state?.common?.language || 'en',
@@ -249,6 +321,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   handleGetActiveSingleOffer:bindActionCreators(getActiveSingleOffer, dispatch),
+  handleGetProofofFinancing: bindActionCreators(getProofOfFinancing, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
 });
 

@@ -4,13 +4,11 @@ import get from 'lodash/get';
 import {connect} from 'react-redux';
 import {useParams} from 'react-router-dom';
 import {bindActionCreators, compose} from 'redux';
-import {spinnerOff, spinnerOn, spinnerSmall} from '../../../../../actions/CommonActions';
+import {spinnerSmall} from '../../../../../actions/CommonActions';
 import {getActiveSingleCompany} from '../../../../../actions/CompanyActions';
 import {
   getActiveSingleProperty,
-  saveActiveSingleProperty,
 } from '../../../../../actions/PropertyActions';
-import {doLogin, saveActiveSingleUser, validateUser} from '../../../../../actions/UserActions';
 import {QuestionsList} from '../../../../../resources/Offers/ProofOfFinancing';
 import {
   CompanyType,
@@ -19,15 +17,18 @@ import {
 } from '@brixel-io/brixel-components/dist/@types/Model';
 import FlowScreen from '../../../../../components/FlowScreen';
 import type {formValueType} from '../../../../../resources/Offers/ProofOfFinancing';
+import {getBuyerDeal, saveProofOfFinancing} from '../../../../../actions/DealActions';
 
 type ProofFinancingType = {
   activeSingleProperty: PropertyType
   activeSingleCompany: CompanyType;
   changeFieldValue: (field: string, val: string | null | boolean | string[] | object | number) => void;
+  dealID: string
   destroyForm: () => void;
   formValue: formValueType;
+  handleGetBuyerDeal: (data: object) => void;
   handleGetActiveSingleProperty: (data: object) => void;
-  handelSetSmallSpinner: (data: object) => void;
+  handleSaveProofOfFinancing: (data: object) => void;
   lang?: string;
 }
 
@@ -38,10 +39,12 @@ const ProofFinancing = (props: ProofFinancingType) => {
     activeSingleProperty,
     activeSingleCompany,
     changeFieldValue,
+    dealID,
     destroyForm,
     formValue,
+    handleGetBuyerDeal,
     handleGetActiveSingleProperty,
-    handelSetSmallSpinner,
+    handleSaveProofOfFinancing,
     lang = 'en',
   } = props;
   const propID = get(match, 'propID', null);
@@ -62,6 +65,9 @@ const ProofFinancing = (props: ProofFinancingType) => {
     if (!activeSingleProperty.id) {
       handleGetActiveSingleProperty({ id: propID, fullVersion: false });
     }
+    if (!dealID) {
+      handleGetBuyerDeal({ id: propID });
+    }
   }, [propID]);
 
   useEffect(() => {
@@ -70,10 +76,13 @@ const ProofFinancing = (props: ProofFinancingType) => {
 
   // FUNCTION TO SAVE DATA
   const saveData = async () => {
-    handelSetSmallSpinner({sendData: true});
-    setTimeout(() => {
-      handelSetSmallSpinner({sendData: false});
-    }, 2000)
+    if (dealID) {
+      const data = {
+        id: dealID,
+        test: true,
+      }
+      handleSaveProofOfFinancing(data);
+    }
   };
 
   const affordabilityCheck = typeof formValue?.affordabilityCheck === 'undefined' ? null :  formValue?.affordabilityCheck
@@ -102,6 +111,7 @@ const mapStateToProps = (state) => {
     activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
     activeSingleProperty: get(state, 'property.activeSingleProperty', null),
     company: get(state, 'companies.activeSingleCompany', {}),
+    dealID: state.deal.activeSingleDeal.id || null,
     errorValue: get(state, 'brixelForm.ProofOfFinancing.syncErrors', {}),
     formValue: get(state, 'brixelForm.ProofOfFinancing.values', {}),
     isLoading: get(state, 'common.isLoading', 0) > 0,
@@ -125,14 +135,10 @@ const mapDispatchToProps = (dispatch) => ({
     (dispatch(reset('ProofOfFinancing', initialValue)));
   },
   handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
-  handleDoLogin: bindActionCreators(doLogin, dispatch),
+  handleSaveProofOfFinancing: bindActionCreators(saveProofOfFinancing, dispatch),
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
-  handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
-  handleSaveActiveSingleUser: bindActionCreators(saveActiveSingleUser, dispatch),
-  handleSpinnerOn: bindActionCreators(spinnerOn, dispatch),
-  handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
+  handleGetBuyerDeal: bindActionCreators(getBuyerDeal, dispatch),
   handelSetSmallSpinner: bindActionCreators(spinnerSmall, dispatch),
-  handleValidateUser: bindActionCreators(validateUser, dispatch),
 });
 
 export default compose(

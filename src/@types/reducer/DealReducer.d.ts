@@ -5,5 +5,6 @@ export interface DealReducerType {
   activeSingleDealNotes: object[],
   activeSingleDealOwnerHistory: object,
   offerListings: object[],
+  activeProofofFinancing: object,
   scheduleVisit: object[] | null,
 }

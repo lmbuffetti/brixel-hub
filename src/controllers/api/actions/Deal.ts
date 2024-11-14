@@ -28,6 +28,16 @@ class Deal extends Base {
     return this.apiClient.get(url, {});
   }
 
+  saveProofOfFInancing(id, data) {
+    const url = ep.deal.proofOfFinancing(id);
+    return this.apiClient.post(url, {}, data);
+  }
+
+  getProofOfFInancing(id) {
+    const url = ep.deal.proofOfFinancing(id);
+    return this.apiClient.get(url, {});
+  }
+
   reviewOffer(id, data) {
     const url = ep.deal.reviewOffer(id);
     return this.apiClient.put(url, {}, data);

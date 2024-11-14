@@ -16,6 +16,9 @@ import {
   UPDATE_MULTIPLE_DEALS,
   GET_SCHEDULE_VISIT,
   SET_SCHEDULE_VISIT,
+  SET_PROOF_OF_FINANCING,
+  GET_PROOF_OF_FINANCING,
+  SAVE_PROOF_OF_FINANCING,
 } from './types/DealTypes';
 
 export const {
@@ -35,6 +38,9 @@ export const {
   saveFinancingRequest,
   getScheduleVisit,
   setScheduleVisit,
+  setProofOfFinancing,
+  getProofOfFinancing,
+  saveProofOfFinancing,
 } = createActions({
   [CREATE_DEAL]: (payload) => payload,
   [GET_ACTIVE_SINGLE_DEAL]: (payload) => payload,
@@ -52,4 +58,7 @@ export const {
   [SAVE_FINANCING_REQUEST]: (payload) => payload,
   [GET_SCHEDULE_VISIT]: (payload) => payload,
   [SET_SCHEDULE_VISIT]: (payload) => payload,
+  [SET_PROOF_OF_FINANCING]: (payload) => payload,
+  [GET_PROOF_OF_FINANCING]: (payload) => payload,
+  [SAVE_PROOF_OF_FINANCING]: (payload) => payload,
 });

@@ -5,6 +5,7 @@ import {
   SET_OFFER_LISTINGS,
   SET_SCHEDULE_VISIT,
   SET_ACTIVE_SINGLE_OFFER,
+  SET_PROOF_OF_FINANCING,
 } from '../actions/types/DealTypes';
 
 import {SET_DEAL_NOTE_LISTINGS} from '../actions/types/NoteTypes';
@@ -22,6 +23,7 @@ export const defaultState: DealReducerType = {
   activeSingleDealNotes: [],
   activeSingleDealOwnerHistory: {},
   offerListings: [],
+  activeProofofFinancing: {},
   scheduleVisit: null,
 };
 
@@ -54,6 +56,10 @@ export default handleActions<any>(
     [SET_SCHEDULE_VISIT]: (state, action) => ({
       ...state,
       scheduleVisit: action.payload,
+    }),
+    [SET_PROOF_OF_FINANCING]: (state, action) => ({
+      ...state,
+      activeProofofFinancing: action.payload,
     }),
   },
   defaultState,
