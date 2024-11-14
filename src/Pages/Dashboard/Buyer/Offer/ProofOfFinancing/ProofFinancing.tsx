@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {change, destroy, reset} from '@brixel-io/brixel-components/dist/form';
 import get from 'lodash/get';
 import {connect} from 'react-redux';
-import {useParams} from 'react-router-dom';
+import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import {bindActionCreators, compose} from 'redux';
 import {spinnerSmall} from '../../../../../actions/CommonActions';
 import {getActiveSingleCompany} from '../../../../../actions/CompanyActions';
@@ -17,9 +17,10 @@ import {
 } from '@brixel-io/brixel-components/dist/@types/Model';
 import FlowScreen from '../../../../../components/FlowScreen';
 import type {formValueType} from '../../../../../resources/Offers/ProofOfFinancing';
-import {getBuyerDeal, saveProofOfFinancing} from '../../../../../actions/DealActions';
+import {getBuyerDeal, getProofOfFinancing, saveProofOfFinancing} from '../../../../../actions/DealActions';
 
 type ProofFinancingType = {
+  activeProofofFinancing: any
   activeSingleProperty: PropertyType
   activeSingleCompany: CompanyType;
   changeFieldValue: (field: string, val: string | null | boolean | string[] | object | number) => void;
@@ -27,15 +28,24 @@ type ProofFinancingType = {
   destroyForm: () => void;
   formValue: formValueType;
   handleGetBuyerDeal: (data: object) => void;
+  handleGetProofofFinancing: (data: object) => void;
   handleGetActiveSingleProperty: (data: object) => void;
   handleSaveProofOfFinancing: (data: object) => void;
+  isSmallLoading: {
+    sendData: boolean
+  }
   lang?: string;
 }
 
 const ProofFinancing = (props: ProofFinancingType) => {
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
   const match = useParams();
   // PROPS
   const {
+    activeProofofFinancing,
     activeSingleProperty,
     activeSingleCompany,
     changeFieldValue,
@@ -43,8 +53,10 @@ const ProofFinancing = (props: ProofFinancingType) => {
     destroyForm,
     formValue,
     handleGetBuyerDeal,
+    handleGetProofofFinancing,
     handleGetActiveSingleProperty,
     handleSaveProofOfFinancing,
+    isSmallLoading,
     lang = 'en',
   } = props;
   const propID = get(match, 'propID', null);
@@ -62,6 +74,12 @@ const ProofFinancing = (props: ProofFinancingType) => {
   }, []);
 
   useEffect(() => {
+    if (activeProofofFinancing?.id && typeof isSmallLoading.sendData === 'undefined') {
+      history.push(`/buyer/${propID}/offerFlow/proofFinancing`);
+    }
+  }, [activeProofofFinancing])
+
+  useEffect(() => {
     if (!activeSingleProperty.id) {
       handleGetActiveSingleProperty({ id: propID, fullVersion: false });
     }
@@ -69,6 +87,12 @@ const ProofFinancing = (props: ProofFinancingType) => {
       handleGetBuyerDeal({ id: propID });
     }
   }, [propID]);
+
+  useEffect(() => {
+    if (dealID) {
+      handleGetProofofFinancing({ id: dealID });
+    }
+  }, [dealID]);
 
   useEffect(() => {
     setQuestions(QuestionsList(changeFieldValue, lang, activeSingleCompany));
@@ -79,7 +103,10 @@ const ProofFinancing = (props: ProofFinancingType) => {
     if (dealID) {
       const data = {
         id: dealID,
-        test: true,
+        calculationResults: {
+          ...formValue,
+        },
+        smallLoader: 'sendData',
       }
       handleSaveProofOfFinancing(data);
     }
@@ -108,13 +135,16 @@ const ProofFinancing = (props: ProofFinancingType) => {
 
 const mapStateToProps = (state) => {
   return ({
+    activeProofofFinancing: state?.deal.activeProofofFinancing || null,
     activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
     activeSingleProperty: get(state, 'property.activeSingleProperty', null),
     company: get(state, 'companies.activeSingleCompany', {}),
     dealID: state.deal.activeSingleDeal.id || null,
     errorValue: get(state, 'brixelForm.ProofOfFinancing.syncErrors', {}),
+
     formValue: get(state, 'brixelForm.ProofOfFinancing.values', {}),
     isLoading: get(state, 'common.isLoading', 0) > 0,
+    isSmallLoading: state?.common?.isSmallLoading  || {},
     isTest: get(state, 'common.isTest', false),
     lang: get(state, 'common.language', 'de'),
     loggedInUser: get(state, 'user.loggedInUser.user', {}),
@@ -137,6 +167,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
   handleSaveProofOfFinancing: bindActionCreators(saveProofOfFinancing, dispatch),
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
+  handleGetProofofFinancing: bindActionCreators(getProofOfFinancing, dispatch),
   handleGetBuyerDeal: bindActionCreators(getBuyerDeal, dispatch),
   handelSetSmallSpinner: bindActionCreators(spinnerSmall, dispatch),
 });

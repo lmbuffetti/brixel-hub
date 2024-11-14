@@ -776,7 +776,7 @@ const checkCommon = (store) => (next) => (action) => {
           if (res.meta.status === 200) {
             store.dispatch({
               type: SET_PROOF_OF_FINANCING,
-              payload: res.data.payload,
+              payload: res?.data?.payload || {},
             });
           }
           if (smallLoader) {

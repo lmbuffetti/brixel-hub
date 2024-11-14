@@ -1,181 +1,126 @@
-import React, {useEffect, useState} from 'react';
-import {
-  BrixelInputText,
-  BrixelTextArea,
-} from '@brixel-io/brixel-components/dist/form';
+import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators, compose} from 'redux';
 import {
-  BrixelButtonPrimary,
-  BrixelButtonText,
-  BrixelTooltip,
-  BrixelIcon,
   Helpers,
 } from '@brixel-io/brixel-components';
 import type {
-  PropertyType,
+  CompanyType,
 } from '@brixel-io/brixel-components/dist/@types/Model';
 import {saveMakeOffer} from '../../../../../actions/DealActions';
 import translateTo from '../../../../../utils/translation';
-import {OfferType} from '@brixel-io/brixel-components/dist/@types/Models/Deals';
+import DocumentFullIcon from '../../../../../images/documentsIcon/documentFull.svg';
+import PhoneIcon from '../../../../../images/Boutique/phoneIcon.svg';
+import get from 'lodash/get';
+import MessageIcon from '../../../../../images/Boutique/messageIcon.svg';
+import MailIcon from '../../../../../images/Boutique/mailIcon.svg';
 
 type ProofOfFinancingModalPrepareType = {
-  activeSingleOffer: OfferType;
-  activeSingleProperty: PropertyType
-  closeModal: () => void;
-  dealID?: string;
-  handleSaveMakeOffer: (data: object) => void;
-  isSmallLoading?: {sendData: boolean}
+  activeSingleCompany: CompanyType
   lang?: string;
 }
+
+const documentsList = [
+  'Latest tax declaration',
+  'Latest proof of income, incl. proof of bonus if applicable',
+  'Pension fund statement',
+  'Property exposé - download here',
+]
 
 const ProofOfFinancingModalPrepare = (props: ProofOfFinancingModalPrepareType) => {
   // PROPS
   const {
-    activeSingleOffer,
-    activeSingleProperty,
-    closeModal,
-    dealID,
-    handleSaveMakeOffer,
-    isSmallLoading,
+    activeSingleCompany,
     lang = 'en',
   } = props;
-  const [formValue, setFormValue] = useState<{ amount: number, noteByBuyer?: string }>({amount: 0, noteByBuyer: ''});
-
-  useEffect(() => {
-    if (isSmallLoading?.sendData === false) {
-      closeModal();
-    }
-  }, [isSmallLoading]);
-
-  // FUNCTION TO SAVE DATA
-  const saveData = async () => {
-    if (dealID && formValue?.amount) {
-      const data = {
-        amount: formValue?.amount,
-        noteByBuyer: formValue?.noteByBuyer || '',
-        id: dealID,
-        smallLoader: 'sendData',
-      };
-      handleSaveMakeOffer(data);
-    }
-  };
 
   return (
-    <div className="flex-1 dis-fl-col px-2 px-md-4 py-2">
-      <div className="bgBlue50 brdSmall brdBlue100 brdRadius dis-f a-c p-2">
-        <BrixelIcon icon="info" color="blue" saturationTxt={500} />
-        <p className="txtBlue500 ml-2">
-          {translateTo('We\'ve kept your previous details saved, so you only need to enter your new price.', lang)}
-        </p>
-      </div>
-
-      <div className="bgText25 brdRadius dis-f a-c p-3 mt-3 jc-b">
-        <div className='dis-fl-col'>
-          <span className="mb-small-4 txtText700 fsize-300">
-            {translateTo('Listing price:', lang)}
-          </span>
+    <div>
+      <div className="px-3 pb-3">
+        <div>
           {
-            activeSingleProperty?.status === 'on-sale' && activeSingleProperty?.price?.total && (
-              <p className="txtText800 dis-f a-c ff-mono">
-                <span className="mr-1 ff-mono fsize-300 fsize-md-400">
-                  {activeSingleProperty?.price?.currency}
-                </span>
-                <span className="ff-mono fsize-500 ff-mono fsize-md-500">
-                  {Helpers.formatNumberValue(activeSingleProperty.price.total, activeSingleProperty?.price?.currency || 'CHF')}
-                </span>
-              </p>
-            )
-          }
-          {
-            activeSingleProperty?.status === 'on-request' && (
-              <span className="txtText700 ff-mono fsize-500">{translateTo('On Request', lang)}</span>
-            )
-          }
-          {
-            activeSingleProperty?.status === 'sold' && (
-              <span className="txtRed700 ff-mono fsize-500">{translateTo('Sold', lang)}</span>
-            )
-          }
-          {
-            activeSingleProperty?.status === 'reserved' && (
-              <span className="txtBlue700 ff-mono fsize-500">{translateTo('Reserved', lang)}</span>
-            )
-          }
-        </div>
-        <div className="w-fix-small-1 h-fix-56 bgText200" />
-        <div className='dis-fl-col'>
-          <span className="mb-small-4 txtText700 fsize-300">
-            {translateTo('Last offer:', lang)}
-          </span>
-          {
-            activeSingleOffer?.amount && (
-              <p className="txtGreen400 dis-f a-c ff-mono">
-                <span className="mr-1 ff-mono fsize-300 fsize-md-400">
-                  {activeSingleOffer?.currency || 'CHF'}
-                </span>
-                <span className="ff-mono fsize-500 ff-mono fsize-md-500">
-                  {Helpers.formatNumberValue(activeSingleOffer?.amount, activeSingleOffer?.currency || 'CHF')}
-                </span>
-              </p>
-            )
+            documentsList.map((doc, index) => (
+              <div
+                key={`docsList${index.toString()}`}
+                className="dis-f a-c mt-2"
+              >
+                <img
+                  width={40}
+                  height={40}
+                  src={DocumentFullIcon}
+                  alt={doc}
+                  className="mr-2"
+                />
+                <span>{translateTo(doc, lang)}</span>
+              </div>
+            ))
           }
         </div>
       </div>
 
-      <div className="mt-3">
-        <BrixelInputText
-          label={translateTo('Your new offer', lang)}
-          className=""
-          input={{
-            name: 'amount',
-            type: 'text',
-            onChange: (val) => setFormValue({...formValue, amount: val}),
-          }}
-          currency={activeSingleOffer?.currency || 'CHF'}
-          formatType="price"
-          unit={activeSingleOffer?.currency || 'CHF'}
-          large
-        />
-        <BrixelTextArea
-          className="mt-3"
-          large
-          label={translateTo('Add a comment (optional)', lang)}
-          input={{
-            name: 'noteByBuyer',
-            type: 'text',
-            onChange: (val) => setFormValue({...formValue, noteByBuyer: val}),
-          }}
-        />
-        <div className="dis-f a-c mt-3">
-          <p className="mr-1 mt-a mb-a fsize-200 txtText400">{translateTo('This is a non-binding offer.', lang)}</p>
-          <BrixelTooltip
-            hideIcon={false}
-            description={translateTo('This offer does not create any legal obligations and serves as a preliminary proposal. Final terms may change after further discussion.', lang)}
-          />
+      <hr/>
+
+      <div className="p-2">
+        <div
+          className="dis-f a-c mb-2 bgGreen25 p-1 brdRadius w-perc-100">
+          <div>
+            <img loading="lazy" className="w-fix-40 w-fix-md-56" src={PhoneIcon} alt="Call Us" />
+          </div>
+
+          <div className="dis-f a-fs a-c-lg pl-2">
+
+            <h6>{translateTo('Call Us', lang)}</h6>
+            <span
+              className='dis-b cur-poi txtGreen400 td-u ml-1'
+              onClick={() => window.location.assign(Helpers.telephoneFormat(get(activeSingleCompany, 'contact.phone', ''), false, false, true))}
+            >
+              {Helpers.telephoneFormat(get(activeSingleCompany, 'contact.phone', ''))}
+            </span>
+          </div>
+
+        </div>
+        <div
+          className="dis-f a-c mb-2 bgGreen25 p-1 brdRadius w-perc-100">
+          <div>
+            <img loading="lazy" className="w-fix-40 w-fix-md-56" src={MessageIcon} alt="Call Us" />
+          </div>
+          <div className="dis-f a-fs a-c-lg pl-2">
+
+            <h6>{translateTo('Text us via WhatsApp', lang)}</h6>
+
+            <span
+              className="dis-b cur-poi txtGreen400 td-u ml-1"
+              onClick={() => window.location.assign(Helpers.telephoneFormat(get(activeSingleCompany, 'contact.whatsapp', ''), false, false, true))}
+            >
+              {Helpers.telephoneFormat(get(activeSingleCompany, 'contact.whatsapp', ''))}
+            </span>
+          </div>
+        </div>
+        <div
+          className="dis-f a-c mb-2 bgGreen25 p-1 brdRadius w-perc-100">
+          <div>
+            <img loading="lazy" className="w-fix-40 w-fix-md-56" src={MailIcon} alt="Call Us" />
+          </div>
+          <div className="dis-f a-fs a-c-lg pl-2">
+
+            <h6>{translateTo('Write Us', lang)}</h6>
+            <span
+              className="dis-b cur-poi txtGreen400 td-u ml-1"
+              onClick={() => window.location.assign(`mailto:${get(activeSingleCompany, 'contact.email', '')}`)}
+            >
+              {get(activeSingleCompany, 'contact.email', '')}
+            </span>
+          </div>
         </div>
       </div>
 
-      <div className="dis-f mt-a jc-fe pt-md-4 pt-2">
-        <BrixelButtonText
-          className="mr-2"
-          theme="text"
-          onClick={() => closeModal()}
-          label={translateTo('Cancel', lang)}
-        />
-        <BrixelButtonPrimary
-          rounded
-          label={translateTo('Submit', lang)}
-          onClick={() => saveData()}
-          isLoading={isSmallLoading?.sendData}
-        />
-      </div>
     </div>
   );
 };
 
 const mapStateToProps = (state) => {
   return ({
+    activeSingleCompany: state?.companies?.activeSingleCompany || {},
     activeSingleProperty: state?.property?.activeSingleProperty || {},
     activeSingleOffer: state?.deal?.activeSingleOffer || {},
     dealID: state?.deal?.activeSingleDeal?.id || null,

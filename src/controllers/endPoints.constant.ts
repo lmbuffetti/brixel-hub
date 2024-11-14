@@ -24,7 +24,7 @@ export default {
     singleDeal: (id) => `/deal/${id}`,
     scheduleVisit: (id, order, direction) => `/deal/${id}/scheduleVisitRequest?order=${order}&direction=${direction}`,
     visitFeedback: (deal, visit, sendSlack) => `/deal/${deal}/createFeedbackVisit/${visit}?sendSlackMessage=${sendSlack}`,
-    proofOfFinancing: (id) => `/deal/${id}/proofOfFinancing`,
+    proofOfFinancing: (id) => `/deal/${id}/proofOfFinance`,
   },
   estimation: {
     createEstimation: () => '/estimation/',

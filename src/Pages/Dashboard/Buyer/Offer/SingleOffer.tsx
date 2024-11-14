@@ -89,9 +89,10 @@ const SingleOffer = ({
       bodyInnerClass: 'h-perc-100 dis-fl-col flex-1',
       state: true,
       small: true,
-      hideHeader: true,
-      layout: 'fullscreen',
-      component: <ProofOfFinancingModalPrepare closeModal={() => handleSetModal({})} />,
+      title: translateTo('To ensure a smooth process, please prepare the following documents:', lang),
+      titleTop: true,
+      layout: 'large',
+      component: <ProofOfFinancingModalPrepare />,
     })
   }
 
@@ -226,10 +227,10 @@ const SingleOffer = ({
                   activeProofofFinancing !== null && (
                     <>
                       {
-                        activeProofofFinancing.id ? (
+                        activeProofofFinancing?.id ? (
                           <>
                             {
-                              activeProofofFinancing.calculator.isLoan ? (
+                              (activeProofofFinancing?.calculationResults?.affordabilityCheck && activeProofofFinancing?.calculationResults?.loanValueCheck) ? (
                                 <>
                                   <BannerFullSize
                                     smallSize={false}
@@ -258,7 +259,7 @@ const SingleOffer = ({
                                     button={{
                                       label: 'Contact support',
                                       iconRight: 'arrow-right',
-                                      onClick: () => history.push(history.location.pathname, { state: { openSupport: false } }),
+                                      onClick: () => history.push(history.location.pathname, { state: { openSupport: true } }),
                                       type: 'primary',
                                     }}
                                   />
