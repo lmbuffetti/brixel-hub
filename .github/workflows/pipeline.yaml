@@ -2,7 +2,7 @@ on:
   push:
     branches:
       - main
-      - offer-flow
+      - proof-financing
 permissions:
   contents: read
   packages: read
