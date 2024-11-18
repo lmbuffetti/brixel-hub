@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { compose } from 'redux';
 import api from '../../controllers/api/config';
-import ProgressBarPercentage from '../ProgressBarPercentage';
+// import ProgressBarPercentage from '../ProgressBarPercentage';
 import timelineActionStubs from '../../resources/Utilities/timelineActionStubs';
 import translateTo from '../../utils/translation';
 
@@ -33,7 +33,7 @@ const DealsCard = (props: DealsCardProps) => {
     parentOnClick = () => '',
     profileId,
     stage,
-    probability,
+    // probability,
   } = props;
 
   const [lastAction, setLastAction] = useState<HistoryType>({});
@@ -105,7 +105,7 @@ const DealsCard = (props: DealsCardProps) => {
     return translateTo('Visited', lang);
   };
 
-  const progressState = probability ? probability : undefined;
+  //  const progressState = probability ? probability : undefined;
 
 
   return (
@@ -116,12 +116,29 @@ const DealsCard = (props: DealsCardProps) => {
       >
         <div className="dis-f jc-b a-c">
 
-          <ProgressBarPercentage
+          {/*  <ProgressBarPercentage
             progressState={progressState}
             dealCard
             small
             readOnly
-          />
+          /> */}
+
+          {
+            !isWinner && get(offerData, 'status') && stage === 'Offer' && (
+              <BrixelSingleTag
+                className="statusTag pb-small-4"
+                lang={lang}
+                message={{
+                  lang: lang,
+                  [get(offerData, 'status') as string]: translateTo(get(offerData, 'status')!.charAt(0).toUpperCase() + get(offerData, 'status')!.slice(1), lang),
+                }}
+                status={get(offerData, 'status') as string}
+                text={translateTo(get(offerData, 'status')!, lang)}
+              />
+            )
+          }
+
+
 
           {
             !isWinner && visitStatus && stage === 'Visit' && (
@@ -138,7 +155,7 @@ const DealsCard = (props: DealsCardProps) => {
           }
           {
             isWinner && (
-              <span className="dis-f jc-c a-c px-1 pt-small-4 pb-small-2 bgGreen400 txtWhite fsize-200 brdRadiusSmall ml-1"> {translateTo('Winner', lang)} </span>
+              <span className="dis-f jc-c a-c px-1 pt-small-4 pb-small-2 bgGreen400 txtWhite fsize-200 brdRadiusSmall"> {translateTo('Winner', lang)} </span>
             )
           }
         </div>
@@ -205,6 +222,7 @@ const DealsCard = (props: DealsCardProps) => {
             </>
           )
         }
+
         {
           stage === 'Offer' && (
             <div className="dis-fl-row a-c metaMessage">
