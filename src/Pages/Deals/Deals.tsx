@@ -343,7 +343,7 @@ const Deals = (props: DealsType) => {
                                               avatarImg={singleDeal.user.avatarUrl}
                                               archOnClick={() => archiveDeal(singleDeal.id, singleDeal.stage, key)}
                                               archived={!singleDeal.active}
-                                              className={`${!singleDeal.active ? 'bgText25' : 'bgWhite'} dealCard`}
+                                              className={`${!singleDeal.active ? 'bgText25' : ''} dealCard`}
                                               date={DateTime.fromMillis(singleDeal.updatedAt, { locale: lang }).toFormat('dd LLL yy, H:mm')}
                                               isNew={get(singleDeal, 'newSeller')}
                                               isWinner={get(singleDeal, 'winner')}
@@ -387,7 +387,7 @@ const Deals = (props: DealsType) => {
                                           avatarImg={singleDeal.user.avatarUrl}
                                           archOnClick={() => archiveDeal(singleDeal.id, singleDeal.stage, key)}
                                           archived={!singleDeal.active}
-                                          className={`${!singleDeal.active ? 'bgText25' : 'bgWhite'} dealCard`}
+                                          className={`${!singleDeal.active ? 'bgText25' : ''} dealCard`}
                                           date={DateTime.fromMillis(singleDeal.updatedAt, { locale: lang }).toFormat('dd LLL yy, H:mm')}
                                           isNew={get(singleDeal, 'newSeller')}
                                           isWinner={get(singleDeal, 'winner')}

@@ -111,7 +111,7 @@ const DealsCard = (props: DealsCardProps) => {
   return (
     <>
       <div
-        className={`dealsCard ${archived ? '' : 'cur-as'} dis-fl-col p-small-12 mb-1 brdSmall brdText100 brdRadius min-h-fix-136 ${className}`}
+        className={`dealsCard ${archived ? '' : 'cur-as'} dis-fl-col p-small-12 mb-1 brdSmall  ${isWinner ? 'bgGreen50 brdGreen100' : 'brdText100 bgWhite'} brdRadius min-h-fix-136 ${className}`}
         onClick={() => parentOnClick()}
       >
         <div className="dis-f jc-b a-c">
