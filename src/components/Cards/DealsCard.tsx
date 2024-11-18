@@ -66,10 +66,12 @@ const DealsCard = (props: DealsCardProps) => {
   useEffect(() => {
     if (id && stage === 'Visit') {
       api.deal.getScheduleVisit(id).then((res) => {
-        setFeedback(res?.data[0].visitFeedback);
-        setVisitDate(res?.data[0]?.visit || {});
-        const visitInfo = Helpers.getDataByStatus(res?.data[0] || {});
-        setVisitStatus(visitInfo);
+        if (res?.data[0]) {
+          setFeedback(res?.data[0]?.visitFeedback);
+          setVisitDate(res?.data[0]?.visit || {});
+          const visitInfo = Helpers.getDataByStatus(res?.data[0] || {});
+          setVisitStatus(visitInfo);
+        }
       })
     }
     if (id && stage === 'Offer') {
