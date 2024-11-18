@@ -5,6 +5,7 @@ import SectionMobileTitle from '../../../../components/SectionMobileTitle';
 import BannerFullSize from '../../../../components/BannerFullSize';
 import DocumentIcon from '../../../../images/documentsIcon/documentFull.svg'
 import lightBulbIcon from '../../../../images/offer-flow/light-bulb.svg'
+import SearchGreenIcn from '@brixel-io/brixel-components/dist/images/IconsColored/general/SearchGreen.svg'
 import medelIcon from '../../../../images/offer-flow/medel.svg'
 import BannerOfferDefault from '../../../../images/dashboard/bannerOffer-deafault.svg';
 import {
@@ -179,7 +180,26 @@ const SingleOffer = ({
                 <div className="pl-md-5 w-perc-md-70">
                   <h5 className="mb-2 fweight-600 mt-3 mt-md-0">{translateTo('Progress', lang)}</h5>
                   {
-                    !activeSingleOffer?.id || activeSingleOffer?.status === 'rejected' && (
+                    activeSingleOffer.status === 'pending' && !activeProofofFinancing?.id && (
+                      <BannerFullSize
+                        className="mb-2"
+                        smallSize={false}
+                        type="green"
+                        lang={lang}
+                        image={activeSingleOffer?.documents?.length > 0 ? SearchGreenIcn : DocumentIcon}
+                        title={activeSingleOffer?.documents?.length > 0 ? 'Ready to explore better rates?' : 'Need a proof of financing?'}
+                        description={activeSingleOffer?.documents?.length > 0 ? ['Even if you have proof of financing, our partner can provide a free, no-obligation mortgage offer. Ensure you get the best deal possible.'] : ['Order a non-binding proof of financing from our trusted partners before making an offer. It can help you secure the best deal.']}
+                        button={{
+                          label: 'Apply',
+                          iconRight: 'arrow-right',
+                          onClick: () => history.push(`/buyer/${propID}/offerFlow/proofFinancing`),
+                          type: 'primary',
+                        }}
+                      />
+                    )
+                  }
+                  {
+                    activeSingleOffer?.status === 'rejected' && (
                       <BannerFullSize
                         smallSize
                         smallIcon
@@ -198,7 +218,7 @@ const SingleOffer = ({
                     )
                   }
                   {
-                    !activeSingleOffer?.id || activeSingleOffer?.status === 'accepted' && (
+                    activeSingleOffer?.status === 'accepted' && (
                       <BannerFullSize
                         smallSize
                         smallIcon

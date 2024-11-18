@@ -16,6 +16,7 @@ import { compose, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 type MakeOfferTimelineType = {
+  activeProofofFinancing: {id: string, createdAt: number}
   activeSingleOffer: OfferType;
   buyerInfo?: DealType['user']
   handleViewOffer: () => void;
@@ -25,6 +26,7 @@ type MakeOfferTimelineType = {
 }
 
 const MakeOfferTimeline = ({
+  activeProofofFinancing,
   activeSingleOffer,
   buyerInfo,
   handleViewOffer,
@@ -196,12 +198,49 @@ const MakeOfferTimeline = ({
           </div>
         ))
       }
+
+      {
+        activeProofofFinancing?.id && (
+          <div
+            className="bgWhite brdRadius py-2 pl-4 pr-2 py-md-3 pl-md-5 pr-md-3 mb-2 pos-r brdSmall brdText100"
+          >
+            <ul className={'session'}>
+              <li className={'key'}>
+                <div className="brdBottom dis-fl-col dis-fl-row-md jc-b">
+                  <div className="w-perc-100">
+                    <div className="flex-1">
+                      <span>
+                        {translateTo('You applied for a [proof of financing/mortgage offer] with our partners', lang)}
+                      </span>
+
+                      <p className="txtText600">
+                        {translateTo('They will review your information and get back to you within 2 business days.', lang)}
+                      </p>
+
+                      {
+                        activeProofofFinancing?.createdAt && (
+                          <p className="fsize-300 txtText600">
+                            {DateTime.fromMillis(activeProofofFinancing?.createdAt, {locale: lang}).toFormat('dd LLL yyyy, H:mm')}
+                          </p>
+                        )
+                      }
+
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        )
+      }
+
     </div>
   )
 }
 
 const mapStateToProps = (state) => ({
-  windowDimensions: get(state, 'common.windowDimensions', { width: 0, height: 0 }),
+  activeProofofFinancing: get(state, 'deals.activeSingleOffer', {}),
+  windowDimensions: get(state, 'common.windowDimensions', {width: 0, height: 0}),
 });
 
 const mapDispatchToProps = (dispatch) => ({
