@@ -190,13 +190,12 @@ const DealsCard = (props: DealsCardProps) => {
         }
         {
           stage === 'Visit' && (
-            <>
+            <div className='dis-f mb-small-6 a-c'>
 
-              <div className="mb-small-6">
+              <div>
                 {
                   visitStatus && (
                     <>
-
                       {
                         !visitDate?.date ? (
                           <p className="fsize-300">
@@ -216,12 +215,11 @@ const DealsCard = (props: DealsCardProps) => {
               {
                 (get(feedback, 'isInterested') === true || get(feedback, 'isInterested') === false) && (
                   <p>
-                    <span className="fsize-300 txtText700">Feedback: </span>
-                    <span className="fsize-300 txtText700" dangerouslySetInnerHTML={{ __html: getFeedback()}} />
+                    <span className={`fsize-300 ${get(feedback, 'isInterested') === true ? 'txtGreen400' : 'txtRed400'}`} dangerouslySetInnerHTML={{ __html: getFeedback()}} />
                   </p>
                 )
               }
-            </>
+            </div>
           )
         }
 
