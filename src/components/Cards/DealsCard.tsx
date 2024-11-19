@@ -164,7 +164,7 @@ const DealsCard = (props: DealsCardProps) => {
 
 
         <div className="dis-fl-row a-c mt-1">
-          <span className={`name dis-b txtText800 notranslate fweight-600 ${name === 'No name' ? 'txtText500' : 'txtText800'}`}> {name} </span>
+          <span className={`name dis-b txtText800 notranslate fweight-600 ${name === 'No name' ? 'txtText500' : 'txtText900'}`}> {name} </span>
           {
             isQualified && (
               <BrixelTooltip
