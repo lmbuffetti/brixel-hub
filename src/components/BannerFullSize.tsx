@@ -67,7 +67,7 @@ const BannerFullSize = ({
             <div className=''>
               {
                 description.map((desc, index) => (
-                  <p className={`txtText800 ${smallSize ? '' : 'mt-2'} pr-2 pr-sm-4 mb-lg-0 ${smallIcon ? 'fsize-300' : ''}`} key={index}>
+                  <p className={`txtText800 ${smallSize ? '' : 'mt-1'} pr-2 pr-sm-4 mb-lg-0 ${smallIcon ? 'fsize-300' : 'fsize-300'}`} key={index}>
                     {translateTo(desc, lang)}
                   </p>
                 ))

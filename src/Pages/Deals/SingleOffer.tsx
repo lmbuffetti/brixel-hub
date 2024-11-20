@@ -154,7 +154,7 @@ const SingleOffer = (props: SingleOfferType) => {
                     {
                       activeSingleOffer.id ? (
                         <div className="dis-fl-col-rev dis-fl-row-md">
-                          <div className="w-perc-100 max-w-fix-md-360">
+                          <div className="w-perc-100 max-w-fix-md-344">
                             <div>
                               <h4
                                 className="mb-2 fsize-500 fweight-600 mt-2 mt-md-0">{translateTo('Property details', lang)}</h4>
