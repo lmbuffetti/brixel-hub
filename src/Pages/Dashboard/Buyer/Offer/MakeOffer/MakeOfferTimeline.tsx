@@ -198,7 +198,6 @@ const MakeOfferTimeline = ({
           </div>
         ))
       }
-
       {
         activeProofofFinancing?.id && (
           <div
@@ -239,7 +238,7 @@ const MakeOfferTimeline = ({
 }
 
 const mapStateToProps = (state) => ({
-  activeProofofFinancing: get(state, 'deals.activeSingleOffer', {}),
+  activeProofofFinancing: get(state, 'deal.activeProofofFinancing', {}),
   windowDimensions: get(state, 'common.windowDimensions', {width: 0, height: 0}),
 });
 

@@ -5,7 +5,7 @@ import {
   Helpers,
 } from '@brixel-io/brixel-components';
 import type {
-  CompanyType,
+  CompanyType, PropertyType,
 } from '@brixel-io/brixel-components/dist/@types/Model';
 import {saveMakeOffer} from '../../../../../actions/DealActions';
 import translateTo from '../../../../../utils/translation';
@@ -16,6 +16,7 @@ import MessageIcon from '../../../../../images/Boutique/messageIcon.svg';
 import MailIcon from '../../../../../images/Boutique/mailIcon.svg';
 
 type ProofOfFinancingModalPrepareType = {
+  activeSingleProperty: PropertyType
   activeSingleCompany: CompanyType
   lang?: string;
 }
@@ -24,15 +25,17 @@ const documentsList = [
   'Latest tax declaration',
   'Latest proof of income, incl. proof of bonus if applicable',
   'Pension fund statement',
-  'Property exposé - download here',
 ]
 
 const ProofOfFinancingModalPrepare = (props: ProofOfFinancingModalPrepareType) => {
   // PROPS
   const {
+    activeSingleProperty,
     activeSingleCompany,
     lang = 'en',
   } = props;
+
+  const brochurePDF = activeSingleProperty?.documents ? activeSingleProperty?.documents.find((doc) => doc.isBrochure) : null;
 
   return (
     <div>
@@ -55,10 +58,27 @@ const ProofOfFinancingModalPrepare = (props: ProofOfFinancingModalPrepareType) =
               </div>
             ))
           }
+          {
+            brochurePDF && (
+              <div
+                className="dis-f a-c mt-2"
+              >
+                <img
+                  width={40}
+                  height={40}
+                  src={DocumentFullIcon}
+                  alt="Property Exposé"
+                  className="mr-2"
+                />
+                <span>{translateTo('Property exposé -', lang)}</span>
+                <a href={brochurePDF?.loadUrl || ''} className="td-u ml-1 txtText900">{translateTo('download here', lang)}</a>
+              </div>
+            )
+          }
         </div>
       </div>
 
-      <hr/>
+      <hr />
 
       <div className="p-2">
         <div
@@ -71,7 +91,7 @@ const ProofOfFinancingModalPrepare = (props: ProofOfFinancingModalPrepareType) =
 
             <h6>{translateTo('Call Us', lang)}</h6>
             <span
-              className='dis-b cur-poi txtGreen400 td-u ml-1'
+              className="dis-b cur-poi txtGreen400 td-u ml-1"
               onClick={() => window.location.assign(Helpers.telephoneFormat(get(activeSingleCompany, 'contact.phone', ''), false, false, true))}
             >
               {Helpers.telephoneFormat(get(activeSingleCompany, 'contact.phone', ''))}

@@ -5,7 +5,7 @@ import {
   Helpers,
 } from '@brixel-io/brixel-components';
 import translateTo from '../../../../../utils/translation';
-import {CompanyType} from '@brixel-io/brixel-components/dist/@types/Model';
+import {CompanyType, PropertyType} from '@brixel-io/brixel-components/dist/@types/Model';
 import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import get from 'lodash/get';
 import PhoneIcon from '../../../../../images/Boutique/phoneIcon.svg';
@@ -15,12 +15,14 @@ import DocumentFullIcon from '../../../../../images/documentsIcon/documentFull.s
 import type {formValueType} from '../../../../../resources/Offers/ProofOfFinancing';
 
 type ProofOfFinancingThankYouProps = {
+  activeSingleProperty: PropertyType
   activeSingleCompany: CompanyType
   formValue: formValueType;
   lang: string;
 }
 
 const ProofOfFinancingThankYou = ({
+  activeSingleProperty,
   activeSingleCompany,
   formValue,
   lang,
@@ -38,8 +40,9 @@ const ProofOfFinancingThankYou = ({
     'Latest tax declaration',
     'Latest proof of income, incl. proof of bonus if applicable',
     'Pension fund statement',
-    'Property exposé - download here',
   ]
+  const brochurePDF = activeSingleProperty?.documents ? activeSingleProperty?.documents.find((doc) => doc.isBrochure) : null;
+
   return (
     <>
       {
@@ -66,6 +69,23 @@ const ProofOfFinancingThankYou = ({
                       <span>{translateTo(doc, lang)}</span>
                     </div>
                   ))
+                }
+                {
+                  brochurePDF && (
+                    <div
+                      className="dis-f a-c mt-2"
+                    >
+                      <img
+                        width={40}
+                        height={40}
+                        src={DocumentFullIcon}
+                        alt="Property Exposé"
+                        className="mr-2"
+                      />
+                      <span>{translateTo('Property exposé -', lang)}</span>
+                      <a href={brochurePDF?.loadUrl || ''} className="td-u ml-1 txtText900">{translateTo('download here', lang)}</a>
+                    </div>
+                  )
                 }
               </div>
 
