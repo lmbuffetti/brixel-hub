@@ -97,10 +97,6 @@ const SingleOffer = ({
     })
   }
 
-  useEffect(() => {
-    openPrepareModal()
-  }, []);
-
   if (!activeSingleOffer) {
     return <div/>
   }
