@@ -30,7 +30,7 @@ export interface AppType {
   isSmallLoading: object;
   lang: string;
   languages: LanguagesType[];
-  loggedInUser: LoggedUserType;
+  loggedInUser: any;
   modal: ModalDataType;
   notification: NotificationType[];
   pageError: boolean;

@@ -276,8 +276,16 @@ const App = (props: AppType) => {
     }
   }
 
+  const isToday = (t) => {
+    const today = new Date()
+    const someDate = new Date(t)
+    return someDate.getDate() == today.getDate() &&
+      someDate.getMonth() == today.getMonth() &&
+      someDate.getFullYear() == today.getFullYear()
+  }
+
   useEffect(() => {
-    if (showCustomerSatisfactionFunc()) {
+    if (showCustomerSatisfactionFunc() && loggedInUser?.id && isToday(loggedInUser?.createdAt)) {
       buyerPackageFunc();
     } else if (showCustomerSatisfaction && !history.location.pathname.includes('buy')) {
       clearInterval(showCustomerSatisfaction);
