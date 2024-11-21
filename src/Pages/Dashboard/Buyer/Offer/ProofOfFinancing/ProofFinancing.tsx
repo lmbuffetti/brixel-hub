@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {change, destroy, reset} from '@brixel-io/brixel-components/dist/form';
+import {change, destroy, initializeForm, reset} from '@brixel-io/brixel-components/dist/form';
 import get from 'lodash/get';
 import {connect} from 'react-redux';
 import {useLocation, useNavigate, useParams} from 'react-router-dom';
@@ -31,6 +31,7 @@ type ProofFinancingType = {
   handleGetProofofFinancing: (data: object) => void;
   handleGetActiveSingleProperty: (data: object) => void;
   handleSaveProofOfFinancing: (data: object) => void;
+  initForm: (data: object) => void;
   isSmallLoading: {
     sendData: boolean
   }
@@ -56,6 +57,7 @@ const ProofFinancing = (props: ProofFinancingType) => {
     handleGetProofofFinancing,
     handleGetActiveSingleProperty,
     handleSaveProofOfFinancing,
+    initForm,
     isSmallLoading,
     lang = 'en',
   } = props;
@@ -70,6 +72,7 @@ const ProofFinancing = (props: ProofFinancingType) => {
 
   // DESTROY FORM ON EXIT
   useEffect(() => {
+    initForm({})
     return () => destroyForm();
   }, []);
 
@@ -160,6 +163,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   destroyForm() {
     dispatch(destroy('ProofOfFinancing'));
+  },
+  initForm(value) {
+    dispatch(initializeForm('ProofOfFinancing', value));
   },
   handleReset(initialValue) {
     (dispatch(reset('ProofOfFinancing', initialValue)));
