@@ -121,6 +121,17 @@ const SingleOffer = ({
     if (activeSingleOffer?.status === 'rejected') return 'close-small';
     return 'clock';
   };
+  const handleScrollToBottom = () => {
+    // Get the 'innerWrap' div
+    history.push(history.location.pathname, { state: { openSupport: true } });
+    const innerWrap = document.querySelector('.hubDasContent');
+
+    if (innerWrap) {
+      setTimeout(() => {
+        innerWrap.scrollTop = innerWrap.scrollHeight;
+      }, 100);
+    }
+  };
 
   return (
     <>
@@ -279,7 +290,9 @@ const SingleOffer = ({
                                     button={{
                                       label: 'Contact support',
                                       iconRight: 'arrow-right',
-                                      onClick: () => history.push(history.location.pathname, { state: { openSupport: true } }),
+                                      onClick: () => {
+                                        handleScrollToBottom();
+                                      },
                                       type: 'primary',
                                     }}
                                   />

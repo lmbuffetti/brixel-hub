@@ -122,7 +122,7 @@ const DashboardHome = (props: DashboardHomeType) => {
             {
               propID && (
                 <BannerBuyerByStatus
-                  className="ml-1"
+                  className="ml-sm-1"
                   history={history}
                   lang={lang}
                   propID={propID}
@@ -134,11 +134,11 @@ const DashboardHome = (props: DashboardHomeType) => {
             }
           </div>
 
-          <div className="dis-fl-col dis-fl-row-sm mt-2">
+          <div className="dis-fl-col dis-fl-row-sm mt-sm-2">
 
             <button
               onClick={() => history.push(`/buyer/${propID}/financing`)}
-              className="shadow-2dp brdRadius dis-f jc-b pt-2 px-2 px-sm-3 mr-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi bgWhite ta-l"
+              className="shadow-2dp brdRadius dis-f jc-b pt-2 px-2 px-sm-3 mr-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-49 cur-poi bgWhite ta-l"
             >
               <div
                 className="cardWithBg"
@@ -149,7 +149,7 @@ const DashboardHome = (props: DashboardHomeType) => {
                     {translateTo('Check financing', lang)}
                   </h5>
                   <div className="dis-f a-c w-perc-100 mt-1 mb-3">
-                    <p className="pr-2 fsize-300 txtText700">
+                    <p className="pr-2 fsize-400 txtText700">
                       {translateTo('Assess whether you can afford your desired property.', lang)}
                     </p>
                   </div>

@@ -78,7 +78,7 @@ const BannerFullSize = ({
       </div>
       {
         button && (
-          <>
+          <div className='no-wrap'>
             {
               button.type === 'primary' && (
                 <BrixelButtonPrimary
@@ -103,7 +103,7 @@ const BannerFullSize = ({
                 />
               )
             }
-          </>
+          </div>
         )
       }
     </div>

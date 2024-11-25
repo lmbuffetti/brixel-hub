@@ -31,7 +31,7 @@ const BannerBuyerByStatus = ({
 
   return (
     <button
-      className={`shadow-2dp brdRadius dis-f jc-b pt-2 pl-2 pl-sm-3 ${className} pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi ta-l ${bannerData.bg}`}
+      className={`shadow-2dp brdRadius dis-f jc-b pt-2 pl-2 pl-sm-2 pl-sm-3 ${className} pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi ta-l ${bannerData.bg}`}
     >
       {
         (isLoading) && (
@@ -47,10 +47,10 @@ const BannerBuyerByStatus = ({
         style={{backgroundImage: `url(${bannerData.backgroundImg})`}}
       >
         <div className="dis-fl-col max-w-perc-100">
-          <h5 className="fweight-600">
+          <h5 className="fweight-600 max-w-perc-90">
             {translateTo(bannerData.title, lang)}
           </h5>
-          <div className="dis-f a-c max-w-perc-80 mt-1">
+          <div className="dis-f a-c max-w-perc-70 max-w-perc-sm-80 mt-1">
             <p className="pr-2 mb-3">
               {
                 bannerData.description.map((desc, index) => (
