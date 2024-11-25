@@ -209,11 +209,11 @@ const MakeOfferTimeline = ({
                   <div className="w-perc-100">
                     <div className="flex-1">
                       <span>
-                        {translateTo('You applied for a [proof of financing/mortgage offer] with our partners', lang)}
+                        {translateTo('You applied for a [proof of financing with our partners', lang)}
                       </span>
 
                       <p className="txtText600">
-                        {translateTo('They will review your information and get back to you within 2 business days.', lang)}
+                        {translateTo('They will review your information.', lang)}
                       </p>
 
                       {

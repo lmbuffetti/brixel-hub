@@ -270,7 +270,7 @@ const SingleOffer = ({
                                     lang={lang}
                                     image={DocumentIcon}
                                     title="You applied for a proof of financing with our partners"
-                                    description={['They will review your information and get back to you within 2 business days.']}
+                                    description={['They will review your information.']}
                                     button={{
                                       label: 'Start preparing',
                                       iconRight: 'arrow-right',
