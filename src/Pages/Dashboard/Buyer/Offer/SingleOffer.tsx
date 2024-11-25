@@ -92,6 +92,7 @@ const SingleOffer = ({
       small: true,
       title: translateTo('To ensure a smooth process, please prepare the following documents:', lang),
       titleTop: true,
+      titleTopClass: 'fweight-600 fsize-500 pl-2 pl-sm-0',
       layout: 'large',
       component: <ProofOfFinancingModalPrepare />,
     })
