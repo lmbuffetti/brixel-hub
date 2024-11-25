@@ -83,15 +83,16 @@ const ProofOfFinancingModalPrepare = (props: ProofOfFinancingModalPrepareType) =
       <hr />
 
       <div className="p-2">
+        <p className='pb-2 fsize-300 txtText700'>{translateTo('If you need immediate help, you can also:', lang)}</p>
         <div className="dis-fl-col a-c jc-c mx-a">
           <div className="dis-fl-row a-c mb-2 as-fs  min-w-fix-240 bgGreen25 p-1 brdRadius w-perc-100">
             <div className="">
-              <img loading="lazy" className="w-fix-40" src={PhoneIcon} alt="Call Us" />
+              <img loading="lazy" className="w-fix-40" src={PhoneIcon} alt="Call us" />
             </div>
 
             <div className="dis-f a-fs pl-2 fsize-300 flex-wrap">
 
-              <h6 className="fsize-300 pr-1">{translateTo('Call Us', lang)}</h6>
+              <h6 className="fsize-300 pr-1">{translateTo('Call us', lang)}</h6>
               <span
                 className='dis-b cur-poi txtGreen400 td-u'
                 onClick={() => window.location.assign(Helpers.telephoneFormat(get(activeSingleCompany, 'contact.phone', ''), false, false, true))}

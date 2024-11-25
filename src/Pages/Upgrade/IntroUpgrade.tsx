@@ -566,7 +566,7 @@ const IntroUpgrade = (props: IntroUpgradeType) => {
             <img loading="lazy" className="w-fix-56 w-fix-lg-104" src={CallUsImg} alt="Call Us" />
             <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0 mt-3">
 
-              <h6>{translateTo('Call Us', lang)}</h6>
+              <h6>{translateTo('Call us', lang)}</h6>
               <BrixelButtonText
                 bgTransparent
                 onClick={() => window.location.assign(Helpers.telephoneFormat(get(activeSingleCompany, 'contact.phone', ''), false, false, true))}
@@ -579,7 +579,7 @@ const IntroUpgrade = (props: IntroUpgradeType) => {
             <img loading="lazy" className="w-fix-56 w-fix-lg-104" src={WrireUsImg} alt="Call Us" />
             <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0 mt-3">
 
-              <h6>{translateTo('Write Us', lang)}</h6>
+              <h6>{translateTo('Write us', lang)}</h6>
               <BrixelButtonText
                 bgTransparent
                 onClick={() => window.location.assign(`mailto:${get(activeSingleCompany, 'contact.email', '')}`)}

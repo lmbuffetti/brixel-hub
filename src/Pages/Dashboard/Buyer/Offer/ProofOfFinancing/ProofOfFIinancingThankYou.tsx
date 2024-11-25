@@ -118,7 +118,7 @@ const ProofOfFinancingThankYou = ({
 
                 <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0 mt-md-3">
 
-                  <h6>{translateTo('Call Us', lang)}</h6>
+                  <h6>{translateTo('Call us', lang)}</h6>
                   <span
                     className='dis-b cur-poi txtGreen400 td-u'
                     onClick={() => window.location.assign(Helpers.telephoneFormat(get(activeSingleCompany, 'contact.phone', ''), false, false, true))}
