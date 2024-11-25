@@ -51,7 +51,6 @@ const MarketCard = (props: MarketCardProps) => {
   // PROPS
   const {
     companyDetail = {},
-    companyListings,
     favoritesProperties,
     handleGenerateBestimate,
     handleGetEstimation,
@@ -187,24 +186,17 @@ const MarketCard = (props: MarketCardProps) => {
   };
   const selectActiveServicePackage = () => {
     // TODO check servicePackageType error
-    let basicPackage: ServicePackageType | undefined = undefined;
-    if (companyListings.length > 0) {
-      const activeCompany = companyListings.find((cmp) => cmp.id === get(item, 'company', ''));
-      if (activeCompany) {
-        const activeCompanyPackages = get(activeCompany, 'servicePackages', []);
-        basicPackage = activeCompanyPackages.find((pkg) => pkg.type === 'basic');
-      }
-      if (propertyServicePacakges && propertyServicePacakges.length > 0) {
-        const activeSinglePropertyPackage = cloneDeep(propertyServicePacakges);
-        if (activeSinglePropertyPackage.length > 0) {
-          const sortedPackage: any = orderBy(activeSinglePropertyPackage, ['price.total'], ['desc']);
-          const getActivePackage: any = sortedPackage.find((pkg) => pkg.started);
-          if (getActivePackage && get(getActivePackage, 'servicePackage', null)) {
-            return getActivePackage.servicePackage;
-          }
-          if (get(sortedPackage[0], 'servicePackage', null)) {
-            return sortedPackage[0].servicePackage;
-          }
+    const basicPackage: ServicePackageType | undefined = undefined;
+    if (propertyServicePacakges && propertyServicePacakges.length > 0) {
+      const activeSinglePropertyPackage = cloneDeep(propertyServicePacakges);
+      if (activeSinglePropertyPackage.length > 0) {
+        const sortedPackage: any = orderBy(activeSinglePropertyPackage, ['price.total'], ['desc']);
+        const getActivePackage: any = sortedPackage.find((pkg) => pkg.started);
+        if (getActivePackage && get(getActivePackage, 'servicePackage', null)) {
+          return getActivePackage.servicePackage;
+        }
+        if (get(sortedPackage[0], 'servicePackage', null)) {
+          return sortedPackage[0].servicePackage;
         }
       }
     }

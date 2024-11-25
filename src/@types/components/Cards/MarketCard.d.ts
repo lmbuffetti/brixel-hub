@@ -13,7 +13,6 @@ export interface CompanyTypeListType extends CompanyType {
 
 export interface MarketCardProps {
   companyDetail?: object;
-  companyListings: CompanyTypeListType[];
   estimation: object;
   favoritesProperties: PropertyListType[];
   handleGenerateBestimate(...args: unknown[]): unknown;
