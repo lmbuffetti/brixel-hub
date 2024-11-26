@@ -117,8 +117,8 @@ const DashboardHome = (props: DashboardHomeType) => {
       handleGetActiveSinglePropertyVisits({id: propID, smallLoader: 'visits' });
     }
     if (progressState.step === 3 || progressState.step === 4 || progressState.step === 5) {
-      handleGetActiveSinglePropertyDealsCount({ id: propID });
-      handleGetPageDeals({ id: propID });
+      handleGetActiveSinglePropertyDealsCount({ id: propID, smallLoader: '' });
+      handleGetPageDeals({ id: propID, smallLoader: 'deals' });
       let portals: PortalsType[] = [];
       const callArray: Promise<void>[] = []
       const call = api.portals.getPortals(activeSingleProperty.id)
@@ -141,9 +141,10 @@ const DashboardHome = (props: DashboardHomeType) => {
       const payload = {
         type: 'market',
         id: activeSingleProperty.id,
+        smallLoader: 'estimation',
       };
       handleGetEstimation(payload);
-      handleGetPageDeals({ id: propID });
+      handleGetPageDeals({ id: propID, smallLoader: 'deals' });
     }
   }, [progressState.step, propID]);
 

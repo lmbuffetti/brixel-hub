@@ -795,10 +795,6 @@ const checkCommon = (store) => (next) => (action) => {
             [smallLoader]: true,
           },
         });
-      } else {
-        store.dispatch({
-          type: SPINNER_ON,
-        });
       }
       api.property.getPageDealsCount(id).then((res) => {
         if (res.meta.status === 200) {
@@ -815,10 +811,6 @@ const checkCommon = (store) => (next) => (action) => {
             payload: {
               [smallLoader]: false,
             },
-          });
-        } else {
-          store.dispatch({
-            type: SPINNER_OFF,
           });
         }
       });
@@ -870,10 +862,6 @@ const checkCommon = (store) => (next) => (action) => {
             [smallLoader]: true,
           },
         });
-      } else {
-        store.dispatch({
-          type: SPINNER_ON,
-        });
       }
       api.property.getPropertyVisits(id)
         .then((res) => {
@@ -887,10 +875,6 @@ const checkCommon = (store) => (next) => (action) => {
               payload: {
                 [smallLoader]: 'saved',
               },
-            });
-          } else {
-            store.dispatch({
-              type: SPINNER_OFF,
             });
           }
         })

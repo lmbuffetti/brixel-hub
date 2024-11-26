@@ -375,10 +375,6 @@ const checkCommon = (store) => (next) => (action) => {
             [smallLoader]: true,
           },
         });
-      } else {
-        store.dispatch({
-          type: SPINNER_ON,
-        });
       }
       const isTest = get(store.getState(), 'common.isTest', false);
       const company = get(store.getState(), 'companies.activeSingleCompany.stub', null);
@@ -409,10 +405,6 @@ const checkCommon = (store) => (next) => (action) => {
                       [smallLoader]: false,
                     },
                   });
-                } else {
-                  store.dispatch({
-                    type: SPINNER_OFF,
-                  });
                 }
               });
           } else {
@@ -426,10 +418,6 @@ const checkCommon = (store) => (next) => (action) => {
                 payload: {
                   [smallLoader]: false,
                 },
-              });
-            } else {
-              store.dispatch({
-                type: SPINNER_OFF,
               });
             }
           }
@@ -1034,10 +1022,6 @@ const checkCommon = (store) => (next) => (action) => {
             [smallLoader]: true,
           },
         });
-      } else {
-        store.dispatch({
-          type: SPINNER_ON,
-        });
       }
       delete action.payload.smallLoader;
       api.deal.getScheduleVisit(id, order, direction)
@@ -1054,10 +1038,6 @@ const checkCommon = (store) => (next) => (action) => {
               payload: {
                 [smallLoader]: false,
               },
-            });
-          } else {
-            store.dispatch({
-              type: SPINNER_OFF,
             });
           }
         })
