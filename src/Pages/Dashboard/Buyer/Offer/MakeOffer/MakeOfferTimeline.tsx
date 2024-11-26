@@ -209,7 +209,7 @@ const MakeOfferTimeline = ({
                   <div className="w-perc-100">
                     <div className="flex-1">
                       <span>
-                        {translateTo('You applied for a [proof of financing with our partners', lang)}
+                        {translateTo('You applied for a proof of financing with our partners', lang)}
                       </span>
 
                       <p className="txtText600">
