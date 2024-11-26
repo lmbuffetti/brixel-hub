@@ -18,8 +18,8 @@ $grid-breakpoints: (
   sm: 590px,
   md: 1025px,
   lg: 1025px,
-  xl: 1425px,
-  xxl: 1920px,
+  xl: 1140px,
+  xxl: 1425px,
 );
 $responsive-medium: map-get($grid-breakpoints, md);
 $responsive-desktop: map-get($grid-breakpoints, xl);

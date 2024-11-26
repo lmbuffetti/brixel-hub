@@ -44,68 +44,71 @@ const BannerFullSize = ({
   }
 
   return (
-    <div className={`${bannerClass} ${className} dis-fl-col dis-fl-row-lg a-t a-c-lg jc-b p-2 p-lg-3 brdRadius`}>
+    <div className={`${bannerClass} ${className} dis-fl-col dis-fl-row-xl a-t a-c-xl mr-a jc-b p-2 p-xl-3 brdRadius`}>
       {
         image && (
           <img
             src={image}
             alt={title}
-            className={`${smallIcon ? 'w-fix-40' : 'w-fix-40 w-fix-md-64'}  mr-2`}
+            className={`${smallIcon ? 'w-fix-40' : 'w-fix-40 w-fix-lg-64'}  mr-2`}
           />
         )
       }
-      <div className={`max-w-fix-576 ml-0 mr-a ${button ? 'mb-2 mb-lg-0' : ''}`}>
+      <div className="dis-fl-col dis-fl-row-xl w-perc-100">
+        <div className={`mr-a ${button ? 'mb-2 mb-xl-0' : ''}`}>
+          {
+            title && (
+              <h6 className="fweight-600 fsize-500 mt-2 mt-xl-0">
+                {translateTo(title, lang)}
+              </h6>
+            )
+          }
+          {
+            description && (
+              <div className=''>
+                {
+                  description.map((desc, index) => (
+                    <p className={`txtText800 ${smallSize ? '' : 'mt-1'} pr-2 pr-sm-4 mb-xl-0 ${smallIcon ? 'fsize-300' : 'fsize-300'}`} key={index}>
+                      {translateTo(desc, lang)}
+                    </p>
+                  ))
+                }
+              </div>
+            )
+          }
+        </div>
         {
-          title && (
-            <h6 className="fweight-600 fsize-500 mt-2 mt-lg-0">
-              {translateTo(title, lang)}
-            </h6>
-          )
-        }
-        {
-          description && (
-            <div className=''>
+          button && (
+            <div className='no-wrap'>
               {
-                description.map((desc, index) => (
-                  <p className={`txtText800 ${smallSize ? '' : 'mt-1'} pr-2 pr-sm-4 mb-lg-0 ${smallIcon ? 'fsize-300' : 'fsize-300'}`} key={index}>
-                    {translateTo(desc, lang)}
-                  </p>
-                ))
+                button.type === 'primary' && (
+                  <BrixelButtonPrimary
+                    label={translateTo(button.label, lang)}
+                    rounded
+                    onClick={() => button.onClick()}
+                    leftIcon={button.iconLeft}
+                    rightIcon={button.iconRight}
+                    fullWidth={windowDimensions.width <= 1024}
+                  />
+                )
+              }
+              {
+                button.type === 'secondary' && (
+                  <BrixelButtonSecondary
+                    bgTransparent
+                    label={translateTo(button.label, lang)}
+                    rounded
+                    onClick={() => button.onClick()}
+                    leftIcon={button.iconLeft}
+                    rightIcon={button.iconRight}
+                  />
+                )
               }
             </div>
           )
         }
       </div>
-      {
-        button && (
-          <div className='no-wrap'>
-            {
-              button.type === 'primary' && (
-                <BrixelButtonPrimary
-                  label={translateTo(button.label, lang)}
-                  rounded
-                  onClick={() => button.onClick()}
-                  leftIcon={button.iconLeft}
-                  rightIcon={button.iconRight}
-                  fullWidth={windowDimensions.width <= 1024}
-                />
-              )
-            }
-            {
-              button.type === 'secondary' && (
-                <BrixelButtonSecondary
-                  bgTransparent
-                  label={translateTo(button.label, lang)}
-                  rounded
-                  onClick={() => button.onClick()}
-                  leftIcon={button.iconLeft}
-                  rightIcon={button.iconRight}
-                />
-              )
-            }
-          </div>
-        )
-      }
+
     </div>
   )
 }

@@ -85,7 +85,7 @@ const MakeOfferTimeline = ({
     }
     return (
       <li className={`${icon}`}>
-        <div className="brdBottom dis-fl-col dis-fl-row-md jc-b">
+        <div className="brdBottom dis-fl-col dis-fl-row-xl jc-b">
           <div className='w-perc-100'>
             <div className='dis-f a-t'>
               <div className='flex-1'>
@@ -146,7 +146,7 @@ const MakeOfferTimeline = ({
           </div>
           {
             !isArchived && ((index === 0 && activeSingleOffer.status === 'pending') || index === 1 && activeSingleOffer.status !== 'pending') && (
-              <div className='mt-1 mt-md-0 ml-0 ml-lg-2'>
+              <div className='mt-1 mt-xl-0 ml-0 ml-xl-2'>
                 <BrixelButtonSecondary
                   rounded
                   fullWidth={windowDimensions.width <= 1024}
@@ -180,7 +180,7 @@ const MakeOfferTimeline = ({
       {
         offerTimelineGroup() && offerTimelineGroup().map((group, index) => (
           <div
-            className="bgWhite brdRadius py-2 pl-4 pr-2 py-md-3 pl-md-5 pr-md-3 mb-2 pos-r brdSmall brdText100"
+            className="bgWhite brdRadius py-2 pl-4 pr-2 py-xl-3 pl-xl-5 pr-xl-3 mb-2 pos-r brdSmall brdText100"
             key={`historyParent${index.toString()}`}
           >
             <ul className={`session ${index > 0 ? 'opacity6' : ''}`}>
@@ -201,11 +201,11 @@ const MakeOfferTimeline = ({
       {
         activeProofofFinancing?.id && (
           <div
-            className="bgWhite brdRadius py-2 pl-4 pr-2 py-md-3 pl-md-5 pr-md-3 mb-2 pos-r brdSmall brdText100"
+            className="bgWhite brdRadius py-2 pl-4 pr-2 py-xl-3 pl-xl-5 pr-xl-3 mb-2 pos-r brdSmall brdText100"
           >
             <ul className={'session'}>
               <li className={'key'}>
-                <div className="brdBottom dis-fl-col dis-fl-row-md jc-b">
+                <div className="brdBottom dis-fl-col dis-fl-row-xl jc-b">
                   <div className="w-perc-100">
                     <div className="flex-1">
                       <span>
