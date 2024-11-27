@@ -230,7 +230,7 @@ function PageHeader(props: PageHeaderType) {
   useEffect(() => {
     // this changes the scrolling behavior to "smooth"
     const dashContentEl = document.getElementsByClassName('hubDasContent')[0];
-    if (dashContentEl) {
+    if (dashContentEl && !history?.location?.pathname?.includes('buy/searchProfile')) {
       dashContentEl.scrollTop = 0;
     }
   }, [history.location]);

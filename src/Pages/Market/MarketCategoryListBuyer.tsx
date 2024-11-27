@@ -48,6 +48,7 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
   const [fieldsSearchProfile, setFieldsSearchProfile] = useState<string[]>([]);
   // const [activeTab, setActiveTab] = useState(filterPropType[0]);
   const [stepLearnMoreSrchPrf, setStepLearnMoreSrchPrf] = useState(1);
+  const [changedPage, setChangedPage] = useState(0);
   // URL PARAMS
   const cat = get(match, 'cat', null);
   const page = get(match, 'page', 0);
@@ -96,6 +97,23 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
       if (catList) catList.classList.remove('market-listings');
     };
   }, []);
+
+  useEffect(() => {
+    if (changedPage > 0 && !skeleton?.buyerProperties) {
+      setTimeout(() => {
+        const element = document.getElementById('searchProfileProperties');
+        if (element) {
+          const rect = element.offsetTop;
+          const scrollEl = document.getElementsByClassName('content')[0];
+          scrollEl.scroll({
+            behavior: 'smooth',
+            left: 0,
+            top: rect - 100,
+          });
+        }
+      }, 100)
+    }
+  }, [changedPage, skeleton]);
 
   // useEffect(() => {
   //   const fltProp = filterPropType.find((flt) => flt.value === cat);
@@ -388,7 +406,7 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
 
           </div>
 
-          <div className="container">
+          <div className="container" id="searchProfileProperties">
             <div className="dis-fl-col dis-fl-row-sm a-c jc-c jc-b-sm my-5">
               <div className="ta-l mb-2 mb-sm-0 w-perc-100">
                 <h4 className="fweight-600 dis-f jc-b jc-fs-sm a-c">
@@ -485,9 +503,11 @@ const MarketCategoryListBuyer = (props: MarketCategoryListBuyerType) => {
             </div>
             <div className="pb-8">
               <Pagination
+                disableScrollTop
                 className="mt-5 pb-10"
                 totalItems={buyerProperties.total || 0}
                 itemsPerPage={9}
+                onChangePage={() => setChangedPage(changedPage + 1)}
                 activePage={(+page - 1) * 9}
                 paginate={(_resultsPerPage, _skip, pageNumber) => history.push(`/buy/searchProfile/${cat}/${pageNumber}`)}
                 lang={lang}

@@ -72,7 +72,7 @@ const ProofOfFinancingModalPrepare = (props: ProofOfFinancingModalPrepareType) =
                 />
                 <div className="dis-f flex-wrap">
                   <span className='no-wrap'>{translateTo('Property exposé -', lang)}</span>
-                  <a href={brochurePDF?.loadUrl || ''} className="td-u ml-1 no-wrap txtText900">{translateTo('download here', lang)}</a>
+                  <a href={brochurePDF?.loadUrl || ''} className="td-u ml-1 no-wrap txtText900" target="_blank" rel="noreferrer">{translateTo('download here', lang)}</a>
                 </div>
               </div>
             )

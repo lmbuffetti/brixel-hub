@@ -83,7 +83,7 @@ const ProofOfFinancingThankYou = ({
                         className="mr-2"
                       />
                       <span>{translateTo('Property exposé -', lang)}</span>
-                      <a href={brochurePDF?.loadUrl || ''} className="td-u ml-1 txtText900">{translateTo('download here', lang)}</a>
+                      <a href={brochurePDF?.loadUrl || ''} className="td-u ml-1 txtText900" target="_blank" rel="noreferrer">{translateTo('download here', lang)}</a>
                     </div>
                   )
                 }

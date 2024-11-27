@@ -7,8 +7,10 @@ const Pagination = (props: PaginationType) => {
   const {
     activePage,
     className = '',
+    disableScrollTop = false,
     itemsPerPage,
     lang,
+    onChangePage,
     paginate,
     totalItems,
   } = props;
@@ -32,12 +34,15 @@ const Pagination = (props: PaginationType) => {
       }
       paginate(itemsPerPage, paginationSkip, (paginationSkip / itemsPerPage) + 1);
     }
-    const scrollEl = document.getElementsByClassName('content')[0];
-    scrollEl.scroll({
-      behavior: 'smooth',
-      left: 0,
-      top: 0,
-    });
+    if (!disableScrollTop) {
+      const scrollEl = document.getElementsByClassName('content')[0];
+      scrollEl.scroll({
+        behavior: 'smooth',
+        left: 0,
+        top: 0,
+      });
+    }
+    if (onChangePage) onChangePage();
   };
 
   const processResults = () => {
