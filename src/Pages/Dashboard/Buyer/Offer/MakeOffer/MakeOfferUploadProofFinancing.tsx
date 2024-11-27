@@ -43,7 +43,7 @@ const MakeOfferUploadProofFinancing = ({
       })
       setShowError('')
     } else {
-      setShowError('Please make sure file is in correct format and size');
+      setShowError('Upload failed. The file exceeds the allowed limit.');
     }
   };
 
@@ -83,14 +83,17 @@ const MakeOfferUploadProofFinancing = ({
 
                 <span className="fsize-300 max-w-fix-304 ml-a mr-a mt-1 txtText400 dis-b">{translateTo('All standard formats are supported, with a maximum file size of 10 MB', lang)}</span>
               </>
-              {
-                showError && (
-                  <p className="txtRed400 mt-2">{translateTo(showError, lang)}</p>
-                )
-              }
             </div>
           )}
         </Dropzone>
+
+        {
+          showError && (
+            <p className="fsize-200 txtRed400 mt-2">
+              {translateTo(showError, lang)}
+            </p>
+          )
+        }
 
         {
           documentsUploaded && documentsUploaded.map((file, index) => (
