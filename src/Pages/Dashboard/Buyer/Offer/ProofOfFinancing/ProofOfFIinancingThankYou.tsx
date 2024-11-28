@@ -34,7 +34,6 @@ const ProofOfFinancingThankYou = ({
   };
   const match = useParams();
   const propID = get(match, 'propID', null);
-  if (activeSingleCompany?.stub && activeSingleCompany?.stub !== 'ubs') history.push(`/buyer/${propID}/home`)
   const isElegible = formValue.affordabilityCheck && formValue.loanValueCheck;
   const documentsList = [
     'Latest tax declaration',
