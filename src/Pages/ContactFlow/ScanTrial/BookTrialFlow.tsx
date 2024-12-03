@@ -12,7 +12,11 @@ import {DateTime} from 'luxon';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
 import Accordion from '../../../components/Accordion';
-import PhoneImg from '../../../images/TestDrive/phoneTrial.svg';
+
+import PhoneIcon from '../../../images/Boutique/phoneIcon.svg'
+import MessageIcon from '../../../images/Boutique/messageIcon.svg'
+import MailIcon from '../../../images/Boutique/mailIcon.svg'
+
 import translateTo from '../../../utils/translation';
 import type {BookTrialFlowType} from '../../../@types/Pages/ContactFlow/ScanTrial/BookTrialFlow';
 
@@ -202,23 +206,63 @@ const BookTrialFlow = (props: BookTrialFlowType) => {
                     )
                   }
                 </p>
-                <p>{translateTo('We are reachable Mo - Fr, 09:00 to 18:00.', lang)}</p>
+                <p>{translateTo('We are reachable Mo - Fr, 09:00 to 17:00.', lang)}</p>
               </Accordion>
             </div>
           </>
         ) : (
           <>
             <h2 className="mb-1 ta-c fsize-600 fsize-sm-800 fweight-600">{translateTo('We are ready from', lang)}</h2>
-            <h2 className="mb-3 mb-sm-6 ta-c fsize-600 fsize-sm-800 fweight-600">{translateTo('Mo - Fr, 09:00 to 18:00.', lang)}</h2>
+            <h2 className="mb-3 mb-sm-6 ta-c fsize-600 fsize-sm-800 fweight-600">{translateTo('Mo - Fr, 09:00 to 17:00.', lang)}</h2>
             <div>
-              <div className="max-w-fix-600 dis-fl-col dis-fl-row-sm ml-a mr-a dis-f a-t jc-c">
-                <div className="w-perc-100 w-perc-sm-50 max-w-fix-sm-304 ta-c">
-                  <img loading="lazy" className="max-w-fix-120 max-w-fix-sm-144" src={PhoneImg} alt="Phone" />
-                  <h4 className="mb-1 mb-1 fsize-500 fsize-sm-600">{translateTo('Phone', lang)}</h4>
-                  <p>{translateTo('You can call us on', lang)}</p>
-                  <p>
-                    <a className="txtText900 td-u" href={`tel:${phone}`}>{Helpers.telephoneFormat(phone)}</a>
-                  </p>
+              <div className="dis-fl-col dis-fl-row-md a-c jc-c mx-a mt-6 mt-sm-10 contactSection">
+                <div className="dis-fl-row dis-fl-col-md a-c mb-2 mb-lg-0 ta-c-md as-fs  min-w-fix-240 bgGreen25 p-1 brdRadius w-perc-md-auto w-perc-100">
+                  <div className=" brdCircle p-1">
+                    <img loading="lazy" className="w-fix-40 w-fix-md-80" src={PhoneIcon} alt="Call Us" />
+                  </div>
+
+                  <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0 mt-md-3">
+
+                    <h6>{translateTo('Call us', lang)}</h6>
+                    <span
+                      className='dis-b cur-poi txtGreen400 td-u'
+                      onClick={() => window.location.assign(Helpers.telephoneFormat(get(activeSingleCompany, 'contact.phone', ''), false, false, true))}
+                    >
+                      {Helpers.telephoneFormat(get(activeSingleCompany, 'contact.phone', ''))}
+                    </span>
+                  </div>
+
+                </div>
+                <div className="dis-fl-row dis-fl-col-md a-c mb-2 mb-lg-0 ta-c-md as-fs  min-w-fix-240 bgGreen25 p-1 brdRadius w-perc-md-auto w-perc-100 mx-md-2">
+                  <div className=" brdCircle p-1">
+                    <img loading="lazy" className="w-fix-40 w-fix-md-80" src={MessageIcon} alt="Call Us" />
+                  </div>
+                  <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0 mt-md-3">
+
+                    <h6>{translateTo('Text us via WhatsApp', lang)}</h6>
+
+                    <span
+                      className='dis-b cur-poi txtGreen400 td-u'
+                      onClick={() => window.location.assign(Helpers.telephoneFormat(get(activeSingleCompany, 'contact.whatsapp', ''), false, false, true))}
+                    >
+                      {Helpers.telephoneFormat(get(activeSingleCompany, 'contact.whatsapp', ''))}
+                    </span>
+                  </div>
+                </div>
+                <div className="dis-fl-row dis-fl-col-md a-c mb-2 mb-lg-0 ta-c-md as-fs  min-w-fix-240 bgGreen25 p-1 brdRadius w-perc-md-auto w-perc-100">
+                  <div className=" brdCircle p-1">
+                    <img loading="lazy" className="w-fix-40 w-fix-md-80" src={MailIcon} alt="Call Us" />
+                  </div>
+                  <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0 mt-md-3">
+
+                    <h6>{translateTo('Write us', lang)}</h6>
+                    <span
+                      className='dis-b cur-poi txtGreen400 td-u'
+                      onClick={() => window.location.assign(`mailto:${get(activeSingleCompany, 'contact.email', '')}`)}
+                    >
+                      {get(activeSingleCompany, 'contact.email', '')}
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
