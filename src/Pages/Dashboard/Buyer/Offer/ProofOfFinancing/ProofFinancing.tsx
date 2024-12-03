@@ -143,8 +143,6 @@ const mapStateToProps = (state) => {
     activeSingleProperty: get(state, 'property.activeSingleProperty', null),
     company: get(state, 'companies.activeSingleCompany', {}),
     dealID: state.deal.activeSingleDeal.id || null,
-    errorValue: get(state, 'brixelForm.ProofOfFinancing.syncErrors', {}),
-
     formValue: get(state, 'brixelForm.ProofOfFinancing.values', {}),
     isLoading: get(state, 'common.isLoading', 0) > 0,
     isSmallLoading: state?.common?.isSmallLoading  || {},
