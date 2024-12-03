@@ -117,7 +117,8 @@ const ProofFinancing = (props: ProofFinancingType) => {
 
   const affordabilityCheck = typeof formValue?.affordabilityCheck === 'undefined' ? null :  formValue?.affordabilityCheck
   const loanValueCheck = typeof formValue?.loanValueCheck === 'undefined' ? null :  formValue?.loanValueCheck
-
+  // eslint-disable-next-line no-console
+  console.log('history, hisotry')
   return (
     <div className="flex-1">
       {
