@@ -2,7 +2,6 @@ import React from 'react';
 import {connect} from 'react-redux';
 import translateTo from '../../../../../utils/translation';
 import {CompanyType} from '@brixel-io/brixel-components/dist/@types/Model';
-import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import get from 'lodash/get';
 
 type ProofOfFinancingTermsConditionProps = {
@@ -14,14 +13,6 @@ const ProofOfFinancingTermsCondition = ({
   activeSingleCompany,
   lang,
 }: ProofOfFinancingTermsConditionProps) => {
-
-  const history = {
-    push: useNavigate(),
-    location: useLocation(),
-  };
-  const match = useParams();
-  const propID = get(match, 'propID', null);
-  if (activeSingleCompany?.stub && activeSingleCompany?.stub !== 'ubs') history.push(`/buyer/${propID}/home`)
 
   return (
     <div className="max-w-fix-768 ml-a mr-a brdRadius bgWhite brdSmall brdText100 p-2 p-sm-4">
