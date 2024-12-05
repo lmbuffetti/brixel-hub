@@ -26,7 +26,6 @@ export interface ScanTrialFlowType {
   activeSingleCompany: CompanyType;
   activeSingleProperty: PropertyType;
   activeSingleScanTrial?: ScanTrialModelType;
-  changeFieldValue:(field: string, val: string | number | undefined | object) => void;
   destroyForm:() => void;
   errorValue: object;
   formValue: FormValueType;

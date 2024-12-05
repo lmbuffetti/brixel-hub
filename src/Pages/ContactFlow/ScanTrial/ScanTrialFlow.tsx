@@ -13,7 +13,6 @@ import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import {bindActionCreators, compose} from 'redux';
 import {getHistoryListings, setPropertyHistoryListings} from '../../../actions/HistoryActions';
 import {sendScanTrialRequest} from '../../../actions/PropertyActions';
-import ScantTrailBookedImg from '../../../images/TestDrive/reviewScanTrial.svg';
 import {ScanTrialQuestions} from '../../../resources/Flows/ScanTrialRequest';
 import {checkBrowser} from '../../../utils/helpers';
 import translateTo from '../../../utils/translation';
@@ -31,7 +30,6 @@ const ScanTrialFlow = (props: ScanTrialFlowType) => {
   const {
     activeSingleProperty,
     activeSingleScanTrial,
-    changeFieldValue,
     destroyForm,
     errorValue,
     formValue,
