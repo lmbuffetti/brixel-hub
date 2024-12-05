@@ -326,128 +326,97 @@ const ScanTrialFlow = (props: ScanTrialFlowType) => {
           onSubmit={(e) => changeStep('', e)}
         >
           <div ref={multiStepSlidesRef} className="multiStepSlides">
-            <div ref={singleStepRef} className={`singleStep zIndex1 pt-5 jc-c ${currentIndex < 5 ? isEnter ? 'fade-enter-active' : 'fade-enter' : ''}`}>
-              {
-                showBookedTrial ? (
-                  <div className="subcontainer m-a">
-                    <div className="ta-c mx-a max-w-fix-400">
-                      <img src={ScantTrailBookedImg} alt="Scan Trial Booked" />
-                      <h4 className="txtGreen700 fweight-600 mt-6">
-                        <span>{translateTo('You have requested a test drive for', lang)}</span>
-                        {
-                          !isNaN(+get(activeSingleScanTrial, 'meta.meta.date', '')) && (
-                            <span className="ml-1 txtGreen400">{DateTime.fromMillis(get(activeSingleScanTrial, 'meta.meta.date', 0)).toFormat('dd MMM yyyy, HH:mm')}</span>
-                          )
-                        }
-                      </h4>
-                      <p className="mt-3 txtText700">
-                        {translateTo(' 💡 Remember to fill out as many facts about your property as possible. The more information we have, the better we can assist you.', lang)}
-                      </p>
-                      <BrixelButtonPrimary
-                        rounded
-                        className="mt-5 mx-a"
-                        onClick={() => {
-                          changeFieldValue('analysis', 'remote');
-                          changeFieldValue('email', loggedInUser.email);
-                          changeFieldValue('phone', loggedInUser.phone);
-                          changeFieldValue('name', loggedInUser.name);
-                          changeFieldValue('userID', loggedInUser.id);
-                          setShowBookedTrial(false);
-                          history.push(`/${activeSingleProperty.id}/trialRequest/BookScanTrial`)
-                        }}
-                        label="Contact us"
-                      />
-                    </div>
-                  </div>
-                ) : (
-                  <div className="subcontainer m-a">
-                    {
-                      get(quest, 'inputs', null) && !get(quest, 'cardType', null) && (
-                        <div id={`step-${currentIndex}`} className="dis-fl-col flex-wrap activeQuestBack">
-                          {
-                            quest.title && (
-                              <h2 className={`fsize-600 fsize-sm-800 fweight-600 max-w-fix-464 ta-c m-a ${quest.subtitle ? 'mb-1' : 'mb-3 mb-sm-6'}`} dangerouslySetInnerHTML={{ __html: quest.title }} />
-                            )
-                          }
-                          {/*                       {
+            <div ref={singleStepRef}
+              className={`singleStep zIndex1 pt-5 jc-c ${currentIndex < 5 ? isEnter ? 'fade-enter-active' : 'fade-enter' : ''}`}>
+              <div className="subcontainer m-a">
+                {
+                  get(quest, 'inputs', null) && !get(quest, 'cardType', null) && (
+                    <div id={`step-${currentIndex}`} className="dis-fl-col flex-wrap activeQuestBack">
+                      {
+                        quest.title && (
+                          <h2
+                            className={`fsize-600 fsize-sm-800 fweight-600 max-w-fix-464 ta-c m-a ${quest.subtitle ? 'mb-1' : 'mb-3 mb-sm-6'}`}
+                            dangerouslySetInnerHTML={{__html: quest.title}} />
+                        )
+                      }
+                      {/*                       {
                         quest.subtitle && (
                           <p className="mb-5 ta-c txtText600 w-perc-100" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
                       } */}
-                          <div className={`${quest.className} w-perc-100`}>
-                            <MultiFileldsReduxForm
-                              form="scanFlow"
-                              disableNextBtn={false}
-                              formValue={formValue}
-                              inputs={quest.inputs}
-                              onClick={() => changeStep()}
-                              onCloseGoBack={() => changeStep('back')}
-                              onClickDisabled={!checkValidateField()}
-                              onSubmit={() => changeStep()}
-                              showSendButton={false}
-                              showErrors={showError}
-                              disableDelay
-                            />
-                          </div>
+                      <div className={`${quest.className} w-perc-100`}>
+                        <MultiFileldsReduxForm
+                          form="scanFlow"
+                          disableNextBtn={false}
+                          formValue={formValue}
+                          inputs={quest.inputs}
+                          onClick={() => changeStep()}
+                          onCloseGoBack={() => changeStep('back')}
+                          onClickDisabled={!checkValidateField()}
+                          onSubmit={() => changeStep()}
+                          showSendButton={false}
+                          showErrors={showError}
+                          disableDelay
+                        />
+                      </div>
 
-                        </div>
-                      )
-                    }
-                    {
-                      get(quest, 'cardType', null) === 'loadComponent' && (
-                        React.createElement(
-                          quest.component,
-                          {
-                            formName: 'scanFlow',
-                            initialValue: formValue,
-                            ...quest,
-                            onClick: (step = 1) => (questions[currentIndex + 1] ? changeStep('next', null, step, true) : closeWindow()),
-                            showError,
-                          },
-                        )
-                      )
-                    }
-                    {
-                      (get(quest, 'cardType', null) === 'card') && (
-                        <div className={`scaleAnim ta-c ${quest.cardClass}`}>
-                          <img loading="lazy" src={quest.img} alt={quest.title} className={`${quest.imgMaxWidth ? quest.imgMaxWidth : 'max-w-fix-232'} mb-3`} />
-                          {
-                            quest.title && (
-                              <h2
-                                className="fadeAnim fsize-700 fsize-sm-800 fweight-600 ta-c"
-                                dangerouslySetInnerHTML={{ __html: quest.title }}
-                              />
-                            )
-                          }
-                          {
-                            quest.subtitle && (
-                              <h6
-                                className="fadeAnim fsize-500 fsize-sm-600 fweight-400 mt-2 ta-c"
-                                dangerouslySetInnerHTML={{ __html: quest.subtitle }}
-                              />
-                            )
-                          }
-                        </div>
-                      )
-                    }
-                    {
-                      get(quest, 'history', null) === 'resume' && (
-                        <div className="max-w-fix-344 m-a">
-                          <BrixelButtonPrimary
-                            className={`mt-3 m-a noWrap ${quest.history}`}
-                            rounded
-                            theme="green"
-                            themeSat={500}
-                            label={translateTo(buttonLabel(), lang)}
-                            disabled={!checkValidateField()}
-                            rightIcon="arrow-right-small"
-                            onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
+                    </div>
+                  )
+                }
+                {
+                  get(quest, 'cardType', null) === 'loadComponent' && (
+                    React.createElement(
+                      quest.component,
+                      {
+                        formName: 'scanFlow',
+                        initialValue: formValue,
+                        ...quest,
+                        onClick: (step = 1) => (questions[currentIndex + 1] ? changeStep('next', null, step, true) : closeWindow()),
+                        showError,
+                      },
+                    )
+                  )
+                }
+                {
+                  (get(quest, 'cardType', null) === 'card') && (
+                    <div className={`scaleAnim ta-c ${quest.cardClass}`}>
+                      <img loading="lazy" src={quest.img} alt={quest.title}
+                        className={`${quest.imgMaxWidth ? quest.imgMaxWidth : 'max-w-fix-232'} mb-3`} />
+                      {
+                        quest.title && (
+                          <h2
+                            className="fadeAnim fsize-700 fsize-sm-800 fweight-600 ta-c"
+                            dangerouslySetInnerHTML={{__html: quest.title}}
                           />
-                        </div>
-                      )
-                    }
-                  </div>
-                )
-              }
+                        )
+                      }
+                      {
+                        quest.subtitle && (
+                          <h6
+                            className="fadeAnim fsize-500 fsize-sm-600 fweight-400 mt-2 ta-c"
+                            dangerouslySetInnerHTML={{__html: quest.subtitle}}
+                          />
+                        )
+                      }
+                    </div>
+                  )
+                }
+                {
+                  get(quest, 'history', null) === 'resume' && (
+                    <div className="max-w-fix-344 m-a">
+                      <BrixelButtonPrimary
+                        className={`mt-3 m-a noWrap ${quest.history}`}
+                        rounded
+                        theme="green"
+                        themeSat={500}
+                        label={translateTo(buttonLabel(), lang)}
+                        disabled={!checkValidateField()}
+                        rightIcon="arrow-right-small"
+                        onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
+                      />
+                    </div>
+                  )
+                }
+              </div>
             </div>
           </div>
           {
