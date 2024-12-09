@@ -102,9 +102,9 @@ const DealsCard = (props: DealsCardProps) => {
   };
 
   const getFeedback = () => {
-    if (get(feedback, 'isInterested') === true) return `<span class="txtGreen400">${translateTo('Interested 👍', lang)}</span>`;
-    if (get(feedback, 'isInterested') === false) return `<span class="txtRed400">${translateTo('Not interested 👎', lang)}</span>`;
-    return translateTo('Visited', lang);
+    if (get(feedback, 'isInterested') === true) return `${translateTo('Interested 👍', lang)}`;
+    if (get(feedback, 'isInterested') === false) return `${translateTo('Not interested 👎', lang)}`;
+    return `${translateTo('Not interested 👎', lang)}`;
   };
 
   //  const progressState = probability ? probability : undefined;
@@ -117,13 +117,6 @@ const DealsCard = (props: DealsCardProps) => {
         onClick={() => parentOnClick()}
       >
         <div className="dis-f jc-b a-c">
-
-          {/*  <ProgressBarPercentage
-            progressState={progressState}
-            dealCard
-            small
-            readOnly
-          /> */}
 
           {
             !isWinner && get(offerData, 'status') && stage === 'Offer' && (
@@ -211,11 +204,10 @@ const DealsCard = (props: DealsCardProps) => {
                   )
                 }
               </div>
-
               {
                 (get(feedback, 'isInterested') === true || get(feedback, 'isInterested') === false) && (
                   <p>
-                    <span className={`fsize-300 ${get(feedback, 'isInterested') === true ? 'txtGreen400' : 'txtRed400'}`} dangerouslySetInnerHTML={{ __html: getFeedback()}} />
+                    <span className={`fsize-300 pl-small-4 ${get(feedback, 'isInterested') === true ? 'txtGreen400' : 'txtRed400'}`} dangerouslySetInnerHTML={{ __html: getFeedback()}} />
                   </p>
                 )
               }
