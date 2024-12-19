@@ -8,3 +8,4 @@ __tests__
 configJest
 cypress.config.js
 server.js
+src/generated/**/*.ts
