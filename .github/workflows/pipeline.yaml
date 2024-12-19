@@ -28,6 +28,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
       - name: Print installed version of brixel-components
         run: pnpm list --depth=0 | grep @brixel-io/brixel-components
+      - run: pnpm run openapi-generate
       - run: pnpm run build-prod
       - uses: actions/upload-artifact@v4
         with:

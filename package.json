@@ -5,6 +5,7 @@
   "dependencies": {
     "@babel/runtime": "^7.26.0",
     "@brixel-io/brixel-components": "latest",
+    "@hey-api/client-fetch": "^0.5.4",
     "@react-buddy/ide-toolbox": "^2.4.0",
     "deep-object-diff": "^1.1.9",
     "eslint-plugin-jsx-a11y": "^6.10.2",
@@ -53,7 +54,8 @@
     "run-cypress": "cypress run",
     "test-component": "cypress open --component",
     "test-e2e": "npm run start-fast & cypress open --e2e --env flags='{\"feature-a\":true,\"feature-b\":false}'",
-    "start-test": "node server.js"
+    "start-test": "node server.js",
+    "openapi-generate": "openapi-ts -i https://api.brixel.io/api/v3/documentation-json -o src/generated/brixel-api-v3/ -c @hey-api/client-fetch"
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",
@@ -64,6 +66,7 @@
     "@babel/polyfill": "^7.12.1",
     "@babel/preset-react": "^7.25.9",
     "@cypress/code-coverage": "^3.13.6",
+    "@hey-api/openapi-ts": "^0.59.2",
     "@svgr/core": "^8.1.0",
     "@svgr/webpack": "^8.1.0",
     "@swc/cli": "^0.5.0",
