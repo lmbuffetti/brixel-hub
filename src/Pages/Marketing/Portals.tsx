@@ -224,14 +224,14 @@ const Portals = (props) => {
                               <BrixelStatus
                                 color={`${portal.exportEnabled ? 'green' : 'red'}`}
                               />
-                              <span className={`fsize-300 ${portal.exportEnabled ? 'txtGreen400' : 'txtText900'} td-u ml-1`}>{translateTo(portal.portal.displayName, lang)}</span>
+                              <span className={`fsize-300 ${portal.exportEnabled ? 'txtGreen400' : 'txtText900'} td-u ml-1`}>{portal.portal.displayName}</span>
                             </a>
                           ) : (
                             <div className="dis-f a-c">
                               <BrixelStatus
                                 color={`${portal.exportEnabled ? 'green' : 'red'}`}
                               />
-                              <span className="fsize-300 txtText900 ml-1">{translateTo(portal.portal.displayName, lang)}</span>
+                              <span className="fsize-300 txtText900 ml-1">{portal.portal.displayName}</span>
                             </div>
                           )
                         }
@@ -241,7 +241,7 @@ const Portals = (props) => {
                         <BrixelStatus
                           color="red"
                         />
-                        <span className="fsize-300 txtText900 ml-1 no-transform">{translateTo(portal.portal.displayName, lang)}</span>
+                        <span className="fsize-300 txtText900 ml-1 no-transform">{portal.portal.displayName}</span>
                       </div>
                     )
                   
@@ -264,14 +264,14 @@ const Portals = (props) => {
                                     <BrixelStatus
                                       color={`${portal.exportEnabled ? 'green' : 'red'}`}
                                     />
-                                    <span className={`fsize-300 ${portal.exportEnabled ? 'txtGreen400' : 'txtText900'} no-transform td-u ml-1`}>{translateTo(portalChild.portal.displayName, lang)}</span>
+                                    <span className={`fsize-300 ${portal.exportEnabled ? 'txtGreen400' : 'txtText900'} no-transform td-u ml-1`}>{portalChild.portal.displayName}</span>
                                   </a>
                                 ) : (
                                   <div className="dis-f a-c">
                                     <BrixelStatus
                                       color={`${portal.exportEnabled ? 'green' : 'red'}`}
                                     />
-                                    <span className="fsize-300 txtText900 ml-1">{translateTo(portalChild.portal.displayName, lang)}</span>
+                                    <span className="fsize-300 txtText900 ml-1">{portalChild.portal.displayName}</span>
                                   </div>
                                 )
                               }
@@ -281,7 +281,7 @@ const Portals = (props) => {
                               <BrixelStatus
                                 color="red"
                               />
-                              <span className="fsize-300 txtText900 ml-1 no-transform">{translateTo(portalChild.portal.displayName, lang)}</span>
+                              <span className="fsize-300 txtText900 ml-1 no-transform">{portalChild.portal.displayName}</span>
                             </div>
                           )
                         }
