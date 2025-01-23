@@ -43,7 +43,6 @@
 
 .portalsList {
  > a {
-    text-transform: capitalize;
     padding-bottom: $step;
     span {
       color: map-get($textColor, 700);
