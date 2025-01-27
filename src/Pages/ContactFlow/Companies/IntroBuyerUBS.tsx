@@ -1,31 +1,22 @@
 import React from 'react';
 import {change} from '@brixel-io/brixel-components/dist/form';
 import get from 'lodash/get';
-import {BrixelButtonSecondary, BrixelButtonText} from '@brixel-io/brixel-components';
+import {BrixelButtonSecondary} from '@brixel-io/brixel-components';
 import translateTo from '../../../utils/translation';
 import {connect} from 'react-redux';
-import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import {compose} from 'redux';
 
 // LOGOS
 import ubsLogo from '../../../images/Companies/ubsKey4/ubsLogo.svg';
-import ubsMortgageLogo from '../../../images/Companies/ubsKey4/ubs-key4-mortgage.svg';
 import type {IntroBuyerUBSType} from '../../../@types/Pages/ContactFlow/Companies/IntroBuyerUBS';
 
 const IntroBuyerUBS = (props: IntroBuyerUBSType) => {
-  const history = {
-    push: useNavigate(),
-    location: useLocation(),
-  };
-  const match = useParams();
   // PROPS
   const {
     changeFieldValue,
     onClick,
     lang,
   } = props;
-  // GET URL PARAMS
-  const propID = get(match, 'propID', null);
 
   const onClickForwardContactFlow = (type) => {
     changeFieldValue('type', type);
@@ -76,25 +67,6 @@ const IntroBuyerUBS = (props: IntroBuyerUBSType) => {
               rounded
             />
           </div>
-        </div>
-        <div className="dis-fl-col w-perc-100 w-perc-lg-50 shadow-2dp bgGreen50 brdRadius p-3 px-md-6 py-4 mt-2 ml-a mr-a a-t">
-          <div className="dis-f mb-3 jc-b">
-            <div className="w-perc-70 w-perc-md-70">
-              <span className="ta-l mb-2">
-                {translateTo('Or would you rather check interest rates digitally in the self-service first?', lang)}
-              </span>
-            </div>
-            <div className="w-perc-30 w-perc-md-25 ta-r">
-              <img loading="lazy" className="h-fix-40 mt-small-4 ml-a" alt='UBS Logo' src={ubsMortgageLogo} />
-            </div>
-          </div>
-          <BrixelButtonText
-            rounded
-            bgTransparent
-            className="ml-0"
-            onClick={() => history.push(`/buyer/${propID}/financingFlow?subtype=standard`)}
-            label={translateTo('Request indicative interest', lang)}
-          />
         </div>
       </div>
     </main>
