@@ -30,11 +30,11 @@ jobs:
         run: pnpm list --depth=0 | grep @brixel-io/brixel-components
       - run: pnpm run openapi-generate
       - run: pnpm run build-prod
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: dist
           path: ./dist
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: cypress
           path: ./cypress
