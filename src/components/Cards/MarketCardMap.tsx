@@ -206,7 +206,7 @@ const MarketCardMap = (props: MarketCardMapType) => {
                       <span className="px-1 notranslate"> &middot; </span>
                       <span>
                         <span className="notranslate">
-                          {FormatValue.formatRooms(get(item, 'properties.typology.bedrooms', 0), get(item, 'location.countryCode', 'CH'))}
+                          {FormatValue.formatRooms(get(item, 'properties.typology.bedrooms', 0))}
                         </span>
                         <span>
                           {`${get(item, 'properties.typology.bedrooms', 0) ? ' Rooms' : ''}`}

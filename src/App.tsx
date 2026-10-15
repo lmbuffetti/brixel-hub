@@ -16,7 +16,7 @@ import queryString from 'query-string';
 // COMPONENTS
 import {Helmet} from 'react-helmet';
 import {connect} from 'react-redux';
-import {Navigate, Route, Routes, useLocation, useNavigate} from 'react-router-dom';
+import {Route, Routes, useLocation, useNavigate} from 'react-router-dom';
 import {bindActionCreators, compose} from 'redux';
 import smoothscrollPolyfill from 'smoothscroll-polyfill';
 import Cookies from 'universal-cookie';
@@ -55,9 +55,6 @@ const GetStartedSeller = lazy(() => import('./Pages/PackageFlow/GetStartedSeller
 const GetStartedBuyer = lazy(() => import('./Pages/PackageFlow/GetStartedBuyer'));
 const GetStartedBrixelBoutique = lazy(() => import('./Pages/PackageFlow/GetStartedBrixelBoutique'));
 const GetStartedEstimation = lazy(() => import('./Pages/PackageFlow/GetStartedEstimation'));
-const TermsCondition = lazy(() => import('./Pages/PackageFlow/TermsCondition'));
-const TermsConditionPage = lazy(() => import('./Pages/PackageFlow/TermsConditionPage'));
-const WelcomeSeller = lazy(() => import('./Pages/WelcomeSellerModal/WelcomeSeller'));
 const ScanTrialFlow = lazy(() => import('./Pages/PackageFlow/ScanTrialFlow'));
 
 // GENERAL COMPONENTS
@@ -66,48 +63,10 @@ const PageHeader = lazy(() => import('./components/Header/PageHeader'));
 const MenuSidebar = lazy(() => import('./components/Header/MenuSidebar'));
 
 // ADMIN ROUTES
-const ProtectedRoute = lazy(() => import('./components/ProtectedRoute'));
-
-const InsertToken = lazy(() => import('./Pages/InsertToken'));
-
-// HUB DASHBOARD - SELLER
-const DashboardSeller = lazy(() => import('./Pages/Dashboard/Seller/Dashboard'));
-
-// HUB DASHBOARD - BUYER
-const DashboardBuyer = lazy(() => import('./Pages/Dashboard/Buyer/Dashboard'));
-const CompleteProfile = lazy(() => import('./Pages/Dashboard/Buyer/ScheduleVisit/CompleteProfile'));
-
-// PARTNER
-const Contact = lazy(() => import('./Pages/ContactFlow/Companies/Contact'));
-
-// FLOW SELLER
-const Bestimate = lazy(() => import('./Pages/Bestimate'));
-
-const ProEstimationFlow = lazy(() => import('./Pages/SingleProperty/ProEstimationFlow'));
 
 const BrixelModalFullScreen = lazy(() => import('./components/BrixelModalFullScreen'));
 
-const SingleDocument = lazy(() => import('./Pages/SingleProperty/Documents/SingleDocument'));
-const SingleFolder = lazy(() => import('./Pages/SingleProperty/Documents/SingleFolder'));
-
-const CreateDeal = lazy(() => import('./Pages/Deals/CreateDeal'));
-const VisitFeedback = lazy(() => import('./Pages/Deals/VisitFeedback'));
-
-const AddContactBuyer = lazy(() => import('./Pages/Dashboard/Buyer/AddContactBuyer'));
-
-const SingleDeal = lazy(() => import('./Pages/Deals/SingleDeal'));
-const SingleOffer = lazy(() => import('./Pages/Deals/SingleOffer'));
-
-const MarketSeller = lazy(() => import('./Pages/Market/MarketSeller'));
-
-const MarketBuyer = lazy(() => import('./Pages/Market/MarketBuyer'));
-
 const WarningScreen = lazy(() => import('./components/WarningScreen'));
-const EnergyFlow = lazy(() => import('./Pages/Dashboard/Buyer/Energy/EnergyFlow'))
-// OFFER
-const MakeOffer = lazy(() => import('./Pages/Dashboard/Buyer/Offer/MakeOffer/MakeOffer'))
-const ProofFinancing = lazy(() => import('./Pages/Dashboard/Buyer/Offer/ProofOfFinancing/ProofFinancing'))
-
 
 const cookies = new Cookies();
 
@@ -130,14 +89,12 @@ const App = (props: AppType) => {
     handleReset,
     handleSaveActiveSingleUser,
     handleSetActiveSingleDeal,
-    handleSetActiveSingleProperty,
     handleSetLanguage,
     handleSetModal,
     handleSetNotification,
     handleSetUserTypes,
     handleSetWindowsDimension,
     handleSpinnerOff,
-    isLoading = false,
     isSmallLoading,
     lang,
     languages,
@@ -359,25 +316,6 @@ const App = (props: AppType) => {
     }
   }, [bodyModal]);
 
-  // FUNCTION USED TO SEND THE DATA TO HANALITYCS
-  useEffect(() => {
-    if ((get(history, 'location.pathname', '') === '/' || !get(history, 'location.pathname', '')) && loggedInUser.id) {
-      if (!loggedInUser.seller) history.push('/buy');
-      else history.push('/sell');
-    }
-    const splittedURL = get(history, 'location.pathname', '').split('/');
-    if (splittedURL[1] === 'sell') {
-      const customID = get(activeSingleProperty, 'id', null);
-      if (customID) handleSetActiveSingleProperty({ customID });
-      else handleSetActiveSingleProperty({});
-    }
-    if (splittedURL[1] === 'buy') {
-      handleSetActiveSingleProperty({ });
-    }
-    const scrollFlow = document.getElementsByClassName('flowScrollWrap')[0];
-    if (scrollFlow) scrollFlow.scrollTop = 0;
-  }, [history?.location?.pathname, loggedInUser.id]);
-
   useEffect(() => {
     // @ts-ignore
     if (typeof window.gtag !== 'undefined') {
@@ -575,13 +513,6 @@ const App = (props: AppType) => {
       windowDimensions.width > 1024;
   }
 
-  const showSellerPropertySection = () => {
-    return (get(history, 'location.pathname', '').split('/')[1] !== 'sell' &&
-        get(history, 'location.pathname', '').split('/')[1] !== 'buy' &&
-        get(history, 'location.pathname', '').split('/')[1].length > 18) ||
-      get(history, 'location.pathname', '').split('/')[1] === 'company';
-  }
-
   const openMobileSupport = () => {
     handleSetModal({
       component: <Support isMobile={windowDimensions.width <= 1024} />,
@@ -638,7 +569,7 @@ const App = (props: AppType) => {
       </Helmet>
       {
         (showLoading()) && (
-          <Loading isLoading={true} isSmall />
+          <Loading isLoading={false} isSmall />
         )
       }
       {
@@ -653,8 +584,8 @@ const App = (props: AppType) => {
         className={`${mainClassBlock()} dis-fl-row jc-b`}
         ref={dashWrapperRef}
       >
-        <Loading isLoading={isLoading} />
-        <Suspense fallback={<Loading isLoading />}>
+        <Loading isLoading={false} />
+        <Suspense fallback={<Loading isLoading={false} />}>
           <div
             className={mainClass()}
           >
@@ -688,7 +619,7 @@ const App = (props: AppType) => {
                       {/* todo temporary 'makeitTrue', should be removed after 404 page test. */}
                       <Route path="/500" element={<ErrorBoundering><div /></ErrorBoundering>} />
                       { /* SECTION: ONBOARDING */}
-                      <Route path="/packageFlow/" element={<GetStarted />} />
+                      <Route path="/" element={<GetStarted />} />
                       <Route path="/packageFlow/getstarted/*" element={<GetStartedSeller />} />
                       <Route path="/packageFlow/getstartedBuyer/*" element={<GetStartedBuyer />} />
                       <Route path="/packageFlow/getstartedEstimation/*" element={<GetStartedEstimation />} />
@@ -698,88 +629,8 @@ const App = (props: AppType) => {
                       <Route path="/packageFlow/getstarted/:companyStub/*" element={<GetStartedSeller />} />
                       <Route path="/packageFlow/getstartedBuyer/:companyStub/*" element={<GetStartedBuyer />} />
                       <Route path="/packageFlow/getstartedEstimation/:companyStub/*" element={<GetStartedEstimation />} />
-                      <Route path="/termsConditionFlow/:companyStub/:userType/*" element={<ProtectedRoute><TermsCondition /></ProtectedRoute>} />
-                      <Route path="/:pageID/termsConditionPage/*" element={<ProtectedRoute><TermsConditionPage /></ProtectedRoute>} />
-
-                      <Route path="/packageFlow/:propID/WelcomeSeller/*" element={<ProtectedRoute><WelcomeSeller /></ProtectedRoute>} />
                       <Route path="/packageFlow/testDrive/*" element={<ScanTrialFlow />} />
-                      <Route path="/visitFeedback/:dealID/:pageID/:visitID" element={<VisitFeedback />} />
-                      <Route path="/buyer/:id/scheduleVisit/:scheduleVisitID/completeProfileFlow/*" element={<ProtectedRoute><CompleteProfile /></ProtectedRoute>} />
 
-                      { /* PARTNER CONTACT FLOW */ }
-                      <Route path="/:propID/contactFlow/*" element={<ProtectedRoute><Contact /></ProtectedRoute>} />
-                      <Route path="/buyer/:propID/contactFlow/*" element={<ProtectedRoute><Contact /></ProtectedRoute>} />
-
-                      { /* SECTION: OFFER FLOW */}
-                      <Route path="/buyer/:propID/offerFlow/makeOffer/*" element={<ProtectedRoute><MakeOffer /></ProtectedRoute>} />
-                      <Route path="/buyer/:propID/offerFlow/proofFinancing/*" element={<ProtectedRoute><ProofFinancing /></ProtectedRoute>} />
-
-                      { /* SECTION: INSERT TOKEN */}
-                      <Route path="/tokeninput" element={<InsertToken />} />
-
-                      { /* SECTION: ENERGY CERTIFICATE FLOWS */}
-                      <Route
-                        path="/buyer/:propID/energy/energyFlow/*"
-                        element={<ProtectedRoute><EnergyFlow /></ProtectedRoute>}
-                      />
-                      { /* SECTION: HUB DASHBOARD */ }
-                      {
-                        !history.location.pathname.includes('packageFlow') &&
-                        !history.location.pathname.includes('completeProfileFlow') &&
-                        !history.location.pathname.includes('Flow') &&
-                        !history.location.pathname.includes('energyFlow') &&
-                        !history.location.pathname.includes('visitFeedback') &&
-                        !history.location.pathname.includes('onBoarding') &&
-                        !history.location.pathname.includes('buyer') &&
-                        (
-                          <>
-                            <Route path="/sell/*" element={<ProtectedRoute><MarketSeller /></ProtectedRoute>} />
-                            <Route path="/buy/*" element={<ProtectedRoute><MarketBuyer /></ProtectedRoute>} />
-                            {
-                              showSellerPropertySection() && (
-
-                                <>
-                                  <Route path="/:propID/*" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
-                                  <Route path="/:propID?/singleFlow" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
-                                  <Route path="/:propID?/support" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
-                                  <Route path="/:propID?/deal/*" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
-                                  <Route path="/:propID/prospect/:dealID" element={<ProtectedRoute><SingleDeal /></ProtectedRoute>} />
-                                  <Route path="/:propID/prospect/:dealID/offer" element={<ProtectedRoute><SingleOffer /></ProtectedRoute>} />
-                                </>
-                              )
-                            }
-                          </>
-                        )
-                      }
-                      {
-                        !history.location.pathname.includes('packageFlow') &&
-                        !history.location.pathname.includes('completeProfileFlow') &&
-                        !history.location.pathname.includes('Flow') &&
-                        !history.location.pathname.includes('energyFlow') &&
-                        !history.location.pathname.includes('visitFeedback') &&
-                        !history.location.pathname.includes('onBoarding') &&
-                        (
-                          <>
-                            <Route
-                              path="/buyer/:propID/*"
-                              element={
-                                <ProtectedRoute><DashboardBuyer /></ProtectedRoute>
-                              }
-                            />
-                            <Route
-                              path="/buyer/propertyList"
-                              element={
-                                <ProtectedRoute><DashboardBuyer /></ProtectedRoute>
-                              }
-                            />
-                          </>
-                        )
-                      }
-                      {
-                        !get(history, 'location.pathname', '').includes('Flow') && (
-                          <Route path="*" element={<Navigate to="/sell" />} />
-                        )
-                      }
                     </Routes>
                     <div
                       className="dis-fl-col a-b jc-fe supportBtn"
@@ -872,20 +723,6 @@ const App = (props: AppType) => {
 
             </div>
           </div>
-
-          { /* SECTION: ACHIVEMENT FLOW */}
-          <Routes>
-            <Route
-              path="/:propID/singleFlow/achievement/bestimate/*"
-              element={<ProtectedRoute><Bestimate /></ProtectedRoute>}
-            />
-            <Route path="/buyer/:propID/property/page/contact"
-              element={<ProtectedRoute><AddContactBuyer /></ProtectedRoute>} />
-            <Route path="/:propID/prospects/newDeal" element={<ProtectedRoute><CreateDeal /></ProtectedRoute>} />
-            <Route path="/:propID/property/price/proEstimation"
-              element={<ProtectedRoute><ProEstimationFlow /></ProtectedRoute>} />
-            <Route path="*" element={null} />
-          </Routes>
 
           {
             modal.state && !modal.type && !modal.small && (
@@ -1035,19 +872,7 @@ const App = (props: AppType) => {
             )
           }
 
-          {/* Splash screens for single deal, create new deal and edit document */}
-          <Routes>
-            <Route
-              path="/:propID/docubox/:docID/editDocument"
-              element={<SingleDocument />}
-            />
-            <Route
-              path="/:propID/docubox/:docID/addToFolder"
-              element={<SingleFolder />}
-            />
-            <Route path="/:propID/prospects/newDeal" element={<CreateDeal />} />
-            <Route path="*" element={null} />
-          </Routes>
+
         </Suspense>
       </main>
     </>

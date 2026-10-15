@@ -189,7 +189,7 @@ const MarketCardFavorites = (props: MarketCardEstimationType) => {
                       {translateTo('Rooms', lang)}
                     </span>
                     <span className="ff-mono fszie-400 txtBlack">
-                      {FormatValue.formatRooms(get(activeSingleProperty, 'data.properties.typology.bedrooms', 0), get(activeSingleProperty, 'data.location.countryCode', 'CH'))}
+                      {FormatValue.formatRooms(get(activeSingleProperty, 'data.properties.typology.bedrooms', 0))}
                     </span>
                   </div>
                   <div className="mx-4">

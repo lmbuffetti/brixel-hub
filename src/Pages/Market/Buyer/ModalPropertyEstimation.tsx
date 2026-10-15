@@ -216,7 +216,7 @@ const ModalPropertyEstimation = (props: ModalPropertyEstimationType) => {
                 {translateTo('Rooms', lang)}
               </span>
               <span className="ff-mono fsize-500 txtBlack">
-                {FormatValue.formatRooms(get(activeEstimation, 'data.properties.typology.bedrooms', 0), get(activeEstimation, 'data.location.countryCode', 'CH'))}
+                {FormatValue.formatRooms(get(activeEstimation, 'data.properties.typology.bedrooms', 0))}
               </span>
             </div>
             <div>

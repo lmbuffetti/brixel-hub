@@ -208,7 +208,7 @@ const Page = (props: PageType) => {
               <div className="w-fix-24 bgText200 opacity5 h-fix-8" />
             </div>
             <div className="dis-f jc-b a-c pb-3">
-              <h6 className="w-fix-24 ff-mono">{FormatValue.formatRooms(get(formValue, 'properties.typology.bedrooms', 0), get(formValue, 'location.countryCode', 'CH'))}</h6>
+              <h6 className="w-fix-24 ff-mono">{FormatValue.formatRooms(get(formValue, 'properties.typology.bedrooms', 0))}</h6>
               <h6 className="w-fix-24 ff-mono">{get(formValue, 'properties.typology.livingArea.value', 0)}</h6>
               <h6 className="w-fix-24 ff-mono">{get(formValue, 'properties.typology.building.built', 0)}</h6>
             </div>

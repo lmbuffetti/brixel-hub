@@ -118,7 +118,7 @@ const DashboardPropertyCard: (props: DashboardPropertyCardProps) => JSX.Element 
                                     {translateTo('Rooms', lang)}
                                   </h6>
                                   <p className="fsize-500 fSizePx20">
-                                    {FormatValue.formatRooms(get(activeSingleProperty, 'properties.typology.bedrooms', 0), get(activeSingleProperty, 'location.countryCode', 'CH'))
+                                    {FormatValue.formatRooms(get(activeSingleProperty, 'properties.typology.bedrooms', 0))
                                     }
                                   </p>
                                 </div>

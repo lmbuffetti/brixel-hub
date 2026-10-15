@@ -30,7 +30,7 @@ const MakeOfferPropertyCard = ({ activeSingleProperty, lang }: MakePropertyCardT
           <p className={'itemTitle fweight-600 dis-b txtText900'}>{activeSingleProperty.title}</p>
           <div className="dis-fl-row mb-2 ff-mono fsize-300">
             <span className="rooms">
-              {FormatValue.formatRooms(get(activeSingleProperty, 'properties.typology.bedrooms', 0), get(activeSingleProperty, 'location.countryCode', 'CH'))} {get(activeSingleProperty, 'location.countryCode', 'CH') === 'CH' && translateTo('Rooms', lang)}
+              {FormatValue.formatRooms(get(activeSingleProperty, 'properties.typology.bedrooms', 0))} {get(activeSingleProperty, 'location.countryCode', 'CH') === 'CH' && translateTo('Rooms', lang)}
             </span>
             <span  className="px-1"> &bull; </span>
             <div className="dis-f">

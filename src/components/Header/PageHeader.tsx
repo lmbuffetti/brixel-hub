@@ -286,7 +286,7 @@ function PageHeader(props: PageHeaderType) {
                   ) : (
                     <button
                       className="min-w-88 w-perc-100 h-fix-72 dis-f a-c pr-2"
-                      onClick={() => history.push(isBuyer ? '/buy' : '/sell')}
+                      onClick={() => history.push('/packageFlow/getStarted/brixel/propertyType')}
                     >
                       <img
                         loading="lazy"

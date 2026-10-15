@@ -43,7 +43,6 @@ const GetStartedSeller = (props: GetStartedSellerType) => {
     handleDoLogin,
     handleGetActiveSingleCompany,
     handleSpinnerOn,
-    handleValidateUser,
     initForm,
     initialValues,
     isLoading,
@@ -189,7 +188,7 @@ const GetStartedSeller = (props: GetStartedSellerType) => {
       });
       setCookie('brixelFirstTime', 'true');
       // DISPATCH TO DO REGISTRATION USER
-      await handleValidateUser(data);
+      // await handleValidateUser(data);
     }
   };
 
@@ -221,7 +220,7 @@ const GetStartedSeller = (props: GetStartedSellerType) => {
       setCookie('brixelStubCompany', defComp);
       changeFieldValue('company', defComp);
       if (currentIndex < 1) {
-        history.push(`/packageFlow/getStarted/${defComp}/${get(questions, '[0].history', null)}`);
+        history.push(`/${defComp}/${get(questions, '[0].history', null)}`);
       }
     } else if (!isTest) {
       const companyUser = get(loggedInUser, 'company.stub', null);
@@ -282,7 +281,7 @@ const GetStartedSeller = (props: GetStartedSellerType) => {
   return (
     <>
       {
-        activeSingleCompany.id && (
+        !activeSingleCompany.id && (
           <FlowScreen
             baseURL={`/packageFlow/getStarted/${activeSingleCompany.stub}`}
             onChangeCurrentIndex={(index) => setCurrentIndex(index)}

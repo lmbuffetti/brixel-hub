@@ -7,13 +7,8 @@ import {bindActionCreators, compose} from 'redux';
 import {setSplashType, spinnerOff} from '../../actions/CommonActions';
 import {getFavoritesProperties, getOwnedProperties, getPremiumProperties} from '../../actions/MarketActions';
 import {updateFavorite} from '../../actions/UserActions';
-import lazyWithRetry from '../../components/LazyWithRetry';
 import '../../styles/SCSS/pages/market.scss';
 import type {MarketSellerType} from '../../@types/Pages/Market/MarketSeller';
-
-const MarketCategoryListSeller = lazyWithRetry(() => import('./MarketCategoryListSeller'));
-
-const MarketList = lazyWithRetry(() => import('./MarketList'));
 
 const MarketSeller = (props: MarketSellerType) => {
   const history = {
@@ -58,9 +53,7 @@ const MarketSeller = (props: MarketSellerType) => {
         <div className="market-container sellerPage" id="market">
           {/* premarket overlay */}
           <Routes>
-            <Route path="/" element={<MarketCategoryListSeller />} />
-            <Route path="/:cat" element={<MarketList isSeller />} />
-            <Route path="*" element={<Navigate to="/sell" />} />
+            <Route path="*" element={<Navigate to="/packageFlow/getStarted/brixel/propertyType" />} />
           </Routes>
         </div>
       </Suspense>

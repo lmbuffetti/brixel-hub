@@ -149,7 +149,7 @@ const DetailMedia = (props: DetailMediaType) => {
   // IF NOT FORM VALUE SHOW THE LOADING
   if (!formValue || !formValue[mediaType]) {
     return (
-      <Loading isLoading />
+      <Loading isLoading={false} />
     );
   }
 

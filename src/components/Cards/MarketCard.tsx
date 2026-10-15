@@ -489,7 +489,7 @@ const MarketCard = (props: MarketCardProps) => {
                           {translateTo(get(item, 'properties.propertyType', ''), lang)}
                         </span>
                         <span className="fsize-300 txtText700 mb-1 ta-l brdSmallRight mr-2 pr-2  brdText200 dis-ib notranslate">
-                          {FormatValue.formatRooms(get(item, 'properties.typology.bedrooms', 0), get(item, 'location.countryCode', 'CH'))}
+                          {FormatValue.formatRooms(get(item, 'properties.typology.bedrooms', 0))}
                         </span>
                         {
                           get(item, 'properties.typology.livingArea.value', 0) > 0 && (
@@ -838,7 +838,7 @@ const MarketCard = (props: MarketCardProps) => {
                           {translateTo('Rooms', lang)}
                         </span>
                         <span className="ff-mono fsize-400 txtBlack">
-                          {FormatValue.formatRooms(get(item, 'properties.typology.bedrooms', 0), get(item, 'location.countryCode', 'CH'))}
+                          {FormatValue.formatRooms(get(item, 'properties.typology.bedrooms', 0))}
                         </span>
                       </div>
                       <div>

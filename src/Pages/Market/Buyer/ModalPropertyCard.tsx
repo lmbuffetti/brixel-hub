@@ -88,7 +88,7 @@ const ModalPropertyCard = (props: ModalPropertyCardType) => {
             {translateTo('Rooms', lang)}
           </span>
           <span className="ff-mono fszie-400 txtBlack">
-            {FormatValue.formatRooms(get(property, 'properties.typology.bedrooms', 0), get(property, 'location.countryCode', 'CH'))}
+            {FormatValue.formatRooms(get(property, 'properties.typology.bedrooms', 0))}
           </span>
         </div>
         <div className='min-w-fix-64 mb-1'>

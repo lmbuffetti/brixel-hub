@@ -39,7 +39,7 @@ const ProtectedRoute = (props: ProtectedRouteType) => {
     <>
       {
         !loggedInUser.id && (
-          <Loading isLoading={true} />
+          <Loading isLoading={false} />
         )
       }
       {children}

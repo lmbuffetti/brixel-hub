@@ -228,6 +228,13 @@ const clientConfig = (env) => {
     ],
     resolve: {
       extensions: ['.js', '.jsx', '.ts', '.tsx'],
+      // Force a single copy of shared libs when brixel-components is linked locally
+      alias: Object.fromEntries(
+        ['react', 'react-dom', 'react-redux', 'redux', 'react-router-dom'].map((lib) => [
+          lib,
+          path.join(ROOT_DIR, 'node_modules', lib),
+        ]),
+      ),
     },
     performance: {
       hints: false

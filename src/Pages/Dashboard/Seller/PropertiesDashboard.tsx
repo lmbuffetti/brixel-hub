@@ -152,7 +152,7 @@ const PropertiesDashboard = (props: PropertiesDashboardType) => {
                       <div className="px-1">
                         <h6 className="fsize-100 txtText600 ws-nw">{translateTo('Rooms', lang)}</h6>
                         <span className="ff-mono txtText900">
-                          {FormatValue.formatRooms(get(property, 'properties.typology.bedrooms', 0), get(property, 'location.countryCode', 'CH'))}
+                          {FormatValue.formatRooms(get(property, 'properties.typology.bedrooms', 0))}
                         </span>
                       </div>
                       <div className="px-1">
