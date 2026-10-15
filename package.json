@@ -67,7 +67,7 @@
     "@babel/polyfill": "^7.12.1",
     "@babel/preset-env": "^7.29.7",
     "@babel/preset-react": "^7.25.9",
-    "@cypress/code-coverage": "^3.13.6",
+    "@cypress/code-coverage": "^4.0.3",
     "@hey-api/openapi-ts": "^0.59.2",
     "@svgr/core": "^8.1.0",
     "@svgr/webpack": "^8.1.0",
